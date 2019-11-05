@@ -1,0 +1,43 @@
+import javax.script.
+-- does not work in recents macos versions
+
+/*
+Instead of ScriptEngine engine = mgr.getEngineByName("AppleScript"); you must use:
+ScriptEngine engine = mgr.getEngineByName("AppleScriptEngine");
+
+In your src directory create directory META-INF
+In your src directory create directory META-INF/services
+Create file META-INF/services/javax.script.ScriptEngineFactory
+In this file is one line:
+apple.applescript.AppleScriptEngineFactory
+*/
+
+appleEngine = ScriptEngineManager().getEngineByName("AppleScriptEngine")
+context = appleEngine.getContext()
+bindings = context.getBindings(ScriptContext.ENGINE_SCOPE)
+bindings.put("javax_script_function", "getName")
+bindings.put(ScriptEngine.ARGV, 'Stranger')
+
+appleScript = 'on getName(default_) \n'-
+	      'tell application "Finder" \n'-
+	      'display dialog "What is your name?" default answer default_ with icon note \n'-
+	      'set myName to the text returned of the result \n'-
+	      'delay 0.5 \n'-
+	      'display dialog "Hi there, " & myName & "! Welcome to AppleScript!" with icon note \n'-
+	      'end tell\n'-
+	      'return myName\n'-
+              'end getName'
+
+result = appleEngine.eval(appleScript,context)
+say result
+
+
+
+
+
+
+
+
+
+
+

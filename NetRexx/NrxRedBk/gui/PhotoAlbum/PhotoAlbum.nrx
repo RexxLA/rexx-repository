@@ -1,0 +1,63 @@
+/* gui\photoalbum\PhotoAlbum.nrx
+
+   Sample application to illustrate the use of the EqualSizePanel and ImagePanel class.
+   This application is a little photograph album.
+   It has a row and a column of buttons to show the pictures. */
+
+ import Redbook.
+
+ win = Frame('My Personal Photograph Album')
+
+ p1 = EqualSizePanel(EqualSizePanel.VERTICAL)  -- two panels for the buttons
+ p2 = EqualSizePanel(EqualSizePanel.HORIZONTAL)
+ pict = ImagePanel()                           -- ImagePanel for the pictures
+
+ win.add('East',p1)                            -- add the panels to the window
+ win.add('South',p2)
+ win.add('Center',pict)
+
+ -- add the buttons to the panel and add an ActionListener to every button
+ (Button p1.add(Button('Kids'))).addActionListener(ShowPicture(pict,'Redbook/kids.jpg'))
+ (Button p1.add(Button('Golden Gate'))).addActionListener(ShowPicture(pict,'Redbook/gate1.jpg'))
+ (Button p1.add(Button('Temple of the Arts'))).addActionListener(-
+                                                         ShowPicture(pict,'Redbook/temple.jpg'))
+ (Button p1.add(Button('Chinatown'))).addActionListener(ShowPicture(pict,'Redbook/chinat.jpg'))
+ (Button p2.add(Button('Dragon'))).addActionListener(ShowPicture(pict,'Redbook/dragon.jpg'))
+ p1.setGaps(5,5)
+
+ (Button p2.add(Button('Dog'))).addActionListener(ShowPicture(pict,'Redbook/dog.jpg'))
+ (Button p2.add(Button('Coast Line'))).addActionListener(ShowPicture(pict,'Redbook/lighthou.jpg'))
+ (Button p2.add(Button('Pinacles'))).addActionListener(ShowPicture(pict,'Redbook/pinac.jpg'))
+ (Button p2.add(Button('NotExist'))).addActionListener(ShowPicture(pict,'Redbook/NotExist.jpg'))
+ p2.setGaps(5,5)
+
+ pict.setInsets(5,5,0,0)                       -- margin for the ImageLabel panel
+
+ WindowSupport(win,null)                       -- CloseWindow Support
+
+ win.setSize(400,250)                          -- set the size and show the window
+ RedbookUtil.positionWindow(win)
+ win.setVisible(1)
+
+
+-- ShowPicture stores the name of the image and shows it when an
+-- ActionEvent is received
+class ShowPicture implements ActionListener
+  Properties inheritable
+    fname = String                             -- name of the picture file
+    pict  = ImagePanel                         -- reference to the ImagePanel
+
+  method ShowPicture(aPict = ImagePanel, aname = String)
+    fname = "/"aname
+    pict  = aPict
+
+  method actionPerformed(e=ActionEvent)
+  do
+    pict.setImage(fname)                       -- set the image in the image panel
+  catch ex = LoadImageException                -- caught if file not found
+    say 'Exception...' ex 
+    pframe = Frame pict.getParent()            -- get the frame window
+    mb=MessageBox(pframe,'Sorry','Cannot find the file\n\n'fname,-
+                  '/EX.gif')
+    mb.setVisible(1)
+  end

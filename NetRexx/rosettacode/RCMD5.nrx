@@ -1,0 +1,46 @@
+/* NetRexx */
+
+options replace format comments java symbols binary
+
+import java.security.MessageDigest
+
+MD5('The quick brown fox jumps over the lazy dog', '9e107d9d372bb6826bd81d3542a419d6')
+-- RFC 1321 MD5 test suite:
+MD5("", 'd41d8cd98f00b204e9800998ecf8427e')
+MD5("a", '0cc175b9c0f1b6a831c399e269772661')
+MD5("abc", '900150983cd24fb0d6963f7d28e17f72')
+MD5("message digest", 'f96b697d7cb7938d525a2f31aaf161d0')
+MD5("abcdefghijklmnopqrstuvwxyz", 'c3fcd3d76192e4007dfb496cca67e13b')
+MD5("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 'd174ab98d277d9f5a5611c2c9f419d9f')
+MD5("12345678901234567890123456789012345678901234567890123456789012345678901234567890", '57edf4a22be3c955ac49da2e2107b67a')
+
+return
+
+method MD5(messageText, verifyCheck) public static
+  message = String(messageText)
+  messageBytes = byte[]
+  digestBytes = byte[]
+
+  do
+    messageBytes = message.getBytes('UTF-8')
+    md = MessageDigest.getInstance('MD5')
+    md.update(messageBytes)
+    digestBytes = md.digest
+
+    digestSum = ''
+    loop b_ = 0 to digestBytes.length - 1
+      bb = Rexx(digestBytes[b_]).d2x(2)
+      digestSum = digestSum || bb.lower
+      end b_
+
+    say '<Message>'message'</Message>'
+    say '    <MD5>'digestSum'</MD5>'
+    say ' <Verify>'verifyCheck'</Verify>'
+    if digestSum == verifyCheck then say 'MD5 Confirmed'
+                                else say 'MD5 Failed'
+    catch ex = Exception
+      ex.printStackTrace
+    end
+
+  return
+

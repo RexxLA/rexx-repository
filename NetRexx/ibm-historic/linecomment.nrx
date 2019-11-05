@@ -1,0 +1,59 @@
+/* linecomment.nrx -- convert appropriate block comments to line comments */
+
+/* This is a sample file input and output program, showing how to open,
+   check, and process text files, and handle exceptions.
+   Note the use of the Reader and Writer classes, which convert your
+   local computer's 'code page' (character encoding) to Unicode during
+   reading and back again during writing. */
+
+parse arg fin fout .   -- get the arguments: input and output files
+if fout='' then do
+  say '# Please specify both input and output files'
+  exit 1
+end
+
+/* Open and check the files */
+do
+  infile=File(fin)
+  instream=FileInputStream(infile)
+  inhandle=BufferedReader(InputStreamReader(instream))
+  outfile=File(fout)
+  if outfile.getAbsolutePath=infile.getAbsolutePath then do
+    say '# Input file cannot be used as the output file'
+    exit 1
+  end
+  outstream=FileOutputStream(outfile)
+  outhandle=OutputStreamWriter(outstream)
+  say 'Processing' infile'...'
+catch e=IOException
+  say '# error opening file' e.getMessage
+end
+
+linesep=System.getProperty('line.separator') -- be platform-neutral
+
+/* The main processing loop */
+loop linenum=1 by 1
+  line=Rexx inhandle.readLine           -- get next line [as Rexx string]
+  if line=null then leave linenum       -- normal end of file
+
+  parse line pre '/*' mid '*/' post     -- process the line
+  if pre\='' then
+   if mid\='' then
+   if post=='' then
+    line=pre'--'mid
+
+  if linenum>1 then outhandle.write(linesep, 0, linesep.length)
+  outhandle.write(line, 0, line.length)
+catch e=IOException
+  say '# error reading or writing file' e.getMessage
+catch RuntimeException
+  say '# processing ended'
+finally do                              -- close files
+    if inhandle\=null  then inhandle.close
+    if outhandle\=null then outhandle.close
+  catch IOException
+    -- ignore errors during close
+  end
+end linenum
+
+say linenum-1 'lines written'

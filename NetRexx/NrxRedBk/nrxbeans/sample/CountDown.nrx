@@ -1,0 +1,88 @@
+/* nrxbeans\sample\CountDown.nrx
+
+   A simple countdown applet implemented using NetRexx beans */
+
+package nrxbeans.sample
+
+import nrxbeans.lab.		-- needed for NrxTimer, NrxLED, NrxLight
+import Redbook.			-- needed for GUI classes
+import java.beans.
+
+class CountDown extends Frame implements ActionListener, PropertyChangeListener
+
+  properties private
+    counter = Rexx
+    led   = NrxLED()
+    input = TextField()
+    light = NrxLight()
+    tickerLight = NrxLight()
+    timer = NrxTimer()
+    start = Button("Start")
+    stop  = Button("Stop")
+    lay   = SimpleGridBagLayout(this)
+
+  method main(arg = String[]) public static
+    CountDown("LED CountDown Application")
+
+  method CountDown(Title = String)
+    super(Title)
+
+    addWindowListener(CloseWindow(this))
+    input.addKeyListener(KeyCheck(KeyCheck.NUMERIC))
+    lay.addVarSize(input, 0,0, Insets(10,10,10,10), 0.0,0.0, 3,1)
+    lay.addFixSize(start, 0,1, Insets(5,5,5,5))
+    lay.addFixSize(stop, 1,1, Insets(5,5,5,5))
+    lay.addFixSize(light, 2,1, Insets(5,5,5,5))
+    lay.addFixSize(tickerLight, 3,1, Insets(5,5,5,5))
+    lay.addFixSize(led, 1,2, Insets(5,5,5,5))
+    stop.setEnabled(0)
+
+    tickerLight.setOnColor(Color.yellow)
+    timer.setInterval(1000)
+    timer.setTickAtBeginning(1)
+
+    timer.addPropertyChangeListener(this)
+    timer.addActionListener(this)
+    timer.addActionListener(tickerLight)
+    start.addActionListener(this)
+    stop.addActionListener(this)
+
+    setSize(300, 200)
+    setVisible(1)
+    led.setNumberOfDigits(4)
+    led.setText('   0')
+
+  method startTimer()
+    counter = Integer.parseInt(input.getText())
+    led.setText(counter.right(4))
+    input.setEnabled(0)
+    start.setEnabled(0)
+    stop.setEnabled(1)
+    timer.setEnabled(1)
+
+  method stopTimer()
+    timer.setEnabled(0)
+    stop.setEnabled(0)
+    start.setEnabled(1)
+    input.setEnabled(1)
+
+  method propertyChange(evt = PropertyChangeEvent)
+    if evt.getPropertyName() = "enabled" then do
+       light.switchLight()	-- toggle the Light
+       newEnabled = Boolean evt.getNewValue()
+       if newEnabled == Boolean.FALSE then
+          stopTimer()
+    end
+
+  method actionPerformed(evt = ActionEvent)
+    select 
+      when evt.getSource() = start then startTimer()
+      when evt.getSource() = stop  then stopTimer()
+      when evt.getSource() = timer then 
+        do
+           counter = counter - 1
+           led.setText(counter.right(4))
+           if counter = 0 then stopTimer()
+        end
+      otherwise nop -- we don't expect anything else
+    end

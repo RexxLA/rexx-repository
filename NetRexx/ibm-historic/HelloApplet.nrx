@@ -1,0 +1,8 @@
+/* A terribly simple Applet */
+
+class HelloApplet extends Applet
+  method init
+    resize(200, 40)
+
+  method paint(g=Graphics)
+    g.drawString("Hello world!", 50, 30)

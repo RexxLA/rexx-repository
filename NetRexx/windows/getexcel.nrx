@@ -1,0 +1,96 @@
+/* getexcel.nrx -- excel manipulation with jacob and netrexx -  M.Measel - one hot day in August of 11   */ 
+/* Jacob download - http://sourceforge.net/projects/jacob-project */ 
+import com.jacob.com.
+import com.jacob.activeX.
+
+class getexcel
+  
+  activeSheet = ActiveXcomponent
+  
+  method main(argstr = String[]) static public
+    
+    getexcel()
+    
+  method getexcel()
+    true = boolean 1                                                         
+    false = boolean 0
+    de = DispatchEvents
+    
+    ComThread.InitSTA(true)                                               -- Initialize the current java thread to be an STA COM Apartment
+                                                                          -- if createMainSTA  parameter is true, create a separate MainSTA thread that will house all Apartment Threaded components
+    do
+      
+      excelApp = ActiveXComponent("Excel.Application")                    -- get an excel object
+      
+      excelApp.setProperty("Visible", true)                               -- we want to watch
+      
+      workbooks = excelApp.getPropertyAsComponent("Workbooks")            -- getPropertyAsComponent gives us an activexobject rather than a variant
+      
+      workbookAsVariant = workbooks.invoke("Open", "C:\\test1.xls")       -- here we use invoke on the workbooks object to open an existing file
+                                                                          -- and a variant is returned
+      workbookDispatch = workbookAsVariant.getDispatch()                  -- get the variant to a dispatch
+      workbook = ActiveXComponent(workbookDispatch)                       -- make an activeX object from the dispatch
+									  --say workbook
+      
+      say "Name: " workbook.getProperty("Name")                           -- now we can get and set with our object
+      
+      activeSheet = workbook.getPropertyAsComponent("ActiveSheet")        -- now lets get the activesheet object from the workbook
+      
+      say "The active sheet is " activeSheet.getProperty("Name")
+      
+      
+      a1rv = activeSheet.invoke("Range","(A1)")                           -- set a range on the active sheet
+      a1d = a1rv.getDispatch()
+      CellA1 = ActiveXComponent(a1d)                                      -- now we have a named range object 
+      
+      CellA1.setProperty("Value","123")                                   -- insert a value in the cell
+      
+      say "A1 = " CellA1.getProperty("Value")
+      
+      CellA2 = rangeX("(A2)" )                                            -- rangeX method to simplify getting range objects 
+      
+      say " has formula = " CellA2.getProperty("HasFormula")
+                                      
+      RangeB1B2 = rangeX("(B1,B2)")
+      
+      RangeB1B2.setProperty("Value","Hello World")
+      rID = RangeB1B2.getProperty("Address")
+      say rID || "=" || RangeB1B2.getProperty("Text")
+      
+      say "press enter to continue"    
+      pause = ask       
+      
+      
+      workbook.invoke("Save")
+      excelApp.invoke("Quit")
+      
+    catch e1 = ComException
+      say e1
+    end
+    
+    ComThread.Release                                                 -- cleanup 
+    ComThread.quitMainSTA
+    
+    
+  method rangeX(range = String ) returns ActiveXComponent
+    rVariant = activeSheet.invoke("Range", range)
+    rDispatch = rVariant.getDispatch()
+    ActiveXC = ActiveXComponent(rDispatch)
+    return ActiveXC
+    
+class errEvents
+  method Error(arge = Variant[])
+    say arge
+    
+    
+    /*
+       Uses these activeX objects via COM calls
+       Excel Application -         The host Excel application is the top container for all Excel ActiveX Objects.
+       Workbooks, Workbook and Worksheet
+       Each .XLS file was called as workbook in Excel. The collection of workbooks will be the workbooks because we can open many .XLS file within one Excel session. Normally, a workbook can contain one or more worksheets.
+       Range
+       Cells in worksheet are called as "Range", the "Range" object can be one single cell, some cells or even all cells in the worksheet.
+       Each range has a Cell Address string, if it is a single cell, the address may be a string like "B12", if the range contain so many cells or the Range is a single but merged cell, the address will be the combination of the LeftTop and RightBotton Single cell ID such  as "B1:F12".
+     */
+    
+    

@@ -1,0 +1,37 @@
+-- query an SMTP server to see if its active
+import org.netrexx.njpipes.pipes.
+class tcpfcp extends Object
+
+method tcpfcp(h=rexx)
+
+   loop for 1
+
+      a = rexx ""
+
+      pipe (tcppipe stall 60000 end ? debug 0 )
+         literal \x00\x00\x00\x02ClientGet\nURI={h}\nHopsToLive=75\nEndMessage\n |
+         rexx from tcpclient localhost 8082 timeout 60000 linger 200 |
+         console |
+         stem a 
+
+ /*     loop i=1 to a[0] 
+         if a[i].length < 128 then
+	    say a[i]
+         else
+	    say a[i].length
+      end */
+
+
+   end
+
+method main(a=String[]) static
+
+   if a.length = 0 then
+      tcpfcp("freenet:KSK@test")
+   else
+      tcpfcp(rexx(a))
+
+   exit
+
+
+

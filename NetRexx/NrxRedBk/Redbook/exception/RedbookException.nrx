@@ -1,0 +1,16 @@
+/* redbook\exception\RedbookException.nrx
+
+   This class is the superclass for every exception
+   signalled by any Redbook package class.
+
+   Only one constructor with a string is supported.
+
+   Catch the RedbookException if you are not interrested
+   on the different exceptions signalled by the package classes */
+
+package Redbook
+
+class RedbookException extends Exception
+
+  method RedbookException(s = String)
+    super(s)

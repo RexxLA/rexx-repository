@@ -1,0 +1,9 @@
+/* file\Eof3.nrx */
+
+  source = DataInputStream(FileInputStream("test.dat"))
+  loop forever 
+     ch = (Rexx source.readByte()).d2c()
+     say ch'\0'
+   catch IOException
+     say '\nGot EOF'   
+  end

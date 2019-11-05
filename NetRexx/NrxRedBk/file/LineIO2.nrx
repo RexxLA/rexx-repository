@@ -1,0 +1,29 @@
+/* file\LineIO2.nrx    
+
+   Line-mode I/O using buffered reader and buffered writer.
+   Extract 'DEVICE' statements from a file (default CONFIG.SYS).  */
+
+   parse arg filename
+   if filename = '' then filename = 'C:/CONFIG.SYS'
+   output = 'CONFIG.DEV'
+   say 'File:' filename '->' output
+
+   inFile  = FileReader(filename)                   -- input file
+   source  = BufferedReader(inFile)                 -- buffered
+
+   outFile = FileWriter(output)                     -- output file
+   dest    = BufferedWriter(outFile)                -- buffered               <===
+
+   loop forever
+      textline = source.readLine()                  -- read the file    
+      if textline = null then leave                 -- end-of-file ?
+      parse textline word1 '=' .
+      if word1 = "device" then do                   -- DEVICE statement ?
+         dest.write(textline,0,textline.length())   -- write output           <===
+         dest.newline                               -- add new line char      <===
+      end
+   end
+
+   source.close()                                   -- close files
+   dest.close()
+-- end LineIO2

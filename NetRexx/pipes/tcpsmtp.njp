@@ -1,0 +1,38 @@
+-- query an SMTP server to see if its active
+import org.netrexx.njpipes.pipes.
+
+class tcpsmtp extends Object
+
+method tcpsmtp(h=rexx)
+
+   if h='' then
+      h = 'oscar'
+
+   loop for 10
+
+      a = rexx ''
+
+      pipe (tcppipe stall 1000 end ? debug 12 )
+         literal HELO grover\n~QUIT\n |
+         split at ~ |
+         rexx from tcpclient {h} 25 greeting oneresponse timeout 1000 linger 1 deblock C |
+         copy |
+         find 250 |
+         stem a
+
+      say ">>>"a[1]
+
+      -- do
+      --   java.lang.Thread.currentThread().sleep(10000)
+      -- catch InterruptedException
+      -- end
+
+   end
+
+method main(a=String[]) static
+
+   tcpsmtp(rexx(a))
+   exit
+
+
+

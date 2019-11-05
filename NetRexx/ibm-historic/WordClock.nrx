@@ -1,0 +1,116 @@
+/* WordClock -- an applet that shows the time in English.     */
+/*                                                            */
+/*   Parameters:                                              */
+/*                                                            */
+/*     face -- the font face to use                           */
+/*     size -- the font size to use                           */
+/*                                                            */
+/* ---------------------------------------------------------- */
+/* Based on the ancient QTIME.REXX, and typical Java applets. */
+
+class WordClock extends Applet implements Runnable
+
+ timer=Thread null                        /* the timer thread */
+ offsetx; offsety                            /* text position */
+ now                                          /* current time */
+
+ method init
+  /* Get parameters from the <applet> markup */
+  face=getParameter("face")                      /* font face */
+  if face=null then face="TimesRoman"
+  size=getParameter("size")
+  if size=null then size="20"                    /* font size */
+
+  setFont(Font(face, Font.BOLD, size))
+  resize(size*20, size*2)                  /* set window size */
+  offsetx=size/2                 /* and where text will start */
+  offsety=size*3/2                      /* note Y is from top */
+  parse Date() . . . now .     /* initial time is fourth word */
+
+ method start
+  if timer=null then timer=Thread(this)         /* new thread */
+  timer.setPriority(Thread.MAX_PRIORITY)      /* time matters */
+  timer.start                             /* start the thread */
+
+ method stop
+  if timer\=null then do                       /* have thread */
+    timer.stop                               /* .. so stop it */
+    timer=null                              /* .. and discard */
+    end
+
+ method run
+  /* Use the Java Date class to get the time */
+  loop while timer\=null
+    parse Date() . . . now .           /* time is fourth word */
+    this.repaint                                 /* redisplay */
+    parse now ':' ':'secs                  /* where in minute */
+    wait=30-secs                /* calculate delay in seconds */
+    if wait<=0 then wait=wait+60
+    /* say 'secs, wait:' secs wait */
+    Thread.sleep(1000*wait)          /* wait for milliseconds */
+  catch InterruptedException
+    say 'Interrupted...'
+  end
+  timer=null                                          /* done */
+
+ method paint(g=Graphics)
+  g.drawString(wordtime(now), offsetx, offsety)    /* show it */
+
+ /* WORDTIME -- a cut-down version of QTIME.REXX
+    Arg1 is the time string (hh:mm:ss)
+    Returns the time in english, as a Rexx string
+    */
+ method wordtime(arg) static returns Rexx
+  /* Extract the hours, minutes, and seconds from the time.   */
+  parse arg hour':'min':'sec
+  if sec>29 then min=min+1                /* round up minutes */
+
+  /* Nearness phrases - this time using an array              */
+  near=Rexx[5]                                  /* five items */
+  near[0]=''                                         /* exact */
+  near[1]=' just gone';  near[2]=' just after'       /* after */
+  near[3]=' nearly';     near[4]=' almost'          /* before */
+
+  mod=min//5              /* where we are in 5 minute bracket */
+  out="It's"near[mod]            /* start building the result */
+  if min>32 then hour=hour+1         /* we are TO the hour... */
+  min=min+2     /* shift minutes to straddle a 5-minute point */
+
+  /* Now special-case the result for Noon and Midnight hours  */
+  if hour//12=0 & min//60<=4 then do
+    if hour=12 then return out 'Noon.'
+    return 'Midnight.'
+    end
+
+  min=min-(min//5)                     /* find nearest 5 mins */
+  if hour>12
+   then hour=hour-12              /* get rid of 24-hour clock */
+   else
+    if hour=0 then hour=12       /* .. and allow for midnight */
+
+  /* Determine the phrase to use for each 5-minute segment    */
+  select
+    when min=0  then nop               /* add "o'clock" later */
+    when min=60 then min=0                           /* ditto */
+    when min= 5 then out=out 'five past'
+    when min=10 then out=out 'ten past'
+    when min=15 then out=out 'a quarter past'
+    when min=20 then out=out 'twenty past'
+    when min=25 then out=out 'twenty-five past'
+    when min=30 then out=out 'half past'
+    when min=35 then out=out 'twenty-five to'
+    when min=40 then out=out 'twenty to'
+    when min=45 then out=out 'a quarter to'
+    when min=50 then out=out 'ten to'
+    when min=55 then out=out 'five to'
+    end
+
+  numbers='one two three four five six'-      /* continuation */
+    'seven eight nine ten eleven twelve '
+  out=out numbers.word(hour)           /* add the hour number */
+  if min=0 then out=out "o'clock"  /* .. and o'clock if exact */
+
+  return out'.'                    /* return the final result */
+
+/* Mike Cowlishaw,  December 1979 - January 1985. */
+/* NetRexx version March 1996; applet April 1996. */

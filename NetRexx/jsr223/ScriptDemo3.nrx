@@ -1,0 +1,7 @@
+import javax.script.
+
+nrEngine = ScriptEngineManager().getEngineByName("NetRexx")
+
+/* check returncode */
+say nrEngine.eval('NetRexxScriptEngine.instance.put("returnobject", "99")')
+

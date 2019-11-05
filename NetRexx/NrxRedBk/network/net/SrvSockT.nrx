@@ -1,0 +1,73 @@
+/* network\net\SrvSockT.nrx                 
+
+   Server HTTP program, accepts a request from an HTTP client using a Thread:
+   Usage: Java SrvSockT <portnumber> */
+
+parse arg port .                             -- capture + test argument
+if port = '' then port = 80
+if \port.datatype('W') then
+  do
+    say 'Usage: java SrvSockT <portnumber>'
+    exit 8
+  end
+
+do                                           -- main program loop
+  serverS = ServerSocket(port)               -- register at port: server socket
+  say 'Server:' serverS
+  loop forever
+    serviceS = serverS.accept()              -- listen/accept client: service socket
+    st = ServerThread(serviceS)              -- create a Thread (constructor)
+    Thread(st).start()                       -- start the Thread
+  end                                        -- end loop forever
+catch e=IOException
+  say 'IOException caught:' e.getMessage()   -- error messaging
+end
+
+/*-------------------------- class ServerThread -----------------------*/
+class ServerThread implements Runnable
+  Properties inheritable
+    serviceS = java.net.Socket
+    html     = byte 0
+
+  method ServerThread(s = java.net.Socket)   -- constructor
+    serviceS = s
+
+  method getRequest() returns Rexx           -- analyze request string
+    line = Rexx
+    socketInputStream    = serviceS.getInputStream()
+    socketBufferedReader = BufferedReader(InputStreamReader(socketInputStream))
+                                             -- first line has "get" request
+    line = socketBufferedReader.readline()
+                                             -- skip the rest
+    socketBufferedReader.skip(socketInputStream.available())
+    say 'Request received:' line             -- analyze the line
+    parse line get '/' file ' ' .
+    if file = '' | get \= 'GET' then file = 'SrvSockT.nrx'
+    say 'File requested:' file               -- requested file
+    return file
+
+  method run()                               -- run the Thread
+  do
+    say serviceS '\n  connected at:' Date()
+    ptrW = PrintWriter(OutputStreamWriter(serviceS.getOutputStream()))
+    file = getRequest()                      -- read the request of the client
+    if file.right(4) = '.htm' | -
+       file.right(5) = '.html' then html = 1
+    do                                       -- open requested file
+      fileBR = BufferedReader(FileReader(file))
+      line = String(fileBR.readLine())
+      if html=0 then ptrW.printLn('<' || 'pre>')  -- make page: unformatted file
+      loop while(line <> null)               -- add lines of file
+         ptrW.printLn(line)
+         line = fileBR.readLine()
+      end                                    -- end while(line <> null)
+      if html=0 then ptrW.printLn('<' || '/pre>')
+    catch FileNotFoundException              -- notify when file not found
+      ptrW.printLn('Sorry, file "'file'" not found')
+    end
+    ptrW.close()                             -- close file and socket
+    serviceS.close()
+  catch e=IOException
+    say 'IOException caught in ServerThread.run():' e.getMessage()
+  end
+-- end SrvSockT

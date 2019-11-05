@@ -1,0 +1,5 @@
+/* NetRexx */
+ 
+options replace format comments java symbols binary
+ 
+System.err.println("Goodbye, World!")

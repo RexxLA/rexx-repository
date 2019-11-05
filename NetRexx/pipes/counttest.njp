@@ -1,0 +1,34 @@
+pipe (counttest end ? )
+
+   literal a1 b2Abc c3xyzqwe a2xyz  |
+   split |
+   a: fanout |
+   count characters |
+   literal Characters |
+ f: fanin |
+   console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal Characters;20;words;4;lines;4;minline;2;maxline;8;chars words lines min max;20 4 4 2 8; |
+split ; |
+compare: ?
+   a: |
+   count words |
+   literal words |
+   f: ?
+   a: |
+   count lines |
+   literal lines |
+   f: ?
+   a: |
+   count minline |
+   literal minline |
+   f: ?
+   a: |
+   count maxline |
+   literal maxline |
+   f: ?
+   a: |
+   count characters min words max lines |
+   literal chars words lines min max |
+   f:

@@ -1,0 +1,24 @@
+pipe (pickt1 end ?)
+   diskr buffer.data |
+   pick 6.1 == 8.1 |
+   console
+
+pipe (pickt2 end ?)
+   diskr buffer.data |
+   pick 10.4 == /last/ |
+   console
+
+pipe (pickt3 end ?)
+   diskr buffer.data |
+   pick anycase 10.4 == /last/ |
+   console
+
+pipe (pickt4 end ?)
+   diskr buffer.data |
+   not pick 1.4 == /line/ |
+   console
+
+pipe (pickt5 end ?)
+   diskr buffer.data |
+   pick pad 2 6.1 == 8.1 |
+   console

@@ -1,0 +1,51 @@
+import com.ibm.mq.
+
+class MessageReader
+  properties private
+  
+  qManager = "rjtestqm";
+  qName	   = "TESTQUEUE1"
+  
+  method main(args=String[]) static binary
+    
+    m = MessageReader()
+    do
+      MQEnvironment.hostname = 'localhost'
+      MQEnvironment.port     = int 1414
+      MQEnvironment.channel  = 'CHANNEL1'
+      
+      -- exit assignment
+      exits				= TimeoutChannelExit()
+      MQEnvironment.channelReceiveExit	= exits
+      MQEnvironment.channelSendExit	= exits
+      MQEnvironment.channelSecurityExit	= exits
+      
+      say "Connecting to QM: " m.qManager
+      qMgr = MQQueueManager(m.qManager)
+      
+      openOptions = MQConstants.MQOO_INPUT_AS_Q_DEF
+      
+      say "Accessing Queue : " m.qName
+      queue = qMgr.accessQueue(m.qName, openOptions)
+      
+      gmo = MQGetMessageOptions() -- essential here is that we have MQGMO_WAIT; otherwise we cannot timeout
+      gmo.Options = MQConstants.MQGMO_WAIT | MQConstants.MQGMO_FAIL_IF_QUIESCING | MQConstants.MQGMO_SYNCPOINT
+      gmo.WaitInterval = MQConstants.MQWI_UNLIMITED
+      
+      loop forever
+	rcvMessage = MQMessage()
+	queue.get(rcvMessage, gmo)
+	msgText = rcvMessage.readUTF()
+	say "Got a message; the message is: " msgText
+	say
+      end					    
+      
+    catch ex=MQException
+      say "A WebSphere MQ Error occured : Completion Code " ex.completionCode "Reason Code " ex.reasonCode
+      say "Closing the queue"
+      queue.close()
+      say "Disconnecting from the Queue Manager"
+      qMgr.disconnect()
+      say "Done!"
+    end
+    

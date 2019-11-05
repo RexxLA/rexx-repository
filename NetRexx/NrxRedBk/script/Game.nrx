@@ -1,0 +1,24 @@
+/* script\Game.nrx
+
+   This is a small game.  The program chooses a number between 0 and 1000
+   and you have to find out the number as fast as possible */
+
+say "I'am choosing a number between 0 and 1000"
+number = 1000*Math.random() % 1   -- %1 transform result to integer
+say 'Found a number'
+guess = int                       -- declares guess as variable of type int
+loop count = 1 until guess = number
+  say count 'try: \-'
+  guess = ask
+  select
+    when guess > number then
+      say guess 'is to big'
+    when guess < number then
+      say guess 'is to small'
+    otherwise 
+      say
+      say 'Congratualations. You did it with' count 'tries.'
+  end  
+catch RunTimeException
+  say 'Sorry, whole numbers only. You lost the game.'
+end

@@ -1,0 +1,38 @@
+import javafx.application.Application
+import javafx.scene.Node
+import javafx.scene.Scene
+import javafx.scene.control.TreeItem
+import javafx.scene.control.TreeView
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.layout.StackPane
+import javafx.stage.Stage
+import javafx.collections.
+import javafx.geometry.Insets
+
+/* works as-is if there is a working javafx install      */
+/* illustrates the cast needed for add to ObservableList */
+
+class TreeViewSampleNRX extends Application
+
+  method main(args=String[]) static
+    launch(args)
+
+  method start(stage=Stage)
+    root = StackPane()
+    root.setPadding(Insets(10, 10, 10, 10))
+    oList = ObservableList root.getChildren()
+
+    rootItem = TreeItem("Inbox", null)
+    rootItem.setExpanded(1)
+    loop i=1 to 6
+      item = TreeItem("Message" i)            
+      pList = ObservableList rootItem.getChildren()
+      plist.add(item)
+    end
+    tree = TreeView(rootItem)
+    oList.add(tree)
+    
+    stage.setTitle("NetRexx Tree View Sample")
+    stage.setScene(Scene(root, 528, 192))
+    stage.show()

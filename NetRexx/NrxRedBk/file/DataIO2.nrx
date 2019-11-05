@@ -1,0 +1,43 @@
+/* file\DataIO2.nrx
+
+   Output of a Customer object with numeric data using Rexx strings */
+
+import Customer                                  -- from "DataIO.nrx"
+
+class DataIO2
+  Properties constant
+    yes = boolean 1
+    no  = boolean 0
+
+  method main(args=String[]) static
+    custDB = Customer[4]                         -- allocate 4 customers
+
+
+    -- Instanciate objects
+    custDB[0] = Customer(101,"Ueli Wahli"         ,"U.S.A." ,500.5,25,yes)
+    custDB[1] = Customer(102,"Peter Heuchert"     ,"Germany",400.4,30,yes)
+    custDB[2] = Customer(103,"Frederik Haesbrouck","Belgium",350.9,24,no)
+    custDB[3] = Customer(104,"Norio Furukawa"     ,"Japan"  ,250.5,39,no)
+
+    -- writes the object variables to a file
+    os = PrintWriter(FileWriter("dataio2.dat"))
+    os.println(custDB.length)                    -- number of objects
+    loop i = 0 to custDB.length-1
+       custdata = custDB[i].getCustNo()  || '\t' || custDB[i].getName()   || '\t' -
+                  custDB[i].getAddress() || '\t' || custDB[i].getHourly() || '\t' -
+                  custDB[i].getWork()    || '\t' || custDB[i].getBool()
+       os.println(custdata)
+    end
+    os.close()
+
+    -- reads the object variables from the file
+    is = BufferedReader(FileReader("dataio2.dat"))
+    n=is.readLine()                             -- read the objects
+    loop i = 1 to n
+      parse is.readLine() xcustno '\t' xname '\t' xaddress '\t' xhourly -
+                                  '\t' xwork '\t' xbool
+      say xcustno.left(4) xname.left(20) xaddress.left(10) - 
+          (xhourly*xwork).right(10) xbool
+    end
+    is.close()
+-- end

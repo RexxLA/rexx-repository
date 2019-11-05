@@ -1,0 +1,36 @@
+/* gui\gridlayout\GridLay.nrx
+
+   Sample Applet to illustrate the GridLayout manager */
+
+class GridLay extends Applet
+
+method init()
+  -- divide the space of the applet in two rows with 20 pixels space between
+  setLayout(GridLayout(2,0,0,20))
+
+  -- add a panel with a GridLayout manager to row 1
+  -- this layout manager resizes the components to use the available space
+  p=Panel()    -- new panel
+  add(p)       -- add panel
+  p.setLayout(GridLayout(3,0,3,6)) -- 3 rows hgap=3 vgap=6
+  p.add(Button('1'))
+  p.add(Button('2'))
+  p.add(Button('3'))       -- next row
+  p.add(Button('4'))
+  p.add(Button('5'))       -- next row
+
+  -- Add a panel with a FlowLayout manger to row two to avoid resizing
+  pFlow=Panel()
+  pFlow.setLayout(FlowLayout(FlowLayout.LEFT,0,0))  -- left alignment no gaps
+  add(pFlow)
+
+  -- Add a panel with a GridLayout manager to the panel with the flowlayout
+  p=Panel()    -- new Panel
+  pFlow.add(p) -- add Panel
+
+  p.setLayout(GridLayout(0,3,3,6)) -- 3 columns hgap=3 vgap=6
+  p.add(Button('1'))
+  p.add(Button('2'))
+  p.add(Button('-3-')) -- this button it's the largest, sets the size for all
+  p.add(Button('4'))
+  p.add(Button('5'))

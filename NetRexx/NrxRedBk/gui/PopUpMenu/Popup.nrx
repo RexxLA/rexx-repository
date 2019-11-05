@@ -1,0 +1,81 @@
+/* gui\popupmenu\Popup.nrx
+
+   This program shows the usage of a popup menu */ 
+
+---------------------------------------- Popup class (implicit)
+   MenuBarX()
+
+---------------------------------------- MenuBarX class
+class MenuBarX
+  Properties inheritable
+    status = Label('Press the right mouse button')
+
+  method MenuBarX()
+    win = Frame("Popup Menu Test")    -- creates the window
+
+    m  = PopupMenu("File")            -- first menu in the menubar
+
+    mi = MenuItem("Open...")          -- menu item for menu File
+    m.add(mi)                         -- add menu item to menu File
+    mi.addActionListener(MenuAction(status,"Open")) -- menu action
+
+    mi = MenuItem("Close")            -- next menu item for menu File
+    m.add(mi);
+    mi.addActionListener(MenuAction(status,"Close")) -- menu action
+
+    m.addSeparator();                 -- add a separator to the menu
+
+    mi = MenuItem("Exit")             -- next menu item for menu File
+    m.add(mi);
+    mi.addActionListener(CloseMenu()) -- menu action
+
+    win.add(m)                        -- add the popup menu to the window
+
+                                      -- add the mouse event listener 
+    status.addMouseListener(PopUpMouseListener(m))
+    win.addMouseListener(PopUpMouseListener(m))
+
+    win.add("South",status)           -- add the label to the window
+
+                                      -- set window position to the middle 
+    win.setSize(200,130)
+    d = win.getToolkit().getScreenSize()
+    s = win.getSize()
+    win.setLocation((d.width - s.width) % 2,(d.height - s.height)%2)
+
+    win.setVisible(1)                 -- show the window
+
+---------------------------------------- PopUpMouseListener class
+class PopUpMouseListener extends MouseAdapter
+  Properties
+    mpopup = PopupMenu
+  method PopUpMouseListener(p=PopupMenu)
+    mpopup = p
+
+  -- look for popup trigger event when a mouse button is pressed
+  method mousePressed(e=MouseEvent)
+    if e.isPopupTrigger() then
+      mpopup.show(e.getComponent(),e.getX,e.getY)
+
+  -- look for popup trigger event when a mouse button is released
+  method mouseReleased(e=MouseEvent)
+    if e.isPopupTrigger() then
+      mpopup.show(e.getComponent(),e.getX,e.getY)
+
+---------------------------------------- MenuAction class
+class MenuAction implements ActionListener
+  Properties inheritable
+    text        = String
+    field       = Label
+
+  method actionPerformed(e = ActionEvent)
+    field.setText('Menu' text 'selected')
+
+  method MenuAction(aLabel = Label, aString = String)
+    field       = aLabel
+    text        = aString
+
+---------------------------------------- CloseMenu class
+class CloseMenu implements ActionListener
+  method actionPerformed(e = ActionEvent)
+    exit 0

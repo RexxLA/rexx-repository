@@ -1,0 +1,11 @@
+pipe (dirtest debug 0 )
+
+   rexx from command cmd /c dir |
+a: locate /.nrx/ |
+b: faninany |
+   take last 20 |
+   console ?
+a: |
+   locate /.class/ |
+   b:
+

@@ -1,0 +1,10 @@
+pipe (tcprec debug 72)
+   literal ok |
+a: fanin |
+   tcpclient localhost 2000 deblock fixed 16384 |
+c: watchp 100 |
+   file stream x |
+   hole |
+   a: ?
+   c: |
+   console

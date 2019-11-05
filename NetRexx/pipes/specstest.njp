@@ -1,0 +1,20 @@
+pipe (specst1 end ?)
+   diskr buffer.data |
+   specs /..\\test\\/ 1 *-* next |
+   console
+
+pipe (specst2 end ?)
+   diskr buffer.data |
+   specs word 3 1 word2 nextw word1 nextw |
+   console
+
+pipe (specst3 end ? cont ,)
+   diskr buffer.data |
+   specs word 3 1 word2 nextw word1 nextw write,
+        1-10 1 -5;-1 next |
+   console
+
+pipe (specst4 sep |)
+   rexx literal ABCDE |
+   specs 1-* c2x 1 |
+   console

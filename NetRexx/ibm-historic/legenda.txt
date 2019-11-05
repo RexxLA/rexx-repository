@@ -1,0 +1,15 @@
+ArchText.nrx | Applet with a multi-coloured text on a white background 
+Buttons.nrx | A sample graphics stand-alone application for the Java platform, using dependent and adapter classes. 
+cubit.nrx | This sample demonstrates both the usage of a *label* to start and end the scope of a loop, as well as the usage of the *ask* variable to ask the user for a reply. 
+GifShow.nrx | An applet that gets a picture in the GIF-format and fits it to the given window.  
+hello.nrx | This simple NetRexx program demonstrates that a simple output (saying 'Hello world!') does not require a lot of preceding declarations. Note that *say* is a so called NetRexx  instruction, introduced by a verb (in this case *say*). 
+HelloApplet.nrx | As the previous program 'hello', 'HelloApplet' perform the same functionality as an Applet. 
+linecomment.nrx | This is a sample file input and output program, showing how to open, check, and process text files, and handle exceptions.  Note the use of the Java Reader and Writer classes, which convert your local computer's 'code page' (character encoding) to Unicode during reading and back again during writing. The program *linecomment* does convert appropriate Netexx block-comments (indicated by '/*' and '*/') to NetRexx line comments (at the end of a line, indicated by a leading '--'!
+NervousTexxt.nrx | The NervousText applet in NetRexx: Test of text animation. Algorithms, names, etc. are directly from the Java version by Daniel Wyszynski and Kwalrath, 1995. 
+Pinger.nrx | Pinger: a count-down ('kitchen') timer. This is a sample stand-alone Java application with frame, menus,  and a custom component that shows how to use images and graphics.
+PlayClip.nrx | Play an audio clip; the URL of the clip is relative to base document
+qtime.nrx | QTIME:  This program displays the time in real English. If "?" is given as the first argument word then the    program displays a description of itself. 
+Scribble.nrx | Scribble.nrx: the 'Scribble' applet, using an Adapter class. This sample also shows the usage of the *implements* phrase in the *class* instruction, as well as the necessary *methods* doing the implementation. 
+Spectrum.nrx | Spectrum: A sample graphics stand-alone application for the Java platform. This draws a spectrum in a frame window on the screen, using an off-screen image to hold the current picture.  The Java 1.1 event  model is used to handle the windowClosing event. 
+Tablet.nrx | Tablet: use the composite tab gif [tablet.gif]    
+WordClock.nrx | WordClock: an applet that shows the time in English. This example is functionally equivalent to the 'gtime' sample, but is implemented here as an applet, with the ability to define the font face and size as parameters.

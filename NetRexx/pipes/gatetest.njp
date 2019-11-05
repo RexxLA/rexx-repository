@@ -1,0 +1,40 @@
+pipe (gatet1   end ? debug 0 )
+   gen 1000 |
+   locate /00/ |
+   specs /gated/ 1 1-* nextw |
+   console |
+   locate /900/ |
+a: gate ?
+   gen 1000 |
+a: |
+   locate /00/ |
+   console ?
+   gen 1000 |
+a: |
+   locate /00/ |
+   console ?
+   gen 1000 |
+a: |
+   locate /00/ |
+   console
+
+pipe (gatet2   end ? debug 0 )
+   gen 500 |
+   locate /00/ |
+   specs /gated/ 1 1-* nextw |
+   console |
+   locate /300/ |
+a: gate strict |
+   gen 1000 |
+a: |
+   locate /00/ |
+   console ?
+   gen 1000 |
+a: |
+   locate /00/ |
+   console ?
+   gen 1000 |
+a: |
+   locate /00/ |
+   console
+

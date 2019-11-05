@@ -1,0 +1,13 @@
+pipe (findtest3)
+
+   literal a1cx b2dx a3dx b4cx b5xx  |
+   split |
+   a: find a d |
+   hole ?
+   a: |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal a1cx;b2dx;b4cx;b5xx; |
+   split ; |
+   compare:

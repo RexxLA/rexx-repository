@@ -1,0 +1,11 @@
+/* network\rmichat\ChatRMIClientI.nrx
+
+   Chat RMI client interface definition */
+
+package network.rmichat
+
+import java.rmi.
+
+class ChatRMIClientI interface implements Remote
+
+  method addMessage(msg = String) public signals RemoteException

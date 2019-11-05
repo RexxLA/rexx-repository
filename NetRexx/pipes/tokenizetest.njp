@@ -1,0 +1,9 @@
+pipe (tokenizetest)
+   literal apples = bananas(cherries+dates) |
+   tokenize /()=+/ |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   literal apples;=;bananas;(;cherries;+;dates;) |
+   split ; |
+   compare:

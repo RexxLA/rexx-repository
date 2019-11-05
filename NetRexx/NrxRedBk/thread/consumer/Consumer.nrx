@@ -1,0 +1,61 @@
+/* thread\consumer\Consumer.nrx
+
+   Consumer - Producer sample application with wait and notify to synchronize */
+
+-------------------------------------- Consumer class
+
+-- name the current thread
+Thread.currentThread().setName('Thread Example: Consumer Thread') 
+
+p = Producer()                                   -- creates a producer
+t = Thread(p,'Thread Example: Producer Thread')  -- creates the thread
+t.start()                                        -- runs the producer
+
+s = Rexx ''
+
+loop until s = 'exit'
+  Thread.currentThread().sleep(5000) -- wait 5 seconds 
+  s = p.readMessage()
+  say 'Message received' s
+end
+
+say 'Program stopped'
+exit 0
+
+-------------------------------------- Producer class
+class Producer implements Runnable
+  Properties constant
+    MaxEntries = int 4
+  Properties inheritable
+    queue = Vector()         -- dynamic growing Array
+
+  method run()
+   getMessages()
+
+  -- producer method
+  method getMessages()
+   loop forever
+     say 'Type new message ('queue.size() 'messages in queue)'
+     newMessage = ask
+     do protect this      -- protected against readMessages
+       -- check if the loop is full
+       loop while queue.size() == MaxEntries
+          say 'Queue is full'
+          wait()
+        catch InterruptedException
+       end  
+       queue.addElement(newMessage)  -- add the message
+       notify()                      -- notify readMessage: new message
+     end
+   end
+
+  -- called from consumer
+  method readMessage() protect returns Rexx
+   loop while queue.size() == 0
+      wait()
+    catch InterruptedException
+   end
+   s = Rexx queue.firstElement()    -- read the first element
+   queue.removeElement(s)           -- remove the element from queue
+   notify()                         -- notify getMessages: message removed 
+   return s

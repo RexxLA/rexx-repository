@@ -1,0 +1,33 @@
+-- calltest2.njp
+
+pipe (callt2 end ? stall 1000 debug 0)
+
+   random 15 |
+a: calltest2 |
+   specs /zeros/ 1 1-* nextw |
+b: faninany |
+   console ?
+a: |
+   specs /none / 1 1-* nextw |
+   b:
+
+import org.netrexx.njpipes.pipes.
+class calltest2 extends stage final
+
+method run() public
+
+   do
+      callpipe (cp1 stall 1000 debug 0 sep |)
+         *in0: | take first 10 | a: locate /0/ | *out0: ? a: | *out1:
+
+      loop forever
+         line = peekto()
+         output(line)
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

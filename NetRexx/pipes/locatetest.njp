@@ -1,0 +1,11 @@
+pipe (locatetest)
+
+   literal a1abc b2abc c3xyz a2xyz b3abc c1abc a3xyz b1xyz c2abc |
+   split |
+   locate /2/ |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal b2abc;a2xyz;c2abc; |
+   split ; |
+   compare:

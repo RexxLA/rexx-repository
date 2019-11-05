@@ -1,0 +1,67 @@
+/* network\rmichat\ChatRMIServer.nrx
+
+   Chat RMI server in NetRexx */
+
+package network.rmichat
+
+import java.rmi.
+import java.rmi.server.
+import java.net.
+
+class ChatRMIServer extends UnicastRemoteObject implements ChatRMIServerI
+
+  properties
+    clients = Vector()
+
+  method main(s = String[]) public static
+    do
+      say '-- Registering the securityManager...'
+      System.setSecurityManager(RMISecurityManager())
+      say '-- Start publishing the object "ChatServer"... Please Wait!'
+      Server = ChatRMIServer()
+      Naming.bind('rmi:///ChatServer', Server)
+      say '-- Ok, I am listening.'
+    catch e = Exception
+      say '-- Exception (' e ') caught : \n' e.getMessage()
+    end
+
+  method ChatRMIServer() signals RemoteException
+
+  method newClient(_client = String, _user = String) public
+    say '-- User "'_user'" at "'_client'" has connected.'
+    do
+      say '-- Looking up the ChatClient ... Please Wait!'
+      client = ChatRMIClientI Naming.lookup('rmi://' || _client || '/ChatClient_' || _user)
+      clients.addElement(client)
+      say '-- Connection to client has been established.'
+    catch e1 = RemoteException
+      say '-- Something is wrong with the RMI connection!'
+      say '-- RemoteException (' e1 ') caught : \n' e1.getMessage()
+    catch e2 = MalformedURLException
+      say '-- The URL is not valid !\n' e2.getMessage()
+    catch e3 = Exception
+      say '-- Exception (' e3 ') caught : \n' e3.getMessage()
+    end
+
+
+  method sendMessage(msg = String) public
+    obsolete = Vector()
+    say msg
+    enum = clients.elements()
+    loop while enum.hasMoreElements()
+      client = ChatRMIClientI enum.nextElement()
+      do
+        client.addMessage(msg)
+      catch e1 = RemoteException
+        obsolete.addElement(client)
+        say '-- Client has thrown an exception, it will be removed from the list!'
+        say '-- RemoteException (' e1 ') caught : \n' e1.getMessage()
+      end
+    end
+    say '-- All messages sent.'
+
+    /* now drop the obsolete clients from our original vector */
+    enum = obsolete.elements()
+    loop while enum.hasMoreElements()
+      clients.removeElement(ChatRMIClientI enum.nextElement())
+    end

@@ -1,0 +1,39 @@
+/* network\rmi\RmiSrvr.nrx
+
+   Server RMI program, listening to clients sending user text.
+   Implements the "listen" method */
+
+package network.rmi
+
+import java.rmi.
+import java.rmi.server.
+
+/*-------------------------- class RmiSrvr -----------------------------*/
+
+class RmiSrvr public extends UnicastRemoteObject implements RmiSrvrI
+
+method main(args=String[]) public static
+  do
+    hostname = ''  
+    if args.length = 1 then hostname = args[0]
+    say 'Registering the Security Manager ...'
+    System.setSecurityManager(RMISecurityManager())
+    say 'Publishing the "Listener" object: rmi://'hostname'/Listener' 
+    listener = RmiSrvr()                                -- server object
+    Naming.rebind('rmi://'hostname'/Listener',listener) -- bind Listener
+    say 'I am listening ...'
+  catch e=Exception
+    say 'Exception (' e ') caught: \n' e.getMessage()
+  end
+
+method RmiSrvr() signals RemoteException            -- constructor
+
+------------------------------------------------------ public interface
+method listen(str = String) public signals RemoteException
+  do
+    say 'Client' getClientHost() 'says:\n ' str
+  catch ServerNotActiveException
+    say 'Only a client can invoke listen'
+  end
+
+-- end RmiSrvr

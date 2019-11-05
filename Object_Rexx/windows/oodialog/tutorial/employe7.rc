@@ -1,0 +1,108 @@
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/* Copyright (c) 1995, 2004 IBM Corporation. All rights reserved.             */
+/* Copyright (c) 2005-2014 Rexx Language Association. All rights reserved.    */
+/*                                                                            */
+/* This program and the accompanying materials are made available under       */
+/* the terms of the Common Public License v1.0 which accompanies this         */
+/* distribution. A copy is also available at the following address:           */
+/* http://www.oorexx.org/license.html                          */
+/*                                                                            */
+/* Redistribution and use in source and binary forms, with or                 */
+/* without modification, are permitted provided that the following            */
+/* conditions are met:                                                        */
+/*                                                                            */
+/* Redistributions of source code must retain the above copyright             */
+/* notice, this list of conditions and the following disclaimer.              */
+/* Redistributions in binary form must reproduce the above copyright          */
+/* notice, this list of conditions and the following disclaimer in            */
+/* the documentation and/or other materials provided with the distribution.   */
+/*                                                                            */
+/* Neither the name of Rexx Language Association nor the names                */
+/* of its contributors may be used to endorse or promote products             */
+/* derived from this software without specific prior written permission.      */
+/*                                                                            */
+/* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS        */
+/* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT          */
+/* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS          */
+/* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT   */
+/* OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,      */
+/* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED   */
+/* TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,        */
+/* OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY     */
+/* OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING    */
+/* NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS         */
+/* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.               */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+
+#include <windows.h>
+#include <commctrl.h>
+#include <winuser.h>
+#include "employe7.h"
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDM_MENUBAR MENU
+{
+    POPUP "&File"
+    {
+        MENUITEM "&Cancel", IDCANCEL
+        MENUITEM "E&xit", IDOK
+    }
+    POPUP "&Employees"
+    {
+        MENUITEM "&Add", IDM_ADD
+        MENUITEM "&Print", IDM_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "&List", IDM_LIST, GRAYED
+    }
+    POPUP "&Help"
+    {
+        MENUITEM SEPARATOR
+        MENUITEM "&About", IDM_ABOUT
+    }
+}
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_EMPLOYEE_LIST DIALOG 6, 15, 278, 117
+STYLE DS_CENTER | DS_MODALFRAME | DS_SETFONT | WS_CAPTION | WS_POPUP | WS_SYSMENU
+CAPTION "Acme Software - List of Employees"
+FONT 12, "Courier New"
+{
+    LISTBOX         IDC_LB_EMPLOYEES_LIST, 10, 22, 258, 66, WS_VSCROLL | LBS_USETABSTOPS | LBS_NOTIFY
+    LTEXT           "Name", -1, 10, 7, 26, 8, SS_LEFT
+    LTEXT           "Profession", -1, 101, 7, 60, 8, SS_LEFT
+    LTEXT           "City", -1, 201, 7, 60, 8, SS_LEFT
+    DEFPUSHBUTTON   "OK", IDOK, 218, 93, 50, 14
+}
+
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_EMPLOYEES7 DIALOG 6, 15, 235, 184
+STYLE DS_CENTER | DS_MODALFRAME | DS_SETFONT | WS_CAPTION | WS_POPUP | WS_SYSMENU
+CAPTION "Acme Software - Employees Version 7"
+FONT 10, "Tahoma"
+{
+    GROUPBOX        "Mode", IDC_GB2, 165, 10, 60, 44, WS_GROUP
+    AUTORADIOBUTTON "&Adding", IDC_RB_ADD, 174, 20, 46, 12, WS_TABSTOP
+    AUTORADIOBUTTON "&Browsing", IDC_RB_BROWSE, 174, 37, 46, 12
+    LTEXT           "Person:", -1, 12, 20, 30, 8, SS_LEFT
+    EDITTEXT        IDC_EDIT_NAME, 40, 20, 120, 12
+    CONTROL         "", IDC_UPD, UPDOWN_CLASS, UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_AUTOBUDDY, 150, 20, 10, 12
+    LTEXT           "City:", -1, 12, 37, 16, 8, SS_LEFT
+    COMBOBOX        IDC_CB_CITY, 40, 37, 120, 56, WS_TABSTOP | WS_TABSTOP | CBS_DROPDOWNLIST
+    LTEXT           "Position:", -1, 12, 58, 30, 8, SS_LEFT
+    LISTBOX         IDC_LB_POSITION, 10, 68, 150, 82, WS_TABSTOP | WS_VSCROLL | LBS_SORT | LBS_NOTIFY
+    GROUPBOX        "Statistics", IDC_GB1, 165, 65, 60, 66, WS_GROUP
+    AUTORADIOBUTTON "&Male", IDC_RB_MALE, 174, 80, 46, 12, WS_TABSTOP
+    AUTORADIOBUTTON "&Female", IDC_RB_FEMALE, 174, 95, 46, 12
+    AUTOCHECKBOX    "Ma&rried", IDC_CHK_MARRIED, 174, 112, 46, 12, WS_GROUP
+    PUSHBUTTON      "A&dd", IDC_PB_ADD, 165, 135, 60, 14
+    PUSHBUTTON      "&Print", IDC_PB_PRINT, 10, 160, 45, 14
+    PUSHBUTTON      "&List Employees", IDC_PB_LIST, 60, 160, 65, 14
+    DEFPUSHBUTTON   "D&one", IDOK, 130, 160, 45, 14
+    PUSHBUTTON      "&Cancel", IDCANCEL, 180, 160, 45, 14
+}

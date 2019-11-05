@@ -1,0 +1,19 @@
+/* thread/ThrdTst1.nrx */
+
+h1 = Hello1('This is thread 1')
+h2 = Hello1('This is thread 2')
+
+Thread(h1,'Thread Test Thread 1').start()
+Thread(h2,'Thread Test Thread 2').start()
+
+class Hello1 implements Runnable
+  Properties inheritable
+    message = String
+
+  method Hello1( s = String)
+    message = s
+
+  method run()
+    loop for 50
+      say message
+    end

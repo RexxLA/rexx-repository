@@ -1,0 +1,25 @@
+-- taketest5 take last 2
+
+-- taketest1 take
+
+/** take
+             +--FIRST--+  +-1------+
+>>--TAKE-----+------------+--------+--+-------+----><-
+             +--LAST---+  +-number-+  +-BYTES-+
+                          +-*------+
+*/
+
+/*
+ 19/09/01 Jeff Hennick
+*/
+
+pipe (taketest5)
+   literal r1;r2;r3;r4;r5;r6 |
+   split ; |
+   take last 2 |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   literal r5;r6 |
+   split ; |
+   compare:

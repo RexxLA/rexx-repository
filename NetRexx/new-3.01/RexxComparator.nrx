@@ -1,0 +1,31 @@
+/**
+ * Class RexxComparator is a Comparator that gives us the opportunity
+ * to use Rexx Strings in Collection classes without encountering
+ * exceptions when using Collections.sort(). It implements the compare
+ * method of the Comparator interface.
+ */
+class RexxComparator implements Comparator,Serializable
+
+  properties constant
+  serialVersionUID = long 991920429
+  
+  method RexxComparator()
+    
+    super()
+    
+  /**
+   * method compare returns a negative if the first argument is
+   * smaller than the second, and a positive number when it is
+   * bigger.
+   * @param i1 the first participant
+   * @param i2 the second participant
+   * @return int -1 if i1 < i2, +1 if i1 > i2
+   */ 
+  method compare(i1=Object, i2=Object) returns int
+    i = Rexx i1.toString()
+    j = Rexx i2.toString()
+    
+    if i < j then return -1
+    if i > j then return +1
+    else return 0
+    

@@ -1,0 +1,47 @@
+/* gui\promptdialog\PromptTest.nrx
+
+   Sample application to illustrate the use of the PromptDialog
+   and the PromptDialogActionListener class.
+
+   Shows a window with a push button and an label.
+   The push button creates a prompt dialog, the label shows
+   the value of the dialog when ready. */
+
+import Redbook.
+
+Gui('Prompt Dialog Test')                  -- start the User Interface
+
+-- The Gui class implements the interface
+class Gui implements PromptDialogAction
+  Properties inheritable
+    main  = Frame                          -- main window
+    buttn = Button('Show Dialog')          -- push button
+    answer= Label('Press the push button') -- label for the results
+
+  method Gui(title = String)               -- create the interface
+    main = Frame(title)
+   
+    -- construct the window
+    main.add('North',answer)
+    main.add('South',buttn)
+
+    -- add ActionListener to the push button
+    buttn.addActionListener(PromptDialogActionListener(this))
+
+    -- show the window
+    WindowSupport(main,buttn)
+    main.setSize(200,150)
+    RedbookUtil.positionWindow(main)
+    main.setVisible(1)
+
+    -- Invoked for the action listener when Prompt Dialog ready
+    method promptReady(text = String,action = ActionListener)
+      answer.setText('You entered:' text)
+
+    -- invoked from the Actionlistener, build the Prompt Dialog Box
+    method getPromptDialog(action = ActionListener)-
+           returns PromptDialog
+       dialogw = PromptDialog(main,0,'Please Type a String','String:')
+       dialogw.addButton('Ok',action)
+       dialogw.addButton('Cancel')
+       return dialogw

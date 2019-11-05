@@ -1,0 +1,7 @@
+JSONDemo.nrx | This sample demonstrates the usage of JSON, which does allow to execute JAVASCRIPT under pure Java. Only for professionals looking at the power of NetRexx's JSR223-implementation to execute the available EngineManagers of JSR223 . 
+ListScriptingEngines.nrx | This sample lists all available Engines in the javax ScriptEngineManager Factory. Only for real profis interested in the various factories impemented in the javax ScriptEngines.
+nrepl.nrx | This is simply a test of the NetRexx Engine under JSR223
+RunAppleScript.nrx | This sample simply tests some details of the NetRexx JSR223 implementation in the AppeScript Engine environment.          
+ScriptDemo.nrx |  NetRexx JSR223 Scripting Engine test module, as the following  samples as well. It has been used as a first feasability demo to implement  JSR223 in NetRexx by Kermit Kiser, one of the the major maintainers of  the NetRexx Compiler, and has been originally created back in 2009.
+ScriptDemo2.nrx | This second ScriptEngineManager sample does demonstrate the power of the nearly endless arithmetic precision provided implicitely by NetRexx.
+ScriptDemo3.nrx | This third sample simply tests that the return-code of the NetRexx Script Engine under JSR223 is correct.

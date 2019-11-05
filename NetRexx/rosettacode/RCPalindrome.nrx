@@ -1,0 +1,22 @@
+/* NetRexx */
+
+options replace format comments java symbols binary
+
+y_ = 'In girum imus nocte et consumimur igni'
+ 
+-- translation: We walk around in the night and
+-- we are burnt by the fire (of love)
+say
+say 'string = 'y_
+say
+ 
+pal = isPal(y_)
+ 
+if pal == 0 then say "The string isn't palindromic."
+            else say 'The string is palindromic.'
+ 
+method isPal(x_) static
+  x_ = x_.upper().space(0)          /* removes all blanks (spaces).         */
+
+  return x_ == x_.reverse()         /* returns  1  if exactly equal,        */
+

@@ -1,0 +1,22 @@
+/* */
+
+class bench extends Object
+
+method bench(arg=Rexx)
+
+   say 'speed1'
+   pipe (speed1) literal 999 | dup 99    | ptimer   | hole
+
+   say 'speed2'
+   pipe (speed2) literal 99  | dup 99999 | ptimer   | hole
+
+   say 'speed3'
+   loop for 10
+      pipe (speed3) literal 99 | dup 9999 | ptimer   | hole
+   end
+
+method main(a=String[]) static
+
+   bench(rexx(a))
+
+exit

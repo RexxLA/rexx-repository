@@ -1,0 +1,121 @@
+ClassExample.nrx|In object-oriented programming class is a set (a transitive closure) of types bound by the relation of inheritance. The purpose of this task is to create a basic class with a method, a constructor, an instance variable and how to instantiate it.
+DNSQuerying.nrx|DNS is an internet service that maps domain names, like rosettacode.org, to IP addresses, like 66.220.0.231. Use DNS to resolve www.kame.net to both IPv4 and IPv6 addresses. Print these addresses.
+DateFormat.nrx|Display the current date in the formats of "2007-11-10" and "Sunday, November 10, 2007".
+FizzBuzz.nrx|Write a program that prints the integers from 1 to 100. But for multiples of three print "Fizz" instead of the number and for the multiples of five print "Buzz". For numbers which are multiples of both three and five print "FizzBuzz". FizzBuzz was presented as the lowest level of comprehension required to illustrate adequacy.
+HappyNumbers.nrx|A happy number is defined by the following process. Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers, while those that do not end in 1 are unhappy numbers. Display an example of your output here.
+HelloWorld.nrx|In this User Output task, the goal is to display the string "Goodbye, World!" [sic] on a text console.
+JensensDevice.nrx|This task is an exercise in call by name.
+LuhnTest.nrx|The Luhn test is used by some credit card companies to distinguish valid credit card numbers from what could be a random selection of digits.
+PalindromeDetection.nrx|Write at least one function/method (or whatever it is called in your preferred language) to check if a sequence of characters (or bytes) is a palindrome or not.
+RC100doors_opt0.nrx|You have 100 doors in a row that are all initially closed. You make 100 passes by the doors. The first time through, you visit every door and toggle the door (if the door is closed, you open it; if it is open, you close it). The second time you only visit every 2nd door (door #2, #4, #6, ...). The third time, every 3rd door (door #3, #6, #9, ...), etc, until you only visit the 100th door.
+RC100doors_opt1.nrx|You have 100 doors in a row that are all initially closed. You make 100 passes by the doors. The first time through, you visit every door and toggle the door (if the door is closed, you open it; if it is open, you close it). The second time you only visit every 2nd door (door #2, #4, #6, ...). The third time, every 3rd door (door #3, #6, #9, ...), etc, until you only visit the 100th door.
+RC100doors_opt2.nrx|You have 100 doors in a row that are all initially closed. You make 100 passes by the doors. The first time through, you visit every door and toggle the door (if the door is closed, you open it; if it is open, you close it). The second time you only visit every 2nd door (door #2, #4, #6, ...). The third time, every 3rd door (door #3, #6, #9, ...), etc, until you only visit the 100th door.
+RCAbstractType.nrx|show how an abstract type can be declared in the language. If the language makes a distinction between interfaces and partially implemented types illustrate both.
+RCAplusB.nrx|Given 2 integer numbers, A and B. One needs to find their sum.
+RCArbitraryPrecision_00.nrx|5 pow 5 pow 3 pow 2. Confirm that the first and last twenty digits of the answer are: 62060698786608744707...92256259918212890625
+RCArbitraryPrecision_01.nrx|5 pow 5 pow 3 pow 2. Confirm that the first and last twenty digits of the answer are: 62060698786608744707...92256259918212890625
+RCArbitraryPrecision_02.nrx|5 pow 5 pow 3 pow 2. Confirm that the first and last twenty digits of the answer are: 62060698786608744707...92256259918212890625
+RCArbitraryPrecision_03.nrx|5 pow 5 pow 3 pow 2. Confirm that the first and last twenty digits of the answer are: 62060698786608744707...92256259918212890625
+RCArithmatic.nrx|Get two integers from the user, and then output the sum, difference, product, integer quotient and remainder of those numbers. Don't include error handling. For quotient, indicate how it rounds (e.g. towards 0, towards negative infinity, etc.). For remainder, indicate whether its sign matches the sign of the first operand or of the second operand, if they are different.
+RCArrays.nrx|In this task, the goal is to show basic array syntax in your language. Basically, create an array, assign a value to it, and retrieve an element. (if available, show both fixed-length arrays and dynamic arrays, pushing a value into it.)
+RCAssocArrayCreate.nrx|In this task, the goal is to create an associative array (also known as a dictionary, map, or hash).
+RCAssocArrayIterate.nrx|Show how to iterate over the key-value pairs of an associative array, and print each pair out. Also show how to iterate just over the keys, or the values, if there is a separate way to do that in your language.
+RCBinaryDigits.nrx|The task is to output the sequence of binary digits for a given non-negative integer.
+RCBooleanValues.nrx|Show how to represent the boolean states "true" and "false" in a language. If other objects represent "true" or "false" in conditionals, note it.
+RCBoxTheCompass.nrx|Create a function that takes a heading in degrees and returns the correct 32-point compass heading.
+RCCaesar.nrx|Implement a Caesar cipher, both encryption and decryption.
+RCCharacterMatching.nrx|Given two strings, demonstrate 3 types of matchings
+RCComments.nrx|Demonstrate all ways to include text in a language source file which is completely ignored by the compiler or interpreter.
+RCDayOfTheWeek01.nrx|In what years between 2008 and 2121 will the 25th of December be a Sunday?
+RCDayOfTheWeek02.nrx|In what years between 2008 and 2121 will the 25th of December be a Sunday?
+RCDotProduct.nrx|Create a function/use an in-built function, to compute the dot product, also known as the scalar product of two vectors. If possible, make the vectors of arbitrary length.
+RCEmptyProgram01.nrx|In this task, the goal is to create the simplest possible program that is still considered "correct."
+RCEmptyProgram02.nrx|In this task, the goal is to create the simplest possible program that is still considered "correct."
+RCFactorial.nrx|The Factorial Function of a positive integer, n, is defined as the product of the sequence n, n-1, n-2, ...1 and the factorial of zero, 0, is defined as being 1.
+RCFibonacciSeq.nrx|Write a function to generate the nth Fibonacci number. 
+RCFormattedNumericOutput.nrx|Express a number in decimal as a fixed-length string with leading zeros.
+RCFunctionDefinition.nrx|Write a definition of a function called "multiply" that takes two arguments and returns their product.
+RCGreatestElementOfList.nrx|Create a function that returns the maximum value in a provided set of values, where the number of values may not be known until runtime.
+RCGuessTheNumber.nrx|The task is to write a program where the program chooses a number between 1 and 10. A player is then prompted to enter a guess. If the player guess wrong then the prompt appears again until the guess is correct.
+RCHTTP.nrx|Access and print a URL's content (the located resource) to the console. There is a separate task for HTTPS Requests.
+RCHailstoneSequence.nrx|The Hailstone sequence of numbers
+RCHelloWorld_GraphicalAWT_01.nrx|In this User Output task, the goal is to display the string "Goodbye, World!" on a GUI object (alert box, plain window, text area, etc.).
+RCHelloWorld_GraphicalSwing_01.nrx|In this User Output task, the goal is to display the string "Goodbye, World!" on a GUI object (alert box, plain window, text area, etc.).
+RCHelloWorld_GraphicalSwing_02.nrx|In this User Output task, the goal is to display the string "Goodbye, World!" on a GUI object (alert box, plain window, text area, etc.).
+RCHelloWorld_stderr.nrx|Show how to print a message to standard error by printing "Goodbye, World!" on that stream.
+RCHostIntrospection.nrx|Print the word size and endianness of the host machine.
+RCHostName.nrx|Find the name of the host on which the routine is running.
+RCIncrementNumericalString.nrx|This task is about incrementing a numerical string.
+RCKnuthShuffle.nrx|Implement the Knuth shuffle (a.k.a. the Fisher-Yates shuffle) for an integer array (or, if possible, an array of any type). The Knuth shuffle is used to create a random permutation of an array.
+RCLeapYear.nrx|Determine whether a given year is a leap year in the Gregorian calendar.
+RCLoopMultipleArrays.nrx|Loop over multiple arrays (or lists or tuples or whatever they're called in your language) and print the ith element of each.
+RCLoopsBreak.nrx|Show a loop which prints random numbers (each number newly generated each loop) from 0 to 19 (inclusive). If a number is 10, stop the loop after printing it, and do not generate any further numbers.
+RCLoopsContinue.nrx|Show the following output using one loop. 1, 2, 3, 4, 5<br>6, 7, 8, 9, 10
+RCLoopsDoWhile.nrx|Start with a value at 0. Loop while value mod 6 is not equal to 0. Each time through the loop, add 1 to the value then print it. The loop must execute at least once.
+RCLoopsDownwardFor.nrx|Write a for loop which writes a countdown from 10 to 0.
+RCLoopsFor.nrx|show how two loops may be nested within each other, with the number of iterations performed by the inner for loop being controlled by the outer for loop. 
+RCLoopsForEach.nrx|Loop through and print each element in a collection in order. Use your language's "for each" loop if it has one, otherwise iterate through the collection in order with some other loop.
+RCLoopsForSpecStep.nrx|Demonstrate a for loop where the step value is greater than one.
+RCLoopsInfinite.nrx|Specifically print out "SPAM" followed by a newline in an infinite loop.
+RCLoopsNested.nrx|Show a nested loop which searches a two-dimensional array filled with random numbers uniformly distributed over [1,,,,20]
+RCLoopsNplusHalf.nrx|Quite often one needs loops which, in the last iteration, execute only part of the loop body. The goal of this task is to demonstrate the best way to do this.
+RCLoopsWhile.nrx|Start an integer value at 1024. Loop while it is greater than 0. Print the value (with a newline) and divide it by two each time through the loop.
+RCMD5.nrx|Encode a string using an MD5 algorithm.
+RCNthRoot.nrx|Implement the algorithm to compute the principal nth root  of a positive real number A.
+RCOrderedWords.nrx|find and display all the ordered words in a dictionary that have the longest word length.
+RCPalindrome.nrx|Write a method to check if a sequence of characters (or bytes) is a palindrome or not. 
+RCPangram01.nrx|A pangram is a sentence that contains all the letters of the English alphabet at least once, for example: The quick brown fox jumps over the lazy dog.
+RCPolymorphicCopy.nrx| let a polymorphic object contain an instance of some specific type S derived from a type T.
+RCPolymorphism.nrx|Create two classes Point(x,y) and Circle(x,y,r) with a polymorphic function print, accessors for (x,y,r), copy constructor, assignment and destructor and every possible default constructors
+RCPrimality.nrx|Write a boolean function that tells whether a given integer is prime. Remember that 1 and all non-positive numbers are not prime.
+Use trial division. Even numbers over two may be eliminated right away.
+RCPrimalityRexx.nrx|Write a boolean function that tells whether a given integer is prime. Remember that 1 and all non-positive numbers are not prime.
+Use trial division. Even numbers over two may be eliminated right away.
+RCQueue.nrx|Implement a FIFO queue. Elements are added at one side and popped from the other in the order of insertion.
+RCQueueUsage.nrx|Create a queue data structure and demonstrate its operations.
+RCQuine01.nrx|A Quine is a self-referential program that can, without any external access, output its own source.
+RCQuine01c.nrx|A Quine is a self-referential program that can, without any external access, output its own source.
+RCRepeatString.nrx|Take a string and repeat it some number of times. Example: repeat("ha", 5) => "hahahahaha"
+RCReverseString.nrx|Take a string and reverse it. For example, "asdf" becomes "fdsa".
+RCRomanDecode.nrx|Create a function that takes a Roman numeral as its argument and returns its value as a numeric decimal integer. You don't need to validate the form of the Roman numeral.
+RCRot13.nrx|Implement a "rot-13" function.
+RCSeiveOfEratosthenes.nrx|The Sieve of Eratosthenes is a simple algorithm that finds the prime numbers up to a given integer.
+RCSeiveOfEratosthenesRexx.nrx|The Sieve of Eratosthenes is a simple algorithm that finds the prime numbers up to a given integer.
+RCSortIntArray.nrx|Sort an array (or list) of integers in ascending numerical order. Use a sorting facility provided by the language/library if possible.
+RCSortIntArrayREXX01.nrx|Sort an array (or list) of integers in ascending numerical order. Use a sorting facility provided by the language/library if possible.
+RCSortIntArrayREXX02.nrx|Sort an array (or list) of integers in ascending numerical order. Use a sorting facility provided by the language/library if possible.
+RCSortStability.nrx|When sorting records in a table by a particular column or field, a stable sort will always retain the relative order of records that have the same key.
+RCSortingBogosort.nrx|Bogosort simply shuffles a collection randomly until it is sorted.
+RCSortingBubblesort01.nrx|The bubble sort is generally considered to be the simplest sorting algorithm. Because of its simplicity and ease of visualization, it is often taught in introductory computer science courses.
+RCSortingBubblesort02.nrx|The bubble sort is generally considered to be the simplest sorting algorithm. Because of its simplicity and ease of visualization, it is often taught in introductory computer science courses.
+RCSortingCocktailsort.nrx|The cocktail shaker sort is an improvement on the Bubble Sort.
+RCSortingCombsort.nrx|Like the Shell sort, the Comb Sort increases the gap used in comparisons and exchanges
+RCSortingCountingsort.nrx|Implement the Counting sort. This is a way of sorting integers when the minimum and maximum value are known.
+RCSortingGnomesort.nrx|Gnome sort is a sorting algorithm which is similar to Insertion sort, except that moving an element to its proper place is accomplished by a series of swaps.
+RCSortingHeapsort.nrx|Heapsort is an in-place sorting algorithm with worst case and average complexity of O(n logn).
+RCSortingInsertionsort.nrx|An O(n2) sorting algorithm which moves elements one at a time into the correct position. The algorithm consists of inserting one element at a time into the previously sorted part of the array, moving higher ranked elements up as necessary. 
+RCSortingMergesort.nrx|The merge sort is a recursive sort of order n*log(n). It is notable for having a worst case and average complexity of O(n*log(n)), and a best case complexity of O(n) (for pre-sorted input).
+RCSortingQuicksort.nrx|The task is to sort an array (or list) elements using the quicksort algorithm. The elements must have a strict weak order and the index of the array can be of any discrete type.
+RCSortingSelectionsort.nrx|In this task, the goal is to sort an array (or list) of elements using the Selection sort algorithm.
+RCSortingShellsort.nrx|In this task, the goal is to sort an array of elements using the Shell sort algorithm, a diminishing increment sort.
+RCSortingStoogesort.nrx|Show the Stooge Sort for an array of integers.
+RCSortingStrandsort.nrx|Implement the Strand sort. This is a way of sorting numbers by extracting shorter sequences of already sorted numbers from an unsorted list.
+RCSpecialVariables.nrx|Special variables have a predefined meaning within the programming language. The task is to list the special variables used within the language.
+RCStringCase.nrx|Take the string "alphaBETA", and demonstrate how to convert it to UPPER-CASE and lower-case.
+RCStringConcatenation.nrx|Create a string variable equal to any text value. Create another string variable whose value is the original variable concatenated with another string literal.
+RCStringInterp.nrx|Given a string and defined variables or values, string interpolation is the replacement of defined character sequences in the string by values or variable values.
+RCStringStrip.nrx|The task is to create a function that strips a set of characters from a string. The function should take two arguments: the first argument being a string to stripped and the second, a string containing the set of characters to be stripped.
+RCSubstring.nrx|display a substring.
+RCSumAndProductOfAnArray.nrx|Compute the sum and product of an array of integers.
+RCTestAFunction.nrx|Using a well known testing specific library/module/suite for your language, write some tests for your language's entry in Palindrome
+RCURLDecode.nrx|This task (the reverse of URL encoding) is to provide a function or mechanism to convert an URL-encoded string into its original unencoded form.
+RCVig01.nrx|Implement a Vigenère cypher, both encryption and decryption.
+RCWriteFloatArray.nrx|Write two equal-sized numerical arrays 'x' and 'y' to a two-column text file named 'filename'.
+RCXMLOutputDom.nrx|Create a simple DOM and having it serialize.
+RCXMLOutputStax.nrx|Create a function that takes a list of character names and a list of corresponding remarks and returns an XML document of <Character> elements each with a name attributes and each enclosing its remarks.
+RCYinYang.nrx|Create a function that given a variable representing size, generates a Yin and yang also known as a Taijitu symbol scaled to that size.
+RCZigZag.nrx|Produce a zig-zag array. A zig-zag array is a square arrangement of the first N2 integers, where the numbers increase sequentially as you zig-zag along the anti-diagonals of the array.
+SystemTime.nrx|Output the system time (any units will do as long as they are noted) either by a system command or one built into the language. The system time can be used for debugging, network information, random number seeds, or something as simple as program performance.
+ninetynineBottles.nrx|In this puzzle, write code to print out the entire "99 bottles of beer on the wall" song.
+nth_root.nrx|Implement the algorithm to compute the principal nth root  of a positive real number A
+termpgm.nrx|Show the syntax for a complete stoppage of a program inside a conditional. This includes all threads/processes which are part of your program.

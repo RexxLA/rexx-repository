@@ -1,0 +1,21 @@
+/*
+   filefiltertest - a sample program to display filenames matching any of a list of types - demonstrates an in-line FilenameFilter
+   
+   usage: java filtertest directory-name filetypes
+   example: java filtertest \backups png gif zip
+ */
+
+class filefiltertest implements FilenameFilter
+  
+  properties static
+  filter=""        --        file type filter list
+  
+  method accept(filedir=File,filename=String) returns boolean --method implements the FilenameFilter interface
+    return filter.pos(Rexx(filename).substr(Rexx(filename).lastpos('.')+1))>0
+    
+  method main($cmdin1=String[]) static;arg=Rexx($cmdin1)
+    parse arg directory filter
+    loop filename over File(directory).list(filtertest())
+      -- note passing of an instance of this class to java.io.File so it will call our filter method which cannot be static
+      say "found file ==>"filename
+    end

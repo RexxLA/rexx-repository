@@ -1,0 +1,30 @@
+-- testpipe.njp
+-- to compile use: pipe testpipe.njp
+-- to execute use: java testpipe some text
+
+class testpipe extends Object
+
+method testpipe(avar=Rexx)
+
+   F = Rexx 'abase'
+   T = Rexx 1
+
+   F[0]=5
+   F[1]=222
+   F[2]=3333
+   F[3]=1111
+   F[4]=55
+   F[5]=444
+
+   pipe (apipe stall 1000 -gen)
+        stem F | sort | prefix literal {avar} | console | stem T
+
+   loop i=1 to T[0]
+      say 'T['i']='T[i]
+   end
+
+method main(a=String[]) static
+
+   testpipe('This is a test')
+
+exit

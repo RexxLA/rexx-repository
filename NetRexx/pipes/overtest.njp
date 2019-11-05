@@ -1,0 +1,31 @@
+/* Generated from 'overtest.nrx' 19 May 1999 20:12:58 [v1.148] *//* Options: Decimal Logo Trace2 Verbose1 */
+/* note: this currently does not work, as invoking the java compiler changed. */
+/* it is not ruled out that we fix this in a future release */
+
+public class overtest{private static final java.lang.String $0="overtest.nrx";
+
+public overtest(netrexx.lang.Rexx arg) throws org.netrexx.njpipes.pipes.ThreadQ{super();netrexx.lang.Rexx a;netrexx.lang.Rexx b;overtest_overpipe p$njp1;
+
+a=netrexx.lang.Rexx.toRexx("abase");
+b=new netrexx.lang.Rexx(1);
+
+a.getnode(new netrexx.lang.Rexx((byte)0)).leaf=new netrexx.lang.Rexx((byte)5);
+a.getnode(netrexx.lang.Rexx.toRexx("test")).leaf=new netrexx.lang.Rexx((byte)11);
+a.getnode(new netrexx.lang.Rexx((byte)2)).leaf=new netrexx.lang.Rexx((short)222);
+a.getnode(new netrexx.lang.Rexx((byte)3)).leaf=new netrexx.lang.Rexx((short)3333);
+a.getnode(new netrexx.lang.Rexx((byte)4)).leaf=new netrexx.lang.Rexx((short)444);
+a.getnode(new netrexx.lang.Rexx((byte)5)).leaf=new netrexx.lang.Rexx((byte)55);
+
+b.getnode(netrexx.lang.Rexx.toRexx("fred")).leaf=netrexx.lang.Rexx.toRexx("Flintstone");
+b.getnode(netrexx.lang.Rexx.toRexx("barney")).leaf=netrexx.lang.Rexx.toRexx("Rubble");
+
+
+   pipe (overpipe end ?) var a | a: over b | b: faninany | console ? a: | b:
+
+}
+
+public static void main(java.lang.String a[]) throws org.netrexx.njpipes.pipes.ThreadQ{
+
+new overtest(new netrexx.lang.Rexx(a));
+
+{System.exit(0);return;}}}

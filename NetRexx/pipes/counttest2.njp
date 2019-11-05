@@ -1,0 +1,10 @@
+pipe (counttest2)
+
+   literal a1 b2Abc c3xyzqwe a2xyz  |
+   split |
+   count words |
+console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal 4 |
+compare:

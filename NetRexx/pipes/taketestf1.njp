@@ -1,0 +1,11 @@
+pipe (taketestf1)
+
+   literal 1 2 3 4 5 6 7 8 A B C D E F G H I J K L M N O P Q R S T |
+   literal a b c d e f g h i j |
+   take first 5 bytes |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   literal a b c |
+   split ; |
+   compare:

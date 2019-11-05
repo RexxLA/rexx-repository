@@ -1,0 +1,91 @@
+/* nrxbeans\sample\StopWatch.nrx
+
+   A stopwatch implemented using NetRexx beans */
+
+package nrxbeans.sample
+
+import nrxbeans.lab.       -- LED, Timer, Light    
+import java.beans.
+import Redbook.
+
+options binary
+
+class StopWatch extends Applet implements ActionListener, Serializable
+
+  properties constant
+    interval = int 100     -- 100 milliseconds (0.1 s)
+
+  properties private
+    counter = Rexx 0
+    led     = NrxLED()
+    timer   = NrxTimer()
+    light   = NrxLight()
+    start   = Button("Start")
+    stop    = Button("Stop")
+    reset   = Button("Reset")
+
+  method init()
+    setLayout(BorderLayout())
+    add("North", Label("This is a simple stopwatch:"))
+
+    led.setNumberOfDigits(11)
+    led.setText(formatTime(0))
+    light.setOnColor(Color.green)
+    light.setOffColor(Color.red)
+    centerPanel = Panel()
+    centerPanel.setLayout(FlowLayout())
+    centerPanel.add(led)
+    centerPanel.add(light)
+    add("Center", centerPanel)
+
+    stop.setEnabled(0)
+    start.addActionListener(this)
+    stop.addActionListener(this)
+    reset.addActionListener(this)
+
+    buttons = EqualSizePanel()
+    buttons.add(start)
+    buttons.add(stop)
+    buttons.add(reset)
+    add("South", buttons)
+
+    timer.setInterval(interval)   -- 0.1 seconds
+    timer.addActionListener(this)
+
+  method actionPerformed(evt = ActionEvent)
+    select 
+      when evt.getSource() = start then startTimer()
+      when evt.getSource() = stop  then stopTimer()
+      when evt.getSource() = reset then resetTimer()
+      when evt.getSource() = timer then
+        do
+           counter = counter + 1
+           led.setText(formatTime(counter))
+        end
+      otherwise nop -- we don't expect anything else
+    end
+
+  method formatTime(tsecs = int) returns String
+    hours = (Rexx (tsecs % 36000)).right(3, '0')
+    minutes = (Rexx ((tsecs // 36000) % 600)).right(2, '0')
+    seconds = (Rexx ((tsecs // 600) % 10)).right(2, '0')
+    tenths = Rexx tsecs // 10
+    return hours':'minutes':'seconds'.'tenths
+
+  method startTimer()
+    start.setEnabled(0)
+    reset.setEnabled(0)
+    stop.setEnabled(1)
+    light.switchLight()
+    timer.setEnabled(1)
+
+  method stopTimer()
+    timer.setEnabled(0)
+    light.switchLight()
+    stop.setEnabled(0)
+    start.setEnabled(1)
+    reset.setEnabled(1)
+
+  method resetTimer()
+    counter = 0
+    led.setText(formatTime(0))

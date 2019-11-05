@@ -1,0 +1,43 @@
+/* nrxbeans\lab\NrxCounter.nrx
+
+   A simple counter bean */
+
+package nrxbeans.lab
+
+import java.beans.
+
+class NrxCounter binary implements Serializable
+
+  properties private
+    changes = PropertyChangeSupport(this)
+
+  properties indirect
+    count = int 0
+    step  = int 1
+
+  -- constructor
+  method NrxCounter() public
+    super()
+
+  -- set methods for indirect properties
+  method setCount(_count = int) public
+    oldCount = count
+    count    = _count
+    changes.firePropertyChange("count", Integer(oldCount), Integer(count))
+
+  method setStep(_step = int) public
+    oldStep = step
+    step    = _step
+    changes.firePropertyChange("step", Integer(oldStep), Integer(step))
+
+  -- methods for property change event handling
+  method addPropertyChangeListener(l = PropertyChangeListener) public protect
+    changes.addPropertyChangeListener(l)
+
+  method removePropertyChangeListener(l = PropertyChangeListener) public protect
+    changes.removePropertyChangeListener(l)
+
+  -- public method do change the counter value
+  method changeCount() returns int
+    setCount(count + step)
+    return count

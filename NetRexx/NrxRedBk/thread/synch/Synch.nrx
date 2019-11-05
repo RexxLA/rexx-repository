@@ -1,0 +1,38 @@
+/* thread\synch\Synch.nrx - thread synchronization with locked object */
+
+theLock = MyLock()
+Thread(MyThread('T1', theLock)).start()
+Thread(MyThread('T2', theLock)).start()
+Thread(MyThread('T3', theLock)).start()
+
+class MyThread implements Runnable
+  properties inheritable
+    id
+    theLock = MyLock
+
+  method MyThread(_id, _theLock = MyLock)
+    id = _id
+    theLock = _theLock
+
+  method run()
+    loop for 3
+      say '---- Calling method OneAtaTime from' id
+      theLock.OneAtaTime(id)
+      say '---- Returned from method OneAtaTime to' id
+    end
+
+class MyLock
+  properties inheritable
+    lockout = 0
+
+  method OneAtaTime(id) protect
+    do
+      if lockout = 1 then wait()
+      lockout = 1
+      say '>>>> Lockout period started for' id
+      Thread.currentThread().sleep(1500)
+      say '<<<< Lockout period terminated for' id
+      lockout = 0
+      notify()
+    catch InterruptedException
+    end

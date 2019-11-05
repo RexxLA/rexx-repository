@@ -1,0 +1,9 @@
+/* file\Eof2.nrx */
+
+  source = DataInputStream(FileInputStream("test.dat"))
+  loop forever
+     textline = Rexx source.readLine()
+     say textline
+   catch NullPointerException          -- leave the loop when this happens
+     say 'Got EOF on NullPointer'
+  end

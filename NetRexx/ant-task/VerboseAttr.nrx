@@ -1,0 +1,35 @@
+package org.apache.tools.ant.taskdefs.optional
+
+import java.io.File
+import java.io.IOException
+import java.io.StringWriter
+import java.io.PrintWriter
+import java.io.StringReader
+import java.io.BufferedReader
+import java.util.Vector
+import java.util.Hashtable
+import java.util.Enumeration
+import java.util.Properties
+import java.util.StringTokenizer
+import netrexx.lang.Rexx
+import org.apache.tools.ant.BuildException
+import org.apache.tools.ant.DirectoryScanner
+import org.apache.tools.ant.Project
+import org.apache.tools.ant.taskdefs.MatchingTask
+import org.apache.tools.ant.types.EnumeratedAttribute
+import org.apache.tools.ant.taskdefs.
+import org.netrexx.
+
+class VerboseAttr extends EnumeratedAttribute
+
+  method getValues() returns String[]
+    strArray = String[9]
+    strArray[0] = "verbose"
+    strArray[1] = "verbose0"
+    strArray[3] = "verbose1"
+    strArray[4] = "verbose2"
+    strArray[5] = "verbose3"
+    strArray[6] = "verbose4"
+    strArray[7] = "verbose5"
+    strArray[8] = "noverbose"
+    return strArray

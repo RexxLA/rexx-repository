@@ -1,0 +1,53 @@
+/* redbook\gui\KeyCheck.nrx
+
+   KeyListener implementation which compares the key with a 
+   lookup string and translate the key to uppercase if necessary */
+
+package Redbook
+
+class KeyCheck extends KeyAdapter 
+
+  Properties constant public
+    ALL         = Rexx null
+    NUMERIC     = Rexx '0123456789'
+    ALPHA       = Rexx ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    ALPHANUM    = Rexx ALPHA||NUMERIC
+    HEXADECIMAL = Rexx '0123456789ABCDEF' 
+
+  Properties inheritable
+    mode        = Rexx
+    translate   = boolean 0
+
+  method KeyCheck(modeString=Rexx ALL, toUpperCase = boolean 1)
+    setMode(modeString,toUpperCase)
+
+  method keyTyped(e=KeyEvent)
+    key = Rexx e.getKeyChar()
+
+    if key.c2d() == KeyEvent.VK_BACK_SPACE then return
+
+    if translate then do
+       key = key.upper()
+       e.setKeyChar(key)
+    end
+
+    if mode \= null then 
+       if mode.pos(key) == 0 then do
+          e.consume
+          Toolkit.getDefaultToolkit().beep()
+       end
+
+  -- methods to change the current mode
+
+  -- change the lookup string
+  method setMode(newMode = Rexx)   
+    mode = newMode
+
+  -- change the translation
+  method setMode(toUpperCase = boolean)
+    translate = toUpperCase
+
+  -- change the lookup string and the translation
+  method setMode(newMode = Rexx, toUpperCase = boolean)
+    mode = newMode
+    translate = toUpperCase

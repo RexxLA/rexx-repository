@@ -1,0 +1,1 @@
+method term(i=Rexx) static returns rexx;return 1/i

@@ -1,0 +1,27 @@
+/* Oblong.nrx -- simple oblong class */
+class Oblong
+  
+  width       -- size (X dimension)
+  height      -- size (Y dimension)
+  
+  /* Constructor method to make a new oblong */
+  method Oblong(new_width, new_height)
+    -- when we get here, a new (uninitialized) object has been
+    -- created.  Copy the parameters we have been given to the
+    -- four properties of the object:
+    width=new_width; height=new_height
+    
+    /* Change the size of a Oblong */
+  method size(new_width, new_height) returns Oblong
+    width=new_width; height=new_height
+    return this   -- return the resized object
+    
+    /* Change the size of a Oblong, relatively */
+  method relsize(rel_width, rel_height) returns Oblong
+    width=width+rel_width; height=height+rel_height
+    return this
+    
+    /* 'Print' what we know about the oblong */
+  method print()
+    say 'Oblong' width 'x' height
+    

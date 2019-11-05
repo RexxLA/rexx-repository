@@ -1,0 +1,9 @@
+pipe (notinsidetest7)
+
+   literal first one,second one,third one,fourth one,first one,sixth one,seventh one,eighth one  |
+   split , |
+   notinside // 2 |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   compare:

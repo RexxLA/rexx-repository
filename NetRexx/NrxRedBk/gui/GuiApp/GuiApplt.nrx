@@ -1,0 +1,67 @@
+/* gui\guiapp\GuiApplt.nrx
+
+   First Simple NetRexx Application or Applet using same code */
+
+import java.text.               -- Needed for the SimpleDateFormat class
+
+class GuiApplt extends Applet
+
+  Properties inheritable static
+    guiobj = GuiApplt                       -- the instance
+    applic = byte 0                         -- applet
+
+  Properties inheritable
+    text1  = Label                          -- label text init/stop
+    text2  = Label                          -- label text start
+
+  method GuiApplt()                         -- constructor
+    super()
+
+  method main(args=String[]) public static  -- APPLICATION ONLY
+    applic = 1
+    guiobj = GuiApplt()                     -- creates the instance
+    window = Frame('Application or Applet') -- create a Frame window
+    window.setSize(210,100)                 -- set the size of the window
+    d = window.getToolkit().getScreenSize() -- center the window
+    s = window.getSize()
+    window.setLocation((d.width - s.width) % 2,(d.height - s.height)%2)
+    window.add("Center",guiobj)             -- add Applet to Frame
+    guiobj.init()                           -- init Applet
+    window.addWindowListener( CloseWindowAdapter() )  -- close event
+    window.setVisible(1)                    -- make window visible
+
+  method init()                             -- APPLET and APPLICATION
+    super.init()
+    this.setLayout(null)
+    f = SimpleDateFormat("H:mm:ss")         -- formats hours:minutes:seconds
+    text1 = Label("Init at:" f.format(Date()))
+    text2 = Label(" ")
+    this.add(text1)                         -- add the labels to the window
+    this.add(text2)
+    text1.setBounds(40,30,120,15)           -- and size them
+    text2.setBounds(40,50,120,15)
+
+  method start()                            -- APPLET ONLY
+    f = SimpleDateFormat("H:mm:ss")         -- change label text
+    text2.setText("Started at:" f.format(Date()))
+    super.start()
+
+  method stop                               -- APPLET ONLY
+    f = SimpleDateFormat("H:mm:ss")         -- change label text
+    text1.setText("Stopped at:" f.format(Date()))
+    super.stop()
+
+  method destroy                            -- APPLET and APPLICATION
+    super.destroy()
+    if applic = 1 then exit 0               -- end application
+
+/*-------------------------------------------------------------------------------
+  The CloseWindowAdapter exits the application when the window is closed.
+  WindowAdapter is an abstract class which implements a WindowListener interface.
+
+  The windowClosing() method is called when the window is closed.
+  -----------------------------------------------------------------------------*/
+
+class CloseWindowAdapter extends WindowAdapter
+  method windowClosing( e=WindowEvent )
+    GuiApplt.guiobj.destroy()

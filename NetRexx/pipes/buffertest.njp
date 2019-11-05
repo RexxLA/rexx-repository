@@ -1,0 +1,25 @@
+pipe (buffert1)
+
+   gen 100  |
+   rexx buffer |
+   locate /0/ |
+   console
+
+pipe (buffert2)
+
+   diskr buffer.data |
+   buffer 2 /==============0================/ |
+   console
+
+pipe (buffert3)
+
+   diskr buffer.data |
+   buffer |
+   console
+
+pipe (buffert4)
+
+   rexx from disk buffer.data |
+   buffer |
+   console
+

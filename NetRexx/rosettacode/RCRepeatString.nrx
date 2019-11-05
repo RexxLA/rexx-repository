@@ -1,0 +1,8 @@
+/* NetRexx */
+options replace format comments java symbols binary
+ 
+ha5 = 'ha'.copies(5)
+say ha5
+
+return
+

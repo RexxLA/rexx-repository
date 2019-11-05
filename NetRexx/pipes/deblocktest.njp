@@ -1,0 +1,60 @@
+pipe (deblockt01)
+   literal 12323\n4345\n456567\n678 |
+   literal 123\n234345\n456567\n678 |
+   deblock c |
+   console
+
+pipe (deblockt02)
+   literal 123 234 345.456 567 678 |
+   literal 123  234345456567  678 |
+   deblock string /45/ |
+   console
+
+pipe (deblockt03)
+   literal 123 234 345 456 567 678 |
+   literal 123 234 345 456 567 678 |
+   deblock fixed 10 |
+   console
+
+pipe (deblockt04)
+   literal 123 234 345 456 567 678 |
+   literal 123 234 345 456 567 678 |
+   deblock fixed 10 pad x |
+   console
+
+pipe (deblockt05 debug 8)
+   literal 12323\n4345\n456567\n678 |
+   literal 123\n234345\n45\r67\n678 |
+   deblock c eof 0d |
+   console
+
+pipe (deblockt06 debug 8)
+   literal 12323\n4345\n456567\n678 |
+   literal 123\n234345\n45\r67\n678 |
+   deblock c eof 0d terminate |
+   console
+
+pipe (deblockt07)
+   literal 12323\n4345\n456567\n678 |
+   literal 123\n234345\n45\r67\n678 |
+   deblock xxxx |
+   console
+
+pipe (deblockt08 debug 0)
+   literal 12323\n4345\n456567\n678 |
+   literal 123\n234345\n45\r67\n678 |
+   deblock c |
+   console
+
+pipe (deblockt09 debug 0 )
+   file stream tasktest.njp |
+   rexx to change ,\r\n,RN, |
+   fblock 60 |
+   console |
+   fileslow stream d.log
+
+pipe (deblockt10 debug 0 )
+   fileslow stream d.log |
+   deblock string /RN/ |
+   rexx to console
+

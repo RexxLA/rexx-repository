@@ -1,0 +1,11 @@
+pipe (outsidetest5)
+
+   literal first one,second one,third one,fourth one,fifth one,sixth one,seventh one,eighth one  |
+   split , |
+   outside /third/ 2 |
+console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal first one;second one;fifth one;sixth one;seventh one;eighth one; |
+split ; |
+compare:

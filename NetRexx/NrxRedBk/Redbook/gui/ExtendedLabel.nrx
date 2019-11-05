@@ -1,0 +1,176 @@
+/* redbook\gui\ExtendedLabel.nrx
+
+   An extended Label has the ability for multiple lines with
+   vertical and horizontal alignment.
+   The text of the extended Label is separated into lines.
+   The default separator character is '\n'.
+   The ExtendedLabel class is a 'lightweight' component */
+
+package Redbook
+
+class ExtendedLabel extends Component
+  Properties constant public
+    LEFT       = 0                -- alignment constants
+    RIGHT      = 1
+    CENTER     = 2
+    TOP        = 3
+    BOTTOM     = 4
+  Properties inheritable
+    text       = Rexx             -- indexed Rexx string for the lines
+    lines      = int 0            -- number of lines
+    halign     = int              -- horizontal alignment
+    valign     = int              -- vertical alignment
+    inset      = Insets(0,0,0, 0) -- Insets for the component
+    separator  = char '\n'        -- line separator
+    maxlength  = int 0            -- max. length of the component in pixel
+    lineLength = Rexx '0'         -- indexed Rexx string for length of the line
+    lineHeight = int              -- height of one line
+    lineDescent= int
+    lineAscent = int              -- ascent of the font
+    prefSize   = Dimension        -- preferred size of the label
+    doUpdate   = boolean 1        -- controls repainting
+
+  -- constructs the component with given insets (margins)
+  -- The lines are separated by '\n' characters in the string
+  method ExtendedLabel(ltext=Rexx,aInsets=Insets,-
+                       hor_align=int LEFT, ver_align=int TOP)
+    this(ltext,hor_align,ver_align)
+    inset = Insets aInsets.clone()
+
+  -- constructs the component without any insets
+  method ExtendedLabel(ltext=Rexx,hor_align=int LEFT, ver_align=int TOP)
+    text      = ltext
+    halign    = hor_align
+    valign    = ver_align
+    parseText()
+
+  -- sets the text of the label
+  method setText(ltext = String)
+    text = ltext
+    parseText()
+    calculateMetrics()
+    repaint()
+
+  -- sets the separator and reruns the separation of the text
+  method setSeparator(sep = char)
+    separator = sep
+    setText(text)           -- start the separation with the old string
+
+  -- sets the horizontal alignment method
+  method setHorizontalAlignment(align = int)
+    halign = align
+    repaint()
+
+  -- sets the vertical alignment method
+  method setVerticalAlignment(align = int)
+    valign = align
+    repaint()
+
+  -- returns the horizontal alignment method
+  method getHorizontalAlignment() returns int
+    return halign
+
+  -- returns the vertical alignment method
+  method getVerticalAlignment() returns int
+    return valign
+
+  -- sets the insets (margins) of the component
+  method setInsets( newInsets = Insets)
+    inset = Insets newInsets.clone()
+    repaint()
+
+  -- returns the insets (margins) of the component
+  method getInsets() returns Insets
+    return inset
+
+  -- invoked from layout managers to figure out the preferred size
+  method getPreferredSize() returns Dimension
+    return Dimension(maxlength + inset.left + inset.right,-
+                     lines * lineHeight + inset.top + inset.bottom)
+
+  -- invoked from layout managers to figure out the minimum size
+  method getMinimumSize() returns Dimension
+    return Dimension(maxlength, lines * lineHeight)
+
+  -- invoked when the component is created
+  -- after calling the super method font metrics are available
+  method addNotify()
+    super.addNotify()
+    calculateMetrics()
+
+  -- Sets the font and calculates the new metrics
+  method setFont(f = Font)
+    super.setFont(f)
+    calculateMetrics()
+    repaint()
+
+  -- Sets the text color, background has to be set by parent
+  method setForeground(c = Color)
+    super.setForeground(c)
+    repaint()
+
+  -- Prevents repainting if set to false
+  method setUpdate(b = boolean)
+    doUpdate = b
+    repaint()
+
+  -- internal method: extract the lines from the text string
+  method parseText() inheritable
+    ltext = text
+    loop line = 1 while ltext \= ''
+       parse ltext temp (separator) ltext
+       text[line] = temp
+    end
+    lines = line-1
+
+  -- internal method: calculate the current metrics of the component
+  method calculateMetrics() inheritable
+    fm = this.getFontMetrics(this.getFont())
+    if fm == null then return     -- no font metrics available
+    lineHeight = fm.getHeight()
+    lineDescent = fm.getDescent()
+    lineAscent = fm.getAscent()
+    maxLength = 0
+    loop line=1 for lines
+       lineLength[line] = fm.stringWidth(text[line])
+       if maxLength < lineLength[line] then maxLength = lineLength[line]
+    end
+    prefSize = getPreferredSize()
+
+  -- draw the entire extended label
+  method paint(g=Graphics)
+    if \doUpdate then return   -- no painting when forbidden
+    off = Insets inset.clone() -- offset for margins
+    d   = getSize()            -- returns a Dimension
+                               -- Check the size and remove the margins when necessary
+    if d.width < prefSize.width then do
+      off.left = 0; off.right = 0
+    end
+    if d.height < prefSize.height then do
+      off.top = 0; off.bottom=0
+    end
+                               -- calculate the y coordinate for the starting point
+    d.height = d.height - off.top - off.bottom
+    select
+      when valign = TOP    then ypos = lineAscent
+      when valign = BOTTOM then ypos = d.height - lineHeight * lines + lineAscent
+      otherwise
+        ypos = (d.height - lineHeight * lines) % 2 + lineAscent
+    end
+    ypos = ypos + off.top
+                               -- set the font and the color
+    g.setColor(getForeground())
+    g.setFont(getFont())
+                               -- draw the lines
+    loop i=1 for lines
+      select
+        when halign = LEFT then xpos = off.left
+        when halign = RIGHT then
+          xpos =  d.width - off.right - lineLength[i]
+        otherwise -- CENTER
+          xpos = (d.width - off.left - off.right - lineLength[i])%2 + -
+                 off.left
+      end
+      g.drawString(text[i],xpos,ypos)
+      ypos = ypos + lineHeight
+    end

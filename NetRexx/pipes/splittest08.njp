@@ -1,0 +1,10 @@
+pipe (splittest08)
+
+   literal NetRexx is intended as a dialect of Rexx that can be efficient and portable. |
+   split anyc anyo /r-t/ |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal Ne;exx is in;ended as a dialec; of;exx;ha; can be efficien; and po;able. |
+   split ; |
+   compare:

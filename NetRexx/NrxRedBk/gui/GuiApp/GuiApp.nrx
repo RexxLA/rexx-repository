@@ -1,0 +1,46 @@
+/* gui\guiapp\GuiApp.nrx
+
+   First Simple NetRexx Application */
+
+import java.text.               -- Needed for the SimpleDateFormat class
+
+class GuiApp
+  Properties inheritable
+    window = Frame
+
+  method main( args=String[] ) public static
+    GuiApp()  -- Creates an object of the GuiApp class and shows the window
+
+  method GuiApp()
+    -- Create a frame window
+    window = Frame('First GUI Application')
+
+    -- Set the size of the window
+    window.setSize(210,100)
+
+    -- Set the window position to the middle of the screen
+    d = window.getToolkit().getScreenSize()
+    s = window.getSize()
+    window.setLocation((d.width - s.width) % 2,(d.height - s.height)%2)
+
+    -- Add a label to the window. The label text is centered
+    f = SimpleDateFormat("H:mm:ss")     -- Formats hours:minutes:seconds
+    text = Label("Started at:" f.format(Date()),Label.CENTER)
+    window.add("Center",text)           -- Add the label to the window
+
+    -- add the window event listener to the window for close window events
+    window.addWindowListener( CloseWindowAdapter() )
+
+    -- show the window
+    window.setVisible(1)
+
+/*-------------------------------------------------------------------------------
+  The CloseWindowAdapter exits the application when the window is closed.
+  WindowAdapter is an abstract class which implements a WindowListener interface.
+
+  The windowClosing() method is called when the window is closed.
+  -----------------------------------------------------------------------------*/
+
+class CloseWindowAdapter extends WindowAdapter
+  method windowClosing( e=WindowEvent )
+    exit 0

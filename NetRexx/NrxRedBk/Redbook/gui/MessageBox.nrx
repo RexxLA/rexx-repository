@@ -1,0 +1,83 @@
+/* redbook\gui\MessageBox.nrx
+
+   Creates a nonresizable Messagebox.
+
+   If an image or image file is given the image is added on the left of the message.
+   The message is a multi-line message.
+   If a button text is specified, a button which closes the window is created. 
+   The messagebox is per default modal. */
+
+package Redbook
+
+class MessageBox extends RedbookDialog uses ExtendedLabel
+ Properties inheritable
+   img      = ImagePanel
+   extlabel = ExtendedLabel
+
+ -- creates a message box with an image loaded from a file 
+ -- the parent of the box is a frame window
+ method MessageBox(theParent = Frame,title = String, message = String,-
+                   imageFile = String, aButton = Button Button('Ok'))
+   super(theParent,1,title)
+   do
+     img = ImagePanel add('West',ImagePanel(imageFile,Insets(10,10,0,0)))
+   catch LoadImageException
+   end
+   initBox(message,aButton)
+
+ -- creates a message box with a given image 
+ -- the parent of the box is a frame window
+ method MessageBox(theParent = Frame,title = String, message = String,-
+                   anImage = Image, aButton = Button Button('Ok'))
+   super(theParent,1,title)
+   img = ImagePanel add('West',ImagePanel(anImage,Insets(10,10,0,0)))
+   initBox(message,aButton)
+
+ -- creates a message box without any image 
+ -- the parent of the box is a frame window
+ method MessageBox(theParent = Frame,title = String, message = String,-
+                   aButton = Button Button('Ok'))
+   super(theParent,1,title)
+   initBox(message,aButton)
+
+ -- creates a message box with an image loaded from a file 
+ -- the box looks for a parent frame window by it's own
+ method MessageBox(theParent = Component,title = String, message = String,-
+                   imageFile = String, aButton = Button Button('Ok')) -
+                   signals NoFrameWindow
+   super(theParent,1,title)
+   do
+     img = ImagePanel add('West',ImagePanel(imageFile,Insets(10,10,0,0)))
+   catch LoadImageException
+   end
+   initBox(message,aButton)
+
+ -- creates a message box with a given image
+ -- the box looks for a parent frame window on its own
+ method MessageBox(theParent = Component,title = String, message = String,-
+                   anImage = Image, aButton = Button Button('Ok')) -
+                   signals NoFrameWindow
+   super(theParent,1,title)
+   img = ImagePanel add('West',ImagePanel(anImage,Insets(10,10,0,0)))
+   initBox(message,aButton)
+
+ -- creates a message box without any image
+ -- the box looks for a parent frame window on its own
+ method MessageBox(theParent = Component,title = String, message = String,-
+                   aButton = Button Button('Ok')) signals NoFrameWindow
+   super(theParent,1,title)
+   initBox(message,aButton)
+
+ -- intitialize the message box
+ method initBox(message = Rexx,aButton = Button) inheritable
+   if img \= null then in = Insets(10,5,0,10)
+                  else in = Insets(10,10,0,10)
+   extLabel = ExtendedLabel add('Center',ExtendedLabel(message,in,LEFT,CENTER))
+
+   if aButton \= null then do
+     aButton.addActionListener(super.ws.getCloseWindow())
+     super.buttons.add(aButton)
+   end
+
+   add('South',super.buttons)
+   setResizable(0)

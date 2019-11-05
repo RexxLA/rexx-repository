@@ -1,0 +1,5 @@
+LIBRARY rexxapi2
+EXPORTS
+  APILOADFUNCS = ApiLoadFuncs
+  APIDEREGFUNC = ApiDeregFunc
+  API_FILL_REXX_VARIABLE_POOL = Api_Fill_REXX_Variable_Pool

@@ -1,0 +1,74 @@
+/* jdbc\JdbcQry.nrx
+
+   This NetRexx program demonstrate DB2 query using the JDBC API.
+   Usage: Java JdbcQry [<DB-URL>] [<userprefix>] */
+
+import java.sql.
+
+parse arg url prefix                   -- process arguments
+if url = '' then
+  url = 'jdbc:db2:sample'
+else do                                -- check for correct URL
+  parse url p1 ':' p2 ':' rest
+  if p1 \= 'jdbc' | p2 \= 'db2' | rest = '' then do
+    say 'Usage: java JdbcQry [<DB-URL>] [<userprefix>]'
+    exit 8
+  end
+end
+if prefix = '' then prefix = 'userid'
+
+do                                     -- loading DB2 support
+  say 'Loading DB2 driver classes...'
+  Class.forName('COM.ibm.db2.jdbc.app.DB2Driver').newInstance()
+  -- Class.forName('COM.ibm.db2.jdbc.net.DB2Driver').newInstance()
+catch e1 = Exception
+  say 'The DB2 driver classes could not be found and loaded !'
+  say 'Exception (' e1 ') caught : \n' e1.getMessage()
+  exit 1
+end                                    -- end : loading DB2 support
+
+do                                     -- connecting to DB2 host
+  say 'Connecting to:' url
+  jdbcCon = Connection DriverManager.getConnection(url, 'userid', 'password')
+catch e2 = SQLException
+  say 'SQLException(s) caught while connecting !'
+  loop while (e2 \= null)
+    say 'SQLState:' e2.getSQLState()
+    say 'Message: ' e2.getMessage()
+    say 'Vendor:  ' e2.getErrorCode()
+    say
+    e2 = e2.getNextException()
+  end
+  exit 1
+end                                    -- end : connecting to DB2 host
+
+do                                     -- get list of departments with the managers
+  say 'Creating query...'
+  query = 'SELECT deptno, deptname, lastname, firstnme' -
+          'FROM' prefix'.DEPARTMENT dep,' prefix'.EMPLOYEE emp'-
+          'WHERE dep.mgrno=emp.empno ORDER BY dep.deptno'
+  stmt = Statement jdbcCon.createStatement()
+  say 'Executing query:' 
+  loop i=0 to (query.length()-1)%75
+    say '   ' query.substr(i*75+1,75)  
+  end
+  rs = ResultSet stmt.executeQuery(query)
+  say 'Results:'
+  loop row=0 while rs.next()
+    say rs.getString('deptno') rs.getString('deptname') -
+		     'is directed by' rs.getString('lastname') rs.getString('firstnme')
+  end
+  rs.close()                           -- close the ResultSet
+  stmt.close()                         -- close the Statement
+  jdbcCon.close()                      -- close the Connection
+  say 'Retrieved' row 'departments.'
+catch e3 = SQLException
+  say 'SQLException(s) caught !'
+  loop while (e3 \= null)
+    say 'SQLState:' e3.getSQLState()
+    say 'Message: ' e3.getMessage()
+    say 'Vendor:  ' e3.getErrorCode()
+    say
+    e3 = e3.getNextException()
+  end
+end                                    -- end: get list of departments

@@ -1,0 +1,24 @@
+/* network\url\GetHead.nrx
+
+   Client HTTP program, gets header information for an URL:
+   Usage: Java GetHead URLstring */
+
+parse arg 'http://' server '/' document  -- separate server from document
+document = '/' || document               -- document needs to start with slash
+parse server server ':' port             -- separate port number from server
+if port = '' then port = 80              -- use default HTTP port if not specified
+
+mySocket = Socket(server, port)          -- create socket connection
+out = BufferedWriter(OutputStreamWriter(mySocket.getOutputStream()))
+in = BufferedReader(InputStreamReader(mySocket.getInputStream()))
+
+request = 'HEAD' document 'HTTP/1.0\r\n\r\n'
+out.write(request, 0, request.length())
+out.flush()
+
+say 'Response to HEAD request:'
+line = String in.readLine()
+loop while line \= null
+  say '   ' line
+  line = in.readLine()
+end

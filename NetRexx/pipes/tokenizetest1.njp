@@ -1,0 +1,11 @@
+pipe (tokenizetest1)
+
+   literal near[1]= just gone; near[2]= just after |
+   literal apples = bananas(cherries+dates) |
+   tokenize /()=+[];/ @between lines.@ |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   literal apples@=@bananas@(@cherries@+@dates@)@between lines.@near@[@1@]@=@just@gone@;@near@[@2@]@=@just@after@between lines. |
+   split @ |
+   compare:

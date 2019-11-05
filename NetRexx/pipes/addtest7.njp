@@ -1,0 +1,26 @@
+-- n-o take over output
+
+pipe (addt7) gen 10 | addtest7 | console
+
+import org.netrexx.njpipes.pipes.
+class addtest7 extends stage final
+
+method run() public
+
+   say 'n-o : 1, 2, .. 5'
+   do
+      addpipe (addpt7) gen 5 | *out0:
+
+      loop forever
+         line = peekto()
+         output(line'a')
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+   say 'Ending 'rc
+
+exit(rc*(rc<>12))

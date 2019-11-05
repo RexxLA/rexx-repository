@@ -1,0 +1,55 @@
+/* A sample graphics stand-alone application for the Java 1.1 platform. */
+/* This draws a spectrum in a frame window on the screen, using an
+   off-screen image to hold the current picture.  The Java 1.1 event
+   model is used to handle the windowClosing event. */
+
+options binary                     -- optional, for speed
+
+class Spectrum adapter extends Frame implements WindowListener
+
+  properties constant
+    mywidth=200                    -- our shape
+    myheight=300                   -- ..
+    glass=Toolkit.getDefaultToolkit.getScreenSize -- screen geometry
+
+  properties private
+    shadow=Image                   -- where we'll build the image
+
+  /* The 'main' method is called when this class is started as an application */
+  method main(s=String[]) static
+    frame=Spectrum("My Spectrum" Rexx(s))         -- make a titled frame
+    -- now size and place it mid-screen
+    frame.setBounds((glass.width-mywidth)%2,(glass.height-myheight)%2,-
+                    mywidth, myheight)
+    frame.show                                    -- and make it visible
+
+  /* The constructor for Spectrum passes the title to our superclass,
+     and requests that we be told about Window events */
+  method Spectrum(s=String)
+    super(s)
+    addWindowListener(this)
+
+  /* update -- called when the display content needs updating */
+  method update(g=Graphics)
+    shadow=createImage(getSize.width, getSize.height)  -- make new image
+    d=shadow.getGraphics                          -- context for graphics
+    maxx=getSize.width-1
+    maxy=getSize.height-1
+    loop y=0 to maxy
+      col=Color.getHSBColor(y/maxy, 1, 1)         -- select a colour
+      d.setColor(col)                             -- set it
+      d.drawLine(0, y, maxx, y)                   -- and fill a slice
+    end y
+    paint(g)                                      -- paint to screen
+
+  /* paint -- called when the window needs to be redrawn, either by
+     update or when a window is uncovered */
+  method paint(g=Graphics)
+    if shadow=null then update(g)                 -- (no image yet)
+    g.drawImage(shadow, 0, 0, this) -- copy to screen
+
+  /* windowClosing -- called when the window is closed.
+     We need to handle this to end the program. */
+  method windowClosing(e=WindowEvent)
+    exit
+

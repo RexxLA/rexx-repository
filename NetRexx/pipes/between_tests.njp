@@ -1,0 +1,134 @@
+-- between_tests
+
+/**
+
+>>--BETWEEN--+-------------+--delimitedString--+--number---------+---><-
+             +-ANYcase-(1)-+                   +-delimitedString-+
+
+ (1) CASEANY, CASEIGNORE, CASELESS, and IGNORECASE are all synonyms for ANYCASE.
+
+*/
+
+
+-- 19/09/16
+
+/*
+--  The 99/05/09 version of between.nrx does not cover CASELESS.  It causes a Deadlock.  ?
+--  And has problems with CASEIGNORE and IGNORECASE.
+--  The 19/09/16 version fixes all these.
+*/
+
+pipe (between_tests)
+
+ o: faninany |
+    sort |
+    specs 2-* 1 |
+    console ?
+
+--  between /string/ /string/ ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between /fourth/ /sixth/ |
+   c1: compare any ~2# 1 between /string/ /string/ ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal fourth one;fifth one;sixth one; |
+   split ; |
+   c1: ?
+
+-- between anycase /string1/ /string2/ ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between anycase /FourtH/ /sixth/ |
+   c2: compare any ~2# 2 between anycase /string1/ /string2/~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal fourth one;fifth one;sixth one; |
+   split ; |
+   c2: ?
+
+-- between anycase /string/ number ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between anycase /tHird/ 2 |
+   c3: compare any ~2# 3 between anycase /string/ number~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal third one;fourth one; |
+   split ; |
+   c3: ?
+
+-- between /string/ number (none) ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between /tHird/ 2 |
+   c4: compare any ~2# 4 between /string/ number (none)~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   c4: ?
+
+-- between /string/ number ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between /third/ 2 |
+   c5: compare any ~2# 5 between /string/ number~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal third one;fourth one; |
+   split ; |
+   c5: ?
+
+-- between /string/ number (multi) ?
+   literal first one;second one;third one;fourth one;first one;sixth one;seventh one;eighth one  |
+   split ; |
+   between /first/ 2 |
+   c6: compare any ~2# 6 between /string/ number (multi)~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal first one;second one;first one;sixth one; |
+   split ; |
+   c6: ?
+
+-- between // number ?
+   literal first one;second one;third one;fourth one;first one;sixth one;seventh one;eighth one  |
+   split ; |
+   between // 2 |
+   c7: compare any ~2# 7 between // number ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal first one;second one;third one;fourth one;first one;sixth one;seventh one;eighth one; |
+   split ; |
+   c7: ?
+
+-- between caseany /string/ number  ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between caseany /tHird/ 2 |
+   c8: compare any ~2# 8 between caseany /string/ number ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal third one;fourth one; |
+   split ; |
+   c8: ?
+
+--  between caseignore /string/ number ?
+    literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+    split ; |
+    between caseignore /tHird/ 2 |
+    c9: compare any ~2# 9 between caseignore /string/ number ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+    o: ?
+    literal third one;fourth one; |
+    split ; |
+    c9: ?
+
+-- between caseless /string/ number (between_new) ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between_new caseless /tHird/ 2 |
+   c10: compare any ~2#10 between caseless /string/ number (between_new) ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal third one;fourth one; |
+   split ; |
+   c10: ?
+
+-- between ignorecase /string/ number (between_new) ?
+   literal first one;second one;third one;fourth one;fifth one;sixth one;seventh one;eighth one  |
+   split ; |
+   between_new ignorecase /tHird/ 2 |
+   c11: compare any ~2#11 between ignorecase /string/ number (between_new) ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal third one;fourth one; |
+   split ; |
+   c11: ?

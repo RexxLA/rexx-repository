@@ -1,0 +1,62 @@
+import java.sql.Timestamp
+import org.eclipse.paho.client.mqttv3.
+
+class Publish implements MqttCallback
+  
+  method Publish()
+    conOpt    = MqttConnectOptions()
+    conOpt.setCleanSession(0)
+    tmpDir    = System.getProperty("java.io.tmpdir")
+    dataStore = MqttDefaultFilePersistence(tmpDir)
+    clientId  = MqttClient.generateClientId()
+    topicName = "/world"
+    payload   = "hello".toString().getBytes()
+    qos	      = 2    
+
+    do
+      broker	= "localhost"
+      port	= "1883"
+      brokerUrl	= "tcp://"broker":"port
+      client	= MqttClient(brokerUrl,clientId, dataStore)
+      client.setCallback(this)
+    catch e=mqttException
+      say e.getMessage()
+      e.printStackTrace()
+    end -- do
+
+    client.connect()
+    log("Connected to "brokerUrl" with client ID "client.getClientId())
+
+    -- Get an instance of the topic
+    topic = client.getTopic(topicName)
+    
+    message = MqttMessage(payload)
+    message.setQos(qos)
+	
+    -- Publish the message
+    time = Timestamp(System.currentTimeMillis()).toString()
+    log('Publishing at: 'time' to topic "'topicName'" with qos 'qos)
+    token = topic.publish(message)
+    
+    -- Wait until the message has been delivered to the server
+    token.waitForCompletion()
+    
+    -- Disconnect the client
+    client.disconnect()
+    log("Disconnected")
+  
+
+  method log(line)
+    say line
+    
+  method messageArrived(t=String,m=MqttMessage)
+    log("Message Arrived: " t m)
+    
+  method deliveryComplete(t=IMqttDeliveryToken)
+    log("Delivery Complete: " t)
+
+  method connectionLost(t=Throwable)
+    log("Connection Lost:" t.getMessage())
+
+  method main(args=String[]) static
+    Publish()

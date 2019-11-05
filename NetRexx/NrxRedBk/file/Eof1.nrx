@@ -1,0 +1,8 @@
+/* file\Eof1.nrx */
+
+  source = BufferedReader(FileReader("test.dat"))
+  loop forever
+     textline = source.readLine
+     if textline = null then leave
+     say textline
+  end

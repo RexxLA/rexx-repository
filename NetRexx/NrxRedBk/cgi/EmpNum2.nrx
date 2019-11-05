@@ -1,0 +1,112 @@
+/* cgi\EmpNum2.nrx
+
+   NetRexx CGI program for DB2:  Employee by number (using POST) */
+
+   import java.sql.
+
+Class EmpNum2
+
+/*-------------------------- variables ------------------------------*/
+properties static
+  prefix    = Rexx 'USERID'              -- table prefix
+  con       = Connection                 -- DB2 connection
+  driver    = String "COM.ibm.db2.jdbc.net.DB2Driver"
+  --driver  = String "COM.ibm.db2.jdbc.app.DB2Driver"
+  url       = String "jdbc:db2:/loopback:8888/sample"
+  --url     = String "jdbc:db2:sample"
+  empno     = String
+
+/*-------------------------- main -----------------------------------*/
+method main(args=String[]) static
+  args = args
+  say 'Content-Type: text/html'                    -- special lines
+  say ''
+  say '<html>'                                    -- start HTML
+  say '<head><title>Employee Information</title></head>'
+  say '<body>'
+  say '<H2>Employee Data</H2>'
+  say '<br> Program:' System.getProperty('SCRIPT_NAME') -
+       'query length' System.getProperty('CONTENT_LENGTH')
+
+  -- read the posted data (it is in one line)
+  list = BufferedReader(InputStreamReader(System.in)).readLine()
+  -- list = queryTranslate(list)                  -- not necessary here
+  parse list 'number=' empno ' '
+
+  jdbcConnect()                                   -- JDBC connect to DB2
+  performRetrieve()                               -- DB2 SQL
+
+  say '</body>'                                   -- end HTML
+  say '</html>'
+  return
+
+/*-------------------------- JDBC Connect ---------------------------*/
+method jdbcConnect() private static
+  do
+      Class.forName(driver)
+      con = Connection DriverManager.getConnection(url,"userid","password")
+      if con.getWarnings() \= null then do
+         say '<p> JDBC driver:' driver
+         say '<br>Connection :' url
+         say '<p> Error' con.getWarnings().getMessage()
+         return
+      end
+
+    catch ex=SQLException
+      say "<p> *** SQLException caught ***"
+      say '<br>' ex.getMessage()
+      loop while (ex \= null)
+         say "<br>SQLState:" ex.getSQLState()
+         say "<br>Message: " ex.getMessage()
+         say "<br>Vendor:  " ex.getErrorCode()
+         ex = ex.getNextException()
+         say "<br>"
+      end
+    catch ex2=java.lang.Exception
+                     -- Got some other type of exception.  Dump it.
+      say '<p> Error:' ex2.getMessage()
+      ex2.printStackTrace()
+  end
+  return 
+
+/*-------------------------- retrieve employee -----------------------*/
+method performRetrieve() private static
+
+  say '<br> Retrieving employee:' empno
+  do                                                       -- DB2
+      query = "SELECT empno, firstnme, midinit, lastname," -
+                     "phoneno, sex, birthdate, hiredate, job, edlevel," -
+                     "salary, bonus, comm, workdept" -
+               "FROM" prefix".employee" -
+               "WHERE empno = '"empno"'"  
+      stmt = Statement con.createStatement()
+      rs = ResultSet stmt.executeQuery(query)
+      more = boolean rs.next()
+      say '<pre>'
+      loop row=0 by 1 while (more)
+         say '<p>' 
+         say ' Emp-num  :' rs.getString('empno')
+         say ' Name     :' rs.getString('firstnme') rs.getString('midinit') -
+                              rs.getString('lastname')
+         say ' Phone    :' rs.getString('phoneno') 
+         say ' Sex      :' rs.getString('sex')
+         say ' Birthdate:' rs.getString('birthdate')
+         say ' Hiredate :' rs.getString('hiredate')
+         say ' Job      :' rs.getString('job')
+         say ' Educ-lev :' rs.getString('edlevel')
+         say ' Salary   :' rs.getString('salary')
+         say ' Bonus    :' rs.getString('bonus')
+         say ' Commiss  :' rs.getString('comm')
+         if rs.getString('workdept') \= null then
+         say ' Dept     :' rs.getString('workdept')
+         more = rs.next()
+      end
+      say '</pre>'
+      rs.close()                                -- close the result set
+      stmt.close()                              -- close the statement 
+      if row=0 then say '<p> Employee' empno 'not found'
+
+    catch ex=SQLException
+      say '<p> Error:' ex.getMessage()
+  end
+-- end EmpNum

@@ -1,0 +1,55 @@
+/* file\FileInfo.nrx
+
+   Display file/directory/path information */
+
+   parse arg fileName .
+   if fileName = "" then do
+      say "Enter file or directory name to test ?"
+      filename = ask
+   end
+    f1 = File(fileName)                       -- create file object
+   if f1.exists() = 0 then do
+      say 'File:' filename 'does not exist.'
+      exit 8
+   end
+
+   say "System related information ----------------------"
+   say "  pathSeparator     :" f1.pathSeparator        -- these are not methods
+   say "  pathSeparatorChar :" f1.pathSeparatorChar    -- they are public
+   say "  separator         :" f1.separator            --          static
+   say "  separatorChar     :" f1.SeparatorChar        --          class variables
+   say 
+   say "File/directory related information --------------"
+   say "  canRead           :" f1.canRead()
+   say "  canWrite          :" f1.canWrite()
+   say "  isDirectory       :" f1.isDirectory()
+   say "  isFile            :" f1.isFile()
+   say "  length            :" f1.length()
+   say "  lastModified      :" f1.lastModified() "=" Date(f1.lastModified())
+   say "  isAbsolute        :" f1.isAbsolute()
+   say "  getAbsolutePath   :" f1.getAbsolutePath()
+   say "  getCanonicalPath  :" f1.getCanonicalPath()
+   say "  getPath           :" f1.getPath()
+
+   parent1 = f1.getParent()
+   if parent1 = null then parent1 = "null returned"
+   say "  getParent         :" parent1
+   say "  getName           :" f1.getName()
+   say "  toString          :" f1.toString()
+   say "  hashCode          :" f1.hashCode()
+
+   if f1.isDirectory() then do
+     say
+     say "List of this directory ---------------------------\n"
+     list1 = f1.list()
+     if list1.length = 0
+        then say "  directory is empty"
+        else
+          loop i = 0 to list1.length -1
+             f2 = File(f1.getAbsolutePath()''f1.separator''list1[i])
+             if f2.isDirectory() then say "  Dir :" list1[i]
+                                 else say "  File:" list1[i]
+          end
+   end
+   say "\n-------------------------------------------------"
+   -- end fileinfo 

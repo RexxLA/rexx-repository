@@ -1,0 +1,11 @@
+pipe (buildtests end ? debug 72)
+
+   rexx from command cmd /C dir /B *.class |
+   nlocate /_/ |
+   change /.class// |
+a: not lookup detail |
+   specs /java -nojit / 1 1-* next |
+   disk test.cmd ?
+   disk manual.data |
+   a:
+

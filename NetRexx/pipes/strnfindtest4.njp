@@ -1,0 +1,12 @@
+pipe (strnfindtest4)
+
+   literal a1cx b2dx a3dx b4cx A5dx b6xx  |
+   split |
+   a: strnfind anycase / 2/ |
+   hole |
+   a: |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   literal b2dx |
+   compare:

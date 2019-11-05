@@ -1,0 +1,684 @@
+package org.apache.tools.ant.taskdefs.optional
+/**
+ * Rewrite of the optional ANT task (originally by dIon Gillard) NetRexxc in NetRexx.
+ * @author Rene Vincent Jansen <a href="mailto:rvjansen@xs4all.nl">rvjansen@xs4all.nl</a>
+ * @author Arjan Bos <a href="mailto:arjan.bos@zaaf.nl">arjan.bos@zaaf.nl</a>
+ * @author Kermit Kiser <a href="mailto:infire@kenai.com">infire@kenai.com</a> 
+ * (ported to netrexx code, since it seemed a bit silly to have a netrexx
+ * compile task written in java instead of in netrexx)
+ * compiling this only needs ant.jar and NetRexxC.jar on the classpath.
+ */
+
+import java.io.File
+import java.io.IOException
+import java.io.StringWriter
+import java.io.PrintWriter
+import java.io.StringReader
+import java.io.BufferedReader
+import java.util.Vector
+import java.util.Hashtable
+import java.util.Enumeration
+import java.util.Properties
+import java.util.StringTokenizer
+import netrexx.lang.Rexx
+import org.apache.tools.ant.BuildException
+import org.apache.tools.ant.DirectoryScanner
+import org.apache.tools.ant.Project
+import org.apache.tools.ant.taskdefs.MatchingTask
+import org.apache.tools.ant.types.EnumeratedAttribute
+import org.apache.tools.ant.types.Reference
+import org.apache.tools.ant.types.Path
+import org.apache.tools.ant.taskdefs.
+import org.netrexx.
+/**
+ * Compiles NetRexx source files.
+ * This task can take the following
+ * arguments:
+ * <ul>
+ * <li>binary</li>
+ * <li>classpath</li>
+ * <li>comments</li>
+ * <li>compile</li>
+ * <li>console</li>
+ * <li>crossref</li>
+ * <li>decimal</li>
+ * <li>destdir</li>
+ * <li>diag</li>
+ * <li>explicit</li>
+ * <li>format</li>
+ * <li>keep</li>
+ * <li>logo</li>
+ * <li>replace</li>
+ * <li>savelog</li>
+ * <li>srcdir</li>
+ * <li>sourcedir</li>
+ * <li>strictargs</li>
+ * <li>strictassign</li>
+ * <li>strictcase</li>
+ * <li>strictimport</li>
+ * <li>symbols</li>
+ * <li>time</li>
+ * <li>trace</li>
+ * <li>utf8</li>
+ * <li>verbose</li>
+ * <li>suppressMethodArgumentNotUsed</li>
+ * <li>suppressPrivatePropertyNotUsed</li>
+ * <li>suppressVariableNotUsed</li>
+ * <li>suppressExceptionNotSignalled</li>
+ * <li>suppressDeprecation</li>
+ * <li>removeKeepExtension</li>
+ * </ul>
+ * Of these arguments, the <b>srcdir</b> argument is required.
+ *
+ * <p>When this task executes, it will recursively scan the srcdir
+ * looking for NetRexx source files to compile. This task makes its
+ * compile decision based on timestamp.
+ * <p>Before files are compiled they and any other file in the
+ * srcdir will be copied to the destdir allowing support files to be
+ * located properly in the classpath. The reason for copying the source files
+ * before the compile is that NetRexxC has only two destinations for classfiles:
+ * <ol>
+ * <li>The current directory, and,</li>
+ * <li>The directory the source is in (see sourcedir option)
+ * </ol>
+ *
+ * Kermit Kiser 20110904 - updated to fix errors, add missing code from Apache version, 
+ *   use main2 entry to handle file names with spaces, add nested classpath support.
+ */
+
+class NetRexxC extends MatchingTask
+
+  properties indirect
+  binary       = boolean
+
+  comments     = boolean
+  compact      = boolean 0
+  compile      = boolean 1
+  console      = boolean
+  crossref     = boolean
+  decimal      = boolean 1
+  destDir      = File
+  diag	       = boolean
+  explicit     = boolean
+  format       = boolean
+  java_	       = boolean
+  keep	       = boolean
+  logo	       = boolean 1
+  replace      = boolean
+  savelog      = boolean
+  srcDir       = File
+  sourcedir    = boolean 1 -- Should this be the default for ant?
+  strictargs   = boolean
+  strictassign = boolean
+  strictcase   = boolean
+  strictimport = boolean
+  strictprops  = boolean
+  strictsignal = boolean
+  symbols      = boolean
+  time	       = boolean
+  utf8	       = boolean
+  suppressMethodArgumentNotUsed	 = boolean 0
+  suppressPrivatePropertynotUsed = boolean 0
+  suppressVariableNotUsed	 = boolean 0
+  suppressExceptionNotSignalled	 = boolean 0
+  suppressDeprecation		 = boolean 0
+  removeKeepExtension		 = boolean 0
+  /* other implementation variables */
+  compileList  = Vector()
+  filecopyList = Hashtable()
+  oldClasspath = System.getProperty("java.class.path")
+
+  /* properties that need an extra setter method 
+   */
+  
+  properties private
+  trace_       =  String "trace2"
+  verbose     =  String "verbose3"
+  compileClasspath = Path
+  classpath    = String
+  
+  /* Constants for the messages to suppress by flags and their corresponding
+   * propperties.
+   */
+  properties static 
+  MSG_METHOD_ARGUMENT_NOT_USED	= String "Warning: Method argument is not used"
+  MSG_PRIVATE_PROPERTY_NOT_USED	= String "Warning: Private property is defined but not used"
+  MSG_VARIABLE_NOT_USED		= String "Warning: Variable is set but not used"
+  MSG_EXCEPTION_NOT_SIGNALLED	= String "is in SIGNALS list but is not signalled within the method"
+  MSG_DEPRICATION		= String "has been deprecated"
+
+     /**
+     * Set the classpath to be used for this compilation.
+     *
+     * @param classpath an Ant Path object containing the compilation classpath.
+     */
+    method setClasspath(superclasspath=Path) 
+        if (compileClasspath = null) then compileClasspath = superclasspath
+        	else compileClasspath.append(superclasspath)
+ 
+  /**
+   * Gets the classpath to be used for this compilation.
+   * @return the class path
+   */
+  method getClasspath() returns Path
+    return compileClasspath
+    
+  /**
+   * Adds a path to the classpath.
+   * @return a class path to be configured
+   */
+  method createClasspath() returns Path
+    if (compileClasspath = null) then compileClasspath = Path(getProject())
+    return compileClasspath.createPath()
+    
+  /**
+   * Adds a reference to a classpath defined elsewhere.
+   * @param r a reference to a classpath
+   */
+  method setClasspathRef(r=Reference)
+    createClasspath().setRefid(r)
+    
+    -----------------------------------------------
+    
+  method setClasspath(cp=String)
+    classpath = cp
+    
+    
+  /**
+   * Set whether the NetRexx compiler should compile the generated java code
+   * Valid true values are "on" or "true". Anything else sets the flag to
+   * false. The default value is true. Setting this flag to false, will
+   * automatically set the keep flag to true.
+   */
+  method setCompile(compile_ = boolean) 
+    this.compile = compile_;
+    if \(this.compile | this.keep) then
+      this.keep = 1
+    return
+
+  method setTrace(t = String)
+    this.trace_ = t
+    return
+    
+  method setTrace(t = TraceAttr)
+    this.trace_ = t.getValue()
+    return
+
+  method setVerbose(v = String)
+    this.verbose = v
+    
+  method setVerbose(v = VerboseAttr)
+    this.setVerbose(v.getValue())
+    return
+
+  method setJava(b = boolean)
+    this.setJava_(b)
+    return
+
+  method init()
+
+    prj = this.getProject()
+    
+    p = prj.getProperty("ant.netrexxc.binary")
+    if p \= null then this.binary = Project.toBoolean(p)
+
+    -- classpath makes no sense
+    p = prj.getProperty("ant.netrexxc.comments")
+    if p \= null then this.comments = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.compact")
+    if p \= null then this.compact = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.compile")
+    if p \= null then this.compile = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.console")
+    if p \= null then this.console = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.crossref")
+    if p \= null then this.crossref = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.decimal")
+    if p \= null then this.decimal = Project.toBoolean(p)
+    -- destdir
+
+    p = prj.getProperty("ant.netrexxc.diag")
+    if p \= null then this.diag = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.explicit")
+    if p \= null then this.explicit = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.format")
+    if p \= null then this.format = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.java")
+    if p \= null then this.java_ = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.keep")
+    if p \= null then this.keep = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.logo")
+    if p \= null then this.logo = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.replace")
+    if p \= null then this.replace = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.savelog")
+    if p \= null then this.replace = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.strictargs")
+    if p \= null then this.strictargs = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.strictassign")
+    if p \= null then this.strictassign = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.strictcase")
+    if p \= null then this.strictcase = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.strictimport")
+    if p \= null then this.strictimport = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.strictprops")
+    if p \= null then this.strictprops = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.strictsignal")
+    if p \= null then this.strictsignal = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.symbols")
+    if p \= null then this.symbols = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.time")
+    if p \= null then this.time = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.trace")
+    if p \=null then this.setTrace(p)
+
+    p = prj.getProperty("ant.netrexxc.utf8")
+    if p \= null then this.utf8 = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.verbose")
+    if p \= null then this.setVerbose(p)
+
+    p = prj.getProperty("ant.netrexxc.suppressMethodArgumentNotUsed")
+    if p \= null then this.suppressMethodArgumentNotUsed = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.suppressPrivatePropertyNotUsed")
+    if p \= null then this.suppressPrivatePropertynotUsed = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.suppressVariableNotUsed")
+    if p \= null then this.suppressVariableNotUsed = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.suppressExceptionNotSignalled")
+    if p \= null then this.suppressExceptionNotSignalled = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.suppressDeprecation")
+    if p \= null then this.suppressDeprecation = Project.toBoolean(p)
+
+    p = prj.getProperty("ant.netrexxc.removeKeepExtension")
+    if p \= null then this.removeKeepExtension = Project.toBoolean(p)
+
+    return
+
+    /**
+     * Executes the task. Performs the actual compiler call.
+     */
+  method execute() signals BuildException
+/*     /\* first off, make sure that we've got a srcdir and destdir *\/ */
+/*     if srcDir = null | destDir = null then */
+/*       signal BuildException("srcDir and destDir attributes must be set!") */
+
+    /* no we do not! We would like to be consistent with java mode */
+    if destDir = null then destDir = srcDir
+
+    /* scan source and dest dirs to build up both copy lists and
+     * compile lists
+     *        scanDir(srcDir, destDir)*/
+    ds = getDirectoryScanner(srcDir)
+    files = ds.getIncludedFiles()
+
+    scanDir(srcDir, destDir, files)
+
+    -- copy the source and support files
+    copyFilesToDestination()
+
+    -- compile the source files
+    if compileList.size() > 0 then
+      do
+	if compileList.size() = 1 then
+	  log("Compiling one (1) source file to" destDir)
+	else
+	  log("Compiling" compileList.size() "source files to" destDir)
+	
+	doNetRexxCompile()
+	
+	if (removeKeepExtension & (\compile | keep)) then removeKeepExtensions()		
+      end
+    
+    return
+    
+  /**
+   * Scans the directory looking for source files to be compiled and support
+   * files to be copied.
+   */
+    
+  method scanDir(srcDir_ = File, destDir_ = File, files = String[])
+    
+    loop i = 0 to files.length -1
+      srcFile  = File(srcDir_ , files[i])
+      destFile = File(destDir_, files[i])
+      fileName = files[i]
+      
+      /* if it's a non source file, copy it if a later date than the dest.
+       * if it's a source file, see if the destination class file needs
+       * to be recreated via compilation
+       */
+      if fileName.toLowerCase().endsWith(".nrx") then
+	do
+	  classFile = File(destDir_, fileName.substring(0, fileName.lastIndexOf('.'))".class")
+	  
+	  javaFile = File(destDir_, fileName.substring(0, fileName.lastIndexOf('.'))||'.java.keep .java'.word((removeKeepExtension)+1))
+	  
+	  --// nocompile case tests against .java[.keep] file
+	  if (\compile & (srcFile.lastModified() > javaFile.lastModified())) then do
+            filecopyList.put(srcFile.getAbsolutePath(), destFile.getAbsolutePath());
+            compileList.addElement(destFile.getAbsolutePath());
+	  end
+          --// compile case tests against .class file
+      else -
+	if compile & (srcFile.lastModified() > classFile.lastModified()) then
+      do
+	filecopyList.put(srcFile.getAbsolutePath(), destFile.getAbsolutePath())
+	compileList.addElement(destFile.getAbsolutePath())
+      end
+	end
+      else
+	if srcFile.lastModified() > destFile.lastModified() then
+	  filecopyList.put(srcFile.getAbsolutePath(), destFile.getAbsolutePath())
+      
+    end
+    
+    return
+    
+    /**
+     * Copy eligible files from the srcDir to the destDir
+     */
+
+  method copyFilesToDestination() private
+
+    if srcDir.getAbsolutePath().equals(destDir.getAbsolutePath()) then
+      return -- no point in copying to itself
+
+    if filecopyList.size() = 0 then
+      return -- nothing to be done
+
+    if filecopyList.size() = 1 then
+      log("Copying one (1) file to" destDir.getAbsolutePath())
+    else
+      log("Copying" filecopyList.size() "files to" destDir.getAbsolutePath())
+    
+    enum_ = filecopyList.keys()
+    loop while enum_.hasMoreElements()
+      fromFilename = String enum_.nextElement()
+      --      say fromFilename
+      fromFile = File(fromFilename)
+      toFilename  = String filecopyList.get(fromFilename)
+      --      say toFilename
+      if toFilename=null then say "toFilename is null"
+      toFile   = File(toFilename)
+      
+      do
+	/*  probably best to use this arcane syntax to call the Copy task
+	   as there was an effort in 2006 to remove the deprecated Project.copyfile methods   */
+	
+	Cp = Copy()
+	Cp.setFile(fromFile)
+	Cp.setTofile(toFile)
+	Cp.execute()
+	/*
+	   this.getProject().copyfile(fromFile, toFile)
+      catch ioe = IOException
+	   msg = "Failed to copy" fromfile "to" toFile "due to" ioe.getMessage()
+	   signal BuildException(msg, ioe)
+	   end
+	 */     
+      end
+    end
+    return
+    
+    /**
+     * Rename .java.keep files (back) to .java. The netrexxc renames all
+     * .java files to .java.keep if either -keep or -nocompile option is set.
+     */
+   method removeKeepExtensions()
+     if (compileList.size() > 0) then do
+       log("Removing .keep extension on " compileList.size() " file"||'s'.word((compileList.size() = 1)+1))
+       e = compileList.elements()
+       loop while (e.hasMoreElements()) 
+         nrxName = String e.nextElement()
+         baseName = nrxName.substring(0, nrxName.lastIndexOf('.'))
+         fromFile = File(baseName".java.keep")
+         toFile = File(baseName".java")
+         if (fromFile.renameTo(toFile)) then -
+            log("Successfully renamed "  fromFile " to " toFile, Project.MSG_VERBOSE)
+	 else log("Failed to rename " fromFile " to " toFile)
+       end
+     end
+     
+
+  method doNetRexxCompile() signals BuildException private
+    log("Using NetRexx compiler", Project.MSG_VERBOSE)
+    
+    classpath	   = getCompileClasspath()
+    compileOptions = StringBuffer()
+    /*     fileList	   = StringBuffer() */
+    
+    /* create an array of strings for input to the compiler: one array
+     * comes from the compile options, the other from the compileList
+     */
+    compileOptionsArrayList = getCompileOptionsAsArrayList()
+    fileListArray	    = String[compileList.size()]
+    
+    e = compileList.elements()
+    j = 0
+
+    loop while e.hasMoreElements()
+      fileListArray[j] = String e.nextElement()
+      j = j +1
+    end
+
+    /* create a single array of arguments for the compiler */
+--    compileArgs = String[compileOptionsArrayList.size() -1 + fileListArray.length]
+    compileArgs = String[compileOptionsArrayList.size() + fileListArray.length]
+
+    loop i = 0 to compileOptionsArrayList.size() -1
+      compileArgs[i] = String compileOptionsArrayList.get(i)
+    end
+
+    loop i = 0 to fileListArray.length -1
+      compileArgs[i + compileOptionsArrayList.size()] = fileListArray[i]
+--      compileArgs[i + compileOptionsArrayList.size() -1] = fileListArray[i]
+    end
+
+--    say "compileClasspath="compileClasspath.toString()
+--    say "classpath="classpath.toString()
+
+    -- print nice output about what we are doing for the log
+    compileOptions.append("Compilation args: ")
+    it = compileOptionsArrayList.iterator()
+    loop while it.hasNext()
+      compileOptions.append(String it.next())
+      compileOptions.append(' ')
+    end
+
+    log(compileOptions.toString(), Project.MSG_VERBOSE)
+
+    eol = System.getProperty("line.separator")
+    niceSourceList = StringBuffer(String ("Files to be compiled"||eol))
+
+    loop i = 0 to compileList.size() -1
+      niceSourceList.append("    ")
+      niceSourceList.append(compileList.elementAt(i).toString())
+      niceSourceList.append(eol)
+    end
+
+    log(niceSourceList.toString(), Project.MSG_VERBOSE)
+
+    -- need to set java.class.path property and restore it later
+    -- since the NetRexx compiler has no option for the classpath
+    currentClassPath = System.getProperty("java.class.path")
+    currentProperties = System.getProperties()
+    currentProperties.put("java.class.path", classpath)
+
+    do
+      --      nrx_ = org.netrexx.Nrx(compileArgs)
+      nrx_ = org.netrexx.process.NetRexxC.main2(compileArgs)
+      /*     catch ioe = Exception */
+      /*       signal BuildException("Unexpected Exception while playing with Strings", ioe) */
+      /*     finally */
+      -- need to reset java.class.path property
+      -- since the NetRexx compiler has no option for the classpath
+      /*       currentProperties = System.getProperties() */
+      currentProperties.put("java.class.path", currentClassPath)
+    end
+    --    if nrx_.getReturnCode() > 0 then
+    if nrx_ > 1 then
+      do
+	signal  BuildException("Compile failed, messages should have been provided.")
+      end
+    return
+    
+  /**
+   * Builds the compilation classpath
+   */
+  method getCompileClasspath() returns String private
+    cp = StringBuffer()
+
+    -- add dest dir to classpath so that previously compiled and
+    -- untouched classes are on the classpath
+    cp.append(destDir.getAbsolutePath())
+
+    -- add our classpath to the mix
+    if this.classpath \= null then
+      addExistingToClasspath(cp, this.classpath)
+      
+	if this.compileClasspath \= null then
+      addExistingToClasspath(cp, this.compileClasspath.toString())
+
+/*     -- add the system classpath */
+/*     addExsistingToClasspath(classpath, system.getProperty("java.class.path") */
+    return cp.toString()
+
+    /**
+      * This
+      */
+  method getCompileOptionsAsArrayList() returns ArrayList
+
+    opt = ArrayList()
+
+    if binary then opt.add(String "-binary")
+    else opt.add(String "-nobinary")
+
+    if comments then opt.add(String "-comments")
+    else opt.add(String "-nocomments")
+
+    if compile then opt.add(String "-compile")
+    else opt.add(String "-nocompile")
+
+    if compact then opt.add(String "-compact")
+    else opt.add(String "-nocompact")
+
+    if console then opt.add(String "-console")
+    else opt.add(String "-noconsole")
+
+    if crossref then opt.add(String "-crossref")
+    else opt.add(String "-nocrossref")
+
+    if decimal then opt.add(String "-decimal")
+    else opt.add(String "-nodecimal")
+
+    if diag then opt.add(String "-diag")
+    else opt.add(String "-nodiag")
+
+    if explicit then opt.add(String "-explicit")
+    else opt.add(String "-noexplicit")
+
+    if format then opt.add(String "-format")
+    else opt.add(String "-noformat")
+
+    if java_ then opt.add(String "-java")
+    else opt.add(String "-nojava")
+
+    if keep then opt.add(String "-keep")
+    else opt.add(String "-nokeep")
+
+    if logo then opt.add(String "-logo")
+    else opt.add(String "-nologo")
+
+    if replace then opt.add(String "-replace")
+    else opt.add(String "-noreplace")
+
+    if savelog then opt.add(String "-savelog")
+    else opt.add(String "-nosavelog")
+
+    if sourcedir then opt.add(String "-sourcedir")
+    else opt.add(String "-nosourcedir")
+
+    if strictargs then opt.add(String "-strictargs")
+    else opt.add(String "-nostrictargs")
+
+    if strictassign then opt.add(String "-strictassign")
+    else opt.add(String "-nostrictassign")
+
+    if strictcase then opt.add(String "-strictcase")
+    else opt.add(String "-nostrictcase")
+
+    if strictimport then opt.add(String "-strictimport")
+    else opt.add(String "-nostrictimport")
+
+    if strictprops then opt.add(String "-strictprops")
+    else opt.add(String "-nostrictprops")
+
+    if strictsignal then opt.add(String "-strictsignal")
+    else opt.add(String "-nostrictsignal")
+
+    if symbols then opt.add(String "-symbols")
+    else opt.add(String "-nosymbols")
+
+    if time then opt.add(String "-time")
+    else opt.add(String "-notime")
+
+    opt.add(("-"this.trace_).toString())
+
+    if utf8 then opt.add(String "-utf8")
+    else opt.add(String "-noutf8")
+    
+    opt.add(String ("-"||verbose))
+
+    return opt
+    
+    /**
+     * Takes a classpath-like string, and adds each element of this string to
+     * a new classpath, if the components exist. Components that don't exist,
+     * aren't added. We do this, because jikes issues warnings for
+     * non-existant files/dirs in his classpath, and these warnings are pretty
+     * annoying.
+     *
+     * @param target - target classpath
+     * @param source - source classpath to get file objects.
+     */
+  method addExistingToClasspath(target = StringBuffer, source = String) private
+    tok = StringTokenizer(source, System.getProperty("path.separator"), 0)
+
+    loop while tok.hasMoreTokens()
+      f = this.getProject().resolveFile(tok.nextToken())
+
+      if f.exists() then
+	do
+	  target.append(File.pathSeparator)
+	  target.append(f.getAbsolutePath())
+	end
+      else
+	log("Dropping from classpath:" f.getAbsolutePath(), Project.MSG_VERBOSE)
+    end
+    
+    return

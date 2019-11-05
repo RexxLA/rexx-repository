@@ -1,0 +1,9 @@
+pipe (taketestl2)
+
+   literal ab |
+   take last 5 bytes |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   literal ab |
+   compare:

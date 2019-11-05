@@ -1,0 +1,39 @@
+/* nrxbeans\lab\NrxTimerBeanInfo.nrx
+
+   A simple timer bean that sends out events in a specified interval */
+
+package nrxbeans.lab
+
+import java.beans.
+
+class NrxTimerBeanInfo binary extends SimpleBeanInfo
+
+  properties private
+    beanClass = Class;
+    actionListenerClass = Class
+
+  method NrxTimerBeanInfo() public
+    do
+      beanClass = Class.forName("nrxbeans.lab.NrxTimer")
+    catch e=ClassNotFoundException
+      -- say "unable to find class - nrxbeans.lab.NrxTimer"
+      e.printStackTrace()
+    end
+
+    do
+      actionListenerClass = Class.forName("java.awt.event.ActionListener")
+    catch e=ClassNotFoundException
+      -- say "unable to find class - java.awt.event.ActionListener.class"
+      e.printStackTrace()
+    end
+
+  method getEventSetDescriptors() public returns EventSetDescriptor[]
+    rv = EventSetDescriptor[1]
+    do
+      rv[0] = EventSetDescriptor(beanClass, "actionPerformed", -
+                                 actionListenerClass, "actionPerformed")
+      rv[0].setDisplayName("timerTick")
+      return rv
+    catch e=IntrospectionException
+      signal Error(e.toString())
+    end

@@ -1,0 +1,10 @@
+/* NetRexx */
+options replace format comments java symbols nobinary
+
+  say
+  say 'Loops/Downward for'
+
+  loop i_ = 10 to 0 by -1
+    say i_.right(2)
+    end i_
+

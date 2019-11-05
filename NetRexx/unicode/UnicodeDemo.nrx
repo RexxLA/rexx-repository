@@ -1,0 +1,36 @@
+/**	
+* Unicode test by René Vincent Jansen - notice the é accent aigu in my first name 
+*/	
+class UnicodeDemo
+
+  method UnicodeDemo()
+    exposé()
+    govorit()
+    ß()
+    emoji()
+
+  /**
+   * method name containing unicode characters
+   */  
+  method exposé()
+    say "UTF-8 (UCS transformation format 8 bits) est un codage de caractères informatique conçu pour coder l'ensemble des caractères internationaux d'Unicode en restant compatible avec la norme ASCII limitée à l'anglais, mais très largement répandue depuis des décennies."
+
+  /**
+   * Cyrillic, when no font support is available, shows up as a lot of question marks
+   */  
+  method govorit()
+    say "UTF-8 (от англ. Unicode Transformation Format — формат преобразования Юникода) — в настоящее время распространённая кодировка, реализующая представление Юникода, совместимое с 8-битным кодированием текста."
+
+  /**
+   * German ringel-s, mixed with some glyphs that are even harder to display, like the IPA signs for pronunciation
+   */  
+  method ß()
+    say "Das ß (gesprochen Eszett [ɛsˈt͜sɛt] oder scharfes S bzw. Scharf-S) ist ein Buchstabe des deutschen Alphabets. Es ist historisch aus einer Ligatur hervorgegangen, nämlich einer Verbindung einer Variante des heutigen Buchstabens \"s\", langem ſ, mit rundem s oder z."
+
+  method emoji()
+    say 'emoji: \u1F600'
+    
+  method main(args=String[]) static
+    UnicodeDemo()
+
+  

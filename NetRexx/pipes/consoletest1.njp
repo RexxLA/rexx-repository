@@ -1,0 +1,4 @@
+pipe (consoletest1)
+
+   diskr buffer.data  |
+   console

@@ -1,0 +1,14 @@
+pipe (tcpsend end ? debug 72)
+   tcplisten 2000 timeout 5000 |
+   take first 1 |
+   console |
+a: fanin |
+   tcpdata |
+   copy |
+b: dam ?
+   file stream /usr/local/njPipes/njpipes.html |
+   b: |
+c: watchp 100 |
+   a: ?
+   c: |
+   console

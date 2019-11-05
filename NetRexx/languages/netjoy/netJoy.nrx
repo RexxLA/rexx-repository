@@ -1,0 +1,1765 @@
+class netJoy
+
+properties static
+__Joy__ = Stack()
+__R__ = Object null         -- to hold return value
+__Lib__   = ""		    -- dict of library words
+__Val__   = ""              -- dict of special values
+__Word__  = ""              -- dict of renamed words
+__File__  = ArrayList()     -- list of files
+_fh = 3                     -- next file handle
+__Chr__   = ""              -- escaped characters
+
+properties constant
+maxint = Rexx Integer.toString(Integer.MAX_VALUE)
+setsize = 32
+joyVersion = 0.06
+
+-- type tags
+STR = '"'
+CHAR = "'"
+LIST = "["
+SET = "{"
+COMMENT = "("
+SYMBOL = "$"
+DEF = ";"
+DEFEND = "."
+OPADD = '+'
+OPSUB = '-'
+OPMULT = '*'
+OPDIV = '/'
+OPDOT = '.'
+OPLT = '<'
+OPGT = '>'
+OPEQ = '='
+OPNE = 063.d2c()
+OPGE = 064.d2c()
+OPLE = 058.d2c()
+
+
+  method setup() static
+    __Val__["false"] = 0
+    __Val__["true"] = 1
+    __Val__["autoput"] = 1
+    __Val__["undeferror"] = 2
+    __Val__["definition"] = 0
+    __Val__["echo"] = 0
+    __Val__["stdin"] = 0
+    __Val__["stdout"] = 1
+    __Val__["stderr"] = 2
+    __Val__["defer"] = 0
+    
+    __Chr__["0"] = "000"
+    __Chr__["t"] = "009"
+    __Chr__["n"] = "010"
+    __Chr__["f"] = "012"
+    __Chr__["r"] = "013"
+    __Chr__['"'] = "034"
+    __Chr__["'"] = "039"
+    __Chr__["\\"] = "092"
+    
+    __Word__["char"] = "joyChar"
+    __Word__["integer"] = "joyInteger"
+    __Word__["float"] = "joyFloat"
+    __Word__["string"] = "joyString"
+    __Word__["while"] = "joyWhile"
+    __Word__["stack"] = "joyStack"
+    __Word__["app2"] = "unary2"
+    __Word__["app3"] = "unary3"
+    __Word__["app4"] = "unary4"
+    
+    __LIB__["_Session"] = ""
+    
+    stdin =  BufferedReader(InputStreamReader(System.in))
+    __File__.add(0, stdin)
+    __File__.add(1, System.out)
+    __File__.add(2, System.err)
+    
+    
+  method push(term=Rexx) static
+    if term.exists("Type") then tag = term["Type"] 
+    else tag=" "
+    __Joy__.push(tag||term)
+    
+  method pop() static
+    term = Rexx __Joy__.pop()
+    parse term tag 2 term
+    term["Type"] = tag
+    return term
+    
+  method peek() static
+    if empty() then
+      say "Stack is empty"
+    else do
+      __R__ = Rexx __Joy__.peek()
+      R
+    end
+    
+  method empty() static
+    if __Joy__.empty() then
+      return 1
+    else
+      return 0
+    
+  method R() static
+    say __R__
+    
+    -- Joy primitives
+    -- arithmetic
+  method rem() static
+    -- I J -> K
+    -- Integer K is the remainder of dividing I by J. Also supports float.
+    J = pop()
+    I = pop()
+    push(I//J)
+    
+  method div() static
+    -- I J -> K L
+    -- Integers K and L are the quotient and remainder of dividing I by J.
+    J = pop()
+    I = pop()
+    push(I%J)
+    push(I//J)
+    
+  method sign() static
+    -- N1 -> N2
+    -- Integer N2 is the sign (-1 or 0 or +1) of integer N1
+    -- works for any atoms (integer or float) but N2 is always an integer
+    push(pop().sign())
+    
+  method neg() static
+    -- I -> J
+    -- Integer J is the negative of integer I. Also supports float.
+    push(0 - pop())
+    
+  method pred() static
+    -- M -> N
+    -- Numeric N is the predecessor of numeric M.
+    push(pop() - 1)
+    
+  method succ() static
+    -- M -> N
+    -- Numeric N is the successor of numeric M.
+    push(pop() + 1)
+    
+  method max() static
+    -- N1 N2 -> N
+    -- N is the maximum of numeric values N1 and N2. Also supports float.
+    M = pop()
+    push(M.max(pop()))
+    
+  method  min() static
+    -- N1 N2 -> N
+    -- N is the minimum of numeric values N1 and N2. Also supports float.
+    M = pop()
+    push(M.min(pop()))
+    
+  method floor() static
+    --F -> G 
+    --G is the floor of F
+    F = double pop()
+    G = Rexx Math.floor(F)
+    push(G)
+    
+  method abs() static
+    --abs : N1 -> N2
+    --Integer N2 is the absolute value (0,1,2..) of integer N1, or float N2 is the absolute
+    --value (0.0 ..) of float N1
+    push(pop().abs())
+    
+  method acos() static
+    -- F -> G
+    -- G is the arc cosine of F.
+    F = double pop()
+    G = Rexx Math.acos(F)
+    push(G)
+    
+  method asin() static
+    -- F -> G
+    -- G is the arc sine of F.
+    F = double pop()
+    G = Rexx Math.asin(F)
+    push(G)
+    
+  method atan() static
+    -- F -> G
+    -- G is the arc tangent of F.
+    F = double pop()
+    G = Rexx Math.atan(F)
+    push(G)
+    
+  method cos() static
+    -- F -> G 
+    -- G is the cosine of F. 
+    F = double pop()
+    G = Rexx Math.cos(F)
+    push(G)
+    
+  method sin() static
+    -- F -> G 
+    -- G is the sine of F. 
+    F = double pop()
+    G = Rexx Math.sin(F)
+    push(G)
+    
+  method tan() static
+    -- F -> G 
+    -- G is the tangent of F. 
+    F = double pop()
+    G = Rexx Math.tan(F)
+    push(G)
+    
+    
+  method log() static
+    --F -> G 
+    --G is the natural logarithm of F
+    F = double pop()
+    G = Rexx Math.log(F)
+    push(G)
+    
+  method pow() static
+    -- F G -> H 
+    -- H is F raised to the Gth power. 
+    G = double pop()
+    F = double pop()
+    H = Rexx Math.pow(F,G)
+    push(H)
+    
+    -- simple i/o
+  method get() static
+    -- -> F
+    -- Reads a factor from input and pushes it onto stack.
+    stdin = BufferedReader __File__.get(0)  
+    F = Rexx stdin.readLine()
+    F["Type"] = STR
+    push(F)
+    
+  method put() static
+    -- X ->
+    -- Writes X to output, pops X off stack.
+    System.out.print(pop())
+    
+  method putch() static
+    --  N ->
+    -- N : numeric, writes character whose ASCII is N.
+    System.out.print(pop().d2c())
+    
+  method putchars() static
+    -- "abc.." ->
+    -- Writes abc.. (without quotes)
+    aStr = pop()
+    loop while aStr.length() \= 0
+      parse aStr aChr 2 aStr
+      if aChr = '\\' then
+        if aStr.substr(1,3).datatype("Digit") then
+          do
+            parse aStr aChr 4 aStr
+            aChr = aChr.d2c()
+          end
+        else do
+          parse aStr c 2 aStr
+          aChr = __Chr__[c]
+          aChr = aChr.d2c()
+        end
+        System.out.print(aChr)
+    end
+    
+  method fopen() static
+    -- P M -> S
+    -- The file system object with pathname P is opened with mode M (r, w, a, etc.) and
+    -- stream object S is pushed; if the open fails, file:NULL is pushed.
+    M = pop()
+    select
+      when M = "r" then
+        do
+          __File__.add(_fh, BufferedReader(FileReader(pop())))
+          push(_fh)
+          _fh = _fh + 1
+        end
+      when M = "w" then
+        do
+          __File__.add(_fh, PrintStream(FileOutputStream(pop())))
+          push(_fh)
+          _fh = _fh + 1
+        end
+      otherwise
+        say M"--bad file mode"
+        
+    catch FileNotFoundException
+      say "File was not found"
+    end
+    
+  method fgetch() static
+    -- S -> S C
+    -- C is the next available character from stream S.
+    dup()
+    ins = BufferedReader __File__.get(pop())
+    term = Rexx ins.read()
+    term["Type"]=CHAR
+    push(term)
+    
+  method fgets() static
+    -- S -> S L
+    -- L is the next available line (as a string) from stream S.
+    dup()
+    ins = BufferedReader __File__.get(pop())
+    aStr = Rexx ins.readLine()
+    if aStr \= null then
+      do
+        aStr["Type"]=STR
+        push(aStr)
+      end
+    else push("(* EOF *)")
+    
+  method fput() static
+    -- S X -> S
+    -- Writes X to stream S, pops X off stack.
+    X = pop()
+    dup()
+    f = PrintStream __File__.get(pop())
+    f.print(X)
+    
+  method fputch() static
+    -- S C -> S
+    -- The character C is written to the current position of stream S.
+    X = pop()
+    dup()
+    f = PrintStream __File__.get(pop())
+    f.print(X.d2c())
+    
+  method fputchars() static
+    -- S "abc.." -> S
+    -- The string abc.. (no quotes) is written to the current position of stream S.
+    aStr = pop()
+    loop while aStr \= ""
+      aStr = firstChr(aStr)
+      fputch()
+    end
+    
+  method fputstring() static
+    -- S "abc.." -> S
+    -- == fputchars, as a temporary alternative.
+    fputchars()
+    
+  method fread() static
+    -- S I -> S L
+    -- I bytes are read from the current position of stream S and returned as a list of I
+    -- integers.
+    L = ""
+    xIx = pop()
+    loop while xIx > 0
+      fgetch()
+      L = L pop()
+      xIx = xIx - 1
+    end
+    push("["L)
+    
+  method fwrite() static
+    -- S L -> S
+    -- A list of integers are written as bytes to the current position of stream S.
+    L = pop()
+    dup()
+    f = PrintStream __File__.get(pop())
+    loop jx = 1 to L.length
+      f.write(L[jx].d2c())
+    end
+    
+    
+  method fclose() static
+    -- fclose : S ->
+    -- Stream S is closed and removed from the stack.
+    S = pop()
+    f = __File__.get(S)
+    closer = f.getClass().getMethod("close", null)
+    closer.invoke(f, null)
+    __File__.set(S, null)
+    
+  method include() static
+    -- :  "filnam.ext"  ->
+    -- Transfers input to file whose name is "filnam.ext".
+    -- On end-of-file returns to previous input file.
+    push("r")
+    fopen()
+    lines = ""
+    fgets()
+    line = pop()
+    loop while line \= "(* EOF *)"
+      parse line line '#' .
+      lines = lines line.strip()
+      fgets()
+      line = pop()
+    end
+    joyInterpret(lines)
+    
+    --aggregates
+  method cons() static
+    -- X A -> B 
+    -- Aggregate B is A with a new member X (first member for sequences).      
+    A = pop()
+    X = pop()
+    if A.exists("Type") then
+      AType = A["Type"]
+    else
+      AType = " "
+    if A["Type"] = LIST | A["Type"] = SET then
+      A = X A
+    else A = X||A
+    A["Type"] = AType
+    push(X)
+    
+  method swons() static
+    -- A X -> B 
+    -- Aggregate B is A with a new member X (first member for sequences). 
+    swap()
+    cons()
+    
+    
+  method firstChr(aStr=Rexx) static returns Rexx
+    -- get first character of a string (taking
+    -- into account escaped characters)
+    -- push it on the stack (as int) and return the rest of 
+    -- the string
+    parse aStr aChr 2 aStr
+    if aChr = '\\' then
+      if aStr.substr(1,3).datatype("Digit") then
+        do
+          parse aStr aChr 4 aStr
+        end
+      else do
+        parse aStr c 2 aStr
+        aChr = __Chr__[c]
+      end
+      else aChr = aChr.c2d().right(3,0)
+      aChr["Type"] = CHAR
+      push(aChr)
+      return aStr
+      
+      
+      
+  method first() static
+    -- A -> F 
+    -- F is the first member of the non-empty aggregate A.
+    A = pop()
+    select
+      when A["Type"] = SET then
+        push(A.word(1))
+      /*  when A["Type"] = STR then
+         A = firstChr(A) */
+      when A["Type"] = LIST then
+        do  
+          A = rtrim(ltrim(A))
+          defer()
+          A = joyInterpretFirst(A)
+          undefer()
+        end
+      otherwise -- treat as STR
+        A = firstChr(A)
+    end
+    
+  method rest() static         
+    -- A -> R 
+    -- R is the non-empty aggregate A with its first member removed         
+    A = pop()
+    if A.exists("Type") then
+      AType = A["Type"]
+    else
+      AType = " "
+    select
+      when A["Type"] = SET then
+        do
+          A = A.subword(2)
+          A["Type"] = SET
+          push(A)
+        end
+      /*   when A["Type"] = STR then
+         do
+         A = firstChr(A)
+         _R_ = pop()
+         A["Type"] = STR
+         push(A)
+         end  */
+      when A["Type"] = LIST then
+        do  
+          A = rtrim(ltrim(A))
+          if A \= "" then
+            do
+              defer()
+              A = joyInterpretFirst(A)
+              undefer()
+              pop()
+              A["Type"] = LIST
+            end
+          push(A)
+        end
+      otherwise --treat as STR
+        A = firstChr(A)
+        _R_ = pop()
+        A["Type"] = STR
+        push(A)
+    end
+    
+  method uncons() static
+    -- A -> F R 
+    -- F and R are the first and the rest of non-empty aggregate A.
+    A = pop()
+    select
+      when A["Type"] = SET then
+        do
+          push(A.word(1))
+          A = A.subword(2)
+          A["Type"] = SET
+          push(A)
+        end
+      /*   when A["Type"] = STR then
+         do
+         A = firstChr(A)
+         A["Type"] = STR
+         push(A)
+         end  */
+      when A["Type"] = LIST then
+        do  
+          A = ltrim(A.strip())
+          defer()
+          A = joyInterpretFirst(A)
+          undefer()
+          A["Type"] = LIST
+          push(A)
+        end
+      otherwise -- treat as STR
+        A = firstChr(A)
+        A["Type"] = STR
+        push(A)
+    end
+    
+  method at() static
+    -- A I -> X 
+    -- X (= A[I]) is the member of A at position I.         
+    -- first member is at position 0
+    I = pop()
+    loop for I
+      rest()
+    end
+    first()
+    
+  method of() static                          
+    -- I A -> X 
+    -- X (= A[I]) is the I-th member of aggregate A.
+    swap()
+    at()
+    
+  method size() static         
+    -- A -> I 
+    -- Integer I is the number of elements of aggregate A
+    A = pop()
+    if A.exists("Type") then
+      AType = A["Type"]
+    else
+      AType = " "
+    select
+      when A["Type"] = SET then
+        do
+          push(A.words())
+        end
+      /*    when A["Type"] = STR then
+         do
+         push(A.length())
+         end    */
+      when A["Type"] = LIST then
+        if A = "" then
+          push(0)
+        else
+          do
+            push(A)
+            sz = 0
+            loop forever
+              rest()
+              sz = sz + 1
+            end
+            
+            
+          catch ex=Exception
+	    
+          finally
+            push(sz)
+          end
+      otherwise -- treat as STR
+        push(A.length())
+    end
+    
+  method unswons() static
+    -- A -> R F 
+    -- R and F are the rest and the first of non-empty aggregate A.
+    uncons()
+    swap()
+    
+  method drop() static 
+    -- A N -> B 
+    -- Aggregate B is the result of deleting the first N elements of A.
+    N = pop()
+    A = pop()
+    select
+      when A["Type"] = SET then
+        do
+          A = A.subword(N + 1)
+          A["Type"] = SET
+          push(A)
+        end
+      /*    when A["Type"] = STR then
+         do
+         A = A.substr(N+1)
+         A["Type"] = STR
+         push(A)
+         end   */
+      when A["Type"] = LIST then
+        do
+          push(A)
+          loop for N
+            rest() 
+          end
+        end
+      otherwise  -- treat as STR
+        A = A.substr(N+1)
+        A["Type"] = STR
+        push(A)
+    end 
+    
+    
+  method take() static 
+    -- A N -> B 
+    -- Aggregate B is the result of retaining just the first N elements of A.
+    N = pop()
+    A = pop()
+    select
+      when A["Type"] = SET then
+        do
+          A = A.subword(1, N)
+          A["Type"] = SET
+          push(A)
+        end
+      /*    when A["Type"] = STR then
+         do
+         A = A.substr(1, N)
+         A["Type"] = STR
+         push(A)
+         end  */
+      when A["Type"] = LIST then
+        do
+          B = ""
+          mark = "&"
+          mark["Type"] = STR
+          push(mark)
+          push(A)
+          unswons()
+          loop for N
+            B = B pop()
+            unswons()
+          end
+          loop until pop() = "&"
+            nop
+          end
+          
+        catch ex=Exception
+          nop
+          
+        finally
+          B["Type"] = LIST
+          push(B)
+        end
+      otherwise  --treat as STR
+        A = A.substr(1, N)
+        A["Type"] = STR
+        push(A)
+    end
+    
+  method concat() static
+    -- S T -> U
+    -- Sequence U is the concatenation of sequences S and T.
+    U = ""
+    T = pop()
+    S = pop()
+    select
+      when T["Type"] = SET then
+        do
+          U = T S
+          U["Type"] = SET
+          push(U)
+        end
+      /*    when T["Type"] = STR then
+         do
+         U = S||T
+         U["Type"] = STR
+         push(U)
+         end  */
+      when T["Type"] = LIST then
+        do  
+          U = T S
+          U["Type"] = LIST
+          push(U)
+        end
+      otherwise --treat as STR
+        U = T||S
+        U["Type"] = STR
+        push(U)
+    end
+    
+  method enconcat() static
+    -- X S T -> U 
+    -- Sequence U is the concatenation of sequences S and T with X inserted between S and T
+    -- (== swapd cons concat)
+    swapd()
+    cons()
+    concat()
+    
+  method joyStack() static
+    --  .. X Y Z -> .. X Y Z [Z Y X ..]
+    -- Pushes the stack as a list.
+    arr = __Joy__.toArray()
+    L = ""
+    loop jx = 0 to arr.length - 1
+      term = arr[jx]
+      parse term tag 2 .
+      select
+        when tag = LIST then
+          L = arr[jx]"]"L
+        when tag = STR then
+          L = arr[jx]'"'L
+        when tag = SET then
+          L = arr[jx]"}"L
+        otherwise
+          L = arr[jx] L
+      end
+    end
+    L["Type"] = LIST
+    push(L)
+    
+  method unstack() static
+    --  [X Y ..] -> ..Y X
+    -- The list [X Y ..] becomes the new stack.
+    L = rtrim(ltrim(pop()))
+    __Joy__ = Stack()
+    defer()
+    loop while L \= ""
+      L = rtrim(ltrim(joyInterpretFirst(L)))
+    end
+    reverseStack()
+    undefer()
+    
+  method newStack() static
+    -- Replaces the stack with a new, empty stack.
+    __Joy__ = Stack()
+    
+    
+    
+  method nullary() static
+    -- [P] -> R
+    -- Executes P, which leaves R on top of the stack.
+    -- No matter how many parameters this consumes, none are removed from the stack.
+    P = pop()
+    arr = saveStack()
+    joyInterpret(P)
+    R = pop()
+    restoreStack(arr)
+    push(R)
+    
+  method unary() static
+    --  X [P]  ->  R
+    -- Executes P, which leaves R on top of the stack.
+    -- No matter how many parameters this consumes,
+    -- exactly one is removed from the stack.
+    P = pop()
+    arr = saveStack()
+    joyInterpret(P)
+    R = pop()
+    restoreStack(arr)
+    pop()
+    push(R)
+    
+  method binary() static
+    --  X Y [P]  ->  R
+    -- Executes P, which leaves R on top of the stack.
+    -- No matter how many parameters this consumes,
+    -- exactly two are removed from the stack.
+    P = pop()
+    arr = saveStack()
+    joyInterpret(P)
+    R = pop()
+    restoreStack(arr)
+    pop()
+    pop()
+    push(R)
+    
+  method ternary() static
+    --  X Y Z [P]  ->  R
+    -- Executes P, which leaves R on top of the stack.
+    -- No matter how many parameters this consumes,
+    -- exactly three are removed from the stack.
+    P = pop()
+    arr = saveStack()
+    joyInterpret(P)
+    R = pop()
+    restoreStack(arr)
+    pop()
+    pop()
+    pop()
+    push(R)
+    
+  method unary2() static
+    --  X1 X2 [P]  ->  R1 R2
+    -- Executes P twice, with X1 and X2 on top of the stack.
+    -- Returns the two values R1 and R2.
+    P = pop()
+    X2 = pop()
+    joyInterpret(P)
+    push(X2)
+    joyInterpret(P)
+    
+  method unary3() static
+    --  X1 X2 X3 [P]  ->  R1 R2 R3
+    -- Executes P three times, with Xi, returns Ri (i = 1..3).
+    P = pop()
+    X3 = pop()
+    X2 = pop()
+    joyInterpret(P)
+    push(X2)
+    joyInterpret(P)
+    push(X3)
+    joyInterpret(P)
+    
+  method unary4() static
+    --  X1 X2 X3 X4 [P]  ->  R1 R2 R3 R4
+    -- Executes P four times, with Xi, returns Ri (i = 1..4)
+    P = pop()
+    X4 = pop()
+    X3 = pop()
+    X2 = pop()
+    joyInterpret(P)
+    push(X2)
+    joyInterpret(P)
+    push(X3)
+    joyInterpret(P) 
+    push(X4)
+    joyInterpret(P)
+    
+  method cleave() static
+    --  X [P1] [P2]  ->  R1 R2
+    -- Executes P1 and P2, each with X on top, producing two results.end procedure
+    P2 = pop()
+    nullary()
+    R1 = pop()
+    push(P2)
+    unary()
+    push(R1)
+    swap()
+    
+    --simple operators
+  method dup() static
+    -- X -> X X
+    -- Pushes an extra copy of X onto stack
+    X = pop()
+    push(X)
+    push(X)
+    
+  method swap() static
+    -- X Y -> Y X 
+    -- Interchanges X and Y on top of the stack.
+    Y = pop()
+    X = pop()
+    push(Y)
+    push(X)
+    
+  method id() static
+    --id      :  ->
+    --Identity function, does nothing.
+    --Any program of the form  P id Q  is equivalent to just  P Q.
+    nop
+    
+  method i() static
+    -- [P] -> ...
+    -- Executes P. So, [P] i == P.
+    -- interpret quotation on stack
+    joyInterpret(pop)
+    
+  method x()
+    -- [P]i  ->  ...
+    -- Executes P without popping [P]. So, [P] x  ==  [P] P.
+    dup
+    joyInterpret(pop)
+    
+  method dip() static
+    -- X [P]  ->  ... X
+    -- Saves X, executes P, pushes X back.
+    P = pop()
+    X = pop()
+    joyInterpret(P)
+    push(X)
+    
+  method rollup() static
+    -- X Y Z -> Z X Y 
+    -- Moves X and Y up, moves Z down
+    Z = pop()
+    Y = pop()
+    X = pop()
+    push(Z)
+    push(X)
+    push(Y)
+    
+  method rolldown() static
+    -- X Y Z -> Y Z X 
+    -- Moves Y and Z down, moves X up
+    Z = pop()
+    Y = pop()
+    X = pop()
+    push(Y)
+    push(Z)
+    push(X)
+    
+  method rotate() static
+    -- X Y Z -> Z Y X 
+    -- Interchanges X and Z
+    Z = pop()
+    Y = pop()
+    X = pop()
+    push(Z)
+    push(Y)
+    push(X)
+    
+  method dupd() static
+    -- Y Z -> Y Y Z 
+    -- As if defined by: dupd == [dup] dip 
+    Z = pop()
+    dup()
+    push(Z)
+    
+  method popd() static
+    -- Y Z -> Z 
+    -- As if defined by: popd == [pop] dip
+    Z = pop()
+    pop()
+    push(Z)
+    
+  method swapd() static
+    -- X Y Z -> Y X Z 
+    -- As if defined by: swapd == [swap] dip 
+    Z = pop()
+    swap()
+    push(Z) 
+    
+  method rollupd() static
+    -- X Y Z W -> Z X Y W 
+    -- As if defined by: rollupd == [rollup] dip
+    W = pop()
+    rollup()
+    push(W) 
+    
+  method rolldownd() static
+    -- X Y Z W -> Y Z X W 
+    -- As if defined by: rolldownd == [rolldown] dip 
+    W = pop()
+    rolldown()
+    push(W)
+    
+  method choice() static
+    -- B T F -> X 
+    -- If B is true, then X = T else X = F.  
+    rolldown() 
+    if pop() then pop()
+    else do
+      swap()
+      pop()
+    end
+    
+  method rotated() static
+	-- X Y Z W  ->  Z Y X W
+	-- As if defined by:   rotated  ==  [rotate] dip
+    W = pop()
+    rotate()
+    push(W)
+    
+    --predicates
+  method joyInteger() static             
+    -- integer      :  X  ->  B
+    -- Tests whether X is an integer
+    X = pop()
+    push(X.datatype("Whole Number"))
+    
+  method joyFloat static
+    -- :  R  ->  B
+    -- Tests whether R is a float.
+    X = pop()
+    push(X.datatype("N") & \ X.datatype("W"))
+    
+  method logical() static         
+    -- logical      :  X  ->  B
+    -- Tests whether X is a logical.
+    X = pop()
+    push(X = 1 | X = 0)
+    
+  method joyChar() static          
+    -- char      :  X  ->  B
+    -- Tests whether X is a character
+    -- renamed because "char" is a Java reserved word.
+    X = pop()
+    push(X["Type"] = CHAR)
+    
+  method set() static
+    --X  ->  B
+    --Tests whether X is a set
+    X = pop()
+    push(X["Type"] = SET)
+    
+  method joyString() static         
+    -- string      :  X  ->  B
+    -- Tests whether X is a string.
+    X = pop()
+    push(X["Type"] = STR)
+    
+  method list() static        
+    -- list      :  X  ->  B
+    -- Tests whether X is a list.
+    X = pop()
+    push(X["Type"] = LIST) 
+    
+    
+    --conditional combinators
+  method branch() static
+    -- B [T] [F]  ->  ...
+    -- If B is true, then executes T else executes F.
+    F = pop()
+    T = pop()
+    if pop() then
+      joyInterpret(T)
+    else
+      joyInterpret(F)
+    
+  method ifte() static
+    -- [B] [T] [F]  ->  ...
+    -- Executes B. If that yields true, then executes T else executes F.
+    F = pop()
+    T = pop()
+    nullary()	
+    if pop() then
+      joyInterpret(T)
+    else
+      joyInterpret(F)
+    
+  method joyWhile() static
+    -- while      :  [B] [D]  ->  ...
+    -- While executing B yields true executes D.
+    D = pop()
+    B = pop()
+    joyInterpret(B)
+    loop while pop()
+      joyInterpret(D)
+      joyInterpret(B)
+    end
+    
+  method step() static
+    -- A  [P]  ->  ...
+    -- Sequentially putting members of aggregate A onto stack,
+    -- executes P for each member of A
+    P = pop()
+    A = pop()
+    loop while A \= ""
+      push(A)
+      uncons()
+      A = pop()
+      joyInterpret(P)
+    end
+    
+  method fold() static
+    -- A V0 [P] -> V
+    -- Starting with value V0, sequentially pushes members of aggregate A and combines with
+    -- binary operator P to produce value V.
+    P = pop()
+    V = pop()
+    A = pop()
+    loop while A \= ""
+      push(A)
+      uncons()
+      A = pop()
+      push(V)
+      push(P)
+      binary()
+      V = pop()
+    end
+    push(V)
+    
+  method map() static
+    -- A [P] -> B
+    -- Executes P on each member of aggregate A, collects results in sametype aggregate B.
+    P = pop()
+    B = Rexx ""
+    A = pop()
+    AType = A["Type"]
+    loop while A \= ""
+      push(A)
+      uncons()
+      A = pop()
+      push(P)
+      unary()
+      select
+        when AType = STR then B = B||pop().d2c()
+        when AType = LIST then
+          do
+            term = pop()
+            termType = term["Type"]
+            select
+              when termType = LIST then
+                B = B "[" term "]"
+              when termType = STR then
+                B = B '"' term '"'
+              when termType = SET then
+                B = B "{" term "}"
+              when termType = CHAR then
+                B = B "'" term
+              otherwise
+                B = B term
+            end
+          end
+        otherwise
+          B = B pop()
+      end
+    end
+    B["Type"] = AType
+    push(B)
+    
+    
+    -- misc methods
+  method time() static
+    -- :  ->  I
+    -- Pushes the current time (in seconds since the Epoch)
+    push(Calendar.getInstance().getTimeInMillis()/1000)
+    
+  method timeInMillis() static
+    -- :  ->  I
+    -- Pushes the current time (in milliseconds since the Epoch)
+    push(Calendar.getInstance().getTimeInMillis())
+    
+  method localtime() static
+    -- :  I  ->  T
+    -- Converts a time I into a list T representing local time:
+    -- [year month day hour minute second isdst yearday weekday].
+    -- Month is 1 = January ... 12 = December;
+    -- isdst is a Boolean flagging daylight savings/summer time;
+    -- weekday is 0 = Monday ... 7 = Sunday.
+    ms = long 1000*pop()
+    cal = Calendar.getInstance()
+    cal.setTimeInMillis(ms)
+    dst = "0"
+    lt = Rexx ""
+    MM = cal.get(2) + 1           --JAN = 1
+    dow = cal.get(7) - 2          --MON = 0
+    if dow < 0 then dow = dow + 7 --SUN = 6
+      lt = cal.get(1)               --YEAR
+      lt = lt MM                    --MONTH 
+      lt = lt cal.get(5)            --DAY_OF_MONTH 
+      lt = lt cal.get(11)           --HOUR_OF_DAY 
+      lt = lt cal.get(12)           --MINUTE 
+      lt = lt cal.get(13)           --SECOND 
+      lt = lt dst 
+      lt = lt cal.get(6)            --DAY_OF_YEAR 
+      lt = lt dow                   --DAY_OF_WEEK
+      lt["Type"] = LIST
+      push(lt)
+      
+      
+  method format() static
+    --      :  N C I J  ->  S
+    -- S is the formatted version of N in mode C
+    -- ('d or 'i = decimal, 'o = octal, 'x or
+    -- 'X = hex with lower or upper case letters)
+    -- with maximum width I and minimum width J.
+    -- FIXME: C I J are ignored. N is simply formatted
+    pop()
+    pop()
+    pop()
+    push(pop().format())	
+    
+    --helper methods
+  method saveStack() static returns java.lang.Object[]
+    return __Joy__.toArray()
+    
+  method restoreStack(arr = java.lang.Object[]) static
+    newStack()
+    loop jx = 0 to arr.length - 1
+      term = Rexx arr[jx]
+      parse term tag 2 term
+      term["Type"] = tag
+      push(term)
+    end
+    
+  method showStack() static
+    say __Joy__.toString()
+    
+  method reverseStack() static
+    arr = saveStack()
+    newStack()
+    loop jx = arr.length - 1 to 0 by -1
+      term = Rexx arr[jx]
+      parse term tag 2 term
+      term["Type"] = tag
+      push(term)
+    end
+    
+  method whitespace(ch=Rexx) static returns Rexx
+    if ch.verify(" \f\n\r\t") = 0 then return 1
+    else return 0
+    
+  method ltrim(inStr=Rexx) static returns Rexx
+    ins = inStr
+    loop while ins \= ""
+      if whitespace(ins.substr(1,1)) then parse ins . 2 ins
+      else leave
+    end
+    return ins
+    
+  method rtrim(inStr=Rexx) static returns Rexx
+    ins = inStr.reverse()
+    loop while ins \= ""
+      if whitespace(ins.substr(1,1)) then parse ins . 2 ins
+      else leave
+    end
+    return ins.reverse()
+    
+  method deferred() static 
+    return __Val__["defer"]
+    
+  method defer() static 
+    __Val__["defer"] = 1
+    
+  method undefer() static 
+    __Val__["defer"] = 0
+    
+  method match(ins=Rexx, ch=Rexx, start=Rexx) static returns Rexx
+    jx = start
+    loop  while jx > 0 & jx <= ins.length
+      select
+        when ins.substr(jx,1)='"' then
+          do
+            jx = joyScan(ins, STR, jx + 1)
+            if jx > 0 then jx = jx + 1
+          end
+        when ins.substr(jx,1)="'" then jx = jx + 2
+        when ins.substr(jx,1)='[' then
+          do
+            jx = joyScan(ins, LIST, jx + 1)
+            if jx > 0 then jx = jx + 1
+          end
+        when ins.substr(jx,1)='(' then
+          do
+            jx = joyScan(ins, COMMENT, jx + 1)
+            if jx > 0 then jx = jx + 1
+          end
+        when ins.substr(jx,1)=ch then return jx
+        otherwise
+          jx = jx + 1
+      end
+    end
+    return jx
+    
+  method joyScan(ins=Rexx, type=Rexx, start=Rexx) static returns Rexx
+    select
+      when type=STR then 
+        do
+          jx = ins.pos('"', start)
+          loop while jx > 0 & ins.substr(jx-1,1) = '\\'
+            jx = ins.pos('"',jx+1)
+          end
+          return jx
+        end
+      when type=SET then return ins.pos('}', start)
+      when type=COMMENT then return match(ins, ')', start)
+      when type=LIST then return match(ins, ']', start)
+      when type=DEFEND then return match(ins, '.', start)
+      when type=DEF then return match(ins, ';', start)
+      otherwise
+        say type"--Unknown type"
+        return 0
+    end
+    
+  method stripComments(ins=Rexx) static
+    parse ins ins "(" rest
+    loop while rest \= ""
+      jx = joyScan(rest, COMMENT, 1)
+      if jx = 0 then jx = jx + 1
+      parse rest . =(jx) . rest
+      ins = ins rest
+      parse ins ins "(" rest
+    end
+    return ins
+    
+  method storeDefs(ins=Rexx) static
+    term = stripComments(ins).strip()
+    parse term key "==" term
+    key = rtrim(ltrim(key))
+    term = rtrim(ltrim(term))
+    loop while term \= ""
+      jx = joyScan(term, DEF, 1)
+      if jx = 0 then jx = term.length + 1
+      parse term definition =(jx) . term
+      __LIB__["_Session", key] = definition
+      parse term key "==" term
+      key = rtrim(ltrim(key))
+      term = rtrim(ltrim(term))
+    end  
+    
+  method joyInterpretFirst(ins=Rexx) static signals IllegalAccessException, InvocationTargetException
+    ins = rtrim(ltrim(ins))
+    parse ins ch 2 .
+    select label main
+      --comments
+      when ch = '(' then
+        do -- process a block comment
+          jx = joyScan(ins, COMMENT, 2)
+          if jx = 0 then
+            do
+              say "Error: unclosed comment"
+              ins = ""
+              leave main
+            end
+          else parse ins '(' . =(jx) . +1 ins 
+        end
+      when ch = '#'   -- trailing line comment
+        then parse ins '#' . '\n' ins
+        
+        -- aggregates
+      when ch = '[' then
+        do -- process a list (possibly nested)
+	  if ins.abbrev("[]") then
+            do  --empty list
+              ins = ins.substr(3)
+              listTerm = " "
+              listTerm["Type"]=LIST
+              push(listTerm)
+            end
+          else
+            do
+              jx = joyScan(ins, LIST, 2)
+              if jx=0 | jx > ins.length then 
+                do
+                  say "Unclosed list"
+                  ins = ""
+                  leave main
+                end
+              else do
+                parse ins '[' listTerm =(jx)  .  +1  ins
+                listTerm["Type"]=LIST
+                push(listTerm)
+              end
+            end
+        end
+      when ch = '"' then
+        do
+          jx = joyScan(ins, STR, 2)
+          if jx = 0 then
+            do
+              say "Error: unclosed string"
+              ins = ""
+              leave main
+            end
+          else do
+            if jx = 2 then
+              do
+                parse ins . 3 ins
+                aStr = ""
+              end
+            else parse ins '"' aStr =(jx) . +1 ins
+            
+            aStr["Type"]=STR
+            push(aStr)
+          end
+        end
+      when ch='{' then
+        do -- process set
+          jx = joyScan(ins, SET, 2)
+          if jx = 0 then
+            do
+              say "Error: unclosed set"
+              ins = ""
+              leave main
+            end
+          else do
+            parse ins '{' setTerm =(jx)  .  +1  ins
+            setTerm["Type"]=SET
+            push(setTerm)
+          end
+        end
+      
+      -- number
+      when ch.datatype("Digit") then
+        do --process a number
+          parse ins term ins
+          if term = 0 then push(0)
+          else if ch = 0 then
+            if term.substr(2,1).upper() = 'X' & term.substr(3).datatype("X") then
+              do  -- hexadecimal
+                parse term . 3 term
+                term = term.x2d()
+                push(term) 
+              end
+            else if \term.verify("01234567")then
+              do -- octal
+                rev = term.reverse()
+                decnum = rev.substr(1,1)
+                loop jx = 2 to rev.length() - 1
+                  decnum = decnum + rev.substr(jx,1) * 8 ** (jx - 1)
+                end
+                push(decnum)
+              end
+            else say term"--Bad hex or octal number term"
+            else if term.datatype("Number") then push(term)
+          else say term"--Bad number term"
+        end
+      
+      when ch = '.' & ins.substr(2,1).datatype("Digit") then
+        do --process a number
+          parse ins term ins
+          if term.datatype("Number") 
+            then push(term)
+          else say term"--Bad number term"
+        end
+      
+      when ch = '-' & ins.substr(2,1).datatype("Digit") then
+        do --process negative number
+          parse ins term ins
+          parse term "-" term
+          if term = 0 then push(0)
+          else if term.substr(1,1) = 0 then
+            if term.substr(2,1).upper() = 'X' & term.substr(3).datatype("X") then
+              do  -- hexadecimal
+                parse term . 3 term
+                term = term.x2d()
+                push(0 - term) 
+              end
+            else if \term.verify("01234567")then
+              do -- octal
+                rev = term.reverse()
+                decnum = rev.substr(1,1)
+                loop jx = 2 to rev.length() - 1
+                  decnum = decnum + rev.substr(jx,1) * 8 ** (jx - 1)
+                end
+                push(0 - decnum)
+              end
+            else say term"--Bad hex or octal number term"
+            else if term.datatype("Number") then push(0 - term)
+          else say term"--Bad number term"
+        end
+      
+      -- character
+      when ch = "'" then
+        do
+          parse ins "'" term ins
+          select 
+            when term.length = 1 then -- plain character
+              do                      -- convert to std repr
+                term=term.c2d().right(3,'0')
+                term["Type"]=CHAR
+                push(term)
+              end
+            when term.datatype("Digit") then      -- std repr
+              do      
+                term = term.right(3,'0')
+                term["Type"]=CHAR
+                push(term)
+              end         
+            when term.substr(1,1) = '\\'  then       -- escape sequence
+              if term.substr(2).datatype("Digit") then  -- decimal ascii code
+                do      
+                  term = term.substr(2).right(3,'0')
+                  term["Type"]=CHAR
+                  push(term)
+                end
+              else if term.substr(2).length = 1 then  -- escaped character
+                do                                -- convert to ascii code
+                  term = __Chr__[term.substr(2,1)]
+                  term["Type"]=CHAR
+                  push(term)
+                end
+              else say term"--bad character"
+            otherwise
+              say term"--bad character"
+          end
+        end
+      
+      -- Joy word
+      -- FIXME: handle - as separator in long words
+      when ch.datatype("Mixed Case") then 
+        do -- process a symbol
+          parse ins term ins
+          L = term.length()
+          if term.substr(L,1) = '.' then
+            do
+              term = term.substr(1,L-1)
+              ins = '.'ins
+            end
+          if term.translate('_','-').datatype("Symbol") then 
+            if deferred() then
+              do
+                term["Type"] = SYMBOL
+                push(term)
+              end
+            else do
+              if term.upper() = "DEFINE" | term.upper() = "LIBRA"
+                then do
+                  __VAL__["definition"] = 1
+                  jx = joyScan(ins, DEFEND, 1)
+                  if jx = 0 | jx > ins.length then
+                    do
+                      term = ins
+                      ins = ""
+                    end
+                  else parse ins term =(jx) . ins
+                  storeDefs(term)
+                  leave main
+                end
+              done=0
+              tries=1
+              loop  until done
+                /* handle special values 
+                   if Joy constant or variable (property), push on stack
+                   else if Joy word, execute
+                 */
+                
+                select
+                  when tries=1 then
+                    do -- see if word is a method
+                      wrd=netJoy.class.getDeclaredMethod(term, null)
+                      __R__ = wrd.invoke(netJoy.class, null)
+                      done=1
+                    end
+                  when tries=2 then
+                    do --see if word is a property
+                      prop=netJoy.class.getDeclaredField(term)
+                      propVal = Rexx prop.get(null)
+                      push(propVal)
+                      done=1
+                    end             
+                  when tries=3 then
+                    do
+                      val = __Val__[term]
+                      if val \= "" then 
+                        do      --special value
+                          push(val)
+                          done = 1
+                        end
+                      else do 
+                        w = __Word__[term]
+                        if w \= "" then           --renamed Joy word
+                          do
+                            wrd=netJoy.class.getDeclaredMethod(w, null)
+                            __R__ = wrd.invoke(netJoy.class, null)
+                            done=1
+                          end
+                        else tries = tries + 1
+                      end
+                    end
+                  when tries = 4 then
+                    do
+                      pgm = __LIB__["_Session", term]
+		      if pgm \= "" then
+			do
+                          joyInterpret(pgm)
+                          done = 1
+			end
+		      else tries = tries + 1
+                    end
+                  otherwise
+                    say "Error: term" term "is unknown"
+                    done=1
+                    
+                catch NoSuchFieldException
+                  --say term "is not a property"
+                  tries = tries + 1
+                  iterate
+                  
+                catch NoSuchMethodException
+                  --say term "is not a method"
+                  tries = tries + 1
+                  iterate
+                end
+              end
+            end 
+            else say term"--Bad symbol"
+        end
+      
+      --operators
+      --display
+      when ch='.' & ins.substr(2,1) = " " then 
+        do
+          parse ins . 2 ins
+          if deferred() then
+            do
+              ch["Type"]=OPDOT
+              push(ch)
+            end
+          else say pop
+        end
+      
+      --arithmetic
+      when ch='+' then
+        do 
+          parse ins . 2 ins
+          if deferred() then
+            do
+              ch["Type"]=OPADD
+              push(ch)
+            end
+          else push(pop + pop)
+        end
+      when ch='-' then
+        do 
+          parse ins . 2 ins
+          if deferred() then
+            do
+              ch["Type"]=OPSUB
+              push(ch)
+            end
+          else do
+            Y = pop()
+            X = pop()
+            push(X - Y)
+          end
+        end
+      when ch='*' then
+        do 
+          parse ins . 2 ins
+          if deferred() then
+            do
+              ch["Type"]=OPMULT
+              push(ch)
+            end
+          else push(pop * pop)
+        end
+      when ch='/' then
+        do 
+          parse ins . 2 ins
+          if deferred() then
+            do
+              ch["Type"]=OPDIV
+              push(ch)
+            end
+          else do
+            Y = pop()
+            X = pop()
+            push(X / Y)
+          end
+        end
+      
+      --comparison operators
+      when ins = "<" | ins.abbrev("< ")
+        then do
+          parse ins "<" 3 ins
+          if deferred() then
+            do
+              ch["Type"]=OPLT
+              push(ch)
+            end
+          else do
+            Y = pop()
+            X = pop()
+            push(X < Y)
+          end
+        end
+      when ins = "=" | ins.abbrev("= ")
+        then do
+          parse ins "=" 3 ins
+          if deferred() then
+            do
+              ch["Type"]=OPEQ
+              push(ch)
+            end
+          else push(pop() = pop())
+        end
+      when ins = ">" | ins.abbrev("> ")
+        then do
+          parse ins ">" 3 ins
+          if deferred() then
+            do
+              ch["Type"]=OPGT
+              push(ch)
+            end
+          else do
+            Y = pop()
+            X = pop()
+            push(X > Y)
+          end
+        end
+      when ins.abbrev("<=")
+        then do
+          parse ins "<=" 3 ins
+          if deferred() then
+            do
+              ch["Type"]=OPLE
+              push(ch)
+            end
+          else do
+            Y = pop()
+            X = pop()
+            push(X <= Y)
+          end
+        end
+      when ins.abbrev(">=")
+        then do
+          parse ins ">=" 3 ins
+          if deferred() then
+            do
+              ch["Type"]=OPGE
+              push(ch)
+            end
+          else do
+            Y = pop()
+            X = pop()
+            push(X >= Y)
+          end
+        end
+      when ins.abbrev("!=")
+        then do
+          parse ins "!=" 3 ins
+          if deferred() then
+            do
+              ch["Type"]=OPNE
+              push(ch)
+            end
+          else push(pop() \= pop())
+        end
+      otherwise
+        say ch"--unknown token"
+        parse ins . 2 ins
+        leave main
+        
+    catch EmptyStackException
+      say "Stack Empty"
+    end main
+    return ins
+    
+  method joyInterpret(ins=Rexx) static signals IllegalAccessException, InvocationTargetException
+    loop while ins \= ""
+      if whitespace(ins.substr(1,1)) then
+        parse ins . 2 ins
+      else ins=joyInterpretFirst(ins)
+    end
+    
+  /**  REPL for the Joy interpreter */
+  method main(argv=String[]) public static
+    
+    netJoy.setup()   --set up Joy dicts
+    parse version nrx ver .
+    banner = "netJoy" netJoy.joyVersion
+    banner = banner "/" nrx ver 
+    banner = banner "/ Java" System.getProperty("java.version")
+    say banner
+    -- mainloop
+    loop forever
+      -- get input
+      ins=ask
+      ins = rtrim(ltrim(ins))
+      if ins.lower = "quit" then
+        leave
+      if ins.substr(1,1) = "$" then
+        say "System commands are not yet implemented"
+      else
+        -- interpret
+        joyInterpret(ins)
+    end
+    
+         

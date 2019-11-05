@@ -1,0 +1,10 @@
+pipe (splittest11)
+
+   literal NetRexx is intended as a dialect of Rexx that can be efficient and portable. |
+   split -3 after i |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal NetRex;x i;s intended as a; dialect of Rexx that can be e;ff;icient and portable. |
+   split ; |
+   compare:

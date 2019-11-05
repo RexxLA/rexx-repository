@@ -1,0 +1,11 @@
+pipe (jointest1)
+
+   literal a1 a2 a3 s4 s5 d6 d7 d8 dA fB fC |
+   split |
+   join keyleng 1 /../ |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal a1..2..3..;s4..5..;d6..7..8..A..;fB..C..; |
+   split ; |
+   compare:

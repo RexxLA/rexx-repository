@@ -1,0 +1,206 @@
+/* network\rmijdbc\RmiCont.nrx
+
+   RMI - JDBC Program:  JDBC Controller Implementation 
+   Usage: Java RmiCont [<DB-URL>] [<userprefix>] */
+
+package network.rmijdbc
+
+import java.rmi.
+import java.rmi.server.
+
+import java.sql.
+
+class RmiCont public extends UniCastRemoteObject implements RmiContI
+
+/*-------------------------- variables ------------------------------*/
+Properties static
+  prefix      = Rexx 'userid'          -- table prefix
+  url         = Rexx 'jdbc:db2:sample' -- database URL
+  conthost    = Rexx ''                -- host name of controller
+
+Properties inheritable
+  jdbcCon     = Connection             -- database Connection
+  selDepNo    = String ''              -- selected row values
+  selName     = String ''
+  selMgNo     = String ''
+  selMgDepNo  = String ''
+
+/*-------------------------- methods --------------------------------*/
+method main(args=String[]) public static
+  do
+    if args.length > 0 then url      = args[0]
+    if args.length > 1 then prefix   = args[1]
+    say 'Registering the Security Manager ...'
+    System.setSecurityManager(RMISecurityManager())
+    say 'Publishing the "Controller" object: rmi://'conthost'/Controller' 
+    controller = RmiCont()                                  -- controller object
+    Naming.rebind('rmi://'conthost'/Controller',controller) -- bind controller
+    say 'RMI Controller is ready ...'
+  catch e=Exception
+    say 'Exception (' e ') caught: \n' e.getMessage()
+  end
+
+/*-------------------------- constructor -----------------------------*/
+method RmiCont() signals RemoteException 
+
+/*-------------------------- connect() -------------------------------*/
+method connect() returns String public signals RemoteException
+  do
+    Class.forName('COM.ibm.db2.jdbc.app.DB2Driver').newInstance()
+    -- Class.forName('COM.ibm.db2.jdbc.net.DB2Driver').newInstance()
+    say 'Connecting to database:' url
+    jdbcCon = Connection DriverManager.getConnection(url, 'userid', 'password')
+    msg = 'Connected to' url
+    say msg
+  catch e2 = SQLException
+    msg = 'SQLException(s) caught while connecting !'
+    loop while (e2 \= null)
+       say 'SQLState:' e2.getSQLState()
+       say 'Message: ' e2.getMessage()
+       say 'Vendor:  ' e2.getErrorCode()
+       say
+       e2 = e2.getNextException()
+    end
+  catch e1 = Exception
+    msg = 'The DB2 driver classes could not be found and loaded !'
+    say 'Exception (' e1 ') caught : \n' e1.getMessage()
+  end
+  return msg
+
+/*-------------------------- retrieveListDep() -----------------------*/
+method retrieveListDep() returns String[] public signals RemoteException
+  deptarr = Rexx ''
+  do
+    query = 'SELECT deptno, deptname, mgrno, admrdept' -
+             'FROM' prefix'.DEPARTMENT ORDER BY deptno'
+    stmt = Statement jdbcCon.createStatement()
+    rs = ResultSet stmt.executeQuery(query)
+    loop row=1 while rs.next()
+         deptarr[row] = rs.getString('deptno') '-' rs.getString('deptname')
+    end
+    row = row-1
+    deptarr['count'] = row
+    rs.close()                         -- close the result set
+    stmt.close()                       -- close the statement
+    deptarr['message'] = 'Retrieved' row 'departments'
+  catch ex=SQLException
+    deptarr['message'] = ex.getMessage()
+    deptarr['count'] = 0
+  end
+  deptstr = String[row+1]              -- convert Rexx to: string[]
+  loop i=1 to row
+     deptstr[i] = deptarr[i]
+  end
+  deptstr[0] = deptarr['message']
+  return deptstr                       -- return the string array
+
+/*-------------------------- update() ---------------------------------*/
+method update(depNo=String, name=String, mgNo=String, mgDepNo=String) -
+       returns String public signals RemoteException
+  do
+    if depNo = '' then
+         return 'Missing department number for update !'
+    if depNo <> selDepNo then          -- If depNo already exists you'll
+      do                               -- loose the department at selDepNo
+         tempDepNo = selDepNo          -- Room for improvement...
+         add(depNo, name, mgNo, mgDepNo)
+         delete(tempDepNo)
+         return 'Department number updated (delete old, add new)'
+      end
+    updQuery = 'UPDATE' prefix'.DEPARTMENT' -
+                "SET deptname = '"name"'," -
+                    "mgrno = '"mgNo"'," -
+                    "admrdept = '"mgDepNo"'" -
+                "WHERE deptno = '"depNo"'"
+    say 'Update SQL query :' updQuery
+    stmt = Statement jdbcCon.createStatement()
+    stmt.executeUpdate(updQuery)
+    msg = 'Replaced a department.'
+    stmt.close()
+    selDepNo = ''
+  catch ex=SQLException
+    msg = ex.getMessage()
+  end
+  return msg
+
+/*-------------------------- delete() -------------------------------*/
+method delete(depNo=String) returns String public signals RemoteException
+  do
+    if depNo = '' then
+       return 'Missing department number for delete'
+    delQuery = 'DELETE FROM' prefix'.DEPARTMENT' -
+               "WHERE deptno = '"depNo"'"
+    say 'Delete SQL query :' delQuery
+    stmt = Statement jdbcCon.createStatement()
+    stmt.executeUpdate(delQuery)
+    msg = 'Deleted a department.'
+    stmt.close()
+    selDepNo = ''
+  catch ex=SQLException
+    msg = ex.getMessage()
+  end
+  return msg
+
+/*-------------------------- add() ----------------------------------*/
+method add(depNo=String, name=String, mgNo=String, mgDepNo=String) -
+       returns String public signals RemoteException
+  do
+    query = 'SELECT deptno, deptname, mgrno, admrdept' - --test uniqueness of depNo
+            'FROM' prefix'.DEPARTMENT' -
+            "WHERE deptno = '"depNo"'"
+    stmt = Statement jdbcCon.createStatement()
+    rs = ResultSet stmt.executeQuery(query)
+    if rs.next() then
+       return ''depNo 'is in use, choose another department number.'
+    rs.close()                         -- Close the result set
+    stmt.close()                       -- Close the statement
+    addQuery = 'INSERT INTO' prefix'.DEPARTMENT' -
+               '(deptno, deptname, mgrno, admrdept)' -
+               "VALUES ('"depNo"','"name"','"||-
+               mgNo"','"mgDepNo"')"
+    say 'Insert SQL query :' addQuery
+    stmt = Statement jdbcCon.createStatement()
+    stmt.executeUpdate(addQuery)
+    msg = 'Inserted a department.'
+    stmt.close()
+  catch ex=SQLException
+    msg = ex.getMessage()
+  end
+  return msg
+
+/*-------------------------- select() -------------------------------*/
+method select(depNo=String) returns String public signals RemoteException
+  if (selDepNo <> depNo) then
+    do
+      msg = 'Select('depNo')'
+      query = 'SELECT deptno, deptname, mgrno, admrdept' -
+              'FROM' prefix'.DEPARTMENT' -
+              "WHERE deptno = '"depNo"'"
+      stmt = Statement jdbcCon.createStatement()
+      rs = ResultSet stmt.executeQuery(query)
+      rs.next()
+      selDepNo   = depNo
+      selName    = rs.getString('deptname')
+      selmgNo    = rs.getString('mgrno')
+      selmgDepNo = rs.getString('admrdept')
+      rs.close()                         -- close the result set
+      stmt.close()                       -- close the statement
+    catch ex=SQLException
+      msg = 'Select():' ex.getMessage()
+    end
+  else msg = 'Selected department number did not change'
+  return msg
+
+/*-------------------------- getDepName() ------------------------------*/
+method getDepName() returns String public signals RemoteException
+  return selName
+
+/*-------------------------- getMgNo() ---------------------------------*/
+method getMgNo() returns String public signals RemoteException
+  return selMgNo
+
+/*-------------------------- getMgDepNo() ------------------------------*/
+method getMgDepNo() returns String public signals RemoteException
+  return selMgDepNo
+
+-- end RmiCont

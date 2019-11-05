@@ -1,0 +1,35 @@
+/* nrxbeans\lab\NrxLightBeanInfo.nrx
+
+   A simple light bean that can switch a light bulb */
+
+package nrxbeans.lab
+
+import java.beans.
+
+class NrxLightBeanInfo extends SimpleBeanInfo
+
+    properties private
+       beanClass = Class
+
+    method NrxLightBeanInfo() public
+       do
+          beanClass = Class.forName("nrxbeans.lab.NrxLight")
+       catch e=ClassNotFoundException
+          say "unable to find class - nrxbeans.lab.NrxLight"
+          e.printStackTrace()
+       end
+
+    method getPropertyDescriptors() public returns PropertyDescriptor[]
+       rv = PropertyDescriptor[3]
+       do
+          lightOn  = PropertyDescriptor("lightOn", beanClass)
+	  onColor  = PropertyDescriptor("onColor", beanClass)
+          offColor = PropertyDescriptor("offColor", beanClass)
+          rv[0] = lightOn
+          rv[1] = onColor
+          rv[2] = offColor
+          return rv
+       catch e=IntrospectionException
+          signal Error(e.toString())
+       end
+

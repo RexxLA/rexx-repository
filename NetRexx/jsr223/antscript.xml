@@ -1,0 +1,10 @@
+<project name="MyProject" basedir=".">
+  <description>
+    demonstration of ant jsr223 netrexx scripting
+  </description>
+
+  <property name="divider" value="81" />
+  <script language="netrexx" manager="javax">
+    say "100/"divider '= ' 100/divider
+  </script>
+</project>

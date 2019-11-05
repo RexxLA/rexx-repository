@@ -1,0 +1,33 @@
+/* redbook\gui\PromptDialogActionListener.nrx
+
+   Action listener to create a PromptDialog when an action event occurs
+   and return the result of the dialog to the calling program.
+   The application must implement the PromptDialogAction interface. */
+
+Package Redbook
+
+class PromptDialogActionListener implements ActionListener
+ Properties inheritable
+   application = PromptDialogAction         -- the application
+   theDialog   = PromptDialog               -- the prompt dialog box
+   
+ method PromptDialogActionListener(prompter = PromptDialogAction)
+   application = prompter
+
+ method actionPerformed(e=ActionEvent)
+   comp = Component e.getSource()           -- get the source of the event
+
+   -- the source is a menu item or a button 
+   -- the parent window is the dialog or an unknown window
+   -- return the value of the textfield if its the dialog
+   do      
+      source = RedbookUtil.findParentWindow(comp)
+    catch NoWindow
+   end
+
+   if source == theDialog then              -- was the source the prompt dialog ?
+      application.promptReady((PromptDialog source).getText(),this)   
+   else do                                  -- construct the PromptDialog Window  
+     theDialog = application.getPromptDialog(this)
+     theDialog.setVisible(1)
+   end

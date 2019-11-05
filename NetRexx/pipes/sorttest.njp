@@ -1,0 +1,8 @@
+pipe (sorttest)
+
+   random 5000 |
+   ptimer |
+   sort A |
+   ptimer |
+   count lines |
+   console

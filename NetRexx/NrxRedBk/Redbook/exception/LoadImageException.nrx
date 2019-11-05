@@ -1,0 +1,10 @@
+/* redbook\exception\LoadImageException.nrx
+
+   Signalled by the ImagePanel class when loading of an image fails */
+
+package Redbook
+
+class LoadImageException extends RedbookException
+
+method LoadImageException()
+  super('Image not found or error while loading')

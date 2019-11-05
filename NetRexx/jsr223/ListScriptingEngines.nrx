@@ -1,0 +1,19 @@
+import javax.script.ScriptEngine
+import javax.script.ScriptEngineFactory
+import javax.script.ScriptEngineManager
+
+  method main(args=String[]) static
+    manager = ScriptEngineManager()
+    factories = manager.getEngineFactories()
+    it=factories.iterator()
+    loop while it.hasNext()
+      factory=ScriptEngineFactory it.next()
+      f=ScriptEngine factory.getScriptEngine()
+      say "className      = " f.getClass.getName
+      engineName    = factory.getEngineName()
+      engineVersion = factory.getEngineVersion()
+      langName      = factory.getLanguageName()
+      langVersion   = factory.getLanguageVersion()
+      say "engineName     = " engineName engineVersion langName langVersion
+      say
+    end

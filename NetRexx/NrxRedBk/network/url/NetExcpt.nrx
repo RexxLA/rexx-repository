@@ -1,0 +1,54 @@
+/* network\url\NetExcpt.nrx
+
+   Skeleton code for exception handling in network programs */
+
+catch e1=MalformedURLException
+  say 'The port is not available (connection refused):'
+  say '- port is not registered on the server'
+  say '- the server is down'
+  say 'MalformedURLException (' e1 ') caught: \n' e1.getMessage()
+
+catch e2=ProtocolException
+  say 'An error occured in the level of the used protocol (FTP, HTTP,...)'
+  say 'ex.: Error in the format of the HTTP request string (GET /...).'
+  say 'ProtocolException (' e2 ') caught: \n' e2.getMessage()
+
+catch e3=BindException
+  say 'The binding of a socket to a local address and port failed.'
+  say 'This occurs when you want to register code on'
+  say '(one of the IP addresses) on your server:'
+  say '- port is not avialable'
+  say '- the specified IP address was not found on this server'
+  say 'BindException (' e3 ') caught: \n' e3.getMessage()
+
+catch e4=ConnectException
+  say 'The port is not available (connection refused):'
+  say '- port is not registered on the server'
+  say '- the server is down'
+  say 'IOException (' e4 ') caught: \n' e4.getMessage()
+
+catch e5=NoRouteToHostException
+  say 'The attempt to connect to the host timed out.'
+  say '- host is unreachable'
+  say '- host is too far'
+  say 'NoRouteToHostException (' e5 ') caught: \n' e5.getMessage()
+
+catch e6=SocketException
+  say 'A socket creation failed or an attempt was made'
+  say 'to register a socketfactory when one has already been set.'
+  say 'Older versions of classes can throw this instead a the recent,'
+  say 'more specialized versions.'
+  say 'SocketException (' e6 ') caught: \n' e6.getMessage()
+
+catch e7=UnknownHostException
+  say 'A hostname (' e7.getMessage ')'
+  say 'could not be resolved to its IP address.'
+  say 'Try to use the IP (numerical) address instead.'
+  say 'UnknownHostException (' e7 ') caught: \n' e7.getMessage()
+
+catch e8=UnknownServiceException
+  say 'There is something wrong with an URLConnection, either:'
+  say '- the MIME type returned by a URL connection does not make sense'
+  say '- you tried to write to a read-only connection'
+  say '- you tried to read a connection that does not support inputstreams'
+  say 'IOException (' e8 ') caught: \n' e8.getMessage()

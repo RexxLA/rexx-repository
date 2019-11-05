@@ -1,0 +1,23 @@
+/* gui\imagepanel\TestImage.nrx */
+
+import Redbook.
+
+class TestImage extends Applet
+  method init()
+    do
+      setLayout(BorderLayout())
+      add(ImagePanel('/Redbook/kids.jpg'))
+    catch el=LoadImageException
+      add('Center',ExtendedLabel(el.getMessage()))
+    end
+/*    
+    do
+      setLayout(BorderLayout())
+      aurl = URL('http://sdfrxs02.ae.boeblingen.ibm.com/chm/usa96/img0001.jpg')
+      add('Center',ImagePanel(aurl))
+    catch e=MalformedURLException
+      say 'Exception' e 
+    catch el=LoadImageException
+      add('Center',ExtendedLabel(el.getMessage()))
+    end
+*/

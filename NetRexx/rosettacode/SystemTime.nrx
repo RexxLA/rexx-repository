@@ -1,0 +1,3 @@
+/* rosettacode SystemTime task */
+import java.text.SimpleDateFormat
+say SimpleDateFormat("yyyy-MM-dd-HH.mm.ss.SSS").format(Date())

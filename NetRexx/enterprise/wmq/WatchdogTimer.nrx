@@ -1,0 +1,5 @@
+class WatchdogTimer extends TimerTask
+
+  method WatchdogTimer()
+  method run()
+    say  'WATCHDOG TIMER TIMEOUT: HPOpenView Alert Issued' Date()

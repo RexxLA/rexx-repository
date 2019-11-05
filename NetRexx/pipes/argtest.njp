@@ -1,0 +1,14 @@
+class argtest extends Object
+
+method argtest()
+  two = 2
+   pipe (argpipe end ? )
+      literal {} | console ?
+      literal {two} | specs /word2: / 1 1-* next | console
+
+method main(a=String[]) static
+
+   argtest()
+   exit
+
+

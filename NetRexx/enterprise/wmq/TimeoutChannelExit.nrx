@@ -1,0 +1,38 @@
+import com.ibm.mq.
+import java.nio.
+
+class TimeoutChannelExit implements WMQSendExit, WMQReceiveExit, WMQSecurityExit
+  
+  properties
+  
+  tTask = WatchdogTimer
+  t = java.util.Timer
+  timeout = long
+  initialized = boolean
+  
+  method TimeoutChannelExit()
+    say "TimeoutChannelExit Constructor Called"
+    t = java.util.Timer()
+    timeout = long 15000
+ 
+  method channelReceiveExit(channelExitParms=MQCXP, -
+			    channelDefinition=MQCD, -
+			    agentBuffer=ByteBuffer) returns ByteBuffer
+    do
+      this.tTask.cancel() -- cancel the timer task whenever a message is read
+    catch NullPointerException -- but catch the null pointer the first time
+    end
+    this.tTask = WatchdogTimer()
+    this.t.schedule(this.tTask,this.timeout)
+    return agentBuffer
+    
+  method channelSecurityExit(channelExitParms=MQCXP, -
+			     channelDefinition=MQCD, -
+			     agentBuffer=ByteBuffer) returns ByteBuffer
+    return agentBuffer
+    
+  method channelSendExit(channelExitParms=MQCXP, -
+			 channelDefinition=MQCD, -
+			 agentBuffer=ByteBuffer) returns ByteBuffer
+    return agentBuffer
+    

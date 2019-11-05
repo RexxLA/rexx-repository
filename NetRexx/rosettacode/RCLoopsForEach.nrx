@@ -1,0 +1,14 @@
+/* NetRexx */
+options replace format comments java symbols nobinary
+
+  say
+  say 'Loops/Foreach'
+
+  days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  daysl = Arrays.asList(days)
+  daysi = daysl.iterator
+
+  loop while daysi.hasNext
+    say daysi.next
+    end
+

@@ -1,0 +1,7 @@
+import org.netrexx.
+
+/* NetRexx compile from string example  */
+
+programstring = "say 'hello there via NetRexxC'"
+
+NetRexxC.main("myprogram",programstring)

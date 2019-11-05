@@ -1,0 +1,13 @@
+pipe (changetest04 sep |)
+
+literal line 1.1;line 1.2 last;_;line 2.1;line 2;Line 2.2;LIne 2.3 LAST;_;LINE 3.1 last |
+split ; |
+change /_// |
+   change (1.2 3-7 8 10-* *.6)  /1/111/ * |
+console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal line 111.111;line 111.2 last;_;line 2.111;line 2;Line 2.2;LIne 2.3 LAST;_;LINE 3.111 last |
+split ; |
+change /_// |
+compare:

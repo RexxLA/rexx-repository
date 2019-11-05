@@ -1,0 +1,37 @@
+
+-- make a string of words with a couple containing the letter 'k'
+
+wordstring=String "Just a bunch of words to test for killer items containing a k"
+
+-- convert the string into a Java List (a Collection):
+
+alist=ArrayList(Arrays.asList(wordstring.split(" ")))
+
+-- now run a filter stream operation on the list
+-- using a hard coded Predicate class for a filter instead of a Java lambda expression:
+-- (the filter just selects words containing the letter 'k')
+
+sa=alist.stream.filter(Pred()).toArray
+
+-- print the results for verification:
+
+loop y over sa
+    say y
+    end
+
+say "-----------------------"
+
+    -- now run a foreach operation on a stream
+    -- using a hard coded Consumer class instead of a Java lambda 
+--     the consumer here just prints inputs with some surrounding brackets
+
+alist.stream.foreach(Eatem())
+
+class Pred implements Predicate
+    method test(s=Object) returns boolean
+      return Rexx(s.toString).pos('k')>0
+     
+class Eatem implements Consumer
+    method accept(s=Object)
+      say ">>"s"<<"
+        

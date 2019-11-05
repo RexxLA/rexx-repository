@@ -1,0 +1,87 @@
+/* nrxbeans\sample\EmpBean.nrx
+
+   Simple nonvisual employee bean */
+
+import java.beans.
+
+package nrxbeans.sample
+
+class EmpBean public binary
+
+  properties constant
+    salaryLimit = float 100
+
+  properties inheritable
+    propertyChange      = PropertyChangeSupport(this)
+    aActionListener     = Vector null
+
+  properties private
+    fieldNumber  = int 0
+    fieldName    = String null
+    fieldSalary  = float 0
+
+
+  method getNumber() public returns int
+    return fieldNumber
+
+  method getName() public returns String
+    if fieldName == null then fieldName = String ''
+    return fieldName
+
+  method getSalary() public returns float
+    return fieldSalary
+
+  method setNumber(number=int) public 
+    oldValue = int fieldNumber
+    fieldNumber = number
+    firePropertyChange("number", Integer(oldValue), Integer(number))
+
+  method setName(name=String) public 
+    oldValue = String fieldName
+    fieldName = name
+    firePropertyChange("name", oldValue, name)
+
+  method setSalary(salary=float) private
+    oldValue = float fieldSalary
+    fieldSalary = salary
+    if salary > salaryLimit then do
+       salary = salaryLimit
+       fieldSalary = salaryLimit
+       fireActionPerformed( ActionEvent( this, -
+                                         ActionEvent.ACTION_FIRST, -
+                                         "SALARY-LIMIT" )            )
+    end
+    firePropertyChange("salary", Float(oldValue), Float(salary))
+
+
+  method increaseSalary(amount=float) public
+    setsalary( getSalary() + amount )
+
+  method decreaseSalary(amount=float) public
+    setsalary( getSalary() - amount )
+
+
+  method addPropertyChangeListener(listener=PropertyChangeListener) public protect
+    propertyChange.addPropertyChangeListener(listener)
+
+  method removePropertyChangeListener(listener=PropertyChangeListener) public protect
+    propertyChange.removePropertyChangeListener(listener)
+
+  method firePropertyChange(propertyName=String, oldValue=Object, newValue=Object) public
+    propertyChange.firePropertyChange(propertyName, oldValue, newValue)
+
+
+  method addActionListener(newListener=ActionListener) public protect
+    if aActionListener == null then aActionListener = Vector()
+    aActionListener.addElement(newListener)
+
+  method removeActionListener(newListener=ActionListener) public protect
+    if aActionListener \= null then
+       aActionListener.removeElement(newListener)
+
+  method fireActionPerformed(e=ActionEvent)
+    if aActionListener == null then return
+    currentListeners = (Vector aActionListener.clone()).elements()
+    loop while currentListeners.hasMoreElements()
+       (ActionListener currentListeners.nextElement()).actionPerformed(e)
+    end

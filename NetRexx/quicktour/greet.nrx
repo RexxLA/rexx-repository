@@ -1,0 +1,10 @@
+  /* A short program to greet you.                      */
+  /* First display a prompt:                            */
+  say 'Please type your name and then press ENTER:'
+  answer=ask               /* Get the reply into ANSWER */
+
+  /* If nothing was typed, then use a fixed greeting,   */
+  /* otherwise echo the name politely.                  */
+  if answer='' then say 'Hello Stranger!'
+               else say 'Hello' answer'!'
+

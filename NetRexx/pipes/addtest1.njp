@@ -1,0 +1,25 @@
+-- o-o insert into output stream
+
+pipe (addt1 debug 0 ) gen 20 | addtest1 | console
+
+import org.netrexx.njpipes.pipes.
+
+class addtest1 extends stage final
+
+method run() public
+
+   say 'o-o : a 10, a 20'
+   do
+      addpipe (addpt1 debug 0 ) *out: | locate /0/ | *out:
+
+      loop forever
+         line = peekto()
+         output('a 'line)
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

@@ -1,0 +1,22 @@
+/* first\Factor.nrx
+
+   This is our first NetRexx program.   The program asks the user for a 
+   number and calculates the factorial of the given number.  
+   You should try big numbers. */
+
+numeric digits 64 -- switch to exponential format when numbers become
+                  -- larger as 64 digits
+say 'Factorial program'
+say '-----------------------------------------------------------'
+say 'Input a number: \-'
+do
+   n = int ask       -- Gets the number, must be an integer
+   if n < 0 then signal RuntimeException
+   fact = 1          -- Initial value
+   loop i=1 to n
+      fact = fact * i
+   end
+   say n'! =' fact
+ catch RuntimeException
+   say 'Sorry, but this was not a positive integer'
+end

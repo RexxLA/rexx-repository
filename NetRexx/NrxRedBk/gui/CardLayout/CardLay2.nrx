@@ -1,0 +1,66 @@
+/* gui\cardlayout\CardLay2.nrx
+
+   Sample Applet to illustrate the CardLayout manager */
+
+class CardLay2 extends Applet
+
+method init()
+  setLayout(BorderLayout())  -- To show the buttons and the CardLayout manager
+
+  -- GridLayout to store the button list
+  pgrid = Panel(); grid = GridLayout(1,0,1,0) 
+  pgrid.setLayout(grid)
+
+  -- This is the CardLayout manager
+  pcard = Panel(); card = CardLayout()
+  pcard.setLayout(card)
+
+  -- create the buttons and add the action listener
+  b = Button('<');     b.addActionListener(BList2('previous',pcard)); pgrid.add(b)
+  b1= Button('One');   b1.addActionListener(BList2('One',pcard));     pgrid.add(b1)
+  b2= Button('Two');   b2.addActionListener(BList2('Two',pcard));     pgrid.add(b2)
+  b3= Button('Three'); b3.addActionListener(BList2('Three',pcard));   pgrid.add(b3)
+  b = Button('>');     b.addActionListener(BList2('next',pcard));     pgrid.add(b)
+
+  -- add the panels to the applet
+  add("North",pgrid)
+  add("Center",pcard)
+
+  -- add the components to the CardLayout manager
+  l = Label('One',Label.CENTER); pcard.add('One',l); l.addComponentListener(Activate(b1))
+  l = Label('Two',Label.CENTER); pcard.add('Two',l); l.addComponentListener(Activate(b2))
+  l = Label('Three',Label.CENTER); pcard.add('Three',l); l.addComponentListener(Activate(b3))
+
+  b1.setEnabled(0) -- First showns
+
+-- The BList2 class is needed to switch the panels
+class BList2 implements ActionListener
+  Properties inheritable
+    cont  = Container
+    aLabel = String
+
+  method BList2(theLabel=String,aContainer=Container)
+    cont = aContainer; aLabel = theLabel
+
+  method actionPerformed(e=ActionEvent) 
+    select                              
+      when aLabel='next' then            
+        (CardLayout cont.getLayout()).next(cont)                     
+      when aLabel='previous' then        
+        (CardLayout cont.getLayout()).previous(cont)                 
+      otherwise                         
+        (CardLayout cont.getLayout()).show(cont,aLabel)                
+    end                                 
+                    
+class Activate extends ComponentAdapter
+  Properties 
+     abutton = Button
+
+  method Activate(b=Button)
+    abutton=b
+
+  method componentHidden(e=ComponentEvent)
+    abutton.setEnabled(1)
+
+  method componentShown(e=ComponentEvent)
+    abutton.setEnabled(0)

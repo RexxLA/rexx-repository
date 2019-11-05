@@ -1,0 +1,17 @@
+pipe (litt1 debug 63)
+
+   literal 1 2 3 4 5 6 7 8 A B C D E F G H I J K L M N O P Q R S T |
+   literal xyz |
+   take first 1 |
+   console
+
+
+
+
+
+
+
+
+
+
+

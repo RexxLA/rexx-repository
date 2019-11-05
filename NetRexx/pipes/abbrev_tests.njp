@@ -1,0 +1,121 @@
+--  abbrev_tests: abbrev
+
+/** abbrev
+
+>>--ABBREV---+-------------------------------+---><-
+             +-word-+---------------------+--+
+                    +-number-+---------+--+
+                             +-ANYcase-+ (3)
+
+(3) CASEANY, CASEIGNORE, CASELESS, and IGNORECASE are all synonyms for ANYcase.
+(3) ANYcase must be ANYCASE in CMS
+
+*/
+
+-- 19/09/16
+
+pipe (abbrev_tests)
+
+ o: faninany |
+    sort |
+    specs 2-* 1 |
+    console ?
+
+-- abbrev word number ?
+   literal st str string strings |
+   split |
+   abbrev string 3 |
+   c1: compare any ~2# 1 abbrev word number ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;string; |
+   split ; |
+   c1: ?
+
+-- abbrev word number anyc ?
+   literal st str sTring strings |
+   split |
+   abbrev string 3 anyc|
+   c2: compare any ~2# 2 abbrev word number anyc~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;sTring; |
+   split ; |
+   c2: ?
+
+-- abbrev word number  (secondary output) ?
+
+   literal st str sTring string strings |
+   split |
+   a3: abbrev string 3 ?
+   a3: |
+   c3: compare any ~2# 3 abbrev word number  (secondary output)~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal st;sTring;strings; |
+   split ; |
+   c3: ?
+
+-- abbrev word number anyc  (secondary output) ?
+
+   literal st str sTring string strings |
+   split |
+   a4: abbrev string 3 any ?
+   a4: |
+   c4: compare any ~2# 4 abbrev word number anyc (secondary output)~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal st;strings; |
+   split ; |
+   c4: ?
+
+-- abbrev word number caseany ?
+   literal st str sTring strings |
+   split |
+   abbrev string 3 caseany |
+   c5: compare any ~2# 5 abbrev word number caseany~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;sTring; |
+   split ; |
+   c5: ?
+
+-- abbrev word number caseignore ?
+   literal st str sTring strings |
+   split |
+   abbrev string 3 caseignore |
+   c6: compare any ~2# 6 abbrev word number caseignore~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;sTring; |
+   split ; |
+   c6: ?
+
+-- abbrev word number caseless ?
+   literal st;str;sTring;strings |
+   split ; |
+   abbrev string 3 caseless |
+   c7: compare any ~2# 7 abbrev word number caseless ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b. (note: COMPARE prob: Actual is "" and Expected is "sTring")~ less /Less:\nActual:\n!\\p!\nExpected:\n!\\s!\n/ more /More:\nActual==:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;sTring |
+   split ; |
+   c7: ?
+
+-- abbrev word number ignorecase ?
+   literal st str sTring strings |
+   split |
+   abbrev string 3 ignorecase |
+   c8: compare any ~2# 8 abbrev word number ignorecase~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;sTring; |
+   split ; |
+   c8: ?
+
+-- IBM Users Guide Example ?
+
+   literal 2# 9\n IBM Users Guide Example |
+   o: ?
+
+-- page 288  pipe literal st str string strings ! split ! abbrev string 3 ! console ?
+   literal st str string strings |
+   split |
+   abbrev string 3  |
+   c9: compare any ~2# 9 page 288  pipe literal st str string strings ! split ! abbrev string 3 ! console ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;string; |
+   split ; |
+   c9: ?

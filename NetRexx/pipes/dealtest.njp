@@ -1,0 +1,39 @@
+pipe (dealt1)
+
+   gen 50 |
+   console |
+a: deal |
+   copy |
+   take first 15 |
+   specs /a/ 1 1-* nextw |
+   console ?
+a: |
+   copy |
+   take first 10 |
+   specs /b/ 1 1-* nextw |
+   console ?
+a: |
+   copy |
+   take first 5 |
+   specs /c/ 1 1-* nextw |
+   console
+
+pipe (dealt2)
+
+   gen 50 |
+   console |
+a: deal stop alleof |
+   copy |
+   take first 15 |
+   specs /a/ 1 1-* nextw |
+   console ?
+a: |
+   copy |
+   take first 10 |
+   specs /b/ 1 1-* nextw |
+   console ?
+a: |
+   copy |
+   take first 5 |
+   specs /c/ 1 1-* nextw |
+   console 

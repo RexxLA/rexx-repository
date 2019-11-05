@@ -1,0 +1,22 @@
+/* gui\simplegridbaglayout\GrBagLa2.nrx
+
+   Sample Applet to illustrate the GridBagLayout manager */
+
+import Redbook.
+
+class GrBagLa2 extends Applet uses GridBagConstraints
+
+method init()
+  sgbl  = SimpleGridBagLayout(this)
+
+  -- Add the labels
+  sgbl.addFixSize(Label('Name'),0,0,Insets(10,10,5,5))
+  sgbl.addFixSize(Label('Sex'),0,1,Insets(0,10,5,5))
+  sgbl.addFixSize(Label('Notes'),0,2,Insets(0,10,10,5))
+
+  -- Add the other components
+  cbg  = CheckboxGroup()  -- Checkbox group because exclusive choices
+  sgbl.addVarSize(TextField(),1,0,Insets(10,0,5,10),1.0,0.0,REMAINDER)
+  sgbl.addVarSize(Checkbox('male',cbg,1),1,1,Insets(0,0,5,5),1.0,0.0)
+  sgbl.addVarSize(Checkbox('female',cbg,1),2,1,Insets(0,0,5,10),1.0,0.0)
+  sgbl.addVarSize(TextArea(5,20),1,2,Insets(0,0,10,10),1.0,1.0,REMAINDER)

@@ -1,0 +1,13 @@
+/* gui\borderlaypout\BordLaynrx
+
+   Sample Applet to illustrate the BorderLayout manager */
+
+class BordLay extends Applet
+
+method init()
+  setLayout(BorderLayout(4,4))
+  add( 'North', Button('North') )
+  add( 'South', Button('South') )
+  add( 'West',  Button('West') )
+  add( 'East',  Button('East') )
+  add( 'Center',Button('Center') )

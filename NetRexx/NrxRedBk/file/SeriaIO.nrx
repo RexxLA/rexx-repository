@@ -1,0 +1,76 @@
+/* file\SeriaIO.nrx
+
+   Output of a Customer object with binary data using Serialization */
+
+class SeriaIO
+  Properties constant
+    yes = boolean 1
+    no  = boolean 0
+
+  method main(args=String[]) static
+    custDB = Customer2[4]                        -- allocate 4 customers
+    custRD = Customer2[]                         -- read back "x" customers
+
+    -- instanciate objects
+    custDB[0] = Customer2(101,"Ueli Wahli"         ,"U.S.A." ,500.5,25,yes)
+    custDB[1] = Customer2(102,"Peter Heuchert"     ,"Germany",400.4,30,yes)
+    custDB[2] = Customer2(103,"Frederik Haesbrouck","Belgium",350.9,24,no)
+    custDB[3] = Customer2(104,"Norio Furukawa"     ,"Japan"  ,250.5,39,no)
+
+    -- writes the object variables to a file
+    say 'Writing' custDB.length 'customers'
+    os = ObjectOutputStream(FileOutputStream("seriaio.dat"))
+    os.writeInt(custDB.length)                   -- number of objects
+
+    os.writeObject(custDB)                       -- WRITE OBJECTS WITH ONE CALL
+
+    os.flush()                                   -- force output
+    os.close()
+
+    -- reads the object variables from the file
+    say 'Reading...'
+    is = ObjectInputStream(FileInputStream("seriaio.dat"))
+    n  = is.readInt()                            -- number of customers
+    say 'Display of' n 'customers:'
+
+    custRD = Customer2[] is.readObject()         -- READ OBJECTS WITH ONE CALL
+
+    loop i = 0 to custRD.length-1
+      say custRD[i].getCustNo() (Rexx custRD[i].getName()).left(20) -
+          (Rexx custRD[i].getAddress()).left(10) -
+          (Rexx custRD[i].getHourly() * custRD[i].getWork()).right(10) -
+          custRD[i].getBool()
+    end
+    is.close()
+
+/* -------------------------------------------------------------------------- */
+/* Customer class                                                             */
+/* -------------------------------------------------------------------------- */
+class Customer2 implements Serializable
+
+  properties private                             -- various data types
+    custNo  = String
+    name    = String
+    address = String                             -- Rexx not allowed
+    hourly  = float
+    work    = int
+    bool    = boolean
+
+  method Customer2(aCustNo=String, aName=String, aAddress=rexx, -
+                   aHourly=float, aWork=int, aBool=boolean)
+    custNo = aCustNo; name = aName; address = aAddress
+    hourly = aHourly; work = aWork; bool = aBool
+
+  method getCustNo() returns String
+    return custNo
+  method getName() returns String
+    return name
+  method getAddress() returns Rexx
+    return address
+  method getHourly() returns float
+    return hourly
+  method getWork() returns int
+    return work
+  method getBool() returns boolean
+    return bool
+-- end

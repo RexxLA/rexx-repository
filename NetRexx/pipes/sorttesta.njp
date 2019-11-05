@@ -1,0 +1,8 @@
+/*   */parse arg    fn1 fn2
+say 'args to pipe in='fn1', out='fn2
+pipe (pkp1a end ? debug 127)
+diskr {fn1}.sum |
+locate /home.ip.net/ |
+specs 1.9 1 27.5 11 |
+sort  6.1 A |
+diskw   p1.tmp

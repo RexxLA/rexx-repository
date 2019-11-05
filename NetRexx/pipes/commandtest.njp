@@ -1,0 +1,10 @@
+pipe (commandtest end ? debug 0 )
+
+   command ls | 
+a: take first 10 |
+b: faninany |
+   console ?
+ a: |
+   take last 10 |
+   b:
+

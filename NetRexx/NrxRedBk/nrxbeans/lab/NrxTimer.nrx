@@ -1,0 +1,118 @@
+/* nrxbeans\lab\NrxTimer.nrx
+
+   A simple timer bean that sends out events in a specified interval */
+
+package nrxbeans.lab
+
+import java.beans.
+
+class NrxTimer binary implements Serializable
+
+  properties private
+    timer = NrxTimerThread
+    actionListeners = Vector null            -- the action listeners
+    changes = PropertyChangeSupport(this)
+
+  properties indirect
+    interval = int 1000
+    enabled  = boolean 0
+    tickAtBeginning = boolean 0
+
+  -- constructor
+  method NrxTimer() public
+    super()
+
+  -- set methods for indirect properties
+  method setEnabled(_enabled = boolean) public
+    oldEnabled = enabled
+    enabled = _enabled
+    changes.firePropertyChange("enabled", Boolean(oldEnabled), Boolean(enabled))
+    if oldEnabled \= enabled then
+       if enabled = 1 then start()
+                      else stop()
+
+  method setInterval(_interval = int) public
+    oldInterval = interval
+    interval = _interval
+    changes.firePropertyChange("interval", Integer(oldInterval), Integer(interval))
+    if enabled then do
+       setEnabled(0) -- stop timer
+       setEnabled(1) -- restart timer
+    end
+
+  method setTickAtBeginning(_tickAtBeginning = boolean) public
+    oldTickAtBeginning = tickAtBeginning
+    tickAtBeginning = _tickAtBeginning
+    changes.firePropertyChange("tickAtBeginning", Boolean(oldTickAtBeginning), Boolean(tickAtBeginning))
+    if oldTickAtBeginning \= tickAtBeginning & enabled then do
+       setEnabled(0) -- stop timer
+       setEnabled(1) -- restart timer
+    end
+
+  -- action listener registration and notification
+  method addActionListener(al=ActionListener) public protect
+    if actionListeners == null then actionListeners = Vector()
+    actionListeners.addElement(al)
+
+  method removeActionListener(al=ActionListener) public protect
+    if actionListeners \= null then
+       actionListeners.removeElement(al)
+
+  method fireActionPerformed(ae=ActionEvent)
+    if actionListeners == null then return
+    enum = (Vector actionListeners.clone()).elements()
+    loop while enum.hasMoreElements()
+       (ActionListener enum.nextElement()).actionPerformed(ae)
+    end
+
+  -- methods for property change event handling
+  method addPropertyChangeListener(l = PropertyChangeListener) public protect
+    changes.addPropertyChangeListener(l)
+
+  method removePropertyChangeListener(l = PropertyChangeListener) public protect
+    changes.removePropertyChangeListener(l)
+
+  -- private methods
+  method start() private
+    timer = NrxTimerThread(this, interval, tickAtBeginning)
+
+  method stop() private
+    if timer \= null then do
+       timer.stop()
+       timer = null
+    end
+
+  -- methods called by NrxTimerThread
+  method timerTick() 
+    fireActionPerformed(ActionEvent(this, ActionEvent.ACTION_PERFORMED,-
+                         "timerTick"))
+
+
+class NrxTimerThread binary extends Thread
+
+  properties private
+    started = System.currentTimeMillis
+    owner   = NrxTimer
+    interval = long
+    first = boolean
+
+  method NrxTimerThread(_owner = NrxTimer, _interval = long, -
+                            _first = boolean)
+    owner = _owner
+    interval = _interval
+    first = _first
+    this.setPriority(Thread.MAX_PRIORITY)
+    this.start
+
+  method run
+    loop millisecs = started+interval by interval
+      if first then -- fire timer tick and beginning of interval
+         owner.timerTick()
+      wait = millisecs - System.currentTimeMillis
+      if wait > 0 then
+         sleep(wait)
+      if \first then -- fire timer tick at end of interval
+         owner.timerTick()
+    catch InterruptedException
+      return
+    end

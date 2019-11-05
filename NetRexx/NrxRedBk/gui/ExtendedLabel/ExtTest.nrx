@@ -1,0 +1,58 @@
+/* gui\extendedlabel\ExtTest.nrx
+
+   Test program for the ExtendedLabel class.
+   Click with the left mouse button on the label */
+
+import Redbook.                -- use the Redbook package
+
+win = Frame('Test')            -- the main frame window
+
+--inset = Insets(5,5,5,5)        -- margin for the ExtendendLabel object
+inset = Insets(0,0,0,0)        -- margin for the ExtendendLabel object
+ex = ExtendedLabel win.add('Center',-
+                            ExtendedLabel('This is\na very special Test',inset,-
+                            ExtendedLabel.CENTER,ExtendedLabel.CENTER ))
+
+ex.setFont(Font("TimesRoman",Font.PLAIN,40)) -- change the font make it big
+
+ex.addMouseListener(Mouse(ex))  -- used to get the mouse click on the label
+win.pack                        -- set window client area to the preffered size of
+                                -- the ExtendendLabel object
+
+WindowSupport(win,null)         -- needed for closeWindow Support
+RedbookUtil.positionWindow(win) -- center the window on the screen
+win.setVisible(1)               -- show the window
+
+-- class used to get the mouse events
+class Mouse extends MouseAdapter  uses ExtendedLabel
+  ex   = ExtendedLabel
+  i   = 0                         -- internal counter
+
+method Mouse(al = ExtendedLabel)  -- constructor
+  ex   = al
+
+method MouseClicked(e = MouseEvent)
+  ex.setUpdate(0)
+  if i // 2 = 0 then do                  -- change the color and font every mouse click
+    ex.setForeground(Color.RED)
+    ex.setFont(Font("Dialog",Font.BOLD,16))
+  end
+  else do
+    ex.setForeground(Color.BLACK)
+    ex.setFont(Font("TimesRoman",Font.PLAIN,26))
+  end
+
+  select                 -- change the horizontal alignment every mouse click
+    when i // 3 = 0 then ex.setHorizontalAlignment(LEFT)
+    when i // 3 = 1 then ex.setHorizontalAlignment(CENTER)
+    otherwise ex.setHorizontalAlignment(RIGHT)
+  end
+
+  select                 -- change the vertical alignment every third mouse click
+    when (i%3) // 3 = 0 then ex.setVerticalAlignment(TOP)
+    when (i%3) // 3 = 1 then ex.setVerticalAlignment(CENTER)
+    otherwise ex.setVerticalAlignment(BOTTOM)
+  end
+
+  ex.setUpdate(1)
+  i = i + 1

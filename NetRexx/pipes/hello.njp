@@ -1,0 +1,13 @@
+-- hello.njp
+
+class hello
+
+method hello()
+
+     pipe (aname sep |)
+        Literal "hello" | console
+
+method main(args=String[]) static
+
+hello()
+exit

@@ -1,0 +1,4 @@
+pipe (myunixlist)
+command ls      |
+sort            |
+console

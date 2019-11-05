@@ -1,0 +1,13 @@
+pipe (droptestfb2)
+
+   literal 12345678ABCDEFGHIJKLMNOPQRST |
+   split |
+   a: drop first 10 bytes |
+   hole ?
+   a: |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal 12345678AB; |
+   split ; |
+   compare:

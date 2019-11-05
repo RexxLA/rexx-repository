@@ -1,0 +1,7 @@
+import java.util.EventListener
+/**
+ * Interface OutputEventListener specifies the one mandatory method for this interface
+ */
+class OutputEventListener interface implements EventListener
+  
+  method outputReceived(ob=OutputLineEvent)

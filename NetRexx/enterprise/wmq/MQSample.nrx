@@ -1,0 +1,55 @@
+import com.ibm.mq.MQException
+import com.ibm.mq.MQGetMessageOptions
+import com.ibm.mq.MQMessage
+import com.ibm.mq.MQPutMessageOptions
+import com.ibm.mq.MQQueue
+import com.ibm.mq.MQQueueManager
+import com.ibm.mq.constants.MQConstants
+    
+class MQSample
+properties private
+    
+  qManager = "rjtestqm";
+  qName = "SYSTEM.DEFAULT.LOCAL.QUEUE"
+    
+  method main(args=String[]) static binary
+    m = MQSample()
+    do
+      say "Connecting to queue manager: " m.qManager
+      qMgr = MQQueueManager(m.qManager)
+	    
+      openOptions = MQConstants.MQOO_INPUT_AS_Q_DEF | MQConstants.MQOO_OUTPUT
+	    
+      say "Accessing queue: " m.qName
+      queue = qMgr.accessQueue(m.qName, openOptions)
+    
+      msg = MQMessage()
+      msg.writeUTF("Hello, World!")
+    
+      pmo = MQPutMessageOptions()
+    
+      say "Sending a message..."
+      queue.put(msg, pmo)
+    
+      rcvMessage = MQMessage()
+    
+      gmo = MQGetMessageOptions()
+    
+      say "...and getting the message back again"
+      queue.get(rcvMessage, gmo)
+	    
+      msgText = rcvMessage.readUTF()
+      say "The message is: " msgText
+						    
+      say "Closing the queue"
+      queue.close()
+						    
+      say "Disconnecting from the Queue Manager"
+      qMgr.disconnect()
+      say "Done!"
+   catch ex=MQException
+     say "A WebSphere MQ Error occured : Completion Code " ex.completionCode "Reason Code " ex.reasonCode
+   catch ex2=java.io.IOException
+     say "An IOException occured whilst writing to the message buffer: " ex2
+   end
+    

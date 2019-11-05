@@ -1,0 +1,33 @@
+literal
+literal gryf
+literal is tested in almost all tests
+
+literal a|literal b|literal c
+ 
+literal a|dup 2|literal b|literal c|literal d
+ 
+f:literal|f:
+ 
+strliteral after
+strliteral after oscar
+strliteral after /abc/
+literal x| literal y|strliteral /abc/
+literal x| literal y|strliteral after /abc/
+strliteral after
+strliteral preface
+literal x| literal y|strliteral preface /abc/
+literal x| literal y|strliteral after /abc/
+ 
+strliteral conditional /Maybe?/
+literal a | strliteral conditional /Maybe?/
+ 
+strliteral after conditional /b/
+literal a|strliteral after conditional /b/
+strliteral preface conditional /b/
+literal a|strliteral preface conditional /b/
+strliteral after ifnull /b/
+strliteral ifnull after /b/
+strliteral ifnull /b/
+literal a|strliteral ifnull /b/
+ 
+literal abc|strliteral ifempty /def/

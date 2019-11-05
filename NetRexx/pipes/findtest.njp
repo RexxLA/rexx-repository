@@ -1,0 +1,11 @@
+pipe (findtest)
+
+   literal a1 2 a3 4 5 |
+   split |
+   find a |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal a1;a3; |
+   split ; |
+   compare:

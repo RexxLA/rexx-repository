@@ -1,0 +1,65 @@
+
+-- usage: java tcpsniffer port remote_sys remote_port log_fid
+
+-- multistream tcpip server example
+
+pipe (tcpsniffer stall 30000 end ? debug 3 )
+
+   console |
+   find stop|
+g: gate ?
+
+   tcplisten {1} timeout 20000 |
+ g: |
+
+o: fanout |
+   tcpsniff {} ?
+ o: |
+   rexx to console
+
+
+options binary
+
+import org.netrexx.njpipes.pipes.
+
+class tcpsniff extends stage 
+
+ method run() public
+
+   parse arg() . rsys rport log
+
+   do
+
+      if log='' then
+         signal StageError(11,'log file ommitted')
+
+      loop forever
+
+         peekto()                        -- wait for it...
+
+         callpipe (tcpsniffer stall 15000 end ? debug 72)
+            *in0: |
+            take first 1 |
+         i: fanin |                      -- basic echo server...
+            tcpdata timeout 100 |
+         f: fanout |
+            rexx to change //I / |
+         y: faninany |
+            diska {log} ?
+         f: |
+            tcpclient {rsys} {rport} linger 1 keepalive |
+            rexx to change ,\r,, |
+         o: fanout |
+            rexx to change //O / |
+         y: ?
+         o: |
+            elastic |
+         i:
+
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

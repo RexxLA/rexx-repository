@@ -1,0 +1,157 @@
+--  compare_tests2
+
+/** compare (6)
+
+               +-TRINARY-+  (1)           +-PAD SPACE-+
+  >>--COMPARE--+---------+------------+---+-----------+----------------------><
+               +-BINARY--+  (2)       |   +-PAD-Xorc--+
+               |                      |
+               | <-----------------+  |
+               +--ANY DString------+--+   (4) (5)
+               +--EQUAL DString----+      (4)
+               +--LESS DString-----+  (3) (4)
+               +--MORE DString-----+  (3) (4)
+               +--NOTEQUAL DString-+      (4)
+
+     (1) -1 = Primary is shorter/less, 0 = equal, 1 = Secondary is shorter/less
+     (2) 0 = equal, 1 = not equal
+     (3) Primary is LESS/shorter (or MORE/longer) than secondary
+     (4) DStrings can use any of the following escapes (or the lowercase) for
+         the unequal situation: (Your shell program may require doubled backslashes.)
+                 \C (count) for the record number,
+                 \B (byte) for column number
+                 \P (primary) for the primary stream record
+                 \S (secondary) for the secondary stream record
+                 \L (Least) for then stream number that is shortest, -1 if equal
+                 \M (Most) for the stream number that is longest, -1 if equal
+     (5) Equal or not, this DString precedes any of the others.
+     (6) This is njpipes only, not included in CMS.
+
+*/
+
+-- 19/09/24
+
+pipe (compare_tests2)
+
+ o: faninany |
+    sort |
+    specs 2-* 1 |
+    console ?
+
+-- compare equal /Same/ less /Less/ more /More/ (shorter) ?
+   literal 1;2;3 |
+   split ; |
+   c1: compare equal /Same/ less /Less/ more /More/ |       -- testing stage |
+   c1a: compare any ~2# 1 compare equal /Same/ less /Less/ more /More/ (shorter)  ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;2;3;4 |   -- test data |
+   split ; |
+   c1: ?
+   literal Less |          -- expected out |
+   c1a: |
+
+-- compare equal /Same/ less /Less/ more /More/ (Less) ?
+   literal 1;2;3;4 |
+   split ; |
+   c2: compare equal /Same/ less /Less/ more /More/|       -- testing stage |
+   c2a: compare any ~2# 2 compare equal /Same/ less /Less/ more /More/ (Less)  ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;5;3;4 |   -- test data |
+   split ; |
+   c2: ?
+   literal Less |          -- expected out |
+   c2a: |
+
+-- compare equal /Same/ less /Less/ more /More/ (Longer) ?
+   literal 1;2;3;4;5 |
+   split ; |
+   c3: compare equal /Same/ less /Less/ more /More/|       -- testing stage |
+   c3a: compare any ~2# 3 compare equal /Same/ less /Less/ more /More/ (Longer)  ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;2;3;4 |   -- test data |
+   split ; |
+   c3: ?
+   literal More |          -- expected out |
+   c3a: |
+
+-- compare binary (Longer) ?
+   literal 1;2;3;4;5 |
+   split ; |
+   c4: compare binary |       -- testing stage |
+   c4a: compare any ~2# 4 compare binary (Longer)  ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;2;3;4 |   -- test data |
+   split ; |
+   c4: ?
+   literal 1 |          -- expected out |
+   c4a: |
+
+-- compare binary (Shorter) ?
+   literal 1;2;3 |
+   split ; |
+   c5: compare binary |       -- testing stage |
+   c5a: compare any ~2# 5 compare binary (Shorter) ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;2;3;4 |   -- test data |
+   split ; |
+   c5: ?
+   literal 1 |          -- expected out |
+   c5a: |
+
+-- compare trinary any /First info/ equal /Same/ less /Less rec: \\c byte: \\b primary: \\p secondary: \\s short stream: \\l long stream: \\m / more /More/ (shorter) ?
+   literal 1;2;3;4 |
+   split ; |
+   c6: compare  any /Start/ equal /Same rec: \\c byte: \\b Actual: \\p Expected: \\s primary: \\p secondary: \\s short stream: \\l long stream: \\m / less /Less/  more /More/ |       -- testing stage |
+   c6a: compare any ~2# 6 compare trinary any /First info/ equal /Same/ less /Less rec: \\c byte: \\b primary: \\p secondary: \\s short stream: \\l long stream: \\m / more /More/ ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;2;3;4 |   -- test data |
+   split ; |
+   c6: ?
+   literal Start Same rec: 5 byte: 0 Actual:  Expected:  primary:  secondary:  short stream: -1 long stream: -1 |          -- expected out |
+   c6a: |
+
+-- compare (shorter) ?
+   literal str |
+   split ; |
+   c7: compare any ~rec \\c col \\b Actual: \\p Expected: \\s |
+   c7a: compare any ~2# 7 compare (Shorter) ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal str;sTring |
+   split ; |
+   c7: ?
+   literal rec 2 col 0 Actual:  Expected: sTring |          -- expected out |
+   c7a: |
+
+-- compare (PAD BLANK) ?
+   literal 1;2   ;3;4;5 |
+   split ; |
+   c8: compare pad blank |       -- testing stage |
+   c8a: compare any ~2# 8 compare (PAD BLANK)  ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;2;3   ;4;5 |   -- test data |
+   split ; |
+   c8: ?
+   literal 0 |          -- expected out |
+   c8a: |
+
+-- compare (PAD xorc) ?
+   literal 1;2@@@;3;4;5 |
+   split ; |
+   c9: compare pad @ |       -- testing stage |
+   c9a: compare any ~2# 9 compare (PAD xorc)  ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal 1;2;3@@@;4;5 |   -- test data |
+   split ; |
+   c9: ?
+   literal 0 |          -- expected out |
+   c9a: |
+
+-- compare (null/null)?
+   literal |
+   c10: compare  |       -- testing stage |
+   c10a: compare any ~2#10 compare (null/null) (compare) ~ equal ~*OK*~ notequal ~**FAIL**  at rec \\c col \\b.~ less /Less:\nActual:\n\\p\nExpected:\n\\s\n/ more /More:\nActual:\n\\p\nExpected:\n\\s\n/ |
+   o: ?
+   literal |
+   c10: ?
+   literal 0 |          -- expected out |
+   c10a: |

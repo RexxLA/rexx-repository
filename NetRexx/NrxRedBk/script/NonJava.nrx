@@ -1,0 +1,46 @@
+/* script\NonJava.nrx
+
+   This program starts an UNZIP program, redirect its output, 
+   parses the output and shows the files stored in the zipfile */
+
+parse arg unzip zipfile .
+
+-- check the arguments - show usage comments
+if zipfile = '' then do
+   say 'Usage: Process unzipcommand zipfile'
+   exit 2
+end
+
+do
+   say "Files stored in" zipfile
+   say "-".left(39,"-") "-".left(39,"-")
+   child = Runtime.getRuntime().exec(unzip ' -v' zipfile) -- program start
+
+   -- read input from child process
+   in   = BufferedReader(InputStreamReader(child.getInputStream()))
+   line = in.readline
+
+   start = 0    -- listing of files are not available yet
+   count = 0
+   loop while line \= null
+      parse line sep  program
+      if sep = '------' then start = \start
+      else
+        if start then do
+           count = count + 1
+           if count // 2 > 0 then say program.word(program.words).left(39) '\-'
+                             else say program.word(program.words)
+        end
+      line = in.readline()
+   end
+
+   -- wait for exit of child process and check return code
+   child.waitFor()
+   if child.exitValue() \= 0 then
+      say 'UNZIP return code' child.exitValue()
+
+ catch IOException
+    say 'Sorry cannot find' unzip
+ catch e2=InterruptedException
+    e2.printStackTrace()
+end

@@ -1,0 +1,5 @@
+/* NetRexx */
+options replace format comments java symbols binary
+
+say InetAddress.getLocalHost.getHostName
+

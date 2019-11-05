@@ -1,0 +1,16 @@
+import javax.script.
+
+nrEngine = ScriptEngineManager().getEngineByName("NetRexx")
+
+/* simple script invocation */
+nrEngine.eval('numeric digits 17; say 111111111 * 111111111')
+
+/* script invocation with bindings */
+answer = 42
+nrEngine.put("answer", answer)
+nrEngine.eval('say ''the answer is ''answer')
+
+one = 1
+nrEngine.put("onemore",one)
+nrEngine.eval('say ''one more is ''answer+onemore')
+

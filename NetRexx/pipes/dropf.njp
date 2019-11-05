@@ -1,0 +1,11 @@
+pipe (dropf)
+
+   literal 1 2 3 4 5 6 7 8 A B C D E F G H I J K L M N O P Q R S T |
+   split |
+   drop first 10 |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal C;D;E;F;G;H;I;J;K;L;M;N;O;P;Q;R;S;T; |
+   split ; |
+   compare:

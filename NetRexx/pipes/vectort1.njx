@@ -1,0 +1,33 @@
+/* */
+-- vectort1.njp
+
+import pipes.
+import stages.
+
+class vectort1 extends Object
+
+method vectort1()
+
+   F = Vector()
+   T = Vector()
+
+   F.addElement(rexx 5)
+   F.addElement(rexx 4)
+   F.addElement(rexx 3)
+   F.addElement(rexx 2)
+   F.addElement(rexx 1)
+   T.addElement(rexx 99)
+
+   pipe (vectorp1 stall 1000 -gen)
+        vector {F} ! console ! vector {T}
+
+   e = T.elements()
+   loop while e.hasMoreElements()
+      say e.nextElement()
+   end
+
+method main(a=String[]) static
+
+   vectort1()
+
+exit

@@ -1,0 +1,14 @@
+pipe (findtest6)
+
+   literal a1cx;b2dx; ;a dx; b5cx;b6xx  |
+   split ; |
+   a: find a |
+   hole ?
+   a: |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal b2dx;_; b5cx;b6xx; |
+   split ; |
+   change /_// |
+   compare:

@@ -1,0 +1,119 @@
+/**
+ * Class OSProcess implements ways to execute and get output from an OS Process
+ */
+class OSProcess
+
+  properties indirect
+  pid = Process
+  returncode
+  commandList = ArrayList()
+  outList = ArrayList()
+
+  properties private
+  listeners = HashSet()
+  /**
+   * Default constructor
+   */
+  method OSProcess()
+    return
+    
+    /*
+     * helper method that makes an ArrayList of out a Rexx string for use
+     * in the similarly named method that has an ArrayList as input
+     */   
+  method outtrap(command_=Rexx) returns ArrayList
+    if command_ = '', command_ = null then return null
+    a = ArrayList()
+    loop until command_ = ''
+      parse command_ first command_
+      a.add(first.toString())
+    end
+    return this.outtrap(a)
+    
+    /*
+     * helper method that makes an ArrayList of out a Rexx string for use
+     * in the similarly named method that has an ArrayList as input
+     */   
+  method exec(command_=Rexx, wait=1)
+    if command_ = '', command_ = null then return
+    a = ArrayList()
+    loop until command_ = ''
+      parse command_ first command_
+      a.add(first.toString())
+    end
+    this.exec(a,wait)
+
+  /**
+   * Method outtrap starts an OS process from a command line in an ArrayList
+   * @param command is a List that has the command to be executed as elements
+   * @return List containing the output of the command
+   */
+  method outtrap(command_=ArrayList) returns ArrayList
+    this.commandList = command_
+    do
+      pb = ProcessBuilder(command_)
+      pb.redirectErrorStream(1)
+      this.pid = pb.start()
+      in = BufferedReader(InputStreamReader(this.pid.getInputStream()))
+      line = Rexx in.readLine()
+      loop while line <> null
+	this.outList.add(line) 
+	line = Rexx in.readLine()
+      end
+      pid.waitFor()
+      returncode = pid.exitValue()
+      return this.outList
+    catch iox=IOException
+      say iox.getMessage()
+      return ArrayList()
+    catch InterruptedException
+      say "interrupted"
+      return ArrayList()
+    end -- do
+
+  /**
+   * Method exec starts an OS process from a command line in an ArrayList
+   * @param then fires off outputEvent events to every registered listener
+   * @return void
+   */
+  method exec(command_=ArrayList,wait=1)
+    this.commandList = command_
+    do
+      pb = ProcessBuilder(command_)
+      pb.redirectErrorStream(1)
+      this.pid = pb.start()
+      if wait then do
+	in = BufferedReader(InputStreamReader(this.pid.getInputStream()))
+	line = in.readLine()
+	loop while line <> null
+	  line = in.readLine()
+	  i = this.listeners.iterator()
+	  loop while i.hasNext()
+	    op = OutputEventListener i.next()
+	  op.outputReceived(OutputLineEvent(this,line,this.pid))
+	  end
+	end
+	pid.waitFor()
+	returncode = pid.exitValue()
+      end
+    catch iox=IOException
+      say iox.getMessage()
+    catch InterruptedException
+      say "interrupted"
+    end -- do
+    
+   
+  /**
+   * Method addOutputEventListener supports registering an event listener
+   * @param listener_ is a OutputEventListener
+   */
+  method addOutputEventListener(listener_=OutputEventListener)
+    this.listeners.add(listener_)
+
+  /**
+   * Method removeOutputEventListener supports de-registering an event listener
+   * @param listener_ is a OutputEventListener
+   */
+  method removeOutputEventListener(listener_=OutputEventListener)
+    this.listeners.remove(listener_)
+	

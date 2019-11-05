@@ -1,0 +1,16 @@
+/* redbook\gui\FieldSelect.nrx
+
+   Selects the contents of a TextField object when the object gets the focus.
+   Remove any selection when the object looses the focus */
+
+package Redbook
+
+class FieldSelect implements FocusListener
+
+  -- select the text in the TextField
+  method focusGained(e=FocusEvent)
+    if \e.isTemporary() then (TextField e.getComponent()).selectAll()
+
+  -- remove any selection
+  method focusLost(e=FocusEvent)
+    if \e.isTemporary() then (TextField e.getComponent()).select(0,0)

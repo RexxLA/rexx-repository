@@ -1,0 +1,5 @@
+pipe (consoletest3)
+   literal Echos lines typed. Type just the word  stop  to end.|
+   console ?
+   console eof /stop/ |
+   console

@@ -1,0 +1,50 @@
+/*  NervousText applet in NetRexx: Test of text animation.
+    Algorithms, names, etc. are directly from the Java version by
+    Daniel Wyszynski and kwalrath, 1995
+*/
+options binary
+
+class NervousTexxt extends Applet implements Runnable
+
+  separated = char[]
+  s = String
+  killme = Thread
+  threadSuspended = boolean 0
+
+  method init
+    resize(300,50)
+    setFont(Font("TimesRoman", Font.BOLD, 30))
+    s = getParameter("text")
+    if s = null then s = "NetRexx"
+
+    separated = char[s.length]
+    s.getChars(0, s.length, separated,0)
+
+  method start
+    if killme \= null then return
+    killme = Thread(this)
+    killme.start
+
+  method stop
+    killme = null
+
+  method run
+    loop while killme \= null
+      Thread.sleep(100)
+      this.repaint
+    catch InterruptedException
+    end
+    killme = null
+
+  method paint(g=Graphics)
+    loop i=0 to s.length-1
+      x_coord = int Math.random*10+15*i
+      y_coord = int Math.random*10+36
+      g.drawChars(separated, i, 1, x_coord, y_coord)
+    end
+
+  method mouseDown(evt=Event, x=int, y=int) returns boolean
+    if threadSuspended then killme.resume
+                       else killme.suspend
+    threadSuspended = \threadSuspended
+    return 1

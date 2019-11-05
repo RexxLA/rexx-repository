@@ -1,0 +1,43 @@
+/* annotations demonstration                               */
+/* standard annotations like @Override and @Deprecated are */
+/* used, as are some custom ones, defined in Java          */
+/* those need to be compiled first to be used              */
+
+options binary
+@Author(name="Class Author")
+class AnnotateTest
+
+properties private unused
+propz
+a = ArrayList()
+test = TreeMap()
+
+
+  @SuppressWarnings("unchecked")
+  method main(args=String[]) static
+    say 'hello annotations'
+    t=AnnotateTest()
+    t.old()
+
+    @Override
+    @Deprecated /* just to illustrate a comment */
+  method toString() returns String
+    return 'Annotations'
+
+    @Deprecated
+  method old() /* a comment with an @ in it */
+    say 'do no use anymore'
+
+    @Author(name = "Jane Doe")
+    @Author(name = "John Doe")
+  method repeating()
+    say 'repeating annotations'
+
+    @Author( name = "Fifi the Cat", date = "2016-01-01" )
+  method parameters()
+    say 'parameters are possible, but all on one line'
+    
+
+    
+    
+    

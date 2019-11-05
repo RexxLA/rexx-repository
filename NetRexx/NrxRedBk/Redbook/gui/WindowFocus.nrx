@@ -1,0 +1,31 @@
+/* redbook\gui\WindowFocus.nrx
+
+   Sets the focus to a defined component when the window is shown,
+   saves focus component when deactivated, and resets the focus when reactivated */
+
+package Redbook
+
+class WindowFocus extends WindowAdapter
+  Properties
+    theWindow        = Window
+    defaultrecipient = Component       -- default when window was destroyed
+           recipient = Component       -- the component used at activation time
+
+  -- constructor, sets default recipient
+  method WindowFocus(aWindow = Window, focusRecipient = component)
+    defaultrecipient = focusRecipient     -- default 
+    recipient        = focusRecipient
+    theWindow        = aWindow
+    aWindow.addWindowListener(this)
+
+  -- Window is activated: set the focus to the recipient
+  method windowActivated(e=WindowEvent)
+    recipient.requestFocus()
+
+  -- stores the focus when the window is deactivated
+  method windowDeactivated(e=WindowEvent)  
+    recipient = theWindow.getFocusOwner()
+
+  -- window was destroyed, next time defaultrecipient
+  method windowClosed(e=WindowEvent)
+    recipient = defaultrecipient

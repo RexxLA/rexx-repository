@@ -1,0 +1,11 @@
+/* script\Input.nrx - separate file */
+
+-- method getNumber is a function returning an integer
+method getNumber static returns int
+ loop forever
+   number = ask      -- get the input and check the type
+   if number.datatype('W') then return number  -- Ok, return the number
+
+   say 'Sorry, but' number 'is not an integer.'
+   say 'Try it again : \-'
+ end

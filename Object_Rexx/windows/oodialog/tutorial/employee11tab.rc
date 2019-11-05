@@ -1,0 +1,136 @@
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/* Copyright (c) 1995, 2004 IBM Corporation. All rights reserved.             */
+/* Copyright (c) 2005-2014 Rexx Language Association. All rights reserved.    */
+/*                                                                            */
+/* This program and the accompanying materials are made available under       */
+/* the terms of the Common Public License v1.0 which accompanies this         */
+/* distribution. A copy is also available at the following address:           */
+/* http://www.oorexx.org/license.html                                         */
+/*                                                                            */
+/* Redistribution and use in source and binary forms, with or                 */
+/* without modification, are permitted provided that the following            */
+/* conditions are met:                                                        */
+/*                                                                            */
+/* Redistributions of source code must retain the above copyright             */
+/* notice, this list of conditions and the following disclaimer.              */
+/* Redistributions in binary form must reproduce the above copyright          */
+/* notice, this list of conditions and the following disclaimer in            */
+/* the documentation and/or other materials provided with the distribution.   */
+/*                                                                            */
+/* Neither the name of Rexx Language Association nor the names                */
+/* of its contributors may be used to endorse or promote products             */
+/* derived from this software without specific prior written permission.      */
+/*                                                                            */
+/* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS        */
+/* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT          */
+/* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS          */
+/* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT   */
+/* OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,      */
+/* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED   */
+/* TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,        */
+/* OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY     */
+/* OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING    */
+/* NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS         */
+/* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.               */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+#include <windows.h>
+#include <winuser.h>
+#include <commctrl.h>
+#include "employee11tab.h"
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDM_CONTEXT_MENUBAR MENUEX
+{
+    POPUP "Context", IDM_POP_CONTEXT, 0, 0
+    {
+        MENUITEM "&Browse Employees...", IDM_BROWSE, 0, 0
+        MENUITEM "", IDM_SEP1, MFT_SEPARATOR, 0
+        MENUITEM "&Add Employee...", IDM_ADD, 0, 0
+        MENUITEM "&Edit Employee...", IDM_EDIT, 0, 0
+        MENUITEM "", IDM_SEP2, MFT_SEPARATOR, 0
+        MENUITEM "&Delete Employee...", IDM_DELETE, 0, 0
+    }
+}
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_EMPLOYEES_ADD DIALOG 0, 0, 227, 160
+STYLE DS_3DLOOK | DS_CONTROL | DS_SHELLFONT | WS_CHILDWINDOW | WS_TABSTOP
+CAPTION "Add Employees"
+FONT 10, "Tahoma"
+{
+    LTEXT           "Person:", -1, 12, 20, 30, 8, SS_LEFT
+    EDITTEXT        IDC_EDIT_NAME_A, 40, 20, 102, 12
+    LTEXT           "City:", -1, 12, 37, 16, 8, SS_LEFT
+    COMBOBOX        IDC_CB_CITY_A, 40, 37, 102, 56, WS_TABSTOP | CBS_DROPDOWNLIST
+    LTEXT           "Position:", -1, 12, 58, 30, 8, SS_LEFT
+    LISTBOX         IDC_LB_POSITION_A, 10, 68, 132, 82, WS_TABSTOP | WS_VSCROLL | LBS_SORT | LBS_NOTIFY
+    GROUPBOX        "Statistics", IDC_GB1, 153, 16, 64, 80, WS_GROUP
+    AUTORADIOBUTTON "&Male", IDC_RB_MALE_A, 161, 27, 40, 12, WS_TABSTOP
+    AUTORADIOBUTTON "&Female", IDC_RB_FEMALE_A, 161, 42, 40, 12
+    AUTOCHECKBOX    "Ma&rried", IDC_CHK_MARRIED_A, 161, 59, 40, 12, WS_GROUP
+    AUTOCHECKBOX    "Full Time", IDC_CHK_FULLTIME_A, 161, 78, 40, 12, WS_GROUP
+    PUSHBUTTON      "Add", IDC_PB_ADD_A, 167, 117, 50, 14
+    PUSHBUTTON      "Print", IDC_PB_PRINT_A, 167, 136, 50, 14
+}
+
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_EMPLOYEES_BROWSE DIALOG 0, 0, 227, 160
+STYLE DS_3DLOOK | DS_CONTROL | DS_SHELLFONT | WS_CHILDWINDOW | WS_TABSTOP
+CAPTION "Browse Employees"
+FONT 10, "Tahoma"
+{
+    LTEXT           "Person:", -1, 12, 20, 30, 8, SS_LEFT
+    EDITTEXT        IDC_EDIT_NAME_B, 40, 20, 102, 12, ES_READONLY
+    CONTROL         "", IDC_UPD, UPDOWN_CLASS, UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_AUTOBUDDY, 132, 20, 10, 12
+    LTEXT           "City:", -1, 12, 37, 16, 8, SS_LEFT
+    COMBOBOX        IDC_CB_CITY_B, 40, 37, 102, 56, WS_TABSTOP | WS_DISABLED | CBS_DROPDOWNLIST
+    LTEXT           "Position:", -1, 12, 58, 30, 8, SS_LEFT
+    LISTBOX         IDC_LB_POSITION_B, 10, 68, 132, 82, WS_TABSTOP | WS_VSCROLL | WS_DISABLED | LBS_SORT | LBS_NOTIFY
+    GROUPBOX        "Statistics", IDC_GB1, 153, 16, 64, 80, WS_GROUP
+    AUTORADIOBUTTON "&Male", IDC_RB_MALE_B, 161, 27, 40, 12, WS_TABSTOP | WS_DISABLED
+    AUTORADIOBUTTON "&Female", IDC_RB_FEMALE_B, 161, 42, 40, 12, WS_DISABLED
+    AUTOCHECKBOX    "Ma&rried", IDC_CHK_MARRIED_B, 161, 59, 40, 12, WS_GROUP | WS_DISABLED
+    AUTOCHECKBOX    "Full Time", IDC_CHK_FULLTIME_B, 161, 78, 40, 12, WS_GROUP | WS_DISABLED
+    PUSHBUTTON      "Print", IDC_PB_PRINT_B, 167, 136, 50, 14
+}
+
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_EMPLOYEES_EDIT DIALOG 0, 0, 227, 160
+STYLE DS_3DLOOK | DS_CONTROL | DS_SHELLFONT | WS_CHILDWINDOW | WS_TABSTOP
+CAPTION "Edit Employees"
+FONT 10, "Tahoma"
+{
+    LTEXT           "Person:", -1, 12, 20, 30, 8, SS_LEFT
+    EDITTEXT        IDC_EDIT_NAME_E, 40, 20, 102, 12
+    LTEXT           "City:", -1, 12, 37, 16, 8, SS_LEFT
+    COMBOBOX        IDC_CB_CITY_E, 40, 37, 102, 56, WS_TABSTOP | CBS_DROPDOWNLIST
+    LTEXT           "Position:", -1, 12, 58, 30, 8, SS_LEFT
+    LISTBOX         IDC_LB_POSITION_E, 10, 68, 132, 82, WS_TABSTOP | WS_VSCROLL | LBS_SORT | LBS_NOTIFY
+    GROUPBOX        "Statistics", IDC_GB1, 153, 16, 64, 80, WS_GROUP
+    AUTORADIOBUTTON "&Male", IDC_RB_MALE_E, 161, 27, 40, 12, WS_TABSTOP
+    AUTORADIOBUTTON "&Female", IDC_RB_FEMALE_E, 161, 42, 40, 12
+    AUTOCHECKBOX    "Ma&rried", IDC_CHK_MARRIED_E, 161, 59, 40, 12, WS_GROUP
+    AUTOCHECKBOX    "Full Time", IDC_CHK_FULLTIME_E, 161, 78, 40, 12, WS_GROUP
+    PUSHBUTTON      "Reset", IDC_PB_RESET_E, 167, 98, 50, 14
+    PUSHBUTTON      "Save", IDC_PB_SAVE_E, 167, 117, 50, 14
+    PUSHBUTTON      "Print", IDC_PB_PRINT_E, 167, 136, 50, 14
+}
+
+
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+IDD_EMPLOYEES_LIST DIALOG 0, 0, 227, 160
+STYLE DS_3DLOOK | DS_CONTROL | DS_SHELLFONT | WS_CHILDWINDOW | WS_TABSTOP
+CAPTION "List Employees"
+FONT 10, "Tahoma"
+{
+    CONTROL         "", IDC_LV_EMPLOYEES, WC_LISTVIEW, WS_TABSTOP | WS_BORDER | LVS_ALIGNLEFT | LVS_SHOWSELALWAYS | LVS_SINGLESEL | LVS_REPORT, 10, 10, 207, 140
+}

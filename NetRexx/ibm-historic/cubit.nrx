@@ -1,0 +1,13 @@
+/* cubit.nrx -- another NetRexx sample */
+
+loop label prompt forever
+  reply=ask
+  select
+    when reply.datatype('n') then say reply**3
+    when reply='Quit'        then leave prompt
+    otherwise say 'eh?'
+    end
+  end prompt
+
+say 'Done.'
+

@@ -1,0 +1,20 @@
+pipe (damtest end ? debug 0 )
+   literal 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 |
+   split |
+   specs /a/ 1 1-* nextw |
+   console |
+   locate /10/ |
+a: dam ?
+   literal 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 |
+   split |
+   specs /b/ 1 1-* nextw |
+   a: |
+b: faninany |
+   console ?
+   literal 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 |
+   split |
+   specs /c/ 1 1-* nextw |
+   a: |
+b:
+
+

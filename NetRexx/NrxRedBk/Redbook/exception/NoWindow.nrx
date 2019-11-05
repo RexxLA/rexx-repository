@@ -1,0 +1,11 @@
+/* redbook\exception\NoWindow.nrx
+  
+   Signalled from RedbookUtil class when the parent component chain
+   does not contain a window */
+
+package Redbook
+
+class NoWindow extends RedbookException
+
+method NoWindow(current = Component)
+  super('No window found for:\n\n' current.toString)

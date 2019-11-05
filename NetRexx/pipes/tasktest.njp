@@ -1,0 +1,28 @@
+-- usage: java tasktest <number>
+
+pipe (tasktest stall 2000 -gen)
+
+   literal 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T |
+   dup 2 |
+   split |                   -- supply work for task stage
+
+   ptimer |
+a: deal secondary ?          -- send work to task stage requesting work
+b: faninany |
+   elastic |                 -- buffer requests to so no deadlocks
+   ptimer |
+
+ a: |
+   copy |                    -- buffer work so no deadlocks
+   task 1 |                  -- worker task 1
+ b: ?
+
+ a: |
+   copy |
+   task 2 |                  -- worker tast 2...
+ b: ?
+
+ a: |
+   copy |
+   task 3 |
+ b:

@@ -1,0 +1,9 @@
+/* gui\messagebox\TestBox.nrx */
+
+import Redbook.
+
+win = Frame("Test window")
+win.addWindowListener(CloseWindow(win))
+win.setSize(100,100)
+win.setVisible(1)
+Messagebox(win, "Sorry", "Cannot find the file\n\nRedbook.gif", "ex.gif").setVisible(1)

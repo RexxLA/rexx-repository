@@ -1,0 +1,27 @@
+class stemtest extends Object
+
+method stemtest()
+
+   a = Rexx 'abase'
+   b = Rexx 1
+
+   a[0]=5
+   a[1]=11
+   a[2]=222
+   a[3]=3333
+   a[4]=444
+   a[5]=55
+
+   pipe (stempipe debug 0 ) stem a | prefix literal {a} | console | stem b
+
+   loop i=1 to b[0]
+      say 'b['i']='b[i]
+   end
+
+
+method main(a=String[]) static
+
+   stemtest()
+   exit
+
+

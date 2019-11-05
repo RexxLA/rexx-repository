@@ -1,0 +1,76 @@
+-- tcpip requestor sends random numbers to tcpserv
+-- usage: java tcpreq1 <number>
+
+pipe (tcpreq1 stall 60000 debug 0 )
+   random {} |
+   insert /\n/ after |
+   tcpclient localhost 1958 timeout 10000 linger 1 deblock C oneresponse |
+   take first {} | 
+   rexx to join 6 / / |
+   console |
+   count words |
+   console
+
+
+-- multistream tcpip server example
+
+pipe (tcpserv1 stall 30000 end ? debug 11)
+
+   console |
+   find stop|                -- to stop the server, type stop and wait a
+g: gate ?                    -- few seconds for tcplisten to finish
+
+   tcplisten 1958 timeout 20000 |
+ g: |
+
+a: deal secondary ?          -- send work to task stage requesting work
+b: faninany |
+   elastic |                 -- buffer requests to so no deadlocks
+
+ a: |
+   copy |                    -- buffer work so no deadlocks
+   tcptask 1 |               -- worker task 1
+ b: ?
+
+ a: |
+   copy |
+   tcptask 2 |               -- worker task 2...
+ b: ?
+
+ a: |
+   copy |
+   tcptask 3 |
+ b:
+
+
+options binary
+
+class tcptask extends stage
+
+method run() public
+
+   a = arg()
+
+   do
+
+      loop forever
+
+         output(a)                       -- request some data
+         peekto()                        -- wait for it...
+
+         callpipe (tcplog stall 15000 end ? debug 11)
+            *in0: |
+            take first 1 |
+         f: fanin |                      -- basic echo server...
+            tcpdata deblock C timeout 10000 linger 1 oneresponse |
+            elastic |
+            insert /\n/ after |
+         f:
+
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

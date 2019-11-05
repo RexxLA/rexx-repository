@@ -1,0 +1,97 @@
+/* nrxbeans\sample\AnimBean.nrx 
+
+   Animated frame.  Creates an image from a string and moves the images over the screen */
+
+package nrxbeans.sample
+
+class AnimBean extends Frame implements Runnable binary
+
+  Properties private
+    netrexx     = String "NetRexx"             -- image string
+    stringImage = Image                        -- image of the drawn string
+    gi          = Graphics                     -- graphics object of image
+    imagepos    = int                          -- where to draw image text (y)
+    x           = int 200                      -- current image position (x)
+    height      = int                          -- height of the image
+    imgwidth    = int                          -- width of the image
+    width       = int                          -- width of the image squeezing
+
+  --------------------------- constructor 
+  method AnimBean() public
+
+  --------------------------- animate
+  method animate(text=String) public
+    if text \= null then netrexx = text        -- accept a text
+                    else netrexx = 'NetRexx'
+    x = 200; height = 0; width = 0             -- re-init
+    this.setVisible(boolean 1)
+    f  = Font('Helvetica',Font.BOLD,30)        -- choose the font
+    fm = getFontMetrics(f)                     -- get the metrics of the font
+    imagepos = fm.getAscent()                  -- where to draw text
+                                               -- create an image of the string NetRexx
+    stringImage = createImage(fm.stringWidth(netrexx)+20,fm.getHeight())
+    gi = stringImage.getGraphics()             -- get graphics object
+    gi.setFont(f)
+    drawText(Color.black)                      -- start with black
+    imgwidth = stringImage.getWidth(this)      -- image size
+    height   = stringImage.getHeight(this)
+    Thread(this,'Animator Thread').start()     -- start animation
+
+  --------------------------- draw the "NetRexx" string into the image
+  method drawText(c=Color) private
+    gi.setColor(c)                             -- set the color
+    gi.drawString(netrexx,0,imagepos)          -- draw the string
+     
+  --------------------------- calculates the x Position of the image when moving
+  method calculatePosition(i=int) private
+    x = 200-i
+
+  --------------------------- calculates the width of the image when squeezing
+  method calculateSize(i=int) private
+    width = imgwidth-i
+
+  --------------------------- applet UPDATE (dont erase background to avoid flicker)
+  method update(g=Graphics) 
+    paint(g)
+
+  --------------------------- applet PAINT (draw the image)
+  method paint(g=Graphics) 
+    g.setClip(x,10,stringImage.getWidth(this)+5,stringImage.getHeight(this)+30)
+    g.drawImage(stringImage,x,10,width,height+20,this)
+
+  --------------------------- applet RUN: animation: move, squeeze, unsqueeze, move
+  method run() 
+    width = imgwidth
+    ct = Thread.currentThread()     -- get thread for sleep times
+    do 
+      loop i=1 to 200 by 2          -- move the string to the left border
+         calculatePosition(i)
+         repaint()
+         ct.sleep(10)
+      end
+      drawText(Color.red)           -- change color 
+      loop w=1 to imgwidth-25 by 2  -- squeeze the string at the border
+         calculateSize(w)
+         repaint()
+         ct.sleep(10)
+      end
+      ct.sleep(150)                 -- wait a moment
+      drawText(Color.green)        -- change color 
+      loop while w > 0              -- unsqueeze the image
+         calculateSize(w)
+         repaint()
+         ct.sleep(10) 
+         w = w - 1
+      end      
+      drawText(Color.blue)          -- change color 
+      loop i=200 to 150 by -1       -- move the image back right
+         calculatePosition(i)
+         repaint()
+         ct.sleep(220 - i)          -- slow down every move
+      end
+      ct.sleep(2000)
+      drawText(Color.white)         -- change color 
+      repaint()
+     catch InterruptedException
+    end  
+

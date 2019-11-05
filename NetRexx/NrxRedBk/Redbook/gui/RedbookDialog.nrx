@@ -1,0 +1,62 @@
+/* redbook\gui\RedbookDialog.nrx
+
+   The RedbookDialog class is an abstract class which provides basic services */
+
+package Redbook
+
+class RedbookDialog extends Dialog abstract
+  Properties inheritable
+    buttons = EqualSizePanel()  -- panel for the buttons
+    parent  = Component         -- parent of the dialog
+    ws      = WindowSupport     -- window support object attached to dialog
+
+  -- constructor which searches for a frame window in the parent window chain
+  method RedbookDialog(parentWindow = Component, modal = boolean, -
+                       title = Rexx '')  signals NoFrameWindow
+    super(RedbookUtil.findParentFrame(parentWindow),title,modal)
+    init(parentWindow)
+
+  -- constructor which gets a frame window as parent
+  method RedbookDialog(parentFrame = Frame, modal = boolean,title = Rexx '')
+    super(parentFrame,title,modal)            -- create the dialog
+    init(parentFrame)                
+
+  -- initialize the basic dialog window
+  method init(theParent = Component) inheritable
+    do
+      parent = theParent                      -- store the parent
+      ws = WindowSupport(RedbookUtil.findParentWindow(parent),this,null)
+      buttons.setGaps(10,10)                  -- horizontal and vertical gaps
+    catch NoWindow                            -- impossible
+    end
+
+  -- add a button to the button panel and attach a window closer to it
+  method addButton(text=String) returns Button
+    newButton = Button(text)                  -- create new button
+    newButton.addActionListener(ws.getCloseWindow()) -- use window support
+    buttons.add(newButton)                    -- add the button to the panel
+    return newButton                        
+
+  -- add a button to the panel, attach the given action listener to it
+  method addButton(text = String, listener = ActionListener, -
+                   closeTheDialog = boolean 1) returns Button
+    newButton = Button(text)                  -- create new button
+    newButton.addActionListener(listener)     -- add the action listener
+    -- add a CloseWindow object from WindowSupport if closeTheDialog is true
+    if closeTheDialog then newButton.addActionListener(ws.getCloseWindow())
+    buttons.add(newButton)                    -- add the button to the panel
+    return newButton
+    
+  -- make the dialog visible  or hide it  calculate the preferred size 
+  method setVisible(b=boolean)
+    if b then do                              -- make dialog visible
+      pack()                                  -- use preferred size
+      RedbookUtil.positionWindow(parent,this) -- position relativ to parent
+      super.setVisible(1)                     
+    end
+    else super.setVisible(0)                  -- hide dialog
+
+  -- changes the closeWindow behaviour
+  method setCloseBehaviour(newBehaviour = int)
+    ws.setCloseBehaviour(newBehaviour)        -- set close behaviour in
+                                              -- WindowSupport

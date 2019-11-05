@@ -1,0 +1,49 @@
+/* ArchText applet: multi-coloured text on a white background */
+/* Mike Cowlishaw  April 1996,  December 1996                 */
+options binary
+
+class ArchText extends Applet implements Runnable
+
+ text  ="NetRexx"                             /* default text */
+ tick  =0                                  /* display counter */
+ timer =Thread null                           /* timer thread */
+ shadow=Image                                 /* shadow image */
+ draw  =Graphics                         /* where we can draw */
+
+ method init
+  s=getParameter("text")             /* get any provided text */
+  if s\=null then text=s
+  shadow=createImage(getSize.width, getSize.height)  /* image */
+  draw=shadow.getGraphics
+  draw.setColor(Color.white)                    /* background */
+  draw.fillRect(0, 0, getSize.width, getSize.height)    /* .. */
+  draw.setFont(Font("TimesRoman", Font.BOLD, 30))     /* font */
+
+ method start
+  if timer=null then timer=Thread(this)         /* new thread */
+  timer.setPriority(Thread.MAX_PRIORITY)      /* time matters */
+  timer.start                             /* start the thread */
+
+ method stop
+  if timer=null then return                 /* have no thread */
+  timer.stop                                  /* else stop it */
+  timer=null                                /* .. and discard */
+
+ method run                            /* this runs as thread */
+  loop while timer\=null
+    tick=tick+1                                /* next update */
+    hue=((tick+133)//191)/191
+    draw.setColor(Color.getHSBColor(hue, 1, 0.7))
+    draw.drawString(text, 0, 30)
+    this.repaint                             /* .. and redraw */
+    Thread.sleep(119)                          /* wait awhile */
+  catch InterruptedException
+  end
+  timer=null                                       /* discard */
+
+ method update(g=Graphics)        /* override Applet's update */
+  paint(g)                         /* method to avoid flicker */
+
+ method paint(g=Graphics)
+  g.drawImage(shadow, 0, 0, null)
+

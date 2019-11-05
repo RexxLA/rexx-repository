@@ -1,0 +1,19 @@
+say 'this is stdout'
+RexxIO.pushOutputStream(System.err)
+say 'stout and stderr'
+RexxIO.popOutputStream()
+say 'only stdout'
+RexxIO.popOutputStream()
+say 'only stdout'
+RexxIO.popOutputStream()
+RexxIO.popOutputStream()
+RexxIO.popOutputStream()
+
+RexxIO.setOutputStream(FileOutputStream('testfile1.txt'))
+say 'this goes to testfile1.txt'
+RexxIO.pushOutputStream(FileOutputStream('testfile2.txt'))
+say 'this goes to testfile2.txt'
+
+
+
+

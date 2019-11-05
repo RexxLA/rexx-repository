@@ -1,0 +1,24 @@
+/* thread/ThrdTst2.nrx */
+
+h1 = Hello2('This is thread 1')
+h2 = Hello2('This is thread 2')
+
+h1.start()
+h2.start()
+
+class Hello2 extends Thread
+  Properties inheritable
+    message = String
+
+  method Hello2( s = String)
+    super('Thread Test - Message' s)
+    message = s
+
+  method run()
+    loop for 50
+      say message
+      do
+        sleep(10)
+        catch InterruptedException
+      end
+    end

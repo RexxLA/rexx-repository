@@ -1,0 +1,11 @@
+pipe (comparetest11         )
+
+   literal 1;2;3;55 |
+   split ; |
+   c: compare equal /Same/ notequal /Different at line \\p, column \\c/ |
+   console ?
+   literal 1;2;3;44 |
+   split ; |
+   c: |
+   hole
+

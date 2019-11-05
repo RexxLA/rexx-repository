@@ -1,0 +1,32 @@
+-- this does not work
+pipe (sp end ? debug 0 )
+
+   literal {} |
+   split |
+   specs *cmd /C dir /N /S * 1 1-* next |
+   rexx command |
+   drop 3 |
+   locate |
+   zone word2 nfind file|
+   zone word3 nfind <DIR>|
+a: find Directory|
+   specs word3 1 / / next |
+   change -2;-1 /\\ / / |           -- backslash must be escaped
+   console |
+b: juxtapose |
+   specs word2 1 word4 nextw.12 right word1 nextw /\\/ next word6 next |
+c: fanout |
+   diskw data.txt ?
+c: |
+   count lines |
+   specs /sorting / 1 1-* next / files/ next |
+   console ?
+c: |
+   sort (100000) D 10-21 |
+   diskw size.txt ?
+c: |
+   sort (100000) A 1-21 |
+   diskw date.txt ?
+a: |
+   specs pad 0 7.2 next.2 right /-/ next 1.5 next.5 right 9-* next |
+   b:

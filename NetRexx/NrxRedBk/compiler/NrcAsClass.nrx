@@ -1,0 +1,12 @@
+/* compiler\NrcAsClass.nrx
+
+   This NetRexx program shows the use of the NetRexxC compiler as a normal class */
+
+argument = 'Factor -nocrossref'
+rc = org.netrexx.process.NetRexxC.main(argument)
+select
+   when rc=0 then say 'Compilation was OK.'
+   when rc=1 then say 'Check the warnings!'
+   when rc=2 then say 'Some errors occurred!'
+   otherwise say 'NetRexxC returned an unexpected returncode:' rc
+end

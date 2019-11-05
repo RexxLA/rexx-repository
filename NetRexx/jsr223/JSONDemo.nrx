@@ -1,0 +1,17 @@
+import javax.script.
+
+jsEngine = ScriptEngineManager().getEngineByName("JavaScript")
+
+jsEngine.eval('var foo = {};')
+jsEngine.eval('foo.foundation = "RexxLA";')
+jsEngine.eval('foo.model = "open";')
+jsEngine.eval('foo.week = 42;')
+jsEngine.eval('foo.transport = "car";')
+jsEngine.eval('foo.month = 7;')
+
+jsEngine.eval('bar = JSON.stringify(foo);')
+
+jsonString = jsEngine.get('bar')
+say jsonString
+
+

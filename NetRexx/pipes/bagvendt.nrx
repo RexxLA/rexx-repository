@@ -1,0 +1,15 @@
+import org.netrexx.njpipes.pipes.
+
+class bagvendt extends stage
+
+method run()
+
+   loop forever
+      line = Rexx peekto()
+      output(line.reverse())
+      readto()
+   catch StageError
+      rc = rc()
+   end -- loop forever
+   exit(rc*(rc<>12))
+   

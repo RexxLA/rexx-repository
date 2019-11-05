@@ -1,0 +1,81 @@
+import eu.hansolo.enzo.lcd.Lcd
+import eu.hansolo.enzo.lcd.LcdBuilder
+import javafx.animation.AnimationTimer
+import javafx.application.Application
+import javafx.geometry.Insets
+import javafx.scene.
+import javafx.stage.
+import java.util.Random
+import javafx.collections.
+
+/* need the enzo library from git clone http://bitbucket.org/hansolo/enzo.git */
+/* illustrates the iffy casting workaround needed for the agglutinated calls  */
+class EnzoLCD extends Application
+
+  properties inheritable
+  lcd_=Lcd
+  random_=Random
+  lastTimerCall=long
+  charge=double
+  timer=AnimationTimer
+  true_= boolean 1
+  
+ method init()
+    -- Initialize the AnimationTimer
+   random_       = Random()
+   lastTimerCall = System.nanoTime()
+   charge        = 0
+   timer         = EnzoLCD.timer_()
+   
+   --Initialize the Enzo Lcd_ control
+   lcdb = LcdBuilder.create()
+   lcdb.styleClass(Lcd.STYLE_CLASS_STANDARD_GREEN)
+   lcdb.title("Room Temp")
+   lcdb.unit("°C")
+   lcdb.decimals(2)
+   lcdb.minMeasuredValueDecimals(2)
+   lcdb.maxMeasuredValueDecimals(2)
+   lcdb.unitVisible(1)
+   lcdb.batteryVisible(1)
+   lcdb.alarmVisible(1)
+   lcdb.minMeasuredValueVisible(1)
+   lcdb.maxMeasuredValueVisible(1)
+   lcdb.lowerRightTextVisible(1)
+   lcdb.formerValueVisible(1)
+   lcdb.trendVisible(1)
+   lcdb.lowerRightText("Info")
+   lcdb.foregroundShadowVisible(1)
+   lcdb.crystalOverlayVisible(1)
+   lcd_= lcdb.build()
+
+  method start(stage=Stage)
+    -- Prepare stage and add controls
+    root = StackPane()
+    root.setPadding(Insets(10, 10, 10, 10))
+    oList = ObservableList root.getChildren()
+    oList.add(lcd_)
+    
+    stage.setTitle("Enzo in NetRexx")
+    stage.setScene(Scene(root, 528, 192))
+    stage.show()
+    -- Start the timer
+    timer.start()
+
+  method main(args=String[]) static
+    launch(args)
+
+  class EnzoLCD.timer_ extends AnimationTimer dependent
+  method handle(now=long)
+    if (now > parent.lastTimerCall + 3000000000) then do
+      parent.lcd_.setValue(parent.random_.nextDouble() * 100)
+      --paren.lcd_.setTrend(Lcd.Trend.values()[random.nextInt(5)])
+      parent.charge = parent.charge + 0.02
+      if (parent.charge > 1.0) then do
+	parent.charge = 0.0;
+	parent.lcd_.setBatteryCharge(parent.charge)
+      end
+      parent.lastTimerCall = now;
+      say parent.lcd_.getValue()
+    end -- if now
+
+    

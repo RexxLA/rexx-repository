@@ -1,0 +1,44 @@
+/* gui\fieldselect\FieldTst.nrx 
+
+   Testprogram to checkout FieldSelect class */
+
+import Redbook.
+
+win = Frame('Test')
+win.addWindowListener(CloseWindow(null,win,CloseWindow.SHUTDOWN))
+
+field1 = TextField(20)
+field2 = TextField(20)
+
+field1.addFocusListener(FieldSelect())
+field2.addFocusListener(FieldSelect())
+
+b = Button('Dialog')
+
+win.add('West',b)
+
+win.add('Center',Label('FieldTest - press Dialog',Label.CENTER))
+--win.add('North',field1)
+--win.add('South',field2)
+win.setSize(200,150)
+
+w2 = Dialog(win,'Test')
+w2.add('South',field2)
+w2.add('North',field1)
+w2.addWindowListener(CloseWindow(w2))
+w2.pack()
+b.addActionListener(showDialog(w2))
+
+win.setVisible(1)
+
+class showDialog implements ActionListener
+  Properties inheritable
+    showWindow = Window
+  method showDialog(aWindow = Window)
+    showWindow = aWindow
+
+  method actionPerformed(e=ActionEvent)
+    if showWindow.isVisible() then
+      showWindow.requestFocus()
+    else
+      showWindow.setVisible(1)

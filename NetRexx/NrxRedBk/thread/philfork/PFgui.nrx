@@ -1,0 +1,358 @@
+/* thread\philfork\PFgui.nrx
+
+   Philosophers Forks in a GUI Window or Applet */
+
+class PFgui public extends applet
+
+  properties public static
+    eat    = int 6000                         -- eat time
+    sleep  = int 8000                         -- sleep time
+    cycles = int 2                            -- number of cycles
+    side   = double 0.5                       -- fork pickup (L,R,random)
+    gui    = PFgui                            -- the instance
+    applic = byte 0                           -- applet (0) or application
+                                     
+  properties private
+    ph     = Phil[6]                          -- 5 phil
+    fk     = Fork[6]                          -- 5 fork
+    bphil  = Button[6]
+    bfork  = Button[6]
+    bhfl   = Button[6]
+    bhfr   = Button[6]
+    bpez   = Button[6]
+    bcake  = Button[9]
+    bhide  = Button
+    bstart = Button
+    bstop  = Button
+    bexit  = Button
+    leatxx = Label
+    lsleep = Label
+    lcycle = Label
+    lseqxx = Label
+    featxx = TextField
+    fsleep = TextField
+    fcycle = TextField
+    fseqxx = TextField
+
+  method PFgui()                              -- constructor
+    super()
+
+  method main(args=String[]) static
+    args=args
+    applic = 1                                -- application
+    gui    = PFgui()                          -- creates the instance
+    window = Frame("Philosophers' Forks")     -- create a Frame window
+    window.add(gui)
+    window.resize(650,620)
+    gui.init()                                -- init Applet
+    window.show()                             -- make window visible 1.0.2
+    --window.setVisible(1)                      -- make window visible 1.1
+
+  method init() public                        -- APPLET and APPLICATION
+    if applic = 0 then gui = this
+    super.init()
+    setLayout(null)
+    loop i=1 to 5; bphil[i] = Button("Philosopher" i); end
+    loop i=1 to 5; bfork[i] = Button("Fk"i); end
+    loop i=1 to 5; bhfl[i]  = Button("LH"i); end
+    loop i=1 to 5; bhfr[i]  = Button("RH"i); end
+    loop i=1 to 5; bpez[i]  = Button("cake"); end
+    loop i=0 to 8; bcake[i] = Button(" "); end
+    bcake[0].setlabel("CAKE")
+    bhide  = Button(" ")
+    bstart = Button("Start")
+    bstop  = Button("Stop")
+    bexit  = Button("Exit")
+    leatxx = Label("Eat-time (x.x sec):")
+    lsleep = Label("Sleep-time (x.x sec):")
+    lcycle = Label("Cycles:")
+    lseqxx = Label("Sequence (A/L/R):")
+    featxx = TextField("5.5")
+    fsleep = TextField("7.5")
+    fcycle = TextField("3")
+    fseqxx = TextField("A")
+    loop i=1 to 5; add(bphil[i]); end
+    loop i=1 to 5; add(bfork[i]); end
+    loop i=1 to 5; add(bhfl[i]);  end
+    loop i=1 to 5; add(bhfr[i]);  end
+    loop i=1 to 5; add(bpez[i]);  end
+    loop i=0 to 8; add(bcake[i]); end
+    add(bhide);  add(bstart); add(bstop)
+    if applic = 1 then add(bexit)
+    add(leatxx); add(lsleep); add(lcycle); add(lseqxx)
+    add(featxx); add(fsleep); add(fcycle); add(fseqxx)
+    bphil[1].reshape(260, 20,130,130)
+    bphil[2].reshape(500, 80,130,130)
+    bphil[3].reshape(450,400,130,130)
+    bphil[4].reshape( 80,400,130,130)
+    bphil[5].reshape( 20, 80,130,130)
+    bfork[1].reshape(430, 40, 30, 77)
+    bfork[2].reshape(600,300, 30, 77)
+    bfork[3].reshape(310,480, 30, 77)
+    bfork[4].reshape( 20,300, 30, 70)
+    bfork[5].reshape(190, 40, 30, 77)
+    bhfr[1].reshape(260,170,40,40)
+    bpez[1].reshape(310,170,40,40)
+    bhfl[1].reshape(360,170,40,40)
+    bhfr[2].reshape(500,230,40,40)
+    bpez[2].reshape(550,230,40,40)
+    bhfl[2].reshape(600,230,40,40)
+    bhfl[3].reshape(450,550,40,40)
+    bpez[3].reshape(500,550,40,40)
+    bhfr[3].reshape(550,550,40,40)
+    bhfl[4].reshape( 80,550,40,40)
+    bpez[4].reshape(130,550,40,40)
+    bhfr[4].reshape(180,550,40,40)
+    bhfr[5].reshape( 20,230,40,40)
+    bpez[5].reshape( 70,230,40,40)
+    bhfl[5].reshape(120,230,40,40)
+    bstart.reshape(290,420,70,20);  bstart.setBackground(Color.green)
+    bstop.reshape(290,420,70,20);   bstop.setBackground(Color.red)  
+    bexit.reshape(290,450,70,20);   bexit.setBackground(Color.red)  
+    bcake[1].reshape(265,250,40,40)
+    bcake[8].reshape(305,250,40,40)
+    bcake[2].reshape(345,250,40,40)
+    bcake[5].reshape(265,290,40,40)
+    bcake[7].reshape(345,290,40,40)
+    bcake[3].reshape(345,330,40,40)
+    bcake[4].reshape(305,330,40,40)
+    bcake[6].reshape(265,330,40,40)
+    bcake[0].reshape(305,290,40,40)
+    loop i=0 to 8; bcake[i].setBackground(Color.yellow); end
+    bhide.reshape(220,240,201,141); bhide.setBackground(Color.darkgray)
+    leatxx.reshape(220,240,140,20)
+    lsleep.reshape(220,280,140,20)
+    lcycle.reshape(220,320,140,20)
+    lseqxx.reshape(220,360,140,20)
+    featxx.reshape(380,240,40,20)
+    fsleep.reshape(380,280,40,20)
+    fcycle.reshape(380,320,40,20)
+    fseqxx.reshape(380,360,40,20)
+    loop i=1 to 5; bpez[i].setBackground(Color.yellow); end
+    reset(0)
+
+  method handleEvent(e=Event) public returns boolean
+    select
+       when e.id = Event.WINDOW_DESTROY then System.exit(0)
+       when "Start".equals(e.arg)       then animate()
+       when "Stop".equals(e.arg)        then interrupt()
+       when "Exit".equals(e.arg)        then System.exit(0)
+       otherwise
+         return (boolean 0)                    -- to super
+    end
+    return (boolean 1)                         -- handled
+
+  method animate()                             -- ANIMATE the GUI 
+    if applic = 0 then 
+       showStatus("Philosophers' Forks")
+    eat    = featxx.getText() * 1000           -- from GUI
+    sleep  = fsleep.getText() * 1000
+    cycles = fcycle.getText()
+    sidex  = fseqxx.getText()
+    if sidex = 'L' then side = 1.0
+    else if sidex = 'R' then side = 0
+         else side = 0.5
+    bstart.hide()                              -- buttons
+    bstop.show()
+    bhide.show()
+    setcake(0,1)                               -- show cake
+    loop i=1 to 5
+       fk[i] = Fork(i,gui)                     -- create 5 forks   
+    end
+    ph[1] = Phil(1,fk[1],fk[5],gui)            -- create 5 phils 
+    ph[2] = Phil(2,fk[2],fk[1],gui)
+    ph[3] = Phil(3,fk[3],fk[2],gui)
+    ph[4] = Phil(4,fk[4],fk[3],gui)
+    ph[5] = Phil(5,fk[5],fk[4],gui)
+    loop i=1 to 5
+       ph[i].start()                           -- run 5 philsophers
+    end
+
+  method interrupt()                           -- interrupt the animation
+    loop i=1 to 5
+       ph[i].stop()
+    end
+    reset(0)
+
+  method reset(pnum=int)                       -- reset GUI to start
+    if pnum \= 0 then
+       loop i=1 to 5                           -- anybody else alive
+         if i \= pnum & ph[i].isAlive() then return
+       end
+    loop i=1 to 5                              -- reset colors
+       setphil(i,4)
+       setfork(i,1)
+       setleft(i,0)
+       setright(i,0)
+       setpiece(i,0)
+    end
+    bstop.hide()                               -- reset buttons
+    bstart.show()
+    bhide.hide()
+    setcake(0,0)                               -- hide cake
+
+  method setphil(pnum=int, col=int)            -- change color of phil
+    if col = 0 then bphil[pnum].hide()
+    else do
+      if col=1 then do; bphil[pnum].setBackground(Color.red)  
+                        bphil[pnum].setLabel("Eating..."); end
+      if col=2 then do; bphil[pnum].setBackground(Color.white)  
+                        bphil[pnum].setLabel("Waiting..."); end
+      if col=3 then do; bphil[pnum].setBackground(Color.gray)  
+                        bphil[pnum].setLabel("Sleeping..."); end
+      if col=4 then do; bphil[pnum].setBackground(Color.cyan)  
+                        bphil[pnum].setLabel("Philosopher" pnum); end
+      bphil[pnum].show()
+    end
+
+  method setfork(pnum=int, col=int)            -- change color fo fork
+    if col = 0 then bfork[pnum].hide()
+               else bfork[pnum].show()
+
+  method setleft(pnum=int, col=int)            -- change left hand
+    if col = 0 then bhfl[pnum].hide()
+    else do
+      if col=1 then bhfl[pnum].setBackground(Color.red)  
+      if col=2 then bhfl[pnum].setBackground(Color.white)  
+      bhfl[pnum].show()
+    end
+
+  method setright(pnum=int, col=int)           -- change right hand
+    if col = 0 then bhfr[pnum].hide()
+    else do
+      if col=1 then bhfr[pnum].setBackground(Color.red)  
+      if col=2 then bhfr[pnum].setBackground(Color.white)  
+      bhfr[pnum].show()
+    end
+
+  method setpiece(pnum=int, col=int)           -- change piece
+    if col = 0 then bpez[pnum].hide()
+               else bpez[pnum].show()
+
+  method setcake(ix=int,show=int)              -- change cake
+    if ix = 0 then 
+       loop i=0 to 8
+          if show=1 then bcake[i].show()
+                    else bcake[i].hide()
+       end
+    else  if show=1 then bcake[ix].show()
+                    else bcake[ix].hide()
+
+  method eatcake(pnum=int)
+    if bcake[0].isVisible() = 0 then setcake(0,1)
+    loop i=0 to 7
+       ix = int (i+pnum) // 8
+       if ix = 0 then ix = 8 
+       if bcake[ix].isVisible() then do
+          bcake[ix].hide()
+          return
+       end
+    end
+    bcake[0].hide()
+
+
+------------------------ philosopher ---------------------------------
+
+class Phil extends Thread    
+
+  properties private
+    num    = int                               -- number
+    lfork  = Fork                              -- left fork
+    rfork  = Fork                              -- right fork
+    guiobj = PFgui                             -- the GUI
+
+  method Phil(nump=int, lforkp=Fork, rforkp=Fork, xgui=PFgui)
+    num    = nump
+    lfork  = lforkp
+    rfork  = rforkp
+    guiobj = xgui
+
+  method run() public                          -- run the philosop.
+    yield()
+    loop for PFgui.cycles                      -- run the loop   
+       stime = int PFgui.sleep % 2 + PFgui.sleep * Math.random() % 1 
+       yield()
+       philsleep(stime)                        -- sleep                         
+       philwait()                              -- wait                         
+       if Math.random() <= PFgui.side then do  -- pick up forks  
+          pickleft()
+          pickright()
+          end
+       else do                                 -- same, right    
+          pickright()
+          pickleft()
+       end
+       etime = int PFgui.eat % 2 + PFgui.eat * Math.random() % 1 
+       yield()
+       phileat(etime)                          -- eat                         
+       layleft()                               -- lay down forks 
+       layright()        
+    end  
+    --say out 'Done' 
+    guiobj.setphil(num,0)
+    guiobj.reset(num)
+
+  method phileat(xtime=int)                    -- eat
+    do
+       guiobj.setphil(num,1)
+       guiobj.setpiece(num,1)
+       guiobj.eatcake(num)
+       sleep(xtime)      
+       guiobj.setpiece(num,0)
+     catch InterruptedException
+    end
+
+  method philsleep(xtime=int)                  -- sleep
+    do
+       guiobj.setphil(num,3)
+       sleep(xtime)      
+     catch InterruptedException
+    end
+
+  method philwait()                            -- wait
+    guiobj.setphil(num,2)
+
+  method pickleft()                            -- pick left fork
+    guiobj.setleft(num,2)
+    lfork.pickup()
+    guiobj.setleft(num,1)
+
+  method pickright()                           -- pick right fork
+    guiobj.setright(num,2)
+    rfork.pickup()
+    guiobj.setright(num,1)
+
+  method layleft()                             -- laydown left fork
+    guiobj.setleft(num,0)
+    lfork.laydown()
+
+  method layright()                            -- laydown right fork
+    guiobj.setright(num,0)
+    rfork.laydown()
+
+
+------------------------ fork ----------------------------------------
+
+class Fork private
+
+  properties private
+    num    = int                               -- number
+    used   = boolean 0                         -- flag is fork in use
+    guiobj = PFgui                             -- the GUI
+
+  method Fork(numf=int, xgui=PFgui)            -- constructor
+    num    = numf
+    guiobj = xgui
+
+  method pickup protect                        -- pickup the fork  
+    do
+       if used then wait()                     -- wait for fork
+       used = boolean 1                        -- take it
+       guiobj.setfork(num,0)
+     catch InterruptedException
+    end
+
+  method laydown protect                       -- laydown the fork 
+    guiobj.setfork(num,1)
+    used = boolean 0                           -- set to free    
+    notify()                                   -- let others run

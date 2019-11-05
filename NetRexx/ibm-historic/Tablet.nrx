@@ -1,0 +1,407 @@
+/* ---------------------------------------------------------- */
+/* Tablet -- use the composite tab gif [tablet.gif]           */
+/*                                                            */
+/* Use as:                                                    */
+/*                                                            */
+/*   <applet code="Tablet.class" width=100% height=40>        */
+/*   <param name=tab1 value="News nrnews.htm">                */
+/*   <param name=tab2 value="Documentation nrdocs.htm">       */
+/*   <param name=show value="2">                              */
+/*   </applet>                                                */
+/*                                                            */
+/* The 'name' parameters define the data for each tab:        */
+/*                                                            */
+/*   word 1 -- Text to show on the tab.  Use an underscore    */
+/*             ('_') to include a blank.                      */
+/*                                                            */
+/*   word 2 -- URI to be shown when the tab is clicked.       */
+/*             This is relative to the directory in which the */
+/*             current document appears.                      */
+/*                                                            */
+/*   rest   -- (not yet implemented) bubble-help for the tab. */
+/*                                                            */
+/* The 'show' parameter either gives the number of the tab    */
+/* that will be brought to the front (numbered 1-n, from the  */
+/* left), or will be 0 (meaning show the lower edge of the    */
+/* 'card index').  The default show is 1.                     */
+/* For show=0, the height in the applet tag should be 15.     */
+/* ---------------------------------------------------------- */
+options binary      -- optional; runs a bit faster if set
+
+class Tablet extends Applet
+
+ properties constant -- private
+
+  -- Positions in the 'original' image (proto) of the pieces
+  -- that we want; note the two risers must be the same width.
+  -- The parts up, down, and downb are extended (repeated) to
+  -- form tabs and shoulders.
+  -- For each slice we need the start offset (x) and width (w)
+  xrise =  0; wrise =14  -- rise   (rise left tab)
+  xup   = 14; wup   = 6  -- up     (tab top)
+  xdrop = 20; wdrop =14  -- drop   (drop from top to shoulder)
+  xdown = 34; wdown = 6  -- down   (flat shoulder)
+  xterm = 40; wterm =14  -- term   (right shoulder; termination)
+  xstar = 54; wstar =15  -- start  (left shoulder)
+  xrism = 69; wrism =14  -- rism   (rise middle)
+  xstarb= 83; wstarb=15  -- starb  (start bottom)
+  xdownb= 98; wdownb= 6  -- downb  (down bottom)
+  xtermb=104; wtermb=14  -- termb  (termination bottom)
+  xfin  =128             -- finish offset (= total width)
+  -- Heights of the full tabs and 'bottom' pieces
+  yproto =40             -- full size pieces
+  ybottom=15             -- bottom pieces
+
+ properties private
+
+  tabfont  ='Helvetica'  -- font face for tab text
+  tabweight=Font.BOLD    -- weight
+  tabcol   =Color.black  -- color
+  tabcolhi =Color.blue   -- color, when highlit
+  tabcollo =Color.gray   -- color, when current (fronttab)
+  tabpoints=int          -- size for desired text height [points]
+  tabheight=16           -- desired text height [pels]
+  tabbasey =22           -- text baseline
+  tabbasex = 0           -- text baseline x adjustment
+
+  shadow=Image           -- the Image to draw (null if no good)
+  proto =Image           -- the Image prototype
+  wid   =0               -- working tabs width
+  hig   =0               -- working tabs height
+  xscale=float           -- scale factor in x
+  yscale=float           -- scale factor in y
+
+  -- data
+  tabs     =int          -- number of tabs
+  wtab     =int[]        -- tab widths array
+  otab     =int[]        -- tab body offsets array
+  fronttab =int 0        -- tab focus number [0->tabs-1]
+  mousetab =int(-1)      -- tab under mouse  [0->tabs-1, or -1]
+  mouselast=int(-1)      -- tab under mouse  [0->tabs-1, or -1]
+  tabword  =String[]     -- String for the tab
+  taburl   =String[]     -- URL for the tab
+--tabhelp  =String[]     -- help String for the tab [nyi]
+
+ /* ---------------------------------------------------------- */
+ /* init is called once the applet is loaded.  It sets up the  */
+ /* master 'tabs' image, using pieces from the prototype.      */
+ /* Note that if the prototype image used to form the tabs     */
+ /* cannot be loaded for some reason, we'll still get the      */
+ /* text segments, and they'll work as expected.               */
+ /* ---------------------------------------------------------- */
+ method init
+  s='Copyright (c) IBM, 1997, RexxLA, 2011'
+
+  /* Get the parameters */
+  -- Determine the most forward, if any
+  s=getParameter('show') -- the number of the front tab (default 1)
+  if s\=null then do
+    i=Integer.parseInt(s, 10)
+    if i<0 then signal NumberFormatException
+    fronttab=i-1         -- OK, it's valid; -1 will mean bottom-edge
+  catch NumberFormatException
+    System.out.println('Bad show parameter:' s)
+    end
+
+  /* Get the prototype image.  It has a transparent background. */
+  /* The prototype is of height yproto. */
+  proto=getgif('tablet.gif')       -- get the template
+  -- [will be null if not loaded, but we still get Text]
+
+  /* Take quick path if just drawing bottom edge */
+  if fronttab<0 then do
+    hig=ybottom                    -- bottom edge is less high than full
+    wid=getSize.width              -- fixed image size
+    shadow=createImage(wid, hig)   -- working image
+    draw=shadow.getGraphics        -- for graphics
+    draw.setColor(Color.white)     -- background
+    draw.fillRect(0, 0, wid, hig)  -- ..
+    if proto\=null then drawunder  -- draw using pieces from prototype
+     else /* missing image */ do
+      draw.setColor(Color.gray)    -- make a default line
+      draw.fillRect(0, 2, wid, 4)  -- ..
+      end
+    return
+    end
+
+  /* real tabs */
+  -- Count the tabs
+  tabs=0
+  loop n=1 by 1
+    s=getParameter('tab'n)
+    if s=null then leave
+    tabs=tabs+1
+    end
+  if tabs=0 then return  -- give up (will display 'no tabs')
+  if fronttab>=tabs then fronttab=tabs-1     -- clamp
+  -- Parse the tabs
+  tabword=String[tabs]
+  taburl =String[tabs]
+  loop n=1 to tabs
+    c=getParameter('tab'n).toCharArray
+    /* [This is where we really *need* NetRexx parse, or Rexx.word(x) :-)] */
+    -- First word is for tab [we allow multi-word with '_']
+    loop i=0 to c.length-1 while c[i] =' '; end   -- i to first non-blank
+    loop j=i to c.length-1 while c[j]\=' '        -- j to next blank
+      if c[j]=='_' then c[j]=' '                  -- [translate underscore]
+      end j
+    if j<=i then tabword[n-1]='?'
+            else tabword[n-1]=String(c, i, j-i)
+    -- Second word is URL
+    loop i=j to c.length-1 while c[i] =' '; end   -- i to next non-blank
+    loop j=i to c.length-1 while c[j]\=' '; end   -- j to next blank
+    if j<=i then taburl[n-1]='?'
+            else taburl[n-1]=String(c, i, j-i)
+    -- Remainder would be help [currently ignored]
+    -- say 'tab'n': "'tabword[n-1]'" "'taburl[n-1]'"'
+    end n
+
+  /* Prepare the drawing area, and measure the tab text */
+  wid=getSize.width                     -- default image size
+  hig=yproto                            -- full height
+  shadow=createImage(wid, hig)          -- working image
+  draw=shadow.getGraphics               -- for graphics
+
+  -- measure the height of the font, and choose size to match
+  draw.setFont(Font(tabfont, tabweight, 36)) -- measure at this size
+  h36=draw.getFontMetrics.getAscent     -- height at size '36'
+  tabpoints=int(36*(tabheight/h36)+0.5) -- size for required height (round)
+  draw.setFont(Font(tabfont, tabweight, tabpoints)) -- set actual font
+  fm=draw.getFontMetrics                -- find out about font
+  -- say 'Font' tabfont':' tabheight h36 tabpoints fm.getAscent
+
+  -- measure the width of each text segment; save in wtab array
+  wtab=int[tabs]                        -- width of each tab body
+  otab=int[tabs]                        -- offset of each tab body
+  wtotal=0                              -- total of all bodies
+  loop t=0 to tabs-1
+    otab[t]=wtotal+wrise*(t+1)          -- offset of body start
+    wtab[t]=fm.stringWidth(tabword[t])  -- actual width
+    wtotal=wtotal+wtab[t]
+    -- say 'wtab['t']:' wtab[t]
+    end t
+  minwid=wtotal+wrise*tabs+wdrop+wterm  -- minimum width needed
+  if minwid>wid then do                 -- requested width is wider
+    wid=minwid
+    shadow=createImage(wid, hig)        -- need new, wider image
+    draw=shadow.getGraphics             -- for graphics
+    end
+
+  xscale=wid/getSize.width              -- record scale factors
+  yscale=hig/getSize.height             -- ..
+  -- say 'wid scales:' wid xscale yscale
+
+  draw.setColor(Color.white)            -- background
+  draw.fillRect(0, 0, wid, hig)         -- ..
+
+  drawtabs                              -- lay out the tabs
+
+ /* ---------------------------------------------------------- */
+ /* Update a tab's text [and front shoulder, if needed].       */
+ /* ---------------------------------------------------------- */
+ method updatetext(t=int)
+  drawtext(otab[t], tabword[t], t=mousetab, t\=fronttab)
+  --- draw shoulder in front if not front tab
+  if t=fronttab then return
+  x=otab[t]
+  wdowns=wtab[t]                        -- how many downs to fill
+  loop while wdowns>0
+    if wdowns>wdown then w=wdown
+                    else w=wdowns
+    drawslice(x, xdown, w)
+    wdowns=wdowns-w
+    x=x+w
+    end
+  return
+
+ /* ---------------------------------------------------------- */
+ /* Draw an under-image (the bottom of an index card).         */
+ /* ---------------------------------------------------------- */
+ method drawunder
+  drawslice(0, xstarb, wstarb)               -- start
+  x=wstarb
+  wdowns=wid-(wstarb+wtermb)                 -- how many downs to fill
+  loop while wdowns>0
+    if wdowns>wdownb then w=wdownb
+                     else w=wdowns
+    drawslice(x, xdownb, w)
+    wdowns=wdowns-w
+    x=x+w
+    end
+  drawslice(x, xtermb, wtermb)               -- terminator
+  this.repaint                               -- ensure onscreen
+
+ /* ---------------------------------------------------------- */
+ /* Update all the tab drawings.                               */
+ /* ---------------------------------------------------------- */
+ method drawtabs
+  /* Display all the tabs, from hindmost to front.  Only the front tab
+     will have shoulders, added after the tab body. */
+  loop t=tabs-1 to 0 by -1
+    n=t+fronttab              -- tab to display
+    if n>=tabs then n=n-tabs  -- ..
+    -- draw riser [note different if tab 0]
+    x=otab[n]-wrise
+    if n=0 then xr=xrise
+           else xr=xrism
+    drawslice(x, xr, wrise)
+    x=x+wrise
+    -- draw uppers
+    wups=wtab[n]
+    loop while wups>0
+      if wups>wup then w=wup
+                  else w=wups
+      drawslice(x, xup, w)
+      wups=wups-w
+      x=x+w
+      end
+    -- draw drop
+    drawslice(x, xdrop, wdrop)
+    -- draw the text for the tab
+    drawtext(otab[n], tabword[n], n=mousetab, n\=fronttab)
+    end t
+  /* shoulders of the front tab */
+  if fronttab>0 then do label leftshoulder
+    drawslice(0, xstar, wstar)               -- start
+    x=wstar
+    wdowns=otab[fronttab]-wrise-x            -- how many downs to fill
+    loop while wdowns>0
+      if wdowns>wdown then w=wdown
+                      else w=wdowns
+      drawslice(x, xdown, w)
+      wdowns=wdowns-w
+      x=x+w
+      end
+    end leftshoulder
+  /* always a right shoulder */
+  x=otab[fronttab]+wtab[fronttab]+wdrop      -- right edge of focus tab, +1
+  wdowns=wid-wterm-x                         -- how many downs to fill
+  loop while wdowns>0
+    if wdowns>wdown then w=wdown
+                    else w=wdowns
+    drawslice(x, xdown, w)
+    wdowns=wdowns-w
+    x=x+w
+    end
+  drawslice(x, xterm, wterm)                 -- terminator
+  this.repaint                               -- ensure onscreen
+
+ /* ---------------------------------------------------------- */
+ /* Draw a vertical slice from the prototype into the shadow.  */
+ /* Note for 1.0.x we don't have setClip, so we must keep      */
+ /* creating Graphics contexts.                                */
+ /* ---------------------------------------------------------- */
+ method drawslice(x=int, xfrom=int, wfrom=int)
+  if proto=null then return                  -- nothing to draw
+  draw=shadow.getGraphics                    -- needed to reset clip
+  draw.clipRect(x, 0, wfrom, hig)            -- where to draw
+  draw.drawImage(proto, x-xfrom, 0, this)    -- trickily shift the source
+
+ /* ---------------------------------------------------------- */
+ /* Draw the text for a tab.                                   */
+ /* ---------------------------------------------------------- */
+ method drawtext(x=int, s=String, high=boolean, enabled=boolean)
+  draw=shadow.getGraphics                    -- needed to reset clip
+  draw.setFont(Font(tabfont, tabweight, tabpoints))
+  select
+    when \enabled then draw.setColor(tabcollo)
+    when high     then draw.setColor(tabcolhi)
+    otherwise          draw.setColor(tabcol)
+    end
+  draw.drawString(s, x+tabbasex, tabbasey)
+
+ /* ---------------------------------------------------------- */
+ /* The following methods respond to mouse movements and       */
+ /* actions.                                                   */
+ /* MouseEnter and MouseExit are not called on some platforms, */
+ /* but are allowed for in any case.                           */
+ /* ---------------------------------------------------------- */
+ /* mouseDown takes an action if over a tab */
+ method mouseDown(e=Event, x=int, y=int) returns boolean
+  t=hit(e, x, y)
+  if t<0 then return 0
+  if t=fronttab then return 0      -- this one's inactive
+  -- don't change the current drawing; browser may be lazy
+  do
+    this.getAppletContext.showDocument(URL(this.getDocumentBase, taburl[t]))
+  catch MalformedURLException
+    System.out.println('Bad URL:' taburl[t])
+  end
+  return 1
+
+ /* Actions to take as mouse moves */
+ method mouseMove(e=Event, x=int, y=int) returns boolean
+  t=hit(e, x, y)
+  if mouselast\=t then do     -- change noted
+    mousetab=t
+    if mouselast>=0 then
+      updatetext(mouselast)   -- will revert old tab
+    if t>=0 then
+      updatetext(t)           -- will highlight new tab
+    mouselast=t
+    this.repaint
+    end
+  return 1
+
+ /* Drag is treated just like Move (redraws button if leaves button) */
+ method mouseDrag(e=Event, x=int, y=int) returns boolean
+   return mouseMove(e, x, y)
+ /* Enter and exit call our mouseMove to ensure known state */
+ method mouseEnter(e=Event, x=int, y=int) returns boolean
+   return mouseMove(e, x, y)
+ method mouseExit(e=Event, x=int, y=int) returns boolean
+   return mouseMove(e, x, y)
+
+ /* Returns number of tab/card we are over, or -1 if none */
+ method hit(e=Event, x=int, y=int) returns int
+   if e=null   then return -1                -- no event
+   x=(x*xscale)%1                            -- apply scaling in X
+   y=(y*yscale)%1                            -- .. and Y
+   if x<5      then return -1
+   if x>wid-5  then return -1
+   if y<5      then return -1                -- above tabs
+   if y>hig-5  then return -1                -- edge detector
+   -- next effect isn't very nice; disable
+   -- if y>31  then return fronttab          -- below shoulder must be front
+   o=0
+   loop t=0 to tabs-1
+     if t=fronttab then do
+       if x>=o then
+        if x<o+wrise+wtab[t]+wdrop then return t
+       end
+      else /* behind tab */ do
+       if x>=o+wrise/2 then
+        if x<o+wrise+wtab[t]+wdrop/2 then return t
+       end
+     o=o+wrise+wtab[t]
+     end t
+   return -1
+
+ /* ---------------------------------------------------------- */
+ /* Utility routine to load a GIF and await its arrival.       */
+ /* The argument is a URI (relative to the document base).     */
+ /* ---------------------------------------------------------- */
+ method getgif(gif=String) returns Image
+  newimage=getImage(getDocumentBase(), gif)  -- get the image
+  tracker=MediaTracker(this)                 -- 'this' is the "observer"
+  tracker.addImage(newimage, 0)              -- track image arrival, ID=0
+  do
+    tracker.waitForID(0)                     -- wait for image 0 to complete
+  catch InterruptedException                 -- something stopped us
+    return null                              -- can do no more
+  end
+  -- Good images have useful dimensions, bad images have -1 or 0 in X or Y
+  if newimage.getWidth(this) <=0 then return null
+  if newimage.getHeight(this)<=0 then return null
+  return newimage                            -- looks good
+
+ /* ---------------------------------------------------------- */
+ /* paint(g) draws the whole image to size, if available.      */
+ /* ---------------------------------------------------------- */
+ method update(g=Graphics)                   -- override Applet's update
+  paint(g)                                   -- method to avoid flicker
+ method paint(g=Graphics)
+  if shadow=null
+   then g.drawString('[no tabs]', 2, 12)     -- alternative
+   else g.drawImage(shadow, 0, 0, getSize.width, getSize.height, this)
+

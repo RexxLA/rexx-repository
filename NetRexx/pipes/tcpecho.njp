@@ -1,0 +1,93 @@
+-- tcpecho.njp watch a sapgui session
+
+-- usage: java watch watched_port view_port sapserver 3200+sap_system_number
+
+-- setup a sapgui to connect to the view_port and watched_port.  Then connect
+-- the sessions.  Note the view_port session must connect first, the gui will
+-- not start until the watched_port session connects.  The port number is
+-- 3200 plus the system number (ie. in the gui setup set the system number
+-- to 20 to use 3220 as a watched-port...).  Typing stop will shutdown the
+-- server when the last session ends.
+
+pipe (watch stall 30000 end ? debug 3 )
+
+   console |      -- use stop to quit this
+   find stop|
+g: gate ?
+
+   literal |      -- limit us to 5 broadcast/viewer sessions
+   dup 4 |
+c: fanin |
+
+   tcplisten {2} timeout 2000 backlog 1 |       -- the viewer
+ g: |
+
+o: fanout |                                     -- enable a broadcaster
+e: tcpecho {} ?
+ o: |
+   tcplisten {1} timeout 2000 backlog 1 |       -- the broadcaster
+ e: ?
+ e: |             -- pass objects that tcpecho produces
+   g: |           -- when terminating to tcplisten so
+   c:             -- it can start sessions
+
+
+options binary
+import org.netrexx.njpipes.pipes.
+class tcpecho extends stage
+
+method run() public
+
+   parse arg() . . rsys rport
+
+   do
+
+      loop forever
+
+         peekto()                        -- wait for it...
+
+         addpipe (watch stall 15000 end ? debug 0)
+
+           *out0: |
+         v: fanin |
+            tcpdata |                    -- echo broadcast to this session
+            hole ?                       -- and ignore any user input
+           *out1: |
+         b: fanin |                      -- echo to the sap server
+            tcpdata |
+            tcpclient {rsys} {rport} linger 1 |
+         o: fanout |
+            elastic |                    -- pass sap server output
+           b: ?
+         o: |
+            elastic |                    -- to the viewer too
+           v: ?
+         o: |
+            hole |                       -- wait for this to end
+            append literal |
+         i: faninany |
+           *out2: ?                      -- and pass an obj back to watch
+           *out2: |
+           i:
+
+         selectOutput(0)                 -- accept the viewer
+
+         callpipe (bridge1 stall 15000 end ? debug 0)
+            *in0: | take first 1 | *out0:
+
+         severOutput()
+
+         selectOutput(1)                 -- and the broadcaster
+
+         callpipe (bridge2 stall 15000 end ? debug 0)
+            *in1: | take first 1 | *out1:
+
+         severOutput()
+
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

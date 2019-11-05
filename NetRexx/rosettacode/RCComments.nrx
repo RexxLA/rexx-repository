@@ -1,0 +1,13 @@
+/* NetRexx */
+options replace format comments java symbols binary
+
+/*
+
+ NetRexx comment block
+ 
+*/
+
+-- NetRexx line comment
+
+return
+

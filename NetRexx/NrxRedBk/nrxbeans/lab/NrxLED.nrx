@@ -1,0 +1,90 @@
+/* nrxbeans\lab\NrxLED.nrx
+
+   A simple LED display bean, with numbers, colon, point, minus, blank */
+
+package nrxbeans.lab   -- if you change the package name you also need to modify
+                       -- the path to the LED GIF files
+
+import java.awt.
+import java.beans.
+
+class NrxLED binary extends Canvas implements Serializable
+
+  properties private static
+    DIGIT_WIDTH  = int 7
+    DIGIT_HEIGHT = int 16
+    MAX_DIGITS   = int 14
+    DIGIT_BLANK  = byte 10
+    DIGIT_COLON  = byte 11
+    DIGIT_DOT    = byte 12
+    DIGIT_MINUS  = byte 13
+
+  properties private
+    digits = Image[]
+
+  properties indirect
+    numberOfDigits = int
+    text           = String
+
+  method NrxLED() public
+    super()
+    ------------------------------ load the digit images
+    digits = Image[MAX_DIGITS]
+    loop i = 0 to MAX_DIGITS-1
+      imageName = "/nrxbeans/lab/LED" || i || ".gif"    -- must be in same path as class
+      digits[i] = loadImage(imageName)
+      if digits[i] = null then
+        System.err.println("Couldn't load image" imageName)
+    end
+    ------------------------------ set properties
+    setNumberOfDigits(8)
+    setText("88:88:88")
+    setBackground(Color.black)
+    setForeground(Color.green)
+
+  method loadImage(imageName = String) private returns Image
+    imgUrl = this.getClass().getResource(imageName)
+    return Toolkit.getDefaultToolkit().getImage(imgUrl)
+
+  method getPreferredSize() returns Dimension
+    return Dimension((2+DIGIT_WIDTH)*numberOfDigits+4, -
+                      DIGIT_HEIGHT + 6)
+
+  method paint(g = Graphics) protect
+    width = getSize().width
+    height = getSize().height
+    g.setColor(getBackground())
+    g.fillRect(1, 1, width-2, height-2)
+    g.setColor(Color.black)
+    g.draw3DRect(0, 0, width-1, height-1, 0)
+    paintDigits(g)
+
+  method paintDigits(g = Graphics)
+    loop i = 0 to text.length()-1
+      c = text.charAt(i)
+      select
+        when c >= char '0' & c <= char '9' then idx = byte c - '0'
+        when c = ':' then idx = DIGIT_COLON
+        when c = '.' then idx = DIGIT_DOT
+        when c = '-' then idx = DIGIT_MINUS
+        otherwise         idx = DIGIT_BLANK
+      end
+      g.drawImage(digits[idx], 3+i*(2+DIGIT_WIDTH), 3, this)
+    end
+
+  method setNumberOfDigits(n = int)
+    numberOfDigits = Math.max(0, Math.min(12, n))
+    sizeToFit()
+
+  method setText(aText = String)
+    if aText.length() <= numberOfDigits then text = aText
+    repaint()
+
+  method sizeToFit()
+    d = getPreferredSize()
+    setSize(d.width, d.height)
+    p = getParent()
+    if p \= null then do
+      p.invalidate()
+      p.doLayout()
+    end

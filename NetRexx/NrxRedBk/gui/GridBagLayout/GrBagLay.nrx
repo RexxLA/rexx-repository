@@ -1,0 +1,55 @@
+/* gui\gridbaglayout\GrBagLay.nrx
+
+   Sample Applet to illustrate the GridBagLayout manager */
+
+class GrBagLay extends Applet uses GridBagConstraints
+
+method init()
+  gbl  = GridBagLayout()
+  t1gbc = GridBagConstraints()   -- for labels
+  t2gbc = GridBagConstraints()   -- for the other components
+  setLayout(gbl)
+
+  -- Preset t1gbc  used for the labels
+  t1gbc.anchor=NORTHWEST
+  t1gbc.insets.top=5; t1gbc.insets.left=10; t1gbc.insets.right=5
+  t1gbc.gridx = 0
+
+  -- Preset t2gbc  used for the other components
+  t2gbc.fill = BOTH;
+  t2gbc.insets.top=5; t2gbc.insets.right=10
+  t2gbc.weightx = 1;  t2gbc.gridx = 1
+
+  -- Add the labels
+  l = Label('Name')
+  gbc=GridBagConstraints t1gbc.clone(); gbc.gridy=0; ; gbc.insets.top=10
+  add(l); gbl.setConstraints(l,gbc)
+
+  l = Label('Sex')
+  gbc=GridBagConstraints t1gbc.clone(); gbc.gridy=1;
+  add(l); gbl.setConstraints(l,gbc)
+
+  l = Label('Notes')
+  gbc=GridBagConstraints t1gbc.clone(); gbc.gridy=2; gbc.insets.bottom=10
+  add(l); gbl.setConstraints(l,gbc)
+
+  -- Add the other components
+  name = TextField()
+  gbc=GridBagConstraints t2gbc.clone(); gbc.gridy=0; gbc.gridwidth=REMAINDER
+  gbc.insets.top=10
+  add(name); gbl.setConstraints(name,gbc)
+
+  cbg  = CheckboxGroup()  -- Checkbox group because exclusive choices
+  cb   = Checkbox('male',cbg,1)
+  gbc=GridBagConstraints t2gbc.clone(); gbc.gridy=1; gbc.insets.right=5
+  add(cb); gbl.setConstraints(cb,gbc)
+
+  cb   = Checkbox('female',cbg,0)
+  gbc=GridBagConstraints t2gbc.clone(); gbc.gridy=1; gbc.gridx=2;
+  add(cb); gbl.setConstraints(cb,gbc)
+
+  area = TextArea(5,20) -- 5 rows and 20 columns visible
+  gbc=GridBagConstraints t2gbc.clone(); gbc.gridy=2; gbc.gridwidth=REMAINDER
+  gbc.weighty = 1
+  gbc.insets.bottom=10
+  add(area); gbl.setConstraints(area,gbc)

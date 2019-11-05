@@ -1,0 +1,11 @@
+import javax.script.
+
+method main(args=string[]) static
+
+  say args(1) 
+  
+  nrEngine = ScriptEngineManager().getEngineByName("NetRexx")
+  
+  /* simple script invocation */
+  nrEngine.eval('parse arg aha; say "arg:" arg ; say "aha:" aha ; say "aha[0]="aha[0] ; say "aha.size="aha.size ; say "arg.size="arg.size')
+

@@ -1,0 +1,156 @@
+<html><head><title>MySearchPage.com - Your all in one searching tool</title></head>
+<body bgcolor="#FFFFFF">
+
+<FORM method="get" action="http://www.hotbot.com/">
+<a href="http://www.hotbot.com">HotBot</a><br>
+<INPUT TYPE="hidden" NAME="_v" VALUE="2">
+<INPUT type=text NAME="MT" SIZE=40 VALUE="" MAXLENGTH=100><br>
+<INPUT type=submit name="act.search" value="search">
+<SELECT NAME="SW">
+<OPTION VALUE="Web" selected>the Web
+<OPTION VALUE="usenet">Newsgroups
+</SELECT>
+ for 
+<SELECT NAME="SM">
+<OPTION VALUE="MC" selected>all the words
+<OPTION VALUE="SC">any of the words
+<OPTION VALUE="phrase">the exact phrase
+<OPTION VALUE="name">the person
+<OPTION VALUE="url">links to this URL
+<OPTION VALUE="B">the boolean expression
+</SELECT></FORM>
+
+<p>
+
+<FORM method=GET action="http://www.altavista.digital.com/cgi-bin/query"> 
+<a href="http://www.altavista.digital.com/">AltaVista</a><br>
+<INPUT TYPE=hidden NAME=pg VALUE=q>
+<INPUT NAME=q size=40 maxlength=200 VALUE=""><br>
+<INPUT TYPE=submit VALUE=search>
+<input type="hidden" name="fmt" value="">
+<SELECT NAME=what>
+<OPTION VALUE=web SELECTED>the Web
+<OPTION VALUE=news>Newsgroups
+</SELECT>
+</FORM>
+
+<p>
+
+<form name="querybox" action="http://www.metacrawler.com/crawler" method="get">
+<a href="http://www.metacrawler.com">MetaCrawler</a><br>
+<input type="text" name="general" value="" size=40 maxlength=100><br>
+<input value="search" type="submit">
+<select name="target">
+<option value="" selected>the Web
+<option value="techstocks">Stock Msg. Boards
+<option value="stockquote">Stock Quote
+<option value="dejanews">Newsgroups
+<option value="filez">Files
+</select>
+ for 
+<input type="radio" name="method" value="1" >any 
+<input type="radio" name="method" value="0" checked>all 
+<input type="radio" name="method" value="2" >phrase
+</form>
+
+<p>
+
+<FORM action="http://search.yahoo.com/bin/search" METHOD=GET>
+<a href="http://www.yahoo.com/">Yahoo</a><br>
+<INPUT size=40 name=p><br>
+<INPUT type=submit value=search name="search">
+</FORM>
+
+<p>
+
+<FORM ACTION="http://x3.dejanews.com/dnquery.xp" METHOD=POST>
+<a href="http://www.dejanews.com">DejaNews</a><br>
+<INPUT TYPE="text" NAME="query" SIZE="40"><br>
+<INPUT TYPE="submit" VALUE="search">
+<INPUT TYPE="hidden" NAME="defaultOp" VALUE="AND">
+<INPUT TYPE="hidden" NAME="svcclass" VALUE="dncurrent">
+<INPUT TYPE="hidden" NAME="maxhits" VALUE="20">
+</FORM>
+
+<p>
+
+<FORM ACTION="http://ftpsearch.ntnu.no/ftpsearch" METHOD=GET>
+<a href="http://ftpsearch.ntnu.no/ftpsearch/">FAST FTP Search v4.0</a><br>
+<INPUT NAME="query" VALUE="" SIZE=40><br>
+<INPUT NAME=doit TYPE=submit VALUE="search"> limit to domain 
+<INPUT NAME=limdom SIZE=12 VALUE="">
+</form>
+
+<p>
+
+<FORM NAME="dict_form" METHOD="GET" ACTION="http://dict.dictionary.com/cgi-bin/dict.pl">
+<a href="http://www.dictionary.com">English Dictionary</a><br>
+<INPUT TYPE="hidden" NAME="db" SIZE=40 VALUE="*">
+<INPUT TYPE="text" NAME="term" SIZE=40 VALUE=""><br>
+<INPUT TYPE="submit" VALUE="look up">
+</FORM>
+
+<p>
+
+<FORM ACTION="http://www.excite.com/search.gw" METHOD=POST>
+<a href="http://www.excite.com">Excite</a><br>
+<INPUT NAME="search" SIZE=40><br>
+<input type="submit" value="search">
+<INPUT TYPE="hidden" NAME="searchType" VALUE="Keyword">
+<INPUT TYPE="hidden" NAME="category" VALUE="default" CHECKED>
+<INPUT TYPE="hidden" NAME="mode" VALUE="relevance">
+<INPUT TYPE="hidden" NAME="showqbe" VALUE="1">
+<INPUT TYPE="hidden" NAME="display" VALUE="html3,hb">
+</form>
+
+<p>
+
+<form action="http://search.shareware.com/code/engine/Find">
+<a href="http://www.shareware.com/">shareware.com</a><br>
+<input type=hidden name=frame value=none>
+<input type=hidden name=cfrom value=quick>
+<input type=hidden name=orfile value=True>
+<input name="search" size=40><br>
+<input type="submit" value="search">
+<select name="category" size=1>
+<OPTION SELECTED>MS-Windows(all)
+<OPTION>MS-Windows3.x
+<OPTION>MS-Windows95
+<OPTION>MS-WindowsNT
+<OPTION>Macintosh
+<OPTION>DOS
+<OPTION>OS2
+<OPTION>UNIX
+<OPTION>Amiga
+<OPTION>Atari  
+<OPTION>PC-Games
+<OPTION>Novell-Netware
+<OPTION>Source-Code
+<OPTION>All-Categories
+</select>
+</form>
+
+<p>
+
+<form action="http://www.lycos.com/cgi-bin/nph-randurl/cgi-bin/largehostpursuit1.html" method=GET>
+<a href="http://www.lycos.com/">Lycos</a><br>
+<input type=text size=40 name="query"><br>
+<input type=hidden name="backlink" value=229>
+<input type="submit" value="search">
+</form>
+
+<p>
+
+<FORM method="get" action="http://guide-p.infoseek.com/WW/IS/Titles">
+<a href="http://www2.infoseek.com/">Infoseek Guide</a><br>
+<INPUT NAME="qt" SIZE=40 VALUE="" MAXLENGTH=40><br>
+<INPUT TYPE=submit VALUE="search">
+<select name=col size=1>
+<option value=WW selected>the Web
+<option value="WW,cat_+">Infoseek Select
+<option value="WW,tit_1,dty_topic">categories of sites
+</select>
+</form>
+
+</body><!--
+</html>

@@ -1,0 +1,12 @@
+pipe (choptest5)
+
+   literal The;NetRexx;Language; ;NetRexx is a;new human-oriented;programming language |
+   split ; |
+   chop anycase str /r/ |
+console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal The;Net;Language;_;Net;new human-o;p; |
+split ; |
+change /_// |
+compare:

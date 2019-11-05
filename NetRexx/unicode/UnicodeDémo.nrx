@@ -1,0 +1,11 @@
+/**	
+* Unicode test by René Vincent Jansen - notice the é accent aigu in my first name 
+*/	
+class UnicodeDémo
+
+  method UnicodeDémo()
+
+  method main(args=String[]) static
+    UnicodeDemo()
+
+  

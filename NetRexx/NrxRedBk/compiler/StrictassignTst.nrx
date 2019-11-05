@@ -1,0 +1,20 @@
+/* compiler\StrictassignTst.nrx
+
+   This NetRexx program demonstrates the STRICTASSIGN option */
+
+OPTIONS strictassign
+
+testB = B()
+StrictassignTst.print(testB)
+exit 0
+
+method print(anA=A) static
+      say anA.getSomeProperty()
+
+class A
+   someProperty='This a dummy-property'
+
+   method getSomeProperty()
+     return someProperty
+
+class B extends A

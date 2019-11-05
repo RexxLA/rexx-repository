@@ -1,0 +1,35 @@
+-- o-i instage filter
+
+pipe (addt2) gen 10 | addtest2 | console
+
+import org.netrexx.njpipes.pipes.
+
+class addtest2 extends stage
+
+method run() public
+
+   say 'o-i : a 1, a 2 .. a 10'
+   do
+      addpipe (addpt2) *out1: | copy | specs /a/ 1 1-* nextw | *in1:
+
+      loop forever
+         line = peekto()
+
+         selectOutput(1)
+         output(line)
+
+         selectInput(1)
+         line = readto()
+
+         selectOutput(0)
+         output(line)
+
+         selectInput(0)
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

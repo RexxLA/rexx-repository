@@ -1,0 +1,15 @@
+/* NetRexx */
+options replace format comments java symbols
+
+surname = 'Unknown' -- default value
+surname['Fred'] = 'Bloggs'
+surname['Davy'] = 'Jones'
+
+try = 'Fred'
+say surname[try] surname['Bert']
+
+-- extract the keys
+loop fn over surname
+  say fn.right(10) ':' surname[fn]
+  end fn
+

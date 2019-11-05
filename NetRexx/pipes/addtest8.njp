@@ -1,0 +1,27 @@
+-- n-i bypass stage
+
+pipe (addt8) gen 5 | addtest8 | console
+
+import org.netrexx.njpipes.pipes.
+class addtest8 extends stage final
+
+method run() public
+
+
+   say 'n-i : 1, 2 .. 10'
+   do
+      addpipe (addpt8) gen 10 | *in0:
+
+      loop forever
+         line = peekto()
+         output(line)
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+   say 'Ending 'rc
+
+exit(rc*(rc<>12))

@@ -1,0 +1,3 @@
+EmpName.nrx | This CGI sample shows how to interact with an IBM DB2 database using JDBC.
+EmpNum.nrx | NetRexx CGI program for DB2:  Employee by number (using GET)   
+EmpNum2.nrx | NetRexx CGI program for DB2:  Employee by number (using POST)

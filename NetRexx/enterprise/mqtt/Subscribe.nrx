@@ -1,0 +1,69 @@
+import java.sql.Timestamp
+import org.eclipse.paho.client.mqttv3.
+
+class Subscribe implements MqttCallback
+
+  properties private
+  client = MqttClient
+  conOpt    = MqttConnectOptions()
+  tmpDir    = System.getProperty("java.io.tmpdir")
+  clientId  = MqttClient.generateClientId()
+  topicName = "/world"
+  qos	      = 2    
+  
+  method Subscribe()
+    do
+      connectAndSubscribe()
+    catch mqx=MqttException
+      log(mqx.getMessage())
+    end
+    -- Block until Enter is pressed
+    log("Press <Enter> to exit");
+    do
+      System.in.read()
+    catch IOException
+    end
+    
+    -- Disconnect the client
+    client.disconnect()
+    log("Disconnected")
+
+  method connectAndSubscribe() signals MqttSecurityException,MqttException
+    conOpt.setCleanSession(1)
+    dataStore = MqttDefaultFilePersistence(tmpDir)
+    do
+      broker	  = "localhost"
+      port	  = "1883"
+      brokerUrl	  = "tcp://"broker":"port
+      client = MqttClient(brokerUrl,clientId, dataStore)
+      client.setCallback(this)
+    catch e=mqttException
+      say e.getMessage()
+      e.printStackTrace()
+    end -- do
+    
+    this.client.connect()
+    log("Connected to "brokerUrl" with client ID "client.getClientId())
+    
+    -- Subscribe to the topic
+    log('Subscribing to topic "'topicName'" qos 'qos)
+    this.client.subscribe(topicName, qos)
+
+  method log(line)
+    say line
+    
+  method messageArrived(t=String,m=MqttMessage)
+    log("Message Arrived: " t m)
+    
+  method deliveryComplete(t=IMqttDeliveryToken)
+    log("Delivery Complete: " t)
+
+  method connectionLost(t=Throwable)
+    do
+    connectAndSubscribe()
+    catch mqx=MqttException
+      log(mqx.getMessage())
+    end
+    
+  method main(args=String[]) static
+    Subscribe()

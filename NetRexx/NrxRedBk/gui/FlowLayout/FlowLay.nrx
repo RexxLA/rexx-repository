@@ -1,0 +1,13 @@
+/* gui\flowlayout\FlowLay.nrx
+
+   Sample Applet to illustrate the FlowLayout manager */
+
+class FlowLay extends Applet
+
+method init()
+  setLayout(FlowLayout(FlowLayout.CENTER))  -- not necessary (default for applets)
+  add( Button('One'))
+  add( Button('Two'))
+  add( Button('Three'))
+  add( Button('4'))
+  add( Button('5'))

@@ -1,0 +1,11 @@
+pipe (jointest2)
+
+   literal a1 a2 a3 s4 s5 d6 d7 d8 dA fB fC |
+   split |
+   join 3 /xyz/ 60 |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal a1xyza2xyza3xyzs4xyz;s5xyzd6xyzd7xyzd8xyz;dAxyzfBxyzfCxyz; |
+   split ; |
+   compare:

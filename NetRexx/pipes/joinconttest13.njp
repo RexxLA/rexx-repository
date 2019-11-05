@@ -1,0 +1,11 @@
+pipe (joinconttest13)
+
+   literal first;seco$nd;thrid;four$th;fift$h;sixth;seve$nth |
+   split ; |
+   joincont range 5.1 /$/ /--/ |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal first;seco$nd--thrid;four$th--fift$h--sixth;seve$nth; |
+   split ; |
+   compare:

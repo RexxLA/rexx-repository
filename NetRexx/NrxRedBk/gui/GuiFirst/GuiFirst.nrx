@@ -1,0 +1,30 @@
+/* gui\guifirst\GuiFirst.nrx
+
+   First Simple NetRexx Applet */
+
+import java.text.               -- Needed for the SimpleDateFormat class
+
+class GuiFirst extends Applet
+  Properties inheritable
+    initDate  = Date
+    startDate = Date
+    stopDate  = Date
+
+  method init()
+    initDate = Date()
+
+  method start()
+    startDate = Date()
+
+  method stop()
+    stopDate = Date()
+
+  method paint(g=Graphics)
+    -- Format the result String
+    f = SimpleDateFormat("H:mm:ss")     -- Formats hours:minutes:seconds 
+    result = "Init:" f.format(initDate) " Start:" f.format(startDate)
+
+    if stopDate \= null then result = result " Stop:" f.format(stopDate)
+
+    -- draw the string
+    g.drawString(result,25,25)

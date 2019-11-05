@@ -1,0 +1,722 @@
+/* Pinger: a count-down ('kitchen') timer.                            */
+/* ------------------------------------------------------------------ */
+/* This is a sample stand-alone Java application with frame, menus,   */
+/* and a custom component that shows how to use images and graphics.  */
+/* This version needs Java 1.1 (or later) to run.                     */
+/*                                                                    */
+/* When the timer ends, an audio clip is played.  You'll only hear    */
+/* this if:                                                           */
+/*   -- you have a sound card or equivalent installed and working.    */
+/*   -- you have speakers, headphone, etc. attached to the sound      */
+/*      card, in range of your hearing, and switched on if need be.   */
+/*   -- the file Pinger.au is available (this can be any sound clip   */
+/*      in .au format, 0.5 seconds or less; a default is supplied).   */
+/* You can specify the name of an alternative soundclip file when the */
+/* pinger is started.  For example:  java Pinger myclip.au            */
+/* ------------------------------------------------------------------ */
+/* For the latest version, go to http://www2.hursley.ibm.com/netrexx  */
+/* ------------------------------------------------------------------ */
+/* Mike Cowlishaw -- April 1996 - October 1997                        */
+
+options binary                     -- optional, for speed
+import sun.audio.                  -- for sound clip player
+
+/* ------------------------------------------------------------------ */
+/* Pinger -- a stand-alone application for the Java Virtual Machine   */
+/* ------------------------------------------------------------------ */
+class Pinger extends Frame-
+             adapter implements WindowListener, ActionListener
+
+ properties constant
+   defaultclip='Pinger.au'    -- default soundclip file
+
+ properties private
+   -- active dialogs --
+   aboutdialog=Dialog
+   helpdialog =Dialog
+
+   -- menu selection objects --
+   menuhelp=MenuItem("Help")
+   menuabout=MenuItem("About")
+
+ /* The 'main' method is called when this class is started as an application */
+ /* The optional argument is the name of the sound clip file to use */
+ method main(s=String[]) static
+   Pinger("Pinger", Rexx(s))                 -- make a Pinger, with title
+
+ /* The constructor/initializer for Pinger */
+ method Pinger(title, soundclip)
+   super(title)                              -- pass title to Frame
+   addWindowListener(this)                   -- we want window events
+
+   -- setup the logical structure of the frame
+   createmenus                               -- set up menubar
+   setLayout(BorderLayout())                 -- we must have a layout
+   timer=PingerComponent()                   -- make new timer
+   add("Center", timer)                      -- add new timer image
+   this.pack                                 -- recalculate the frame
+
+   -- position centre-screen
+   sizex=200; sizey=175
+   screen=Toolkit.getDefaultToolkit.getScreenSize
+   setBounds((screen.width-sizex)%2,(screen.height-sizey)%2, sizex, sizey)
+
+   this.show                                 -- make us visible
+   timer.prime(soundclip)                    -- prime the audio system
+   return                                    -- JVM will wait for threads to end
+
+ /* Create menus and menu bar */
+ method createmenus
+   bar=MenuBar()                             -- create a MenuBar
+   -- Help drop-down menu --
+   help=Menu("Help")                         -- create a Menu
+   help.add(menuhelp)
+   -- help.addSeparator                      -- [how to add a separator]
+   help.add(menuabout)
+   bar.add(help)                             -- add the menu to the MenuBar
+   setMenuBar(bar)                           -- add the menubar to the Frame
+   -- say we want the MenuItem events to come to us
+   menuhelp.addActionListener(this)
+   menuabout.addActionListener(this)
+
+ /* Method for handling Button and MenuItem events */
+ method actionPerformed(a=ActionEvent)
+   source=a.getSource                        -- the sender object
+   if source<=MenuItem then                  -- .. from a MenuItem
+     select label menuitems
+       when source=menuhelp  then do
+         if helpdialog=null then
+           helpdialog=PingerDialog(this, PingerDialog.HELP)
+         helpdialog.show
+         end
+       when source=menuabout then do
+         -- aboutdialog varies, so we always construct a new one
+         aboutdialog=PingerDialog(this, PingerDialog.ABOUT)
+         aboutdialog.show
+         end
+       end menuitems
+
+  /* windowClosing -- called when the window is closed.
+     We need to handle this to end the program. */
+  method windowClosing(e=WindowEvent)
+    exit
+
+/* ------------------------------------------------------------------ */
+/* PingerTime -- an object that holds a time, initially 00:00         */
+/* ------------------------------------------------------------------ */
+/* As an object, it can be protected for safe multiple-thread access. */
+class PingerTime
+  properties public           -- we're just a data receptacle
+  mm=0                        -- minutes
+  ss=0                        -- seconds
+
+/* ------------------------------------------------------------------ */
+/* PingerComponent -- a custom Pinger component                       */
+/* ------------------------------------------------------------------ */
+class PingerComponent extends Canvas-   -- Canvas is a drawing area
+   adapter implements MouseListener, MouseMotionListener
+
+ properties constant
+   minmm=0; maxmm=99               -- bounds
+   minss=0; maxss=59               -- ..
+
+ properties private
+   -- Timing properties
+   current=PingerTime()            -- current time [minutes and seconds]
+   timer  =PingerTimer             -- main timer, null unless started
+   spinner=PingerSpinner           -- spin-button, non-null if spinning
+
+   -- Sound stuff
+   bleeper=PingerBleeper           -- a bleeper object
+
+   -- Drawing and layout properties
+   shadow=Image                    -- shadow image
+   width=0; height=0               -- current picture dimensions
+   draw=Graphics                   -- 'context' where we can draw
+   background=Color.yellow         -- guess what
+
+   badsize =boolean 1              -- too small
+   resizing=boolean 0              -- we are preparing new shadow
+   spinbutw=0                      -- spin button width
+   spinbuth=10                     -- spin button height [fixed]
+   controlw=0                      -- control button width
+   controlh=24                     -- control button height [fixed]
+   gap=5                           -- margin [fixed]
+   timerect  =Rectangle            -- where time will go
+   timefont  ="TimesRoman"         -- font face for time
+   timepoints=0                    -- pointsize for time
+   timeweight=Font.BOLD            -- weight for time
+   timecol   =Color.black          -- color for time
+   timedi    =boolean              -- time needs redraw
+   buttons   =6                    -- number of buttons
+   but=Rectangle[buttons]          -- button rectangles
+                                   -- 0/1 are Ups; 2/3 are Downs
+                                   -- 4/5 are reset/start
+   bcol=Color[buttons]             -- button colors
+   btext=String[buttons]           -- button labels
+   ben=boolean[buttons]            -- button enabled
+   bup=boolean[buttons]            -- button up
+   bdi=boolean[buttons]            -- button dirty (needs redraw)
+   over=-1                         -- button we are over [-1 is none]
+
+ /* Construct the component */
+ method PingerComponent
+   super()
+   addMouseListener(this)          -- we want mouse events ..
+   addMouseMotionListener(this)    -- .. and mouse movements
+
+ /* update  -- called in reponse to repaint() */
+ -- We update our off-screen image here, to avoid embarrassment to the
+ -- AWT caused by asynchronous calls to paint()
+ method update(g=Graphics)
+   -- redraw areas that have changed since last repaint.  We draw into
+   -- an off-screen image, later copied to the screen in a single call.
+   loop i=0 to 5                      -- redraw dirty buttons
+     if bdi[i] then do
+       drawbutton(i)
+       bdi[i]=0
+       end
+     end i
+   if timedi then do
+     drawtime(timerect)               -- redraw the time
+     timedi=0
+     end
+   paint(g)
+
+ /* paint  -- called when the window needs to be resized or redrawn */
+ method paint(g=Graphics)
+   if resizing then return         -- ignore paints while recalculating
+   if shadow=null | width<>getSize.width | height<>getSize.height then do
+     resizing=1
+     newsize
+     return
+     end
+   g.drawImage(shadow, 0, 0, this) -- copy to screen
+
+ /* newsize -- here when a new size detected */
+ method newsize
+   width=getSize.width; height=getSize.height
+
+   -- The very first time that we get here, there won't be an existing
+   -- Image, so we have to create it.  It cannot be set up in advance,
+   -- as there's no physical context earlier.
+   shadow=createImage(width, height)         -- need new image
+   draw=shadow.getGraphics                   -- for graphics
+   if height<gap*6+spinbuth*2+controlh*3/2 | width<50
+    then do label toosmall
+     badsize=1
+     text="Window too small"
+     draw.setColor(Color.white)              -- warner
+     draw.fillRect(0, 0, width-1, height-1)
+     draw.setFont(Font("Helvetica", Font.PLAIN, 10))
+     fm=draw.getFontMetrics                  -- find out about font
+     w=fm.stringWidth(text)                  -- actual width
+     x=(width-w)%2                           -- offset
+     y=(height-fm.getHeight)%2               -- raw offset
+     y=y+fm.getAscent+fm.getLeading          -- adjust for whitespace
+     draw.setColor(Color.black)
+     draw.drawString(text, x, y)
+     end toosmall
+    else do label bigenough
+     badsize=0
+     draw.setColor(background)             -- ok
+     draw.fillRect(0, 0, width-1, height-1)
+     spinbutw=(width-gap-gap)*4%9          -- button sizes
+     controlw=(width-gap*3)%2
+
+     -- Calculate button positions
+     but[0]=Rectangle(gap,                gap, spinbutw, spinbuth)
+     but[1]=Rectangle(width-gap-spinbutw, gap, spinbutw, spinbuth)
+     lowspins=height-gap*3-1-controlh-spinbuth
+     but[2]=Rectangle(gap,                lowspins, spinbutw, spinbuth)
+     but[3]=Rectangle(width-gap-spinbutw, lowspins, spinbutw, spinbuth)
+     lowconts=height-gap-controlh
+     but[4]=Rectangle(gap,                lowconts, controlw, controlh)
+     but[5]=Rectangle(width-gap-controlw, lowconts, controlw, controlh)
+
+     -- Calculate time position and pointsize
+     timerect=Rectangle(gap, gap*2+spinbuth,-
+       width-gap*2, height-controlh-spinbuth*2-gap*6-1)
+     -- use 24 point for measuring, as an exact font almost certainly there
+     draw.setFont(Font(timefont, timeweight, 24)) -- measure font
+     fm=draw.getFontMetrics                       -- get metrics
+     x0=fm.stringWidth('0')
+     xc=fm.stringWidth(':')
+     y0=fm.getAscent
+     xpoints=timerect.width*24/(x0*4+xc*3)
+     ypoints=timerect.height*24/y0
+     if xpoints<ypoints then timepoints=int xpoints
+                        else timepoints=int ypoints
+
+     -- Draw separator
+     draw.setColor(Color.lightGray)
+     sepy=lowspins+gap+spinbuth+1
+     draw.drawLine(0, sepy, width-1, sepy)
+     end bigenough
+
+   -- Set default state for buttons --
+   loop i=0 to buttons-1
+     select
+       when i<4 then do
+         btext[i]="";      bcol[i]=Color.orange.darker
+         end
+       when i=4 then do
+         btext[i]="Reset"; bcol[i]=Color.cyan.darker
+         end
+       when i=5 then do
+         btext[i]="Start"; bcol[i]=Color.cyan.darker
+         end
+       end
+     bup[i]=1; ben[i]=1; bdi[i]=1
+     end
+
+   -- Update the time and buttons
+   resizing=0                           -- OK to use shadow, now
+   newtime                              -- this will refresh the display
+
+ /* Draw the time */
+ method drawtime(where=Rectangle)
+   if badsize then return
+   draw.setColor(background)
+   draw.fillRect(where.x, where.y, where.width-1, where.height-1)
+   draw.setFont(Font(timefont, timeweight, timepoints ))
+   fm=draw.getFontMetrics               -- find out about font
+   y=(where.height-fm.getHeight)%2      -- raw offset
+   y=y+fm.getAscent+fm.getLeading       -- adjust for whitespace
+
+   do protect current                   -- snapshot
+     mmtext=String current.mm
+     sstext=String current.ss
+     end
+   if sstext.length=1 then sstext='0'sstext
+   ctext=':'
+   draw.setColor(timecol)
+   -- centre the colon
+   cw=fm.stringWidth(ctext)
+   cx=(where.width-cw)%2
+   draw.drawString(ctext,  where.x+cx, where.y+y)
+   -- right-align minutes
+   mw=fm.stringWidth(mmtext)
+   mx=spinbutw-mw   -- shouldn't really use spinbutw
+   draw.drawString(mmtext, where.x+mx, where.y+y)
+   -- left-align seconds
+   -- sw=fm.stringWidth(sstext)
+   sx=where.width-spinbutw
+   draw.drawString(sstext, where.x+sx, where.y+y)
+
+ /* Draw a button, up or down, filling with colour */
+ method drawbutton(b=int)
+   if badsize then return
+   text=btext[b]; where=but[b]
+   if ben[b] then do                    -- enabled
+     col=bcol[b]; up=bup[b]
+     if over=b then col=col.brighter    -- highlight if active
+     end
+    else do                             -- not enabled
+     col=Color.gray; up=1
+     end
+   draw.setColor(col)
+   draw.fillRect(where.x, where.y, where.width-1, where.height-1)
+   draw.setColor(Color.gray)
+   -- remember, draw3DRect in JDK 1.0 draws too large
+   draw.draw3DRect(where.x, where.y, where.width-1, where.height-1, up)
+   draw.draw3DRect(where.x+1, where.y+1, where.width-3, where.height-3, up)
+   draw.setColor(Color.gray.darker)
+   draw.drawLine(where.x, where.y, where.x+1, where.y+1) -- add definition
+   if text.length=0 then return
+   -- have some text to add
+   draw.setFont(Font("Helvetica", Font.PLAIN, 15))   -- choose font
+   fm=draw.getFontMetrics               -- find out about font
+   w=fm.stringWidth(text)               -- actual width
+   x=(where.width-w)%2                  -- offset
+   if x<0 then return                   -- won't fit
+   y=(where.height-fm.getHeight)%2      -- raw offset
+   y=y+fm.getAscent+fm.getLeading       -- adjust for whitespace
+   if y<0 then return                   -- won't fit
+   draw.setColor(Color.black)
+   draw.drawString(text, where.x+x, where.y+y)
+
+ /* Returns number of button we are over, or -1 if none */
+ method hit(m=MouseEvent) returns int
+   if badsize | m=null then return -1   -- no buttons or no event
+   x=m.getX; y=m.getY
+   loop b=0 to buttons-1
+     if x>=but[b].x
+      then if x<but[b].x+but[b].width
+      then if y>=but[b].y
+      then if y<but[b].y+but[b].height then return b
+     end b
+   return -1
+
+ /* The mouse is moving over our image */
+ method mouseMoved(m=MouseEvent)
+   new=hit(m)
+   if new=over then return                   -- no change
+   /* change of button (or move off button) */
+   if spinner<>null then do; spinner.halt; spinner=null; end
+   old=over; over=new
+   -- indicate button state change
+   if old >=0 then do; bup[old]=1;  bdi[old]=1;  end
+   if over>=0 then do; bup[over]=1; bdi[over]=1; end
+   this.repaint
+
+ /* Drag is treated just like Move (redraws button if leaves button) */
+ method mouseDragged(m=MouseEvent)
+   mouseMoved(m)
+
+ /* mouseReleased redraws the button, if we're over one */
+ method mouseReleased(m=MouseEvent)
+   if spinner<>null then do; spinner.halt; spinner=null; end
+   new=hit(m)
+   if new=-1 then return                -- not over a button
+   over=new
+   bup[over]=1; bdi[over]=1
+   this.repaint
+
+ /* mousePressed takes an action then redraws the button, if we're over one */
+ method mousePressed(m=MouseEvent)
+   new=hit(m)
+   if new=-1 then return                -- not over a button
+   over=new
+   bup[over]=0; bdi[over]=1
+   if spinner<>null then do; spinner.halt; spinner=null; end  -- just in case
+
+   -- [from here, all paths should initiate a repaint eventually]
+   if \ben[over] then this.repaint      -- not enabled, just repaint
+    else select label action            -- enabled, so take action
+     when over=0 then spinner=PingerSpinner(this, 1, +1)
+     when over=1 then spinner=PingerSpinner(this, 0, +1)
+     when over=2 then spinner=PingerSpinner(this, 1, -1)
+     when over=3 then spinner=PingerSpinner(this, 0, -1)
+     when over=4 then do  -- reset
+       if timer<>null then stoptimer               -- stop the timer
+       do protect current
+         current.mm=0; current.ss=0                -- back to zero
+         -- [or could simply make a new PingerTime object]
+         end
+       newtime
+       end
+     when over=5 then do
+       if timer<>null then stoptimer               -- Stop or Beep state
+                      else timer=PingerTimer(this) -- Start state
+       settextStart
+       this.repaint
+       end
+     end action
+
+ /* mouseEntered and mouseExited call our mouseMoved to ensure known state */
+ method mouseEntered(m=MouseEvent); mouseMoved(m)
+ method mouseExited(m=MouseEvent);  mouseMoved(m)
+
+ /* Increase or decrease minutes and seconds numbers
+    Arg1 is increment (+1 or -1)
+    returns 1 if result is 00:00
+  */
+ method bumpmm(inc=int) returns boolean
+   do protect current
+     current.mm=current.mm+inc
+     if current.mm>maxmm then current.mm=maxmm
+      else if current.mm<minmm then current.mm=minmm
+     end
+   return newtime
+
+ method bumpss(inc=int) returns boolean
+   do protect current
+     current.ss=current.ss+inc
+     if current.ss>maxss then /* carry */ do
+       current.ss=minss
+       current.mm=current.mm+1
+       if current.mm>maxmm then do; current.mm=maxmm; current.ss=maxss; end
+       end
+     if current.ss<minss then /* borrow */ do
+       current.ss=maxss
+       current.mm=current.mm-1
+       if current.mm<minmm then do; current.mm=minmm; current.ss=minss; end
+       end
+     end
+   return newtime
+
+ /* we have a new time -- update buttons, etc.
+    returns 1 if the current time is 00:00 */
+ method newtime returns boolean
+   -- set buttons enablement and state
+   ben[0]=1; ben[1]=1
+   do protect current
+     if current.mm=maxmm then do
+       ben[0]=0
+       if current.ss=maxss then ben[1]=0
+       end
+     atzero=current.mm=0 & current.ss=0
+     end
+   ben[2]=\atzero;               ben[3]=ben[2]
+   ben[4]=\atzero | timer<>null; ben[5]=ben[4]
+   settextStart
+   loop i=0 to 5; bdi[i]=1; end         -- redraw all buttons
+   timedi=1                             -- redraw the time
+   this.repaint                         -- update display
+   return atzero
+
+ /* set the text for button 5 */
+ method settextStart
+  do protect current
+    atzero=current.mm=0 & current.ss=0  -- take safe snapshot
+    end
+  if atzero then do
+    if timer=null then btext[5]="Time?"
+                  else btext[5]="Beep!"
+    end
+   else /* nonzero */ do
+    if timer=null then btext[5]="Start"
+                  else btext[5]="Stop"
+    end
+  bdi[5]=1                              -- button needs redraw
+
+ /* prime -- called to initialize the sound system */
+ method prime(filename)
+   if filename='' then filename=Pinger.defaultclip
+   bleeper=PingerBleeper(filename) -- make the bleeper object
+
+ /* ping -- sound the bleeper once */
+ method ping
+   bleeper.bleep
+
+ /* stoptimer -- called when the timer is to be stopped */
+ method stoptimer
+   -- closing: stop the timer last, because we may have been called from it
+   savetimer=timer; timer=null
+   newtime                              -- update display
+   if savetimer<>null then do; savetimer.halt; savetimer=null; end
+   return
+
+/* ------------------------------------------------------------------ */
+/* PingerSpinner  -- a class for the spinner Thread                   */
+/* ------------------------------------------------------------------ */
+class PingerSpinner extends Thread
+  count=0                     -- ticks
+  owner=PingerComponent       -- who we work for
+  mins=boolean                -- 1 if a minutes spinner
+  inc=int                     -- up or down
+  spin=boolean 1              -- spin allowed
+
+  properties constant
+  slow=400                    -- initial delay time [ms]
+  fast=30                     -- fastest delay time [ms]
+  over=6                      -- how many ticks to accelerate over
+
+  /* Construct with
+     Arg1 is parent object
+     Arg2 is 1=minute, 0=seconds
+     Arg3 is increment (+1 or -1)
+  */
+  method PingerSpinner(newowner=PingerComponent, newmins=boolean, newinc=int)
+    owner=newowner; mins=newmins; inc=newinc
+    this.start
+
+  /* This runs so long as the button is held down (after which halt is
+     set), bumping either minutes or seconds, at intervals */
+  method run
+    loop until \spin                    -- always bump once
+      if mins then owner.bumpmm(inc)
+              else owner.bumpss(inc)
+      count=count+1
+      if count<=over then wait=fast+(over+1-count)*(slow-fast)%over
+       else wait=fast
+      sleep(wait)
+    catch InterruptedException
+      return
+    end
+
+  /* This method is called to request that the spin stop.  We use this
+     pending request, as a direct call to stop could leave the call to
+     owner unfinished. */
+  method halt
+    spin=0
+
+/* ------------------------------------------------------------------ */
+/* PingerTimer  -- a main pinger timer Thread                         */
+/* ------------------------------------------------------------------ */
+/* This thread must update the pinger in real time, so it keeps       */
+/* an eye on 'wall-clock' time so the timer cannot drift.  Any delays */
+/* will be corrected as soon as the thread gets control.              */
+/*                                                                    */
+/* When done, it notifies its owner with calls to the 'ping' method,  */
+/* for each bleep, and then to the 'stoptimer' method.                */
+
+class PingerTimer extends Thread
+  owner=PingerComponent            -- who we work for
+  started=System.currentTimeMillis -- timestamp of when we were born
+  down=boolean 1                   -- count down while 1
+
+  /* Construct with
+     Arg1 is parent object
+  */
+  method PingerTimer(newowner=PingerComponent)
+    owner=newowner
+    this.setPriority(Thread.MAX_PRIORITY)         -- time matters, here
+    this.start                                    -- off we go
+
+  /* This runs until stopped, or we reach 0 */
+  method run
+    loop millisecs=started+1000 by 1000           -- when next tick
+      -- calculate how long to next second
+      wait=millisecs-System.currentTimeMillis
+      if wait<=0 then iterate                     -- badly behind
+      sleep(wait)
+      if \down then leave                         -- halt request
+      if owner.bumpss(-1) then leave              -- decrement and quit if 0
+    catch InterruptedException
+      return
+    end
+
+    if down then loop for 3
+      -- reach here iff countdown not halted
+      owner.ping
+      sleep(600)
+    catch InterruptedException
+      nop
+    end
+
+    owner.stoptimer                               -- definitely done
+
+  /* This method is called to request that the count stop.  We use this
+     pending request, as a direct call to stop could leave the bumpss
+     call to owner unfinished. */
+  method halt
+    down=0
+
+/* ------------------------------------------------------------------ */
+/* PingerBleeper -- the sound maker                                   */
+/* ------------------------------------------------------------------ */
+class PingerBleeper
+  soundfile=File                   -- File of The Sound
+  okfile=boolean 0                 -- 1 if the file is good
+  input=InputStream                -- .. as a stream
+  audio=AudioStream                -- .. as audio
+
+  /* Constructor.
+     Arg1 is beep file (.au) to play
+  */
+  method PingerBleeper(filename)
+    -- first ensure that the file exists
+    soundfile=File(filename)
+    if \soundfile.exists | \soundfile.isFile then do
+      say 'The audio file "'filename'" could not be found'
+      return
+      end
+    okfile=1                       -- file is plausible
+
+    -- now prime the audio subsystem by sending it a 0 byte.  This loads
+    -- the audio software so the final bleeps will be prompt (starting
+    -- up the audio subsystem can take seconds on some platforms).
+    do
+      input=ByteArrayInputStream([byte 0])
+      -- next lines prime the audio subsystem, by trying to play an
+      -- invalid stream
+      audio=AudioStream(input)
+      AudioPlayer.player.start(audio)
+    catch IOException
+      -- we expect to get here
+    end
+
+  /* bleep once */
+  method bleep
+    if \okfile then return         -- no good file to play
+    do
+      -- set the input stream each time ('rewind')
+      input=FileInputStream(soundfile)
+      audio=AudioStream(input)
+    catch IOException
+      say "Could not play file '"soundfile"'"
+      okfile=0                     -- don't even try next time
+    end
+    AudioPlayer.player.start(audio)
+
+/* ------------------------------------------------------------------ */
+/* PingerDialog -- tell about us                                      */
+/* ------------------------------------------------------------------ */
+class PingerDialog extends Dialog adapter implements WindowListener
+ owner=Pinger                      -- who we work for
+ form=int                          -- form of text
+
+ -- Drawing and layout properties
+ shadow=Image                      -- shadow image
+ d=Graphics                        -- where we can draw
+ width=0; height=0                 -- current picture dimensions
+
+ properties constant
+ HELP=0                            -- build Help text
+ ABOUT=1                           -- build About text
+
+ /* Construct a general dialog for Pinger */
+ method PingerDialog(newowner=Pinger, newform=int)
+   super(newowner, title(newform), 1)
+   owner=newowner; form=newform
+   addWindowListener(this)         -- we want window events
+
+   -- position centre-screen
+   sizex=400; sizey=300            -- TV shape
+   screen=Toolkit.getDefaultToolkit.getScreenSize
+   this.addNotify                  -- ensure peer exists
+   setBounds((screen.width-sizex)%2,(screen.height-sizey)%2, sizex, sizey)
+   setResizable(0)                 -- fixed size panel, please
+   -- display (show) will be triggered by creator
+
+ /* provide a title string, on demand */
+ method title(titleform=int) static returns String
+   if titleform=HELP  then return "Help for Pinger"
+   return "About Pinger"
+
+ /* update  -- overridden, because we set background */
+ method update(g=Graphics); paint(g)
+
+ /* paint  -- called when the window needs to be redrawn */
+ method paint(g=Graphics)
+   -- we do not need to protect the image, here, as there should be
+   -- only one.  However, a race condition is possible, so we check for
+   -- an uninitialized 'shadow'.
+   if width<>getSize.width | height<>getSize.height then newsize
+    else if shadow<>null then g.drawImage(shadow, 0, 0, this)
+
+ /* newsize -- here when a new size detected; should be called once */
+ method newsize
+   /* make a new image to draw in, if needed */
+   width=getSize.width; height=getSize.height
+   shadow=this.createImage(width, height)         -- make image
+   d=shadow.getGraphics                           -- context to draw
+   d.setColor(Color.white)                        -- background
+   d.fillRect(0, 0, width, height)                -- ..
+
+   d.setFont(Font("TimesRoman", Font.PLAIN, 20))  -- measure font
+   fm=d.getFontMetrics                            -- get metrics
+   h=fm.getHeight+2                               -- +2 pels leading
+   y=(height-h*5)%3                               -- offset
+
+   -- Add some text, etc.  Any graphics allowed, here.
+   if form=ABOUT then do
+     secs=int Date().getTime//7000
+     d.setColor(Color.getHSBColor(secs/6999, 1, 0.5))
+     d.drawString("Simple 'Pinger' application",  20, y+h)
+     d.drawString("For the NetRexx source, see:", 20, y+h*2)
+     d.drawString("  http://www.netrexx.org", 20, y+h*3)
+     d.drawString("Mike Cowlishaw, 1996-1997 ",   20, y+h*4)
+     end
+    else /* Help */ do
+     d.setColor(Color.blue.darker)
+     d.drawString("This is a 'kitchen timer' application",  20, y+h)
+     d.drawString("Set the time using the unmarked buttons.", 20, y+h*2)
+     d.drawString("Press 'Start' to start countdown.", 20, y+h*3)
+     d.drawString("Press 'Reset' to zero timer.", 20, y+h*4)
+     end
+   d.setFont(Font("Helvetica", Font.PLAIN, 12))
+   d.setColor(Color.black)
+   d.drawString("Compiled with" version, 20, y+h*5)
+
+   this.repaint
+
+  /* windowClosing -- called when the window is closed.
+     We need to handle this to end the program. */
+  method windowClosing(e=WindowEvent)
+    owner.requestFocus
+    this.dispose()
+    return
+

@@ -1,0 +1,6 @@
+/* tryOblong.nrx -- try the Oblong class */
+first=Oblong(5,3)        -- make an oblong
+first.print              -- show it
+first.relsize(1,1).print -- enlarge and print again
+second=Oblong(1,2)       -- make another oblong
+second.print             -- and print it

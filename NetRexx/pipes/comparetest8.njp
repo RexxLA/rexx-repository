@@ -1,0 +1,11 @@
+pipe (comparetest8         )
+
+   literal 1;2;3;4 |
+   split ; |
+   c: compare binary |
+   console ?
+   literal 1;2;3;4 |
+   split ; |
+   c: |
+   hole
+

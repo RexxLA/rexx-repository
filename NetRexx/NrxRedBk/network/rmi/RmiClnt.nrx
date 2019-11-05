@@ -1,0 +1,36 @@
+/* network\rmi\RmiClnt.nrx
+
+   Client RMI program, sending user text to the server object:
+   Usage: Java RmiClnt <serverhostname> */
+
+package network.rmi
+
+import java.rmi.
+
+parse arg serverAdr .                            -- server host name
+urlstring = 'rmi://'serverAdr'/Listener'
+if serverAdr = '' then serverAdr = '(local)'
+
+do
+  say 'Registering the Security Manager ...'
+  System.setSecurityManager(RMISecurityManager())
+  say 'Looking up the Listener on' serverAdr '... Please Wait !'
+  listener = RmiSrvrI Naming.lookup(urlstring)   -- server object
+  loop forever
+     say 'What should I say to the server ?  (or type: end)'
+     smalltalk = ask
+     listener.listen(smalltalk)                  -- RMI call to server
+     say 'Your input has been sent to the server.\n'
+     if smalltalk = 'end' then leave
+  end
+catch e1=RemoteException
+  say 'Something is wrong with the RMI connection!'
+  say 'RemoteException caught: \n' e1.getMessage()
+catch e2=java.net.MalformedURLException
+  say 'The URL is not valid:' urlstring
+  say 'MalformedURLException caught: \n' e2.getMessage()
+catch e3=Exception
+  say 'Exception (' e3 ') caught: \n' e3.getMessage()
+end
+say 'End of RMI Client'
+-- end RmiClnt

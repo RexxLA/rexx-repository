@@ -1,0 +1,160 @@
+/* network\rmichat\ChatClient.nrx
+
+   Chat client in NetRexx */
+
+package network.rmichat
+
+import Redbook.		-- need the SimpleGridBagLayout and FieldFocus classes
+import java.rmi.
+import java.rmi.server.
+import java.net.
+
+class ChatClient extends Applet uses GridBagConstraints implements ActionListener
+
+  properties
+    UserId     = TextField
+    ServerName = TextField
+    Message    = TextField
+    Messages   = TextArea
+
+    Connect = Button
+    Submit  = Button
+    Clear   = Button
+
+    Server = ChatRMIServerI
+    Client = ChatRMIClient
+
+    localName = String
+    usrId     = String
+
+    defaultInsets = Insets(5,5,5,5)
+
+  method init()
+    Lay = SimpleGridBagLayout(this)
+
+    -- Add the title bar
+    Title = Label('NetRexx RMI Chat Client', Label.CENTER)
+    Title.setFont(Font('TimesRoman', Font.BOLD, 18))
+    Lay.addVarSize(Title, 0,0, defaultInsets, 1,0, 3,1)
+  
+    -- Add the server connection stuff
+    Lay.addFixSize(Label('Your UserId:'), 0,1, defaultInsets)
+    UserId = TextField()
+    Lay.addVarSize(UserId, 1,1, defaultInsets, 1,0)
+    Lay.addFixSize(Label('Server:'), 0,2, defaultInsets)
+    ServerName = TextField(80)
+    Lay.addVarSize(ServerName, 1,2, defaultInsets, 1,0)
+    Connect = Button('Connect')
+    Lay.addFixSize(Connect, 2,2, defaultInsets)
+
+    -- Add the message input line
+    Lay.addFixSize(Label('Your Message:'), 0,3, defaultInsets)
+    Message = TextField(80)
+    Message.addFocusListener(FieldSelect())
+    Lay.addVarSize(Message, 1,3, defaultInsets, 1,0)
+    Submit = Button('Submit')
+    Lay.addFixSize(Submit, 2,3, defaultInsets)
+    Message.setEnabled(0)
+    Submit.setEnabled(0)
+
+    -- Add the message output part
+    Lay.addFixSize(Label('Messages:'), 0,4, defaultInsets)
+    Messages = TextArea()
+    Lay.addVarSize(Messages, 1,4, defaultInsets, 1,1, 2,1)
+    Messages.setEditable(0)
+
+    -- Add some more buttons
+    Clear = Button('Clear')
+    Lay.addFixSize(Clear, 1,5, defaultInsets)
+
+    -- Register as an ActionListener for the buttons
+    Connect.addActionListener(this)
+    Submit.addActionListener(this)
+    Clear.addActionListener(this)
+
+
+  method connectToServer()
+    do
+      -- get connection parameters
+      srvrName = ServerName.getText()
+      usrId = UserId.getText()
+      if srvrName.length() = 0 | usrId.length() = 0 then
+        do
+          addMessage('-- ERROR: You need to specify both your User Id and a server name!')
+          return
+        end
+
+      addMessage('-- Registering the securityManager...')
+      do
+        System.setSecurityManager(RMISecurityManager())
+      catch SecurityException
+      end
+
+      addMessage('-- Start publishing the object "ChatClient"... Please Wait!')
+      Client = ChatRMIClient(this)
+      Naming.bind('rmi:///ChatClient_'||usrId, Client)
+      addMessage('-- Ok, I am listening.')
+
+      addMessage('-- Looking up the ChatServer on"'srvrName'"... Please Wait!')
+      Server = ChatRMIServerI Naming.lookup('rmi://' || srvrName || '/ChatServer')
+      localName = InetAddress.getLocalHost().getHostName()
+      Server.newClient(localName, usrId)
+      addMessage('-- Connection to server "'ServerName.getText()'" established.')
+
+      -- update buttons and entry fields to reflect new connected status
+      Connect.setEnabled(0);
+      ServerName.setEnabled(0);
+      UserId.setEnabled(0);
+      Submit.setEnabled(1);
+      Message.setEnabled(1);
+
+    catch e1 = RemoteException
+      addMessage('-- Something is wrong with the RMI connection!')
+      addMessage('-- RemoteException (' e1 ') caught : \n' e1.getMessage())
+    catch e2 = MalformedURLException
+      addMessage('-- The URL is not valid !\n' e2.getMessage())
+    catch e3 = Exception
+      addMessage('-- Exception (' e3 ') caught : \n' e3.getMessage())
+    end
+
+
+  method submitMessage()
+    do      
+      Server.sendMessage('From "'usrId'" at "'localName'":' Message.getText());
+
+    catch e1 = RemoteException
+      addMessage('-- Something is wrong with the RMI connection!')
+      addMessage('-- RemoteException (' e1 ') caught : \n' e1.getMessage())
+    end
+
+
+  method addMessage(msg = String)
+    Messages.append(msg || '\n')
+
+
+  method clearMessages()
+    Messages.setText('')
+
+
+  method actionPerformed(evt = ActionEvent)
+    select 
+      when evt.getSource() = Connect then 
+        connectToServer()
+      when evt.getSource() = Submit then 
+        submitMessage()
+      when evt.getSource() = Clear then 
+        clearMessages()
+      otherwise nop -- we don't expect anything else
+    end
+
+class ChatRMIClient extends UnicastRemoteObject implements ChatRMIClientI
+
+  properties
+    action = String
+    client = ChatClient
+
+  method ChatRMIClient(_client = ChatClient) signals RemoteException
+    client = _client
+
+  method addMessage(msg = String) public 
+    client.addMessage(msg)

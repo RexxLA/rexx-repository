@@ -1,0 +1,13 @@
+pipe (changetest10 sep |)
+
+literal line 1.1;line 1.2 last;_;line 2.1;line 2;Line 2.2;LIne 2.3 LAST;_;LINE 3.1 last |
+split ; |
+change /_// |
+   change any /linE/record/  |
+console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal record 1.1;record 1.2 last;_;record 2.1;record 2;record 2.2;record 2.3 LAST;_;record 3.1 last |
+split ; |
+change /_// |
+compare:

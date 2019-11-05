@@ -1,0 +1,27 @@
+-- i-o bypass stage
+
+pipe (addt4) gen 10 | addtest4 | console
+
+import org.netrexx.njpipes.pipes.
+
+class addtest4 extends stage
+
+method run() public
+
+   say 'i-o : b 1, b 2 .. b 10'
+   do
+      addpipe (addpt4) *in0: | specs /b/ 1 1-* nextw | *out0:
+
+      loop forever
+         line = peekto()
+         output(line)
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+   say 'Ending 'rc
+
+exit(rc*(rc<>12))

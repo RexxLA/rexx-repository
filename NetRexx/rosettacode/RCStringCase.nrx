@@ -1,0 +1,10 @@
+/* NetRexx */
+
+options replace format comments java symbols
+
+abc = 'alphaBETA'
+
+say abc.upper
+say abc.lower
+say abc.upper(1, 1) -- capitalize 1st character
+

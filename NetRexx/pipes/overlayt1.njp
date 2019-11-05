@@ -1,0 +1,12 @@
+pipe (overlayt1 sep | end @)
+literal abc def ghi jkl mno pqr stu vwx
+| split
+| fold: overlay
+| console
+@ literal 1 22 333 4444
+| split
+| fold:
+@ literal #
+| split
+| fold:
+

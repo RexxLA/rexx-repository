@@ -1,0 +1,43 @@
+-- test a spawning pipe
+
+pipe (spawnt1 stall 60000 debug 0 )
+   literal a b c d e f g h i j k l m n o p q r s t u v w x y | split | spawntest
+
+
+-- spwan 25 task pipes
+
+options binary
+
+class spawntest extends stage final
+
+method run() public
+
+   i = 0
+   loop forever
+
+      peekto()
+
+      i = i+1
+
+      addpipe (spawnee stall 15000 debug 0 )
+         *out0: |
+         copy |                                   -- allow callpipe to end
+         task {rexx(i)}
+
+      callpipe (spawngate stall 15000 debug 0 )
+         *in0: |
+         take first 1 |
+         *out0:
+
+      severOutput()
+
+   catch StageError
+      rc = rc()
+   end
+                                                  -- wait for stdout...
+   do
+      java.lang.Thread.currentThread().sleep(2000)
+   catch InterruptedException
+   end
+
+exit(rc*(rc<>12))

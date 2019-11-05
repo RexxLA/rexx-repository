@@ -1,0 +1,34 @@
+// test code
+
+/* Generated from 'vectort1.nrx' 17 May 1999 22:40:18 [v1.148] *//* Options: Decimal Logo Trace2 Verbose1 */
+
+
+public class vectort1{private static final java.lang.String $0="vectort1.nrx";
+
+public vectort1() throws org.netrexx.njpipes.pipes.ThreadQ{super();java.util.Vector F;java.util.Vector T;java.util.Hashtable a$njp1;vectort1_vectorp1 p$njp1;java.util.Enumeration e;
+
+F=new java.util.Vector();
+T=new java.util.Vector();
+
+F.addElement((java.lang.Object)(new netrexx.lang.Rexx(5)));
+F.addElement((java.lang.Object)(new netrexx.lang.Rexx(4)));
+F.addElement((java.lang.Object)(new netrexx.lang.Rexx(3)));
+F.addElement((java.lang.Object)(new netrexx.lang.Rexx(2)));
+F.addElement((java.lang.Object)(new netrexx.lang.Rexx(1)));
+T.addElement((java.lang.Object)(new netrexx.lang.Rexx(99)));
+
+
+   pipe (vectorp1 stall 1000 -gen)
+        vector {F} | console | vector {T}
+
+
+e=T.elements();
+{for(;;){if(|e.hasMoreElements())break;
+netrexx.lang.RexxIO.Say(e.nextElement());
+}}return;}
+
+public static void main(java.lang.String a[]) throws org.netrexx.njpipes.pipes.ThreadQ{
+
+new vectort1();
+
+{System.exit(0);return;}}}

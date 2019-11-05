@@ -1,0 +1,121 @@
+/* cgi\EmpName.nrx
+
+   NetRexx CGI program for DB2:  Employees by name */
+
+   import java.sql.
+
+Class EmpName
+
+/*-------------------------- variables ------------------------------*/
+properties static
+  prefix    = Rexx 'USERID'              -- table prefix
+  con       = Connection                 -- DB2 connection
+  driver    = String "COM.ibm.db2.jdbc.net.DB2Driver"
+  --driver  = String "COM.ibm.db2.jdbc.app.DB2Driver"
+  url       = String "jdbc:db2:/loopback:8888/sample"
+  --url     = String "jdbc:db2:sample"
+  partialname = String
+
+
+/*-------------------------- main -----------------------------------*/
+method main(args=String[]) static
+  args = args
+  say 'Content-Type: text/html'                   -- control lines
+  say ''
+  say '<html>'                                    -- start HTML
+  say '<head><title>Employee Information</title></head>'
+  say '<body>'
+  say '<H2>Employee List</H2>'
+  say '<br> Program:' System.getProperty('SCRIPT_NAME')
+  say '<br> Client :' System.getProperty('REMOTE_ADDR')
+
+  list = Rexx System.getProperty('QUERY_STRING')  -- query string
+  list = queryTranslate(list)
+  list = list.translate('%','*')                  -- DB2 LIKE
+  say '<br> Query  :' list
+  parse list 'name=' partialnamex ' '             -- get partial name
+  partialname = partialnamex.upper"%"
+
+  jdbcConnect()                                   -- JDBC connect to DB
+  performRetrieve()                               -- DB2 SQL
+
+  say '</body>'                                   -- end HTML
+  say '</html>'
+  return
+
+/*-------------------------- Query translate ------------------------*/
+method queryTranslate(qry=Rexx) private static returns Rexx
+  qryt = qry.translate(' ','+')                   -- + are blanks
+  ist = qryt.pos('%')
+  loop while ist > 0
+     c = qryt.substr(ist+1,2).x2c
+     qryt = qryt.substr(1,ist-1)''c''qryt.substr(ist+3)
+     ist = qryt.pos('%',ist+1)
+  end
+  return qryt
+
+/*-------------------------- JDBC connect ---------------------------*/
+method jdbcConnect() private static
+  do
+      -- say '<p> JDBC driver:' driver
+      say '<br>Connection :' url
+      Class.forName(driver)
+      con = Connection DriverManager.getConnection(url,"userid","password")
+      if con.getWarnings() \= null then do
+         say '<p> Error' con.getWarnings().getMessage()
+         return
+      end
+      dma = DatabaseMetaData con.getMetaData()
+      say "<br>Driver     :" dma.getDriverName() dma.getDriverVersion()
+
+    catch ex=SQLException
+      say "<p> *** SQLException caught ***"
+      say '<br>' ex.getMessage()
+      loop while (ex \= null)
+         say "<br>SQLState:" ex.getSQLState()
+         say "<br>Message: " ex.getMessage()
+         say "<br>Vendor:  " ex.getErrorCode()
+         ex = ex.getNextException()
+         say "<br>"
+      end
+    catch ex2=java.lang.Exception
+                     -- Got some other type of exception.  Dump it.
+      say '<p> Error:' ex2.getMessage()
+      ex2.printStackTrace()
+  end
+  return 
+
+/*-------------------------- retrieve employee -----------------------*/
+method performRetrieve() private static
+
+  say '<p> Retrieving employees:' partialname
+  do                                                       -- DB2
+      query = "SELECT empno, lastname, firstnme" -
+               "FROM" prefix".employee" -
+               "WHERE lastname LIKE '"partialname"'" 
+      /* say '<br>' query */
+      say '<p>'
+      say '<table border=2 cellpadding=0>'
+      say '<tr>'
+      say '<th>Number</th> <th>Lastname</th> <th>Firstname</th> '
+      say '<tr>'
+      stmt = Statement con.createStatement()
+      rs = ResultSet stmt.executeQuery(query)
+      more = boolean rs.next()
+      loop row=0 by 1 while (more)
+         num = Rexx rs.getString('empno')
+         say '<td>' '<a href="EmpNum.class?number='num'"> <b>' num '</b></a></td>'
+         say '<td>' rs.getString('lastname') '</td>'
+         say '<td>' rs.getString('firstnme') '</td>'
+         say '<tr>'
+         more = rs.next()
+      end
+      say '</table>'
+      rs.close()                                -- Close the result set
+      stmt.close()                              -- Close the statement 
+      say '<p> Retrieved' row 'employees'
+
+    catch ex=SQLException
+      say '<p> Error:' ex.getMessage()
+  end
+-- end EmpName

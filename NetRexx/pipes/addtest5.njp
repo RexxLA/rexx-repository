@@ -1,0 +1,27 @@
+-- i-i filter input
+
+pipe (addt5) gen 10 | addtest5 | console
+
+import org.netrexx.njpipes.pipes.
+
+class addtest5 extends stage final
+
+method run() public
+
+   say 'i-i : b 1 a, b 2 a .. b 10 a'
+   do
+      addpipe (addpt5) *in: | specs /b/ 1 1-* nextw | *in:
+
+      loop forever
+         line = peekto()
+         output(line' a')
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+   say 'Ending 'rc
+
+exit(rc*(rc<>12))

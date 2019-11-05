@@ -1,0 +1,27 @@
+/* network\url\UrlTest.nrx
+
+   Client HTTP program, sends a URL request to an HTTP server:
+   Usage: Java UrlTest <URLstring> */
+
+parse arg prot '://' request         -- protocol & servername are required
+if prot = '' | request = '' then
+  do
+    say 'Usage: java UrlTest <URLString>'
+    exit 8
+  end
+
+do
+  ourURL = URL(arg)                  -- create URL object
+  say 'Connect to:' ourURL
+  content = ourURL.getContent()      -- get the URL content
+  say '\nContent:\n'
+  bR = BufferedReader(InputStreamReader(InputStream content))
+  line = String(bR.readLine())       -- read and print file
+  loop while(line <> null)
+     say ' ' line
+     line = bR.readLine()
+  end
+catch e=IOException
+  say 'IOException caught:' e '\n  ' e.getMessage()
+end
+-- end UrlTest

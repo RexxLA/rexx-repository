@@ -1,0 +1,11 @@
+pipe (strfrlabeltest)
+
+   literal a1a b2b c3c d4d e5e f6f g7g|
+   split |
+   strfrlabel  anyc /D/ |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   literal d4d;e5e;f6f;g7g |
+   split ; |
+   compare:

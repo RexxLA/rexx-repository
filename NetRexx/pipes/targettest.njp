@@ -1,0 +1,23 @@
+pipe (target1)
+   literal 123 234 345 456 567 678 |
+   split |
+   totarget locate /456/ |
+   console
+
+pipe (target2)
+   literal 123 234 345 456 567 678 |
+   split |
+   not totarget locate /456/ |
+   console
+
+pipe (target3)
+   literal 123 234 345 456 567 678 |
+   split |
+   frtarget locate /456/ |
+   console
+
+pipe (target4)
+   literal 123 234 345 456 567 678 |
+   split |
+   not frtarget locate /456/ |
+   console

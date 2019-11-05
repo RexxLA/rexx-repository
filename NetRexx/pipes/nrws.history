@@ -1,0 +1,54 @@
+1565388591087:cd ..
+1565388612540:)quit
+1565469103522:pipe < length.nrx | console
+1565469121579:pipe < length.nrx | length | console
+1565473880408:pipe < length.nrx | console
+1565475630944:)quit
+1565481871003:pipe < length.nrx | length | console
+1566590799655:)quit
+1566590925771:pipe < length.nrx | length | console
+1566593649015:)quit
+1566689813427:pipe < length.nrx | length | console
+1566689835463:)quit
+1566690583753:pipe < length.nrx | length | console
+1566691140813:)quit
+1566691146280:pipe < length.nrx | length | console
+1566691150764:)quit
+1566776484593:pipe gen 5 | locate /2/ | console
+1566776492429:pipe gen 5 | rexx locate /2/ | console
+1566786251255:pipe gen 1000 | rexx locate /2/ | console
+1566786308708:pipe gen 3 | rexx locate /2/ | console
+1566786321857:pipe gen 3 | locate /2/ | console
+1566840008462:pipe gen 3 | rexx locate /2/ | console
+1566951797862:pipe < length.nrx | length | console
+1566951807650:)quit
+1566951825267:pipe < length.nrx | length | console
+1566952995331:pipe < length.nrx | console
+1566953013170:pipe -- comment | literal aap | console
+1566953066830:pipe -- comment | buffer | literal aap | console
+1566953101011:pipe literal noot | -- comment | buffer | literal aap | console
+1567002404988:)quit
+1567313685417:pipe query
+1567313708805:pipe query | console
+1567466816903:pipe literal test | a: fanin | console | a:
+1567473169473:)quit
+1567473313293:pipe literal a man a plan a canal panama | reverse | console
+1567473874960:)quit
+1567481265569:pipe literal abc | i: fanin | i:
+1567481280632:pipe literal abc | i: fanin | nop | i:
+1567481353001:)quit
+1567632228932:pipe literal abc | i: fanin | nop | i:
+1567632674271:pipe literal abc | i: fanin | i:
+1567632684203:pipe literal abc | i: fanin | console | i:
+1567718083840:)quit
+1567719882279:pipe literal r1;r2;r3;r4;r5;r6 | split ; | take last 5 bytes | console
+1567720019304:pipe literal r1;r2;r3;r4;r5;r6 | split ; | a: take last 5 bytes ? a: | console
+1567720073267:pipe literal r1;r2;r3;r4;r5;r6 | rexx split ; | a: take last 5 bytes ? a: | console
+1567720274082:pipe literal r1;r2;r3;r4;r5;r6 | split ; | a: take last 5 bytes ? a: | console
+1567720299194:pipe literal r1;r2;r3;r4;r5;r6 | split ; | a: take last 5 bytes ? a: | console |  compare: compare equal /OK/ notequal /BAD at \\\\c, \\\\b/ less /Less: \\\\s/ more /More: \\\\s/ |
+1567720340880:pipe literal r1;r2;r3;r4;r5;r6 | split ; | a: take last 5 bytes ? a: | console |  compare: compare equal /OK/ notequal /BAD
+1567720357161:pipe literal r1;r2;r3;r4;r5;r6 | split ; | a: take last 5 bytes ? a: | console |  compare: compare equal /OK/ notequal /BAD | copnsole
+1567720361711:pipe literal r1;r2;r3;r4;r5;r6 | split ; | a: take last 5 bytes ? a: | console |  compare: compare equal /OK/ notequal /BAD | console
+1567720398528:)quit
+1567721156190:pipe literal r1;r2;r3;r4;r5;r6 | split ; | a: take last 5 bytes ? a: | console
+1567721201895:)quit

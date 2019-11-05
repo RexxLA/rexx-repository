@@ -1,0 +1,7 @@
+pipe (prefixtest )
+
+   gen 100  |
+   prefix gen 50 |
+   locate /0/ |
+   console
+

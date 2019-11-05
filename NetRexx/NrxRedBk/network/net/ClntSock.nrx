@@ -1,0 +1,42 @@
+/* network\net\ClntSock.nrx
+
+   Client HTTP program, sends a request to an HTTP server:
+   Usage: Java ClntSock <server> <portnumber> <requeststring> */
+
+parse arg server port str              -- capture + test arguments
+if server='' | port='' then
+  do
+    say 'Usage: java ClntSock <server> <portnumber> <requeststring>'
+    exit 1
+  end
+
+parse str get rest                     -- check requeststring
+if get <> '' then do
+   if get <> 'GET' then do
+     say 'Request string must be: GET /http-page'
+     exit 8
+   end
+   str = 'GET' rest                    -- make get uppercase
+end
+ 
+do                                     -- ready to process
+  say 'Connecting to server:' server '(port:' port')'
+  mysocket = Socket(server, port)      -- actual connect
+  say 'Requesting:' str                -- what we want
+  say
+                                       -- output: send
+  out = PrintWriter(OutputStreamWriter(mysocket.getOutputStream()))
+                                       -- input: receive
+  in  = BufferedReader(InputStreamReader(mysocket.getInputStream()))
+  out.printLn(str)                     -- send our requeststring
+  out.flush()                          -- needed on some platforms !
+  say 'Response:'
+  line = String(in.readLine())         -- read response
+  loop while line \= null
+     say ' ' line                      -- print it out
+     line = in.readLine()
+  end
+catch e=IOException
+  say 'IOException (' e ') caught:\n' e.getMessage()
+end
+-- end ClntSock

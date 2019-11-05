@@ -1,0 +1,8 @@
+/* NetRexx */
+options replace format comments java symbols binary
+
+import javax.swing.
+
+msgText = 'Goodbye, World!'
+JOptionPane.showMessageDialog(null, msgText)
+

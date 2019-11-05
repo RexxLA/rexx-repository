@@ -1,0 +1,51 @@
+/* gui\cardlayout\CardLay.nrx
+
+   Sample Applet to illustrate the CardLayout manager */
+
+class CardLay extends Applet
+
+method init()
+  setLayout(BorderLayout())  -- To show the buttons and the CardLayout manager
+
+  -- GridLayout to store the button list
+  pgrid = Panel(); grid = GridLayout(1,0,1,0) 
+  pgrid.setLayout(grid)
+
+  -- This is the CardLayout manager
+  pcard = Panel();
+  pcard.setLayout(CardLayout())
+
+  -- create the buttons and add the action listener
+  b= Button('<');     b.addActionListener(BList('prev',pcard)); pgrid.add(b)
+  b= Button('One');   b.addActionListener(BList('One',pcard));  pgrid.add(b)
+  b= Button('Two');   b.addActionListener(BList('Two',pcard));  pgrid.add(b)
+  b= Button('Three'); b.addActionListener(BList('Three',pcard));pgrid.add(b)
+  b= Button('>');     b.addActionListener(BList('next',pcard)); pgrid.add(b)
+
+  -- add the panels to the applet
+  add("North",pgrid)
+  add("Center",pcard)
+
+  -- add the components to the CardLayout manager
+  pcard.add('One',Label('One',Label.CENTER))
+  pcard.add('Two',Label('Two',Label.CENTER))
+  pcard.add('Three',Label('Three',Label.CENTER))
+
+-- The BList class is needed to switch the panels
+class BList implements ActionListener
+  Properties inheritable
+    cont  = Container
+    aLabel = String
+
+  method BList(theLabel=String,aContainer=Container)
+    cont = aContainer; aLabel = theLabel
+
+  method actionPerformed(e=ActionEvent) 
+    select                              
+      when aLabel='next' then            
+        (CardLayout cont.getLayout()).next(cont)                     
+      when aLabel='prev' then        
+        (CardLayout cont.getLayout()).previous(cont)                 
+      otherwise                         
+        (CardLayout cont.getLayout()).show(cont,aLabel)                
+    end

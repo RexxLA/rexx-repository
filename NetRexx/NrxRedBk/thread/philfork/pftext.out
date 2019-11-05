@@ -1,0 +1,40 @@
+  Philosopher-1
+                 Philosopher-2
+                                Philosopher-3
+                                               Philosopher-4
+                                                              Philosopher-5
+  Sleep- 5.8
+                                                              Sleep- 7.5
+                 Sleep- 7.3
+                                               Sleep- 4.7
+                                Sleep- 9.8
+                                               Wait
+                                               Eat- 6.4
+  Wait
+  Eat- 3.1
+                 Wait
+                                                              Wait
+  Sleep- 5.8
+                 Eat- 7.3
+                                Wait
+                                               Sleep- 7.7
+                                                              Eat- 4.3
+  Wait
+                                                              Sleep-11.6
+                                Eat- 3.3
+                 Sleep-11.3
+  Eat- 9.0
+                                               Wait
+                                Sleep- 4.8
+                                               Eat- 4.6
+                                               Done
+                                Wait
+                                Eat- 5.6
+  Done
+                                                              Wait
+                                                              Eat- 4.5
+                 Wait
+                                Done
+                 Eat- 4.3
+                                                              Done
+                 Done

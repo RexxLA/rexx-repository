@@ -1,0 +1,66 @@
+/* gui\menubar\MenuBarTest.nrx
+
+   This program shows the usage of a menu bar */
+ 
+---------------------------------------- MenuBarTest class (implicit)
+   MenuBarX()
+ 
+---------------------------------------- MenuBarX class
+class MenuBarX
+  Properties inheritable
+    status = Label()
+
+  method MenuBarX()
+    win = Frame("Menu Bar Test")      -- creates the window
+    
+    mb = MenuBar()                    -- creates the menubar (Java)
+ 
+    m  = Menu("File")                 -- first menu in the menubar
+    mb.add(m)                         -- add menu to menubar
+
+    mi = MenuItem("Open...")          -- menu item for menu File
+    m.add(mi)                         -- add menu item to menu File
+    mi.addActionListener(MenuAction(status,"Open")) -- menu action
+
+    -- next menu item for menu File with a shortcut Ctrl-c
+    mi = MenuItem("Close",MenuShortcut(KeyEvent.VK_C))
+    m.add(mi);
+    mi.addActionListener(MenuAction(status,"Close")) -- menu action
+
+    m.addSeparator();                 -- add a separator to the menu
+
+    mi = MenuItem("Exit")             -- next menu item for menu File
+    m.add(mi);
+    mi.addActionListener(CloseMenu()) -- menu action
+
+    m = Menu("Edit")                  -- next menu in menubar
+    mb.add(m)
+
+    win.setMenuBar(mb)                -- add the menubar to the frame window
+
+    win.add("South",status)           -- add the label to the window
+
+                                      -- set window position to the middle of the screen
+    win.setSize(200,130)
+    d = win.getToolkit().getScreenSize()
+    s = win.getSize()
+    win.setLocation((d.width - s.width) % 2,(d.height - s.height)%2)
+    win.setVisible(1)
+  
+---------------------------------------- MenuAction class
+class MenuAction implements ActionListener
+  Properties inheritable
+    text        = String
+    field       = Label
+
+  method actionPerformed(e = ActionEvent)
+    field.setText('Menu' text 'selected')
+
+  method MenuAction(aLabel = Label, aString = String)
+    field       = aLabel
+    text        = aString
+
+---------------------------------------- CloseMenu class
+class CloseMenu implements ActionListener
+  method actionPerformed(e = ActionEvent)
+    exit 0

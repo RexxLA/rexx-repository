@@ -1,0 +1,19 @@
+say "Hashtable and Collections test"
+
+bat = Hashtable(10)
+
+bat.put(String "a",String "1")
+bat.put(String "b",String "2")
+
+loop e over bat
+say e
+end
+
+vect = Vector()
+
+vect.add(Object "q")
+vect.add(Object "r")
+
+loop v over vect
+say v
+end

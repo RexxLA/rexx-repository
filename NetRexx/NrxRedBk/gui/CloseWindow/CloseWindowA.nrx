@@ -1,0 +1,28 @@
+/* gui\closewindow\CloseWindowA.nrx
+
+   Implements a reusable WindowListener which closes Windows */
+
+class CloseWindowA extends WindowAdapter
+  Properties public constant
+    HIDE     = int 0                   -- hide the window          (setVisible(0))
+    DESTROY  = int 1                   -- destroy the window       (dispose())
+    SHUTDOWN = int 2                   -- shutdown the application (exit)
+
+  Properties inheritable
+    behaviour = int
+    parent    = Window
+                                             -- constructor: default destroy window
+  method CloseWindowA(cWindow = Window, theBehaviour=int DESTROY)
+    behaviour = theBehaviour
+    parent    = Window cWindow.getParent()   -- save the parent (to bring in front)
+
+  method windowClosing(e=WindowEvent)        -- called when window is closed
+    select
+      when behaviour = HIDE then             -- hide the window
+          e.getWindow().setVisible(0)
+      when behaviour = DESTROY then          -- destroy the window
+          e.getWindow().dispose()
+      otherwise exit 0                       -- exit the application
+    end
+    if parent \= null then                   -- put the parent in front
+       parent.toFront()                      -- (it is not automatic)

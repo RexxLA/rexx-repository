@@ -1,0 +1,62 @@
+/* gui\winfocus\FocusTst.nrx 
+
+   Testprogram to checkout WindowFocus class */
+
+import Redbook.
+
+win = Frame('Test')
+win.addWindowListener(CloseWindow(null,win,CloseWindow.SHUTDOWN))
+
+field1 = TextField(20)
+field2 = TextField(20)
+
+--field1.addFocusListener(FieldFocus(field1))
+--field2.addFocusListener(FieldFocus(field2))
+
+b = Button('Dialog')
+
+WindowFocus(win,b)
+
+win.add('West',b)
+
+win.add('Center',Label('FocusTest',Label.CENTER))
+--win.add('North',field1)
+--win.add('South',field2)
+win.setSize(200,150)
+
+w2 = Dialog(win,'Test')
+w2.add('South',field2)
+w2.add('North',field1)
+w2.addWindowListener(CloseWindow(w2))
+w2.pack()
+b.addActionListener(showDialog(w2))
+
+WindowFocus(w2,field1)
+
+win.setVisible(1)
+
+
+class showDialog implements ActionListener
+  Properties inheritable
+    showWindow = Window
+  method showDialog(aWindow = Window)
+    showWindow = aWindow
+
+  method actionPerformed(e=ActionEvent)
+    if showWindow.isVisible() then
+      showWindow.requestFocus()
+    else
+      showWindow.setVisible(1)
+
+class FieldFocus implements FocusListener
+  Properties
+    field = TextField
+
+  method FieldFocus(aField = TextField)
+    field = aField
+
+  method focusGained(e=FocusEvent)
+    if \e.isTemporary() then field.selectAll()
+
+  method focusLost(e=FocusEvent)
+    if \e.isTemporary() then field.select(0,0)

@@ -1,0 +1,405 @@
+/* jdbc\JdbcGui.nrx
+
+   JDBC + AWT in one sample application interfacing to the sample DEPARTMENT table
+   Usage: Java JdbcGui [<DB-URL>] [<userprefix>] */
+
+import Redbook.
+import java.sql.
+
+prefix      = Rexx                     -- table prefix
+url         = Rexx                     -- database URL
+
+parse arg url prefix                   -- process arguments
+if url = '' then
+   url = 'jdbc:db2:sample'
+else do                                -- check for correct URL
+     parse url p1 ':' p2 ':' rest
+     if p1 \= 'jdbc' | p2 \= 'db2' | rest = '' then do
+        say 'Usage: java JdbcGui [<DB-URL>] [<userprefix>]'
+        exit 8
+     end
+end
+if prefix = '' then prefix = 'userid'
+
+say 'Creating GUI...'
+GUI('JDBC Sample Application', url, prefix)
+
+
+/********************************** class GUI *********************************/
+
+class GUI uses GridBagConstraints
+
+  Properties constant
+    UPDATE   = int 0
+    ADD      = int 1
+    DELETE   = int 2
+    RETRIEVE = int 3
+
+  Properties static
+    ctr           = Controller            -- controller object
+
+  Properties inheritable
+    tf_depno      = TextField(3)
+    tf_depname    = TextField(29)
+    tf_manager    = TextField(6)
+    tf_mgrDept    = TextField(3)
+    l_departments = List(10)
+    ta_message    = TextArea(2,30)
+    b1            = Button
+    b2            = Button
+    b3            = Button
+    b4            = Button
+    b5            = Button
+
+  method GUI(title = String, pUrl, pPrefix)
+    win = Frame(title)                   -- frame window
+    gbl = SimpleGridbagLayout(win)       -- use gridbag layout
+    ws = WindowSupport(win)              -- close window support
+
+    buildLayout(gbl,ws)
+
+    win.pack()
+    RedbookUtil.positionWindow(win)
+    win.setVisible(1)
+
+    ctr = Controller(pUrl, pPrefix)
+
+    b1.addActionListener(DoAction(this,ctr,UPDATE))
+    b2.addActionListener(DoAction(this,ctr,ADD))
+    b3.addActionListener(DoAction(this,ctr,DELETE))
+    b4.addActionListener(DoAction(this,ctr,RETRIEVE))
+    l_departments.addItemListener(DoAction(this,ctr))
+
+    setMessage('Loading DB2 driver classes and connecting...')
+    msg = ctr.connect()
+    setMessage(msg)
+    setDepartmentsList(ctr.retrieveListDep())
+
+  method buildLayout(gbl = SimpleGridbagLayout, ws=WindowSupport)
+    gbl.addFixSize(Label('Number'),  0,0,Insets(10,10,5,30))
+    gbl.addFixSize(Label('Name'),    0,1,Insets( 5,10,5,30))
+    gbl.addFixSize(Label('Manager'), 0,2,Insets( 5,10,5,30))
+    gbl.addFixSize(Label('Mgr Dept'),0,3,Insets( 5,10,5,30))
+
+    gbl.addVarSize(tf_depno  ,1,0,Insets(10,0,5,5),1.0,0.0)
+    gbl.addVarSize(tf_depname,1,1,Insets( 0,0,5,5),1.0,0.0)
+    gbl.addVarSize(tf_manager,1,2,Insets( 0,0,5,5),1.0,0.0)
+    gbl.addVarSize(tf_mgrDept,1,3,Insets( 0,0,5,5),1.0,0.0)
+    tf_depno.addTextListener(LimitTextField(tf_depno,3))
+    tf_depname.addTextListener(LimitTextField(tf_depname,29))
+    tf_manager.addTextListener(LimitTextField(tf_manager,6))
+    tf_mgrDept.addTextListener(LimitTextField(tf_mgrDept,3))
+
+    gbl.addVarSize(l_departments,0,4,Insets(10,10,15,5),1.0,2.0,2)
+    gbl.addVarSize(ta_message,   0,5,Insets( 0,10,10,5),1.0,1.0,2)
+
+    b1=Button gbl.addFixSize(Button('Update')  ,2,0,Insets(10,0, 5,10),1,1,HORIZONTAL)
+    b2=Button gbl.addFixSize(Button('Add')     ,2,1,Insets( 0,0, 5,10),1,1,HORIZONTAL)
+    b3=Button gbl.addFixSize(Button('Delete')  ,2,2,Insets( 0,0, 5,10),1,1,HORIZONTAL)
+    b4=Button gbl.addFixSize(Button('Retrieve'),2,3,Insets( 0,0, 5,10),1,1,HORIZONTAL)
+    b5=Button gbl.addFixSize(Button('Exit')    ,2,5,Insets( 0,0,10,10),1,1,HORIZONTAL,SOUTHWEST)
+    b5.addActionListener(ws.getCloseWindow())
+
+    cb = ControlButtons()
+    cb.addButton(b1)
+    cb.addButton(b2)
+    cb.addButton(b3)
+    tf_depno.addTextListener(cb)
+    cb.disable
+
+  method setDepartmentsList(aList = Rexx)
+    l_departments.removeAll()
+    loop i = 0 for aList['count']
+      l_departments.add(aList[i])
+    end
+    setMessage(aList['message'])
+
+  method setDepno(s=String)
+    tf_depno.setText(s)
+
+  method setName(s=String)
+    tf_depname.setText(s)
+
+  method setMgNo(s=String)
+    tf_manager.setText(s)
+
+  method setMgDepNo(s=String)
+    tf_mgrDept.setText(s)
+
+  method getDepno() returns String
+    return tf_depno.getText()
+
+  method getName() returns String
+    return tf_depname.getText()
+
+  method getMgNo() returns String
+    if tf_manager.getText() = '' then return null
+                                 else return tf_manager.getText()
+
+  method getMgDepNo() returns String
+    return tf_mgrDept.getText()
+
+  /*----------------------------- interface to display messages -----------------*/
+  method setMessage(msg = String)
+    say msg
+    ta_message.append('\n'msg)
+
+/********************************** class DoAction ****************************/
+
+class DoAction implements ActionListener, ItemListener uses GUI
+  Properties inheritable
+    ui  = GUI         -- reference to user interface
+    ctr = Controller  -- reference to the controller
+    act = int         -- which action
+
+  method DoAction(aGui=GUI,aControl=Controller,what=int 0)
+    ui  = aGui
+    ctr = aControl
+    act = what
+
+  method actionPerformed(e=ActionEvent)
+    select
+      when act = UPDATE then do
+        ui.setMessage('Updating a row in the DEPARTMENT table...')
+        msg = ctr.update(ui.getDepno(),ui.getName(),ui.getMgNo(),ui.getMgDepNo())
+        ui.setMessage(msg)
+        ui.setDepartmentsList(ctr.retrieveListDep())
+      end
+      when act = ADD then do
+        ui.setMessage('Inserting a row in the DEPARTMENT table...')
+        msg = ctr.add(ui.getDepno(),ui.getName(),ui.getMgNo(),ui.getMgDepNo())
+        ui.setMessage(msg)
+        ui.setDepartmentsList(ctr.retrieveListDep())
+      end
+      when act = DELETE then do
+        ui.setMessage('Deleting a row in the DEPARTMENT table...')
+        msg = ctr.delete(ui.getDepno())
+        ui.setMessage(msg)
+        ui.setDepartmentsList(ctr.retrieveListDep())
+      end
+      when act = RETRIEVE then do
+        ui.setDepartmentsList(ctr.retrieveListDep())
+        ui.setDepno('')     -- clear the fields
+        ui.setName('')
+        ui.setMgNo('')
+        ui.setMgDepNo('')
+      end
+    end
+
+  method itemStateChanged(e=ItemEvent)
+    s = (List e.getItemSelectable()).getSelectedItem()
+    if s \= null then do
+      parse s depno '-' .
+      msg = ctr.select(depno.strip())
+      ui.setMessage(msg)
+      ui.setDepno(depno)     -- set the fields
+      ui.setName(ctr.getDepName())
+      ui.setMgNo(ctr.getMgNo)
+      ui.setMgDepNo(ctr.getMgDepNo())
+    end
+
+/********************************** class ControlButtons **********************/
+
+class ControlButtons implements TextListener
+ Properties inheritable
+   buttons = Vector()
+   enabled = boolean 1
+
+ method addButton(aButton = Button)
+   buttons.addElement(aButton)
+
+ method textValueChanged(e = TextEvent)
+   field = TextField e.getSource()
+   text = field.getText()
+   if text \= null then
+     if text = '' then disable()
+                  else enable()
+   else disable()
+
+ method enable()
+   if enabled then return
+   enabled = 1
+   change()
+
+ method disable()
+   if \enabled then return
+   enabled = 0
+   change()
+
+ method change()
+   loop i=0 for buttons.size
+     (Button buttons.elementAt(i)).setEnabled(enabled)
+   end
+
+/********************************** class Controller **************************/
+
+class Controller
+
+/*-------------------------- variables ------------------------------*/
+Properties inheritable
+  prefix      = Rexx 'userid'          -- table prefix
+  url         = Rexx ''                -- DB URL
+  jdbcCon     = Connection             -- DB Connection
+  selDepNo    = String ''              -- selected row values
+  selName     = String ''
+  selMgNo     = String ''
+  selMgDepNo  = String ''
+
+/*-------------------------- constructor -----------------------------*/
+method Controller(pUrl = Rexx, pPrefix = Rexx)
+    url = pUrl
+    prefix = pPrefix
+
+/*-------------------------- connect() -------------------------------*/
+method connect() returns String
+  do
+    Class.forName('COM.ibm.db2.jdbc.app.DB2Driver').newInstance()
+    -- Class.forName('COM.ibm.db2.jdbc.net.DB2Driver').newInstance()
+    jdbcCon = Connection DriverManager.getConnection(url, 'userid', 'password')
+    msg = 'Connected to' url
+  catch e2 = SQLException
+    msg = 'SQLException(s) caught while connecting !'
+    loop while (e2 \= null)
+       say 'SQLState:' e2.getSQLState()
+       say 'Message: ' e2.getMessage()
+       say 'Vendor:  ' e2.getErrorCode()
+       say
+       e2 = e2.getNextException()
+    end
+  catch e1 = Exception
+    msg = 'Exception in DB2 Driver loading !' 
+    say 'Exception (' e1 ') caught : \n' e1.getMessage()
+  end
+  return msg
+
+/*-------------------------- retrieveListDep() -----------------------*/
+method retrieveListDep() returns Rexx
+  deptarr = Rexx ''
+  do
+    query = 'SELECT deptno, deptname, mgrno, admrdept' -
+             'FROM' prefix'.DEPARTMENT ORDER BY deptno'
+    stmt = Statement jdbcCon.createStatement()
+    rs = ResultSet stmt.executeQuery(query)
+    loop row=0 while rs.next()
+         deptarr[row] = rs.getString('deptno') '-' rs.getString('deptname')
+    end
+    deptarr['count'] = row
+    rs.close()                         -- close the result set
+    stmt.close()                       -- close the statement
+    deptarr['message'] = 'Retrieved' row 'departments'
+  catch ex=SQLException
+    deptarr['message'] = ex.getMessage()
+    deptarr['count'] = 0
+  end
+  return deptarr
+
+/*-------------------------- update() ---------------------------------*/
+method update(depNo=String, name=String, mgNo=String, mgDepNo=String) -
+       returns String
+  do
+    if depNo = '' then
+      return 'Missing department number for update !'
+    if depNo <> selDepNo then          -- If depNo already exists you'll
+      do                               -- loose the department at selDepNo
+         tempDepNo = selDepNo          -- Room for improvement...
+         add(depNo, name, mgNo, mgDepNo)
+         delete(tempDepNo)
+         return 'Department number updated (delete old, add new)'
+      end
+    updQuery = 'UPDATE' prefix'.DEPARTMENT' -
+                "SET deptname = '"name"'," -
+                    "mgrno = '"mgNo"'," -
+                    "admrdept = '"mgDepNo"'" -
+                "WHERE deptno = '"depNo"'"
+    say 'Update SQL query :' updQuery
+    stmt = Statement jdbcCon.createStatement()
+    stmt.executeUpdate(updQuery)
+    msg = 'Replaced a department.'
+    stmt.close()
+    selDepNo = ''
+  catch ex=SQLException
+    msg = ex.getMessage()
+  end
+  return msg
+
+/*-------------------------- delete() -------------------------------*/
+method delete(depNo=String) returns String
+  do
+    if depNo = '' then
+       return 'Missing department number for delete'
+    delQuery = 'DELETE FROM' prefix'.DEPARTMENT' -
+               "WHERE deptno = '"depNo"'"
+    say 'Delete SQL query :' delQuery
+    stmt = Statement jdbcCon.createStatement()
+    stmt.executeUpdate(delQuery)
+    msg = 'Deleted a department.'
+    stmt.close()
+    selDepNo = ''
+  catch ex=SQLException
+    msg = ex.getMessage()
+  end
+  return msg
+
+/*-------------------------- add() ----------------------------------*/
+method add(depNo=String, name=String, mgNo=String, mgDepNo=String) -
+       returns String
+  do
+    query = 'SELECT deptno, deptname, mgrno, admrdept' - --test uniqueness of depNo
+            'FROM' prefix'.DEPARTMENT' -
+            "WHERE deptno = '"depNo"'"
+    stmt = Statement jdbcCon.createStatement()
+    rs = ResultSet stmt.executeQuery(query)
+    if rs.next() then
+      return ''depNo 'is in use, choose another department number.'
+    rs.close()                         -- Close the result set
+    stmt.close()                       -- Close the statement
+    addQuery = 'INSERT INTO' prefix'.DEPARTMENT' -
+               '(deptno, deptname, mgrno, admrdept)' -
+               "VALUES ('"depNo"','"name"','"||-
+               mgNo"','"mgDepNo"')"
+    say 'Insert SQL query :' addQuery
+    stmt = Statement jdbcCon.createStatement()
+    stmt.executeUpdate(addQuery)
+    msg = 'Inserted a department.'
+    stmt.close()
+  catch ex=SQLException
+    msg = ex.getMessage()
+  end
+  return msg
+
+/*-------------------------- select() -------------------------------*/
+method select(depNo=String) returns String
+  if (selDepNo <> depNo) then
+    do
+      msg = 'Select('depNo')'
+      query = 'SELECT deptno, deptname, mgrno, admrdept' -
+              'FROM' prefix'.DEPARTMENT' -
+              "WHERE deptno = '"depNo"'"
+      stmt = Statement jdbcCon.createStatement()
+      rs = ResultSet stmt.executeQuery(query)
+      rs.next()
+      selDepNo   = depNo
+      selName    = rs.getString('deptname')
+      selmgNo    = rs.getString('mgrno')
+      selmgDepNo = rs.getString('admrdept')
+      rs.close()                         -- Close the result set
+      stmt.close()                       -- Close the statement
+    catch ex=SQLException
+      msg = 'Select() : 'ex.getMessage()
+    end
+  else msg = 'Selected department number did not change'
+  return msg
+
+/*-------------------------- getDepName() ------------------------------*/
+method getDepName() returns String
+  return selName
+
+/*-------------------------- getMgNo() ---------------------------------*/
+method getMgNo() returns String
+  return selMgNo
+
+/*-------------------------- getMgDepNo() ------------------------------*/
+method getMgDepNo() returns String
+  return selMgDepNo
+
+-- end JdbcGui

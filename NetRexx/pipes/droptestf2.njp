@@ -1,0 +1,13 @@
+pipe (droptestf2 debug 0)
+
+   literal 1 2 3 4 5 6 7 8 A B C D E F G H I J K L |
+   split |
+   a: drop first 10 |
+   hole ?
+   a: |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal 1;2;3;4;5;6;7;8;A;B; |
+   split ; |
+   compare:

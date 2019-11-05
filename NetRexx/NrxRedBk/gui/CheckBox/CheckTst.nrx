@@ -1,0 +1,13 @@
+/* gui\checkbox\CheckTst.nrx
+
+   Applet with check boxes and a CheckboxGroup*/
+
+class CheckTst extends Applet
+
+method init()
+  setLayout(GridLayout(0,1))        -- new layoutmanager with one column
+  cg = CheckboxGroup()              -- CheckboxGroup for the first checkboxes
+  add(Checkbox("Fax now",cg,0))     -- First  checkbox member of cg
+  add(Checkbox("Fax tonight",cg,1)) -- Second checkbox member of cg
+  add(Checkbox("Print copy",1))     -- Third  checkbox
+  add(Checkbox("Print Protocoll",1))-- Fourth checkbox

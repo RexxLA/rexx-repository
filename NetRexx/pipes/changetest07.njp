@@ -1,0 +1,14 @@
+pipe (changetest07 sep |)
+
+literal line 1.1;line 1.2 last;_;line 2.1;line 2;Line 2.2;LIne 2.3 LAST;_;LINE 3.1 last |
+split ; |
+change /_// |
+   change anycase  x6c /111/ * |
+   change /t/ /777/ * |
+console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal 111ine 1.1;111ine 1.2 111as777;_;111ine 2.1;111ine 2;111ine 2.2;111Ine 2.3 111AST;_;111INE 3.1 111as777 |
+split ; |
+change /_// |
+compare:

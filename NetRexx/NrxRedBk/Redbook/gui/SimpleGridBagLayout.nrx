@@ -1,0 +1,61 @@
+/* redbook\gui\SimpleGridBagLayout.nrx
+
+   Simple GridBagLayout class for easy coding */
+
+package Redbook
+
+class SimpleGridBagLayout extends GridBagLayout uses GridBagConstraints
+  Properties inheritable
+    theContainer = Container       -- Container used with this layout manager
+    dInsets      = Insets(0,0,0,0) -- Template insets
+    dAnchor      = int NORTHWEST
+
+  method SimpleGridBagLayout( aContainer = Container )
+    super()
+    theContainer = aContainer
+    aContainer.setLayout(this)
+
+  method setInsets(top=int,left=int,bottom=int,right=int)
+    dInsets.top    = top
+    dInsets.left   = left
+    dInsets.bottom = bottom
+    dInsets.right  = right
+
+  method setAnchor(newAnchor=int)
+    dAnchor=newAnchor
+
+  method newConstraints(x=int,y=int,sizex=int,sizey=int,fill=int,-
+                       anchor=int,weightx=double,weighty=double)-
+         returns GridBagConstraints
+    gbc = GridBagConstraints()
+    gbc.gridx = x; gbc.gridy = y;
+    gbc.gridwidth = sizex; gbc.gridheight=sizey
+    gbc.fill = fill; gbc.anchor = anchor;
+    gbc.weightx = weightx; gbc.weighty = weighty
+    return gbc
+
+  method addFixSize(comp=Component,x=int,y=int) returns Component
+    addVarSize(comp,x,y,Insets dInsets.clone(),0.0,0.0,1,1,NONE,dAnchor)
+    return comp
+
+  method addFixSize(comp=Component,x=int,y=int,newInsets=Insets,-
+             sizex=int 1,sizey=int 1,-
+             fill=int NONE, anchor=int NORTHWEST) returns Component
+    addVarSize(comp,x,y,newInsets,0.0,0.0,sizex,sizey,fill,anchor)
+    return comp
+
+  method addVarSize(comp=Component,x=int,y=int,newInsets=Insets,weightx=double,-
+             weighty=double,sizex=int 1,sizey=int 1,-
+             fill=int BOTH, anchor=int NORTHWEST) returns Component
+    gbc = newConstraints(x,y,sizex,sizey,fill,anchor,weightx,weighty)
+    gbc.insets = Insets newInsets
+    theContainer.add(comp)
+    setConstraints(comp,gbc)
+    return comp
+
+  method addVarSize(comp=Component,x=int,y=int,weightx=double,weighty=double,-
+             sizex=int 1,sizey=int 1,-
+             fill=int BOTH, anchor=int NORTHWEST) returns Component
+    addVarSize(comp,x,y,Insets dInsets.clone(),weightx,weighty,-
+               sizex,sizey,fill,anchor)
+    return comp

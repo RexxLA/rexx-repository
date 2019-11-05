@@ -1,0 +1,35 @@
+/* Scribble.nrx: the 'Scribble' applet, using an Adapter class */
+
+class Scribble adapter binary -
+               extends Applet -
+               implements MouseListener, MouseMotionListener, ActionListener
+
+ last_x=int; last_y=int            -- these record mouse coordinates
+
+
+ method init
+  addMouseListener(this)           -- we want mouse events ..
+  addMouseMotionListener(this)     -- .. and mouse movements
+
+  b=Button("Clear")                -- make a button
+  b.addActionListener(this)        -- we want to see the button's events
+  add(b)                           -- add the button to the applet
+
+
+ method mousePressed(m=mouseEvent)
+  last_x=m.getX; last_y=m.getY     -- initialize mouse coordinates
+
+
+ method mouseDragged(m=mouseEvent)
+  g=this.getGraphics               -- get applet's Graphics context
+  x=m.getX; y=m.getY               -- get mouse coordinates
+  g.setColor(Color.black)
+  g.drawLine(last_x, last_y, x, y) -- draw new line segment
+  last_x=x; last_y=y               -- save coordinates
+
+
+ method actionPerformed(a=ActionEvent)            -- Button pressed
+  g=this.getGraphics
+  g.setColor(this.getBackground)
+  g.fillRect(0, 0, getSize.width, getSize.height) -- clear the window
+

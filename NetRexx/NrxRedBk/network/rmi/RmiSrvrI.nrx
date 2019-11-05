@@ -1,0 +1,11 @@
+/* network\rmi\RmiSrvrI.nrx
+
+   RMI server interface definition */
+
+package network.rmi
+
+import java.rmi.
+
+class RmiSrvrI interface implements Remote
+
+method listen(str = String) public signals RemoteException

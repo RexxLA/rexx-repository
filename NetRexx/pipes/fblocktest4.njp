@@ -1,0 +1,9 @@
+pipe (fblocktest4)
+
+   literal abcdefg |
+   fblock 12 66 |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+   console ?
+   literal abcdefgfffff |
+   compare:

@@ -1,0 +1,87 @@
+/* redbook\gui\WindowSupport.nrx
+
+   Full support for a Window:   closingWindow events are handled
+                                focus switches are supported
+                                text selection in text fields is supported
+                                (null for a focus recipient is allowed) */
+
+package Redbook
+
+class WindowSupport extends WindowFocus implements ContainerListener
+ Properties inheritable
+   fieldSelectObj = FieldSelect()   -- FocusListener used for TextFields
+   closeListener  = CloseWindow
+
+ -- constructor when a parent window is given
+ method WindowSupport(parentWindow = Window, currentWindow = Window,-
+                      focusRecipient = Component null,-
+                      closeBehaviour=int CloseWindow.DESTROY)
+   super(currentWindow,focusRecipient)
+   closeListener = CloseWindow(parentWindow,currentWindow,closeBehaviour)
+   init(currentWindow)
+
+ -- constructor when the window is the main application frame window
+ method WindowSupport(aFrameWindow = Frame, focusRecipient = Component null)
+   super(aFrameWindow,focusRecipient)
+   closeListener = CloseWindow(aFrameWindow)
+   init(aFrameWindow)
+
+ -- constructor when the window is a dialog window
+ method WindowSupport(aDialog = Dialog, focusRecipient = Component null,-
+                      closeBehaviour=int CloseWindow.DESTROY)
+   super(aDialog,focusRecipient)
+   closeListener = CloseWindow(aDialog,closeBehaviour)
+   init(aDialog)
+
+ -- return the closeWindow object
+ -- used to add the closeWindow object to pushbuttons or menus
+ method getCloseWindow() returns CloseWindow
+   return closeListener
+
+ -- sets a new focus recipient
+ -- change the current recipient if equal null
+ method setFocusRecipient(aComponent = Component)
+   super.defaultrecipient = aComponent
+   if super.recipient == null then super.recipient = aComponent
+
+ -- sets a new close behaviour for the closewindow Listener
+ method setCloseBehaviour(newBehaviour=int)
+   closeListener.setCloseBehaviour(newBehaviour)
+
+ -- overrides the windowActivated method from WindowFocus to handle null 
+ method windowActivated(e=WindowEvent)
+   if super.recipient \= null then super.windowActivated(e)
+
+ -- scans all components of the window for TextField objects
+ -- handles nested containers
+ method scanComponents(components = Component[]) inheritable
+   loop i=0 to components.length-1          -- 0 based arrays
+      if components[i] <= TextField then
+         components[i].addFocusListener(fieldSelectObj) 
+      if components[i] <= Container then do
+         (Container components[i]).addContainerListener(this)
+         scanComponents((Container components[i]).getComponents())
+      end
+   end
+
+ -- called from the constructors do init the class
+ method init(aWindow = Window) inheritable
+   aWindow.addWindowListener(closeListener)
+   aWindow.addContainerListener(this)
+   scanComponents(this.theWindow.getComponents())
+
+ -- invoked when a new component is added to any container of the window
+ method componentAdded(e=ContainerEvent)
+   comp = e.getChild()              -- returns the added component
+   if comp <= TextField then 
+      comp.addFocusListener(fieldSelectObj) 
+   if comp <= Container then        -- handles nested containers
+     (Container comp).addContainerListener(this)
+
+ -- invoked when a component is removed from the window
+ method componentRemoved(e=ContainerEvent)
+   comp = e.getChild()              -- returns the added component
+   if comp <= TextField then 
+      comp.removeFocusListener(fieldSelectObj) 
+   if comp <= Container then        -- handles nested containers
+      (Container comp).removeContainerListener(this)

@@ -1,0 +1,28 @@
+-- dictt1.njp
+
+class dictt1 extends Object
+
+method dictt1()
+
+   F = Hashtable()
+   T = Hashtable()
+
+   F.put(rexx 'A',rexx 5)
+   F.put(rexx 'B',rexx 4)
+   F.put(rexx 'C',rexx 3)
+   F.put(rexx 'D',rexx 2)
+   F.put(rexx 'E',rexx 1)
+   T.put(rexx 'Z',rexx 99)
+
+   pipe (dictp1 stall 1000 -gen)
+        dict {F} | console | dicta {T}
+
+   loop i over T
+      say i T.get(i)
+   end
+
+method main(a=String[]) static
+
+   dictt1()
+
+exit

@@ -1,0 +1,18 @@
+import java.util.EventObject
+/**
+ * Class OutputLineEvent embodies the OutputLineEvent
+ */
+class OutputLineEvent extends EventObject
+
+  properties indirect
+  pid = Process
+  line
+  /**
+   * Default constructor
+   */
+  method OutputLineEvent(ob=Object,line_, pid_=Process)
+    super(ob)
+    this.line = line_
+    this.pid = pid_
+    return
+

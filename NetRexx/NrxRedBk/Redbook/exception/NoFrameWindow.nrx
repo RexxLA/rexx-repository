@@ -1,0 +1,11 @@
+/* redbook\exception\NoFrameWindow.nrx
+  
+   Signalled from RedbookUtil class when the parent component chain
+   does not contain a frame window */
+
+package Redbook
+
+class NoFrameWindow extends RedbookException
+
+method NoFrameWindow(current = Component)
+  super('No frame window found for:\n\n' current.toString)

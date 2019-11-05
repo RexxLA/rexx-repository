@@ -1,0 +1,23 @@
+/* gui\equalsizepanel\EqualTst.nrx
+
+   Test the EqualSizePanel class */
+
+import Redbook.
+
+win = Frame("My Test Window")
+b = Button('Dialog')
+win.add('West',b)
+win.add('Center',Label('Equal size buttons',Label.CENTER))
+
+bp = EqualSizePanel(EqualSizePanel.VERTICAL)
+b1 = Button('A')
+b2 = Button('Long')
+b3 = Button('The Longest')
+bp.add(b1)
+bp.add(b2)
+bp.add(b3)
+win.add('East',bp)
+
+win.setSize(200,150)
+win.addWindowListener(CloseWindow(win))
+win.setVisible(1)

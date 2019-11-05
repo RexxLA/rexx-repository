@@ -1,0 +1,11 @@
+pipe (zips end ?)
+   command cmd /C dir /s /f c:\\*.zip |
+a: faninany |
+   rexx to locate /tcpip.zip/ |
+   console ?
+   command cmd /C dir /s /f d:\\*.zip |
+  a: ?
+   command cmd /C dir /s /f e:\\*.zip |
+  a: ?
+   command cmd /C dir /s /f f:\\*.zip |
+  a:

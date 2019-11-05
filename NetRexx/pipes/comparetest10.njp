@@ -1,0 +1,11 @@
+pipe (comparetest10         )
+
+   literal 1;2;3 |
+   split ; |
+   c: compare equal /Same/ notequal /Different/ |
+   console ?
+   literal 1;2;3;4 |
+   split ; |
+   c: |
+   hole
+

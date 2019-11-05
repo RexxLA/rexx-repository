@@ -1,0 +1,27 @@
+/* nrxbeans\sample\EmpBeanBeanInfo.nrx
+
+   Simple nonvisual employee bean - bean info */
+
+import java.beans.
+
+package nrxbeans.sample
+
+class EmpBeanBeanInfo extends SimpleBeanInfo public binary
+
+  properties private
+     beanClass = Class
+
+  method EmpBeanBeanInfo() public
+     beanClass = Class.forName("nrxbeans.sample.EmpBean")
+
+  method getEventSetDescriptors() returns EventSetDescriptor[] public
+    eventDesc = EventSetDescriptor[1]
+    do
+       eventDesc[0] = EventSetDescriptor( beanClass, "actionPerformed", -
+                                          ActionListener.class, "actionPerformed" )
+       eventDesc[0].setDisplayName("empEvent")
+       eventDesc[0].setShortDescription("employee event")
+       return eventDesc
+     catch Throwable
+    end
+    return null

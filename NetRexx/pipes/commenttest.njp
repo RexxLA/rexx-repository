@@ -1,0 +1,3 @@
+pipe (commenttest) literal is tested in almost all tests |
+-- this is a comment that comments that literals are tested in almost every test
+| console

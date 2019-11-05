@@ -1,0 +1,108 @@
+import com.ibm.mq.
+
+class MQPubSubSample
+
+  properties inheritable
+  queueManagerName = String
+  syncPoint	   = Object()
+  props		   = Hashtable
+  topicString	   = String
+  topicObject	   = String
+  subscribers	   = Thread[]
+  subscriberCount  = int
+
+  properties volatile inheritable
+  readySubscribers = int 0 --must be defined volatile
+  
+  method MQPubSubSample()
+    topicString	     = null
+    topicObject	     = System.getProperty("com.ibm.mq.pubSubSample.topicObject", "TESTTOPIC")
+    queueManagerName = System.getProperty("com.ibm.mq.pubSubSample.queueManagerName","rjtestqm")
+    subscriberCount  = Integer.getInteger("com.ibm.mq.pubSubSample.subscriberCount", 100).intValue()
+    this.props	     = Hashtable()
+    this.props.put("hostname", "127.0.0.1")
+    this.props.put("port", Integer(1414))
+    this.props.put("channel", "SYSTEM.DEF.SVRCONN")
+    
+  method main(agr=String[]) static binary
+    sample = MQPubSubSample()
+    sample.launchSubscribers()
+
+    /*
+     *  wait until all the subscriber threads have finished the subscription
+     */
+    do protect sample.syncPoint
+      loop while sample.readySubscribers < sample.subscriberCount
+    	do
+    	  sample.syncPoint.wait()
+    	catch InterruptedException
+    	end
+      end -- loop while sample
+    end -- do
+    
+    sample.doPublish()
+    
+  method launchSubscribers()
+    say "Launching the subscribers"
+    subscribers = Thread[subscriberCount]
+    
+    threadNo = int 0
+    loop while threadNo < this.subscribers.length
+      this.subscribers[threadNo] = MQPubSubSample.Subscriber("Subscriber" threadNo)
+      this.subscribers[threadNo].start()
+      threadNo = threadNo + 1
+    end
+    
+  method doPublish() signals IOException
+    say "method doPublish started"
+    destinationType = int CMQC.MQOT_TOPIC
+    do
+      queueManager  = MQQueueManager(this.queueManagerName, this.props)
+      messageForPut = MQMessage()
+      say "***Publishing ***"
+      messageForPut.writeString("Hello world!")
+      queueManager.put(destinationType, topicObject, messageForPut)
+    catch e=MQException
+      say "Exception while publishing " e
+    end
+    
+  class MQPubSubSample.Subscriber binary dependent extends Thread
+    
+    properties private
+    myName = String
+    openOptionsForGet = int CMQC.MQSO_CREATE | CMQC.MQSO_FAIL_IF_QUIESCING | CMQC.MQSO_MANAGED | CMQC.MQSO_NON_DURABLE
+    
+  method Subscriber(subscriberName=String)
+    super(subscriberName)
+    myName = subscriberName
+    
+  method run()
+    do
+      say myName " - ***Subscribing***"
+      queueManager = MQQueueManager(parent.queueManagerName, parent.props)
+      destinationForGet = queueManager.accessTopic(parent.topicString, parent.topicObject, CMQC.MQTOPIC_OPEN_AS_SUBSCRIPTION, openOptionsForGet)
+      
+      do protect parent.syncpoint
+	parent.readySubscribers = parent.readySubscribers + 1
+	parent.syncPoint.notify()
+      end
+      
+      mgmo = MQGetMessageOptions()
+      mgmo.options = CMQC.MQGMO_WAIT
+      mgmo.waitInterval = 30000
+      say myName " - ***Retrieving***"
+      messageForGet = MQMessage()
+      
+      do protect getClass()
+	destinationForGet.get(messageForGet, mgmo)
+      end
+      
+      messageDataFromGet = String messageForGet.readLine()
+      say myName " - Got [" messageDataFromGet "]"
+      
+    catch e=Exception
+      say myName " " e
+      e.printStackTrace()
+    end
+    parent.readySubscribers = parent.readySubscribers - 1
+    

@@ -1,0 +1,41 @@
+-- one shot tcpip server
+
+pipe (tcpserv stall 60000 debug 0 )
+   tcplisten 1958 timeout 15000 | tcpexample
+
+-- one shot tcpip requestor
+
+pipe (tcpreq stall 60000 debug 0 )
+   random {} |
+   specs *-* 1 ,\n, next |
+   tcpclient deblock c localhost 1958 timeout 10000 linger 500 oneresponse |
+   rexx to console
+
+
+-- a single tasking server
+
+options binary
+import org.netrexx.njpipes.pipes.
+class tcpexample extends stage
+
+method run() public
+
+   loop forever
+
+      peekto()
+
+      callpipe (tcplog stall 15000 debug 0)
+         *in0: |
+         take first 1 |
+         console |
+      f: fanin |
+         tcpdata timeout 10000 deblock C oneresponse |
+         elastic |
+         insert /\n/ after |
+      f:
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

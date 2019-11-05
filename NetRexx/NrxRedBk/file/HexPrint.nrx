@@ -1,0 +1,67 @@
+/*  file\HexPrint.nrx
+
+    Print file content in classic hexadecimal dump format.
+    Parameter: inputfile   */
+
+    parse arg inFileName .
+    if inFileName = '' then do
+      say "Usage: HexPrint fileName"
+      exit 8
+    end
+
+    infile = File(inFileName)                              -- input object
+    source = DataInputStream(FileInputStream(inFile))
+
+    say "--------------------------------------------------------------------------"
+    say "HexPrint    Version 0.50"
+    say "--------------------------------------------------------------------------"
+    say "File name:" inFilename
+    say "File Date:" Date(inFile.lastModified)             --   yyyy/mm/dd hh:mm:ss
+    say "File size:" inFile.length "bytes"
+    say "--------------------------------------------------------------------------"
+    say "    Offset"
+    say "<Hex>    <dec>     +0       +4       +8       +C"
+    say "--------------------------------------------------------------------------"
+
+    lineHex   = ''                              -- 16 char line in hexadecimal 
+    lineChr   = ''                              -- 16 char line as character
+    colCount  = 0                               -- count columns to 16
+    byteCount = 0                               -- count total bytes
+
+    loop forever
+      ch  = Rexx source.readUnsignedByte()      -- read one byte
+
+      if colCount = 16 then do
+         prtline(lineHex,lineChr,byteCount)     -- print 1 line per 16 characters
+         lineHex  = ''
+         lineChr  = ''
+         colCount = 0
+      end
+
+      lineHex   = lineHex || ch.d2x(2)          -- append to hexadecimal format
+      lineChr   = lineChr || ch.d2c()           -- append to character format
+      colCount  = colCount  + 1                 -- count columns to 16
+      byteCount = byteCount + 1                 -- count total bytes
+
+    catch IOException                           -- end of file
+      if lineHex <> '' then do                  -- are there unprinted characters
+        prtline(lineHex,lineChr,byteCount)
+      end
+    end
+
+    source.close()                              -- close input
+    return
+
+    /* ------------------------------------------- print one line -------------- */
+    method prtline(lineHex,lineChr,byteCount) static
+      bCount   = (bytecount-1) % 16 * 16        -- calculate offset of 1st byte
+      hexCount = bcount.d2x.right(6,'0')        -- hexadecimal offset
+      decCount = bcount.right(8,'0')            -- decimal offset
+      hexL = lineHex.left(32,' ')
+      hStr = hexL.substr(1,8) hexL.substr(9,8)- -- build hex print
+             hexL.subStr(17,8) hexL.subStr(25,8)
+      cStr = lineChr.translate('', -            -- build character print
+                     '\0'.sequence('\x1F'),'.') -- code page dependent ??
+      say hexCount '('decCount') ' hStr.left(36) '['cStr']'
+      return
+-- end HexPrint

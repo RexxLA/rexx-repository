@@ -1,0 +1,96 @@
+/* A sample graphics stand-alone application for the Java 1.1 (or later)
+     platform, using dependent and adapter classes.
+   This draws two buttons in a frame window on the screen, and sets
+     the background colour whenever one is pushed.
+   An off-screen image is used to show how one is handled.  It is not
+     needed for this simple effect, but is usually needed for anything
+     more complicated.
+   The image reverts to default background when the window is resized.
+   */
+options binary                     -- optional, for speed
+
+/* ------------------------------------------------------------------ */
+/* The main (parent) class                                            */
+/* ------------------------------------------------------------------ */
+class Buttons adapter extends Frame-
+                      implements WindowListener, ComponentListener
+  properties shared
+    shadow=Image                   -- offscreen image
+
+  properties constant
+    mywidth=200                    -- our shape
+    myheight=300                   -- ..
+    glass=Toolkit.getDefaultToolkit.getScreenSize -- screen geometry
+
+  /* The 'main' method is called when this class is started as an application */
+  method main(s=String[]) static
+    frame=Buttons("My Buttons" Rexx(s))           -- make a titled frame
+    -- now size and place it mid-screen
+    frame.setBounds((glass.width-mywidth)%2,(glass.height-myheight)%2,-
+                    mywidth, myheight)
+    frame.show                                    -- and make it visible
+
+  /* The constructor for Buttons */
+  method Buttons(s=String)
+    super(s)                       -- pass title to superclass
+    setLayout(FlowLayout())        -- set component layout scheme
+    add(Buttons.Left())            -- add one button ..
+    add(Buttons.Right())           -- .. and the other
+    addWindowListener(this)        -- please tell us about Window events ..
+    addComponentListener(this)     -- .. and component events
+
+  /* newimage -- make a new offscreen image */
+  method newimage
+    shadow=createImage(getSize.width, getSize.height)
+
+  /* update -- called when the window is updated */
+  /* paint  -- called when the window needs to be redrawn */
+  method update(g=Graphics)        -- we supply this to avoid flicker
+    paint(g)
+  method paint(g=Graphics)
+    if shadow=null then newimage   -- ensure we have an image
+    g.drawImage(shadow, 0, 0, this)-- copy the image to screen
+
+  /* componentResized -- called after graphics area resized */
+  method componentResized(e=ComponentEvent)
+    newimage                       -- make new sized image
+
+  /* windowClosing -- called when the window is closed */
+  -- We need to handle this to end the program
+  method windowClosing(e=WindowEvent)
+    exit
+
+/* ------------------------------------------------------------------ */
+/* A dependent class for a button                                     */
+/* ------------------------------------------------------------------ */
+class Buttons.Left dependent extends Button implements ActionListener
+  method Left                 -- construct the button
+    super("Green")            -- we choose the label
+    addActionListener(this)   -- listen for action events
+
+  method actionPerformed(a=ActionEvent) -- Button pressed
+    g=parent.shadow.getGraphics         -- get the image
+    g.setColor(Color.green)             -- choose a colour
+    -- now colour the image
+    g.fillRect(0, 0, parent.getSize.width, parent.getSize.height)
+    parent.repaint                      -- and request redraw
+
+/* ------------------------------------------------------------------ */
+/* A dependent class for a button                                     */
+/* ------------------------------------------------------------------ */
+-- (If many buttons are similar, it could be worth making a shared
+-- superclass.  Equally, a method on the parent object could be called
+-- to set and fill the new colour, for example, use:
+--   parent.newColor(Color.red)
+-- to call a newColor method in the Buttons class on the parent object.)
+class Buttons.Right dependent extends Button implements ActionListener
+  method Right                -- construct the button
+    super("Red")              -- we choose the label
+    addActionListener(this)   -- listen for action events
+
+  method actionPerformed(a=ActionEvent) -- Button pressed
+    g=parent.shadow.getGraphics         -- get the image
+    g.setColor(Color.red)               -- choose a colour
+    -- now colour the image
+    g.fillRect(0, 0, parent.getSize.width, parent.getSize.height)
+    parent.repaint                      -- and request redraw

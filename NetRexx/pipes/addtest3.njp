@@ -1,0 +1,25 @@
+-- o-n steal output stream|
+
+pipe (addt3 debug 0 ) gen 10 | addtest3 | console
+
+import org.netrexx.njpipes.pipes.
+
+class addtest3 extends stage
+
+method run() public
+
+   say 'o-n : a 1, a 2 .. a 10'
+   do
+      addpipe (addpt3 debug 0 ) *out0: | specs /a/ 1 1-* nextw | console
+
+      loop forever
+         line = peekto()
+         output(line)
+         readto()
+      end
+
+   catch StageError
+      rc = rc()
+   end
+
+exit(rc*(rc<>12))

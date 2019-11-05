@@ -1,0 +1,10 @@
+/* NetRexx */
+options replace format comments java symbols nobinary
+
+  say
+  say 'Loops/Infinite'
+
+  loop label spam forever
+    say 'SPAM'
+    end spam
+

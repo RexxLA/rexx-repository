@@ -1,0 +1,63 @@
+/* redbook\gui\CloseWindow.nrx
+
+   Implements a reusable WindowListener which closes Windows */
+
+package Redbook
+
+class CloseWindow extends WindowAdapter implements ActionListener
+  Properties public constant
+    HIDE     = int 0         -- hide the window          (setVisible(0))
+    DESTROY  = int 1         -- destroy the window       (dispose())
+    SHUTDOWN = int 2         -- shutdown the application (exit)
+
+  Properties inheritable
+    behaviour = int
+    theWindow = Window
+    parent    = Window
+
+  -- constructor for dialog windows
+  method CloseWindow(cWindow = Dialog, theBehaviour=int DESTROY)
+    init(Window cWindow.getParent(),cWindow,theBehaviour)
+
+  -- constructor for frame windows
+  method CloseWindow(parentWindow = Window, cWindow = Window,-
+                     theBehaviour=int DESTROY)
+     init(parentWindow,cWindow,theBehaviour)
+
+  -- constructor for main application frame windows (set parent = null)
+  method CloseWindow(cWindow = Frame)
+     init(null,cWindow,SHUTDOWN)
+
+  -- method to set a new behaviour
+  method setCloseBehaviour(newBehaviour = int)
+    behaviour = newBehaviour
+
+  -- method to init - private because not type safe
+  method init(parentWindow = Window, cWindow = Window, -
+              theBehaviour = int) private
+    parent    = parentWindow            -- save the parent
+    theWindow = cWindow                 -- save the window reference
+    behaviour = theBehaviour            -- save behaviour
+    if theWindow <= Dialog then         -- is it a dialog?
+      if (Dialog theWindow).isModal() & -
+          behaviour == HIDE then        -- modal dialogs cannot hide 
+        behaviour = DESTROY             -- they must be destroyed
+
+  method windowClosing(e=WindowEvent)   -- called when window is closed
+    closeTheWindow()
+
+  method actionPerformed(e=ActionEvent) -- called from button or menus
+    closeTheWindow()
+
+  method closeTheWindow() inheritable
+    select
+      when behaviour = HIDE then        -- hide the window
+          theWindow.setVisible(0)
+      when behaviour = DESTROY then     -- destroy the window
+          theWindow.dispose()
+      otherwise exit 0                  -- exit the application
+    end
+    if parent \= null then do           -- parent in front
+       RedbookUtil.sleep(220)
+       parent.toFront()
+    end

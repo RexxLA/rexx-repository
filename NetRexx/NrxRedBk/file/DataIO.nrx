@@ -1,0 +1,76 @@
+/* file\DataIO.nrx
+
+   Output of a Customer object with binary data using DataOutputStream */
+
+class DataIO
+  Properties constant
+    yes = boolean 1
+    no  = boolean 0
+
+  method main(args=String[]) static
+    custDB = Customer[4]                         -- allocate 4 customers
+
+    -- instanciate objects
+    custDB[0] = Customer(101,"Ueli Wahli"         ,"U.S.A." ,500.5,25,yes)
+    custDB[1] = Customer(102,"Peter Heuchert"     ,"Germany",400.4,30,yes)
+    custDB[2] = Customer(103,"Frederik Haesbrouck","Belgium",350.9,24,no)
+    custDB[3] = Customer(104,"Norio Furukawa"     ,"Japan"  ,250.5,39,no)
+
+    -- writes the object variables to a file
+    os = DataOutputStream(FileOutputStream("dataio.dat"))
+    os.writeInt(custDB.length)                   -- number of objects
+    loop i = 0 to custDB.length-1
+       os.writeUTF(custDB[i].getCustNo())        -- write object data
+       os.writeUTF(custDB[i].getName())
+       os.writeUTF(custDB[i].getAddress())
+       os.writeFloat(custDB[i].getHourly())
+       os.writeInt(custDB[i].getWork())
+       os.writeBoolean(custDB[i].getBool())
+    end
+    os.close()
+
+    -- reads the object variables from the file
+    is = DataInputStream(FileInputStream("dataio.dat"))
+    loop i = 1 to is.readInt()                   -- read the objects
+      xcustno  = Rexx is.readUTF()
+      xname    = Rexx is.readUTF()
+      xaddress = Rexx is.readUTF()
+      xhourly  = is.readFloat()
+      xwork    = is.readInt()
+      xbool    = is.readBoolean()
+      say xcustno.left(4) xname.left(20) xaddress.left(10) - 
+          (xhourly*xwork).right(10) xbool
+    end
+    is.close()
+
+/* -------------------------------------------------------------------------- */
+/* Customer class                                                             */
+/* -------------------------------------------------------------------------- */
+class Customer
+
+  properties private                             -- various data types
+    custNo  = String
+    name    = String
+    address = Rexx
+    hourly  = float
+    work    = int
+    bool    = boolean
+
+  method Customer(aCustNo=String, aName=String, aAddress=rexx, -
+                  aHourly=float, aWork=int, aBool=boolean)
+    custNo = aCustNo; name = aName; address = aAddress
+    hourly = aHourly; work = aWork; bool = aBool
+
+  method getCustNo() returns String
+    return custNo
+  method getName() returns String
+    return name
+  method getAddress() returns Rexx
+    return address
+  method getHourly() returns float
+    return hourly
+  method getWork() returns int
+    return work
+  method getBool() returns boolean
+    return bool
+-- end

@@ -1,0 +1,11 @@
+/* NetRexx - Exceptions */
+say 'Please enter first number: \-'
+num1 = ask
+say 'Please enter second number: \-'
+num2 = ask
+do
+  say num1 'divided by' num2 'is' num1/num2
+catch DivideException
+  say 'Could not divide the two numbers!'
+end
+  

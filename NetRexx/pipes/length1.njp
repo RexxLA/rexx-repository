@@ -1,0 +1,19 @@
+pipe (lengthp) < length.nrx | length1 | console
+
+import org.netrexx.njpipes.pipes.
+
+class length1 extends stage final
+  
+  method run()
+    do
+      loop forever
+	line = rexx peekto()
+	l = line.length
+	output(l l.d2x line)
+	readto()
+      end
+    catch StageError
+      rc = rc()
+    end
+    exit(rc*(rc<>12))
+  

@@ -1,0 +1,195 @@
+/* redbook\gui\ImagePanel.nrx
+
+   Implements a LightWeight component which shows an image .
+   The component accepts an Insets object for a margin around the image.
+   When scaling is on, the image always keeps its aspect ratio.
+   Alignment can be specified; default is LEFT TOP */
+
+package Redbook 
+
+class ImagePanel extends Component
+  Properties constant public
+    LEFT   = 0                -- alignment constants
+    RIGHT  = 1
+    CENTER = 2
+    TOP    = 4
+    BOTTOM = 5
+  Properties inheritable
+    im     = Image            -- image
+    in     = Insets(0,0,0,0)  -- margins
+    scale  = boolean 1        -- when true the image is scaled to component size
+    halign = int LEFT         -- horizontal alignment
+    valign = int TOP          -- vertical alignment
+
+  -- default constructor no image loaded
+  method ImagePanel()
+    super()
+
+  -- construct with an image and optional margins
+  method ImagePanel(anImage = Image, newInsets = Insets null) 
+    super()
+    setInsets(newInsets)
+    setImage(anImage)
+
+  -- construct with an image and optional margins
+  method ImagePanel(anImageUrl = Url, newInsets = Insets null)-
+         signals LoadImageException
+    super()
+    setInsets(newInsets)
+    setImage(anImageUrl)
+
+  -- construct with an image reading from given file
+  method ImagePanel(imageFile = String, newInsets = Insets null)-
+         signals LoadImageException
+    super()
+    setInsets(newInsets)
+    setImage(imageFile)
+
+  -- construct with an image and optional margins and optional alignments
+  method ImagePanel(anImage = Image, hor_align = int,-
+                    ver_align = int, newInsets = Insets null)
+    this(anImage,newInsets)
+    halign = hor_align
+    valign = ver_align
+
+  -- construct with an image reading from an URL and optinal alignments
+  method ImagePanel(anImageUrl = Url, hor_align = int,-
+                    ver_align = int, newInsets = Insets null) -
+         signals LoadImageException
+    this(anImageUrl,newInsets)
+    halign = hor_align
+    valign = ver_align
+
+  -- construct with an image reading from given file and optinal alignments
+  method ImagePanel(imageFile = String, hor_align = int,-
+                    ver_align = int, newInsets = Insets null) -
+         signals LoadImageException
+    this(imageFile,newInsets)
+    halign = hor_align
+    valign = ver_align
+
+  -- set the scaling of the image (true = scaling, false = noscaling)
+  method setScaling(b = boolean)
+    scale = b
+
+  -- load a image from the image file and repaint if component is visible
+  method setImage(fileName = String) signals LoadImageException
+    do
+       imgUrl = this.getClass().getResource(fileName)
+       im = Toolkit.getDefaultToolkit().getImage(imgUrl)
+    catch NullPointerException       -- image file not found
+       signal LoadImageException()
+    end
+    loadTheImage()
+
+  -- load a image from a given Url and repaint if component is visible
+  method setImage(anUrl = Url) signals LoadImageException
+    im = Toolkit.getDefaultToolkit().getImage(anUrl)
+    loadTheImage()
+
+  -- set the image to aImage and repaint if visible
+  method setImage( anImage = Image)
+    im = anImage
+    if isVisible() then repaint()
+
+  -- load the image and repaint if component is visible
+  method loadTheImage() signals LoadImageException inheritable
+    tracker = MediaTracker(this)
+    tracker.addImage(im,0)           -- load the image synchronous
+    do
+      tracker.waitForID(0)
+    catch InterruptedException       -- dont handle the exception
+    end
+    if tracker.isErrorAny() then do
+       im=null
+       repaint()                     -- paint an empty panel
+       signal LoadImageException()
+    end
+    if isVisible() then repaint()    -- repaint if visible
+
+  -- returns the current image
+  method getImage() returns Image
+    return im
+
+  -- sets the horizontal alignment method
+  method setHorizontalAlignment(align = int)
+    halign = align
+    repaint()
+
+  -- sets the vertical alignment method
+  method setVerticalAlignment(align = int)
+    valign = align
+    repaint()
+
+  -- returns the horizontal alignment method
+  method getHorizontalAlignment() returns int
+    return halign
+
+  -- returns the vertical alignment method
+  method getVerticalAlignment() returns int
+    return valign
+
+  -- sets the insets (margins) of the component
+  method setInsets( newInsets = Insets)
+    if newInsets \= null then do
+      in = Insets newInsets.clone()
+      repaint()
+    end
+                                   
+  -- sets the insets (margins) of the component
+  method setInsets(itop=int,ileft=int,ibottom=int,iright=int)
+    in.top = itop; in.left = ileft; in.right = iright; in.bottom = ibottom
+
+  -- returns the insets (margins) of the component
+  method getInsets() returns Insets
+    return in
+
+  -- returns the size of the image with or without scaling
+  method getImageSize() returns Dimension
+    if im  \= null then 
+      if scale then do 
+        d = getSize()
+         -- preserving the aspect ration of the image
+        lx = (d.width - in.left - in.right ) / im.getWidth(this)
+        ly = (d.height - in.top - in.bottom) / im.getHeight(this)
+        if lx < ly then ratio = lx
+                   else ratio = ly
+        return Dimension(ratio*im.getWidth(this)%1,ratio*im.getHeight(this)%1)
+      end
+      else return Dimension(im.getWidth(this),im.getHeight(this))
+    else return Dimension(0,0)
+
+  -- returns the unscaled image size
+  method getOriginalImageSize() returns Dimension
+   if im \= null then return Dimension(im.getWidth(this),im.getHeight(this))
+                 else return Dimension(0,0)
+ 
+  -- preferred size is unscaled image size plus insets
+  method getPreferredSize() returns Dimension
+    d = getOriginalImageSize()
+    d.width  = d.width + in.left + in.right
+    d.height = d.height+ in.top  + in.bottom
+    return d
+
+  -- minimum size is unscaled image size
+  method getMinimumSize() returns Dimension
+    return getOriginalImageSize()
+
+  -- paint the image 
+  method paint(g=Graphics)
+    w = getSize()
+    if im  \= null then do
+      d = getImageSize()
+      select
+        when valign = TOP    then y = in.top
+        when valign = BOTTOM then y = w.height - d.height - in.bottom
+        otherwise y = (w.height - in.top - in.bottom - d.height) % 2 + in.top
+      end
+      select 
+        when halign = LEFT  then x = in.left
+        when halign = RIGHT then x = w.width - d.width - in.right              
+        otherwise x = (w.width - in.left - in.right - d.width) % 2 + in.left
+      end
+      g.drawImage(im,x,y,d.width,d.height,this)
+    end
+    else g.clearRect(0,0,w.width,w.height)

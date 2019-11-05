@@ -1,0 +1,43 @@
+/* nrxbeans\sample\Timer.nrx
+
+   A timer displaying running time in seconds/minutes, implemented using NetRexx beans */
+
+package nrxbeans.sample
+
+import nrxbeans.lab.              -- LED, Counter, Timer
+import java.beans.
+
+class Timer extends Applet implements ActionListener, PropertyChangeListener
+
+  properties private
+    led = NrxLED()
+    counter = NrxCounter()
+    timer = NrxTimer()
+
+  method init()
+    setLayout(BorderLayout())
+    add("North", Label("Time you view this applet:"))
+    add("Center", led)
+
+    led.setNumberOfDigits(8)
+    counter.setStep(1)
+    counter.addPropertyChangeListener(this)
+    timer.setInterval(1000)
+    timer.addActionListener(this)
+    timer.setEnabled(1)
+
+  method propertyChange(evt = PropertyChangeEvent)
+    if evt.getPropertyName() = "count" then do
+       newCount = Integer evt.getNewValue()
+       led.setText(formatTime(newCount.intValue()))
+    end
+
+  method actionPerformed(evt = ActionEvent)
+    if evt.getActionCommand() = "timerTick" then
+       counter.changeCount()
+
+  method formatTime(secs = int) returns String
+    hours = (secs % 3600).right(2, ' ')
+    minutes = ((secs // 3600) % 60).right(2, '0')
+    seconds = (secs // 60).right(2, '0')
+    return hours':'minutes':'seconds

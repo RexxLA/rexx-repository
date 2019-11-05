@@ -1,0 +1,33 @@
+/* Play an audio clip; the URL of the clip is relative to base document */
+import sun.net.www.
+import sun.audio.
+
+class PlayClip extends Applet
+
+  audioclip=AudioStream
+
+  method start
+    URLString=getParameter("clip")
+    if URLString=null then UrlString="welclip.au"
+
+    say "Fetching:" UrlString
+
+    do
+      myUrl=URL(getDocumentBase(), UrlString)
+      is=myUrl.openStream
+      audioclip=AudioStream(is)
+    catch badURL=java.net.MalformedURLException
+      say "Malformed URL" badURL.getMessage
+      return
+    catch badIO=java.io.IOException
+      say "IOException" badIO.getMessage
+    end
+
+    AudioPlayer.player.start(audioclip)
+
+
+  method stop
+    if audioclip\=null then do
+      AudioPlayer.player.stop(audioclip)
+      audioclip=null
+      end

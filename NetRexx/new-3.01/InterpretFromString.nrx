@@ -1,0 +1,8 @@
+import org.netrexx.
+
+/* NetRexx interpret from memory string example  */
+
+programstring="say 'hello from an interpreted memory string' "
+
+NetRexxA().interpret("myprogram",programstring)
+

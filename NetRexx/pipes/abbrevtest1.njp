@@ -1,0 +1,11 @@
+pipe (abbrevtest1 debug 0)
+
+literal st str string strings |
+split |
+abbrev string 3 |
+console |
+compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less:\\p::\\s:/ more /More:\\p::\\s:/ |
+console ?
+literal str;string; |
+split ; |
+compare:

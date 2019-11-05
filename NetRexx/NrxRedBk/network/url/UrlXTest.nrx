@@ -1,0 +1,47 @@
+/* network\url\UrlXTest.nrx
+
+   Client HTTP program, sends a URL request to an HTTP server
+   and handles a few content types:
+   Usage: Java UrlXTest <URLstring> */
+
+parse arg prot '://' request         -- protocol & servername are required
+if prot = '' | request = '' then
+  do
+    say 'Usage: java UrlXTest <URLString>'
+    exit 8
+  end
+
+do
+  ourURL = URL(arg)                  -- create URL object
+  say 'Connect to  :' ourURL
+  urlConn = ourURL.openConnection()  -- get connection object
+  conttype = Rexx urlConn.getContentType()  -- content type
+  say 'Content-type:' conttype
+  content = urlConn.getContent()     -- get the URL content
+  say 'Class       :' content.getClass().getName()
+  select
+    when content <= ImageProducer then   -- picture ?
+         say '==> Content is an ImageProducer'
+    when content <= AudioClip then       -- music ?
+         do
+           say '==> Content is an AudioClip, playing.....'
+           (AudioClip content).play()
+         end
+    when content <= InputStream then     -- InputStream implementers
+         do
+           say '==> Content is an InputStream'
+           say '\nFile content:\n'
+           bR = BufferedReader(InputStreamReader(InputStream content))
+           line = String(bR.readLine())
+           loop while(line <> null)
+                say ' ' line
+                line = bR.readLine()
+           end
+         end
+    otherwise
+         say '==> Sorry, content type not handled!'
+  end                                -- end select
+catch e=IOException
+  say 'IOException caught:' e '\n  ' e.getMessage()
+end
+-- end UrlXTest

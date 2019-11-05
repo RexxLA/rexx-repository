@@ -1,0 +1,61 @@
+/* redbook\gui\PromptDialog.nrx
+
+   Creates a prompt dialog box */
+
+package Redbook
+
+class PromptDialog extends RedbookDialog
+  Properties inheritable
+    entryField = TextField         -- prompt entry field
+    keytester  = KeyCheck          -- key tester for the entry field
+    keyLimit   = LimitTextField    -- maximum length of the entry field
+
+  -- create the PromptDialog with any component as parent
+  method PromptDialog(parentWindow = Component, modal = boolean, -
+                      title = Rexx '', labeltext = Rexx '',-
+                      fieldText = Rexx '', fieldsize = int 20)  signals NoFrameWindow
+    super(parentWindow,modal,title)
+    init(labeltext,fieldText,fieldsize)
+
+  -- create the PromptDialog with a frame window as parent
+  method PromptDialog(parentFrame = Frame, modal = boolean, -
+                      title = Rexx '', labeltext = Rexx '',-
+                      fieldText = Rexx '', fieldsize = int 20)
+    super(parentFrame,modal,title)                -- create the dialog
+    init(labeltext,fieldText,fieldsize)
+
+  -- init the PromptDialog
+  method init(labeltext = Rexx, fieldText = Rexx, fieldsize = int) private
+    entryField = TextField(fieldText,fieldsize)
+    keytester= KeyCheck(KeyCheck.ALL,0)           -- all keys no translation
+    entryField.addKeyListener(keytester)          -- Add key tester to field
+    super.ws.setFocusRecipient(entryField)        -- entryField gets the focus
+
+    gridBag = SimpleGridBagLayout(this)           -- now the layout
+    this.setLayout(gridBag)
+    gridBag.addFixSize(Label(labeltext),0,0,Insets(10,10,5,5))
+    gridBag.addVarSize(entryField,1,0,Insets(10,0,5,10),1,0)
+    gridBag.addVarSize(super.buttons,0,1,1.0,1.0,GridBagConstraints.REMAINDER)
+
+  -- Returns the value of the entry field
+  method getText() returns Rexx
+    return entryField.getText()
+
+  -- set the focus to the entry field when visible
+  method setVisible(show=boolean)
+    super.setVisible(show)
+    if show then 
+      entryField.requestFocus()
+
+  -- set the comparison string for the key tester
+  method setKeyMode(newMode = Rexx)
+    keytester.setMode(newMode)
+
+  -- if upperCase is true, lowercase letters are translated to uppercase
+  method setUpperCase(upperCase = boolean)
+    keytester.setMode(upperCase)
+
+  -- set a limit for the length of the test in the entry field
+  method setTextLimit(chars = int)
+    if keyLimit \= null then entryField.removeTextListener(keyLimit)
+    entryField.addTextListener(LimitTextField(entryField,chars))

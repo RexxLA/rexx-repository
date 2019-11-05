@@ -1,0 +1,24 @@
+pipe (padt1 end ?)
+   diskr buffer.data |
+   pad 20 x |
+   console
+
+pipe (padt2 end ?)
+   diskr buffer.data |
+   pad right 16 |
+   console
+
+pipe (padt3 end ?)
+   diskr buffer.data |
+   pad left 20 |
+   console
+
+pipe (padt4 end ?)
+   diskr buffer.data |
+   pad 20 |
+   console
+
+pipe (padt5 end ?)
+   diskr buffer.data |
+   pad right 10 44 |
+   console

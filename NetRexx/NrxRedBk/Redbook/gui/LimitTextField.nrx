@@ -1,0 +1,24 @@
+/* redbook\gui\LimitTextField.nrx
+
+   Limits the length of a TextField to a number of characters */
+
+package Redbook
+
+class LimitTextField implements TextListener
+   Properties inheritable
+     maxlen = int 
+     field  = TextField
+
+   method LimitTextField(afield = TextField, limit = int)
+     field = afield
+     maxlen= limit
+
+   method textValueChanged(e=TextEvent)
+     s = Rexx field.getText()           -- get the TextField contents
+     if s.length() > maxlen then do     -- check if to long
+       pos = field.getCaretPosition()   -- remember the cursor position
+       s = s.left(maxlen)               -- truncate the string
+       field.setText(s)                 -- back to TextField
+       field.setCaretPosition(pos)      -- reset the cursor position
+       field.getToolkit().beep()        -- make noise
+     end

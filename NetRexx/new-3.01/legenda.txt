@@ -1,0 +1,7 @@
+CompileFromString.nrx | This sample shows how the NetRexx Interpreter (NetRexxA) may be used to interpret a NetRexx program or program part directly from a single string containing all program statements at once. This does allow other utilities to perform a very quick interpretation of the task in question.
+content.nrx | new-3.01 tests the new features of NetrexxC release 3.01
+filefiltertest.nrx | A sample program to display filenames matching any of a list of  types - demonstrates an in-line FilenameFilter.  
+InterpretFromString.nrx | NetRexx interpret from memory string example.
+loopOverIterable.nrx | In NetRexx version 3.01, the 'LOOP over' variation of the 'LOOP' statement has been added. This loops over a Rexx Indexed String (formerly called a  Rexx Stem), or any variation of an Array, Vector or a Collection, including Hashtables ,etc. This sample gives evidence. 
+RexxComparator.nrx |  Class RexxComparator is a Comparator that gives us the opportunity  to use Rexx Strings in Collection classes without encountering  exceptions when using Collections.sort(). It implements the compare  method of the Comparator interface.
+testByteArray.nrx | This sample tests the new toByteArray method of class Rexx of the NetRexxC 3.01 release. It also shows the usage of the new c2d method.

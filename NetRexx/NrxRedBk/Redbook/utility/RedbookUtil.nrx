@@ -1,0 +1,73 @@
+/* redbook\utility\RedbookUtil.nrx
+
+   Utility class that implements shortcuts used by other redbook package classes */
+
+package Redbook
+
+class RedbookUtil
+
+---------------------------------------------------------------------------------- 
+-- Finds a frame window in the parent's chain of the given container
+-- Useful if you want to show a dialog window with a dialog window as parent 
+
+ method findParentFrame(aComponent = Component) returns Frame-
+                                                signals NoFrameWindow static
+   loop until aComponent = null
+      if aComponent <= Frame then return Frame aComponent
+      aComponent = Component aComponent.getParent()  -- returns Container
+   end
+   -- aWindow is null => no parent is a Frame
+   signal NoFrameWindow(aComponent)
+
+---------------------------------------------------------------------------------
+-- Finds a window in the parent's chain of the given container
+
+ method findParentWindow(aComp = Component) returns Window -
+                                            signals NoWindow static
+   loop until aComp = null
+     if aComp <= Window then return Window aComp
+     aComp = Component aComp.getParent()  -- returns Container
+   end
+   signal NoWindow(aComp)
+
+---------------------------------------------------------------------------------
+-- Set the windows position to the center of the screen
+-- xoffset and yoffset are added to the centered position
+
+ method positionWindow(current = Window, xoffset=int 0, yoffset = 0 ) static
+   d = current.getToolkit().getScreenSize()
+   s = current.getSize()
+   current.setLocation((d.width - s.width) % 2 + xoffset,-
+                       (d.height - s.height)%2 + yoffset)
+
+---------------------------------------------------------------------------------
+-- Positions the window relative to the given parent
+-- xoffset and yoffset are the offset for the new position, 
+-- otherwise the new  window is centered
+
+ method positionWindow(parent = Component, current = Window, -
+                        xoffset=int 20, yoffset = 20 ) static
+   s   = current.getToolkit().getScreenSize()
+   w   = current.getSize()
+
+   do 
+     p   = findParentWindow(parent).getLocationOnScreen() 
+   catch NoWindow     -- impossible
+     p = Point(0,0)
+   end
+
+   p.x = p.x + xoffset
+   p.y = p.y + yoffset
+   -- if the window position is outside of the screen correct the problem
+   if p.x + w.width  > s.width  then p.x = s.width - w.width - 5
+   if p.y + w.height > s.height then p.y = s.height - w.height - 5
+   current.setLocation(p.x,p.y)
+
+---------------------------------------------------------------------------------
+-- Sleep for a number of milliseconds
+
+ method sleep(ms = long) static
+   do
+     Thread.currentThread().sleep(ms)
+   catch InterruptedException
+   end

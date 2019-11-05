@@ -1,0 +1,29 @@
+/* NetRexx - Exceptions */
+do
+  Failure()
+catch e1 = MyOwnException
+  say 'MyOwnException caught:' e1.getMessage()
+catch e2 = Exception
+  say 'Exception caught:' e2.getMessage()
+finally
+  say 'Done!'
+end
+
+method Failure static signals Exception, MyOwnException
+  say 'Pick a failure:'
+  say '\t(1) Standard Exception'
+  say '\t(2) Custom Exception'
+  say 'Input: \-'
+  input = ask
+  select
+    when input = 1 then
+      signal Exception("Standard Exception")
+    when input = 2 then
+      signal MyOwnException("Custom Exception")
+    otherwise
+      signal Exception("Unknown Option Selected")
+  end
+
+class MyOwnException extends Exception
+  method MyOwnException(msg = String)
+    super(msg)

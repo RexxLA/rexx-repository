@@ -1,0 +1,128 @@
+/* nrxbeans\lab\NrxLight.nrx
+
+   A simple light bean that can switch a light bulb */
+
+/* based on Dave Reshaw's (Hursley) second NetRexx bean */
+
+package nrxbeans.lab
+
+import java.beans.
+
+class NrxLight binary extends Canvas implements Serializable, ActionListener
+
+   changes = PropertyChangeSupport(this)   -- support for property change
+   
+   properties indirect
+      lightOn  = boolean 0                 -- the current state of the light 
+      onColor  = Color.green               -- the "on"  color property
+      offColor = Color.red                 -- the "off" color property
+
+   -- Constructor
+   method NrxLight() public
+      super()
+
+   -- Public methods
+   method switchLight() public             -- switch the light
+      setLightOn(\lightOn)
+
+   -- ActionListener methods...
+   method actionPerformed(evt=ActionEvent) public
+      setLightOn(\lightOn)
+
+   -- Properties methods
+   method addPropertyChangeListener(l=PropertyChangeListener) public protect
+	changes.addPropertyChangeListener(l)
+
+   method removePropertyChangeListener(l=PropertyChangeListener) public protect
+	changes.removePropertyChangeListener(l)
+
+   method setLightOn(newLight=boolean) public
+      oldLight = lightOn
+      lightOn  = newLight
+      changes.firePropertyChange("lightOn", Boolean(oldLight), Boolean(newLight))
+      repaint()
+
+   method setOnColor(newColor=Color) public
+      oldColor = onColor
+      onColor  = newColor
+      changes.firePropertyChange("onColor", oldColor, newColor)
+      repaint()
+
+   method setOffColor(newColor=Color) public
+      oldColor = offColor
+      offColor = newColor
+      changes.firePropertyChange("offColor", oldColor, newColor)
+      repaint()
+
+   -- Painting method
+   method update(g=Graphics) public
+      paint(g)
+
+   method paint(gs=Graphics) public
+      w = getSize().width
+      h = getSize().height
+      offScreenImage = createImage(w,h)
+      g = offScreenImage.getGraphics()
+      g.clipRect(0,0,w,h)
+      if lightOn then do
+         g.setColor(onColor)
+         g.fillOval(0, 0, w, h)
+         g.setColor(Color.white)
+         p = Polygon()
+         p.addPoint(8,3)
+         p.addPoint(10,5)
+         p.addPoint(9,6)
+         p.addPoint(6,8)
+         p.addPoint(4,9)
+         p.addPoint(5,7)
+         p.addPoint(7,5)
+         g.fillPolygon(p)
+         p = Polygon()
+         p.addPoint(14,22)
+         p.addPoint(16,21)
+         p.addPoint(18,20)
+         p.addPoint(20,18)
+         p.addPoint(21,16)
+         p.addPoint(23,13)
+         p.addPoint(21,15)
+         p.addPoint(18,19)
+         p.addPoint(16,20)
+         p.addPoint(14,19)
+         p.addPoint(12,21)
+         g.fillPolygon(p)
+      end
+      else do
+         g.setColor(offColor)
+         g.fillOval(0, 0, w, h)
+         g.setColor(Color.white)
+         p = Polygon()
+         p.addPoint(8,3)
+         p.addPoint(10,5)
+         p.addPoint(9,6)
+         p.addPoint(6,8)
+         p.addPoint(4,9)
+         p.addPoint(5,7)
+         p.addPoint(7,5)
+         g.fillPolygon(p)
+         p = Polygon()
+         p.addPoint(14,22)
+         p.addPoint(16,21)
+         p.addPoint(18,20)
+         p.addPoint(20,18)
+         p.addPoint(21,16)
+         p.addPoint(23,13)
+         p.addPoint(21,15)
+         p.addPoint(18,19)
+         p.addPoint(16,20)
+         p.addPoint(14,19)
+         p.addPoint(12,21)
+         g.fillPolygon(p)
+      end
+      -- now transfer from the offscreen image to the tube...
+      gs.drawImage(offScreenImage,0,0,this)
+
+    method getPreferredSize() public returns Dimension
+	return Dimension(25, 25)
+
+    method getMinimumSize() public returns Dimension
+	return getPreferredSize

@@ -1,0 +1,31 @@
+/* network\net\SrvSock.nrx                   -- <pre>
+
+   Server HTTP program, accepts a request from an HTTP client:
+   Usage: Java SrvSock <portnumber> */
+
+do
+  if arg = '' then arg = 80                  -- default port
+  serverS = ServerSocket(arg)                -- register at port: server socket
+  say 'Server:' serverS
+  loop forever
+    serviceS = serverS.accept()              -- listen/accept client: service socket
+    say serviceS '\n  connected at:' Date()
+    ptrW = PrintWriter(OutputStreamWriter(serviceS.getOutputStream()))
+    sIS  = BufferedReader(InputStreamReader(serviceS.getInputStream()))
+    loop while sIS.ready()                   -- consume HTTP request
+      line = String(sIS.readLine())
+    end
+    filename = 'SrvSock.nrx'                 -- always returning the source file
+    fileBR = BufferedReader(FileReader(filename))
+    line = String(fileBR.readLine())
+    loop while(line <> null)                 -- add lines of source file
+       ptrW.printLn(line) 
+       line = fileBR.readLine()
+    end                                      -- end loop while(line <> null)
+    ptrW.close()                             -- close output and socket 
+    serviceS.close()
+  catch e=IOException
+    say 'IOException caught:' e.getMessage() -- error messaging
+  end                                        -- end loop forever
+end
+-- end SrvSock                               -- </pre>

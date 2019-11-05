@@ -1,0 +1,36 @@
+/* script\Game2.nrx
+
+   This is a small game.  The program chooses a number between 0 and 1000
+   and you have to find out the number as fast as possible */
+
+say "I'am choosing a number between 0 and 1000"
+number = 1000*Math.random() % 1   -- %1 transform result to integer
+say 'Found a number'
+guess = int                       -- declares guess as variable of type int
+loop count = 1 until guess = number
+  say count 'try: \-'
+  guess = getNumber()             -- invoke a FUNCTION
+  showAnswer(guess,number,count)  -- invoke a SUBROUTINE
+end
+
+-- method showAnswer is a subroutine
+method showAnswer(guess,number,count) static
+  select
+    when guess > number then
+      say guess 'is to big'
+    when guess < number then
+      say guess 'is to small'
+    otherwise
+      say
+      say 'Congratualations. You did it with' count 'tries.'
+  end
+
+-- method getNumber is a function returning an integer
+method getNumber static returns int
+ loop forever
+   number = ask      -- get the input and check the type
+   if number.datatype('W') then return number  -- Ok, return the number
+
+   say 'Sorry, but' number 'is not an integer.'
+   say 'Try it again : \-'
+ end

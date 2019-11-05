@@ -1,0 +1,3 @@
+NetRexxC.nrx | This program is a NetRexx rewrite of the original ANT task (originally by Dion Gillard). It shows how the Netrexx Compiler is built to create and compile the distribution files for a NetRexx distribution using ANT.
+TraceAttr.nrx | This is an auxiliary class for the NetRexxC ANT task above. 
+VerboseAttr.nrx | This is an auxiliary class for the NetRexxC ANT task above, coding the VERBOSE attribute of the NetRexx Compiler.

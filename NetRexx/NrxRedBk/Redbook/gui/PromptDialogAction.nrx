@@ -1,0 +1,11 @@
+/* redbook\gui\PromptDialogAction.nrx
+
+   Interface to work with the PromptDialogActionListener.
+   The method promptReady it invoked when the prompt dialog returns a value.
+   The method getPromptDialog is invoked when the PromptDialog is constructed. */
+
+Package Redbook
+
+class PromptDialogAction interface
+ method promptReady(text = String, source = ActionListener)
+ method getPromptDialog(source=ActionListener) returns PromptDialog

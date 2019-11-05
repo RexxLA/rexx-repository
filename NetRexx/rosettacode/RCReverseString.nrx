@@ -1,0 +1,12 @@
+/* NetRexx */
+
+options replace format comments java symbols nobinary
+
+reverseThis = 'asdf'
+sihTesrever = reverseThis.reverse
+
+say reverseThis
+say sihTesrever
+
+return
+

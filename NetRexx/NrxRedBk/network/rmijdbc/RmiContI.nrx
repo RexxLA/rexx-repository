@@ -1,0 +1,21 @@
+/* network\rmijdbc\RmiContI.nrx
+
+   RMI - JDBC Program:  JDBC Controller Interface */
+
+package network.rmijdbc
+
+import java.rmi.
+
+class RmiContI interface implements Remote
+
+method connect()             returns String   public signals RemoteException
+method retrieveListDep()     returns String[] public signals RemoteException
+method select(depNo=String)  returns String   public signals RemoteException
+method delete(depNo=String)  returns String   public signals RemoteException
+method add(depNo=String, name=String, mgNo=String, mgDepNo=String) - 
+                             returns String   public signals RemoteException
+method update(depNo=String, name=String, mgNo=String, mgDepNo=String) - 
+                             returns String   public signals RemoteException
+method getDepName()          returns String   public signals RemoteException
+method getMgNo()             returns String   public signals RemoteException
+method getMgDepNo()          returns String   public signals RemoteException

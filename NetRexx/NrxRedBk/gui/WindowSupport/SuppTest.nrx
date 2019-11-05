@@ -1,0 +1,40 @@
+/* gui\windowsupport\SuppTest.nrx
+
+   Testprogram to checkout the WindowFocus class */
+
+import Redbook.
+
+win = Frame('Test')
+b = Button('Dialog')
+win.add('West',b)
+win.add('Center',Label('WindowSupport Test',Label.CENTER))
+win.setSize(200,150)
+
+ws = WindowSupport(win,b) -- add the full support
+-- ws.setCloseBehaviour(CloseWindow.SHUTDOWN)
+
+w2 = Frame('Test')
+field1 = TextField(20)
+field2 = TextField(20)
+w2.add('North',field1)
+WindowSupport(win,w2,field1)
+w2.add('South',field2)
+w2.pack()
+
+field1.addKeyListener(KeyCheck(KeyCheck.HEXADECIMAL))
+field1.addTextListener(LimitTextField(field1,4))
+b.addActionListener(showDialog(w2))
+
+win.setVisible(1)
+
+class showDialog implements ActionListener
+  Properties inheritable
+    showWindow = Window
+  method showDialog(aWindow = Window)
+    showWindow = aWindow
+
+  method actionPerformed(e=ActionEvent)
+    if showWindow.isVisible() then
+      showWindow.requestFocus()
+    else
+      showWindow.setVisible(1)

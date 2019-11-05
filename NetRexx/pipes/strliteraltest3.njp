@@ -1,0 +1,10 @@
+pipe (strliteraltest3)
+
+   literal xyz |
+   strliteral  append /  Some stuff\n with  spaces.  / |
+   console |
+   compare: compare equal /OK/ notequal /BAD at \\c, \\b/ less /Less: \\s/ more /More: \\s/ |
+   console ?
+   strliteral /xyz;  Some stuff\n with  spaces.  / |
+   split ; |
+   compare:

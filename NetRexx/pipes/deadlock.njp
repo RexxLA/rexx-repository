@@ -1,0 +1,6 @@
+pipe (deadlock)
+
+   literal test |
+a: fanin |
+   console |
+   a:
