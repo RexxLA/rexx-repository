@@ -1,0 +1,175 @@
+//USZCZT0R JOB (AD00),'#04B42 ZELDEN',                                          
+//             NOTIFY=&SYSUID,                                                  
+//             CLASS=M,MSGCLASS=H,MSGLEVEL=(1,1)                                
+//**********************************************************                    
+//* This jobstream can be used to list all logstreams                           
+//* from the LOGGER Couple Data Set and generate                                
+//* delete/define cards from the list.                                          
+//**********************************************************                    
+//*  List LOGSTREAMS from the LOGGER Couple Data Set                            
+//**********************************************************                    
+//LIST     EXEC PGM=IXCMIAPU                                                    
+//SYSABEND DD  SYSOUT=*                                                         
+//SYSPRINT DD  DSN=&&LIST,                                                      
+//             DISP=(NEW,PASS,DELETE),                                          
+//             UNIT=SYSALLDA,                                                   
+//             SPACE=(CYL,(5,5),RLSE),                                          
+//             DCB=(LRECL=133,RECFM=FBA,BLKSIZE=0)                              
+//SYSIN    DD  *                                                                
+  DATA TYPE(LOGR) REPORT(NO)                                                    
+       LIST LOGSTREAM NAME(*) DETAIL(NO)                                        
+/*                                                                              
+//*                                                                             
+//**********************************************************                    
+//*  COPY REXX PROGRAM TO A TEMPORARY PDS                                       
+//**********************************************************                    
+//GENER     EXEC PGM=IEBGENER                                                   
+//SYSPRINT  DD SYSOUT=*                                                         
+//SYSIN     DD DUMMY                                                            
+//SYSUT2   DD  DSN=&&PDS(LOGRREXX),UNIT=SYSALLDA,                               
+//             DISP=(NEW,PASS,DELETE),                                          
+//             SPACE=(TRK,(1,1,1)),                                             
+//             DCB=(LRECL=80,BLKSIZE=3120,RECFM=FB,DSORG=PO)                    
+//SYSUT1    DD DATA,DLM=##                                                      
+/* REXX */                                                                      
+/*                                       */                                     
+/* AUTHOR: Mark Zelden                   */                                     
+/*                                       */                                     
+/* Last update:  11/03/2004              */                                     
+/*********************************************************************/         
+/* This exec takes the output of a LIST LOGSTREAM command from the   */         
+/* IXCMIAPU utility and creates DELETE/DEFINE cards for the listed   */         
+/* logstreams.                                                       */         
+/*********************************************************************/         
+kept = 1 /* counter for kept define cards */                                    
+blanks = '                             '                                        
+"EXECIO  *  DISKR INDD (STEM INREC. FINIS"  /* read input file       */         
+/********************************************/                                  
+/* Strip out everything but DEFINE cards    */                                  
+/********************************************/                                  
+Do i = 10 to inrec.0       /* start at record 10 to skip some output */         
+   If Substr(inrec.i,1,1) = '1' then iterate    /* skip page header  */         
+   If Substr(inrec.i,1,1) = '+' then iterate    /* skip page header  */         
+   If Substr(inrec.i,2,7) = 'IXG005I' then iterate  /* skip header   */         
+   If Substr(inrec.i,2,32) = blanks    then iterate  /* skip blanks  */         
+   def.kept = Substr(inrec.i,5,115)   /* keep this card image        */         
+   kept = kept+1                      /* add one to total kept       */         
+End  /* do i */                                                                 
+Drop inrec.           /* free storage, inrec. no longer needed       */         
+/***************************************************/                           
+/* Add in DELETE/DEFINE cards for each logstream   */                           
+/***************************************************/                           
+Do add = 1 to kept-1                                                            
+  If Substr(def.add,1,9) = 'LOGSTREAM' then do                                  
+    dsnend.add = Pos('STRUCTNAME',def.add) - 2   /* find end of dsn  */         
+    Queue 'DELETE' Substr(def.add,1,dsnend.add)  /* delete card      */         
+    Queue 'DEFINE' def.add                       /* define card      */         
+    Iterate                                      /* get next card    */         
+  End /* if substr */                                                           
+  Queue substr(def.add,9,110)  /* not 1st card, add "as is" to stack */         
+End /* do add */                                                                
+Drop def.             /* free storage, def.  no longer needed        */         
+/*********************************************************************/         
+/* Assign new variable to all lines in the stack                     */         
+/*********************************************************************/         
+totcards = queued()   /* find how many cards in current stack        */         
+Do assign = 1 to totcards                                                       
+  Parse pull linenw1.assign                   /* get line from stack */         
+End                                                                             
+/*********************************************************************/         
+/* Remove any keywords with null values, EHLQ(NO_EHLQ) and check     */         
+/* for DASDONLY(YES) logstreams and remove keywords that are not     */         
+/* valid for DASDONLY(YES).                                          */         
+/*********************************************************************/         
+totdonly = 1 /* initialize counter of kept lines   */                           
+Do donly = 1 to totcards                                                        
+  If Substr(linenw1.donly,1,6) = 'DELETE' then do   /* don't need    */         
+     linenw2.totdonly = linenw1.donly            /* to worry about   */         
+     totdonly = totdonly + 1                     /* delete cards     */         
+     Iterate  /* get next card */                                               
+  End                                                                           
+  Else do   /* until next DELETE card */                                        
+    totdk = 1 /* init total keywords in define to 1 */                          
+    Do until donly >= totcards  /* loop until no more lines          */         
+      If substr(linenw1.donly,1,6) = 'DELETE' then leave                        
+      defkwords.donly = words(linenw1.donly)  /* find out # keywords */         
+      Do k = 1 to defkwords.donly                                               
+        dkword.totdk = word(linenw1.donly,k)  /* current keyword     */         
+        totdk = totdk + 1                     /* add 1 to total      */         
+      End /* do k */                                                            
+      donly = donly + 1   /* bump up line counter */                            
+    End /* do until   */                                                        
+    /**************************************************************/            
+    /* We now have all the define keywords parsed out. Check for  */            
+    /* DASDONLY(YES) and remove keywords that are not valid for   */            
+    /* DASDONLY logstreams.  Also remove any keywords with null   */            
+    /* values and EHLQ(NO_EHLQ) keyword if it exists.             */            
+    /**************************************************************/            
+    dflag = 0   /* flag for a DASDONLY(YES) logstream  */                       
+    Do chk1 = 1 to totdk-1     /* loop to check for DASDONLY(YES) */            
+      If dkword.chk1 = 'DASDONLY(YES)' then do     /* found       */            
+         dflag = 1                                 /* set flag    */            
+         Leave chk1  /* no need to continue to look, exit loop    */            
+      End /* if dkword.chk1 */                                                  
+    End /* do chk1 */                                                           
+    If dflag = 0 then do    /* not a DASDONLY(YES) logstream      */            
+      Do rloop1 = 1 to totdk-1     /* create define card loop     */            
+        If Pos('()',dkword.rloop1) <> 0 then iterate /*null kword */            
+        If Pos('NO_EHLQ',dkword.rloop1) <> 0 then iterate                       
+        If Substr(dkword.rloop1,1,6) = 'DEFINE' then,                           
+          linenw2.totdonly = dkword.rloop1 /* indent except for   */            
+        else linenw2.totdonly = '  ' dkword.rloop1     /* define  */            
+        totdonly = totdonly + 1  /* add one to total cards        */            
+      End /* do rloop1 */                                                       
+    End  /* if dflag = 0 */                                                     
+    Else do                                                                     
+      /* remove invalid keywords for DASDONLY logstreams */                     
+      Do rloop2 = 1 to totdk-1 /* dasdonly define card loop       */            
+        If Pos('()',dkword.rloop2) <> 0 then iterate /*null kword */            
+        If Pos('NO_EHLQ',dkword.rloop2) <> 0 then iterate                       
+        If Substr(dkword.rloop2,1,10) = 'STG_DUPLEX' then iterate               
+        If Substr(dkword.rloop2,1,10) = 'DUPLEXMODE' then iterate               
+        If Substr(dkword.rloop2,1,12) = 'LOGGERDUPLEX' then iterate             
+        If Substr(dkword.rloop2,1,6) = 'DEFINE' then,                           
+          linenw2.totdonly = dkword.rloop2 /* indent except for  */             
+        else linenw2.totdonly = '  ' dkword.rloop2    /* define  */             
+        totdonly = totdonly + 1 /* add one to total cards        */             
+      End /* do rloop2 */                                                       
+    End /* else do */                                                           
+    donly = donly-1                                                             
+    iterate /* get next define */                                               
+  End  /* else do */                                                            
+End /* do donly */                                                              
+/*********************************************************************/         
+/* Queue JCL and DELETE/DEFINE cards to data stack                   */         
+/*********************************************************************/         
+Queue '//DELDEF   EXEC PGM=IXCMIAPU'                                            
+Queue '//SYSPRINT DD   SYSOUT=*'                                                
+Queue '//SYSABEND DD   SYSOUT=*'                                                
+Queue '//SYSIN    DD   *'                                                       
+Queue 'DATA TYPE(LOGR) REPORT(NO)'                                              
+Do z=1 to totdonly-1                                                            
+  If substr(linenw2.z,1,30) = blanks then iterate /* skip blank lines*/         
+  Queue linenw2.z                                                               
+End                                                                             
+Queue ''  /* null queue to end stack */                                         
+/******************************************/                                    
+/* write output file and exit             */                                    
+/******************************************/                                    
+"EXECIO 0 DISKR INDD   (FINIS"                                                  
+"EXECIO * DISKW OUTDD  (FINIS"                                                  
+Exit 0                                                                          
+##                                                                              
+//************************************************************                  
+//*  EXEC "LOGRREXX" REXX CLIST IN BATCH                                        
+//*********************************************************                     
+//LOGRREXX EXEC PGM=IRXJCL,PARM='LOGRREXX'                                      
+//INDD     DD  DSN=&&LIST,DISP=(OLD,DELETE)                                     
+//OUTDD    DD  DSN=userid.LOGR.DELDEF,    <== change                            
+//             DISP=(NEW,CATLG,DELETE),                                         
+//             UNIT=SYSALLDA,                                                   
+//             SPACE=(CYL,(5,5),RLSE),                                          
+//             DCB=(LRECL=80,BLKSIZE=0,RECFM=FB)                                
+//SYSTSIN  DD DUMMY                                                             
+//SYSTSPRT DD SYSOUT=*                                                          
+//SYSEXEC  DD  DSN=&&PDS,DISP=(OLD,DELETE,DELETE)                               
