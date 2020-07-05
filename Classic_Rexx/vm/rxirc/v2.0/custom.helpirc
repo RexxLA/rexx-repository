@@ -1,0 +1,60 @@
+.cm last change by lynx -- april 25, 1991
+ 
+                 _______
+               *|^^^^^^^|*           The Internet Relay Chat program
+               *| rxIRC |*            for VM/CMS systems written in
+               *|_______|*            RexX by Carl "lynx" v. Loesch.
+                 ^^^^^^^
+ 
+ 
+                  *** How to customize rxIRC ***
+ 
+ 
+The PROFILE RXIRC startup file:
+| This file should contain a series of lines that are /source'd by
+| rxIRC as soon as you get connected to the first server. You could
+| for instance do "join #fun" or "who bunny", probably you will
+| want to set up some aliases. See /source for more.
+| The file IRC PROFILE is obsolete. For a conversion you have
+| to rename it and remove all the command characters (the slashes).
+ 
+Namesfile settings:
+  rxIRC gets your default nickname and full name from your namesfile
+  unless otherwise specified in the command line. You can also set
+  a 'motto' line by adding a :motto tag to your self-entry in your
+  namesfile which will be displayed when USERINFO requests are sent
+  to you while you are ircing with rxIRC.
+ 
+Environment settings:
+  You may use 'setenv' or 'globalv' to put some values into environment
+  variables. The variables recognized by rxIRC are IRCNICK, IRCSERVER
+  IRCNAME and IRCPORT. rxIRC uses 'SELECT CENV' for compatibility with
+  other IRC programs.
+ 
+The RXIRC PFKEYS file is obsolete. You can use the 'PF' commands
+| from PROFILE RXIRC now.
+ 
+Defaults in the RXIRC NAMES file (the rxIRC configuration file):
+    server:           The internet address of an IRC server
+    port:             The TCP/IP port it runs on, usually 6667
+|   browser:          Name of a command good for showing files.
+|                     Typically BROWSE, but if that's not there try XEDIT.
+|   timeout:          Not used anymore, you can remove it
+    logging:          Set it to ON or OFF for default logging
+    quiet_ignore:     Usually OFF
+    loud_beeps:       Switch it ON only when a BEEP MODULE is available.
+    show_numbers:     When ON, rxIRC shows the numerics of IRC server replies
+    list_all:         Show also channels without topic in /list
+|   beep_char:        The character that gets translated into a beep and back.
+|   bold_char:        If you define this one, you can make 'bold' messages
+|                     by inserting this character in your messages. They
+|                     will appear hilighted on rxIRC and bold on ircII 
+|                     clients (at least)
+|   highlight_char:   Not used anymore
+|   show_time:        When the current time will be displayed on the
+|                     screen.  Choices are 0 (never), 10 (every ten
+|                     minutes), 20 (every 20 minutes), 30 (every 30
+|                     minutes), and 60 (every 60 minutes).
+ 
+  You might choose to copy this file onto your disk to be able to
+  modify the values.

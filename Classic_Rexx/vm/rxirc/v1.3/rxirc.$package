@@ -1,0 +1,18 @@
+*
+* This file contains the definition of the RXIRC package.
+*
+* Filename Filetype
+* -------- --------
+  RXIRC    $PACKAGE   recursion!
+  RXIRC    EXEC       the client program
+  RXIRC    NAMES      the installation defaults file
+  RXIRC    INSTALL    little installation readme
+  RXIRC    HELPMENU   the documentation
+  ACTION   HELPIRC    about the set of action commands
+  CUSTOM   HELPIRC    how to customize
+  ETIQ     HELPIRC    irc etiquette (from unix irc distribution)
+  FAQ      HELPIRC    frequently asked questions
+  MANUAL   HELPIRC    irc manual (from unix irc dist)
+  SPECIAL  HELPIRC    rxIRC specific extra commands
+  SYNTAX   HELPIRC    command line usage and options
+  SETENV   EXEC       unixlike globalv utility

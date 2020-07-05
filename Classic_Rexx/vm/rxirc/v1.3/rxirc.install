@@ -1,0 +1,21 @@
+rxIRC Installation Guide
+========================
+ 
+To run rxIRC you need:
+  REXTCPIP which is available from your nearest VM-UTIL - LISTSERV.
+  For example by doing "tell listserv at dearn get rextcpip module".
+  Otherwise you might request it by mail to Ken (KXH105 at PSUVM),
+  but I'm not sure, if he'd be happy about it.
+ 
+Before you start rxIRC you should:
+  Edit the RXIRC NAMES file which contains all the default values for
+  rxIRC. Most important: the address of your default server!
+ 
+If you have any problems/improvements/suggestions/etc. send mail to me.
+Also if you want to be informed of future rxIRC releases, and you do
+not read alt.irc or operlist or VM-UTIL or dnet.chat or comp.archives.
+ 
+Ciao  -lynx
+o----------------------------------------------------------------------o
+| Carlo "Lynx" v. Loesch   is  loesch@informatik.uni-oldenburg.de      |
+| -----------------------  or  244661 at DOLUNI1.bitnet / .earn        |

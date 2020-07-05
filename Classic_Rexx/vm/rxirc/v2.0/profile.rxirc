@@ -1,0 +1,22 @@
+* Default profile for rxIRC users
+*
+* PF key setup
+pf1 IMM /help
+pf2 IMM /xamin
+pf3 IMM /bye
+pf4 IMM /follow
+pf5 IMM /reply
+pf6 IMM /lastlog
+alias ctoggle %k %c pf$k IMM /toggle $k |join $c|part $c
+ctoggle 9 #talk
+ctoggle 10 #initgame
+
+* Easy use of services
+alias .ni msg nickserv@service.de
+alias .no msg noteserv@service.de
+alias .w .ni whois
+alias .await .no waitfor
+alias .del .no delete
+alias .list .no list
+alias .m .no msg
+alias .read .no read

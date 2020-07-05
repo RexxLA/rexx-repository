@@ -1,0 +1,350 @@
+                       INTERNET RELAY CHAT
+ 
+ 
+Author:  Robert D. Blais
+Email:  <IO00058@Maine.maine.edu>
+        <IO00058@Maine.Bitnet>
+Revised:  27 February 1993
+Version: 1.10
+ 
+PURPOSE:  This document attempts to explain, in simple terms,
+what IRC is and in general, how it is used. It is intended to
+supply information for new users not familiar with IRC and to
+serve as a reference for experienced users.
+     Since there are many different programs on several different
+operating systems, client-specific information has been left out.
+Users should refer to the documentation that came with their IRC
+program for information specific to using that client.
+     Users may also wish to read the author's document "Standard
+IRC Commands" for information about the commands mentioned in
+this document.
+ 
+CREDITS:  The information contained in this document has been
+culled several sources, including the alt.irc group in Usenet
+news and from the author's own experience using IRC.  In
+addition, the following documents proved invaluable in the making
+of this document:  "Alt.irc.faq" by Helen Rose <hrose@eff.org>,
+"Internet Relay Chat, a real-time conversational system" by Karl
+Kleinpaste <karl@cis.ohio-state.edu>, and "How To Behave on IRC"
+by Lea Viljanen <viljanen@kreeta.helsinki.fi> and Ari Husa
+<so-luru@tolsun.oulu.fi>.  Thanks to Kelly Derek Deyoe
+<kd2a+@andrew.cmu.edu> for providing a list of countries and
+their domain extensions.  Special thanks to Carl "LynX" von Loesch
+for his help and suggestions.
+ 
+I. HISTORY
+ 
+     Internet Relay Chat (IRC) was originally written by Jarkko
+Oikarinen <jto@tolsun.oulu.fi> in 1988 as a replacement for the
+Unix "Talk" program.  It's purpose is to allow multiple users to
+converse in real-time over the collection of networks known as
+Internet.  It is based on the functionality of the Bitnet Relay
+system but that functionality has been greatly expanded.
+     From it's humble beginnings in Finland, IRC grew to become
+the largest international, relayed conferencing system in the
+world.  It is available in over 20 countries around the world and
+has been host to over 1000 users at one time!  Countless thousands
+of people, from college students to business executives have used
+IRC and new users sign-on every day.
+     The Internet is primarily for academic use.  IRC is a
+communications layer of internet, and as such, it's main purpose
+is academic use.  Many people depend on it as a tool for
+exchanging information with colleagues, business associates and
+fellow researchers.
+ 
+II. CHANNELS
+ 
+     IRC is divided up into virtual spaces called channels.  A
+channel is a gathering place where people with a common interest
+can get together and discuss whatever that interest may be.  A
+channel does not exist until someone joins it and ceases to
+exist when the last person leaves it.
+ 
+A. Channel Names
+ 
+     All channels on IRC have names.  A channel name can be just
+about any single "word" of text preceded by a pound sign (#).
+For example, #123, #My_channel, and #$$$ are all valid channel
+names.  Examples of popular channels on IRC include #hottub,
+#initgame, and #hotsex.
+ 
+B. Creating A Channel
+ 
+     To create a channel, simply join it either with the /join
+or /channel command.  For example, to create the channel #Test
+you would type /join #Test.
+ 
+C. Leaving A Channel
+ 
+     To leave a channel, issue the /part command.  For example,
+to leave #Test you would type /part #Test.  Some clients will
+automatically issue /part for you if you use the /channel
+command, so check your program's documentation.
+ 
+D. Multiple Channels
+ 
+     Most IRC client programs allow you to be on several channels
+at once.  Check your client's documentation for specific
+information on using multiple channels.  Also, look for
+information on the /, /msg, and /query commands.
+ 
+E. Channel Operators
+ 
+     The first person to join a channel is known as the Channel
+Operator (ChanOp) and can determine certain aspects of the
+channel, such as the number of people allowed on the channel and
+whether the channel is public, private, secret, or invite-only.
+A ChanOp can also delegate ChanOp privileges to other users on
+the channel.  Look for information on the /mode command for
+specifics about channel modes and ChanOp powers.
+ 
+III. NICKNAMES
+ 
+     All IRC users are identified by unique nicknames.  Duplicate
+nicknames are not allowed by the IRC servers.
+ 
+A. Changing Nicknames
+ 
+     By default your nickname is your userid, but may be changed
+with the /nick command.  Many clients also allow you to specify a
+default nickname that will be used whenever you sign-on to IRC.
+Check your client's documentation for specifics about setting a
+default nickname.
+ 
+B. Nickserv
+ 
+     Many people register their nicknames with an on-line service
+called Nickserv.  If you choose a nickname that is registered to
+someone else, you will get a message from Nickserv telling you
+who it is registered to.  If you get such a message, pick a new
+nickname.  It is considered very rude to use someone else's
+nickname and may cause confusion when other users mistake you for
+their friend.
+     For nickname registration information type the command
+/msg nickserv@service.de help.  When you register a nickname,
+Nickserv will ask you for a password. DO NOT USE YOUR LOGIN
+PASSWORD.  IRC protocols are not completely secure and other
+users may be able to get your Nickserv password.  Also, REMEMBER
+YOUR NICKSERV PASSWORD.  You may need it if you ever want to
+change your registered nickname or add a new host site to your
+access list.
+ 
+IV.  IRC OPERATORS
+ 
+     The IRC Operators (IRCOps) are the people who maintain IRC.
+They keep the servers running and up to date, keep the links
+connected and routed properly, they answer questions from the
+users, and they remove offensive users by way of the /kill
+command.  IRCOps are indicated by an asterisk (*) next to their
+nickname in /who and by the line "<nick> has a connection to the
+Twilight Zone." in /whois.
+     The best way to get help or information from IRCOps is to
+join the IRCOp channel #Twilight_zone.  Once you are on the
+channel, state your problem or question in a brief, specific,
+polite manner and wait for a reply.  Usually you'll get a
+response within a few minutes, but since many of the IRCOps have
+responsibilities apart from IRC, they aren't always immediately
+available.  If you don't get a reply in a reasonable amount of
+time, try again later.
+ 
+V. MESSAGES
+ 
+     There are generally four types of messages you will see
+while using IRC.  The four types are informational messages,
+public messages, private messages, and notices.  Some clients may
+also have a fifth type that gives information about things
+happening within the program, such as when you add a user to the
+/ignore list, but these messages are not normally sent over IRC.
+ 
+A. Informational messages.
+ 
+     Informational messages let you know something in the IRC
+environment has changed.  When someone joins or leaves your
+channel, changes the channel mode or topic, changes their
+nickname, or makes some other such change you will see a message
+informing you of the change.  The format of the message may vary
+depending on what client you are running, but in general it will
+look something like the following:
+ 
+*** Bub joins channel #hottub
+*** Mode change: Hoser sets #hottub +o Bub
+ 
+B. Public Messages.
+ 
+     Public messages are seen by everyone on the channel.
+Everything you type to a channel shows up as a public message
+with your nickname and the channel name displayed in angle
+brackets before the message.  A public message looks like the
+following:
+ 
+<Bub:#hottub> Hello world!
+  or
+<Bub> Hello world!
+ 
+C. Private Messages.
+ 
+     Private messages are generally only seen by the person who
+they are sent to.  The /msg and /query commands are used to send
+private messages.  Private messages are displayed with the
+sender's nickname between asterisks.  A private message would
+look like the following:
+ 
+*Bub* Thanks for Opping me, Hoser.
+ 
+D. Notices
+ 
+     Any automatic response, such as server messages, CTCP
+(client to client protocol) replies, and robot replies MUST be in
+the form of a notice.  Users can also send notices with the
+/notice command, but this is not generally necessary.  A notice
+will generally be shown with the sender's nickname and channel
+between dashes and might look like the following:
+ 
+-Bubserv:#hottub- Bub sends a beer to Hoser.
+-Bubserv:#hottub- /msg Bubserv help  for help on using Bubserv.
+ 
+VI. SERVERS
+ 
+     IRC servers are programs that relay the messages and
+commands that you type to other servers and users on the network.
+When you first compile or use an IRC program, you will probably
+have to give it a server to use.  You should normally use the
+closest (network-wise) server to you.  However, some servers
+limit what hosts are allowed to connect to them.
+     Lists of servers are frequently posted in the Usenet news
+group alt.irc.  If you don't have access to that group and can't
+find a server, try one of the following servers and once you get
+on, ask an IRCOp which server in your area you should use.
+ 
+Open servers by country:
+     Australia:    coombs.anu.edu.au
+     Canada:       ug.cs.dal.ca
+     Finland:      nic.funet.fi
+     Germany:      irc.informatik.tu-muenchen.de
+     Netherlands:  fysak.fys.ruu.nl
+     U.S.A.:       csd.bu.edu
+                   ucsu.colorado.edu
+ 
+     Information about a specific server can be obtained by using
+the /admin, /info, /motd, and /version commands.  If you have a
+problem with a particular server the /admin command will give you
+the email address of the person(s) in charge of it.  The other
+commands give you information about the server itself, such as
+the software version and the MOTD (Message of the Day).
+ 
+VII. BEHAVIOR AND ETIQUETTE
+ 
+     IRC is a good place to learn about other people, places, and
+cultures, to exchange information and ideas, and to meet people.
+If everyone follows some basic, common-sense rules of behavior
+and etiquette, IRC can be an enjoyable and informative way to use
+some of your free time.
+ 
+A. Language
+ 
+     English is the most widely spoken language on IRC but it is
+not the only language.  Often the channel name or topic will give
+you some idea of the language spoken on that channel but this is
+not always the case.  A user's hostname extension usually gives
+an indication of where that user is from and thus, the language
+he or she is likely to speak.  For example, someone whose
+user@host name ends in .jp is most likely speaks Japanese, whereas
+someone whose user@host name ends in .fi most likely speaks
+Finnish.  A list of common domain extensions, by country, is shown
+below.
+ 
+ Country      Domain Extension
+Austria:            .at
+Australia:          .au
+Belgium:            .be
+Canada:             .ca
+Switzerland:        .ch
+Chile:              .cl
+Czechoslovakia:     .cs
+Germany:            .de
+Denmark:            .dk
+Spain:              .es
+Finland:            .fi
+France:             .fr
+Ireland:            .ie
+Israel:             .il
+Iceland:            .is
+Italy:              .it
+Japan:              .jp
+Korea:              .kr
+Mexico:             .mx
+Netherlands:        .nl
+Norway:             .no
+New Zealand:        .nz
+Poland:             .pl
+Sweeden:            .se
+Singapore:          .sg
+Taiwan:             .tw
+United Kingdom:     .uk
+United States:      .us
+South Africa:       .za
+Other:              .com  (Commercial business)
+                    .edu  (Educational institution)
+                    .gov  (Government organization)
+                    .mil  (Military installation)
+                    .org  (Non-profit organization)
+                    .net  (Network administration)
+ 
+     It is a good idea to do a /who on a channel before you join
+so you can get an idea of what language might be spoken on that
+channel. If the channel consists mostly of people from Finland
+and you don't speak Finnish, you probably won't find the channel
+very interesting.  Also, your own channel name or topic should
+indicate what language is spoken on your channel, especially if
+it is not English.
+ 
+B. Dumping and Flooding
+ 
+     Dumping large amounts of text or graphics to a channel or a
+user is considered rude and is not allowed.  It is a waste of
+bandwidth and can cause anyone on a slow modem connection to be
+jammed for several minutes. Also, the text or graphics that you
+find amusing is likely to be quite annoying to other users who
+are trying to carry on a conversation.
+ 
+C. Morality
+ 
+     Since IRC is composed of users from all over the world, with
+many different backgrounds, different levels of maturity, and
+different religious and moral standards, a good rule of thumb is
+think before you type.  If you wouldn't say something in front of
+your boss, teachers, parents, or in other social situations, you
+shouldn't say it on IRC.  By the same token, be tolerant of other
+users.  Not all of them have the same views and morals as you and
+what is offensive to you might not be to them.
+ 
+D. General Behavior
+ 
+     People on IRC have no other way of judging you than by your
+actions and messages.  Rude, obnoxious, and offensive behavior is
+not tolerated and may get you banned from a channel or /killed
+from IRC altogether.  If your offenses are great enough, your
+local system administrators may be notified and you may lose your
+computer account or face other disciplinary actions.
+     Not everyone using IRC is interested in chatting.  More
+specifically, not everyone on IRC is interested in chatting with
+YOU.  Some people use IRC as part of their normal work to be
+available to colleagues who might need to reach them quickly.
+Other people use IRC for discussion of certain topics of interest
+to them.  If you don't have anything to contribute to the topic
+on a particular channel, don't interrupt and try to start a new
+topic.  Start a new channel to discuss your topic.
+     If you send a message to someone or invite them to your
+channel, don't assume they are interested in talking to you.  If
+someone doesn't respond, they may be away from their terminal or
+may be too busy to reply.  If someone indicates that they aren't
+interested in talking to you, leave them alone.  Badgering
+someone or sending them unwanted messages wastes their time and
+yours.  You're better off finding someone else to chat with.
+ 
+--
+NOTE:  This document is hereby placed in the public domain.  If
+you copy it, please attribute the source.  If you modify it,
+please note who you are, what changes you made and the date of
+those changes in the document header.  Take the credit you
+deserve, but give credit where it is due.  Thanks.

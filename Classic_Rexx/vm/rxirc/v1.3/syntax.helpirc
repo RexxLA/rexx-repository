@@ -1,0 +1,27 @@
+.cm last change by lynx -- april 25, 1991
+ 
+                 _______
+               *|^^^^^^^|*           The Internet Relay Chat program
+               *| rxIRC |*            for VM/CMS systems written in
+               *|_______|*            RexX by Carl "lynx" v. Loesch.
+                 ^^^^^^^
+ 
+Usage from CMS:
+ 
+  RXIRC [<nickname> [<server>] [<full name>]]]  [ ( <options> ]
+ 
+ 
+Options:
+ 
+  Port <port-number>   IRC usually runs on port 6667, here you might
+		       set another.. but you might not find a server
+		       on an other port...
+  LIst_all {ON | OFF}  Show also channels without topic with /list.
+  Logging {ON | OFF}   You may start the logging from the command line.
+  LOUd {ON | OFF}      This defines if an external 'BEEP' module should
+		       be called whenever you receive an IRC beep.
+  Numbers {ON | OFF}   Shows the numbers of IRC server replies.
+  Quiet {ON | OFF}     If you want to use the quiet ignoring.
+  Timeout <seconds>    The time to wait before giving up trying to connect
+		       the server.
+ 

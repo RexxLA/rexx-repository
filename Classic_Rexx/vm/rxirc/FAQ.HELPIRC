@@ -1,0 +1,47 @@
+Frequently asked questions:
+--------------------------
+What am I supposed to write into the :server field in RXIRC NAMES?
+ 
+| You don't have a server? Check out the "servers.*" list which
+| is available by ftp on cs-ftp.bu.edu in /irc/support/.
+ 
+ Why can't rxIRC have everything that ircII has?
+ 
+  Because ircII is a giant program that a lot of people have worked on
+  to be able to do all of that. rxIRC is a relatively little program
+  which I also want to stay that way, or it might get unpleasantly
+  slow in execution!
+ 
+ Strange says:
+  There is no /on because no one wants to code it.  None of the people
+  who have worked on rxIRC NEED or WANT /on.  :P
+ 
+Why when I do something outside of rxIRC with /exec, or simply read
+the /help files, the server signs me off?
+ 
+  In this case the evil ping goblin has bitten you. A particularity of the
+  IRC protocol is that the server expects your client program to reply to
+  a PING message it sends about every minute or so, when you have been
+  idle. When you start a command with ! or /exec, rxIRC is not able to
+  reply to the PING and the server closes the connection on you. Poof.
+ 
+You have a bug, "/who -h *.il" doesn't work!
+ 
+  No, I don't have such a bug. The "-h" and "-s" options are specific
+  to ircII. They are NOT standard. It is the normal and natural way
+  to do it simply with "/who *.il". Or what about trying /local.
+ 
+rxIRC crashes and then no communication software (like CHAT) works
+anymore!
+ 
+  rxIRC should not crash, if it does please report that to me.
+  To unlock your machine in such a situation it is not necessary to
+  re-IPL it, instead just do "NUCXDROP REXXWAIT". "NUCXMAP" shows
+  what so-called nucleus extensions are loaded in your machine.
+ 
+It tells me loader table overflow
+ 
+  Use 'SET LDRTBLS 10' in your PROFILE or in the RXIRC EXEC.
+ 
+You still have a question?
+Write mail to <lynx@imp.de> or to '244661 at DOLUNI1'.

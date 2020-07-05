@@ -1,0 +1,38 @@
+rxIRC Installation Guide
+========================
+    
+|  To run rxIRC you need RXSOCKET 2 and REXXWAIT.
+|  You don't need REXTCPIP anymore (Sorry Ken).
+    
+   Before you start rxIRC you should edit the RXIRC NAMES file which
+   contains all the default values for rxIRC. Most important: the address
+   of your default IRC server host!
+    
+|  On VM/ESA systems you might have to enter the 'NXA' command before
+|  starting up rxIRC. I'm not familiar with those systems so I don't know
+|  what needs to be changed to make that work right, same goes for other
+|  exotic VM derivates on which rxIRC makes problems. If you manage to
+|  fix rxIRC up on such systems please send me your changes!
+
+|  The VM Gopher client is written to work with the old RXSOCKET version
+|  so you get the problem that either you have Gopher or you have rxIRC
+|  working by default. Sorry but I guess Gopher needs an update!
+
+|  If you have any problems/improvements/suggestions/etc. contact the rxIRC
+|  mailing list rxIRC-l@vmtecqro.qro.itesm.mx.
+
+|  You can subscribe to the mailing list with 'SUB RXIRC-L <fullname>'
+|  sent to listserv@vmtecqro.qro.itesm.mx or LISTSERV AT VMTECQRO.
+
+|  With the AFD and FUI commands you can get automatic information
+|  about new releases of rxIRC from the LISTSERV. You can also decide
+|  to look out for announcements of mine in the VMUTIL-L, alt.irc
+|  or de.comm.internet newsgroups.
+    
+|  However don't expect frequent announcements. Changes to rxIRC
+|  happen seldomly. I usually don't have the time for it.  :(
+
+Ciao  -lynx
+o-------------------------------------------------------------------o
+| Carl "LynX" v. Loesch   is  loesch@informatik.uni-oldenburg.de    |
+| ----------------------  or  244661 at DOLUNI1.bitnet / .earn      |

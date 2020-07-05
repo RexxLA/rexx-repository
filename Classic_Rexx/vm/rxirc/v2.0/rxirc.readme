@@ -1,0 +1,85 @@
+Subject: rxIRC 2.0 for VM/CMS available
+Newsgroups: bit.listserv.vm-util,alt.irc,de.comm.internet,de.talk.chat
+Keywords: IRC rxIRC rexx vm cms internet bitnet rexx/socket lynx
+
+Introducing rxIRC:
+
+     rxIRC is a client software for VM to connect to the IRC network, the
+Internet Relay Chat, which nowadays counts an average of 1200 users online
+day and night, from all over the world, therefore being the biggest
+international interactive conferencing system on the planet.
+
+     You can make use of this program only if you have access to a machine
+with VM/CMS-type operating system with TCPIP extension installed. To find
+out you logon and type 'CP QUERY TCPIP', if it replies 'TCPIP - DSC' then
+you can make use of this program, otherwise check with your administration.
+
+     rxIRC is a program written in interpreted RexX, a rather easy to learn
+language that gives you a chance to add own features if you miss something
+or modify things you dislike.  rxIRC supports the complete set of standard
+IRC client commands plus a bunch of extras and is more or less up to date
+with the current state of development of the IRC protocol.
+
+New features in rxIRC 2.0:
+
+- now uses RXSOCKET and REXXWAIT
+- has extensive BITNet messaging support
+  (for instance /query +nick queries a bitnet user)
+- /alias with parameter handling
+- variables: /set, /expr (rexx expressions), /echo
+- /if <condition> then <command>
+- /source <scripts>, skip <lines>, stop (sourcing)
+- /pf<n>, /toggle (setup a pf key with alternating commands)
+- /localwho, /catalog
+- /chop, /unchop, /k(ick), /t(opic)
+- /viewlog, /interpret, /applaud
+- documentation has doubled its size..  ;)
+- :show_time, display time every now and then
+- ircII-bold-code displayed with hilighting, :bold_char
+
+Requirements:
+
+     The TCPIP handling of rxIRC is done with help of RXSOCKET version 2.
+You need to have this package installed, or at least the basic modules.
+There are some restrictions concerning the use of RXSOCKET:
+- The new version is not compatible to the old one, if you have
+  programs using version 1 they won't work when you install version 2.
+- VM TCP/IP version 2 is required.
+- rxIRC should run on CMS 3 up to 9 (370, XA, ESA or XC MACHINE modes)
+
+     If you are going to install rxIRC on a big public disk, you probably
+want to install the complete REXX/SOCKET package. You can do so by issueing
+TELL LISTSERV AT CUNYVM GET RXSOCKET PACKAGE. Beware that you will be sent
+the beauty of over 80 files after this!
+
+     If you want to run rxIRC just by yourself, and RXSOCKET isn't available
+already (rxIRC tells you so) then merely issue these commands to get the
+modules:
+   TELL LISTSERV AT CUNYVM GET RXSOCKET MODULE
+   TELL LISTSERV AT CUNYVM GET REXXWAIT MODULE
+
+
+rxIRC 2.0 itself can be obtained from:
+
+<Internet>
+Europe:		ftp nic.funet.fi
+		mget /pub/unix/irc/rxirc/*.*
+
+[Home Site]	ftp ftp.informatik.uni-oldenburg.de  (134.106.1.9)
+		mget /pub/irc/rxirc/*.*
+
+America:	ftp ftp.iastate.edu
+		mget /pub/irc/clients/rxirc/2.0/*.*
+
+		ftp slopoke.mlb.semi.harris.com
+		mget /pub/irc/clients/rxirc/*.*
+
+Australia:	ftp coombs.anu.edu.au
+		mget /pub/irc/rxirc/*.*
+
+<BITnet>
+[Mexico]        TELL LISTSERV AT VMTECQRO GET RXIRC PACKAGE
+
+
+rxIRC installers are invited to join the rxIRC mailing list by sending a
+'SUB RXIRC-L <your-full-name>' command to LISTSERV AT VMTECQRO.

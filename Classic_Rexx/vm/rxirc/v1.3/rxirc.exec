@@ -1,0 +1,461 @@
+/* rxIRC
+ * Internet Relay Chat client program for VM/CMS systems
+ * created by Lynx (244661 at DOLUNI1) on Thursday, 14 Feb 1991
+ * last change by Lynx (244661 at DOLUNI1) on Friday, 10 Jan 1992
+ * Version 1.3 (using PREXX)
+ * Code contributions/suggestions by: Doug Sewell
+ *
+ * requires REXTCPIP MODULE by Ken Hornstein (kxh105@psuvm.bitnet)
+ * available from LISTSERVs carrying the VM-UTIL list
+ *
+ * Copyright (C)1991 by Carlo v. Loesch and Uni Oldenburg, Germany
+ * All rights reserved.  No guarantees implied.  ("AS IS" etc.)
+ * No distribution of modified copies permitted, pls send changes to me.
+ */ vers='1.3'
+ cmds='AWAY AWAIT ADMIN CHANNEL CONNECT DEOPER DIE GRPH HASH INVITE',
+   'INFO ISON JOIN NICK KILL LIST LINKS LUSERS MODE MAIL MOTD NAMES',
+   'NICK NOTICE NOTE OPER PASS PART REHASH RESTART QUIT SERVICE SQUIT',
+   'SUMMON STATS TOPIC TIME TRACE USERS USERHOST VOICE VERSION WHOIS',
+   'WHOWAS WALLOPS WALL XTRA'
+ log=0; query=; ignore=; lastsender=; onoff.1="on"; onoff.0="off"
+ cmdchar=; userinfo=; profile="IRC PROFILE *"; target=time('R')
+ invitation=; writelog = "EXECIO 1 DISKW IRC LOG A0 (STRI"
+ tcprc=0; msa=d2c(1); realname=; c=0
+ ignore_reply = "Your messages are not being received."
+ address "COMMAND"; trace 'O'
+ "IDENTIFY (LIFO"
+ pull me . mynode . via .
+ 
+ "REXTCPIP"                        /* oh how i still love this command */
+ if rc^=0 then call BYE "REXTCPIP MODULE returning" rc
+ 
+ "NAMEF :NICK RXIRC :SERVER :PORT :TIMEOUT :LOGGING :QUIET_IGNORE",
+   ":HILIGHTCHAR :BEEPCHAR :LOUD_BEEPS :SHOW_NUMBERS :LIST_ALL",
+   "(LIFO FILE RXIRC"
+ if rc^=0 then call BYE "missing or unreadable RXIRC NAMES file"
+ pull def_listall; pull def_numb; pull def_loud; parse pull beep
+ parse pull hilight; pull def_quiet; pull def_log
+ parse pull timeout; parse pull def_port; parse pull def_server
+ "GLOBALV SELECT CENV GET IRCNICK IRCSERVER IRCNAME IRCPORT"
+ 
+ "NAMEFIND :USERID" me ":NICK :NAME :MOTTO :CMDCHAR :IRCNICK :IRCNAME",
+  "(LIFO"
+ if rc=0 then do
+  parse pull name; parse pull nick
+  if ircnick="" then ircnick=nick
+  if ircname="" then ircname=name
+  parse pull cmdchar; parse pull userinfo
+  parse pull realname; parse pull nick
+  if ircnick="" then ircnick=nick
+  if ircname="" then ircname=realname
+ end
+ 
+ parse arg nick server name '('o; upper o
+ if nick^='' then ircnick = nick
+ if ircnick='' then ircnick=me
+ capnick = translate(ircnick)
+ if server^='' then ircserver=server
+ else if ircserver='' then ircserver=def_server
+ if name^='' then ircname = name
+ if ircname='' then ircname=me "at" mynode".bitnet"
+ if cmdchar="" then cmdchar="/"
+ do while o^=""
+  parse var o opt o
+  select
+   when abbrev("PORT", opt, 1) then parse var o ircport o
+   when abbrev("LIST_ALL", opt, 2) then parse var o def_listall o
+   when abbrev("LOGGING", opt, 1) then parse var o def_log o
+   when abbrev("LOUD_BEEPS", opt, 3) then parse var o def_loud o
+   when abbrev("NUMBERS", opt, 1) then parse var o def_numb o
+   when abbrev("QUIET_IGNORE", opt, 1) then parse var o def_quiet o
+   when abbrev("TIMEOUT", opt, 1) then parse var o timeout o
+   otherwise call BYE "Unknown option" opt
+  end
+ end
+ if ircport='' then ircport=def_port
+ if timeout="" then timeout=25
+ if def_listall="ON" then listall=1; else listall=0
+ if def_log="ON" then log=1; else log=0
+ if def_loud="ON" then loud=1; else loud=0
+ if def_numb="ON" then numb=1; else numb=0
+ if def_quiet="ON" then quiet=1; else quiet=0
+ if log then writelog "* IRC Session started on" date() "at" time()
+ if datatype(left(ircnick,1))='NUM' then ircnick='u'ircnick
+ "IMMCMD SET HI"
+ if userinfo="" then userinfo="- no info given by user -"
+ 
+ "VMFCLEAR"
+ call OUT "rxIRC v"vers "- You are" ircnick "("ircname")"
+ call OUT "Logging is" onoff.log"; Loud beeps are",
+   onoff.loud"; Quiet ignore is" onoff.quiet
+ call CONNECT ircserver
+ say copies("-",79)
+ "CP TERM LINEND OFF"
+ "CP TERM CHARDEL OFF"
+ 
+ do forever
+  "IMMCMD STATUS HI"
+  if rc^=0 then call EDIT "hi"
+  if c^=0 then do
+   TCPRECEIVE(c, "WAITKB", "EXPAND")
+   select
+    when tcprc=0 then do i=1 to tcpline.0
+     call OUT PARSE(tcpline.i)
+    end
+    when tcprc=25 then do externals()
+     parse external ext; call CONS ext; ext=time('R')
+    end
+    when tcprc=12 then do; c=0; call CLOSE "Oops"; end
+    when tcprc=18|tcprc=20 then call CLOSE
+    when tcprc=0|tcprc=8|tcprc=9 then nop
+    otherwise
+    call CLOSE "Unknown error" tcprc "from REXTCPIP"
+   end
+  end
+ end
+ call BYE "Murphy's Law"
+ 
+CONS:
+ parse arg keys
+ call EDIT keys
+ if out^="" then TCPSEND(c, out)
+ return
+ 
+PARSE:
+ parse arg a
+ if loud & pos(x2c(2f),a)^=0 then "BEEP"
+ b=; a=translate(a,hilight||beep||"_",d2c(2)x2c(2f)x2c(32))
+ if left(a,1)=':' then do
+  parse var a ':'s m e f ':'g
+  parse var s s'!'sad
+ end
+ else do; s=''; parse var a m e f ':'g; end
+ f=strip(f)
+ select
+  when m='CHANNEL' then if e="0"
+  then b='***' s 'leaves this channel'
+  else b='***' s 'joins this channel'
+  when m='INVITE' then do
+   invitation = f
+   b='***' s 'invites you to channel' f; end
+  when m='JOIN' then do
+   b='***' s 'joins channel' e
+   if s=ircnick then target=word(e,1)
+  end
+  when m='KICK' then b='***' s 'kicks' f 'off channel' e
+  when m='KILL' then b='*** You were killed by' s subword(g,2)
+  when m='MODE' then b='*** Mode change:' s 'sets' e f
+  when m='MSG' then b='<'s'>' g
+  when m='NICK' then b='***' s 'is now known as' e
+  when m='NOTICE' then select
+   when s='' then b=g
+   when translate(e)=capnick then do
+    if find(ignore,translate(s))^=0 then do
+     return ''; end
+    else do; b='-'s'-' g
+     lastsender=s
+    end
+   end
+   when left(e,1)='+'|left(e,1)='-'|datatype(left(e,1))='NUM' then b=s g
+   otherwise b='-'s':'e'-' g; end
+  when m='PART' then b='***' s 'parts channel' e
+  when m='PING' then TCPSEND(c, "PONG :"ircnick)
+  when m='PRIVMSG' then select
+   when translate(e)=capnick then do
+    if find(ignore,translate(s))^=0 then do
+     if ^quiet then TCPSEND(c, 'NOTICE' s ':'ignore_reply)
+     return ''; end
+    else do
+     if CTCP(1 g) then b='*'s'*' g
+     lastsender=s
+    end
+   end
+   when e=target|left(e,1)='+'|left(e,1)='-'|datatype(left(e,1))='NUM'
+    then if CTCP(0 g) then b='<'s'>' g
+   otherwise if CTCP(0 g) then b='<'s':'e'>' g; end
+  when m='QUIT' then b='*** Signoff:' s '('g')'
+  when m='TOPIC' then b='***' s 'sets the topic to:' g
+  when m='WALLOPS' then b='*** Wallops from' s':' g
+  when m='WALL' then b='*** Broadcast from' s':' g
+  when m='301' then b=f 'is away:' g
+  when m='311' then do
+   parse var f ni ui no .
+   b=ni 'is' ui'@'no '('g')'
+  end
+  when m='314' then do; parse var f ni ui no .
+   b=ni 'was' ui'@'no '('g')'; end
+  when m='312' then b='via server' f '('g')'
+  when m='319' then b='on channels:' g
+  when m='317' then b='and has been idle' word(f,2) 'seconds'
+  when m='322' then do
+   parse var f ch n
+   if listall | g^="" | n>2 then
+    b=left(ch,13) left(n,4)g
+   else return ''
+  end
+  when m='324' then b='*** The mode on channel' word(f,1) 'is' word(f,2)
+  when m='332' then b='*** The topic is:' g
+  when m='341' then b='*** Inviting' word(f,1) 'to channel' word(f,2)
+  when m='353' then b=left(word(f,2),10) g
+  when m='NAMREPLY' then do
+   parse var f na ni; b=left(na,10) ni; end
+  when m='WHOREPLY'|m='352' then do
+   if m='352' then parse var f . us no . ni st .
+   else parse var f us no . ni st .
+   b=left(st,3)left(ni,10)left(us"@"no,31) g
+  end
+  when m='313'|m='364'|m='LINREPLY' then b=f g
+  when m='315'|m='318'|m='321'|m='323'|m='365'|m='366'|m='406'
+    then nop
+  otherwise select
+   when g="" then b=f
+   when f=""|f=s then b=g
+   otherwise b=f":" g
+  end
+  if s^="" then b='('s')' b
+  if numb then b=m b
+ end
+ return translate(b,"@",msa)
+ 
+EDIT:
+ out=; parse arg in
+ if in='' then nop
+ else if left(in,1)="!" then do
+  address CMS substr(in,2); say "rxIRC ready("rc");"; end
+ else if left(in,1)^=cmdchar then do
+  if query='' then out='PRIVMSG' target ':'in
+  else out='PRIVMSG' query ':'in
+ end
+ else if left(in,2)=cmdchar' ' then do
+  parse var in 3 r; out='MSG :'r
+ end
+ else do; parse var in 2 q r; upper q
+  select
+   when q=''|q='SAY' then out='PRIVMSG' target ':'r
+   when left(q,1)='*' then return
+   when abbrev('ABORT',q,2) then call BYE "user abort request"
+   when abbrev('BYE',q,1)|abbrev('SIGNOFF',q,1) then
+    do; TCPSEND(c, 'QUIT'); TCPCLOSE(c); call BYE; end
+   when abbrev('CHANNEL',q,1) then do
+    if r="" then do; call OUT "* Talking to" target; return; end
+    if target^="" then TCPSEND(c, "PART" target);
+    out="JOIN" r
+   end
+   when abbrev('CLEAR',q,2) then "VMFCLEAR"
+   when abbrev('CMDCHARACTER',q,2) then cmdchar=left(r,1)
+   when abbrev('EXECUTE',q,1) then do
+    address 'CMS' r; say "rxIRC ready("rc");"; end
+   when abbrev('FOLLOW',q,1) then out='JOIN' invitation
+   when abbrev('HELP',q,1) then do
+    address CMS "HELP RXIRC"; say; end
+   when abbrev('LOGGING',q,2) then call LOGGING r
+   when abbrev('NICKNAME',q,2) then if r='' then out='WHOIS' nick
+    else do; out='NICK' r; ircnick=r; capnick=translate(r); end
+   when abbrev('REPLY',q,1) then call QUERY lastsender
+   when abbrev('SERVER',q,3) then call CONNECT r
+   when abbrev('STATUS',q,2) then do; out='WHOIS' ircnick
+    call OUT '* Target:' target'; Query:' query'; Invitation:' invitation'; Last sender:' lastsender
+   end
+   when abbrev('TALKTO',q,2) then do
+    if r^="" then target=word(r,1)
+    call OUT '* Now talking to' target
+   end
+   when abbrev('VERSION',q,3) then do; out='VERSION'
+    call OUT '* rxIRC v'vers 'written by the lynx (lynx@dm.unirm1.it)'
+   end
+   when abbrev('XAMINE',q,1) then out='WHOIS' lastsender
+   when abbrev('DATE',q,1) then out="TIME" r
+   when abbrev('DESCRIBE',q,2) then do; parse var r whom desc
+    out='PRIVMSG' whom ':'msa'ACTION' desc||msa; end
+   when abbrev('IGNORE',q,2) then call IGNORE r
+   when abbrev('MSG',q,1)|abbrev('MESSAGE',q,3) then out='PRIVMSG' r
+   when abbrev('QUERY',q,1) then call QUERY r
+   when abbrev('REQUEST',q,3)|q='CTCP' then do
+    parse var r ni rq .; upper rq
+    if ni="" then ni=capnick
+    if rq="" then rq="VERSION"
+    out='PRIVMSG' ni ':'msa||rq||msa
+   end
+   when q='WHO' then if r="" then out='WHO' target
+    else out='WHO' r
+   when abbrev('TCPIPSTATUS',q,3) then do; CONNSTAT(c)
+    call OUT '*' local_addr'!'local_port '->' foreign_addr'!'foreign_port,
+      conn_stat '(BU:'bytes_to_read', UB:'unacked_bytes')'
+   end
+   otherwise if ACTION(q r) then do
+    call OUT ircnick r
+    if query="" then out='PRIVMSG' target ':'msa'ACTION' r||msa
+    else out='PRIVMSG' query ':'msa'ACTION' r||msa
+   end
+   else do
+    li=cmds; out=q r
+    do while li^=''; parse var li el li
+     if abbrev(el,q,1) then do; out=el r; leave; end
+    end
+   end
+  end
+ end
+ out=translate(out,x2c(2f),beep)
+ return out
+ 
+IGNORE:
+ arg a
+ do words(a)
+  parse var a ig a
+  z=find(ignore,ig); if z^=0 then
+   ignore=strip(delword(ignore,z,1))
+  else ignore=ig ignore
+ end
+ call OUT 'You are ignoring:' ignore
+ if quiet then say "And you don't send notices about it (quiet ignore)."
+ return
+ 
+QUERY:
+ parse arg qq
+ if query^='' then call OUT '* Terminating query with' query
+ query=qq
+ if qq^='' then call OUT '* Starting a query with' qq
+ else call OUT '* Talking to' target
+ return
+ 
+ 
+LOGGING:
+ arg a
+ if a='ON' & log=0 then do
+  writelog "IRC Log started on" date() "at" time()
+  say '* Logging started.'; log=1; end
+ else if a='OFF' & log=1 then do
+  writelog "IRC Log ended on" date() "at" time()
+  say '* Logging ended.'; log=0; end
+ else say '* Logging is' onoff.log
+ return
+ 
+OUT:
+ parse arg x
+ if x="" then return
+ if length(x) < 81 then q=0
+ else do 1
+  q=pos(word(x,2),x)-1; if q>30 then q=0
+  p=lastpos(" ",x,80)
+  if p<40 then do; q=0; leave; end
+  b=left(x,p); x=substr(x,p+1)
+  say b; if log then writelog b
+  do while length(x)+q > 80
+   p=lastpos(" ",x,80-q); if p<40 then leave
+   b=copies(" ",q)left(x,p); x=substr(x,p+1)
+   say b; if log then writelog b
+  end
+ end
+ x=copies(" ",q)x; say x; if log then writelog x
+ return
+ 
+CONNECT:
+ parse arg ircserver port time .
+ if ircserver="" then do
+  call OUT "* Provide an internet server address as arguement"
+  return
+ end
+ if datatype(port)="NUM" then ircport = port
+ if datatype(time)="NUM" then timeout = time
+ if c ^= 0 then do
+   TCPSEND(c, "QUIT"); TCPCLOSE(c); "CP SLEEP 3 SEC"; end
+ if (datatype(left(ircserver,1))^="NUM") then do
+  say "Resolving domain name address" ircserver
+  ircserver = GETIPADDR(ircserver)
+  if tcprc^=0 then call BYE "unresolvable address" ircserver
+ end
+ say "Connecting to" ircserver "on port" ircport", timeout after" timeout "seconds"
+ c = TCPOPEN(ircserver, ircport, timeout)
+ select
+  when tcprc=6 then call CLOSE "Host not responding within time"
+  when tcprc=8 then call CLOSE "No server running on port" ircport
+  when tcprc^=0 & tcprc^=2004 then
+   call CLOSE "Unknown error" tcprc "while trying to connect"
+  when c=0 then call CLOSE "Have no connection!"
+  otherwise
+  TCPSEND(c, "NICK" ircnick)
+  TCPSEND(c, "USER" me mynode "." ircname)
+  "STATE" profile
+  if rc=0 then do
+   "EXECIO * DISKR" profile "(FINIS STEM IN."
+   do i=1 to in.0
+    call EDIT in.i
+    if out^="" then TCPSEND(c, out)
+    end
+  end
+ end
+ return
+ 
+ 
+CTCP:
+ parse arg fla bla
+ if pos(msa,bla)=0 then return 1
+ bla=translate(bla,'\',d2c(1))
+ parse var bla . '\' ctcp bla '\' .
+ select
+  when ctcp="ACTION" then call OUT s bla
+  when ctcp="CLIENTINFO" then
+   call MSAREPLY "CLIENTINFO ACTION CLIENTINFO FINGER VERSION USERINFO"
+  when ctcp="FINGER" then
+   call MSAREPLY "FINGER" realname '('me'@'mynode'.bitnet) - Idle time is',
+     time('E')
+  when ctcp="VERSION" then
+   call MSAREPLY "VERSION rxIRC v"vers "VM/CMS",
+     ":The best you can get for VM/CMS systems..."
+  when ctcp="USERINFO" then
+   call MSAREPLY "USERINFO" userinfo
+  otherwise if fla=1 then
+   call MSAREPLY "ERRMSG Huh? Can't do" ctcp
+ end
+ return 0
+ 
+MSAREPLY:
+ parse arg lyrics
+ TCPSEND(c, "NOTICE" s ":"msa||lyrics||msa)
+ return
+ 
+CLOSE:
+ parse arg culprit
+ if c^=0 then do
+  TCPCLOSE(c); c=0
+ end
+ call BYE culprit
+ return
+ 
+BYE:
+ parse arg culprit
+ if culprit^= "" then say "Terminating:" culprit" (tcprc:" tcprc")"
+ if log then do
+  writelog "IRC Session ended on" date() "at" time()
+  "FINIS * * *"
+ end
+ "IMMCMD CLEAR HI"
+ "NUCXDROP REXTCPIP"
+ /* "CP TERM CHARDEL @" -- do you need this one? let me know */
+ "CP TERM LINEND #"
+ exit tcprc
+ 
+ACTION:
+ parse arg q r
+ select
+  when q="BOW" then a="bows gracefully"
+  when q="COMFORT" then a="comforts you"
+  when q="CUDDLE" then a="cuddles you"
+  when q="DANCE" then a="dances a waltz with you"
+  when q="GIGGLE" then a="giggles inanely"
+  when q="GRIN" then a="grins evilly"
+  when q="HUG" then a="hugs you"
+  when q="LAUGH" then a="falls down laughing"
+  when q="ME"|abbrev("EMOTE",q,1) then return 1
+  when q="NOD" then a="nods solemnly"
+  when q="SHRUG" then a="shrugs helplessly"
+  when q="SIGH" then a="sighs deeply"
+  when abbrev("SMILE",q,2) then a="smiles happily"
+  when abbrev("THANK",q,2) then a="thanks you from the bottom of the heart"
+  when q="WAVE" then a="waves goodbye to you"
+  when q="WINK" then a="winks suggestively"
+  when q="YAWN" then a="yawns tiredly"
+  otherwise return 0; end
+ if r="" then r=a'.'
+ else r=word(a,1) r'.'
+ return 1

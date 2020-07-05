@@ -1,0 +1,21 @@
+* RXIRC NAMES
+* contains installationwide defaults for rxIRC
+:nick.rxIRC
+*
+* insert the network address of a server near to you into here
+*
+ :server.arbi.informatik.uni-oldenburg.de
+*
+* some preferences.. you can look into this later on, see also the helpfile     *
+ :logging.off
+ :quiet_ignore.off
+ :loud_beeps.off
+ :show_numbers.off
+ :list_all.off
+ :beepchar.~
+ :hilightchar.%
+*
+* no change should be necessary here
+*
+ :port.6667
+ :timeout.20

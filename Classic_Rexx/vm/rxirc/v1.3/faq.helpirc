@@ -1,0 +1,51 @@
+Frequently asked questions:
+--------------------------
+1.  Why can't rxIRC have /alias and /on and /notify and everything else
+    that ircII has?
+ 
+  Because ircII is a giant program that a lot of people have worked on
+  to be able to do all of that. rxIRC is a relatively little program
+  which I also want to stay that way, or it might get unpleasantly
+  slow in execution!
+ 
+  I am sure that /alias and /on are functionalities that take a lot
+  of time to develop and most of all consume to much speed. And they
+  would look really ugly in the sourcecode. If you just would learn
+  a little REXX you'd see that you can easily add commands into the
+  EDIT: procedure and add hooks into the PARSE: procedure. You don't
+  need any /on or /alias!
+ 
+  Concerning /notify, this could even be done, though it's a little
+  tough to simulate a timer when REXTCPIP doesn't offer it. I might
+  be inclined to do it, but I don't even use rxIRC myself, so why
+  should I spend serious time on it?  If you care, go ahead and do
+  it yourself. Then send a copy of it to me, so I can release it.
+ 
+2.  Why when I do something outside of rxIRC with /exec, or simply read
+    the /help files, the server signs me off?
+ 
+  In this case the evil ping goblin has bitten you. A particularity of the
+  IRC protocol is that the server expects your client program to reply to
+  a PING message it sends about every minute or so, when you have been
+  idle. When you start a command with ! or /exec, rxIRC is not able to
+  reply to the PING and the server closes the connection on you. Poof.
+ 
+3. You have a bug, "/who -h *.il" doesn't work!
+ 
+  No, I don't have such a bug. The "-h" and "-s" options are specific
+  to ircII. They are NOT standard. It is the normal and natural way
+  to do it simply with "/who *.il"
+ 
+4. When I use one of the new action commands on a channel, like /smile
+  I get a lot of error messages.
+ 
+  The CTCP ACTION protocol is still rather new, not everyone likes, not
+  everyone supports it, and most of all, a lot of people do not have up
+  to date IRC programs. When you get such error messages better not use
+  the commands on those channels. On other channels you might find people,
+  who have newer clients, and you'll be able to communicate with the new
+  commands.
+
+You still have a question?
+Write mail to 244661 at DOLUNI1 (.bitnet) or to
+'loesch@informatik.uni-oldenburg.de' (internet).

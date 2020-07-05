@@ -1,0 +1,20 @@
+.cm last change by lynx.
+.mt IRC
+ 
+                                rxIRC v1.3
+ 
+            Internet Relay Chat client program for VM/CMS systems
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     Written by Carl 'lynX' v. Loesch
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                Move the cursor onto a topic and press ENTER.
+ 
+ 
+MANUAL                    General Overview about IRC
+ETIQ                      The IRC Netiquette - How to behave on IRC
+ 
+SYNTAX                    Usage format of rxIRC
+SPECIAL                   Special commands you can only issue from rxIRC
+ACTION                    A set of commands to let you express virtual actions
+CUSTOM                    How to customize your rxIRC
+FAQ                       Frequently asked questions about rxIRC

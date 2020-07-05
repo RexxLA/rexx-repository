@@ -1,0 +1,287 @@
+/************************************************************************
+ *   IRC - Internet Relay Chat, doc/MANUAL
+ *   Copyright (C) 1990, Karl Kleinpaste
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 1, or (at your option)
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+ 
+                                              Author: Karl Kleinpaste
+                                                      karl@cis.ohio-state.edu
+                                                Date: 04 Apr 1989
+                                   Last modification: 04 Apr 1989
+ 
+			 INTERNET RELAY CHAT
+		  a real-time conversational system
+ 
+ 
+* 2: Entering Internet Relay Chat
+ 
+Type `irc'.  If one wishes to be known by a nickname which is not
+one's login name, type `irc chosen-nickname' instead.
+ 
+** 4.1: Nicknames
+ 
+All users of irc are known to the system by a `nickname.'  By
+default, one's nickname is one's login name.  Nickname clashes are not
+allowed; this is enforced by the servers.  If one's intended nickname
+clashes with someone else as one enters chat, one will not be able to
+complete entry to irc until one changes one's nickname to something
+else.
+ 
+** 4.2: Presence on a channel
+ 
+Fundamental to the operation of irc is the concept of a channel.  All
+users are `on a channel' while inside irc.  One enters the `null
+channel,' channel 0, first.  One cannot send any messages while in
+channel 0 unless one has set up a private conversation in some way.
+The number of channels is essentially unlimited - whatever will fit in
+a 32-bit integer.
+ 
+** 4.3: Types of channels
+ 
+There are 3 channel types, with increasing levels of privacy afforded
+them.
+ 
+*** 4.3.1: Public channels
+ 
+Public channels are channels 1-999.  If one is on one of these
+channels, one can be seen by all other users.  Anyone can notice users
+on a public channel and join such a channel's conversation.
+ 
+*** 4.3.2: Private channels
+ 
+Channels 1000-up are called `private'  This means that, although
+anyone can see that one is using chat, no one can tell what channel
+one is using unless one is already on that channel with oneself.
+Since the number of potential channels is in the billions, this is
+quite some security - all one gives away is the acknowledgement that
+one is using chat.
+ 
+*** 4.3.3: Secret channels
+ 
+Negative channel numbers are called `secret'  While one is on a
+hidden channel, no one who is not on one's channel with oneself can
+even see that one is there.  One's name does not show up in a list of
+active users.  The only indication of one's presence is that, when
+entering chat, all new users are told that there are "N users on P
+servers."  If one checks on all users and finds less than N of them,
+one knows that others are hiding on negative channels.  But a hidden
+channel user still cannot be found except by brute-force checking
+through all channels, a hopeless proposition in the face of 10-digit
+channel numbers.  Security through obscurity finally means something.
+ 
+** 4.5: Conversations not using channels
+ 
+It is possible to conduct conversations with others without using the
+formalized channel structure.  Doing so requires that two people set
+themselves up for private conversation using special commands; see
+User Commands below.
+ 
+** 5.2: Screen activity
+ 
+Normal messages from other users appear with the originating nickname
+in <angle brackets>.  Private messages arrive with the originating
+nickname in *asterisks*.
+ 
+Other output (e.g., /who commands, invitations from other users to
+join channels, and so forth) appears interspersed with other activity
+on the screen.
+ 
+* 6: Command structure
+ 
+Ordinary text typed at irc is sent as one's messages to everyone else
+on the same channel, modulo personal choices for private messages and
+the like.  Commands to irc itself all begin with a command character,
+which is initially `/' but may be changed to any other character
+desired.
+ 
+Commands may in general be abbreviated to a unique prefix.
+ 
+** 6.1: Leaving irc
+ 
+The way to get out of irc is to enter the /signoff command.  "/si" is
+sufficient.  Also equivalent are "/exit," "/bye," and perhaps "/quit"
+ 
+** 6.2: Getting help
+ 
+Type "/help."  Follow the instructions.
+ 
+** 6.3: User commands
+ 
+Other commands supported by irc are:
+ 
+      help   signoff       who     whois
+      list     topic      join   channel
+     links       msg    invite    summon
+     users     stats      nick      away
+      info     clear     query
+      date      mode      kick
+ 
+*** 6.3.2: signoff
+ 
+/signoff exits chat.
+ 
+*** 6.3.3: who
+ 
+/who returns information on who is using chat.  /who without arguments
+prints info on all users that can be seen.  Users of public channels
+show up with their channel identified.  Users of secret channels
+appear, but they are specified as being on a private, unspecified
+channel.  Users of hidden channels do not appear at all.
+ 
+Giving a numeric argument to /who returns only those users of the
+specified channel.  This still doesn't show users of secret or hidden
+channels unless one is actually on that channel.
+ 
+*** 6.3.4: whois
+ 
+This returns information about individual users.  Say "/whois
+nickname" to get information on the login name and host from which the
+nicknamed user comes.
+ 
+*** 6.3.5: topic
+ 
+Channels can be given off-the-cuff "topics."  Saying "/topic some
+string of text" will associate that topic with the current channel.
+ 
+*** 6.3.6: list
+ 
+/list will give lists of active channels, the number of users of each,
+and the topics therewith associated.  Again, secret and hidden
+channels do not appear.
+ 
+*** 6.3.7: join & channel
+ 
+/join or /channel are the means to enter a channel.  Give a numeric
+argument for the channel one wishes to enter.  If this is a secret or
+hidden channel, /who commands will show oneself and any other users of
+one's channel.
+ 
+One's arrival on a channel is announced to the rest of the users
+already on that channel.  Silent, anonymous "lurking" is not
+supported.
+ 
+*** 6.3.8: links
+ 
+/links lists the currently-active set of chat servers.  Beware: this
+list can be quite long, and will undoubtedly get longer as chat gains
+wider use.  As of 22 March 1989, about 15-20 servers is typical.
+ 
+*** 6.3.9: msg
+ 
+A single message can be sent privately to a certain user with /msg.
+Type /msg nickname and the text to be sent.  It will be sent privately
+to the indicated nickname.
+ 
+*** 6.3.10: invite
+ 
+If there is a user online to whom one wishes to speak, one may invite
+that user to join oneself on a certain channel.  One types "/invite
+nickname" with an optional channel number.  The receiving user gets a
+one-line message indicating the sender and the invitation.  The
+receiving user is free to ignore the invitation, of course.
+ 
+*** 6.3.11: summon
+ 
+An extreme form of /invite is /summon.  "/summon user@host" will
+request the user on the specified host to enter the chat system.  Do
+not do this unless one is fairly sure that one's request will be
+welcome - it can be a fairly disturbing and sometimes irritating
+intrusion.  In order for /summon to work, the specified host must be a
+connected chat server - one can't summon random people from around the
+Internet.
+ 
+*** 6.3.12: users
+ 
+/users will return a list of the users logged into one's system.  With
+an optional hostname identifying a chat server host, the users logged
+into that system will be listed.
+ 
+*** 6.3.13: stats
+ 
+This command returns counts of various protocol operations of one's
+chat server.  It is neither particularly useful nor interesting; it
+was, at one time, a debugging aid.
+ 
+*** 6.3.14: nick
+ 
+One can change nicknames by issuing "/nick new-nickname."  All users
+on one's channel will be advised of the change.  NOTE: If one enters
+chat with a nickname clash (e.g., one's login name is the same as
+someone else's, and the other user got there first), the system will
+not let one enter until one issues a /nick command with a unique
+nickname.
+ 
+*** 6.3.15: away
+ 
+Sometimes, one wishes to remain connected to the chat system, but one
+must be elsewhere for a while.  One can issue an /away command with
+arbitrary text as argument, which will mark oneself as being away.  If
+someone sends an away'd user a private message (via /msg or in a
+private session set up via /query; see below), the sender will get a
+message back from the server indicating the away-ness and the message
+which was set.
+ 
+*** 6.3.16: info
+ 
+/info returns information regarding the author and copyright of the
+chat system.
+ 
+*** 6.3.17: clear
+ 
+At times, one wishes that one's screen weren't so cluttered.  /clear
+makes it so.
+ 
+*** 6.3.18: query
+ 
+This command is used to set up private communications `outside' the
+normal channel system.
+ 
+When one enters "/query nickname," the indicated nickname is set up as
+the sole recipient of anything which one types thereafter.  Thus, if
+user A executes "/query B" and user B executes "/query A," they have
+set up a private communication between themselves.  Significantly, it
+remains possible for them to stay on their respective channels, which
+need not be the same, and listen to whatever conversation is going on
+around them as well, though they cannot respond to that ambient
+conversation without leaving the private conversation they have set up.
+ 
+One leaves this private mode by issuing /query without arguments.
+ 
+** 6.4: Operator commands
+ 
+The chat system administrators on each host have additional
+responsibilities and power over the configuration and operation of the
+servers.  The commands to do so are delineated below.
+ 
+*** 6.4.1: oper
+ 
+Users who have the potential for operator privileges initially invoke
+those privileges by "/oper nickname password," where nickname is the
+nickname under which operation is intended, and password is the
+password known to the chat system for that nickname.
+ 
+*** 6.4.2: kill
+ 
+Obnoxious users had best beware the operator who's fast on the /kill
+command.  "/kill nickname" blows any given nickname completely out of
+the chat system.
+ 
+Obnoxiousness is not to be tolerated.  But operators do not use /kill
+lightly.
+ 
+* 7: Questions, problems, troubles?
+ 
+Write mail to local irc coordinator.

@@ -1,0 +1,43 @@
+* RXIRC NAMES
+* contains installationwide defaults for rxIRC
+* do NOT change the next line
+:nick.rxIRC
+*
+* Insert the network address of an IRC server near to you into here..
+* Or activate a temporary choice to be able to contact an IRC
+* operator for help on proper choice of IRC server
+*  (join #Twilight_Zone to meet irc operators)
+* A list of servers exists in ftp://cs-ftp.bu.edu/irc/support/
+*
+:server.irc.informatik.uni-oldenburg.de
+* :server.irc.fu-berlin.de
+* :server.irc.mit.edu
+* :server.irc.eunet.fi
+* :server.irc.technion.ac.il
+* :server.irc.virginia.edu
+ 
+* In case your default server requires a client password, you can enter it
+* here. However this is a pretty unusual case.
+*
+* :pass.PassWord
+ 
+* Some preferences.. You can look into this later on.
+* See also the helpfile about customization.
+*
+ :logging.off
+ :quiet_ignore.off
+ :loud_beeps.off
+ :show_numbers.off
+ :list_all.off
+ :show_time.60
+ :bold_char.|
+ :beep_char.~
+ 
+* A command to view files. If there is no BROWSE on your
+* system you can use XEDIT aswell.
+*
+ :browser.BROWSE
+ 
+* No change should be necessary below here
+*
+ :port.6667

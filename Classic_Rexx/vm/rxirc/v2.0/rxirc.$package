@@ -1,0 +1,21 @@
+*
+* This file contains the definition of the rxIRC package.
+*
+* Filename Filetype Filelist
+* -------- -------- --------
+  RXIRC    $PACKAGE REXXLIB  recursion!
+  RXIRC    README   REXXLIB  introductory information about IRC and rxIRC
+  RXIRC    EXEC     REXXLIB  the client program
+  RXIRC    NAMES    REXXLIB  the installation defaults file
+  RXIRC    INSTALL  REXXLIB  little installation readme
+  RXIRC    HELPMENU REXXLIB  the documentation menu
+  ACTION   HELPIRC  REXXLIB  about the set of action commands
+  CUSTOM   HELPIRC  REXXLIB  how to customize rxIRC
+  FAQ      HELPIRC  REXXLIB  frequently asked questions (and answers)
+  INTRO    HELPIRC  REXXLIB  IRC introductory manual
+  SPECIAL  HELPIRC  REXXLIB  rxIRC specific extra commands
+  STANDARD HELPIRC  REXXLIB  IRC standard commands
+  SYNTAX   HELPIRC  REXXLIB  command line usage and options of rxIRC
+  MONTH    RXIRC    REXXLIB  an example of the rxIRC scripting language
+  PROFILE  RXIRC    REXXLIB  rxIRC profiling script to start off with
+  SETENV   EXEC     REXXLIB  unixlike globalv utility

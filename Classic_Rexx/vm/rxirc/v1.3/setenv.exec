@@ -1,0 +1,13 @@
+/* SETENV EXEC
+ * Set an environment variable for C programs to access
+ * last change by Lynx_VM (244661 at DOLUNI1) on Sunday, 12 May 1991
+ */
+address 'COMMAND'
+parse arg n c; upper n
+if n="" then
+ 'GLOBALV SELECT CENV LIST'
+else if c="" then
+ 'GLOBALV SELECT CENV LIST' n
+else
+ 'GLOBALV SELECT CENV SET' n c
+exit rc

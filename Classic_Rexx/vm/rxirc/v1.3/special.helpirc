@@ -1,0 +1,95 @@
+.cm last change by lynx -- january, 1992
+ 
+                 _______
+               *|^^^^^^^|*           The Internet Relay Chat program
+               *| rxIRC |*            for VM/CMS systems written in
+               *|_______|*            RexX by Carl "lynx" v. Loesch.
+                 ^^^^^^^
+ 
+Special commands of this IRC client program:
+ 
+/ABort
+   You may leave your session non-caring about the status of your TCPIP
+   connection. Use this only when you can't get out with /bye.
+ 
+/Channel <new channel>
+   This command will automatically /part you from your previous channel
+   before joining this new channel. If you don't want to get confused
+   by multiple channels, better always use this command instead of /join.
+   Without argument it will tell you what channel you are on.
+ 
+/CLear
+   Clear the screen.
+ 
+/CMdchar <character>
+   Use an other character than '/' to introduce commands.
+ 
+/Execute <command>    or more easily just:   !<command>
+   You may execute CMS commands with this, but remember not to stay too
+   long outside IRC or the IRC-server might close the connection.
+ 
+/Follow
+   If you have just been invited to a channel this is an easier way to
+   join it. rxIRC will remember the name of the channel for you.
+ 
+/IGnore [<nickname> <more nicknames>]
+   If you don't want to receive a person's messages, you can use /ignore
+   on him. Use it again to remove the /ignore. Without arguments you
+   get the list of people being ignored by you. The ignore function
+   captures both /msg's and /notice's from the specified person. It
+   sends a notice back to the sender telling him that you are not
+   receiving his messages unless you specify it to be silent with
+   the startup option "(Quiet".
+ 
+/LOgging [ON | OFF]
+   You can switch the logging on and off. That means you get a transcription
+   of your IRC session into the file IRC LOG A0 on disk.
+ 
+/Query [ <nickname> | <channel> ]
+   You can get into a dialogue mode with a person, all lines you type are
+   sent as private message to this person. If you want to talk onto a
+   channel you might be on at the same time you can do "/ <text>" without
+   leaving the /query. To leave the /query use /query without arguments.
+   If you want to use #-type channels you need to /query those, too.
+ 
+/Reply
+   This is a shortcut to get into a /query with the person that last sent
+   you a message.
+ 
+/Request <nickname> | <channel>
+   Send a CTCP (Client To Client Protocol) Version Request to a person
+   or a whole Channel. IRC program that have this implemented will
+   automatically respond as does rxIRC when it gets such a request.
+ 
+/SErver <address> [ <port> [ <timeout> ] ]
+   Switch to another IRC server. rxIRC will exit if the server does not
+   respond.
+ 
+/STatus
+   This outputs some of rxIRC's variables, tells you what channel you are
+   talking to (Target), what query, where you got invited to last and who
+   last sent a message to you.
+   It also shows a /whois of yourself.
+ 
+/TAlkto <new target>
+   This is the ONLY command to allow you to switch to another channel when
+   you are on multiple channels! You can NOT use /join for that.
+   However this command is even more flexible, you can use it with a nickname,
+   then all you type is sent to that person, just like /query. The difference
+   is: You can overlay two dialogues, by having two people in /talkto and
+   /query, then talk to the queried directly and to the other with the '/ '
+   command.
+ 
+/TCPipstatus
+   Gives a brief not very useful information about your TCPIP status.
+ 
+/WHO
+   The /who command can now be used without arguements, if you are talking
+   to a channel, it will show you the WHO list of that channel.
+ 
+/Xamine
+   Quicky to get a /whois of the person that lest sent you a message.
+ 
+/* <remark> [ */ ]
+   With this you can add RexX-style comments in your IRC PROFILE.
+   Lines beginning with /* are skipped.

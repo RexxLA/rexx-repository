@@ -1,0 +1,6 @@
+expr month word(date(),2)
+if word(date(),1)/=1 then skip 2
+  echo Hey! Today is the 1st of $(month)!
+  skip 1
+    echo Today is just another day of $(month)...
+echo You just ran MONTH RXIRC..  :)

@@ -1,0 +1,18 @@
+.mt IRC
+ 
+                                  rxIRC
+                                   ^^^
+            Internet Relay Chat client program for VM/CMS systems
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            by Carl v. Loesch
+                             ^^^^^^^^^^^^^^^
+                Move the cursor onto a topic and press ENTER
+ 
+ 
+INTRO                     Introductory manual for IRC users
+STANDARD                  Standard IRC commands
+SPECIAL                   Special features of rxIRC only
+SYNTAX                    Usage format of rxIRC
+ACTION                    A set of commands to let you express virtual actions
+CUSTOM                    How to customize your rxIRC
+FAQ                       Frequently asked questions about rxIRC

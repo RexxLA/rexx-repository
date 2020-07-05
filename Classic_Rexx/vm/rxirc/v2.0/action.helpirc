@@ -1,0 +1,34 @@
+.cm last change by lynx -- may 93
+ 
+                 _______
+               *|^^^^^^^|*           The Internet Relay Chat program
+               *| rxIRC |*            for VM/CMS systems written in
+               *|_______|*            RexX by Carl "lynx" v. Loesch.
+                 ^^^^^^^
+ 
+ACTION commands:
+ These are commands which send a special kind of message to your current
+ channel or query containing a sentence about your state, your feelings
+ or an action you are taking.. virtually.. in your fantasy.
+ This is to give you one more way of expressing yourself on IRC.
+ 
+ The commands work in different ways if issued with or without commands.
+ For instance '/smile' will produce a message that you smile happily, while
+ '/smile sadly' or '/smile at Phaedrus' will produce the appropriate output.
+ You'll find out by experimenting.
+ 
+ The commands at disposition in the present rxIRC version are:
+   APPLAUD, BOW, COMFORT, CUDDLE, DANCE, GIGGLE, GRIN, HUG, LAUGH
+   NOD, SHRUG, SIGH, SMile, THank, WAVE, WINK, YAWN
+ 
+ You should know that you can also produce your own message lines
+ with the /ME or /Emote commands, like this:
+   /me feels a little hungry now.
+ 
+ You can also try to add your own commands into the program. With the way
+ it is done, it should be easy to understand also for someone who doesn't
+ really know REXX. Just edit the RXIRC EXEC, move to the bottom of the file,
+ and turn a page back. You'll see where you can add your lines.
+ 
+ Good suggestions for action commands are always welcome, send them to me
+ by NoteServ or mail.  :)

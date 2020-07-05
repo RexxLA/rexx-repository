@@ -1,0 +1,52 @@
+.cm last change by lynx -- april 25, 1991
+ 
+                 _______
+               *|^^^^^^^|*           The Internet Relay Chat program
+               *| rxIRC |*            for VM/CMS systems written in
+               *|_______|*            RexX by Carl "lynx" v. Loesch.
+                 ^^^^^^^
+ 
+ 
+                  *** How to customize rxIRC ***
+ 
+ 
+The IRC PROFILE startup file:
+  This file should contain a series of lines that are executed by
+  rxIRC as if you would type them in as soon as you get connected to
+  a server. You could for instance do "/join #fun" or "/who bunny"
+ 
+Namesfile settings:
+  rxIRC gets your default nickname and full name from your namesfile
+  unless otherwise specified in the command line. You can also set
+  a 'motto' line by adding a :motto tag to your self-entry in your
+  namesfile which will be displayed when VERSION requests are sent
+  to you while you are ircing with rxIRC.
+ 
+Environment settings:
+  You may use 'setenv' or 'globalv' to put some values into environment
+  variables. The variables recognized by rxIRC are IRCNICK, IRCSERVER
+  IRCNAME and IRCPORT. rxIRC uses 'SELECT CENV' for compatibility with
+  other IRC programs.
+ 
+Defaults in the RXIRC NAMES file:
+  Some defaults for the rxIRC program are defined here:
+    server:           the Internet address of an irc server
+    port:             the TCP/IP port it runs on, usually 6667
+    timeout:          when rxIRC should give up on connections
+    logging:          make it ON or OFF
+    quiet_ignore:     usually OFF
+    loud_beeps:       ON only when a BEEP MODULE is available.
+    show_numbers:     ON shows the reply numbers of server replies, for freaks.
+    list_all:         show also channels without topic in /list, i use OFF.
+    beep_char:        the character that gets translated into a beep and back.
+    highlight_char:   the char that gets translated into an inverse on ircII.
+ 
+  You might choose to copy this file onto your disk to be able to
+  modify the values.
+ 
+--
+You have 10069612 experience points, 99159963 gold coins, 9127 spell points.
+You also have 9999 hit points out of 9999.
+Strength: 966;  Dexterity: 939;  Intelligence: 957;  Constitution: 948.
+Your age: 50 days 15 hours 37 minutes 32 seconds.
+ 

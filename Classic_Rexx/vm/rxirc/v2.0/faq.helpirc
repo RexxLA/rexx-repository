@@ -1,0 +1,63 @@
+Frequently asked questions:
+--------------------------
+What am I supposed to write into the :server field in RXIRC NAMES?
+ 
+  You don't have a server? If you're in the US then Trillian
+  (hrose@eff.org) will most probably be able to tell you the nearest
+  server to you. You can however connect to IRC through an open server
+  like irc.mit.edu (18.70.0.224), fairhope.andrew.cmu.edu (128.2.11.213)
+  magpie.ee.su.oz.au (129.78.13.28) or ucsu.colorado.edu (128.138.129.83)
+| and then ask operators for the nearest server to you.
+  You can also examine the /links list, but geographical vicinity
+  usually is not network vicinity!
+ 
+|Why can't rxIRC have /on and /notify and everything else
+|that ircII has?
+ 
+  Because ircII is a giant program that a lot of people have worked on
+  to be able to do all of that. rxIRC is a relatively little program
+  which I also want to stay that way, or it might get unpleasantly
+  slow in execution!
+|
+|Strange says:
+| There is no /on because no one wants to code it.  None of the people
+| who have worked on rxIRC NEED or WANT /on.  :P
+|
+| Concerning /notify:    Use a /note server!  :)
+ 
+Why when I do something outside of rxIRC with /exec, or simply read
+the /help files, the server signs me off?
+ 
+  In this case the evil ping goblin has bitten you. A particularity of the
+  IRC protocol is that the server expects your client program to reply to
+  a PING message it sends about every minute or so, when you have been
+  idle. When you start a command with ! or /exec, rxIRC is not able to
+  reply to the PING and the server closes the connection on you. Poof.
+ 
+You have a bug, "/who -h *.il" doesn't work!
+ 
+  No, I don't have such a bug. The "-h" and "-s" options are specific
+  to ircII. They are NOT standard. It is the normal and natural way
+  to do it simply with "/who *.il". Or what about trying /local.
+ 
+When I use one of the new action commands on a channel, like /smile
+I get error messages.
+ 
+| There are controverse notions of the ethics of the CTCP ACTION protocol.
+| I think it's a valid alternative form of communication and should be
+| supported, but since I invented it I might be biased. Well some IRC
+| client programmers insist on not supporting this protocol and return
+| all sorts of funny messages. Eventually avoid using these commands
+| on channels where people's clients answer with sarcastic comments.
+ 
+rxIRC crashes and then no communication software (like CHAT) works
+anymore!
+
+| rxIRC should not crash, if it does please report that to me.
+| To unlock your machine in such a situation it is not necessary to
+| re-IPL it, instead just do "NUCXDROP REXXWAIT". "NUCXMAP" shows
+| what so-called nucleus extensions are loaded in your machine.
+
+You still have a question?
+Write mail to 'loesch@informatik.uni-oldenburg.de' (internet).
+or to '244661 at DOLUNI1' (bitnet)

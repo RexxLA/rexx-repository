@@ -1,0 +1,45 @@
+rxIRC Installation Guide
+========================
+ 
+   To run rxIRC you need RXSOCKET 2 and REXXWAIT.
+   You don't need REXTCPIP anymore (Sorry Ken).
+ 
+   Before you start rxIRC you should edit the RXIRC NAMES file which
+   contains all the default values for rxIRC. Most important: the address
+   of your default IRC server host!
+ 
+   On VM/ESA systems you can try to obtain the ESA-Version of RXSOCKET,
+   or switch into the 370 mode (with SET MACHINE 370 and IPL CMS).
+   If you're lucky it will work from scratch even on those systems,
+   it's a question of how your mainframe is being configured.
+ 
+   When it tells you the TCPIP DATA file is missing, you probably
+   need to ACCESS (or even CP LINK) the appropriate system disk,
+   which is tipically labeled ('TCPIP'). Try 'QUERY DASD'.
+ 
+   When you see the whole internet address in people's messages
+   instead of just the nickname, or other similar weird things
+   you might have some improper ASCII/EBCDIC translation set up!
+   In that case check that STANDARD TCPXLATE and STANDARD TCPXLBIN
+   from your TCPIP system disk come before other * TCPXLATE files.
+ 
+   If you have any problems/improvements/suggestions/etc. contact the rxIRC
+   mailing list rxIRC-l@vmtecqro.qro.itesm.mx.
+ 
+   You can subscribe to the mailing list with 'SUB RXIRC-L <fullname>'
+   sent to listserv@vmtecqro.qro.itesm.mx or LISTSERV AT VMTECQRO.
+ 
+   With the AFD and FUI commands you can get automatic information
+   about new releases of rxIRC from the LISTSERV. You can also decide
+   to look out for announcements of mine in the VMUTIL-L, alt.irc
+   or de.comm.internet newsgroups.
+ 
+   However don't expect frequent announcements. Changes to rxIRC
+   happen seldomly. I usually don't have the time for it.  :(
+ 
+--
+ ____                                             http://www.noris.de/~lynx/
+ LynX    Carl von Loesch                                 lynx@imp.de
+ 
+~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
+LynX@You.might.aswell.use.This.as.my.Email.Address.Biol.Chemie.TU-Muenchen.DE

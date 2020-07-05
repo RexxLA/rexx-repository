@@ -1,0 +1,400 @@
+.cm last change by lynx -- may 93
+ 
+                 _______
+               *|^^^^^^^|*           The Internet Relay Chat client
+               *| rxIRC |*        program for VM/CMS systems written
+               *|_______|*         in RexX by Carl "LynX" v. Loesch.
+                 ^^^^^^^
+ 
+Special features of rxIRC:
+
+Variables:
+| rxIRC has it's own particular implementation of variables. You can
+| set variables with /set or /expr, then use them anywhere within a
+| command line like this:
+|
+|    set c #rxIRC
+|    join $c
+|    expr date date()
+|    echo $(date)
+|    set helpkey 1
+|    pf$(helpkey) immed /help
+|
+| Note how you can use variables even within command names. Variables
+| can be used with or without the braces. However, without braces only
+| the first character is considered part of the name. So 'echo $date'
+| will probably only output 'ate' since '$d' is not defined yet.
+| This is compatible to the way the make program handles variables.
+|
+| With rxIRC variable names are case sensitive!
+|
+| rxIRC provides a set of predefined variables which is compatible
+| to ircII. Here goes a list:
+|   $,   the nickname that last sent you a message, notice or invitation
+|   $:   the nickname that last joined your channel
+|   $A   your current away message
+|   $C   your current channel (or rather 'target' in rxIRC-speak)
+|   $H   last protocol command or numeric received
+|   $I   channel you were invited to last
+|   $K   the command character (usually '/')
+|   $N   your IRC nickname
+|   $Q   current query nickname
+|   $S   current IRC server's name
+|   $T   your query partner, if you are in a query, or otherwise
+|        your target (channel usually)
+|   $V   rxIRC version
+|   $Z   current time
+|   $$   the $ symbol itself
+
+Multiple commands:
+| You can execute multiple commands in a row by putting '::' between them.
+| Like this:
+|    /smile::grin::giggle
+|
+| Notice how the slash is valid for all three of the commands!
+| You need not and may not call something like "/smile::/grin".
+
+Bitnet support:
+| rxIRC now fully supports BITNET messaging, first you have the /tell
+| and /yell commands for traditional way of sending bitnet messages,
+| but you also have /msg +nickname (or /query +nick, /target +nick).
+| When a message target begins with a leading plus sign, rxIRC will
+| not send the message to IRC, but instead send it to the BITNET
+| user specified. So you can easily query a bitnet user with /query +.
+|
+| BITnet message receivers can be specified by nickname from NAMES
+| file or with <userid>@<node> or '<userid> at <node>' or <local_userid>.
+|
+| rxIRC handles incoming BITnet messages properly and will
+| display them as neat as possible. It also checks for /ignore
+| by both nickname and userid@node. If you are /away, also bitnet
+| users are informed of this when they talk to you.
+|
+| rxIRC is capable of sending messages over alternative routes
+| than BITnet allows by default. To achieve this you need to
+| specify "via <node>" at the beginning of a message and all following
+| messages will be forwarded through that node. For instance:
+|
+| /m +strange via psuvm hello!
+|
+| This will send 'hello!' first to PSUVM which then forwards it to MAINE.
+|
+| You can also generate local CP SMSG or CP SEND by specifying "smsg" or
+| "send" as arguments to "via".
+| You can remove a 'via' redirection with "via none".
+| You can set up different via's for each userid@node.
+|
+| To speed up operation, rxIRC keeps internal mappings from nickname to
+| userid@node and from userid@node to nickname. That is, your NAMES file
+| is only queried once. So should you change the userid@node information
+| in your NAMES file from within rxIRC for a nickname that has already
+| been read in, you'll have to restart rxIRC.
+
+Escape characters:
+  There are two escape characters in rxIRC. One is the rxIRC command
+  character, which is by default a slash ('/'). Two is the CMS command
+  escape character '!'. You can abbreviate /exec by just typing !<command>.
+ 
+Default PF keys:
+  rxIRC stores your regular CMS PF-keys setup and re-defines it with
+  leading ! symbols which is the command escape of rxIRC. That means,
+  your normal CMS PF setup works also within rxIRC, unless you redefine
+  keys during your rxIRC session. When leaving, rxIRC puts the PF key
+  settings back as they were before (or almost).
+
+Special commands of rxIRC:
+ 
+/ABort
+   You may leave your session non-caring about the status of your TCPIP
+   connection. Use this only when you can't get out with /bye.
+ 
+/ALias [<alias name> [[<argument catchers>] <command string>]]
+|  You may create your own abbreviations for simple or complex commands.
+|  Commands may not contain the command char. Multiple commands can be
+|  specified by separating them with '::'. User-provided arguments can be put
+|  into variables by writing as many '%<var>' as you need in front of the
+|  command string. Alias names are case insensitive.
+|
+|  Some examples:
+|        alias ni msg nickserv@service.de
+|  This will convince rxIRC to send a message to NickServ with /ni <msg>.
+|
+|        alias date expr date date()::echo $(date)
+|  This makes rxIRC output today's date. Notice how I first used the
+|  /expr command, then the /echo command.
+|
+|        alias ctoggle %k %c pf$k imm /toggle $k |join $c|part $c
+|  This allows you to setup a PF key to join or leave a channel
+|  alternatingly simply by typing "/ctoggle 9 #PartyZone".
+|  Notice how it catches the two arguments and puts it into $k and $c.
+|  Then it calls pf$k which in our case is 'PF9', the rxIRC command
+|  to setup the PF9 key. The key then will immediately perform
+|  "/toggle 9 |join #PartyZone|part #PartyZone" which takes
+|  care of the alternating impact of the pf9 key. See /toggle for details.
+|
+|        alias sgg smile::grin::giggle
+|  /alias is treated differently from all other commands, in the sense
+|  that the line following /alias is not preprocessed as usual.
+|  This means $(variable) is only replaced _when_ the alias is actually
+|  used, not when you define it. Also you can specify multiple commands
+|  within an alias by putting '::' between them. The commands will be
+|  executed in a row as soon as the alias is used.
+|
+|        alias sgg
+|  Using /alias with just one argument will display the definition of
+|  that particular alias.
+|
+|        alias
+|  Using /alias without arguments will list the aliases.
+|
+|  Note: I have not provided a command to un-alias an alias as it's
+|    not really needed.
+ 
+/CAtalog
+|  This command will show you a compact list of all channel names that have at
+|  least 5 persons on them. Unfortunately it takes quite some time to perform
+|  as it has to process a lot of data from the IRC server before being able
+|  to display the collected information.
+
+/Channel <new channel>
+   This command will automatically /part you from your previous channel
+   before joining this new channel. If you don't want to get confused
+   by multiple channels, better always use this command instead of /join.
+   Without argument it will tell you what channel you are on.
+ 
+/CHOP <nickname> [<nickname> [<nickname>]]
+|  Make people channel operators of the current channel.
+|  A shorthand for "/mode $C +o <nickname>"
+
+/CLear
+   Clear the screen. Just in case you're not used to hitting PA2.
+ 
+/CMdchar <character>
+   Use another character than '/' to introduce commands.
+ 
+/DEscribe <target> <description>
+|  This command generates a CTCP ACTION description like /ME and the
+|  other action commands, but you can specify where to send it to.
+|  Target can be a nickname or a channel, not a bitnet user of course.
+
+/ECHO <text>
+|  Display a line of text to the screen. Typically used combined with
+|  variables like this:
+|    expr t left(time(),5)
+|    echo The time is $t 
+
+/Execute <command>    or more easily just:   !<command>
+   You can execute CMS commands with this, but remember not to stay too
+   long outside IRC or the IRC-server will most likely close your connection.
+ 
+/EXPRession <varname> <rexx expression>
+|  This allows you to store the value of a rexx expression into a variable.
+|  You can use RexX builtin functions such as substr(), words() giving you
+|  a quite powerful medium to operate on variables.
+|  Some examples:
+|    expr time time()
+|    expr t left('$(time)',5)
+|    echo $t
+|  Notice the trick that makes the contents of $(time) a valid rexx
+|  string by putting '' around it.
+
+/Follow
+   If you have just been invited to a channel this is an easier way to
+   join it. rxIRC will remember the name of the channel for you.
+ 
+/IF <rexx condition expression> THEN <command>
+|  This will make rxIRC perform <command> only when <condition> is met.
+|  The <condition> must not contain spaces, in exchange it may contain
+|  RexX builtin function.. you can even make floating point calculus! 
+|  Here goes an example:
+|    expr a 5/2
+|    if 2*$a=5 then echo People really win on IRC!
+
+/IGnore <nickname>|<address-mask> [<more arguments>]
+   If you don't want to receive a person's messages, you can use /ignore
+   on him. Use it again to remove the /ignore. Without arguments you
+|  get the list of people being ignored by you. The ignore function
+|  catches /msg's, /notice's and bitnet messages from the specified
+   nickname. It also sends a notice back to the sender telling him that
+   you are not receiving his messages unless you specify it to be silent with
+|  the rxIRC option "(Quiet". An <address-mask> is a string that will
+|  match a set of hosts from whom you don't want to hear anything.
+|  For example "*.ais.org" will keep any message from a user of that
+|  organization away from you. You can apply this to BITnet nodes aswell.
+ 
+/INTerpret <rexx statement>
+|  This will simply execute a RexX statement.  A command for hackers.
+
+/Invite <nickname> [<channel>]
+|  I made the channel argument optional. "/i lynx" will invite me to
+|  your current channel without hassle.
+
+/K <nickname>
+|  The quick way to kick somebody off a channel. This is a shorthand
+|  for /kick $C <nickname>
+
+/LAstlog [<number of lines>]
+   This shows you the last messages you received, usually 12 lines, but
+   you can request more (up to 50) or less.
+ 
+/LIst
+   Shows a list of channel names, number of users and topic.
+|  There must be at least 8 people on the channel for it to be listed,
+   unless you are running in LIST_ALL mode (See options in SYNTAX).
+
+/Localwho     (you may as well type /LCL)
+|  Shows you a list of IRC users that are from the same site as you or
+|  are using an IRC server which runs at your institution.
+
+/LOgging [ON | OFF]
+   You can switch the logging on and off. That means you get a transcription
+   of your IRC session into the file IRC LOG A0 on disk.
+ 
+/NAmes
+|  Shows a list of channels and people on them, but only those channels
+|  that have at least 7 visible persons aboard. This should be modified into
+|  something more flexible but for now it's like this. See also: /cat
+
+/Query [ <nickname> | <channel> ]
+   You can get into a dialogue mode with a person, all lines you type are
+   sent as private message to this person. If you want to talk onto a
+   channel you might be on at the same time you can do "/ <text>" without
+   leaving the /query. To leave the /query use /query without arguments.
+   If you want to use #-type channels you need to /query those, too.
+ 
+/PF<n> <mode> <string>
+|  You can use /pf1 through /pf24 to setup your PF keys. This command is
+|  actually nothing but a short form of !cp set pf<n> <mode> <string>
+|  so better refer to the CP SET manual for details on usage.
+|  Ok, I will resume: <mode> can either be IMMediate or DELayed.
+
+/Reply
+   This is a shortcut to get into a /query with the person that last sent
+   you a message, notice or invitation.
+ 
+/Request <nickname> | <channel>
+   Send a CTCP (Client To Client Protocol) Version Request to a person
+   or a whole Channel. IRC program that have this implemented will
+   automatically respond as does rxIRC when it gets such a request.
+ 
+/SAY <words>
+|  Speaks to the channel. Useful for aliases and source-scripts.
+
+/SErver <address> [ <port> [ <timeout> ] ]
+   Switch to another IRC server. rxIRC will exit if the server does not
+   respond.
+ 
+/SET [<variable> [<value>]]
+|  Set or query the contents of a variable, or if used without arguments,
+|  give a listing of all user-defined variables.
+
+/SKIP <number_of_lines>
+|  Tell rxIRC to skip the next <number> of lines of the file being
+|  sourced. Meaningless to be entered interactively. Lookup up /source
+|  for a practical example of skip's use.
+
+/SOurce <filename>
+|  Looks for a file called '<filename> RXIRC *' on all linked disks,
+|  then attempts to read it and execute it line by line.
+|  /source profile is automatically executed when you start up rxIRC.
+|  Lines are always treated as commands. The commands may not have the
+|  leading command character (the slash). Multiple commands can be specified
+|  in one line separated by '::' and lines can be indented.
+|  Especially interesting for scripts are the commands /if, /skip, /stop.
+|  For instance like this:
+|
+|    expr month word(date(),2)
+|    if word(date(),1)/=1 then skip 2
+|      echo Hey! Today is the 1st of $(month)!
+|      skip 1
+|        echo Today is just another day of $(month)...
+|    echo Anyway.. what I really wanted to say...
+|
+|  This shows how to make an if-then-else construct in an rxIRC script
+|  in a pretty assembler-like manner..      ;)
+|  Indenting improves readability slightly.
+
+/STatus
+   This outputs some of rxIRC's variables, tells you what channel you are
+   talking to (Target), what query, where you got invited to last and who
+   last sent a message to you.
+   It also shows a /whois of yourself.
+ 
+/STOP
+|  This command only makes sense within scripts. It stops rxIRC from
+|  executing scripts any longer. Might be useful combined with /if.
+
+/T <topic>
+|  Set a topic on the current channel. Shorthand for "/topic $C <topic>".
+
+/TAlkto <new target>
+   This is the ONLY command to allow you to switch to another channel when
+   you are on multiple channels! You can NOT use /join for that.
+   However this command is even more flexible, you can use it with a nickname,
+   then all you type is sent to that person, just like /query. The difference
+   is: You can overlay two dialogues, by having two people in /talkto and
+   /query, then talk to the queried directly and to the other with the '/ '
+   command.
+ 
+/TCPipstatus
+|  Gives some information about your connection to IRC. The number of bytes
+|  in the input buffer might be interesting. If there are any, then your
+|  connection to the server is probably suffering from netlag. 
+ 
+/TEll <nickname>|<user@node>|<user at node> [via <gateway>] message
+|  Use this command to send a message to a user in BITNet.
+|  See note about the bitnet support of rxIRC at the top of this file.
+ 
+/TOGgle <key> <c><first command><c><second command>
+|  This is a tricky feature to allow you to program pf keys with alternating
+|  function each time you use them. <key> is the number of the pf key.
+|  <c> is the character used to separate the commands. I use '|' usually.
+|  Toggle performs <first command>, then sets up PF<key> to call the
+|  inverted command '/TOGGLE <key> <c><second command><c><first command>'
+|  Here's one practical example you can include in your PROFILE RXIRC:
+|
+|    pf5 imm toggle 5 |query Nickserv@service.de|query
+|
+|  This will set up the PF05 key to /query or un-/query NickServ.
+|  Look also for the 'ctoggle' alias described in /alias.
+
+/Umode <mode switches>
+|  Change your "mode", that is change some flags in the IRC server
+|  concerning your connection. See IRC documentation about this.
+|  This is just a shorthand for "/mode <yournick> <switches>".
+
+/UNCHOP <nickname> [<nickname> [<nickname>]]
+|  Remove channel operatorship of the current channel from some people.
+|  A shorthand for "/mode $C -o <nickname>"
+
+/VIewlog
+|  A handy command to check out today's IRC log.
+|  Uses the CMS command 'BROWSE'. Hope that one exists on every CMS.
+
+/WHO [<channel> | <nickname> | <matchstring>]
+|  The /who command can now be used without arguments, if you are talking
+|  to a channel, it will show you the WHO list of that channel.
+   You can match hosts as well as real names with <matchstring>, so
+   the normal way to get a list of e.g. all italians is to type '/who *.it'.
+|  The logic that displays WHO output has become very complex (and
+|  colourful if you have colours by the way). It will display the channel
+|  information only if it still fits into the line. Also, if there is still
+|  not enough space, it will truncate the hostname and put an '*' after the
+|  '@' to indicate that. But it will only truncate the hostname to a certain
+|  minimum, from then on it will shorten the real name information and
+|  indicate that with a pair of periods, but that only happens in extreme
+|  cases. /who should always give you as much info as possible without
+|  wrapping lines. If you however do need more info don't forget about /whois.
+ 
+/Xamine
+   Quicky to get a /whois of the person that lest sent you a message.
+ 
+/Yell <arguments>
+|  This is just like /tell with one little difference. Yell prepends
+|  your own nickname in front of the message. Use it when it's likely
+|  that your dialogue partner is not running a message handling program
+|  and doesn't know your userid by heart.
+
+* <remark>
+|  With this you can add CMS-style comments in your RXIRC source files.
+|  Lines beginning with * are skipped.

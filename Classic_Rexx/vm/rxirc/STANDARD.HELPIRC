@@ -1,0 +1,390 @@
+ 
+ 
+                      STANDARD IRC COMMANDS
+ 
+ 
+Author:  Robert D. Blais
+Email:  <IO00058@Maine.maine.edu>
+        <IO00058@Maine.Bitnet>
+Revised:  11 November 1992
+Version:  1.10
+ 
+PURPOSE:  This document attempts to explain, in simple terms, the
+standard Internet Relay Chat (IRC) commands that all IRC client
+programs should support.  It is intended to supply information
+for new users not familiar with IRC and to serve as a reference
+for experienced users.
+     Since there are many different programs on several different
+operating systems, client-specific information has been left out.
+Users should refer to the documentation that came with their IRC
+program to see what internal commands it supports and what, if
+any, variations on the standard commands that client might have.
+ 
+NOTATION:  The "standard" command character for IRC clients is
+the virgule (/) and has been used exclusively in this document.
+However, most IRC client programs allow the user to change the
+command character to something else.  If yours is different,
+substitute your command character wherever you see a virgule.
+     Many of the commands accept arguments and many of the
+arguments will vary, depending on exactly what you are doing.
+Variable arguments have been listed within angle brackets.  If
+there are more than one possible type of argument, the choices
+are separated by a pipe (|).  For example, <nickname|channel>
+indicates that the argument can either be a user's nickname or a
+channel name.
+     Commands marked with an asterisk (*) are propagated across
+the entire network and should be used sparingly to save bandwidth
+and avoid confusion.
+     The term "wildcards" is used frequently in this document.
+Whenever a command allows wildcards, it means that certain parts
+of the command, such as "user" in user@host, can be replaced by
+an asterisk (*) and the command will effect the first or possibly
+all occurrences that match.  As a rule, if you don't know exactly
+what effect wildcards will have, don't use them.
+ 
+CREDITS:  The information contained in this document has been
+culled several sources, including the alt.irc group in Usenet
+news, the helpserver IRCIIHelp, and from the  author's own
+experience using IRC and studying and experimenting with the
+code for some of the client programs.  Special thanks to Carl
+"LynX" von Loesch for his help and suggestions.
+ 
+AWAY: *
+     Occasionally you may be away from your terminal for several
+     minutes but want to remain connected to IRC.  The away
+     command allows you to specify a message stating that you are
+     away and, optionally, should tell people when you'll be
+     back.  Other users will see the message whenever they send
+     you a private message or run the whois command on your
+     nickname.
+ 
+     Syntax:  /away <message>
+              /away
+ 
+     <message> is the new message you specify.
+     To remove an away message, issue the command with no
+     argument.
+ 
+ADMIN:
+     The admin command gives the name and email address of the
+     person in charge of the IRC server you or another user is
+     using.
+ 
+     Syntax:  /admin <nickname>
+              /admin
+ 
+     <nickname> is the nickname of the person who's server you
+     want administration information from.  If you omit the
+     nickname you'll get information about your own server.
+ 
+CHANNEL: *
+     The channel command is used to change channels.  On some
+     clients it will part you from the last channel you joined,
+     but on others it doesn't.
+ 
+     Syntax:  /channel <channel>
+ 
+     <channel> is the name of the new channel you wish to join.
+ 
+INFO:
+     The info command gives information about the server
+     software.
+ 
+     Syntax:  /info
+ 
+INVITE:
+     Occasionally you may want to invite another user to your
+     channel.  The easiest way to do so is with the invite
+     command.  It is also the only way for other users to join a
+     channel if the channel mode +i is in effect on that channel.
+ 
+     Syntax: /invite <nickname> <channel>
+ 
+     <nickname> is the nickname of the person you are inviting
+     and <channel> is the channel you are inviting them to.
+ 
+JOIN: *
+     Use the join command to join or create a channel.  If the
+     channel is public or you have been invited to it, you'll
+     join it.  If not, you get a message saying that you cannot
+     join the channel.
+ 
+     Syntax:  /join <channel>
+ 
+     <channel> is the channel you wish to join.
+ 
+KICK: *
+     The kick command is used by ChanOps to remove an offending
+     user from a channel.
+ 
+     Syntax:  /kick <channel> <nickname>
+ 
+     <channel> is the channel the offending user is to be removed
+     from and <nickname> is that user's nickname.
+ 
+LIST:
+     Use the list command to get a list of active channels.  This
+     list will show the channel names, number of users on the
+     channel, and the channel topic, if there is one.  If a
+     channel has mode +s in effect, it's name will not be shown
+     but the number of users and the channel topic will still be
+     displayed.
+ 
+     Syntax:  /list
+ 
+LINKS:
+     The links command lists the IRC servers currently connected
+     to an IRC server.
+ 
+     Syntax:  /links <server>
+              /links
+ 
+     <server> is the server whose links you're interested in.  If
+     you omit the server, you'll see the links to your own
+     server.  Wildcards may be used in server names.
+ 
+LUSERS:
+     The lusers command shows how many people are currently on
+     IRC.  It is automatically called when you sign onto IRC.
+ 
+     Syntax:  /lusers
+ 
+MODE: *
+     There are two types of mode commands.  Channel mode commands
+     effect a channel and user mode commands effect only you,
+     the user.  Any user can set user modes at any time, but
+     you must be a ChanOp to set channel modes.  Several modes
+     can be set at once.  (+ or - before the <mode> turns modes
+     on or off, respectively)
+ 
+  User modes:
+ 
+     Syntax:  /mode <nickname> <mode>
+ 
+     <nickname> is your nickname and the possible modes are:
+      Mode    Description
+       i    - Sets you invisible so you don't show up in /who.
+       w    - Allows you to see Wallops (messages to IRCOps.)
+       s    - Allows you to see server messages and /kills.
+       o    - (Available only to IRCOps.)
+ 
+     Note:  some clients have a /umode command for setting
+            user modes.
+ 
+  Channel modes:
+ 
+     Syntax:  /mode <channel> <mode> <arguments>
+ 
+     <channel> is the channel you wish to set the mode on and
+     available modes and their arguments are shown below.
+ 
+     Mode Arguments   Description
+       b <nick>    - Ban <nick> from a channel.  <nick> may be a
+                     nickname or a nick!user@host name.
+                     Wildcards are allowed if the user@host form
+                     is used.
+       i           - Makes channel invite-only.
+       l <number>  - Limits the number of users on a channel.
+                     <number> is the maximum number of users
+                     allowed.
+       m           - Channel is moderated, so only channel
+                     operators can talk.
+       n           - No MSGs to the channel are allowed from
+                     people not on the channel.
+       p           - Channel is private and people on it won't
+                     show up in /who, /names, or /whois.  It will
+                     show up in /list.
+       s           - Channel is secret, so the channel name won't
+                     show up in /list.
+       t           - Topic limit; only the channel operators may
+                     change the topic.
+       o <nick>    - Makes <nick> a channel operator.
+ 
+MOTD:
+     The MOTD (Message Of The Day) command redisplays the MOTD
+     that you saw when you signed on to the server or the new one
+     if it has been changed since you signed on.  It can also be
+     used to show the MOTD on another server.
+ 
+     Syntax:  /motd <nickname|server>
+              /motd
+     <nickname|server> is the nickname of another user or a
+     server.  If wildcards are used in the server name, the MOTD
+     of the first server to match the mask will be shown.
+ 
+MSG:
+     Use the msg command to send a private message to another
+     user or to a channel.  If you send a private message to a
+     single user, only that user will see it (hopefully, but IRC
+     is not very secure so use caution.)  If you send it to a
+     channel, all the users on that channel will see it.
+ 
+     Syntax:  /msg <nickname|channel> <message>
+ 
+     <nickname|channel> is the person or channel you are sending
+     the message to and <message> is the message you want to
+     send.
+ 
+NAMES:
+     The names command lists the nicknames of all the users
+     on a channel or all of the users on IRC (unless they have
+     set usermode +i).
+ 
+     Syntax:  /names <channel>
+ 
+     <channel> is the channel you want to list the users on.  If
+     <channel> is omitted, you will see a list of nicknames for
+     EVERY channel on IRC!
+ 
+NICK: *
+     Use the nick command to change your nickname.
+ 
+     Syntax:  /nick <nickname>
+ 
+     <nickname> is the new nickname you want.
+ 
+NOTICE:
+     The notice command is generally not necessary, but if you
+     have an important message that you want everyone on the
+     channel to pay attention to, you might find it useful.  It
+     is also a requirement that all automatic replies, such as
+     ctcp replies, robot and server replies, etc., be in the form
+     of a notice.
+ 
+     Syntax:  /notice <nickname|channel> <message>
+ 
+     <nickname|channel> is the person or channel you are sending
+     to and <message> is the message you want people to see.
+ 
+PART: *
+     Use the part command to leave a channel.
+ 
+     Syntax:  /part <channel>
+ 
+     <channel> is the channel you wish to leave.
+ 
+QUERY:
+     Use the query command to start a private conversation with
+     another user or to converse with a particular channel when
+     you're on multiple channels.  While in a query, all messages
+     you type *without* using the / or /msg  commands, will
+     only be seen by the person or channel you are in the query
+     with.
+ 
+     Syntax:  /query <nickname|channel>
+              /query
+ 
+     <nickname|channel> is the person or channel you wish to
+     start a query with.  To end a query and resume talking to
+     your channel, issue the command with no argument.
+ 
+QUIT: *
+     Use the quit command to end your IRC session.
+ 
+     Syntax:  /quit <reason>
+ 
+     <reason> is optional.  If you want to let people know why
+     you're quitting, you can give a brief reason.
+ 
+TIME:
+     The time command shows the current time at a server.
+ 
+     Syntax:  /time <nickname|server>
+              /time
+ 
+     If <nickname|server> is specified, the time at that server
+     will be displayed.  If no argument is given, it will return
+     the time at your server.  Wildcards may be used in the
+     server name.
+ 
+TOPIC: *
+     Use the topic command to set a topic line for your channel.
+     The topic line will be displayed in the channel list.
+ 
+     Syntax:  /topic <channel> <topic>
+ 
+     <channel> is the channel you're setting the topic for and
+     <topic> is the topic message.
+ 
+TRACE:
+     The trace command displays a list of the server links that
+     are connected to a particular server.
+ 
+     Syntax:  /trace <server>
+              /trace
+ 
+     <server> is the server whose links you want to see.  If you
+     omit the server, the links to your server will be shown.
+ 
+VERSION:
+     The version command will show what version of IRC a server
+     is running.  It can also be used to find out what client
+     program another user is using.
+ 
+     Syntax:  /version <nickname|server>
+              /version
+ 
+     If a nickname is specified, it will return the client
+     version of that user's program.  If a server is specified,
+     it will return the version of IRC running on that server.
+     If you omit the arguments it will return the version of the
+     server you are using.
+ 
+WHO:
+     Use the who command to get a list of users on a channel, at
+     a particular host, or with a common text string in their
+     name.
+ 
+     Syntax:  /who <text|channel|server>
+ 
+     <text|channel|server> can be text in a user's nickname,
+     hostname or IRCname, a channel name, or a server name.
+     Wildcards are allowed.
+ 
+WHOIS:
+     Use the whois command to get specific information about an
+     IRC user.
+ 
+     Syntax:  /whois <server> <nickname>
+              /whois <nickname>
+ 
+     <server> is the server the user specified in <nickname> is
+     on.  <server> may be omitted.
+ 
+WHOWAS:
+     Use the whowas command to get information about a user who
+     recently left IRC.
+ 
+     Syntax:  /whowas <nickname>
+ 
+     <nickname> is the nickname of the person you want
+     information about.
+ 
+/:
+     The virgule (/) is used to talk to the current channel when
+     you are in a query with another user or channel.  The
+     current channel is normally the last channel you joined,
+     however, some clients allow you to specify which channel is
+     current when you are on multiple channels.
+ 
+     Syntax:  / <message>
+ 
+     <message> is the message to be sent to the current channel.
+ 
+     In addition to the above commands, there are several other
+commands that are primarily for the use of IRCOps.  Some of the
+commands shown below provide some humorous replies when issued by
+regular users, proving that IRC coders have a sense of humor.
+Other commands give information which is fairly meaningless to
+the average user but hard-core users may be interested.  Try them
+at your own risk. :-)
+ 
+CONNECT, DEOP, DIE, HASH, KILL, OPER, PASS, REHASH, RESTART,
+SQUIT, STATS.
+ 
+--
+NOTE:  This document is hereby placed in the public domain.  If
+you copy it, please attribute the source.  If you modify it,
+please note who you are, what changes you made and the date of
+those changes in the document header.  Take the credit you
+deserve, but give credit where it is due.  Thanks.
