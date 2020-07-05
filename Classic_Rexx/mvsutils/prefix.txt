@@ -1,0 +1,130 @@
+/* REXX */                                                                      
+/*                                       */                                     
+/* AUTHOR: Mark Zelden                   */                                     
+/*                                       */                                     
+/* Last Updated 08/23/2007               */                                     
+/*                                       */                                     
+/* TRACE ?R */                                                                  
+Address ISREDIT                                                                 
+"MACRO (parm label1 label2)"                                                    
+ /* Address ISPEXEC "CONTROL ERRORS RETURN"  */                                 
+ /*                                                    */                       
+ /* This edit macro will add a prefix to the beggining */                       
+ /* of a line before the first non blank character,    */                       
+ /* shifting data to the right.                        */                       
+ /* Excluded lines are omitted.                        */                       
+ /*                                                    */                       
+  Call FIND_LABELS  /* find out if labels are being used  */                    
+  /*                                             */                             
+  /*   HOUSE KEEPING                             */                             
+  /*                                             */                             
+  "(width) = DATA_WIDTH " /* length of line  */                                 
+  count    = 0     /* count of changed lines */                                 
+  truncat  = 0     /* lines truncated count  */                                 
+  truncmsg = "'*** THE NEXT LINE WAS TRUNCATED AT THE END ***'"                 
+  /*                                             */                             
+  /* If the prefix is is delimted by single or   */                             
+  /* double quotes - then remove the delimiters  */                             
+  /*                                             */                             
+  If Substr(parm,1,1) = '''' | Substr(parm,1,1) = '"' then                      
+  parm = Substr(parm,2,Length(parm)-2)                                          
+  /***********************************************/                             
+  /*   BEGIN PREFIX PROCESSING                   */                             
+  /***********************************************/                             
+  Do until lastln = firstln-1                                                   
+    /* copy the data in the current line to variable 'data1' */                 
+    "(data1) = LINE "firstln                                                    
+    "ISREDIT (chkexcl) = XSTATUS" firstln                                       
+    If chkexcl = "NX" then do                                                   
+                                                                                
+      len1  = Length(Strip(data1,L))                                            
+      len2  = width-len1+1                                                      
+      len3  = Length(Strip(data1,T))                                            
+      len4  = Length(parm)                                                      
+                                                                                
+      /* check if adding the prefix will cause truncation     */                
+      If len3 + len4 > width then do                                            
+        truncat = truncat + 1                                                   
+        "ISREDIT LINE_BEFORE" firstln "= NOTELINE " truncmsg                    
+      End                                                                       
+                                                                                
+      blnks = Substr(data1,1,len2-1)                                            
+      data2 = substr(data1,len2,len1)                                           
+      data1 = blnks || parm || data2                                            
+                                                                                
+      count = count + 1                                                         
+    End                                                                         
+    /* copy the prefixed 'data1' back into the current line */                  
+    "LINE" firstln "= (data1)"                                                  
+    firstln = firstln + 1                                                       
+  End   /* do until   */                                                        
+  /***********************************************/                             
+  /*   END PREFIX PROCESSING                     */                             
+  /***********************************************/                             
+  If truncat = 0 then do                                                        
+    zedsmsg = count 'LINES CHANGED'                                             
+    zedlmsg = 'PREFIX "'parm'" WAS ADDED ON' count 'LINES.'                     
+    Address ISPEXEC "SETMSG MSG(ISRZ000)"  /* msg - no alarm */                 
+    Exit 0                                                                      
+  End                                                                           
+  Else do                                                                       
+    zedsmsg = 'TRUNCATED ON' truncat 'LINES'                                    
+    zedlmsg = 'PREFIX "'parm'" WAS ADDED ON' count 'LINES',                     
+              '('truncat 'LINES WERE TRUNCATED).'                               
+    Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */               
+    Exit 4                                                                      
+  End                                                                           
+  /*********************************/                                           
+  /*  SUB-ROUTINE TO FIND LABELS   */                                           
+  /*********************************/                                           
+  FIND_LABELS:                                                                  
+  If label1 = '' then do                                                        
+    firstln  = 1                                                                
+    "(lastln) = LINENUM .ZLAST"                                                 
+  End                                                                           
+  Else do                                                                       
+    If label2 = '' then label2 = label1                                         
+    firstsv = 'NOTFOUND'                                                        
+    lastsv  = 'NOTFOUND'                                                        
+    label1 = Translate(label1)                                                  
+    label2 = Translate(label2)                                                  
+    "(saveln) = DISPLAY_LINES"                                                  
+    "UP MAX"                                                                    
+    Do forever                                                                  
+      "LOCATE LAB NEXT"                                                         
+      if rc <> 0 then leave                                                     
+      "(labline,junk) = DISPLAY_LINES"                                          
+      "(lab,junk) = LABEL" labline                                              
+      if lab = label1 then firstsv = labline                                    
+      if lab = label2 then lastsv  = labline                                    
+    End                                                                         
+    If label1 ='.ZFIRST' | label1 = '.ZF' then firstsv = 1                      
+    If label1 ='.ZLAST'  | label1 = '.ZL' then ,                                
+       "(firstsv) = LINENUM .ZLAST"                                             
+    If label2 ='.ZFIRST' | label2 = '.ZF' then lastsv = 1                       
+    If label2 ='.ZLAST'  | label2 = '.ZL' then ,                                
+       "(lastsv) = LINENUM .ZLAST"                                              
+    /*                                             */                           
+    /* return display lines to originial position  */                           
+    /*                                             */                           
+    "UP MAX"                                                                    
+    If saveln <> 1 then "DOWN " saveln  /* don't scroll if at top */            
+    /*                                             */                           
+    If firstsv = 'NOTFOUND'  then do                                            
+      zedsmsg = 'RANGE LABEL ERROR'                                             
+      zedlmsg = 'THE SPECIFIED RANGE LABEL "' || label1 '" WAS',                
+                'NOT FOUND'                                                     
+      Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */             
+      Exit 12                                                                   
+    End                                                                         
+    If lastsv  = 'NOTFOUND'  then do                                            
+      zedsmsg = 'RANGE LABEL ERROR'                                             
+      zedlmsg = 'THE SPECIFIED RANGE LABEL "' || label2 '" WAS',                
+                'NOT FOUND'                                                     
+      Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */             
+      Exit 12                                                                   
+    End                                                                         
+    firstln = Min(firstsv,lastsv)                                               
+    lastln  = Max(firstsv,lastsv)                                               
+  End                                                                           
+  Return                                                                        

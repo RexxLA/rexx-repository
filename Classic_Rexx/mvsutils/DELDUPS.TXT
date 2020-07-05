@@ -1,0 +1,116 @@
+/* REXX */                                                                      
+/*                           */                                                 
+/* AUTHOR: MARK ZELDEN       */                                                 
+/*                           */                                                 
+Address ISREDIT                                                                 
+"MACRO (col1 col2)"                                                             
+ /*                                       */                                    
+ /* This edit macro will sort a file and  */                                    
+ /* delete the duplicate lines from it.   */                                    
+ /*                                       */                                    
+ /* Optionally - starting and ending      */                                    
+ /* columns can be specified for the      */                                    
+ /* duplicate search.                     */                                    
+ /*                                       */                                    
+ /* To help performance, this macro       */                                    
+ /* uses the exclude command and a        */                                    
+ /* "DELETE ALL X" command, which is      */                                    
+ /*  quicker than individual line deletes.*/                                    
+ /*                                       */                                    
+Address ISPEXEC "CONTROL ERRORS RETURN"                                         
+  /* check for numeric column numbers      */                                   
+  If col1 <> '' then do                                                         
+    If Datatype(col1,Number) <> 1 then do                                       
+      zedsmsg = 'START COLUMN NOT NUMERIC'                                      
+      zedlmsg = 'THE STARTING COLUMN FOR THE',                                  
+                'DUPLICATE SEARCH MUST BE NUMERIC.'                             
+      Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */             
+      Exit 12                                                                   
+    End                                                                         
+    "(chkwidth) = DATA_WIDTH"                                                   
+    If col1 > chkwidth | col1 < 1 then do                                       
+      zedsmsg = 'INVALID START COLUMN'                                          
+      zedlmsg = 'THE START COLUMN MUST BE BETWEEN 1 AND THE',                   
+                'DATA WIDTH (1-'Format(chkwidth)').'                            
+      Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */             
+      Exit 12                                                                   
+    End                                                                         
+    If col2 = '' then do                                                        
+      zedsmsg = 'NO ENDING COLUMN'                                              
+      zedlmsg = 'AN ENDING COLUMN FOR THE',                                     
+                'DUPLICATE SEARCH MUST BE SPECIFIED.'                           
+      Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */             
+      Exit 12                                                                   
+    End                                                                         
+  End                                                                           
+  Else col1 = 1   /* default starting column for duplicate search */            
+  If col2 <> '' then do                                                         
+    If Datatype(col2,Number) <> 1 then do                                       
+      zedsmsg = 'END COLUMN NOT NUMERIC'                                        
+      zedlmsg = 'THE ENDING COLUMN FOR THE',                                    
+                'DUPLICATE SEARCH MUST BE NUMERIC.'                             
+      Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */             
+      Exit 12                                                                   
+    End                                                                         
+    If col2 < col1 | col2 > chkwidth then do                                    
+      zedsmsg = 'INVALID END COLUMN'                                            
+      zedlmsg = 'THE END COLUMN MUST BE BETWEEN THE START COLUMN',              
+                'AND THE DATA WIDTH ('col1'-'Format(chkwidth)').'               
+      Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */             
+      Exit 12                                                                   
+    End                                                                         
+  End                                                                           
+  Else "(col2) = DATA_WIDTH"   /* default end col for dup search */             
+  /**********************/                                                      
+  /* housekeeping       */                                                      
+  /**********************/                                                      
+  "(status) = USER_STATE"         /* save current bounds  */                    
+  "(lastln) = LINENUM .ZLAST"     /* last data line       */                    
+     If lastln < 2  then do                                                     
+       zedsmsg = 'NEED AT LEAST 2 LINES'                                        
+       zedlmsg = 'THERE MUST BE AT LEAST 2 LINES IN THE FILE',                  
+                 'TO EXECUTE THE DELDUPS EDIT MACRO.'                           
+       Address ISPEXEC "SETMSG MSG(ISRZ001)"  /* msg - with alarm */            
+       EXIT 12                                                                  
+     End                                                                        
+  delcount = 0       /* count of deleted lines */                               
+  currln   = 1       /* current line number    */                               
+  "BOUNDS"           /* reset bounds           */                               
+  "RESET EXCLUDED"   /* reset exclude status   */                               
+  "SORT " col1 col2  /* sort on key columns    */                               
+  /***********************************/                                         
+  /* Begin search for duplicates.    */                                         
+  /***********************************/                                         
+  Do while currln < lastln                                                      
+    "(data1) = LINE "currln     /* data1 = current line      */                 
+    data1 =  Substr(data1,col1,col2-col1+1)                                     
+    nextln = currln + 1                                                         
+    "(data2) = LINE "nextln     /* data2 = next line        */                  
+    data2 =  Substr(data2,col1,col2-col1+1)                                     
+    If data1 == data2 then do                                                   
+      "ISREDIT XSTATUS "nextln" = X"  /* If match, exclude line */              
+      delcount = delcount + 1                                                   
+      currln = currln + 1                                                       
+    End                                                                         
+    Else  currln = currln + 1 /* no dup found - loop */                         
+  End   /* do while */                                                          
+  "DELETE ALL EXCLUDED"  /* end dup search - delete all excluded lines */       
+  "(lastln) = LINENUM .ZLAST"     /* last data line       */                    
+  /****************************************************************/            
+  "UP MAX"                 /* move display to first line   */                   
+  "USER_STATE = (status)"  /* restore saved bounds steeing */                   
+  Address ISPEXEC                                                               
+  If delcount = 0 then do                                                       
+    zedsmsg = 'NO DUPLICATE LINES'                                              
+    zedlmsg = 'NO DUPLICATE LINES WERE FOUND IN THE FILE.'                      
+    "SETMSG MSG(ISRZ001)"  /* msg - with alarm */                               
+    Exit 4                                                                      
+  End                                                                           
+  Else do                                                                       
+    lastln = Format(lastln) /* remove leading zeros */                          
+    zedsmsg = delcount 'LINES DELETED'                                          
+    zedlmsg = delcount 'DUPLICATE LINE(S) WERE DELETED AND',                    
+              lastln' LINE(S) WERE KEPT IN THE FILE.'                           
+    "SETMSG MSG(ISRZ000)"  /* msg - no alarm */                                 
+    Exit 0                                                                      
+  End                                                                           
