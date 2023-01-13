@@ -4,7 +4,7 @@
 
 ### Date('Julian')
 - *Date('J')*:
- has been removed from X3J18-199X and has been deprecated (limited for conversions)) in the CMS/TSO interpreter; it has been removed from ooRexx. Rexx users working with mainframe data need this format almost daily; when scripts are moved to ooRexx this format is missing. For variants and implementations that contain it, X3J18-202X proposes to standardize the year number to 4 digits.
+ not in [X3J18-199X](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/historic/j18pub.pdf) and has been deprecated (limited for conversions)) in the CMS/TSO interpreter; it has been removed from ooRexx. Rexx users working with mainframe data need this format almost daily; when scripts are moved to ooRexx this format is missing. For variants and implementations that contain it, X3J18-202X proposes to standardize the year number to 4 digits.
 ### Date('Normal')
 - *Leading zero on Day:*
 According to the z/VM Reference and the Extended Standard both the input and output format for *Day* cannot have a leading zero for day numbers 1-9. Implementations are inconsistent and while there is consensus over the output format, there is resistance registered to change existing implementations to stop accepting (otherwise well formed) date strings like '02 Jan 2023'.
