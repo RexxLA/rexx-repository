@@ -16,7 +16,7 @@
 
 ### Date('Normal')
 - *Leading zero on Day:*
-According to the z/VM Reference and the Extended Standard both the input and output format for *Day* cannot have a leading zero for day numbers 1-9. Implementations are inconsistent and while there is consensus over the output format, there is resistance registered to change existing implementations to stop accepting (otherwise well formed) date strings like '02 Jan 2023'.
+According to the z/VM Reference and the [Extended Standard](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/historic/Extended_Rexx_Standard_Dallas_Version-1998.pdf) both the input and output format for *Day* cannot have a leading zero for day numbers 1-9. Implementations are inconsistent and while there is consensus over the output format, there is resistance registered to change existing implementations to stop accepting (otherwise well formed) date strings like '02 Jan 2023'.
 - *Abbreviated Month Name*: 
 The accepted input month format is English only and the three character, capitalized strings are case sensitive in some implementations, and case insensitive in others. Cannot find the case sensitivity requirements in X3J18 nor -extended. (Or is this a general rule somewhere?) 
 
