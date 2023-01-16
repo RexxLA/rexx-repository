@@ -4,7 +4,7 @@ After an era of 6,7 and 8 bit character sets the computing world finally put an 
 
 Most modern languages have chosen an internal Unicode representation and can use exchange formats like UTF-8 and UTF-16. Some Classic Rexx implementations can use multibyte character representation, like the z/VM an z/OS implementation can use Kana and Katakana. 
 
-NetRexx, being Java, uses Java's character encoding, which is UTF-16.
+NetRexx, being Java, uses Java's character encoding, which is UTF-16. Most other variants and implementations thereof tolerate some Unicode use by being codepage 
 
 ## Which elements of the language can be Unicode
 
@@ -16,7 +16,7 @@ The possibilities here are
 
 ## Which BIFs are impacted by Unicode versus ASCII/EBCDIC
 
-- __Length()__: Length('Café') should be 4, not 5
-- __Left()__ and __Right()__: these should not yield incorrect output by returning, e.g., half of a double byte character
-- S
+- __length()__: length('Café') should be 4, not 5. The word has 5 bytes but 4 characters.
+- __left()__ and __right()__: these should not yield incorrect output by returning, e.g., half of a double byte character
 - __substr()__: the same goes for substr()
+- __translate()__: here are more repercussions that might not have been wholly solved in any implementation
