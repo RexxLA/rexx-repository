@@ -1,6 +1,6 @@
 # Unicode
 
-After an era of 6,7 and 8 bit character sets the computing world finally put an end to problems with code pages and non-english character encoding, and adapted the Unicode standard. This means a character might not fit in 8 bits anymore. The first 128 characters in the Unicode standards are identical to the ASCII characters. EBCDIC, which is the default charact set for the mainfram implementations, is a character set with 256 values, but like the ASCII and extended ASCII sets, a host of different codepages. 
+After an era of 6,7 and 8 bit character sets the computing world finally put an end to problems with code pages and non-english character encoding, and adopted the Unicode standard. This means a character might not fit in 8 bits anymore. The first 128 characters in the Unicode standards are identical to the ASCII characters. EBCDIC, which is the default character representation for the mainframe implementations, is a character set with 256 values, but like the ASCII and extended ASCII sets, a number of different codepages for different national languages. 
 
 Most modern languages have chosen an internal Unicode representation and can use exchange formats like UTF-8 and UTF-16. Some Classic Rexx implementations can use multibyte character representation, like the z/VM an z/OS implementation can use Kana and Katakana. 
 
