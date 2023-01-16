@@ -4,7 +4,7 @@ After an era of 6,7 and 8 bit character sets the computing world finally put an 
 
 Most modern languages have chosen an internal Unicode representation and can use exchange formats like UTF-8 and UTF-16. Some Classic Rexx implementations can use multibyte character representation, like the z/VM an z/OS implementation can use Kana and Katakana. 
 
-NetRexx, being Java, uses Java's character encoding, which is UTF-16. Most other variants and implementations thereof tolerate some Unicode use by being codepage 
+NetRexx, being Java, uses Java's character encoding, which is UTF-16. cRexx is being designed with Unicode in mind. Most other variants and implementations thereof tolerate some Unicode use by being *codepage agnostic*.
 
 ## Which elements of the language can be Unicode
 
@@ -13,6 +13,8 @@ The possibilities here are
 - Identifiers
 - Character content (of variables and constants)
 - String content (of variables and constants)
+
+Languages (not Rexx) that have keywords mostly avoid having these keywords in Unicode.
 
 ## Which BIFs are impacted by Unicode versus ASCII/EBCDIC
 
