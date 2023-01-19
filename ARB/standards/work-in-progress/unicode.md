@@ -30,3 +30,4 @@ Languages (not Rexx) that have keywords mostly avoid having these keywords in Un
 - __left()__ and __right()__: these should not yield incorrect output by returning, e.g., half of a double byte character
 - __substr()__: the same goes for substr()
 - __translate()__: here are more repercussions that might not have been wholly solved in any implementation (needs further study)
+- __lower()__ and __upper()__: how, for example, to change the case on Greek or Cyrillic
