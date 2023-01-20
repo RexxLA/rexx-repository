@@ -23,6 +23,7 @@ Languages (not Rexx) that have keywords mostly avoid having these keywords in Un
 | Statement   | Rexx version | Platform  | Output |
 |-----------  |--------------|-----------|--------|
 | `say length('Café')` | CMS/TSO 4.02 | z/VM, z/OS| 4  |
+| `say length('Café')` | USS | z/OS|  |
 | `say length('Café')` | Regina       | all       | 5 |
 | `say length('Café')` | Brexx 2.1    | all except| 5  |
 | `say length('Café')` | NetRexx 4.05 | all | 4
