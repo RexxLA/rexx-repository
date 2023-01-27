@@ -26,6 +26,7 @@ There should be a decision whether to count non-printing characters or not, and 
 | Statement   | Rexx version | Platform  | Output |
 |-----------  |--------------|-----------|--------|
 | `say length('Café')` | CMS/TSO 4.02 | z/VM, z/OS| 4  |
+| `say length('Café')` | USS | z/OS|  |
 | `say length('Café')` | Regina       | all       | 5 |
 | `say length('Café')` | Brexx 2.1    | all except| 5  |
 | `say length('Café')` | NetRexx 4.05 | all | 4
@@ -34,3 +35,4 @@ There should be a decision whether to count non-printing characters or not, and 
 - __left()__ and __right()__: these should not yield incorrect output by returning, e.g., half of a double byte character
 - __substr()__: the same goes for substr()
 - __translate()__: here are more repercussions that might not have been wholly solved in any implementation (needs further study)
+- __lower()__ and __upper()__: how, for example, to change the case on Greek or Cyrillic
