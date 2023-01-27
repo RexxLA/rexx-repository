@@ -16,6 +16,9 @@ The possibilities here are
 
 Languages (not Rexx) that have keywords mostly avoid having these keywords in Unicode.
 
+## Non-printing characters
+There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.ß
+
 ## Which BIFs are impacted by Unicode versus ASCII/EBCDIC
 
 - __length()__: length('Café') should be 4, not 5. The word has 5 bytes but 4 characters.
@@ -27,6 +30,7 @@ Languages (not Rexx) that have keywords mostly avoid having these keywords in Un
 | `say length('Café')` | Brexx 2.1    | all except| 5  |
 | `say length('Café')` | NetRexx 4.05 | all | 4
 
+- __center()__ (and __centre()__ of course): multibyte chars cannot be centered correctly
 - __left()__ and __right()__: these should not yield incorrect output by returning, e.g., half of a double byte character
 - __substr()__: the same goes for substr()
 - __translate()__: here are more repercussions that might not have been wholly solved in any implementation (needs further study)
