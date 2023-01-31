@@ -17,7 +17,10 @@ The possibilities here are
 Languages (not Rexx) that have keywords mostly avoid having these keywords in Unicode.
 
 ## Non-printing characters
-There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.ß
+There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.
+
+## Validation of UTF-8 input
+Implementations should be validated against malevolently constructed ‘UTF-8’ input. They can offer validation methods to the language user but should not assume responsibility for everything in user code. It might be an idea to standardize the names of the validation methods/functions.
 
 ## Which BIFs are impacted by Unicode versus ASCII/EBCDIC
 
@@ -31,8 +34,17 @@ There should be a decision whether to count non-printing characters or not, and 
 | `say length('Café')` | Brexx 2.1    | all except| 5  |
 | `say length('Café')` | NetRexx 4.05 | all | 4
 
-- __center()__ (and __centre()__ of course): multibyte chars cannot be centered correctly
+- __center()__ (and __centre()__ of course): multibyte chars cannot be centered correctly if the number of character positions is unknown
 - __left()__ and __right()__: these should not yield incorrect output by returning, e.g., half of a double byte character
 - __substr()__: the same goes for substr()
 - __translate()__: here are more repercussions that might not have been wholly solved in any implementation (needs further study)
 - __lower()__ and __upper()__: how, for example, to change the case on Greek or Cyrillic
+
+## I/O functions and methods
+The I/O components should be able to recognize byte order of UTF(16 or 32) files by checking the byte order marker (BOM).
+
+Options should guide the writing of files. We have to see what from DBCS support in Classic Rexx can be carried over.
+
+__NetRexx__ currently uses UTF-8 for __charin()__ and __charout()__ - other encodings can be used by employing the java.util and java.nio classes.
+
+__EXECIO__ implementations and emulations probably should not be changed.
