@@ -33,14 +33,14 @@ Here the research by Rony for Windows and Unix(-like)
       undertaken and if not found an error gets raised
 
   * Windows:
-      o unqualifiedExecutables:
-          + first the current working directory gets searched for it and if not found
-          + search along the pathDir (PATH) in the order supplied, if not found an error gets raised
-      o relativeExecutables: the supplied information gets appended to currDir (current working
-        directory) and denotes the exact location of the executable, no further searches are
-        undertaken and if not found an error gets raised
-      o absoluteExecutables: denotes the exact location of the executable, no further searches are
-        undertaken and if not found an error gets raised
+    * unqualifiedExecutables:
+      * first the current working directory gets searched for it and if not found
+      * search along the pathDir (PATH) in the order supplied, if not found an error gets raised
+    * relativeExecutables: the supplied information gets appended to currDir (current working
+      directory) and denotes the exact location of the executable, no further searches are
+      undertaken and if not found an error gets raised
+    * absoluteExecutables: denotes the exact location of the executable, no further searches are
+      undertaken and if not found an error gets raised
 
 So the resolution of executables is the same on Unix and Windows except for Windows first searching 
 currDir (the current working directory) in the case of unqualifiedExecutables.
