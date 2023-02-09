@@ -1,1 +1,1 @@
-A place to collect documents about the Search Order problem
+A place to collect documents about [the Search Order problem](..)
