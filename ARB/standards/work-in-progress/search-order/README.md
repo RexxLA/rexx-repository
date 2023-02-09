@@ -9,4 +9,4 @@ A place to collect all things related to the Search Order problem
 ## Contents
 
 * [Documents](documents/README.md) -- describing the problem
-* Tests -- testing different aspects of the problem
+* [Tests](tests/README.md) -- testing different aspects of the problem
