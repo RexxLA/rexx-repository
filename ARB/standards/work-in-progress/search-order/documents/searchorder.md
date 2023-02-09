@@ -24,13 +24,13 @@ Here the research by Rony for Windows and Unix(-like)
 ## Searching for executables via the operating system:
 
   * Unix-like:
-      o unqualifiedExecutables: get searched along the pathDir (PATH) in the order supplied, if not
-        found an error gets raised
-      o relativeExecutables: the supplied information gets appended to currDir (current working
-        directory) and denotes the exact location of the executable, no further searches are
-        undertaken and if not found an error gets raised
-      o absoluteExecutables: denotes the exact location of the executable, no further searches are
-        undertaken and if not found an error gets raised
+    * unqualifiedExecutables: get searched along the pathDir (PATH) in the order supplied, if not
+      found an error gets raised
+    * relativeExecutables: the supplied information gets appended to currDir (current working
+      directory) and denotes the exact location of the executable, no further searches are
+      undertaken and if not found an error gets raised
+    * absoluteExecutables: denotes the exact location of the executable, no further searches are
+      undertaken and if not found an error gets raised
 
   * Windows:
       o unqualifiedExecutables:
