@@ -8,5 +8,5 @@ A place to collect all things related to the Search Order problem
 
 ## Contents
 
-* Documents -- describing the problem
+* [Documents](documents/README.md) -- describing the problem
 * Tests -- testing different aspects of the problem
