@@ -14,7 +14,8 @@ Given:
 
 * A sequence $\langle p_1, \dots, p_n \rangle$ of **path lists**, where each $p_i$ is a sequence of (relative or absolute) directories, $\langle d_{i1}, \dots, d_{im_{i}}\rangle$.
 
-For example, ooRexx determines that $p_1 = \langle S \rangle$, where $S$ is the "same" or caller directory; $p_2 = \langle "." \rangle$, the 1-element sequence containing as its only element the current directory; $p_3$ is the application-defined path; $p_4$ is the list of directories contained in the REXX_PATH environment variable, and $p_5$ is the list of directories contained in the PATH environment variable.
+>For example, ooRexx determines that $p_1 = \langle S \rangle$, where $S$ is the "same" or caller directory; $p_2 = \langle "." \rangle$, the 1-element sequence containing as its only element the current directory; $p_3$ is the application-defined path; $p_4$ is the list of directories contained in the REXX_PATH environment variable, and $p_5$ is the list of directories contained in the PATH environment variable.
+
 * A sequence $\langle l_1, \dots, l_k \rangle$ of **file extension lists**, where each $l_j$ is a sequence of (possibly empty) file extensions, $\langle e_{i1}, \dots, e_{jn_{j}}\rangle$.
 * A **file name** $f$, which can contain or not an extension and/or a relative or absolute path.
 * A **composition operation** $C$ that, given a directory $d_{ij}$, an extension $e_{kl}$ and a file name $f$ produces an absolute file specification $F$.
