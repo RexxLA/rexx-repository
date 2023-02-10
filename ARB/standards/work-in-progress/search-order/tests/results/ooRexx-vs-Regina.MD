@@ -10,5 +10,5 @@
 | Search for same extension as caller? | No | Yes |
 | Basic extension list and order | [1] "" (empty string),<br> [2] REGINA_SUFFIXES (env. variable),<br> [3] ".rexx",<br> [4] ".rex",<br> [5] ".cmd", and<br> [6] ".rx" | [1] ".cls" (for ::requires only),<br> [2] the same extension,<br> [3] the application-defined extensions, <br> [4] ".REX", (for unix-like systems), <br> [6] ".rex", and<br> [7] no extension |
 | Searches for no extension | At the beginning | At the end |
-| User defined extensions | Yes (REGINA_SUFFIXES) | No (Application defined only) |
+| User-defined extensions | Yes (REGINA_SUFFIXES) | No (Application defined only) |
 | Type of traversal | Directory-first | Extension-first |
