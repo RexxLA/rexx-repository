@@ -7,4 +7,4 @@
 | Bypassing the search order | The program name "contains<br>a file path specification" | name[1] == "\" \| name[1] == "/" \|<br> name[2] == ":" \| <br> name[1,2] == "./" \| name[1,2] == ".\\" \| <br> name[1,3] == "../" \| name[1,3] == "..\\" |
 | Is this bypassing documented? | Yes. 1.4.2 of the 3.9.5 version of regina.pdf | No |
 | Search for same extension as caller? | No | Yes |
-| Basic extension list and order | [1] "" (empty string),<br> [2] ".rexx",<br> [3] ".rex",<br> [4] ".cmd",<br> and [5]".rx" | [1] ".cls" (for ::requires only),<br> [2] the same extension,<br> the application-defined extensions, [3] ".REX" [3] (for unix-like systems), [4] ".rex", and<br> [5] no extension |
+| Basic extension list and order | [1] "" (empty string),<br> [2] REGINA_SUFFIXES (env. variable),<br> [3] ".rexx",<br> [4] ".rex",<br> [5] ".cmd", and<br> [6] ".rx" | [1] ".cls" (for ::requires only),<br> [2] the same extension,<br> [3] the application-defined extensions, <br> [4] ".REX", (for unix-like systems), <br> [6] ".rex", and<br> [7] no extension |
