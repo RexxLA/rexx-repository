@@ -16,7 +16,7 @@ Given:
 
 >For example, ooRexx determines that $p_1 = \langle S \rangle$, where $S$ is the "same" or caller directory; $p_2 = \langle$ `"."` $\rangle$, the 1-element sequence containing as its only element the current directory; $p_3$ is the application-defined path, if any; $p_4$ is the list of directories contained in the `REXX_PATH` environment variable, and $p_5$ is the list of directories contained in the `PATH` environment variable.
 
-* A sequence $\langle l_1, \dots, l_k \rangle$ of **file extension lists**, where each $l_j$ is a sequence of (possibly empty) file extensions, $\langle e_{i1}, \dots, e_{jn_{j}}\rangle$.
+* A sequence $\langle l_1, \dots, l_k \rangle$ of **file extension lists**, where each $l_j$ is a sequence of (possibly empty) file extensions, $\langle e_{j1}, \dots, e_{jn_{j}}\rangle$.
 
 >For example, ooRexx determines that the first extension list contains only one element, `".cls"`, but only in the case of a `::requires` invocation; the next extension list has also only one element, and is the same extension as the caller program, if it exists; the next extension list is defined by the application, for example by an editor; the next list is either $\langle$ `".REX"`, `".rex"` $\rangle$, in the case of Unix-like operating systems, or $\langle$ `".rex"` $\rangle$, in the case of Windows; and, finally, the last extension list has also only one element, the empty extension (that is, no extension).
 
