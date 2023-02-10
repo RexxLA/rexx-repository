@@ -10,7 +10,7 @@ A place to collect all things related to the Search Order problem
 
 ## Definition of a search algorithm
 
-Given: 
+***Given:*** 
 
 * A sequence $\langle p_1, \dots, p_n \rangle$ of **path lists**, where each $p_i$ is a sequence of (relative or absolute) directories, $\langle d_{i1}, \dots, d_{im_{i}}\rangle$.
 
@@ -25,15 +25,19 @@ Given:
 
 >The simplest cases of composition are similar to a concatenation, adding a path separator character if necessary. For example, if $d=$ `"C:\my\files"`, $e =$ `".cls"` and $f=$ `"myclass"`, then probably $C(d,e,f) =$ `"C:\my\files\myclass.cls"`. There are also some non-obvious, more complicated variations.
 
-Locate the first $F = C(d_{ij},e_{kl},f)$ such that $F$ that exists.
+***Task:***
+
+Locate the first $F = C(d,e,f)$ such that $F$ exists.
+
+***Variations:***
 
 A search algorithm can be
 
-* _Directory-first_, i.e. all the directories in $p_1$ are checked in turn, then all the directories in $p_2$, and so on. Inside each directories, all the extensions are checked.
-* _Extension-first_, i.e. all the extensions in $l_1$ are checked in turn, then all the extensions in $l_2$, and so on. For each extension, all the directories are checked.
+* **Directory-first**, i.e. all the directories in $p_1$ are checked in turn, then all the directories in $p_2$, and so on. Inside each directories, all the extensions are checked.
+* **Extension-first**, i.e. all the extensions in $l_1$ are checked in turn, then all the extensions in $l_2$, and so on. For each extension, all the directories are checked.
 
 >For example, ooRexx search is extension-first, while Regina search is directory-first.
 
-The composition operation can incorporate a number of _exceptions_ where the search algoritgh is bypassed (and then, normally, the $f$ parameter is resolved by the operating system in a system-dependent way). Similarly, the extension search can be bypassed in certain circumstances.
+The composition operation can incorporate a number of **exceptions** where the search algoritgh is bypassed (and then, normally, the $f$ parameter is resolved by the operating system in a system-dependent way). Similarly, the extension search can be bypassed in certain circumstances.
 
 >For example, ooRexx does not follow the search order when `f[1] == "\" | f[1] == "/" | f[2] == ":" | f[1,2] == ".\" | f[1,2] == "./" | f[1,3] == "..\" | f[1,3] == "../"`, and the extension list is bypassed when the file name has an extension ("is extension qualified").
