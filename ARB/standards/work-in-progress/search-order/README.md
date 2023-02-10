@@ -30,7 +30,7 @@ Locate the first $F = C(d_{ij},e_{kl},f)$ such that $F$ that exists.
 A search algorithm can be
 
 * _Directory-first_, i.e. all the directories in $p_1$ are checked in turn, then all the directories in $p_2$, and so on. Inside each directories, all the extensions are checked.
-* _Extension-first_, i.e. all the extensions in $l_1$ are checked in turn, then all the extensions in $l_2$, and so on. For each $e_{kl}$, all the directories in $p_1$ are checked, then all the directories in $p_2$, and so on; then the next extension is checked, etcetera.
+* _Extension-first_, i.e. all the extensions in $l_1$ are checked in turn, then all the extensions in $l_2$, and so on. For each extension, all the directories are checked.
 
 >For example, ooRexx search is extension-first, while Regina search is directory-first.
 
