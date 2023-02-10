@@ -23,7 +23,7 @@ Given:
 * A **file name** $f$, which can contain or not an extension and/or a relative or absolute path.
 * A **composition operation** $C$ that, given a directory $d_{ij}$, an extension $e_{kl}$ and a file name $f$ produces an absolute file specification $F = C(d_{ij},e_{kl},f)$.
 
->The simplest cases of composition are similar to a concatenation, adding a path separator character if necessary. For example, if $d_{ij}=$ `C:\my\files`, $e_{kl} =$ `".cls"` and $f=$ "routine`"`, then probably $C(d_{ij},e_{kl},f) =$ `C:\my\files\routine.cls`. There are also some non-obvious, more complicated variations.
+>The simplest cases of composition are similar to a concatenation, adding a path separator character if necessary. For example, if $d_{ij}=$ `"C:\my\files"`, $e_{kl} =$ `".cls"` and $f=$ `"routine"`, then probably $C(d_{ij},e_{kl},f) =$ `"C:\my\files\routine.cls"`. There are also some non-obvious, more complicated variations.
 
 Locate the first $F = C(d_{ij},e_{kl},f)$ such that $F$ that exists.
 
