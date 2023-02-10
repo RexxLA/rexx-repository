@@ -21,7 +21,9 @@ Given:
 >For example, ooRexx determines that the first extension list contains only one element, `".cls"`, but only in the case of a `::requires` invocation; the next extension list has also only one element, and is the same extension as the caller program, if it exists; the next extension list is defined by the application, for example by an editor; the next list is either $\langle$ `".REX"`, `".rex"` $\rangle$, in the case of Unix-like operating systems, or $\langle$ `".rex"` $\rangle$, in the case of Windows; and, finally, the last extension list has also only one element, the empty extension (that is, no extension).
 
 * A **file name** $f$, which can contain or not an extension and/or a relative or absolute path.
-* A **composition operation** $C$ that, given a directory $d_{ij}$, an extension $e_{kl}$ and a file name $f$ produces an absolute file specification $F$.
+* A **composition operation** $C$ that, given a directory $d_{ij}$, an extension $e_{kl}$ and a file name $f$ produces an absolute file specification $F = C(d_{ij},e_{kl},f)$.
+
+>The simplest cases of composition are similar to a concatenation, adding a path separator character if necessary. For example, if $d_{ij}=$ `C:\my\files`, $e_{kl} =$ `".cls"` and $f=$ "routine`"`, then probably $C(d_{ij},e_{kl},f) =$ `C:\my\files\routine.cls`. There are also some non-obvious, more complicated variations.
 
 Locate the first $F = C(d_{ij},e_{kl},f)$ such that $F$ that exists.
 
