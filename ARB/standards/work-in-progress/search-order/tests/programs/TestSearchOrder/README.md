@@ -17,10 +17,10 @@ To do:
 
 * There's a "debugLevel" variable in 'subdir/dotdotsame/same/main.rex' that allows control of verbosity. Change that to a program argument, expand and document.
 * In-program documentation.
-* Backslash-relative directory tests (Windows-only) (i.e., "Call '\some\path\test.rex'").
-* Drive-relative tests (Windows-only) (i.e., "Call 'D:relative\path\test.rex'").
-* Drive-absolute tests (Windows-only) (i.e., "Call 'D:\some\path\test.rex'").
-* The three above, but with UNC "\\server\share".
+* Backslash-relative directory tests (Windows-only) (i.e., "Call '\\some\\path\\test.rex'").
+* Drive-relative tests (Windows-only) (i.e., "Call 'D:relative\\path\\test.rex'").
+* Drive-absolute tests (Windows-only) (i.e., "Call 'D:\\some\\path\\test.rex'").
+* The three above, but with UNC "\\\\server\\share".
 * Add support for new interpreters.
 
 Works in
