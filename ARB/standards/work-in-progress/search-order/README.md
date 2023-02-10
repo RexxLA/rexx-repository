@@ -12,9 +12,9 @@ A place to collect all things related to the Search Order problem
 
 Given: 
 
-* A sequence $\langle p_1, \dots, p_n \rangle$ of path lists, where each $p_i$ is a sequence of (relative or absolute) directories, $\langle d_{i1}, \dots, d_{im_{i}}\rangle$.
-* A sequence $\langle l_1, \dots, l_k \rangle$ of file extension lists, where each $l_j$ is a sequence of (possibly empty) file extensions, $\langle e_{i1}, \dots, e_{jn_{j}}\rangle$.
-* A file name $f$, which can contain or not an extension and/or a relative or absolute path.
+* A sequence $\langle p_1, \dots, p_n \rangle$ of _path lists_, where each $p_i$ is a sequence of (relative or absolute) directories, $\langle d_{i1}, \dots, d_{im_{i}}\rangle$.
+* A sequence $\langle l_1, \dots, l_k \rangle$ of _file extension lists_, where each $l_j$ is a sequence of (possibly empty) file extensions, $\langle e_{i1}, \dots, e_{jn_{j}}\rangle$.
+* A *file name* $f$, which can contain or not an extension and/or a relative or absolute path.
 * A _composition operation_ $C$ that, given a directory $d_{ij}$, an extension $e_{kl}$ and a file name $f$ produces an absolute file specification $F$.
 
 Locate the first $F = C(d_{ij},e_{kl},f)$ such that $F$ that exists.
