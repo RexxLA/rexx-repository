@@ -1,5 +1,7 @@
 # Search Order in Rexx vs. Regina
 
+Testes with [Test Search Order](../programs/TestSearchOrder)
+
 Versions compared are ooRexx 5.1.0 (Edition 2023.01.01, last revised on 20221024 with r12526) under Windows 11 Pro and Regina Rexx 3.9.5 under Ubuntu 20.04 (wsl2).
 
 | Feature | Regina | ooRexx |
