@@ -32,4 +32,4 @@ A search algorithm can be
 
 The composition operation can incorporate a number of _exceptions_ where the search algoritgh is bypassed (and then, normally, the $f$ parameter is resolved by the operating system in a system-dependent way).
 
->For example, ooRexx does not follow the search order when `f[1] == "\\" | f[1] == "/" | f[2] == ":" | f[1,2] == ".\\" | f[1,2] == "./" ! f[1,3] == "..\\" ! f[1,3] == "../"`.
+>For example, ooRexx does not follow the search order when `f[1] == "\" | f[1] == "/" | f[2] == ":" | f[1,2] == ".\" | f[1,2] == "./" ! f[1,3] == "..\" ! f[1,3] == "../"`.
