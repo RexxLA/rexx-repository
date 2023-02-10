@@ -24,4 +24,4 @@ A search algorithm can be
 * _Directory-first_, i.e. all the directories of $p_1$ are checked in turn, then all the directories of $p_2$, and so on. Inside each directories, all the extensions are checked.
 * _Extension-first_, i.e. all the extensions of $l_1$ are checked in turn, then all the extensions of $l_2$, and so on. For each $e_{kl}$, all the directories in $p_1$ are checked, then all the directories in $p_2$, and so on; then the next extension is checked, etcetera.
 
-The composition operation can incorporate a number of _exceptions_ where the search algoritgh is bypassed (and, normally, the $f$ parameter is resolved by the operating system).
+The composition operation can incorporate a number of _exceptions_ where the search algoritgh is bypassed (and then, normally, the $f$ parameter is resolved by the operating system in a system-dependent way).
