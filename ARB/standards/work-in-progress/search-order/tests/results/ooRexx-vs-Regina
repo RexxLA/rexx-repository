@@ -1,5 +1,5 @@
 # Search Order in Rexx vs. Regina
 
 | Feature | ooRexx | Regina |
-| ---     | ---    | ---    |
+| --- | --- | --- |
 | Concept of "same" (or caller's) directory | Yes | no |
