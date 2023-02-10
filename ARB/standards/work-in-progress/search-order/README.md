@@ -30,6 +30,8 @@ A search algorithm can be
 * _Directory-first_, i.e. all the directories in $p_1$ are checked in turn, then all the directories in $p_2$, and so on. Inside each directories, all the extensions are checked.
 * _Extension-first_, i.e. all the extensions in $l_1$ are checked in turn, then all the extensions in $l_2$, and so on. For each $e_{kl}$, all the directories in $p_1$ are checked, then all the directories in $p_2$, and so on; then the next extension is checked, etcetera.
 
+>For example, ooRexx search is extension-first, while Regina search is directory-first.
+
 The composition operation can incorporate a number of _exceptions_ where the search algoritgh is bypassed (and then, normally, the $f$ parameter is resolved by the operating system in a system-dependent way).
 
 >For example, ooRexx does not follow the search order when `f[1] == "\" | f[1] == "/" | f[2] == ":" | f[1,2] == ".\" | f[1,2] == "./" ! f[1,3] == "..\" ! f[1,3] == "../"`.
