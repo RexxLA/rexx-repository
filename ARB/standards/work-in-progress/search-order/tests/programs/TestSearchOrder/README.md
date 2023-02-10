@@ -31,3 +31,7 @@ Works in
 Downloads:
 
 * [Here](testsearchorder.zip)
+
+Installation and running the test:
+
+* Unzip [testsearchorder.zip](testsearchorder.zip) and execute testsearchorder.rex in the testsearchorder folder.
