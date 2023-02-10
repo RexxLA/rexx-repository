@@ -17,7 +17,7 @@ Given:
 * A file name $f$, which can contain or not an extension and/or a relative or absolute path.
 * A _composition operation_ $C$ that, given a $p_i$, a $e_j$ and $f$ produces an absolute file specification $F$.
 
-Locate the first $F = C(d_{ij},e_k,f)$ that exists.
+Locate the first $F = C(d_{ij},e_k,f)$ such that $F$ that exists.
 
 A search algorithm can be
 
