@@ -1,4 +1,4 @@
-# Search Order in ooRexx vs. Regina
+# Search Order in Regina vs. ooRexx
 
 Tested with [Test Search Order](../programs/TestSearchOrder).
 
