@@ -2,9 +2,13 @@
 
 A place to collect all things related to the Search Order problem
 
-## Introduction
+## Contents
 
-### Definition of the problem
+* [References](references/README.md) -- external references related to the problem
+* [Documents](documents/README.md) -- describing the problem
+* [Tests](tests/README.md) -- testing different aspects of the problem
+
+## Definition of a search algorithm
 
 Given: 
 
@@ -21,9 +25,3 @@ A search algorithm can be
 * _Extension-first_, i.e. all the extensions are checked in turn. For each $e_i$, all the directories in $p_1$ are checked, then all the directories in $p_2$, and so on; then the next extension is checked, etcetera.
 
 The composition operation can incorporate a number of _exceptions_ where the search algoritgh is bypassed (and, normally, the $f$ parameter is resolved by the operating system).
-
-## Contents
-
-* [References](references/README.md) -- external references related to the problem
-* [Documents](documents/README.md) -- describing the problem
-* [Tests](tests/README.md) -- testing different aspects of the problem
