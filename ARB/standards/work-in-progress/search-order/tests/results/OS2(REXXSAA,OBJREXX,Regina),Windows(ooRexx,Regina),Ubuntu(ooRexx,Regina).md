@@ -33,12 +33,12 @@ Legend
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
-| `lib\\samelib` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
-| `lib\\samelib.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
-| `lib\\currlib` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
-| `lib\\currlib.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |   |
-| `lib\\pathlib` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | Regina limits the search to the current directory because there is a "\\" character |
-| `lib\\pathlib.rex` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | Regina limits the search to the current directory because there is a "\\" character |
+| `lib\samelib` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
+| `lib\samelib.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
+| `lib\currlib` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `lib\currlib.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |   |
+| `lib\pathlib` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | TODO: REXXSAA? <br> Regina limits the search to the current directory because there is a "\\" character |
+| `lib\pathlib.rex` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | TODO: REXXSAA? <br> Regina limits the search to the current directory because there is a "\\" character |
 
 ### Dot-relative calls
 
