@@ -20,12 +20,12 @@ Legend
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
-| same | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
-| same.rex | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
-| curr | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension" (TODO: Try .CMD) |
-| curr.rex | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| path | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension" (TODO: Try .CMD) |
-| path.rex | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `same` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
+| `same.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
+| `curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `curr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `path` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `path.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 
 ### Downward-relative calls
 
