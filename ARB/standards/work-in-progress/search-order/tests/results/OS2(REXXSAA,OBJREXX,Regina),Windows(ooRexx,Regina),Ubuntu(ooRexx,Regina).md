@@ -17,7 +17,7 @@ The test program is distributed as a zip file. It implements the following struc
            |               |               caller directory. Returns "same")
            |               +---> main.rex (The main program)
            |               |
-           |               +---> <b>lib</a>
+           |               +---> <b>lib</b>
            |                       |
            |                       +---> samelib.rex (Returns "samelib")
            |
