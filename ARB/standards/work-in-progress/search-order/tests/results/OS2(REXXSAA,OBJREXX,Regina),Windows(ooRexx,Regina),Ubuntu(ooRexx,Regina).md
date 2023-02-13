@@ -48,45 +48,53 @@ Legend
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
 | `.\same` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory <br> ooRexx limits the search to the current directory when the file name starts with `.\` or `./` |
 | `.\same.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory <br> ooRexx limits the search to the current directory when the file name starts with `.\` or `./` |
-| `.\curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `.\curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `.\curr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `.\path` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | |
-| `.\path.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | |
+| `.\path` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case |
+| `.\path.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case |
+
+**Additional comments**: It's interesting to see that OBJREXX does check `.\path.rex` against the directories of the `PATH`.
 
 ### Dotdot-relative calls
 
-| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** |
-| ---    | --- | --- | --- | --- | --- | --- | --- | --- |
-| ..\\dotdotsame | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** |
-| ..\\dotdotsame.rex | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** |
-| ..\\dotdotcurr | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** |
-| ..\\dotdotcurr.rex | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |
-| ..\\dotdotpath | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** |
-| ..\\dotdotpath.rex | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** |
+| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
+| ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
+| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
+| `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | |
+| `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | |
+| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | |
+| `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | |
+| `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | |
 
 ### Dotdot-relative calls, with a trick
 
-| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** |
-| ---    | --- | --- | --- | --- | --- | --- | --- | --- |
-| lib\\..\\..\\dotdotsame | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** |
-| lib\\..\\..\\dotdotsame.rex | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |
-| lib\\..\\..\\dotdotcurr | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** |
-| lib\\..\\..\\dotdotcurr.rex | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |
-| lib\\..\\..\\dotdotpath | 0 | 1 | 0 | 0 | 0 | 1 | 0 | **1** |
-| lib\\..\\..\\dotdotpath.rex | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** |
+| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
+| ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | | |
+| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | | |
+| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** | |
+| `lib\..\..\dotdotsame.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | |
+| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | |
+| `lib\..\..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 1 | 0 | **1** | |
+| `lib\..\..\dotdotpath.rex` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | |
 
 ## Windows- and OS/2-only tests
 
 ### Slash-relative calls
 
-| Called | (1) | (2) | (3) | (4) | (5) |  **Some** |
-| ---    | --- | --- | --- | --- | --- | --- |
-| \\sotest\\subdir\\dotdotsame\\same\\same | 0 | 0 | 0 | 0 | 0  | **0** |
-| \\sotest\\subdir\\dotdotsame\\same\\same.rex | 0 | 0 | 0 | 0 | 0  | **0** |
-| \\dotdotcurr | 0 | 1 | 1 | 1 | 1  | **1** |
-| \\dotdotcurr.rex | 1 | 1 | 1 | 1 | 1  | **1** |
-| \\dotdotpath | 0 | 0 | 0 | 0 | 0 |  **0** |
-| \\dotdotpath.rex | 0 | 0 | 0 | 0 | 0  | **0** |
+| Called | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
+| ---    | --- | --- | --- | --- | --- | --- | --- |
+| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
+| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
+| \\sotest\\subdir\\dotdotsame\\same\\same | 0 | 0 | 0 | 0 | 0  | **0** | |
+| \\sotest\\subdir\\dotdotsame\\same\\same.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
+| \\dotdotcurr | 0 | 1 | 1 | 1 | 1  | **1** | |
+| \\dotdotcurr.rex | 1 | 1 | 1 | 1 | 1  | **1** | |
+| \\dotdotpath | 0 | 0 | 0 | 0 | 0 |  **0** | |
+| \\dotdotpath.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
 
 ### Drive-relative calls
 
