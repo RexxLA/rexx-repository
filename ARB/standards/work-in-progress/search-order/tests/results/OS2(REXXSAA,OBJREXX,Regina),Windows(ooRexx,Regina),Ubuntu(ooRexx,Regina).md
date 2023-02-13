@@ -1,7 +1,6 @@
 That's a work-in-progress, still editing this file -- Josep Maria Blasco
 
-    The test program is distributed as a zip file.
-    It implements the following structure.
+    The test program is distributed as a zip file. It implements the following structure.
     
     (Root directory. Normally, "sotest")
        |
@@ -28,7 +27,7 @@ That's a work-in-progress, still editing this file -- Josep Maria Blasco
                |       +---> curr (The current directory)
                |               |
                |               +---> curr.rex (The program in the current
-               |               |               directory)
+               |               |               directory. Returns "curr")
                |               +---> oorexxextensions (Extensionless. Returns
                |               |               "directory")
                |               +---> reginaextensions.rex (Returns
@@ -42,7 +41,16 @@ That's a work-in-progress, still editing this file -- Josep Maria Blasco
                        +---> dotdotpath.rex (Returns "dotdotpath")
                        |
                        +---> path
-
+                               |
+                               +---> path.rex (The program in the path
+                               |               directory. Returns "path")
+                               +---> oorexxextensions.rex (Returns
+                               |               "extension")
+                               +---> reginaextensions.rexx (Returns
+                               |               "extension")
+                               +---> lib
+                                       |
+                                       +---> pathlib.rex (Returns "pathlib"
 
 Legend
 
