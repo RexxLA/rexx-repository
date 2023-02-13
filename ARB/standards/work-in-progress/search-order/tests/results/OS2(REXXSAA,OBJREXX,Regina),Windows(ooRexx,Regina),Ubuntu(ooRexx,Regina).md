@@ -1,56 +1,58 @@
 That's a work-in-progress, still editing this file -- Josep Maria Blasco
 
-    The test program is distributed as a zip file. It implements the following structure.
+<pre><code>
+The test program is distributed as a zip file. It implements the following structure.
     
-    (Root directory. Normally, "sotest")
-       |
-       +---> subdir (Dummy directory, for future expansion)
-               |
-               +---> dotdotsame (The parent of the "same"or caller directorY)
-               |       |
-               |       +---> dotdotsame.rex (Returns "dotdotsame")
-               |       |
-               |       +---> same (The "same" or caller directory)
-               |               |
-               |               +---> same.rex (The program in the "same" or
-               |               |               caller directory. Returns "same")
-               |               +---> main.rex (The main program)
-               |               |
-               |               +--->lib
-               |                      |
-               |                      +---> samelib.rex (Returns "samelib")
-               |
-               +---> dotdotcurr (The parent of the current directory)
-               |       |
-               |       +---> dotdotcurr.rex (Returns "dotdotcurr")
-               |       |
-               |       +---> curr (The current directory)
-               |               |
-               |               +---> curr.rex (The program in the current
-               |               |               directory. Returns "curr")
-               |               +---> oorexxextensions (Extensionless. Returns
-               |               |               "directory")
-               |               +---> reginaextensions.rex (Returns
-               |               |               "directory")
-               |                +---> lib
-               |                       |
-               |                       +---> currlib.rex (Returns "currlib")
-               |
-               +---> dotdotpath
-                       |
-                       +---> dotdotpath.rex (Returns "dotdotpath")
-                       |
-                       +---> path
-                               |
-                               +---> path.rex (The program in the path
-                               |               directory. Returns "path")
-                               +---> oorexxextensions.rex (Returns
-                               |               "extension")
-                               +---> reginaextensions.rexx (Returns
-                               |               "extension")
-                               +---> lib
-                                       |
-                                       +---> pathlib.rex (Returns "pathlib"
+(<b>Root</b> directory. Normally, "sotest")
+   |
+   +---> <b>subdir</b> (Dummy directory, for future expansion)
+           |
+           +---> <b>dotdotsame</b> (The parent of the "same"or caller directorY)
+           |       |
+           |       +---> dotdotsame.rex (Returns "dotdotsame")
+           |       |
+           |       +---> <b>same</b> (The "same" or caller directory)
+           |               |
+           |               +---> same.rex (The program in the "same" or
+           |               |               caller directory. Returns "same")
+           |               +---> main.rex (The main program)
+           |               |
+           |               +---> <b>lib</a>
+           |                       |
+           |                       +---> samelib.rex (Returns "samelib")
+           |
+           +---> <b>dotdotcurr</b> (The parent of the current directory)
+           |       |
+           |       +---> dotdotcurr.rex (Returns "dotdotcurr")
+           |       |
+           |       +---> <b>curr</b> (The current directory)
+           |               |
+           |               +---> curr.rex (The program in the current
+           |               |               directory. Returns "curr")
+           |               +---> oorexxextensions (Extensionless. Returns
+           |               |               "directory")
+           |               +---> reginaextensions.rex (Returns
+           |               |               "directory")
+           |               +---> <b>lib</b>
+           |                       |
+           |                       +---> currlib.rex (Returns "currlib")
+           |
+           +---> <b>dotdotpath</b>
+                   |
+                   +---> dotdotpath.rex (Returns "dotdotpath")
+                   |
+                   +---> <b>path</b>
+                           |
+                           +---> path.rex (The program in the path
+                           |               directory. Returns "path")
+                           +---> oorexxextensions.rex (Returns
+                           |               "extension")
+                           +---> reginaextensions.rexx (Returns
+                           |               "extension")
+                           +---> <b>lib</b>
+                                   |
+                                   +---> pathlib.rex (Returns "pathlib"
+</code></pre>
 
 Legend
 
