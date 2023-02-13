@@ -1,5 +1,49 @@
 That's a work-in-progress, still editing this file -- Josep Maria Blasco
 
+    The test program is distributed as a zip file.
+    It implements the following structure.
+    
+    (Root directory. Normally, "sotest")
+       |
+       +---> subdir (Dummy directory, for future expansion)
+               |
+               +---> dotdotsame (The parent of the "same"or caller directorY)
+               |       |
+               |       +---> dotdotsame.rex (Returns "dotdotsame")
+               |       |
+               |       +---> same (The "same" or caller directory)
+               |               |
+               |               +---> same.rex (The program in the "same" or
+               |               |               caller directory. Returns "same")
+               |               +---> main.rex (The main program)
+               |               |
+               |               +--->lib
+               |                      |
+               |                      +---> samelib.rex (Returns "samelib")
+               |
+               +---> dotdotcurr (The parent of the current directory)
+               |       |
+               |       +---> dotdotcurr.rex (Returns "dotdotcurr")
+               |       |
+               |       +---> curr (The current directory)
+               |               |
+               |               +---> curr.rex (The program in the current
+               |               |               directory)
+               |               +---> oorexxextensions (Extensionless. Returns
+               |               |               "directory")
+               |               +---> reginaextensions.rex (Returns
+               |               |               "directory")
+               |                +---> lib
+               |                       |
+               |                       +---> currlib.rex (Returns "currlib")
+               |
+               +---> dotdotpath
+                       |
+                       +---> dotdotpath.rex (Returns "dotdotpath")
+                       |
+                       +---> path
+
+
 Legend
 
 1. OS/2 (Arca Noae 5.0.7), REXXSAA 4.00 3 Feb 1999.
