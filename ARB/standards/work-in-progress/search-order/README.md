@@ -25,7 +25,7 @@ A place to collect all things related to the Search Order problem
 
 >The simplest cases of composition are similar to a concatenation, adding a path separator character if necessary. For example, if $d=$ `"C:\my\files"`, $e =$ `".cls"` and $f=$ `"myclass"`, then probably $C(d,e,f) =$ `"C:\my\files\myclass.cls"`. There are also some non-obvious, more complicated variations.
 
-***Task:***
+***Goal:***
 
 Locate the first $F = C(d,e,f)$ such that $F$ exists.
 
