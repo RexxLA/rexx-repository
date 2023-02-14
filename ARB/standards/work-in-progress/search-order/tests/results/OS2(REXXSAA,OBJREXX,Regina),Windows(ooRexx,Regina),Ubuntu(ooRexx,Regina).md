@@ -57,18 +57,15 @@ This directory structure and this setting of the caller's, current and path dire
                            |               "extension")
                            +---> <b>lib</b>
                                    |
-                                   +---> pathlib.rex (Returns "pathlib"
+                                   +---> pathlib.rex (Returns "pathlib")
 </code></pre>
 
 Legend
 
-1. OS/2 (Arca Noae 5.0.7), REXXSAA 4.00 3 Feb 1999.
-2. OS/2 (Arca Noae 5.0.7), OBJREXX 6.00 18 May 1999.
-3. OS/2 (Arca Noae 5.0.7), REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022
-4. Windows (Win 11 Pro), REXX-ooRexx_5.1.0(MT)\_64-bit 6.05 27 Jan 2023
-5. Windows (Win 11 Pro), REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022
-6. Ubuntu (22.04 LTS), REXX-ooRexx_5.0.0(MT)\_64-bit 6.05 23 Dec 2022
-7. Ubuntu (22.04 LTS), REXX-Regina_3.9.5 5.00 25 Jun 2022
+| OS/2<br>*Arca Noae 5.0.7* | Windows<br>*Windows 11 Pro* | Ubuntu<br>*22.04.01 LTS* |
+| --- | --- | --- |
+| <ol><li>REXXSAA 4.00<br>3 Feb 1999</li><li>OBJREXX 6.00<br>18 May 1999.</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="4"><li>REXX-ooRexx_5.1.0(MT)\_64-bit 6.05<br>27 Jan 2023</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="6"><li>REXX-ooRexx_5.0.0(MT)\_64-bit 6.05<br>23 Dec 2022</li><li>REXX-Regina_3.9.5 5.00<br>25 Jun 2022</li></ol> |
+
 
 "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
 
