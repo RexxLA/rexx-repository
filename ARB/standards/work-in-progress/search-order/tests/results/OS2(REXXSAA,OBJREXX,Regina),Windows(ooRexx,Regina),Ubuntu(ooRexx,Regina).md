@@ -1,9 +1,15 @@
 That's a work-in-progress, still editing this file -- Josep Maria Blasco
 
-<pre><code>
-The test program is distributed as a zip file. It implements the following structure.
-    
+The test program is distributed as a zip file implementing the structure shown below. The test initiator program, `sotest.rex`, calls immediately `./subdir/dotdotsame/same/same.rex`, to be able to set the "same" (or caller) directory. This has to be done manually, by patching the value returned from `Parse Source`, since we can not know whether a filename of the form `".\"` will work or not for a call (that's what we are trying to test).
+
+Similarly, we save and modify the current directory (by using the `Directory()` BIF) so that it is `./subdir/dotdotcurr/curr`, and we save and modify the value of the `PATH` variable so that it has a single directory, `./subdir/dotdotpath/path`.
+
+This directory structure and this setting of the caller's, current and path directories allow us to thoroughly test many variations of the `Call`instruction.
+
+<pre><code>   
 (<b>Root</b> directory. Normally, "sotest")
+   |
+   +---> sotest.rex (The test initiator program. Calls ./subdir/dotdotsame/same/same.rex)
    |
    +---> <b>subdir</b> (Dummy directory, for future expansion)
            |
@@ -70,7 +76,7 @@ Legend
 
 ### Same (caller), current and path directories.
 
-| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
+| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
@@ -83,7 +89,7 @@ Legend
 
 ### Downward-relative calls
 
-| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
+| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
@@ -96,7 +102,7 @@ Legend
 
 ### Dot-relative calls
 
-| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
+| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
@@ -111,7 +117,7 @@ Legend
 
 ### Dotdot-relative calls
 
-| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
+| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
@@ -124,7 +130,7 @@ Legend
 
 ### Dotdot-relative calls, with a trick
 
-| Called | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
+| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | | |
@@ -139,7 +145,7 @@ Legend
 
 ### Slash-relative calls
 
-| Called | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
+| Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
@@ -152,7 +158,7 @@ Legend
 
 ### Drive-relative calls
 
-| Called | (1) | (2) | (3) | (4) | (5) |  **Some** |
+| Call | (1) | (2) | (3) | (4) | (5) |  **Some** |
 | ---    | --- | --- | --- | --- | --- | --- |
 | D:lib\\samelib | 0 | 0 | 0 | 0 | 0  | **0** |
 | D:lib\\samelib.rex | 0 | 0 | 0 | 0 | 0  | **0** |
@@ -163,7 +169,7 @@ Legend
 
 ### Absolute calls
 
-| Called | (1) | (2) | (3) | (4) | (5) |  **Some** |
+| Call | (1) | (2) | (3) | (4) | (5) |  **Some** |
 | ---    | --- | --- | --- | --- | --- | --- |
 | D:\\sotest\\subdir\\dotdotsame\\same\\same | 0 | 1 | 1 | 1 | 1  | **1** |
 | D:\\sotest\\subdir\\dotdotsame\\same\\same.rex | 1 | 1 | 1 | 1 | 1  | **1** |
