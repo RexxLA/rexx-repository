@@ -2,8 +2,8 @@
 
 ## Documentation about the external search order
 
-1. [For Regina](external-search-order-in-regina.md)
-2. [For ooRexx](external-search-order-in-oorexx.md)
+1. [For ooRexx](external-search-order-in-oorexx.md)
+2. [For Regina](external-search-order-in-regina.md)
 
 ## Research
 
