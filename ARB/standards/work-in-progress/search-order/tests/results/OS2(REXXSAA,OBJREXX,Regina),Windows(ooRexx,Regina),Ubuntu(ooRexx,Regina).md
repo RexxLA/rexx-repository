@@ -1,6 +1,6 @@
 That's a work-in-progress, still editing this file -- Josep Maria Blasco
 
-The test program is distributed as a zip file implementing the structure shown below. The test initiator program, `sotest.rex`, calls immediately `./subdir/dotdotsame/same/same.rex`, to be able to set the "same" (or caller) directory. This has to be done manually, by patching the value returned from `Parse Source`, since we can not know whether a filename of the form `".\"` will work or not for a call (that's what we are trying to test).
+The test program is distributed as a zip file implementing the structure shown below. The test initiator program, `sotest.rex`, calls immediately `./subdir/dotdotsame/same/same.rex`, to be able to set the "same" (or caller) directory in a convenient place. This has to be done manually, by patching the value returned from `Parse Source`, since we can not know whether a filename of the form `".\"` will work or not for a call (that's one of the things we are trying to find out in our test).
 
 Similarly, we save and modify the current directory (by using the `Directory()` BIF) so that it is `./subdir/dotdotcurr/curr`, and we save and modify the value of the `PATH` variable so that it has a single directory, `./subdir/dotdotpath/path`.
 
