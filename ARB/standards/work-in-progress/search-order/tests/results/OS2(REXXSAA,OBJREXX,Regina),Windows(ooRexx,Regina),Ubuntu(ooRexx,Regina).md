@@ -64,7 +64,7 @@ Legend
 
 | OS/2<br>*Arca Noae 5.0.7* | Windows<br>*Windows 11 Pro* | Ubuntu<br>*22.04.01 LTS* |
 | --- | --- | --- |
-| <ol><li>REXXSAA 4.00<br>3 Feb 1999</li><li>OBJREXX 6.00<br>18 May 1999.</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="4"><li>REXX-ooRexx_5.1.0(MT)\_64-bit 6.05<br>27 Jan 2023</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="6"><li>REXX-ooRexx_5.0.0(MT)\_64-bit 6.05<br>23 Dec 2022</li><li>REXX-Regina_3.9.5 5.00<br>25 Jun 2022</li></ol> |
+| <ol><li>REXXSAA 4.00<br>3 Feb 1999</li><li>OBJREXX 6.00<br>18 May 1999.</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="4"><li>REXX-ooRexx_5.0.0(MT)_64-bit 6.05<br>23 Dec 2022<br>27 Jan 2023</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="6"><li>REXX-ooRexx_5.0.0(MT)\_64-bit 6.05<br>23 Dec 2022</li><li>REXX-Regina_3.9.5 5.00<br>25 Jun 2022</li></ol> |
 
 
 "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
@@ -120,10 +120,10 @@ Legend
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
 | `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | |
 | `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | |
-| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | |
+| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | |
-| `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | |
+| `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | Only OBJREXX has love for `..\` applied to the `PATH` |
+| `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | Only OBJREXX has love for `..\` applied to the `PATH`  |
 
 ### Dotdot-relative calls, with a trick
 
@@ -131,11 +131,11 @@ Legend
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | | |
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | | |
-| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** | |
+| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `lib\..\..\dotdotsame.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | |
-| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | |
+| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `lib\..\..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 1 | 0 | **1** | |
+| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 1 | 0 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `lib\..\..\dotdotpath.rex` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | |
 
 ## Windows- and OS/2-only tests
@@ -148,29 +148,33 @@ Legend
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
 | \\sotest\\subdir\\dotdotsame\\same\\same | 0 | 0 | 0 | 0 | 0  | **0** | |
 | \\sotest\\subdir\\dotdotsame\\same\\same.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
-| \\dotdotcurr | 0 | 1 | 1 | 1 | 1  | **1** | |
+| \\dotdotcurr | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | \\dotdotcurr.rex | 1 | 1 | 1 | 1 | 1  | **1** | |
 | \\dotdotpath | 0 | 0 | 0 | 0 | 0 |  **0** | |
 | \\dotdotpath.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
 
 ### Drive-relative calls
 
-| Call | (1) | (2) | (3) | (4) | (5) |  **Some** |
-| ---    | --- | --- | --- | --- | --- | --- |
-| D:lib\\samelib | 0 | 0 | 0 | 0 | 0  | **0** |
-| D:lib\\samelib.rex | 0 | 0 | 0 | 0 | 0  | **0** |
-| Z:curr\\curr | 0 | 1 | 1 | 1 | 1 |  **1** |
-| Z:curr\\curr.rex | 1 | 1 | 1 | 1 | 1  | **1** |
-| Y:path\\path | 0 | 1 | 1 | 1 | 1 |  **1** |
-| Y:path\\path.rex | 1 | 1 | 1 | 1 | 1 | **1** |
+| Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
+| ---    | --- | --- | --- | --- | --- | --- | --- |
+| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
+| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
+| D:lib\\samelib | 0 | 0 | 0 | 0 | 0  | **0** | |
+| D:lib\\samelib.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
+| Z:curr\\curr | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| Z:curr\\curr.rex | 1 | 1 | 1 | 1 | 1  | **1** | |
+| Y:path\\path | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| Y:path\\path.rex | 1 | 1 | 1 | 1 | 1 | **1** | |
 
 ### Absolute calls
 
-| Call | (1) | (2) | (3) | (4) | (5) |  **Some** |
-| ---    | --- | --- | --- | --- | --- | --- |
-| D:\\sotest\\subdir\\dotdotsame\\same\\same | 0 | 1 | 1 | 1 | 1  | **1** |
-| D:\\sotest\\subdir\\dotdotsame\\same\\same.rex | 1 | 1 | 1 | 1 | 1  | **1** |
-| Z:\\curr\\curr | 0 | 1 | 1 | 1 | 1 |  **1** |
-| Z:\\curr\\curr.rex | 1 | 1 | 1 | 1 | 1 | **1** |
-| Y:\\path\\path | 0 | 1 | 1 | 1 | 1 |  **1** |
-| Y:\\path\\path.rex | 1 | 1 | 1 | 1 | 1 | **1** |
+| Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
+| ---    | --- | --- | --- | --- | --- | --- | --- |
+| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
+| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
+| D:\\sotest\\subdir\\dotdotsame\\same\\same | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| D:\\sotest\\subdir\\dotdotsame\\same\\same.rex | 1 | 1 | 1 | 1 | 1  | **1** | |
+| Z:\\curr\\curr | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| Z:\\curr\\curr.rex | 1 | 1 | 1 | 1 | 1 | **1** | |
+| Y:\\path\\path | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| Y:\\path\\path.rex | 1 | 1 | 1 | 1 | 1 | **1** | |
