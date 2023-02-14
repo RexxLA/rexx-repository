@@ -107,8 +107,8 @@ Legend
 | `.\same.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory <br> ooRexx limits the search to the current directory when the file name starts with `.\` or `./` |
 | `.\curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `.\curr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `.\path` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case |
-| `.\path.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case |
+| `.\path` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `.\` applied to the `PATH`  |
+| `.\path.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `.\` applied to the `PATH`  |
 
 **Additional comments**: It's interesting to see that OBJREXX does check `.\path.rex` against the directories of the `PATH`.
 
@@ -120,10 +120,10 @@ Legend
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
 | `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | |
 | `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | |
-| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`<br> The difference beyween ooRexx under Windows and Ubuntu should be explained |
 | `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 | `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | Only OBJREXX has love for `..\` applied to the `PATH` |
-| `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | Only OBJREXX has love for `..\` applied to the `PATH`  |
+| `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | Only OBJREXX has love for `..\` applied to the `PATH` |
 
 ### Dotdot-relative calls, with a trick
 
@@ -146,12 +146,12 @@ Legend
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
-| \\sotest\\subdir\\dotdotsame\\same\\same | 0 | 0 | 0 | 0 | 0  | **0** | |
-| \\sotest\\subdir\\dotdotsame\\same\\same.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
-| \\dotdotcurr | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
-| \\dotdotcurr.rex | 1 | 1 | 1 | 1 | 1  | **1** | |
-| \\dotdotpath | 0 | 0 | 0 | 0 | 0 |  **0** | |
-| \\dotdotpath.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
+| `\sotest\subdir\dotdotsame\same\same` | 0 | 0 | 0 | 0 | 0  | **0** | |
+| `\sotest\subdir\dotdotsame\same\same.rex` | 0 | 0 | 0 | 0 | 0  | **0** | |
+| `\dotdotcurr` | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1  | **1** | |
+| `\dotdotpath` | 0 | 0 | 0 | 0 | 0 |  **0** | |
+| `\dotdotpath.rex` | 0 | 0 | 0 | 0 | 0  | **0** | |
 
 ### Drive-relative calls
 
@@ -159,12 +159,12 @@ Legend
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
-| D:lib\\samelib | 0 | 0 | 0 | 0 | 0  | **0** | |
-| D:lib\\samelib.rex | 0 | 0 | 0 | 0 | 0  | **0** | |
-| Z:curr\\curr | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
-| Z:curr\\curr.rex | 1 | 1 | 1 | 1 | 1  | **1** | |
-| Y:path\\path | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
-| Y:path\\path.rex | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `D:lib\samelib` | 0 | 0 | 0 | 0 | 0  | **0** | |
+| `D:lib\samelib.rex` | 0 | 0 | 0 | 0 | 0  | **0** | |
+| `Z:curr\curr` | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `Z:curr\curr.rex` | 1 | 1 | 1 | 1 | 1  | **1** | |
+| `Y:path\path` | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `Y:path\path.rex` | 1 | 1 | 1 | 1 | 1 | **1** | |
 
 ### Absolute calls
 
@@ -172,9 +172,9 @@ Legend
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
 | | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
-| D:\\sotest\\subdir\\dotdotsame\\same\\same | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
-| D:\\sotest\\subdir\\dotdotsame\\same\\same.rex | 1 | 1 | 1 | 1 | 1  | **1** | |
-| Z:\\curr\\curr | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
-| Z:\\curr\\curr.rex | 1 | 1 | 1 | 1 | 1 | **1** | |
-| Y:\\path\\path | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
-| Y:\\path\\path.rex | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `D:\sotest\subdir\dotdotsame\same\same` | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `D:\sotest\subdir\dotdotsame\same\same.rex` | 1 | 1 | 1 | 1 | 1  | **1** | |
+| `Z:\curr\curr` | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `Z:\curr\curr.rex` | 1 | 1 | 1 | 1 | 1 | **1** | |
+| `Y:\path\path` | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
+| `Y:\path\path.rex` | 1 | 1 | 1 | 1 | 1 | **1** | |
