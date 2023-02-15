@@ -81,9 +81,9 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵 | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
-| `same` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | OBJREXX and Regina do not have the concept of "same" (or caller) directory |
-| `same.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | OBJREXX and Regina do not have the concept of "same" (or caller) directory |
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵 | *ooR* | *Reg*<br>🔵 | *ooR* | *Reg*<br>🔵 |  | |
+| `same` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
+| `same.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
 | `curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `curr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 | `path` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
@@ -94,9 +94,9 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵 | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | |
-| `lib\samelib` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | OBJREXX and Regina do not have the concept of "same" (or caller) directory |
-| `lib\samelib.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | OBJREXX and Regina do not have the concept of "same" (or caller) directory |
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
+| `lib\samelib` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
+| `lib\samelib.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
 | `lib\currlib` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `lib\currlib.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |   |
 | `lib\pathlib` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA seems to limit the search to the current directory because there is a "\\" character <br> Regina limits the search to the current directory because there is a "\\" character |
@@ -107,9 +107,9 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵 | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | |
-| `.\same` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | OBJREXX and Regina do not have the concept of "same" (or caller) directory <br> ooRexx limits the search to the current directory when the file name starts with `.\` or `./` |
-| `.\same.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | OBJREXX and Regina do not have the concept of "same" (or caller) directory <br> ooRexx limits the search to the current directory when the file name starts with `.\` or `./` |
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
+| `.\same` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** |  |
+| `.\same.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** |  |
 | `.\curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `.\curr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 | `.\path` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `.\` applied to the `PATH`  |
@@ -122,9 +122,9 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵 | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | |
-| `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `..\` case<br>OBJREXX and Regina do not have the concept of "same" (or caller) directory|
-| `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case<br>OBJREXX and Regina do not have the concept of "same" (or caller) directory|
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
+| `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `..\` case|
+| `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case|
 | `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`<br> The difference beyween ooRexx under Windows and Ubuntu should be explained |
 | `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 | `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `..\` applied to the `PATH` |
@@ -135,7 +135,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵 | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | | 
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | | 
 | `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`<br> The difference beyween ooRexx under Windows and Ubuntu should be explained |
 | `lib\..\..\dotdotsame.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | |
 | `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`<br> The difference beyween ooRexx under Windows and Ubuntu should be explained |
@@ -150,7 +150,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
-| | *SAA*<br>🔵 | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | | 
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | | 
 | `\sotest\subdir\dotdotsame\same\same` | 0 | 0 | 0 | 0 | 0  | **0** | |
 | `\sotest\subdir\dotdotsame\same\same.rex` | 0 | 0 | 0 | 0 | 0  | **0** | |
 | `\dotdotcurr` | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
@@ -163,7 +163,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
-| | *SAA*<br>🔵 | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵 | *ooR* | *Reg*<br>🔵 |  | | 
 | `D:lib\samelib` | 0 | 0 | 0 | 0 | 0  | **0** | |
 | `D:lib\samelib.rex` | 0 | 0 | 0 | 0 | 0  | **0** | |
 | `Z:curr\curr` | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
@@ -176,7 +176,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
-| | *SAA*<br>🔵 | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
+| | *SAA*<br>🔵 | *OBJR*<br>🔵 | *Reg*<br>🔵 | *ooR* | *Reg*<br>🔵 |  | | 
 | `D:\sotest\subdir\dotdotsame\same\same` | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
 | `D:\sotest\subdir\dotdotsame\same\same.rex` | 1 | 1 | 1 | 1 | 1  | **1** | |
 | `Z:\curr\curr` | 0 | 1 | 1 | 1 | 1 |  **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
