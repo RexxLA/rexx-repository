@@ -127,7 +127,7 @@ Legenda
 | | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
 | `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `..\` case|
 | `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case|
-| `..\dotdotcurr` | 0 | 1 | 1 | 0<br>🟣 | 1 | 1<br>🟣 | 1 | **1** |  |
+| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | 🟣 |
 | `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 | `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `..\` applied to the `PATH` |
 | `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `..\` applied to the `PATH` |
@@ -138,11 +138,11 @@ Legenda
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | | 
-| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0<br>🟣 | 0 | 1<br>🟣 | 0 | **1** | |
+| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** | 🟣 |
 | `lib\..\..\dotdotsame.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | |
-| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0<br>🟣 | 1 | 1<br>🟣 | 1 | **1** | |
+| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | 🟣 |
 | `lib\..\..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 0<br> | 0 | 1<br>🟣 | 0 | **1** | |
+| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 1 | 0 | **1** | 🟣 |
 | `lib\..\..\dotdotpath.rex` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | |
 
 ## Windows- and OS/2-only tests
