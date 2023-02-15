@@ -177,7 +177,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
-| | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵 | *ooR* | *Reg*<br>🔵 |  | | 
+| | *SAA*<br>🟢 | *OBJR*<br> | *Reg*<br> | *ooR* | *Reg*<br> |  | | 
 | `D:\sotest\subdir\dotdotsame\same\same` | 0 | 1 | 1 | 1 | 1  | **1** |  |
 | `D:\sotest\subdir\dotdotsame\same\same.rex` | 1 | 1 | 1 | 1 | 1  | **1** | |
 | `Z:\curr\curr` | 0 | 1 | 1 | 1 | 1 |  **1** |  |
