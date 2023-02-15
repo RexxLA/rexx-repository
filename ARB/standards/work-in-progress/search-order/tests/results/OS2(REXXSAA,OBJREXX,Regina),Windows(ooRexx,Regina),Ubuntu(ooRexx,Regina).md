@@ -71,7 +71,7 @@ Legenda
 | 🔴 | Regina interrupts the search algorithm when there is a path separator in the file name. Only the current directory is searched.<br>"Note that the search algorithm to this point is ignored if the program name contains a file path specification. eg. if "CALL .\MYPROG" is called, then no searching of REGINA_MACROS or PATH is done; only the concatenation of suffixes is carried out."<br>This seems not to apply when the file name starts with a drive.<br>Creates the `0 0 1 1 0 0` vertical pattern.|
 | 🔵 | This language processor does not have the concept of "same directory"<br>Creates the `0 0 x x x x` vertical pattern. |
 | 🟢 | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`.<br>Creates the `0 x 0 x 0 x` vertical pattern. |
-| 🟣 | Divergence between the Windows and Ubuntu versions of ooRexx. Probablu a bug. |
+| 🟣 | Divergence between the Windows and Ubuntu versions of ooRexx. Probably a bug. |
 
 
 "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
