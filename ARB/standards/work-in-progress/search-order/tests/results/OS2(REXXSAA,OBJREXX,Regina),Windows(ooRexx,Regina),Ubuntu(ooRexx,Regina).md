@@ -60,11 +60,15 @@ This directory structure and this setting of the caller's, current and path dire
                                    +---> pathlib.rex (Returns "pathlib")
 </code></pre>
 
-Legend
+Legenda
 
 | OS/2<br>*Arca Noae 5.0.7* | Windows<br>*Windows 11 Pro* | Ubuntu<br>*22.04.01 LTS* |
 | --- | --- | --- |
 | <ol><li>REXXSAA 4.00<br>3 Feb 1999</li><li>OBJREXX 6.00<br>18 May 1999.</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="4"><li>REXX-ooRexx_5.0.0(MT)_64-bit 6.05<br>23 Dec 2022<br>27 Jan 2023</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="6"><li>REXX-ooRexx_5.0.0(MT)\_64-bit 6.05<br>23 Dec 2022</li><li>REXX-Regina_3.9.5 5.00<br>25 Jun 2022</li></ol> |
+
+| Code | Meaning |
+| ---  | ---|
+| 🔴 | Regina interrupts the search algorithm when there is a path separator in the file name. Only the current directory is searched. |
 
 
 "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
@@ -89,7 +93,7 @@ Legend
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
+| | *SAA* | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br> | *ooR* | *Reg*<br>🔴 |  | |
 | `lib\samelib` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
 | `lib\samelib.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
 | `lib\currlib` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
