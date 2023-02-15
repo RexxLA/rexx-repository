@@ -68,7 +68,9 @@ Legenda
 
 | Code | Meaning |
 | ---  | ---|
-| 🔴 | Regina interrupts the search algorithm when there is a path separator in the file name. Only the current directory is searched. |
+| 🔴 | Regina interrupts the search algorithm when there is a path separator in the file name. Only the current directory is searched.<br>"Note that the search algorithm to this point is ignored if the program name
+contains a file path specification. eg. if "CALL .\MYPROG" is called, then no searching of
+REGINA_MACROS or PATH is done; only the concatenation of suffixes is carried out."<br>This seems not to apply when the file name starts with a drive.|
 
 
 "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
@@ -134,7 +136,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | | 
+| | *SAA* | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | | 
 | `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`<br> The difference beyween ooRexx under Windows and Ubuntu should be explained |
 | `lib\..\..\dotdotsame.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | |
 | `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`<br> The difference beyween ooRexx under Windows and Ubuntu should be explained |
@@ -149,7 +151,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) |  **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* |   | | 
-| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* |  | | 
+| | *SAA* | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | | 
 | `\sotest\subdir\dotdotsame\same\same` | 0 | 0 | 0 | 0 | 0  | **0** | |
 | `\sotest\subdir\dotdotsame\same\same.rex` | 0 | 0 | 0 | 0 | 0  | **0** | |
 | `\dotdotcurr` | 0 | 1 | 1 | 1 | 1  | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
