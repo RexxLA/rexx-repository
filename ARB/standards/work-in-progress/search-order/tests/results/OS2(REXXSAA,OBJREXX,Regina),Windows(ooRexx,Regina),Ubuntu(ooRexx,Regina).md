@@ -93,7 +93,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA* | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br> | *ooR* | *Reg*<br>🔴 |  | |
+| | *SAA* | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 | *ooR* | *Reg*<br>🔴 |  | |
 | `lib\samelib` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
 | `lib\samelib.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory |
 | `lib\currlib` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
@@ -106,7 +106,7 @@ Legenda
 | Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA* | *OBJR* | *Reg* | *ooR* | *Reg* | *ooR* | *Reg* |  | |
+| | *SAA* | *OBJR* | *Reg*<br>🔴 | *ooR* | *Reg*<br> | *ooR* | *Reg*<br>🔴 |  | |
 | `.\same` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory <br> ooRexx limits the search to the current directory when the file name starts with `.\` or `./` |
 | `.\same.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, OBJREXX and Regina do not have the concept of "same" (or caller) directory <br> ooRexx limits the search to the current directory when the file name starts with `.\` or `./` |
 | `.\curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd` |
