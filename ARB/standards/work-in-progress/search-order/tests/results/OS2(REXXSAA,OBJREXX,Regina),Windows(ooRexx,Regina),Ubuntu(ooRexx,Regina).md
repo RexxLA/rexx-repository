@@ -71,6 +71,7 @@ Legenda
 | 🔴 | Regina interrupts the search algorithm when there is a path separator in the file name. Only the current directory is searched.<br>"Note that the search algorithm to this point is ignored if the program name contains a file path specification. eg. if "CALL .\MYPROG" is called, then no searching of REGINA_MACROS or PATH is done; only the concatenation of suffixes is carried out."<br>This seems not to apply when the file name starts with a drive.<br>Creates the `0 0 1 1 0 0` vertical pattern.|
 | 🔵 | This language processor does not have the concept of "same directory"<br>Creates the `0 0 x x x x` vertical pattern. |
 | 🟢 | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`.<br>Creates the `0 x 0 x 0 x` vertical pattern. |
+| 🟣 | Divergence between the Windows and Ubuntu versions of ooRexx. Probablu a bug. |
 
 
 "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
@@ -126,7 +127,7 @@ Legenda
 | | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
 | `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `..\` case|
 | `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case|
-| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | The difference between ooRexx under Windows and Ubuntu should be explained |
+| `..\dotdotcurr` | 0 | 1 | 1 | 0<br>🟣 | 1 | 1<br>🟣 | 1 | **1** |  |
 | `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 | `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `..\` applied to the `PATH` |
 | `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `..\` applied to the `PATH` |
@@ -137,11 +138,11 @@ Legenda
 | ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
 | | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | | 
-| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 1 | 0 | **1** |  The difference beyween ooRexx under Windows and Ubuntu should be explained |
+| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 0<br>🟣 | 0 | 1<br>🟣 | 0 | **1** | |
 | `lib\..\..\dotdotsame.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** | |
-| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** |  The difference beyween ooRexx under Windows and Ubuntu should be explained |
+| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 0<br>🟣 | 1 | 1<br>🟣 | 1 | **1** | |
 | `lib\..\..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 1 | 0 | **1** |  The difference beyween ooRexx under Windows and Ubuntu should be explained |
+| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 0<br> | 0 | 1<br>🟣 | 0 | **1** | |
 | `lib\..\..\dotdotpath.rex` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | |
 
 ## Windows- and OS/2-only tests
