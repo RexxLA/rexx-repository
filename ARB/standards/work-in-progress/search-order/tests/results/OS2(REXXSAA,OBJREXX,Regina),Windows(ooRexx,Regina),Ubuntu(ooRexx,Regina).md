@@ -80,6 +80,10 @@ This directory structure and this setting of the caller's, current and path dire
 
 The REXXSAA interpreter for OS/2 does not work [as described](../../documents/external-search-order-in-rexxsaa-for-os2.md). It should search first for "REXX functions in the current directory, with the current extension", and then for "REXX functions along environment PATH, with the current extension"; it does not, but searches for "the default extension" instead (`.CMD`). We will use the expression "**the SAA bug**" to refer to this behaviour.
 
+##### The hasDirectory bug
+
+OORexx for Windows has a bug in the Windows version of the SysFileSystem::hasExtension routine (a routine that determines whether a filename has or not an extension, and then takes decisions regarding the search order): it searches for the Unix separator, "/", instead of the Windows separator ("\\"). The bug (reported [here](https://sourceforge.net/p/oorexx/bugs/1870/)) has passed largely unnoticed because it is difficult to trigger: one needs a filename of the form `my.path\filename`, where the path has a dot in it and the filename doesn't (this includes, but is not limited to, the `..\filename` and `.\file` cases).
+
 ## Common tests
 
 ### Same (caller), current and path directories.
@@ -93,7 +97,7 @@ The REXXSAA interpreter for OS/2 does not work [as described](../../documents/ex
 | `path` | 0 | 1 | 1 | 1 | **1** ||
 | `path.rex` | 1 | 1 | 1 | 1 | **1** ||
 
-Modulo [the SAA bug](#the-saa-bug), all interpreters have the same behaviour (search in the current directory, then in the `PATH`), except for ooRexx, which searches first in the "same", or caller, directory.
+Modulo [the SAA bug](#the-saa-bug), all interpreters exhibit the same behaviour (search in the current directory, then in the `PATH`), except for ooRexx, which searches first in the "same", or caller, directory.
 
 ### Downward-relative calls
 
@@ -175,19 +179,6 @@ Modulo [the SAA bug](#the-saa-bug), all interpreters have the same behaviour (se
 | `Y:\path\path.rex` | 1 | 1 | 1 | 1 | **1** ||
 
 # OLD RESULTS
-
-### Same (caller), current and path directories.
-
-| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
-| ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵 | *ooR* | *Reg*<br>🔵 | *ooR* | *Reg*<br>🔵 |  | |
-| `same` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
-| `same.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
-| `curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `curr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `path` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |  |
-| `path.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
 
 ### Downward-relative calls
 
