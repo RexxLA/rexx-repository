@@ -12,5 +12,5 @@
 >6. REXX functions along environment PATH, with the default extension 
 >7. Functions that have been loaded into the macrospace for post-order execution.
 
-Please note that the "with the current extension" part of the algorithm does not seem to work \[Create `TEST.CMD`, from it call `TRY.IT` (by using `Call try.it`), and from this last routine try to call `INSISTON.IT`. `Call insiston.it` will work as expected, but `Call insiston` will not. On the other hand, `Call insiston` will work if there is a `INSISTON.CMD` file in the directory.\]
+Please note that the "with the current extension" part of the algorithm does not seem to work \[Create `TEST.CMD`, from it call `TRY.IT` (by using `Call try.it`), and from this last routine try to call `INSISTON.IT`. `Call insiston.it` will work as expected, but `Call insiston` will not. On the other hand, `Call insiston` will work if there is a `INSISTON.CMD` file (the "default extension") in the directory.\]
 
