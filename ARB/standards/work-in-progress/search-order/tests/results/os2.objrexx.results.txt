@@ -67,4 +67,3 @@ Pass.47 = .true;  Pass.47.test = 'Y:\path\path'
 Pass.48 = .true;  Pass.48.test = 'Y:\path\path.rex'
 Pass.0 = 48
 Return Pass.
-  ................................................ REXXTRY.CMD on OS/2
