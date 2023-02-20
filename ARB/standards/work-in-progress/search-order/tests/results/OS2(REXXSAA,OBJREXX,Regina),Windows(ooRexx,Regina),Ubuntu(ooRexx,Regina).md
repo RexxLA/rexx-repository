@@ -77,7 +77,7 @@ The same test program was run under several operating systems, and under several
     * [The IBM Object Rexx interpreter ("OBJREXX 6.00 18 May 1999")](os2.objrexx.results.txt). We will use the label **OBJREXX** to refer to this interpreter.
     * [The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022")](os2.regina.results.txt). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
 2) For Windows
-    * The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022"). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
+    * [The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022")](windows.regina.results.txt). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
     * The ooRexx interpreter ("REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05"). We will use the collective label **ooRexx** to refer to all the ooRexx interpreters, since the results, modulo [the hasDirectory bug](#the-hasdirectory-bug), are the same, independently of the operating system.
 3) For Linux
     * [The Regina REXX interpreter ("REXX-Regina_3.9.5 5.00 25 Jun 2022")](ubuntu.regina.results.txt). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
