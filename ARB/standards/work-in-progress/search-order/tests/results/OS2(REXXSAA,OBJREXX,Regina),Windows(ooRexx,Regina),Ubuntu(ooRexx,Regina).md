@@ -82,7 +82,7 @@ The REXXSAA interpreter for OS/2 does not work [as described](../../documents/ex
 
 ##### The hasDirectory bug
 
-OORexx for Windows has a bug in the Windows version of the SysFileSystem::hasExtension routine (a routine that determines whether a filename has or not an extension, and then takes decisions regarding the search order): it searches for the Unix separator, "/", instead of the Windows separator ("\\"). The bug (reported [here](https://sourceforge.net/p/oorexx/bugs/1870/)) has passed largely unnoticed because it is difficult to trigger: one needs a filename of the form `my.path\filename`, where the path has a dot in it and the filename doesn't (this includes, but is not limited to, the `..\filename` and `.\file` cases).
+OORexx for Windows has a bug in the Windows version of the SysFileSystem::hasExtension routine (a routine that determines whether a filename has or not an extension, and then takes decisions regarding the search order): it searches for the Unix separator, "/", instead of the Windows separator ("\\"). The bug (reported [here](https://sourceforge.net/p/oorexx/bugs/1870/)) has passed largely unnoticed because it is difficult to trigger: one needs a filename of the form `my.path\filename`, where the path has a dot in it and the filename does not (this includes, but is not limited to, the `..\filename` and `.\file` cases). We have produced a (trivial) patch for this bug, and we are presenting the results as if the patch were already applied. Otherwise, we would find a discrepancy between the results of the test under Windows and under Ubuntu.
 
 ## Common tests
 
@@ -109,6 +109,8 @@ Modulo [the SAA bug](#the-saa-bug), all interpreters exhibit the same behaviour 
 | `lib\currlib.rex` | 1 | 1 | 1 | 1 | **1** ||
 | `lib\pathlib` | 0 | 1 | 0 | 1 | **1** ||
 | `lib\pathlib.rex` | 0 | 1 | 0 | 1 | **1** ||
+
+Modulo [the SAA bug](#the-saa-bug), we can classify the interpreters in three categories: those that search only in the current directory (REXXSAA, Regina), those that search in the current directory and in the `PATH` (OBJREXX), and those that, additionally, search first of all in the "same" or caller directory (ooRexx).
 
 ### Dot-relative calls
 
@@ -179,19 +181,6 @@ Modulo [the SAA bug](#the-saa-bug), all interpreters exhibit the same behaviour 
 | `Y:\path\path.rex` | 1 | 1 | 1 | 1 | **1** ||
 
 # OLD RESULTS
-
-### Downward-relative calls
-
-| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
-| ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
-| `lib\samelib` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
-| `lib\samelib.rex` | 0 | 0 | 0 | 1 | 0 | 1 | 0 | **1** |  |
-| `lib\currlib` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |  |
-| `lib\currlib.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |   |
-| `lib\pathlib` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA seems to limit the search to the current directory because there is a "\\" character |
-| `lib\pathlib.rex` | 0 | 1 | 0 | 1 | 0 | 1 | 0 | **1** | REXXSAA seems to limit the search to the current directory because there is a "\\" character |
 
 ### Dot-relative calls
 
