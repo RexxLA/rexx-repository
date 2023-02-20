@@ -8,3 +8,5 @@ Results of running `sotest.rex`
 * [OS/2 OBJREXX](os2.objrexx.results.txt)
 * [OS/2 Regina](os2.regina.results.txt)
 * [OS/2 REXXSAA](os2.rexxsaa.results.txt)
+* [Ubuntu ooRexx](ubuntu.oorexx.results.txt)
+*  [Ubuntu Regina](ubuntu.regina.results.txt)
