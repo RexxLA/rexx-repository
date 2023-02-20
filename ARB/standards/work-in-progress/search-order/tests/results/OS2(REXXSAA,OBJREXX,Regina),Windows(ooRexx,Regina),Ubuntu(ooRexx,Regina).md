@@ -78,7 +78,8 @@ The same test program was run under several operating systems, and under several
     * [The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022")](os2.regina.results.txt). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
 2) For Windows
     * [The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022")](windows.regina.results.txt). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
-    * The ooRexx interpreter ("REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05"). We will use the collective label **ooRexx** to refer to all the ooRexx interpreters, since the results, modulo [the hasDirectory bug](#the-hasdirectory-bug), are the same, independently of the operating system.
+    * [The ooRexx interpreter ("REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05")](windows-nobug.oorexx.results.txt
+). We will use the collective label **ooRexx** to refer to all the ooRexx interpreters, since the results, modulo [the hasDirectory bug](#the-hasdirectory-bug), are the same, independently of the operating system.
 3) For Linux
     * [The Regina REXX interpreter ("REXX-Regina_3.9.5 5.00 25 Jun 2022")](ubuntu.regina.results.txt). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
     * [The ooRexx interpreter ("REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05")](ubuntu.oorexx.results.txt). We will use the collective label **ooRexx** to refer to all the ooRexx interpreters, since the results, modulo [the hasDirectory bug](#the-hasdirectory-bug), are the same, independently of the operating system.
@@ -89,7 +90,7 @@ The REXXSAA interpreter for OS/2 does not work [as described](../../documents/ex
 
 #### The hasDirectory bug
 
-OORexx for Windows has a bug in the Windows version of the SysFileSystem::hasExtension routine (a routine that determines whether a filename has or not an extension, and then takes decisions regarding the search order): it searches for the Unix separator, "/", instead of the Windows separator ("\\"). The bug (reported [here](https://sourceforge.net/p/oorexx/bugs/1870/)) has passed largely unnoticed because it is difficult to trigger: one needs a filename of the form `my.path\filename`, where the path has a dot in it and the filename does not (this includes, but is not limited to, the `..\filename` and `.\file` cases). We have produced a (trivial) patch for this bug, and we are presenting the results as if the patch were already applied. Otherwise, we would find a discrepancy between the results of the test under Windows and under Ubuntu.
+[OORexx for Windows](windows-nobug.oorexx.results.txt) has a bug in the Windows version of the SysFileSystem::hasExtension routine (a routine that determines whether a filename has or not an extension, and then takes decisions regarding the search order): it searches for the Unix separator, "/", instead of the Windows separator ("\\"). The bug (reported [here](https://sourceforge.net/p/oorexx/bugs/1870/)) has passed largely unnoticed because it is difficult to trigger: one needs a filename of the form `my.path\filename`, where the path has a dot in it and the filename does not (this includes, but is not limited to, the `..\filename` and `.\file` cases). We have produced a (trivial) patch for this bug, and we are presenting the results [as if the patch were already applied](windows-nobug.oorexx.results.txt). Otherwise, we would find a discrepancy between the results of the test under Windows and under Ubuntu.
 
 #### The notion of "same" directory
 
