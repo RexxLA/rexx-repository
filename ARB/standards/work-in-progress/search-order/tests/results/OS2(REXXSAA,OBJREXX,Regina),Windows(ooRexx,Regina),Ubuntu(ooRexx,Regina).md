@@ -79,8 +79,9 @@ The tested interpreters were:
 2) For Windows
     * The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022"). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
     * The ooRexx interpreter ("REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05"). We will use the collective label **ooRexx** to refer to all the ooRexx interpreters, since the results, modulo [the hasDirectory bug](#the-hasdirectory-bug), are the same, independently of the operating system.
-    
-
+3) For Linux
+    * The Regina REXX interpreter ("REXX-Regina_3.9.5 5.00 25 Jun 2022"). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
+    * The ooRexx interpreter ("REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05"). We will use the collective label **ooRexx** to refer to all the ooRexx interpreters, since the results, modulo [the hasDirectory bug](#the-hasdirectory-bug), are the same, independently of the operating system.
 
 #### The SAA bug
 
@@ -98,11 +99,14 @@ Between all the interpreters tested, OORexx is the only one to suport the notion
 
 Modulo [the SAA bug](#the-saa-bug), the results for REXXSAA and Regina (see below) are identical. They have been grouped under a single category, labeled "NOB" (No OBject-oriented versions of the interpreters)
 
-* "NOB" refers to both the IBM REXXSAA interpreter for OS/2 (version Arca Noae 5.0.7), version string is "REXXSAA 4.00 3 Feb 1999" and the Regina interpreter, under OS/2 (version Arca Noae 5.0.7, version string "REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022"), Windows (Windows 11 Pro, version string "REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022") and Linux (Ubuntu 22.04.01 LTS, version string "REXX-Regina_3.9.5 5.00 25 Jun 2022").
-* "OBJ" refers to the IBM Object Rexx Interpreter for OS/2 (version Arca Noae 5.0.7), version string is "OBJREXX 6.00 18 May 1999".
-* "OOR" refers to the Open Object Rexx Interpreter under Windows (Windows 11 Pro, version string "REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05") and Linux (Ubuntu 22.04.01 LTS, version string "REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05").
-* "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
+#### Abbreviations
 
+In the following tables,
+
+* "NOB" refers to both the REXXSAA and the Regina interpreters, since (modulo [the SAA bug](#the-saa-bug)) they produce exactly the same results under our tests.
+* "OBJ" refers to the OBJREXX interpreter.
+* "OOR" refers to the ooRexx interpreter.
+* "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed, for all the interpreters tested.
 
 ## Common tests
 
