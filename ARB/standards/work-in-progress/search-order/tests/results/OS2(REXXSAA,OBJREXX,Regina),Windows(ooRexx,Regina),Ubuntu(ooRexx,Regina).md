@@ -123,7 +123,7 @@ Modulo [the SAA bug](#the-saa-bug), we can classify the interpreters in three ca
 | `.\path` | 0 | 1 | 0 | 0 | **1** ||
 | `.\path.rex` | 0 | 1 | 0 | 0 | **1** ||
 
-Dot-relative calls exhibit a matrix which is almost identical to the downward-relative calls. The only difference appears when the ooRexx interpreter is being tested: the ooRexx directory exception algorithm skips ".\file", and does not search the same directory or the `PATH`. It's interesting to note that OBJREXX _does_ search in the `PATH` in this case.
+Dot-relative call tests produce a matrix which is almost identical to the downward-relative calls; modulo [the SAA bug](#the-saa-bug), REXXSAA and Regina exhibit the same behaviour (i.e., they only search in the current directory). The only test result matrix difference appears when the ooRexx interpreter is being tested: the ooRexx directory exception algorithm skips ".\file", and does not search the same directory or the `PATH`. It's interesting to note that OBJREXX _does_ search in the `PATH` in this case.
 
 ### Upward-relative calls
 
