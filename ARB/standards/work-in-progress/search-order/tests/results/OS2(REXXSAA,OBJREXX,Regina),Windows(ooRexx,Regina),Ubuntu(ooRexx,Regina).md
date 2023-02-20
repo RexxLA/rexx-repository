@@ -74,7 +74,7 @@ The same test program was run under several operating systems, and under several
 
 1) For OS2
     * The IBM REXXSAA interpreter ("REXXSAA 4.00 3 Feb 1999"). We will use the label **REXXSAA** to refer to this interpreter.
-    * The IBM Object Rexx interpreter ("OBJREXX 6.00 18 May 1999"). We will use the label **OBJREXX** to refer to this interpreter.
+    * [The IBM Object Rexx interpreter ("OBJREXX 6.00 18 May 1999")](os2.objrexx.results.txt). We will use the label **OBJREXX** to refer to this interpreter.
     * The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022"). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
 2) For Windows
     * The Regina REXX interpreter ("REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022"). We will use the collective label **Regina** to refer to all the Regina REXX interpreters, since the results are the same, independently of the operating system.
