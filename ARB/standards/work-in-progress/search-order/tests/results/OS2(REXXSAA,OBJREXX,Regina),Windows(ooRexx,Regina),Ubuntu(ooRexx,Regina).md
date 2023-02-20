@@ -64,13 +64,13 @@ This directory structure and this setting of the caller's, current and path dire
 
 The same test program was run under several operating systems, and under several interpreters.
 
-The operating systems were
+#### Operating systems tested
 
 1) OS/2 (actually, Arca Noae 5.0.7). We will use the label **OS2** to refer to this operating system.
 2) Windows (actually, Windows 11 Pro). We will use the label **Windows** to refer to this operating system.
 3) Linux (actually, Ubuntu 22.04.01 LTS). We will use the label **Linux** to refer to this operating system.
 
-The tested interpreters were:
+#### Interpreters tested
 
 1) For OS2
     * The IBM REXXSAA interpreter ("REXXSAA 4.00 3 Feb 1999"). We will use the label **REXXSAA** to refer to this interpreter.
