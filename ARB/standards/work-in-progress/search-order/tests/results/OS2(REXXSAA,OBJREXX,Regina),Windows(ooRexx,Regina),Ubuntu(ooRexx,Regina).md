@@ -123,6 +123,8 @@ Modulo [the SAA bug](#the-saa-bug), we can classify the interpreters in three ca
 | `.\path` | 0 | 1 | 0 | 0 | **1** ||
 | `.\path.rex` | 0 | 1 | 0 | 0 | **1** ||
 
+Dot-relative calls exhibit a matrix which is almost identical to the downward-relative calls. The only difference appears when the ooRexx interpreter is being tested: the ooRexx directory exception algorithm skips ".\file", and does not search the same directory or the `PATH`. It's interesting to note that OBJREXX _does_ search in the `PATH` in this case.
+
 ### Upward-relative calls
 
 | Call   | SAA | OBJ | REG | OOR | Some| Comments   |
@@ -181,21 +183,6 @@ Modulo [the SAA bug](#the-saa-bug), we can classify the interpreters in three ca
 | `Y:\path\path.rex` | 1 | 1 | 1 | 1 | **1** ||
 
 # OLD RESULTS
-
-### Dot-relative calls
-
-| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
-| ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
-| `.\same` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** |  |
-| `.\same.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** |  |
-| `.\curr` | 0 | 1 | 1 | 1 | 1 | 1 | 1 | **1** |  |
-| `.\curr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `.\path` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `.\` applied to the `PATH`  |
-| `.\path.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `.\` applied to the `PATH`  |
-
-**Additional comments**: It's interesting to see that OBJREXX does check `.\path.rex` against the directories of the `PATH`.
 
 ### Dotdot-relative calls
 
