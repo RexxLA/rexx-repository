@@ -60,11 +60,6 @@ This directory structure and this setting of the caller's, current and path dire
                                    +---> pathlib.rex (Returns "pathlib")
 </code></pre>
 
-Legenda
-
-| OS/2<br>*Arca Noae 5.0.7* | Windows<br>*Windows 11 Pro* | Ubuntu<br>*22.04.01 LTS* |
-| --- | --- | --- |
-| <ol><li>REXXSAA 4.00<br>3 Feb 1999</li><li>OBJREXX 6.00<br>18 May 1999.</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="4"><li>REXX-ooRexx_5.0.0(MT)_64-bit 6.05<br>23 Dec 2022<br>27 Jan 2023</li><li>REXX-Regina_3.9.5(MT) 5.00<br>25 Jun 2022</li></ol> | <ol start="6"><li>REXX-ooRexx_5.0.0(MT)\_64-bit 6.05<br>23 Dec 2022</li><li>REXX-Regina_3.9.5 5.00<br>25 Jun 2022</li></ol> |
 
 | Code | Meaning |
 | ---  | ---|
@@ -73,10 +68,105 @@ Legenda
 | 🟢 | REXXSAA does not have the concept of "same extension", and the default extension is `.cmd`.<br>Creates the `0 x 0 x 0 x` vertical pattern. |
 | 🟣 | Divergence between the Windows and Ubuntu versions of ooRexx. Probably a bug. |
 
-
-"Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
+* "SAA" refers to the IBM REXXSAA interpreter for OS/2 (version Arca Noae 5.0.7), version string is "REXXSAA 4.00 3 Feb 1999".
+* "OBJ" refers to the IBM Object Rexx Interpreter for OS/2 (version Arca Noae 5.0.7), version string is "OBJREXX 6.00 18 May 1999".
+* "REG" refers to the Regina Rexx Interpreter, under OS/2 (version Arca Noae 5.0.7, version string "REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022"), Windows (Windows 11 Pro, version string "REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022") and Linux (Ubuntu 22.04.01 LTS, version string "REXX-Regina_3.9.5 5.00 25 Jun 2022").
+* "OOR" refers to the Open Object Rexx Interpreter under Windows (Windows 11 Pro, version string "REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05") and Linux (Ubuntu 22.04.01 LTS, version string "REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05").
+* "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
 
 ## Common tests
+
+### Same (caller), current and path directories.
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `same` | 0 | 0 | 0 | 1 | **1** ||
+| `same.rex` | 0 | 0 | 0 | 1 | **1** ||
+| `curr` | 0 | 1 | 1 | 1 | **1** ||
+| `curr.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `path` | 0 | 1 | 1 | 1 | **1** ||
+| `path.rex` | 1 | 1 | 1 | 1 | **1** ||
+
+### Downward-relative calls
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `lib\samelib` | 0 | 0 | 0 | 1 | **1** ||
+| `lib\samelib.rex` | 0 | 0 | 0 | 1 | **1** ||
+| `lib\currlib` | 0 | 1 | 1 | 1 | **1** ||
+| `lib\currlib.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `lib\pathlib` | 0 | 1 | 0 | 1 | **1** ||
+| `lib\pathlib.rex` | 0 | 1 | 0 | 1 | **1** ||
+
+### Dot-relative calls
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `.\same` | 0 | 0 | 0 | 0 | **0** ||
+| `.\same.rex` | 0 | 0 | 0 | 0 | **0** ||
+| `.\curr` | 0 | 1 | 1 | 1 | **1** ||
+| `.\curr.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `.\path` | 0 | 1 | 0 | 0 | **1** ||
+| `.\path.rex` | 0 | 1 | 0 | 0 | **1** ||
+
+### Upward-relative calls
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `..\dotdotsame` | 0 | 0 | 0 | 0 | **0** ||
+| `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | **0** ||
+| `..\dotdotcurr` | 0 | 1 | 1 | 1 | **1** ||
+| `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `..\dotdotpath` | 0 | 1 | 0 | 0 | **1** ||
+| `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | **1** ||
+
+### Upward-relative calls with a trick
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `lib\..\..\dotdotsame` | 0 | 0 | 0 | 1 | **1** ||
+| `lib\..\..\dotdotsame.rex` | 0 | 0 | 0 | 1 | **1** ||
+| `lib\..\..\dotdotcurr` | 0 | 1 | 1 | 1 | **1** ||
+| `lib\..\..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `lib\..\..\dotdotpath` | 0 | 1 | 0 | 1 | **1** ||
+| `lib\..\..\dotdotpath.rex` | 0 | 1 | 0 | 1 | **1** ||
+
+## Windows- and OS/2-only tests
+
+### Slash-relative calls
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `\sotest\subdir\dotdotsame\same\same` | 0 | 0 | 0 | 0 | **0** ||
+| `\sotest\subdir\dotdotsame\same\same.rex` | 0 | 0 | 0 | 0 | **0** ||
+| `\dotdotcurr` | 0 | 1 | 1 | 1 | **1** ||
+| `\dotdotcurr.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `\dotdotpath` | 0 | 0 | 0 | 0 | **0** ||
+| `\dotdotpath.rex` | 0 | 0 | 0 | 0 | **0** ||
+
+### Drive-relative calls
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `D:lib\samelib` | 0 | 0 | 0 | 0 | **0** ||
+| `D:lib\samelib.rex` | 0 | 0 | 0 | 0 | **0** ||
+| `Z:curr\curr` | 0 | 1 | 1 | 1 | **1** ||
+| `Z:curr\curr.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `Y:path\path` | 0 | 1 | 1 | 1 | **1** ||
+| `Y:path\path.rex` | 1 | 1 | 1 | 1 | **1** ||
+
+### Absolute calls
+
+| Call   | SAA | OBJ | REG | OOR | Some| Comments   |
+|---     |---  |---  |---  |---  |---  |---|
+| `D:\sotest\subdir\dotdotsame\same\same` | 0 | 1 | 1 | 1 | **1** ||
+| `D:\sotest\subdir\dotdotsame\same\same.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `Z:\curr\curr` | 0 | 1 | 1 | 1 | **1** ||
+| `Z:\curr\curr.rex` | 1 | 1 | 1 | 1 | **1** ||
+| `Y:\path\path` | 0 | 1 | 1 | 1 | **1** ||
+| `Y:\path\path.rex` | 1 | 1 | 1 | 1 | **1** ||
+
+# OLD RESULTS
 
 ### Same (caller), current and path directories.
 
