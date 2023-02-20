@@ -136,6 +136,9 @@ Dot-relative call tests produce a matrix which is almost identical to the downwa
 | `..\dotdotpath` | 0 | 1 | 0 | 0 | **1** ||
 | `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | **1** ||
 
+Dot-relative call tests produce a matrix which is almost identical to the downward-relative calls, and completely identical to the dot-relative calls; modulo [the SAA bug](#the-saa-bug), REXXSAA and Regina exhibit the same behaviour (i.e., they only search in the current directory). The only test result matrix difference appears when the ooRexx interpreter is being tested: the ooRexx directory exception algorithm skips "..\file", and does not search the same directory or the `PATH`. It's interesting to note that OBJREXX _does_ search in the `PATH` in this case.
+
+
 ### Upward-relative calls with a trick
 
 | Call   | SAA | OBJ | REG | OOR | Some| Comments   |
@@ -183,19 +186,6 @@ Dot-relative call tests produce a matrix which is almost identical to the downwa
 | `Y:\path\path.rex` | 1 | 1 | 1 | 1 | **1** ||
 
 # OLD RESULTS
-
-### Dotdot-relative calls
-
-| Call | (1) | (2) | (3) | (4) | (5) | (6) | (7) | **Some** | Comments |
-| ---    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| | *OS/2* | *OS/2* | *OS/2* | *Win* | *Win* | *Ubu* | *Ubu* |  | |
-| | *SAA*<br>🔵🟢 | *OBJR*<br>🔵 | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 | *ooR* | *Reg*<br>🔵🔴 |  | |
-| `..\dotdotsame` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `..\` case|
-| `..\dotdotsame.rex` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | REXXSAA, ooRexx and Regina stop the search and limit it to the current directory in the `.\` case|
-| `..\dotdotcurr` | 0 | 1 | 1 | 0 | 1 | 1 | 1 | **1** | 🟣 |
-| `..\dotdotcurr.rex` | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **1** | |
-| `..\dotdotpath` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `..\` applied to the `PATH` |
-| `..\dotdotpath.rex` | 0 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | REXXSAA and ooRexx stop the search and limit it to the current directory in the `.\` case<br>Only OBJREXX has love for `..\` applied to the `PATH` |
 
 ### Dotdot-relative calls, with a trick
 
