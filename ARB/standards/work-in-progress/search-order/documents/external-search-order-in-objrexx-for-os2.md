@@ -15,4 +15,4 @@ The search order for external functions follows:
 7. REXX functions in the current directory, with the default extension. 
 8. REXX functions along environment PATH, with the default extension. 
 9. Functions that have been loaded into the macrospace for post-order execution. 
-10. The full search pattern for functions and routines is shown in the following figure. 
+10. The full search pattern for functions and routines is shown in the following figure \[...\]. 
