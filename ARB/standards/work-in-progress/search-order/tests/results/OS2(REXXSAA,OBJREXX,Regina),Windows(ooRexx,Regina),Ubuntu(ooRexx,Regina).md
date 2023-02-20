@@ -74,6 +74,12 @@ This directory structure and this setting of the caller's, current and path dire
 * "OOR" refers to the Open Object Rexx Interpreter under Windows (Windows 11 Pro, version string "REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05") and Linux (Ubuntu 22.04.01 LTS, version string "REXX-ooRexx\_5.0.0(MT)\_64-bit 6.05").
 * "Some" means that some of the previous tests has passed for this call variation. Some = 0 when all the tests failed.
 
+#### Notes
+
+##### The SAA bug
+
+The REXXSAA interpreter for OS/2 does not work [as described](../../documents/external-search-order-in-rexxsaa-for-os2.md). It should search first for "REXX functions in the current directory, with the current extension", and then for "REXX functions along environment PATH, with the current extension"; it does not, but searches for "the default extension" instead (`.CMD`). We will use the expression "**the SAA bug**" to refer to this behaviour.
+
 ## Common tests
 
 ### Same (caller), current and path directories.
@@ -86,6 +92,8 @@ This directory structure and this setting of the caller's, current and path dire
 | `curr.rex` | 1 | 1 | 1 | 1 | **1** ||
 | `path` | 0 | 1 | 1 | 1 | **1** ||
 | `path.rex` | 1 | 1 | 1 | 1 | **1** ||
+
+Modulo [the SAA bug](#the-saa-bug), all interpreters have the same behaviour (search in the current directory, then in the `PATH`), except for ooRexx, which searches first in the "same", or caller, directory.
 
 ### Downward-relative calls
 
