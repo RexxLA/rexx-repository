@@ -1,6 +1,6 @@
 # External search order for the OBJREXX interpreter under OS/2
 
-\[Copied from REXX.INF, BOJREXX interpreter, Arca Noae 5.0.7\]
+\[Copied from REXX.INF, OBJREXX interpreter, Arca Noae 5.0.7\]
 
 **External functions** and **subroutines** have a system-defined search order. 
 
