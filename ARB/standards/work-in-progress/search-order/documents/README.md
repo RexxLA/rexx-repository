@@ -9,7 +9,7 @@
 
 ## For reference and comparison: what other languages/environments do
 
-1. [The Microsoft Visual Studio preprocessor -- The #include directive](nclude-directive-in-visual-studio.md)
+1. [The Microsoft Visual Studio preprocessor -- The #include directive](include-directive-in-visual-studio.md)
 
 ## Research
 
