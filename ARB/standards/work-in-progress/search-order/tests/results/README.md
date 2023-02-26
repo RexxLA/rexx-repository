@@ -16,9 +16,11 @@
 * [OS/2 Regina](os2.regina.results.txt)
 * [OS/2 REXXSAA](os2.rexxsaa.results.txt)
 * [Ubuntu ooRexx](ubuntu.oorexx.results.txt)
+    * Results are identical to [Windows ooRexx (without the hasDirectory bug)](windows-nobug.oorexx.results.txt)
 * [Ubuntu Regina](ubuntu.regina.results.txt)
 * [Windows ooRexx (with the hasDirectory bug)](windows-bug.oorexx.results.txt)
 * [Windows ooRexx (without the hasDirectory bug)](windows-nobug.oorexx.results.txt)
+    * Results are identical to [Ubuntu ooRexx](ubuntu.oorexx.results.txt)
 * [Windows Regina](windows.regina.results.txt)
     * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt)
 
