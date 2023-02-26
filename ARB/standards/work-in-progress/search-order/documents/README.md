@@ -10,6 +10,7 @@
 ## For reference and comparison: what other languages/environments do
 
 1. [The Microsoft Visual Studio preprocessor -- The #include directive](include-directive-in-visual-studio.md)
+2. [Windows NT Command Search Sequence](Windows-NT-Command-Search-Sequence.md)
 
 ## Research
 
