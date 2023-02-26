@@ -24,8 +24,18 @@ Source: https://learn.microsoft.com/en-us/previous-versions//cc723564(v=technet.
 >
 >If the command name includes a file extension, the shell searches each directory for the exact file name specified by the command name. If the command name does not include a file extension, the shell adds the extensions listed in the PATHEXT environment variable, one by one, and searches the directory for that file name. Note that the shell tries all possible file extensions in a specific directory before moving on to search the next directory (if there is one).
 
-The NT Search Sequence algorithm is equivalent to the Regina Rexx Search Order:
+The Windows NT Command Search Sequence algorithm is equivalent to the Regina Rexx Search Order:
 
 * [Regina Rexx Search Order for Windows](../tests/results/windows.regina.results.txt)
-* [Windows NT CMD Search Order](../tests/results/windows.cmd.results.txt)
+* [Windows NT Command Search Sequence](../tests/results/windows.cmd.results.txt)
 * [Test results comparison tool](../tests/results/compare.rex)
+
+The super-path is conceptually formed by prepending the current directory to the contents of the PATH environment variable.
+
+The extension list is contained in the PATHEXT environment variable.
+
+The directory exception algorithm is equivalent to the fact that the filename contains a backslash ("\\"). Then the filename, if not absolute, is resolved against the current directory.
+
+The extension exception algorithm is equivalent to the fact that the filename has an extension. Then only that extension is searched.
+
+The Windows NI Command Search Sequence algorithm is directory-first.
