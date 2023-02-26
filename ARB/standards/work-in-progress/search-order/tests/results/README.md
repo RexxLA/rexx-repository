@@ -14,6 +14,6 @@ Results of running `sotest.rex`
 * [Windows ooRexx (without the hasDirectory bug)](windows-nobug.oorexx.results.txt)
 * [Windows Regina](windows.regina.results.txt)
 
-Results of running `sotestCMD.rex`
+Results of testing the CMD Search Order
 
 * [Windows CMD Search Order](windows.cmd.results.txt)
