@@ -13,3 +13,7 @@ Results of running `sotest.rex`
 * [Windows ooRexx (with the hasDirectory bug)](windows-bug.oorexx.results.txt)
 * [Windows ooRexx (without the hasDirectory bug)](windows-nobug.oorexx.results.txt)
 * [Windows Regina](windows.regina.results.txt)
+
+Results of running `sotestCMD.rex`
+
+* [Windows CMD Search Order](windows.cmd.results.txt)
