@@ -23,3 +23,9 @@ Source: https://learn.microsoft.com/en-us/previous-versions//cc723564(v=technet.
 >In outline, if the command name does not contain a path, the command shell first checks to see if the command is an internal command, then checks the current directory for a matching executable file, and then checks each directory in the search path. If the command name does contain a path, the shell only checks the specified directory for a matching executable file.
 >
 >If the command name includes a file extension, the shell searches each directory for the exact file name specified by the command name. If the command name does not include a file extension, the shell adds the extensions listed in the PATHEXT environment variable, one by one, and searches the directory for that file name. Note that the shell tries all possible file extensions in a specific directory before moving on to search the next directory (if there is one).
+
+The NT Search Sequence algorithm is equivalent to the Regina Rexx Search Order:
+
+* [Regina Rexx Search Order for Windows](../tests/results/windows.regina.results.txt)
+* [Windows NT CMD Search Order](../tests/results/windows.cmd.results.txt)
+* [Test results comparison tool](../tests/results/compare.rex)
