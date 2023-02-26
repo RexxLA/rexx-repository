@@ -17,12 +17,15 @@ Results of running `sotest.rex`
 * [Windows ooRexx (with the hasDirectory bug)](windows-bug.oorexx.results.txt)
 * [Windows ooRexx (without the hasDirectory bug)](windows-nobug.oorexx.results.txt)
 * [Windows Regina](windows.regina.results.txt)
+    * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt)
 
 Results of testing the CMD Search Order
 
 * [Windows CMD Search Order](windows.cmd.results.txt)
+    * Results are identical to [Regina](windows.regina.results.txt)
 
 Results of the Windows SearchPath API (1st parameter="same directory;.;path"; 2nd parameter=filename; 3rd parameter=".rex")
 
-* [Windows SearchPath API resolution](windows.SearchPath.results.txt) --> Identical to [Windows ooRexx (without the hasDirectory bug)](windows-nobug.oorexx.results.txt)
+* [Windows SearchPath API resolution](windows.SearchPath.results.txt) 
+    * Results are identical to [Windows ooRexx (without the hasDirectory bug)](windows-nobug.oorexx.results.txt)
 
