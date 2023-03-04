@@ -38,4 +38,4 @@ The directory exception algorithm is equivalent to the fact that the filename co
 
 The extension exception algorithm is equivalent to the fact that the filename has an extension. Then only that extension is searched.
 
-The Windows NI Command Search Sequence algorithm is directory-first.
+The Windows NT Command Search Sequence algorithm is directory-first.
