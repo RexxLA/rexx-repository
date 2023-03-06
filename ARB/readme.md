@@ -8,4 +8,4 @@ Standards are in:
 Older references are in:
 
 - [REX](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/historic/references/rex) Historic documents from the time the language still was called REX
-- [REXX](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/historic/references/rex) Milestone release documentation from different platforms
+- [REXX](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/historic/references/rexx) Milestone release documentation from different platforms
