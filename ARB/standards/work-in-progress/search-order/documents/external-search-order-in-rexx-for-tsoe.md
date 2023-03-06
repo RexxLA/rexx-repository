@@ -70,3 +70,6 @@ USS (Unix Systems Services) provides a POSIX environment for z/OS (it qualifies 
 When a Rexx exec is located in the SYSEXEC concatenation, TSO automatically recognizes it as a Rexx exec and passes it to the Rexx interpreter for execution, without the need for a /* REXX */ comment.
 
 However, when a Rexx exec is located in the SYSPROC concatenation, you do need to include the /* REXX */ comment at the beginning of the program to ensure that TSO recognizes it as a Rexx exec and passes it to the Rexx interpreter for execution, this is because clists are also loaded from the SYSPROC concatenation.
+
+## The JES2 batch environment
+Rexx execs can be run in batch, either by TSO in a batch job using the IKJEFT01 program (here the DDnames SYSPROC and SYSEXEC play the same role as in online TSO, or by the IRXJCL program, which takes the SYSEXEC DDname). 
