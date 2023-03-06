@@ -27,3 +27,6 @@
 >4. Finally the language processor attempts to run the function under its original name, using CMSCALL. (If still not found, an error results.)
 >
 >The name prefix mechanism, RX, allows new REXX functions to be written with little chance of name conflict with existing MODULES.
+
+## The /* Rexx */ comment requirement
+In CMS, the exec always needs to start with a comment statement containing 'Rexx', because the exec processor also can execute EXEC2 or EXEC scripts, and even combinations of those, like calling Rexx from EXEC2.

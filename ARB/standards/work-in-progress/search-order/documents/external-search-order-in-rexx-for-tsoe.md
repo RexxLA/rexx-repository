@@ -62,3 +62,11 @@
 >is searched before SYSPROC.  
 >You can control the NOLOADDD flag using the TSO/E REXX EXECUTIL command. For more
 >information, see “EXECUTIL” on page 216.
+
+## The USS environment
+USS (Unix Systems Services) provides a POSIX environment for z/OS (it qualifies as a Unix version). It can be accessed using a shell like zh or bash, and Rexx execs can be started from these shells. The shell accesses a Unix-type singly-rooted filesystem and scripts are started like in Unix. Rexx execs can be in various character sets and when started with the 'rexx' program, do not need a shebang.
+
+## The /* Rexx */ comment requirement
+When a Rexx exec is located in the SYSEXEC concatenation, TSO automatically recognizes it as a Rexx exec and passes it to the Rexx interpreter for execution, without the need for a /* REXX */ comment.
+
+However, when a Rexx exec is located in the SYSPROC concatenation, you do need to include the /* REXX */ comment at the beginning of the program to ensure that TSO recognizes it as a Rexx exec and passes it to the Rexx interpreter for execution, this is because clists are also loaded from the SYSPROC concatenation.
