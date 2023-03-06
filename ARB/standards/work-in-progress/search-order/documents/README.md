@@ -6,6 +6,7 @@
 2. [For Regina](external-search-order-in-regina.md)
 3. [For REXXSAA (under OS/2)](external-search-order-in-rexxsaa-for-os2.md)
 4. [For OBJREXX (under OS/2)](external-search-order-in-objrexx-for-os2.md)
+5. [For REXX/VM under z/VM](external-search-order-in-rexx-for-vm.md)
 
 ## For reference and comparison: what other languages/environments do
 
