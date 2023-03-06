@@ -51,4 +51,4 @@ The **list of extensions** is (1) ```".cls"``` (only for ```::REQUIRES```); (2) 
 
 The **directory exception algorithm** returns true when ```filename[1] == "/" | filename[1] == "~" | filename[1,2] == "./" | filename[1,3] == "../"``` for Unix-like systems, and when ```filename[1] == "\" | filename[2] == ":" | filename[1,2] == ".\" | filename[1,3] == "..\" for Windows```. In these cases, only the distinguished directory (the current directory) is checked.
 
-The **extension exception** algorithm returns true when ```filename~contains(".")```. In this case, only the filename as-is is checked, which is equivalent to checking with the distinguished extension, that is, with no extension.
+The **extension exception algorithm** returns true when ```filename~contains(".")```. In this case, only the filename as-is is checked, which is equivalent to checking with the distinguished extension, that is, with no (additional) extension.
