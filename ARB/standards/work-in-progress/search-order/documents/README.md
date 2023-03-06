@@ -17,4 +17,4 @@
 ## Research
 
 1. [Research by Rony for Windows and Unix-like](searchorder.md)
-2. [Definition of an External Program Search Algorithm - Draft 0.2](external-program-search-algorithm.md)
+2. [Definition of an External Program Search Algorithm - Draft 0.3](external-program-search-algorithm.md)
