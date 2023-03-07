@@ -7,37 +7,3 @@ A place to collect all things related to the Search Order problem
 * [References](references/README.md) -- external references related to the problem
 * [Documents](documents/README.md) -- describing the problem
 * [Tests](tests/README.md) -- testing different aspects of the problem
-
-## Definition of a search algorithm
-
-***Given:*** 
-
-* A sequence $\langle p_1, \dots, p_n \rangle$ of **path lists**, where each $p_i$ is a sequence of (relative or absolute) directories, $\langle d_{i1}, \dots, d_{im_{i}}\rangle$.
-
->For example, ooRexx determines that $p_1 = \langle S \rangle$, where $S$ is the "same" or caller directory; $p_2 = \langle$ `"."` $\rangle$, the 1-element sequence containing as its only element the current directory; $p_3$ is the application-defined path, if any; $p_4$ is the list of directories contained in the `REXX_PATH` environment variable, and $p_5$ is the list of directories contained in the `PATH` environment variable.
-
-* A sequence $\langle l_1, \dots, l_k \rangle$ of **file extension lists**, where each $l_j$ is a sequence of (possibly empty) file extensions, $\langle e_{j1}, \dots, e_{jn_{j}}\rangle$.
-
->For example, ooRexx determines that the first extension list contains only one element, `".cls"`, but only in the case of a `::requires` invocation; the next extension list has also only one element, which is the extension of the caller program, if it exists; the next extension list is defined by the application, for example by an editor; the next list is either $\langle$ `".REX"`, `".rex"` $\rangle$, in the case of Unix-like operating systems, or $\langle$ `".rex"` $\rangle$, in the case of Windows; and, finally, the last extension list has also only one element, the empty extension (that is, no extension).
-
-* A **file name** $f$, which can contain or not an extension and/or a relative or absolute path.
-* A **composition operation** $C$ that, given a directory $d_{ij}$, an extension $e_{kl}$ and a file name $f$ produces an absolute file specification $F = C(d_{ij},e_{kl},f)$.
-
->The simplest cases of composition are similar to a concatenation, adding a path separator character if necessary. For example, if $d=$ `"C:\my\files"`, $e =$ `".cls"` and $f=$ `"myclass"`, then probably $C(d,e,f) =$ `"C:\my\files\myclass.cls"`. There are also some non-obvious, more complicated variations.
-
-***Goal:***
-
-Locate the first $F = C(d,e,f)$ such that $F$ exists.
-
-***Variations:***
-
-A search algorithm can be
-
-* **Directory-first**, i.e. all the directories in $p_1$ are checked in turn, then all the directories in $p_2$, and so on. Inside each directories, all the extensions are checked.
-* **Extension-first**, i.e. all the extensions in $l_1$ are checked in turn, then all the extensions in $l_2$, and so on. For each extension, all the directories are checked.
-
->For example, ooRexx search is extension-first, while Regina search is directory-first.
-
-The composition operation can incorporate a number of **exceptions** where the search algoritgh is bypassed (and then, normally, the $f$ parameter is resolved by the operating system in a system-dependent way). Similarly, the extension search can be bypassed in certain circumstances.
-
->For example, ooRexx does not follow the search order when `f[1] == "\" | f[1] == "/" | f[2] == ":" | f[1,2] == ".\" | f[1,2] == "./" | f[1,3] == "..\" | f[1,3] == "../"`, and the extension list is bypassed when the file name has an extension ("is extension qualified").
