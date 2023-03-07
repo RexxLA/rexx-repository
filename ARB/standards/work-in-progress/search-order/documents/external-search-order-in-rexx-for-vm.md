@@ -28,9 +28,11 @@
 ## The /* Rexx */ comment requirement
 In CMS, the exec always needs to start with a comment statement containing 'Rexx', because the exec processor also can execute EXEC2 or EXEC scripts, and even combinations of those, like calling Rexx from EXEC2.
 
-## Random comments taken from the ARB list
+## Read-only extensions
 
-[Shmuel (Seymour J.) Metz says](https://groups.io/g/rexxla-arb/message/63): "The procedure name in a CALL, when quoted, is interpreted according to the rules of the host OS. In the case of CMS, that's ```'fn ft fm'```; name, type and mode. The mode includes a drive letter and may be omitted. There are some complications like minidisk extension."
+Like in ```access 235 b/a``` should probably also be [taken into account](https://www.ibm.com/docs/en/zvm/7.1?topic=used-how-extensions-are).
+
+## Random comments taken from the ARB list
 
 [René Vincent Jansen says](https://groups.io/g/rexxla-arb/message/64):
 
