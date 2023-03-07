@@ -30,3 +30,7 @@
 
 ## The /* Rexx */ comment requirement
 In CMS, the exec always needs to start with a comment statement containing 'Rexx', because the exec processor also can execute EXEC2 or EXEC scripts, and even combinations of those, like calling Rexx from EXEC2.
+
+[Shmuel (Seymour J.) Metz says](https://groups.io/g/rexxla-arb/message/63): "The procedure name in a CALL, when quoted, is interpreted according to the rules of the host OS. In the case of CMS, that's ```'fn ft fm'```; name, type and mode. The mode includes a drive letter and may be omitted. There are some complications like minidisk extension."
+
+
