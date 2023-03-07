@@ -1,7 +1,4 @@
-># Search Order
-
-[For z/VM 7.1](https://www.ibm.com/docs/en/zvm/7.1?topic=subroutines-search-order)
-
+># Search Order for [REXX/VM for z/VM 7.1](https://www.ibm.com/docs/en/zvm/7.1?topic=subroutines-search-order)
 >
 >The search order for functions is: internal routines take precedence, then built-in functions, and finally external functions.
 >
@@ -31,6 +28,12 @@
 ## The /* Rexx */ comment requirement
 In CMS, the exec always needs to start with a comment statement containing 'Rexx', because the exec processor also can execute EXEC2 or EXEC scripts, and even combinations of those, like calling Rexx from EXEC2.
 
+## Random comments taken from the ARB list
+
 [Shmuel (Seymour J.) Metz says](https://groups.io/g/rexxla-arb/message/63): "The procedure name in a CALL, when quoted, is interpreted according to the rules of the host OS. In the case of CMS, that's ```'fn ft fm'```; name, type and mode. The mode includes a drive letter and may be omitted. There are some complications like minidisk extension."
 
+[René Vincent Jansen says](https://groups.io/g/rexxla-arb/message/64):
 
+1. _Question 2: Is there a way, in REXX, to call a program and explicitly specify the filetype, i.e., CALL 'filename filetype' arguments?_ I could not get this to work; I know that CMS Pipelines can call execs called XYZ REXX but I think that is outside our scope.
+2. _Question 3: The same as question 2, but with a filemode, i.e., CALL 'filename filetype filemode' arguments._ I could not get this to work either.
+3. _Question 4: If one can put a directory in the place of a letter, the same as question 3, but with a directory, i.e., CALL 'filename filetype directory' arguments._ This did not work.
