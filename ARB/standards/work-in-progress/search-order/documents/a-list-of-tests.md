@@ -21,7 +21,7 @@ In the process of testing, I've uncovered two bugs.
   This bug (which I have reported and for which I've provided a trivial patch) is difficult to trigger 
   (one needs an extensionless filename and a path which contains a dot, like ```"my.dir/file"```, 
   which will be taken to have an extension when it doesn't have one). We will refer to it as "the hasDirectory bug".  
-  (**Update 20230310**) [Commit r12651](https://sourceforge.net/p/oorexx/code-0/12651/) fixes that problem.
+  (**Update 20230310**) [5.1.0-beta-12651](https://sourceforge.net/p/oorexx/code-0/12651/) fixes that problem.
   
 ## Classification of results
 
