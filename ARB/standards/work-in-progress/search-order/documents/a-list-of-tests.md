@@ -4,9 +4,9 @@
 
 I've been testing the behaviour of several interpreters under several operating systems, 
 the behaviour of the Windows ```CMD.EXE``` command line interpreter and the Windows ```SearchPath``` API. 
-All the results are collected [here](./tests/results). 
+All the results are collected [here](../tests/results). 
 A preliminary report with a first interpretation of the results 
-can be found [here](./tests/results/OS2(REXXSAA%2COBJREXX%2CRegina)%2CWindows(ooRexx%2CRegina)%2CUbuntu(ooRexx%2CRegina).md). 
+can be found [here](../tests/results/OS2(REXXSAA%2COBJREXX%2CRegina)%2CWindows(ooRexx%2CRegina)%2CUbuntu(ooRexx%2CRegina).md). 
 
 In this post, I will try a higher level attempt at an interpretation, 
 and I will end by advocating the removal of the current limitations of the ooRexx interpreter.
@@ -16,7 +16,7 @@ and I will end by advocating the removal of the current limitations of the ooRex
 In the process of testing, I've uncovered two bugs.
 
 1. A bug in the REXXSAA (i.e., Classic Rexx) interpreter for OS/2, 
-   where the extension of the caller is not searched, contrary to [the documentation](./documents/external-search-order-in-rexxsaa-for-os2.md). We will refer to this bug as "the SAA bug".
+   where the extension of the caller is not searched, contrary to [the documentation](../external-search-order-in-rexxsaa-for-os2.md). We will refer to this bug as "the SAA bug".
 2. A bug in the ooRexx interpreter for Windows, due to a typo in the ```SysFileSystem::hasExtension``` function. 
   This bug (which I have reported and for which I've provided a trivial patch) is difficult to trigger (one needs an extensionless filename and a path which contains a dot, like "my.dir/file", which will be taken to have an extension when it doesn't have one). We will refer to it as "the hasDirectory bug".
 
