@@ -8,7 +8,7 @@ All the results are collected [here](../tests/results).
 A preliminary report with a first interpretation of the results 
 can be found [here](../tests/results/OS2(REXXSAA%2COBJREXX%2CRegina)%2CWindows(ooRexx%2CRegina)%2CUbuntu(ooRexx%2CRegina).md). 
 
-In this post, I will try a higher level attempt at an interpretation, 
+In this article, I will try a higher level attempt at an interpretation, 
 and I will end by advocating the removal of the current limitations of the ooRexx interpreter.
 
 ## Bugs
