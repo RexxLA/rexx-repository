@@ -25,7 +25,7 @@ In the process of testing, I've uncovered two bugs.
   
 ## Classification of results
 
-I've executed nine tests: (1) for [Regina under OS/2](../tests/results/os2.rexxsaa.results.txt); (2) for Regina under Windows; (3) for Regina under Ubuntu; (4) for REXXSAA under OS/2; (5) for REXXSAA under OS/2; (6) for ooRexx under Windows; (7) for ooRexx under Ubuntu; (8); Windows CMD; (9) Windows SearchPath.
+I've executed nine tests: (1) for [Regina under OS/2](../tests/results/os2.regina.results.txt); (2) for Regina under Windows; (3) for Regina under Ubuntu; (4) for REXXSAA under OS/2; (5) for REXXSAA under OS/2; (6) for ooRexx under Windows; (7) for ooRexx under Ubuntu; (8); Windows CMD; (9) Windows SearchPath.
 
 Here's an attempt to classify the results of these tests. Fortunately, several of these results are identical, or would be identical if the bugs mentioned earlier were first patched. This will allow us to group our nine results in only three groups.
 
