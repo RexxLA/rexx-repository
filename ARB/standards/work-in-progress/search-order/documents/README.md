@@ -18,3 +18,4 @@
 
 1. [Research by Rony for Windows and Unix-like](searchorder.md)
 2. [Definition of an External Program Search Algorithm - Draft 0.3](external-program-search-algorithm.md)
+3. [A list of tests by Josep Maria Blasco](a-list-of-tests.md)
