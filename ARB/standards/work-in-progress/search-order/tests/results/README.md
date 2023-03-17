@@ -14,22 +14,22 @@
 
 * [OS/2 OBJREXX](os2.objrexx.results.txt)
 * [OS/2 Regina](os2.regina.results.txt)
-    * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt), to [Ubuntu Regina](ubuntu.regina.results.txt) and to [Windows Regina](windows.regina.results.txt)
+    * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt), to [Ubuntu Regina](ubuntu.regina.results.txt) and to [Windows Regina](windows.regina.results.rex)
 * [OS/2 REXXSAA](os2.rexxsaa.results.txt)
 * [Ubuntu ooRexx](ubuntu.oorexx.results.txt)
     * Results are identical to [Windows ooRexx (without the hasDirectory bug)](windows.oorexx-5.1.0-beta-r12651.results.rex)
 * [Ubuntu Regina](ubuntu.regina.results.txt)
-    * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt), to [OS/2 Regina](os2.regina.results.txt) and to [Windows Regina](windows.regina.results.txt)
+    * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt), to [OS/2 Regina](os2.regina.results.txt) and to [Windows Regina](windows.regina.results.rex)
 * [Windows ooRexx 5.0.0](windows.oorexx-5.0.0.results.txt)
 * [Windows ooRexx (without the hasDirectory bug)](windows.oorexx-5.1.0-beta-r12651.results.rex)
     * Results are identical to [Ubuntu ooRexx](ubuntu.oorexx.results.txt)
-* [Windows Regina](windows.regina.results.txt)
+* [Windows Regina](windows.regina.results.rex)
     * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt), to [OS/2 Regina](os2.regina.results.txt) and to [Ubuntu Regina](ubuntu.regina.results.txt)
 
 ### Results of testing the CMD Search Order
 
 * [Windows CMD Search Order](windows.cmd.results.txt)
-    * Results are identical to [Regina](windows.regina.results.txt)
+    * Results are identical to [Regina](windows.regina.results.rex)
 
 ### Results of the Windows SearchPath API (1st parameter="same directory;.;path"; 2nd parameter=filename; 3rd parameter=".rex")
 
