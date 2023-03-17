@@ -12,7 +12,7 @@
 
 ### Results of running `sotest.rex`
 
-* [OS/2 OBJREXX](os2.objrexx.results.txt)
+* [OS/2 OBJREXX](os2.objrexx.results.rex)
 * [OS/2 Regina](os2.regina.results.rex)
     * Results are identical to the [Windows CMD Search Order](windows.cmd.results.txt), to [Ubuntu Regina](ubuntu.regina.results.rex) and to [Windows Regina](windows.regina.results.rex)
 * [OS/2 REXXSAA](os2.rexxsaa.results.txt)
