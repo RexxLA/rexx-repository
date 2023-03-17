@@ -1,20 +1,22 @@
--- sotest.rex -- A Search Order test suite
---
--- Interpreter:      REXX-ooRexx_5.0.0(MT)_64-bit 6.05 23 Dec 2022
--- Operating system: LINUX
--- Full name:        /home/sam/Escritorio/sotest/sotest.rex
--- Main routine:     /home/sam/Escritorio/sotest/subdir/dotdotsame/same/main.rex
---
--- Test suite starting.
---
--- The following values have been set:
---
---   Same directory:    '/home/sam/Escritorio/sotest/subdir/dotdotsame/same'
---   Current directory: '/home/sam/Escritorio/sotest/subdir/dotdotcurr/curr'
---   Path:              '/home/sam/Escritorio/sotest/subdir/dotdotpath/path'
---
--- This is ooRexx. Search order is extension-first
---
+/******************************************************************************
+  sotest.rex -- A Search Order test suite
+
+  Interpreter:      REXX-ooRexx_5.0.0(MT)_64-bit 6.05 23 Dec 2022
+  Operating system: LINUX
+  Full name:        /home/sam/sotest/sotest.rex
+  Main routine:     /home/sam/sotest/subdir/dotdotsame/same/main.rex
+
+  Test suite starting on 17 Mar 2023 at 15:38:42
+
+  The following values have been set:
+
+    Same directory:    '/home/sam/sotest/subdir/dotdotsame/same'
+    Current directory: '/home/sam/sotest/subdir/dotdotcurr/curr'
+    Path:              '/home/sam/sotest/subdir/dotdotpath/path'
+
+  This is ooRexx. Search order is extension-first
+
+ ******************************************************************************/
 Pass.1  = .true;  Pass.1.test  = 'same'
 Pass.2  = .true;  Pass.2.test  = 'same.rex'
 Pass.3  = .true;  Pass.3.test  = 'curr'
