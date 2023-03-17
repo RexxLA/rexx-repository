@@ -1,20 +1,22 @@
--- sotest.rex -- A Search Order test suite
---
--- Interpreter:      REXX-Regina_3.9.5 5.00 25 Jun 2022
--- Operating system: UNIX
--- Full name:        /home/sam/Escritorio/sotest/sotest.rex
--- Main routine:     /home/sam/Escritorio/sotest/subdir/dotdotsame/same/main.rex
---
--- Test suite starting.
---
--- The following values have been set:
---
---   Same directory:    '/home/sam/Escritorio/sotest/subdir/dotdotsame/same'
---   Current directory: '/home/sam/Escritorio/sotest/subdir/dotdotcurr/curr'
---   Path:              '/home/sam/Escritorio/sotest/subdir/dotdotpath/path'
---
--- This is Regina. Search order is directory-first
---
+/******************************************************************************
+  sotest.rex -- A Search Order test suite
+
+  Interpreter:      REXX-Regina_3.9.5 5.00 25 Jun 2022
+  Operating system: UNIX
+  Full name:        /home/sam/sotest/sotest.rex
+  Main routine:     /home/sam/sotest/subdir/dotdotsame/same/main.rex
+
+  Test suite starting on 17 Mar 2023 at 15:40:53
+
+  The following values have been set:
+
+    Same directory:    '/home/sam/sotest/subdir/dotdotsame/same'
+    Current directory: '/home/sam/sotest/subdir/dotdotcurr/curr'
+    Path:              '/home/sam/sotest/subdir/dotdotpath/path'
+
+  This is Regina. Search order is directory-first
+
+ ******************************************************************************/
 Pass.1  = .false; Pass.1.test  = 'same'
 Pass.2  = .false; Pass.2.test  = 'same.rex'
 Pass.3  = .true;  Pass.3.test  = 'curr'
