@@ -1,20 +1,22 @@
--- sotest.rex -- A Search Order test suite
---
--- Interpreter:      REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022
--- Operating system: WIN64
--- Full name:        D:\Dropbox\ooRexx\sotest\sotest.rex
--- Main routine:     D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\main.rex
---
--- Test suite starting.
---
--- The following values have been set:
---
---   Same directory:    'D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same'
---   Current directory: 'D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr\curr'
---   Path:              'D:\Dropbox\ooRexx\sotest\subdir\dotdotpath\path'
---
--- This is Regina. Search order is directory-first
---
+/******************************************************************************
+  sotest.rex -- A Search Order test suite
+
+  Interpreter:      REXX-Regina_3.9.5(MT) 5.00 25 Jun 2022
+  Operating system: WIN64
+  Full name:        D:\Dropbox\ooRexx\sotest\sotest.rex
+  Main routine:     D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\main.rex
+
+  Test suite starting on 17 Mar 2023 at 12:54:17
+
+  The following values have been set:
+
+    Same directory:    'D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same'
+    Current directory: 'D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr\curr'
+    Path:              'D:\Dropbox\ooRexx\sotest\subdir\dotdotpath\path'
+
+  This is Regina. Search order is directory-first
+
+ ******************************************************************************/
 Pass.1  = .false; Pass.1.test  = 'same'
 Pass.2  = .false; Pass.2.test  = 'same.rex'
 Pass.3  = .true;  Pass.3.test  = 'curr'
@@ -45,10 +47,10 @@ Pass.27 = .true;  Pass.27.test = 'lib\..\..\dotdotcurr'
 Pass.28 = .true;  Pass.28.test = 'lib\..\..\dotdotcurr.rex'
 Pass.29 = .false; Pass.29.test = 'lib\..\..\dotdotpath'
 Pass.30 = .false; Pass.30.test = 'lib\..\..\dotdotpath.rex'
--- Executing 'SUBST Z: D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr'
--- Executing 'SUBST Y: D:\Dropbox\ooRexx\sotest\subdir\dotdotpath'
--- Changing current directory to Z:\
--- Changing PATH to Y:\
+/* Executing 'SUBST Z: D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr'            */
+/* Executing 'SUBST Y: D:\Dropbox\ooRexx\sotest\subdir\dotdotpath'            */
+/* Changing current directory to Z:\                                          */
+/* Changing PATH to Y:\                                                       */
 Pass.31 = .false; Pass.31.test = '\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\same'
 Pass.32 = .false; Pass.32.test = '\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\same.rex'
 Pass.33 = .true;  Pass.33.test = '\dotdotcurr'
