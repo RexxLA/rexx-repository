@@ -2,6 +2,8 @@
  *                                                                           *
  *  sotest.rex                                                               *
  *                                                                           *
+ *  Version 1.0, 20230319                                                    * 
+ *                                                                           * 
  *  This is a stub that displays some minimal infomation and then calls      *
  *  ./subdir/dotdotsame/same/main.rex                                        *
  *                                                                           *  
