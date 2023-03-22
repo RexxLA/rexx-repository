@@ -3,6 +3,7 @@
  *  main.rex - Main routine for sotest.tex                                   *
  *                                                                           * 
  *  Version 1.0, 20230319                                                    *
+ *  Version 1.1, 20230322 -- Integrate CMD and SearchPath tests              * 
  *                                                                           *
  *  Called from ../../../sotest.rex                                          * 
  *                                                                           * 
@@ -359,15 +360,19 @@ Return
 
 /*****************************************************************************/
 
-TryCall: Procedure Expose sigl ooRexx ObjREXX rexxSAA Verbosity testNo specialTest
+TryCall: Procedure Expose sigl ooRexx ObjREXX rexxSAA Verbosity testNo sameDir pathDir specialTest
   Parse arg target, expectedResult
-  If specialTest == "CMD" Then Do
-    Parse arg "'"target"'"              /* Remove outer quotes               */
+  If specialTest == "SEARCHPATH" | specialTest == "CMD" Then Do
+    Parse arg "'"target"'"              /* Remove outer quotes               */  
 	If target == "path" Then Do         /* PATH is a Windows command         */
 	  target = "pth"
 	  expectedResult = "pth"
 	End
-    Address COMMAND target With Error Stem st.
+	If specialTest == "SEARCHPATH" Then Do
+      command = sameDir"/SearchPath" sameDir";.;"pathDir target ".rex"
+      Address COMMAND command With Output Stem st1. Error Stem st2.
+	  End
+	Else Address COMMAND target With Error Stem st.
     testNo = testNo + 1
     If rc \== 0 Then Say "Pass."Left(testNo,2)" = .false; Pass."testNo".test "Copies(" ",testNo<10)"=" "'"target"'"
     Else Say "Pass."Left(testNo,2)" = .true;  Pass."testNo".test "Copies(" ",testNo<10)"=" "'"target"'"
