@@ -29,7 +29,7 @@
 
 ### Results of testing the CMD Search Order
 
-* [Windows CMD Search Order](windows.cmd.results.txt)
+* [Windows CMD Search Order](windows.cmd.results.rex)
     * Results are identical to [Regina](windows.regina.results.rex)
 
 ### Results of the Windows SearchPath API (1st parameter="same directory;.;path"; 2nd parameter=filename; 3rd parameter=".rex")
