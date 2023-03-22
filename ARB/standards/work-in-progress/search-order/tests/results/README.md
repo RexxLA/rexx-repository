@@ -34,6 +34,6 @@
 
 ### Results of the Windows SearchPath API (1st parameter="same directory;.;path"; 2nd parameter=filename; 3rd parameter=".rex")
 
-* [Windows SearchPath API resolution](windows.SearchPath.results.txt) 
+* [Windows SearchPath API resolution](windows.searchpath.results.rex) 
     * Results are identical to [Windows ooRexx (without the hasDirectory bug)](windows.oorexx-5.1.0-beta-r12651.results.rex)
 
