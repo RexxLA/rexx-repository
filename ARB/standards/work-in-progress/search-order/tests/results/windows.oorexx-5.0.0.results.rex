@@ -1,20 +1,22 @@
--- sotest.rex -- A Search Order test suite
---
--- Interpreter:      REXX-ooRexx_5.0.0(MT)_64-bit 6.05 23 Dec 2022
--- Operating system: WindowsNT
--- Full name:        D:\Dropbox\ooRexx\sotest\sotest.rex
--- Main routine:     D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\main.rex
---
--- Test suite starting.
---
--- The following values have been set:
---
---   Same directory:    'D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same'
---   Current directory: 'D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr\curr'
---   Path:              'D:\Dropbox\ooRexx\sotest\subdir\dotdotpath\path'
---
--- This is ooRexx. Search order is extension-first
---
+/******************************************************************************
+  sotest.rex -- A Search Order test suite
+
+  Interpreter:      REXX-ooRexx_5.0.0(MT)_64-bit 6.05 23 Dec 2022
+  Operating system: WindowsNT
+  Full name:        D:\Dropbox\ooRexx\sotest\sotest.rex
+  Main routine:     D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\main.rex
+
+  Test suite starting on 22 Mar 2023 at 15:02:00
+
+  The following values have been set:
+
+    Same directory:    'D:\Dropbox\ooRexx\sotest\subdir\dotdotsame\same'
+    Current directory: 'D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr\curr'
+    Path:              'D:\Dropbox\ooRexx\sotest\subdir\dotdotpath\path'
+
+  This is ooRexx. Search order is extension-first
+
+ ******************************************************************************/
 Pass.1  = .true;  Pass.1.test  = 'same'
 Pass.2  = .true;  Pass.2.test  = 'same.rex'
 Pass.3  = .true;  Pass.3.test  = 'curr'
@@ -45,10 +47,10 @@ Pass.27 = .false; Pass.27.test = 'lib\..\..\dotdotcurr'
 Pass.28 = .true;  Pass.28.test = 'lib\..\..\dotdotcurr.rex'
 Pass.29 = .false; Pass.29.test = 'lib\..\..\dotdotpath'
 Pass.30 = .true;  Pass.30.test = 'lib\..\..\dotdotpath.rex'
--- Executing 'SUBST Z: D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr'
--- Executing 'SUBST Y: D:\Dropbox\ooRexx\sotest\subdir\dotdotpath'
--- Changing current directory to Z:\
--- Changing PATH to Y:\
+/* Executing 'SUBST Z: D:\Dropbox\ooRexx\sotest\subdir\dotdotcurr'            */
+/* Executing 'SUBST Y: D:\Dropbox\ooRexx\sotest\subdir\dotdotpath'            */
+/* Changing current directory to Z:\                                          */
+/* Changing PATH to Y:\                                                       */
 Pass.31 = .false; Pass.31.test = '\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\same'
 Pass.32 = .false; Pass.32.test = '\Dropbox\ooRexx\sotest\subdir\dotdotsame\same\same.rex'
 Pass.33 = .true;  Pass.33.test = '\dotdotcurr'
