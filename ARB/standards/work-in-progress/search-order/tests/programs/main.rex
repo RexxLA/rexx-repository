@@ -53,7 +53,7 @@ Regina  = Pos("REGINA", Translate(interpreter)) > 0 /* OS/2, Windows, Linux  */
  *****************************************************************************/
 Verbosity = 1
 
-Parse arg callerName, fixit, verbosity
+Parse arg callerName, specialTest, fixit, verbosity
 callerDir = SubStr(callerName, 1, LastPos(sep,callerName))
 Say "/"Copies("*",78)
 Say "  "SubStr(callerName, LastPos(sep,callerName) +1 ) "-- A Search Order test suite"
@@ -62,6 +62,14 @@ Say "  Interpreter:     " interpreter
 Say "  Operating system:" os
 Say "  Full name:       " callerName
 Say "  Main routine:    " myself
+If specialTest == "CMD" Then Do
+  If \Windows Then Do
+    Say "*** CMD.EXE can only be checked under Windows"
+	Exit 1
+  End
+Say ""  
+Say "  Special test: CMD.EXE"
+End
 Say ""
 Say "  Test suite starting on" Date() "at" Time()
 Say ""
@@ -351,8 +359,20 @@ Return
 
 /*****************************************************************************/
 
-TryCall: Procedure Expose sigl ooRexx ObjREXX rexxSAA Verbosity testNo
+TryCall: Procedure Expose sigl ooRexx ObjREXX rexxSAA Verbosity testNo specialTest
   Parse arg target, expectedResult
+  If specialTest == "CMD" Then Do
+    Parse arg "'"target"'"              /* Remove outer quotes               */
+	If target == "path" Then Do         /* PATH is a Windows command         */
+	  target = "pth"
+	  expectedResult = "pth"
+	End
+    Address COMMAND target With Error Stem st.
+    testNo = testNo + 1
+    If rc \== 0 Then Say "Pass."Left(testNo,2)" = .false; Pass."testNo".test "Copies(" ",testNo<10)"=" "'"target"'"
+    Else Say "Pass."Left(testNo,2)" = .true;  Pass."testNo".test "Copies(" ",testNo<10)"=" "'"target"'"
+    Return
+  End
   CallLine = sigl
   Signal On Syntax Name CallSyntax
   Interpret Call target                /* Attempt the call                   */
