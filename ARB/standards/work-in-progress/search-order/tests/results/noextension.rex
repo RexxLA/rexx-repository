@@ -13,7 +13,7 @@ myDir = .File~new(myDir)
 files = myDir~listFiles
 Do file Over files
   If \file~name~endsWith(".results.rex") Then Iterate
-  If \file~isFile                   Then Iterate
+  If \file~isFile                        Then Iterate
   Call Check file
 End
 Exit
