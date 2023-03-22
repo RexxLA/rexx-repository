@@ -1,7 +1,7 @@
 /******************************************************************************
  *                                                                            *
  *  noextension.rex -- Compare the output of "Call program" and               *
- *                     "Call program.rex" in the results of sotes.rex.        *
+ *                     "Call program.rex" in the results of sotest.rex.       *
  *                                                                            *
  *  Written in 2023 by Josep Maria Blasco <josep.maria.blasco@epbcn.com>      *
  *                                                                            *
