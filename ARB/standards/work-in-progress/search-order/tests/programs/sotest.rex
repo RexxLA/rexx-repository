@@ -2,10 +2,10 @@
  *                                                                           *
  *  sotest.rex                                                               *
  *                                                                           *
- *  Version 1.0, 20230319                                                    * 
- *                                                                           * 
  *  This is a stub that displays some minimal infomation and then calls      *
  *  ./subdir/dotdotsame/same/main.rex                                        *
+ *                                                                           *   
+ *  Version 1.0, 20230319                                                    *
  *                                                                           *  
  *  WARNING:                                                                 *
  *                                                                           * 
@@ -22,14 +22,17 @@
 Arg args
 
 /* "FIXIT" is experimental and poorly documented atm */
-fixit     = 0
-verbosity = 1
+fixit          = 0
+verbosity      = 1
+specialTest    = ""
 
 Do i = 1 To Words(args)
   arg = Word(args,i)
   Select
-    When arg == "FIXIT" Then fixit = 1
-    When arg == "VERB" Then
+    When arg == "CMD"        Then specialTest = "CMD"
+	When arg == "SEARCHPATH" Then specialTest = "SEARCHPATH"
+	When arg == "FIXIT"      Then fixit = 1
+    When arg == "VERB"       Then
       If i == Words(args) Then verbosity = 1
       Else Do
         n = Word(args,i+1)
@@ -116,5 +119,5 @@ CallMain:
   End
 
   next = sameDir||sep"main.rex"
-  Interpret "Call '"next"'" "'"myself"',"fixit","verbosity
+  Interpret "Call '"next"'" "'"myself"','"specialTest"',"fixit","verbosity
 Return
