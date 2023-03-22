@@ -8,6 +8,7 @@
 ### Tools
 
 * [compare.rex](compare.rex) -- Quick & dirty program to compare two result sets
+* [noextension.rex](noextension.rex) -- Check all result sets to see which ones are extension-independent
 * [SearchPath.exe](SearchPath.exe) -- Try the SearchPath Windows API from the command line.
 
 ### Results of running `sotest.rex`
