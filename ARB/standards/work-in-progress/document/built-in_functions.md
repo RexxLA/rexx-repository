@@ -1,6 +1,6 @@
-10 Built-in functions
+# Built-in functions
 
-10.1 Notation
+## Notation
 
 The built-in functions are defined mainly through code. The code refers to state variables. This is solely a
 notation used in this standard.
@@ -26,13 +26,13 @@ as an integer by an item containing 'WHOLE' the settings are those for the parti
 Elsewhere the settings have sufficient numeric digits to avoid values which would require exponential
 notation.
 
-10.2 Routines used by built-in functions
+## Routines used by built-in functions
 
 The routine CheckArgs is concerned with checking the arguments to the built-in. The routines Time2Date
 and Leap are for date calculations. ReRadix is used for radix conversion. The routine Raise raises a
 condition and does not return.
 
-10.2.1. Argument checking
+### Argument checking
 
 /* Check arguments. Some further checks will be made in particular built-ins.*/
 /* The argument to CheckArgs is a checklist for the allowable arguments. */
@@ -78,7 +78,6 @@ else
 if ArgPos <= MinArgs then call Raise 40.5, ArgPos
 end ArgPos
 
-93
 /* No errors found by CheckArgs. */
 
 return
@@ -156,8 +155,6 @@ when Type == 'PAD' then do /* Single character, usually a pad. */
 
 if length(Value) \= 1 then
 call Raise 40.23, ArgPos, Value
-
-94
 end
 
 when Type == 'HEX' then /* Hexadecimal string */
@@ -233,14 +230,11 @@ return Time2Date2 (arg(1))
 
 Time: procedure
 /* This routine is essentially the code from the standard, put in
-
-95
 stand-alone form. The only ‘tricky bit’ is that there is no Rexx way
 for it to fail with the same error codes as a "real" implementation
 would. It can however give a SYNTAX error, albeit not the desirable
 one. This causing of an error is done by returning with no value.
 Since the routine will have been called as a function, this produces
-
 an error. */
 
 /* Backslash is avoided as some systems don't handle that negation sign. */
@@ -283,7 +277,6 @@ SS =0
 HourAdjust = 0
 select
 
-96
 when InOption == 'C' then do
 parse var InValue HH ':'. +1 MM +2 XX
 if HH = 12 then
@@ -333,7 +326,6 @@ return Hour':'right(Minute,2,'0')'am’
 when Hour=0 then
 return '12:'right(Minute,2,'0')'am’
 
-97
 when arg(2) == 'H' then return Hour
 when arg(2) == 'L’ then
 return right(Hour,?2,'0')':'right(Minute,2,'0')':'right(Second,2,'0'),
@@ -402,7 +394,6 @@ end
 
 return Year Month Day Hour Minute Second Microsecond BaseDays YearDays
 
-98
 Leap: procedure
 /* Return 1 if the year given as argument is a leap year, or 0
 otherwise. */
@@ -444,7 +435,7 @@ else if FromRadix = 16 & ToRadix = 2 then
 reright(r, length(Subject) * 4, '0')
 return r
 
-10.2.2 Raising the SYNTAX condition
+### Raising the SYNTAX condition
 
 Raise:
 
@@ -452,13 +443,13 @@ Raise:
 call #Raise 'SYNTAX', arg(1), #Bif, arg(2), arg(3), arg(4)
 /* #Raise does not return. */
 
-10.1. Character built-in functions
+## Character built-in functions
 
 These functions process characters or words in strings. Character positions are numbered from one at
 the left. Words are delimited by blanks and their equivalents, word positions are counted from one at the
 left.
 
-10.1.1 ABBREV
+### ABBREV
 
 ABBREV returns '1' if the second argument is equal to the leading characters of the first and the length of
 the second argument is not less than the third argument.
@@ -478,7 +469,7 @@ Cond3 = substr(Subject, 1, length(Subj)) == Subj
 
 return Condl & Cond2 & Cond3
 
-10.1.2 CENTER
+### CENTER
 CENTER returns a string with the first argument centered in it. The length of the result is the second
 argument and the third argument specifies the character to be used for padding.
 
@@ -491,7 +482,6 @@ Length = #Bif Arg.2
 if #Bif_ArgExists.3 then Pad = #Bif Arg.3
 else Pad = ' '!
 
-99
 Trim = length(String) - Length
 
 if Trim > 0 then
@@ -499,11 +489,11 @@ return substr(String, Trim % 2 + 1, Length)
 
 return overlay(String, copies(Pad, Length), -Trim % 2 + 1)
 
-10.1.3 CENTRE
+### CENTRE
 
 This is an alternative spelling for the CENTER built-in function.
 
-10.1.4 CHANGESTR
+### CHANGESTR
 
 CHANGESTR replaces all occurrences of the first argument within the second argument, replacing them
 with the third argument.
@@ -521,7 +511,7 @@ Position = FoundPos + length(#Bif Arg.1)
 end
 return Output || substr(#Bif Arg.2, Position)
 
-10.1.5 COMPARE
+### COMPARE
 COMPARE returns '0' if the first and second arguments have the same value. Otherwise, the result is the
 position of the first character that is not the same in both strings.
 
@@ -558,7 +548,7 @@ end
 
 return 0
 
-10.1.6 COPIES
+### COPIES
 
 COPIES returns concatenated copies of the first argument. The second argument is the number of
 copies.
@@ -571,10 +561,9 @@ end
 
 return Output
 
-10.1.7 COUNTSTR
+### COUNTSTR
 COUNTSTR counts the appearances of the first argument in the second argument.
 
-100
 call CheckArgs '"rANY rANY'
 
 Output = 0
@@ -588,7 +577,7 @@ end
 
 return Output
 
-10.1.8 DATATYPE
+### DATATYPE
 DATATYPE tests for characteristics of the first argument. The second argument specifies the particular
 test.
 
@@ -654,7 +643,6 @@ if pos('E',#DatatypeResult)>0 then return '0'
 /* It won't be "Whole" if there is a non-zero after the decimal point. */
 InFraction='0'
 
-101
 do j = 1 to length (String)
 ce = substr(String,j,1)
 if pos(c,'Ee')>0 then leave j
@@ -758,8 +746,6 @@ if g < 0 then g = g +
 Exponent = Exponent -
 end
 
-3
-g
 
 /* Check on the exponent. */
 if Exponent > #Limit ExponentDigits then return "CHAR"
@@ -785,8 +771,8 @@ end
 
 return Outcome
 
-10.1.9 DELSTR
-DELSTR deletes the sub-siring of the first argument which begins at the position given by the second
+### DELSTR
+DELSTR deletes the sub-string of the first argument which begins at the position given by the second
 argument. The third argument is the length of the deletion.
 
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
@@ -803,7 +789,7 @@ if Num + Len <= length(String) then
 Output = Output || substr(String, Num + Len)
 return Output
 
-10.1.10 DELWORD
+### DELWORD
 DELWORD deletes words from the first argument. The second argument specifies position of the first
 word to be deleted and the third argument specifies the number of words.
 
@@ -820,14 +806,13 @@ Output = left(String, EndLeft)
 if #Bif_ArgExists.3 then do
 BeginRight = wordindex(String, Num + Len)
 
-103
 if BeginRight>0 then
 Output =
 
 end
 return Output
 
-10.1.11. INSERT
+### INSERT
 
 Output || substr(String, BeginRight)
 
@@ -867,7 +852,7 @@ substr(Target, Num + 1)
 
 “
 
-10.1.12 LASTPOS
+### LASTPOS
 
 /* To left of insert
 /* New string inserted */
@@ -897,7 +882,7 @@ if substr(Haystack, i, NeedleLength)
 end i
 return 0
 
-10.1.13 LEFT
+### LEFT
 
 LEFT returns characters that are on the left of the first argument.
 
@@ -937,12 +922,11 @@ call #Raise 'SYNTAX',
 
 23.1, b2x(#Outcome)
 
-104
 
 */
 /* No return to here */
 
-10.1.15 OVERLAY
+### OVERLAY
 
 OVERLAY overlays the first argument onto the second. The third argument is the starting position of the
 
@@ -989,7 +973,7 @@ end i
 
 return 0
 
-10.1.17 REVERSE
+### REVERSE
 REVERSE returns its argument, swapped end for end.
 
 call CheckArgs 'rANY'
@@ -1003,7 +987,7 @@ Output = substr(String,i,1) || Output
 end
 return Output
 
-10.1.18 RIGHT
+### RIGHT
 
 RIGHT returns characters that are on the right of the first argument. The second argument specifies the
 
@@ -1021,9 +1005,8 @@ Trim = length(String) - Length
 if Trim >= 0 then return substr(String,Trim + 1)
 return copies(Pad, -Trim) || String /* Pad string on the left */
 
-10.1.19 SPACE
+### SPACE
 
-105
 SPACE formats the blank-delimited words in the first argument with pad characters between each word.
 The second argument is the number of pad characters between each word and the third is the pad
 character.
@@ -1044,7 +1027,7 @@ Output = Output || Padding || subword(String, i, 1)
 end
 return Output
 
-10.1.20 STRIP
+### STRIP
 
 STRIP removes characters from its first argument. The second argument specifies whether the deletions
 are leading characters, trailing characters or both. Each character deleted is equal to the third argument,
@@ -1073,7 +1056,7 @@ end /* of while */
 end
 return String
 
-10.1.21  SUBSTR
+###  SUBSTR
 SUBSTR returns a sub-string of the first argument. The second argument specifies the position of the
 first character and the third specifies the length of the sub-string. The fourth argument is the padding
 
@@ -1096,7 +1079,6 @@ Num = Num + 1
 call Config Substr #Response,1 /* Was there such a character? */
 if #Outcome == 'E' then do
 
-106
 /* Here if argument was not a character string. */
 
 call Config C2B String
@@ -1110,7 +1092,7 @@ end
 
 return Output
 
-10.1.22 SUBWORD
+### SUBWORD
 
 SUBWORD returns a sub-string of the first argument, comprised of words. The second argument is the
 position in the first argument of the first word of the sub-string. The third argument is the number of
@@ -1152,7 +1134,7 @@ end
 
 return Output
 
-10.1.23 TRANSLATE
+### TRANSLATE
 TRANSLATE returns the characters of its first argument with each character either unchanged or
 translated to another character.
 
@@ -1195,7 +1177,7 @@ else Output=Output | | substr (Tableo,k,1)
 end j
 return Output
 
-10.1.24 VERIFY
+### VERIFY
 
 VERIFY checks that its first argument contains only characters that are in the second argument, or that it
 contains no characters from the second argument; the third argument specifies which check is made.
@@ -1230,14 +1212,14 @@ if t > 0 then return i /* Return position of Matched character. */
 end i
 return 0
 
-10.1.25 WORD
+### WORD
 WORD returns the word from the first argument at the position given by the second argument.
 
 call CheckArgs 'rANY rwWHOLE>0'
 
 return subword(#Bif Arg.1, #Bif_Arg.2, 1)
 
-10.1.26 WORDINDEX
+### WORDINDEX
 WORDINDEX returns the character position in the first argument of a word in the first argument. The
 second argument is the word position of that word.
 
@@ -1263,12 +1245,11 @@ Start = verify(String, #Al1Blanks<Index "#Al11Blanks" # "" >, 'M', Start + 1) /*
 
 Find blank */
 
-108
 if Start = 0 then return 0 /* Start is beyond end */
 end
 return Start
 
-10.1.27  WORDLENGTH
+###  WORDLENGTH
 WORDLENGTH returns the number of characters in a word from the first argument. The second
 argument is the word position of that word.
 
@@ -1276,7 +1257,7 @@ call CheckArgs 'rANY rwWHOLE>0'
 
 return length(subword(#Bif Arg.1, #Bif_Arg.2, 1))
 
-10.1.28 WORDPOS
+### WORDPOS
 
 WORDPOS finds the leftmost occurrence in the second argument of the sequence of words in the first
 argument. The result is '0' or the word position in the second argument of the first word of the matched
@@ -1302,7 +1283,7 @@ return WordNumber
 end WordNumber
 return 0
 
-10.1.29 WORDS
+### WORDS
 WORDS counts the number of words in its argument.
 
 call CheckArgs 'rANY'
@@ -1311,7 +1292,7 @@ do Count = 0 by 1
 if subword(#Bif Arg.1, Count + 1) == '' then return Count
 end Count
 
-10.1.30 XRANGE
+### XRANGE
 XRANGE returns an ordered string of all valid character encodings in the specified range.
 
 call CheckArgs 'oPAD oPAD'
@@ -1321,12 +1302,12 @@ if \#Bif_ArgExists.2 then #Bif Arg.2
 #Response = Config Xrange(#Bif Arg.1, #Bif Arg.2)
 return #Outcome
 
-10.2 Arithmetic built-in functions
+## Arithmetic built-in functions
 
 These functions perform arithmetic at the numeric settings current at the invocation of the built-in
 function. Note that CheckArgs formats any 'NUM' (numeric) argument.
 
-10.2.1 ABS
+### ABS
 
 ABS returns the absolute value of its argument.
 
@@ -1336,9 +1317,8 @@ Number=#Bif Arg.1
 if left (Number,1) = '-' then Number = substr (Number, 2)
 return Number
 
-10.2.2 FORMAT
+### FORMAT
 
-109
 FORMAT formats its first argument. The second argument specifies the number of characters to be
 used for the integer part and the third specifies the number of characters for the decimal part. The fourth
 argument specifies the number of characters for the exponent and the fifth determines when exponeniial
@@ -1619,7 +1599,7 @@ return Number
 'E+' Exponent
 'E- ' Exponent
 
-10.2.3 MAX
+### MAX
 MAX returns the largest of its arguments.
 
 if #Bif_Arg.0 <1 then
@@ -1635,7 +1615,7 @@ end i
 
 return Max
 
-10.2.4 MIN
+### MIN
 MIN returns the smallest of its arguments.
 
 if #Bif_Arg.0 <1 then
@@ -1651,14 +1631,13 @@ end i
 
 return Min
 
-10.2.5 SIGN
+### SIGN
 SIGN returns '1', '0' or '-1' according to whether its argument is greater than, equal to, or less than zero.
 
 call CheckArgs 'rNUM'
 
 Number = #Bif Arg.1
 
-112
 select
 
 when Number < 0 then Output = -1
@@ -1668,7 +1647,7 @@ when Number > 0 then Output = 1
 end
 return Output
 
-10.2.6 TRUNC
+### TRUNC
 TRUNC returns the integer part of its argument, or the integer part plus a number of digits after the
 decimal point, specified by the second argument.
 
@@ -1687,11 +1666,11 @@ t=length (Integer) -Num
 if t<=0 then return '0.'right(Integer,Num,'0')
 else return insert('.',Integer,t)
 
-10.3 State built-in functions
+## State built-in functions
 
 These functions return values from the state of the execution.
 
-10.3.1 ADDRESS
+### ADDRESS
 
 ADDRESS returns the name of the environment to which commands are currently being submitted.
 Optionally, under control by the argument, it also returns information on the targets of command output
@@ -1707,7 +1686,7 @@ if Optionl == 'N' then return #Env_Name.ACTIVE. #Level
 Tail = Optionl' .ACTIVE. '#Level
 return #Env_Position.Tail #Env_Type.Tail #Env_Resource.Tail
 
-10.3.2 ARG
+### ARG
 
 ARG returns information about the argument strings to a program or routine, or the value of one of those
 strings.
@@ -1725,7 +1704,7 @@ if \#Bif_ArgExists.2 then return #Arg.#Level.ArgNum
 if #Bif_Arg.2 =='0O' then return \#ArgExists.#Level.ArgNum
 else return #ArgExists.#Level .ArgNum
 
-10.3.3 CONDITION
+### CONDITION
 CONDITION returns information associated with the current condition.
 
 call CheckArgs 'oCDEIS'
@@ -1735,8 +1714,6 @@ if #Condition.#Level == '' then do
 #ConditionDescription.#Level = ''
 #ConditionExtra.#Level = ''
 #ConditionInstruction.#Level
-
-113
 end
 
 Option=#Bif Arg.1
@@ -1751,14 +1728,14 @@ if Option=='I' then return #ConditionInstruction. #Level
 
 if #Condition.#Level = '' then return ""
 return #Enabling.#Condition.#Level
-10.3.4 DIGITS
+### DIGITS
 
 DIGITS returns the current setting of NUMERIC DIGITS.
 call CheckArgs ''
 
 return #Digits.#Level
 
-10.3.5 ERRORTEXT
+### ERRORTEXT
 
 ERRORTEXT returns the unexpanded text of the message which is identified by the first argument. A
 second argument of 'S' selects the standard English text, otherwise the text may be translated to another
@@ -1773,7 +1750,7 @@ else Option
 
 return #ErrorText .msgcode
 
-10.3.6 FORM
+### FORM
 FORM returns the current setting of NUMERIC FORM.
 
 #Bif_Arg.2
@@ -1783,14 +1760,14 @@ call CheckArgs ''
 
 return #Form.#Level
 
-10.3.7 FUZZ
+### FUZZ
 FUZZ returns the current setting of NUMERIC FUZZ.
 
 call CheckArgs ''
 
 return #Fuzz.#Level
 
-10.3.8 SOURCELINE
+### SOURCELINE
 
 If there is no argument, SOURCELINE returns the number of lines in the program, or '0' if the source
 program is not being shown on this execution. If there is an argument it specifies the number of the line
@@ -1804,7 +1781,7 @@ if Num > #SourceLine.0O then
 call Raise 40.34, Num, #SourceLine.0
 return #SourceLine.Num
 
-10.3.9 TRACE
+### TRACE
 TRACE returns the trace setting currently in effect, and optionally alters the setting.
 
 call CheckArgs 'oACEFILNOR' /* Also checks for '?!' */
@@ -1814,7 +1791,6 @@ Output=#Tracing.#Level
 if #Interactive.#Level then Output = '?'||Output
 if \#Bif_ArgExists.1 then return Output
 
-114
 Value=#Bif Arg.1
 
 #Interactive.#Level=0
@@ -1844,7 +1820,7 @@ Conversions between Binary form, Decimal form, and heXadecimal form do not depen
 Conversion to Coded form gives a result which depends on the encoding. Depending on the encoding,
 the result may be a string that does not represent any sequence of characters.
 
-10.4.1 B2xX
+### B2xX
 
 B2X performs binary to hexadecimal conversion.
 
@@ -1853,7 +1829,7 @@ call CheckArgs 'rBIN'
 String = space (#Bif Arg.1,0)
 return ReRadix(String,2,16)
 
-10.4.2 BITAND
+### BITAND
 
 The functions BITAND, BITOR and BITXOR operate on encoded character data. Each binary digit from
 the encoding of the first argument is processed in conjunction with the corresponding bit from the second
@@ -1915,15 +1891,15 @@ rer || right (Stringl, length (String1) -length(String2) )
 /* Convert back to encoded characters. */
 return x2c (b2x(r))
 
-10.4.3 BITOR
+### BITOR
 
 See nnn
 
-10.4.4 BITXOR
+### BITXOR
 
 See nnn
 
-10.4.5 C2D
+### C2D
 
 C2D performs coded to decimal conversion.
 
@@ -1962,7 +1938,7 @@ if length(#Bif Arg.1) = 0 then return ''
 call Config C2B #Bif_Arg.1
 return ReRadix (#Outcome,2,16)
 
-10.4.7 D2C
+### D2C
 D2C performs decimal to coded conversion.
 
 'rWHOLENUM>=0'!
@@ -1982,7 +1958,6 @@ Length = Length+1
 end
 r= right(r,Length,'0')
 
-116
 /* 2s-complement for negatives. */
 if #Bif_Arg.1<0 then do
 Subject = 2**length(r)-Subject
@@ -1997,7 +1972,7 @@ if \#Bif_ArgExists.2 then return Output
 if #Bif_Arg.1>=0 then return right (Output, #Bif_Arg.2,left(xrange(),1))
 else return right (Output, #Bif Arg.2,right (xrange(),1))
 
-10.4.8 D2X
+### D2X
 D2X performs decimal to hexadecimal conversion.
 if \#Bif_ArgExists.2 then ArgData = 'rWHOLENUM>=0'
 else ArgData = 'rWHOLENUM rWHOLE>=0'
@@ -2017,7 +1992,7 @@ if \#Bif_ArgExists.2 then return r
 if #Bif_ Arg.1>=0 then return right(r,#Bif Arg.2,'0')
 else return right(r,#Bif Arg.2,'F')
 
-10.4.9 X2B
+### X2B
 X2B performs hexadecimal to binary conversion.
 
 call CheckArgs 'rHEX'
@@ -2031,7 +2006,7 @@ Subject = space (Subject, 0)
 
 return ReRadix(translate (Subject) ,16,2)
 
-10.4.10 X2C
+### X2C
 X2C performs hexadecimal to coded character conversion.
 
 call CheckArgs 'rHEX'
@@ -2052,7 +2027,7 @@ Length = 8*( (length (Subject) +1) %2)
 #Response = Config B2C(right(r,Length,'0'))
 return #Outcome
 
-10.4.11 X2D
+### X2D
 X2D performs hexadecimal to decimal conversion.
 
 call CheckArgs 'rHEX OWHOLE>=0'
@@ -2062,7 +2037,6 @@ if Subject == '' then return '0'
 
 Subject = translate (space (Subject,0))
 
-117
 if #Bif ArgExists.2 then
 
 Subject = right (Subject, #Bif Arg.2,'0')
@@ -2082,7 +2056,7 @@ return r
 left (x2b (Subject) ,1)
 ror
 
-10.5 Input/Output built-in functions
+## Input/Output built-in functions
 The configuration shall provide the ability to access streams. Streams are identified by character string
 identifiers and provide for the reading and writing of data. They shall support the concepts of characters,
 lines, and positioning. The input/output built-in functions interact with one another, and they make use of
@@ -2109,7 +2083,7 @@ is not lost, except for the data overwritten by this latest CHAROUT.
 - When a persistent stream is repositioned and written to with LINEOUT, the previously written data is
 not lost, except for the data overwritten by this latest LINEOUT, which may leave lines partially
 overwritten.
-10.5.1. CHARIN
+### CHARIN
 CHARIN returns a string read from the stream named by the first argument.
 
 call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
@@ -2140,7 +2114,6 @@ call Config Stream Query Stream
 #Bif Arg.3
 1
 
-118
 Mode = #Outcome
 
 do until Count = 0
@@ -2165,7 +2138,7 @@ r = #Outcome
 end
 return r
 
-10.5.2 CHAROUT
+### CHAROUT
 CHAROUT returns the count of characters remaining after attempting to write the second argument to the
 stream named by the first argument.
 
@@ -2220,14 +2193,13 @@ if left (#Response, 1) \== 'N' then do
 if left (#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
 call #Raise 'NOTREADY', Stream, substr(#Response, 2)
 
-119
 return Residue
 end
 Residue = Residue - 1
 end
 return 0
 
-10.5.3 CHARS
+### CHARS
 
 CHARS indicates whether there are characters remaining in the named stream. Optionally, it returns a
 
@@ -2244,7 +2216,7 @@ else Option = 'N'
 call Config Stream Count Stream, 'CHARS', Option
 return #Outcome
 
-10.5.4 LINEIN
+### LINEIN
 LINEIN reads a line from the stream named by the first argument, unless the third argument is Zero.
 
 call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
@@ -2287,7 +2259,7 @@ return r
 
 #Bif Arg.1
 
-10.5.5 LINEOUT
+### LINEOUT
 
 LINEOUT returns '1' or '0', indicating whether the second argument has been successfully written to the
 
@@ -2299,7 +2271,6 @@ else Stream
 
 #Bif Arg.1
 
-120
 #StreamState.Stream = ''
 
 if \#Bif ArgExists.2 & \#Bif_ArgExists.3 then do
@@ -2365,7 +2336,7 @@ Residue = Residue-1
 end
 call Config Stream Charout Stream,
 return 0
-10.5.6 LINES
+### LINES
 
 'EOL'
 
@@ -2381,7 +2352,7 @@ else Option
 Call Config Stream Count Stream,
 return #Outcome
 
-10.5.7 QUALIFY
+### QUALIFY
 
 #Bif Arg.1
 ter
@@ -2399,13 +2370,12 @@ call CheckArgs 'oSTREAM'
 if #Bif_ArgExists.1 then Stream
 else Stream
 
-121
 
 #Bif Arg.1
 #Response = Config Stream Qualified (Stream)
 return #Outcome
 
-10.5.8 STREAM
+### STREAM
 STREAM returns a description of the state of, or the result of an operation upon, the stream named by
 the first argument.
 
@@ -2451,9 +2421,9 @@ end
 1) ==
 1) ==
 
-10.6 Other built-in functions
+## Other built-in functions
 
-10.6.1 DATE
+### DATE
 
 DATE with fewer than two arguments returns the local date. Otherwise it converts the second argument
 (which has a format given by the third argument) to the format specified by the first argument. If there are
@@ -2489,7 +2459,6 @@ return DateFormat (#ClauseLocal.#Level, Option)
 /* If there is a second argument it provides the date to be
 converted. */
 
-122
 Value = #Bif_Arg.2
 if #Bif_ ArgExists.3 then InOption
 else InOption
@@ -2602,7 +2571,6 @@ end
 
 end /* Century assumption */
 
-123
 if Logic <> 'BD' then do
 /* Convert Month & Day to Days of year. */
 if datatype(Month,'W')=0 | datatype(Day,'W')=0 | datatype(Year,'W')=0 then
@@ -2679,7 +2647,7 @@ return word (Weekdays, 1+Base//7)
 
 end
 
-10.6.1 QUEUED
+### QUEUED
 QUEUED returns the number of lines remaining in the external data queue.
 
 call CheckArgs ''
@@ -2687,7 +2655,7 @@ call CheckArgs ''
 #Response = Config Queued()
 return #Outcome
 
-10.6.2 RANDOM
+### RANDOM
 RANDOM returns a quasi-random number.
 
 call CheckArgs 'oWHOLE>=0 oWHOLE>=0 oWHOLE>=0'
@@ -2695,7 +2663,6 @@ call CheckArgs 'oWHOLE>=0 oWHOLE>=0 oWHOLE>=0'
 if #Bif_Arg.0 = 1 then do
 Minimum = 0
 
-124
 Maximum = #Bif Arg.1
 if Maximum>100000 then
 call Raise 40.31, Maximum
@@ -2719,7 +2686,7 @@ if #Bif_ArgExists.3 then call Config Random Seed #Bif_Arg.3
 call Config Random Next Minimum, Maximum
 return #Outcome
 
-10.6.3 SYMBOL
+### SYMBOL
 
 The function SYMBOL takes one argument, which is evaluated. Let String be the value of that argument.
 If Config_Length(String) returns an indicator 'E' then the SYNTAX condition 23.1 shall be raised.
@@ -2730,7 +2697,7 @@ If String would be recognized as a symbol the result of the function SYMBOL depe
 accessing the value of that symbol, see nnn. If the final use of Var_Value leaves the indicator with value
 ‘D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
 
-10.6.4 TIME
+### TIME
 
 TIME with less than two arguments returns the local time within the day, or an elapsed time. Otherwise it
 converts the second argument (which has a format given by the third argument) to the format specified by
@@ -2875,7 +2842,6 @@ if #Bif ArgExists.3 then ArgData
 else ArgData
 call CheckArgs ArgData
 
-126
 Subject = #Bif Arg.1
 
 if #Bif_ArgExists.3 then do /* An external pool, or the reserved pool. */
@@ -2950,15 +2916,14 @@ if #Bif_ ArgExists.2 then
 
 return Value
 
-10.6.1 QUEUED
+### QUEUED
 QUEUED returns the number of lines remaining in the external data queue.
 
-127
 call CheckArgs ''
 #Response = Config Queued()
 return #Outcome
 
-10.6.2 RANDOM
+### RANDOM
 RANDOM returns a quasi-random number.
 
 call CheckArgs 'oWHOLE>=0 oWHOLE>=0 oWHOLE>=0'
@@ -2988,7 +2953,7 @@ if #Bif_ArgExists.3 then call Config Random Seed #Bif_Arg.3
 call Config Random Next Minimum, Maximum
 return #Outcome
 
-10.6.3 SYMBOL
+### SYMBOL
 
 The function SYMBOL takes one argument, which is evaluated. Let String be the value of that argument.
 If Config_Length(String) returns an indicator 'E' then the SYNTAX condition 23.1 shall be raised.
@@ -2999,7 +2964,7 @@ If String would be recognized as a symbol the result of the function SYMBOL depe
 accessing the value of that symbol, see nnn. If the final use of Var_Value leaves the indicator with value
 ‘D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
 
-10.6.4 TIME
+### TIME
 
 TIME with less than two arguments returns the local time within the day, or an elapsed time. Otherwise it
 converts the second argument (which has a format given by the third argument) to the format specified by

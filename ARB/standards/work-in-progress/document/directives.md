@@ -1,8 +1,8 @@
-8 Directives
+# Directives
 
 The syntax constructs which are introduced by the optional '::' token are known as directives.
 
-8.1. Notation
+## Notation
 
 Notation functions are functions which are not directly accessible as functions in a program but are used
 in this standard as a notation for defining semantics.
@@ -63,19 +63,18 @@ The description of processing continues at the identified label.
 
 #Retry ()
 
-62
 This notation is used in the description of interactive tracing to specify re-execution of the clause just
 previously executed. It has the effect of transferring execution to the beginning of that clause, with state
 variable #Loop set to the value it had when that clause was previously executed.
 
-8.2 Initializing
+## Initializing
 
 Some of the initializing, now grouped in classic section 8.2.1 will have to come here so that we have picked up
 anything from the START_API that needs to be passed on to the execution of REQUIRES subject.
 
 We will be using some operations that are forward reference to what was section nnn.
 
-8.2.1. Program initialization and message texts
+### Program initialization and message texts
 
 Processing of a program begins when API_Start is executed. A pool becomes current for the reserved
 
@@ -169,9 +168,6 @@ number appears immediately before an '=' and the message text follows in quotes.
 
 ‘Unmatched "/*" or quote!
 ‘Unmatched comment delimiter ("/*")!
-
-63
-64
 
 #ErrorText.6.2
 #ErrorText.6.3
@@ -454,8 +450,6 @@ TRACE request’
 
 is valid'
 
-rr
-
 '<hex-encoding>'xX"
 
 '<hex-encoding>'! xX"
@@ -528,7 +522,7 @@ one of the',
 "etoken>"!
 one of the',
 "etoken>"!
-66
+
 
 #ErrorText.25.9=
 
@@ -1062,12 +1056,12 @@ The opportunity is provided for a trap to initialize the pool.
 call Var_Reset #Pool
 call Config Initialization
 #API Enabled = '0'
-8.3. REQUIRES
+## REQUIRES
 For each requires in order of appearence:
 A use of Start_API with #instance(requires, taken_constant). Msg40.1 or a new if completion 'E’. Add Provides to an
 ordered collection. Not cyclic because .LIST can be defined without defining REQUIRES but a fairly profound forward
 reference.
-8.4 CLASS
+## CLASS
 For each class in order of appearence:
 #ClassName = #Instance(class, taken constant)
 call var_value #ReservedPool, '#CLASSES.'ClassName, '1'
@@ -1079,7 +1073,7 @@ end
 else call #Raise 'SYNTAX', nn.nn, #ClassName
 
 New instance of CLASS class added to list. Msg "Duplicate ::CLASS directive instruction"(?)
-8.5 METHOD
+## METHOD
 
 For each method in order of appearence:
 call Config ObjectNew
@@ -1107,9 +1101,8 @@ For EXTERNAL test for null body. Simon Nash doc says "Accessibility to external 
 implementation-definead". Left like that it doesn't even tell us about search order. We will need a
 Config_ExternalClass to import the public names of the class.
 
-8.6 ROUTINE
+## ROUTINE
 
-70
 For each routine in order of appearence:
 
 Add name (with duplicate check) to list for this file.
@@ -1120,4 +1113,3 @@ the PARSE SOURCE answer has to change.)
 
 | have the builtins-defined-by-directives elsewhere; it would make sense if they wound up about here.
 
-71

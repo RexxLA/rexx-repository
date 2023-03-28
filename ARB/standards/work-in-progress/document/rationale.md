@@ -1,4 +1,4 @@
-Rationale
+# Rationale
 
 This annex explains some of the decisions made by the committee that drafted this standard, and assists
 in the understanding of this document. Some of the statements made here are opinions rather than facts.

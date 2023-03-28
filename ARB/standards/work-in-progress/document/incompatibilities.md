@@ -1,6 +1,6 @@
-Incompatibilities
+# Incompatibilities
 
-The incompatibilities from Classic Rexx are:
+# The incompatibilities from Classic Rexx are:
 
 Assignment of compound variables, as in ABC. = PQR., is an assignment of references so that ABC.
 subsequently refers to the same object as PQR., as opposed to making the default value of ABC. that of
@@ -9,15 +9,15 @@ allowing USE ARG to handle compound variables as by-reference parameters. The fi
 Annex B discouraged use of this construct in Classic Rexx programs. "Breakage" of programs due to this
 incompatibility is rare.
 
-Also something in condition handling that | don't know the reason for.
+Also something in condition handling that I don't know the reason for.
 
-Call
+## Call
 The call instruction has been extended to allow for a computed name of the callee. Syntax
 considerations prevent a similar thing being done for functions.
 
-Concurrency
+## Concurrency
 Meet 17 minutes
 
-Guard
+## Guard
 Meet 17 minutes
 

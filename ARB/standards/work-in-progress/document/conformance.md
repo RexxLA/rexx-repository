@@ -1,5 +1,5 @@
-4 Conformance
-4.1. Conformance
+# Conformance
+## Conformance
 A conforming language processor shall not
 implement any variation of this standard except
 where this standard permits. Such permitted
@@ -14,7 +14,7 @@ be dependent on the configuration.
 - a statement of conformity, giving the complete
 reference of this standard (ANSI X3.274-1996)
 with which conformity is claimed.
-4.2 Limits
+## Limits
 Aside from the items listed here (and the assumed
 limitation in resources of the configuration), a
 conforming language processor shall not put
@@ -39,7 +39,5 @@ largest number that can be expressed without
 an exponent in nine digits.- String literal length
 shall be supported up to at least two hundred
 and fifty.
-17
-
 - Symbol length shall be supported up to at
 least two hundred and fifty.
