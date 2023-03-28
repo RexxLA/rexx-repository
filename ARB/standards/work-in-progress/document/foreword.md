@@ -1,5 +1,5 @@
-#Foreword
-##Purpose
+# Foreword
+## Purpose
 This standard provides an unambiguous definition of the programming language Rexx. Its purpose is to
 facilitate portability of Rexx programs for use on a wide variety of computer systems.
 History
