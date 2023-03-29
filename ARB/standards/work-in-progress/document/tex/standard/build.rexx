@@ -6,6 +6,6 @@
 do for 2
   'xelatex -output-driver="xdvipdfmx -i dvipdfmx-unsafe.cfg -q -E" -shell-esc standard.tex'
   say RC
-  'makeindex standard >null'
+  'makeindex standard'
   say RC
 end
