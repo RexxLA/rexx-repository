@@ -1,0 +1,1 @@
+say date('s').left(4)
