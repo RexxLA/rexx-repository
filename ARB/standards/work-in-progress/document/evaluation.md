@@ -1,4 +1,4 @@
-7 Evaluation
+# Evaluation
 
 The syntax section describes how expressions and the components of expressions are written in a
 program. It also describes how operators can be associated with the strings, symbols and function results
@@ -34,7 +34,7 @@ call #Raise 'SYNTAX', 41.7, Subject
 This possibility is implied by the uses of DATATYPE and not shown explicitly in the rest of this section
 nnn.
 
-7.1. Variables
+## Variables
 
 The values of variables are held in variable pools. The capabilities of variable pools are listed here,
 together with the way each function will be referenced in this definition.
@@ -54,14 +54,14 @@ A variable pool is associated with a reference denoted by the first argument, wi
 of Pool may alter during execution. The same name, in conjunction with different values of Pool, can
 correspond to different values.
 
-7.1.1. Var_Empty
+### Var_Empty
 
 Var_Empty (Pool)
 
 The function sets the variable pool associated with the specified reference to the state where every name
 is associated with attributes ‘dropped’, ‘implicit’ and 'not-exposed'.
 
-7.1.2 Var Set
+### Var Set
 Var _Set(Pool, Name, '0', Value)
 
 The function operates on the variable pool with the specified reference. The name is a non-tailed name. If
@@ -81,13 +81,12 @@ specified stem has the 'exposed' attribute then Var_Set operates on the variable
 #Upper in this pool and this rule is applied to that pool. When the pool with attribute 'not-exposed' for the
 stem is determined the name is considered in that pool. If the name has the 'exposed' attribute then the
 
-46
 variable pool referenced by #Upper in the pool is considered and this rule applied to that pool. When the
 pool with attribute 'not-exposed' is determined the specified value is associated with the specified name.
 It also associates the attributes 'not-dropped' and 'not-implicit’ . If that attribute was previously
 ‘not-dropped' then the indicator returned is 'R’.
 
-7.1.3 Var_Value
+### Var_Value
 
 Var _Value(Pool, Name, '0')
 
@@ -110,7 +109,7 @@ pool with attribute 'not-exposed' is determined the indicator returned is 'D' if
 associated, 'N' otherwise. In the former case #Outcome is set equal to Name, in the latter case #Outcome
 is set to the value most recently associated with the name by Var_Set.
 
-7.1.4 Var_Drop
+### Var_Drop
 
 Var _Drop(Pool, Name, '0')
 
@@ -132,7 +131,7 @@ variable pool referenced by #Upper in the pool is considered and this rule appli
 pool with attribute 'not-exposed' is determined the attribute ‘dropped’ is associated with the specified
 name.
 
-7.1.5 Var_Expose
+### Var_Expose
 
 Var_Expose (Pool, Name, '0')
 
@@ -146,21 +145,20 @@ Var_Expose (Pool, Name, '1')
 The function operates on the variable pool with the specified reference. The name is a tailed name. The
 attribute 'exposed' is associated with the specified name.
 
-7.1.6 Var_Reset
+### Var_Reset
 Var_ Reset (Pool)
 
 The function operates on the variable pool with the specified reference. It establishes the effect of
 subsequent API_Next and API_NextVariable functions (see sections nnn and nnn). A Var_Reset is
 implied by any API_ operation other than API_Next and API_NextVariable.
 
-7.2 Symbols
+## Symbols
 
 For the syntax of a symbol see nnn.
 
 The value of a symbol which is a NUMBER or a CONST_SYMBOL which is not a reserved symbol is the
 content of the appropriate token.
 
-47
 The value of a VAR_SYMBOL which is "taken as a constant" is the VAR_SYMBOL itself, otherwise the
 VAR_SYMBOL identifies a variable and its value may vary during execution.
 
@@ -170,7 +168,7 @@ if #Tracing.#Level == 'I' then call #Trace Tag
 where Tag is '>L>' unless the symbol is a VAR_SYMBOL which, when used as an argument to
 Var_Value, does not yield an indicator 'D'. In that case, the Tag is '>V>".
 
-7.3. Value of a variable
+## Value of a variable
 
 If VAR_SYMBOL does not contain a period, or contains only one period as its last character, the value of
 
@@ -210,16 +208,16 @@ Var_Value(Pool,Derived Name,'1')
 If the indicator is 'D', indicating the variable has the ‘dropped’ attribute, the NOVALUE condition is raised;
 see nnn for an exception.
 
-7.3.2 Value of a reserved symbol
+### Value of a reserved symbol
 
 The value of a reserved symbol is the value of a variable with the corresponding name in the reserved
 pool, see nnn.
 
-7.4 Expressions and operators
+## Expressions and operators
 
 Add a load of string coercions. Equality can operate on non-strings. What if one operand non-string?
 
-7.4.1. The value of a term
+### The value of a term
 
 See nnn for the syntax of a ferm.
 
@@ -231,7 +229,7 @@ If a termis a symbol or STRING then the value of the term is the value of that s
 
 If a term contains an expr_alias the value of the term is the value of the expr_alias, see nnn.
 
-7.4.2. The value of a prefix_expression
+### The value of a prefix_expression
 
 If the prefix_expression is a term then the value of the prefix_expression is the value of the ferm,
 otherwise let rhs be the value of the prefix_expression within it__ see nnn
@@ -251,14 +249,13 @@ and the value is the value of (0 - rhs).
 If a prefix_expression has the form not prefix_expression then
 if rhs \== '0' then if rhs \=='1' then call #Raise 'SYNTAX', 34.6, not, rhs
 
-48
 See nnn for the value of the third argument to that #Raise.
 If the value of rhs is '0' then the value of the prefix_expression value is '1', otherwise it is ‘0’.
 
 If the prefix_expression is not a term then:
 if #Tracing.#Level == 'I' then call #Trace '>P>'
 
-7.4.3. The value of a power_expression
+### The value of a power_expression
 
 See nnn for the syntax of a power_expression.
 
@@ -278,7 +275,7 @@ ArithOp(lhs,'**',rhs)
 
 If the power_expression is not a prefix_expression then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
-7.4.4 The value of a multiplication
+### The value of a multiplication
 See nnn for the syntax of a multiplication.
 If the multiplication is a power_expression then the value of the multiplication is the value of the
 power_expression.
@@ -296,7 +293,7 @@ If the multiplication is not a power_expression then:
 
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
-7.4.5 The value of an addition
+### The value of an addition
 
 See nnn for the syntax of addition.
 
@@ -329,7 +326,7 @@ ArithOp(lhs, operation, rhs)
 If the addition is not a multiplication then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
-7.4.6 The value of a concatenation
+### The value of a concatenation
 See nnn for the syntax of a concatenation.
 If the concatenation is an addition then the value of the concatenation is the value of the addition.
 Otherwise, let Ihs be the value of concatenation within it, and rhs be the value of the additive_expression
@@ -337,8 +334,6 @@ within it.
 If the concatenation contains '||' then the value of the concatenation will have the following characteristics:
 - Config_Length(Value) will be equal to Config_Length(Ihs)+Config_Length(rhs).
 - #Outcome will be 'equal' after each of:
-
-49
 - Config_Compare(Config_Subsir(Ihs,n)},Config_Subsitr(Value,n)) for values of n not less than 1
 and not more than Config_Length(Ihs);
 - Config_Compare(Config_Subsir(rhs,n),Config_Substr(Value,Config_Length(Ihs)+n)) for values of
@@ -357,7 +352,7 @@ of n not less than 1 and not more than Config_Length(rhs).
 If the concatenation is not an addition then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
-7.4.7 The value of a comparison
+### The value of a comparison
 
 See nnn for the syntax of a comparison.
 
@@ -415,10 +410,9 @@ In all other cases the value of the comparison is '0'.
 If the comparison is not a concatenation then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
-7.4.8 The value of an and_expression
+### The value of an and_expression
 See nnn for the syntax of an and_expression.
 
-50
 If the and_expression is a comparison then the value of the and_expression is the value of the
 
 comparison.
@@ -438,7 +432,7 @@ If the and_expression is not a comparison then:
 
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
-7.4.9 The value of an expression
+### The value of an expression
 
 See nnn for the syntax of an expression.
 
@@ -466,7 +460,7 @@ The value of an expression or expr shall be traced when #Tracing.#Level is 'R'. 
 the value is used by an assignment and '>>>' when it is not.
 if #Tracing.#Level == 'R' then call #Trace Tag
 
-7.4.10 Arithmetic operations
+### Arithmetic operations
 
 The user of this standard is assumed to know the results of the binary operators '+' and '-' applied to
 signed or unsigned integers.
@@ -507,7 +501,6 @@ Comparator = ''
 select
 when Operator == '*' then call Multiply
 
-51
 when Operator
 when Operator
 
@@ -589,7 +582,6 @@ following an 'E' that indicates how the decimal point will be shifted. Thus
 
 4E9 is just a shorthand way of writing 4000000000 " */
 
-52
 /* Adjust the exponent so that decimal point would be at right of
 the Mantissa. */
 Exponent = Exponent - (length(Mantissa) - p + 1)
@@ -676,7 +668,6 @@ call #Raise 'SYNTAX', 42.2, Numberl, Operator, Number2
 
 /* Insert any decimal [point. */
 
-53
 if length(Mantissa3) \= g then Mantissa3 = insert('.',Mantissa3,g)
 /* Insert the E */
 if Exponent3 >= 0 then Number3
@@ -762,7 +753,6 @@ Exponent2 = Exponent2 + length (Mantissa2)
 
 /* Deduce the implied zeros on the left to provide alignment. */
 
-54
 Aligni = 0
 
 Align2 = Exponentl - Exponent2
@@ -852,7 +842,6 @@ return /* From AddSubComp */
 
 Multiply: /* p 131 */
 
-55
 /* Note the sign of the result */
 
 if Signl == Sign2 then Sign3 = '+'
@@ -947,9 +936,8 @@ Mantissa3 = Mantissa3 || z
 
 if Mantissa3 == '0' then Mantissa3 = '' /* A single leading
 
-56
 
-42.3
+##
 
 *f
 '%') then do
@@ -1042,7 +1030,6 @@ do forever
 if substr(b,q,1) == '1' then do
 a = Recursion('*',Signl || Mantissal'E'Exponent1)
 
-57
 
 */
 if left(a,2) == 'MN' then signal PowerFailed
@@ -1096,9 +1083,9 @@ else return a * arg(2)
 Over flowed:
 return 'MN '.MN
 
-7.5 Functions
+## Functions
 
-7.5.1 Invocation
+### Invocation
 
 Invocation occurs when a function or a message_term or a callis evaluated. Invocation of a function
 may result in a value, in which case:
@@ -1107,7 +1094,7 @@ if #Tracing.#Level == 'I' then call #Trace '>F>'
 Invocation of a message_term may result in a value, in which case:
 if #Tracing.#Level == 'I' then call #Trace '>M>'
 
-7.5.2 Evaluation of arguments
+### Evaluation of arguments
 
 The argument positions are the positions in the exoression_list where syntactically an expression occurs
 or could have occurred. Let ArgNumber be the number of an argument position, counting from 1 at the
@@ -1123,7 +1110,7 @@ value of the corresponding expression. If #ArgExists.#NewLevel.ArgNumber is '0' 
 #ArgExists.#NewLevel.0 is set to the largest ArgNumber for which #ArgExists.#NewLevel.ArgNumber is
 '1', or to zero if there is no such value of ArgNumber.
 
-7.5.3. The value of a label
+### The value of a label
 
 The value of a LABEL, or of the taken_constant in the function or call_instruction, is taken as a constant,
 see nnn. If the taken_constant is not a string_literal it is a reference to the first LABEL in the program
@@ -1132,7 +1119,6 @@ which has the same value. The comparison is made with the '==' operator.
 If there is such a matching label and the label is trace-only (see nnn) then a condition is raised:
 call #Raise 'SYNTAX', 16.3, taken constant
 
-58
 If there is such a matching label, and the label is not trace-only, execution continues at the label with
 routine initialization (see nnn). This is execution of an internal routine.
 
@@ -1155,7 +1141,7 @@ var Set(0 , '.SIGL', '0', #LineNumber)
 The name used in the invocation is held in #Name.#Level for possible use in an error message from the
 RETURN clause, see nnn
 
-7.5.4 The value of a function
+### The value of a function
 
 A built-in function completes when it returns from the activity defined in section nnn. The value of a
 built-in function is defined in section nnn.
@@ -1164,7 +1150,7 @@ An internal routine completes when #Level returns to the value it had when the r
 value of the internal function is the value of the expression on the return which completed the routine.
 The value of an external function is determined by Config_ExternalRoutine.
 
-7.5.5 The value of a method
+### The value of a method
 
 A built-in method completes when it returns from the activity defined in section n. The value of a built-in
 method is defined in section n.
@@ -1173,7 +1159,7 @@ An internal method completes when #Level returns to the value it had when the ro
 value of the internal method is the value of the expression on the return which completed the method.
 The value of an external method is determined by Config_ExternalMethod.
 
-7.5.6 The value of a message term
+### The value of a message term
 
 See nnn for the syntax of a message_term. The value of the ferm within a message_term is called the
 receiver.
@@ -1211,7 +1197,6 @@ taken_constant, and symbol. */
 /* This code is used in a context where #Self is the receiver of the
 method invocation which the subject message term is running under. */
 
-59
 SelectMethod:
 
 /* If symbol given, receiver must be self. */
@@ -1279,7 +1264,7 @@ if t == 'UNKNOWN' then return .nil
 if \arg(3,'E') then return SelectMethod arg(1),'UNKNOWN'
 else return SelectMethod arg(1),'UNKNOWN',arg(3)
 
-7.1.1 Use of Config_ExternalRoutine
+### Use of Config_ExternalRoutine
 
 The values of the arguments to the use of Config_ExternalRoutine, in order, are:
 
@@ -1293,7 +1278,6 @@ The argument Name is the value of the faken_constant.
 The argument Environment is the value of this argument on the API_ Start which started this execution.
 The argument Arguments is the #Arg. and #ArgExists. data.
 
-60
 The argument Streams is the value of this argument on the API_Start which started this execution.
 
 The argument Traps is the value of this argument on the API_Start which started this execution.
@@ -1303,4 +1287,3 @@ is set to 'O' after.
 The response from Config_ExternalRoutine is processed. If no conditions are (implicitly) raised,
 #Outcome is the value of the function.
 
-61

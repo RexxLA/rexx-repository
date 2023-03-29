@@ -1,15 +1,15 @@
-11 Built-in classes
+# Built-in classes
 
-11.1 Notation
+## Notation
 
 The built-in classes are defined mainly through code. The code refers to state variables. This is solely a
 notation used in this standard.
 
-11.2 Object, class and method
+## Object, class and method
 
 These objects provide the basis for class structure.
 
-11.2.1 The object class
+### The object class
 
 ::class object
 
@@ -88,7 +88,6 @@ return #Receiver~ObjectName
 ::method class
 Returns the class object that received the message that created the object.
 
-131
 call var value #Receiver, #IsA, '0'
 return #Outcome
 
@@ -137,7 +136,7 @@ Returns a message object and sends it a START message to start concurrent proces
 
 Performs any required object initialization.
 
-11.2.2 The class class
+### The class class
 ::class class
 
 Lots of these methods are both class and instance. | don't know whether to list them twice.
@@ -181,7 +180,6 @@ Returns a new mixin subclass of the receiver class.
 
 ::method inherit class /* rCLASS oCLASS */
 
-132
 Causes the receiver class to inherit the instance and class methods of the class object specified. The
 
 optional class is a class object that specifies the position of the new superclass in the list of superclasses.
@@ -214,7 +212,7 @@ Returns the receiver class's default metaclass.
 
 Returns a supplier object for all the instance methods of the receiver class and its superclasses, if no
 argument is specified.
-11.2.3. The method class
+### The method class
 
 ::class method
 
@@ -262,7 +260,6 @@ use arg a
 return \a
 General problem of making the error message come right.
 
-133
 :method
 :method
 :method
@@ -334,15 +331,6 @@ General problem of making the error message come right.
 :method
 :method
 :method
-
-134
-
-tft
-
-~
-=AVoOIEN
-
-SV VALI Vv A
 
 All
 
@@ -398,7 +386,7 @@ D2xX
 ::method string
 
 ::method makestring
-11.3.1 The array class
+### The array class
 
 The main features of a single dimension array are provided by the configuration. This section defines
 further methods and multi-dimensional arrays.
@@ -479,9 +467,8 @@ array.
 Returns a supplier object for the collection.
 ::method section /* rcWHOLE>0O oOWHOLE>=0 */
 
-11.4 The supplier class
+## The supplier class
 
-135
 A supplier object enumerates the items a collection contained at the time of the supplier's creation.
 ::class supplier
 
@@ -527,5 +514,3 @@ Returns the result (if any) of sending the message.
 ::method result
 
 Returns the result of the message SEND or START sends.
-
-136

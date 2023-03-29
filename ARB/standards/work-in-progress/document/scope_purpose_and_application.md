@@ -1,5 +1,5 @@
-1 Scope, purpose, and application
-1.1 Scope
+# Scope, purpose, and application
+## Scope
 This standard specifies the semantics and syntax
 of the programming language Rexx by specifying
 requirements for a conforming language processor.
@@ -35,14 +35,14 @@ particular language processor;
 system that is capable of supporting a
 conforming language processor;
 - the syntax of the configuration interfaces.
-1.2 Purpose
+## Purpose
 The purpose of this standard is to facilitate
 portability of Rexx programs for use on a wide
 variety of configurations.
-1.3 Application
+## Application
 This standard is applicable to Rexx language
 processors.
-1.4 Recommendation
+## Recommendation
 It is recommended that before detailed reading of
 this standard, a reader should first be familiar with
 the Rexx language, for example through reading

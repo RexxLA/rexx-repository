@@ -1,6 +1,6 @@
-6 Syntax constructs
-6.1. Notation
-6.1.1 Backus-Naur Form (BNF)
+# Syntax constructs
+## Notation
+### Backus-Naur Form (BNF)
 The syntax constructs in this standard are defined in Backus-Naur Form (BNF). The syntax used in these
 BNF productions has
 
@@ -12,7 +12,7 @@ BNF productions has
 The left-hand side identifies syntactic constructs. The right-hand side describes valid ways of writing a
 specific syntactic construct.
 The right-hand side consists of operands and operators, and may be grouped.
-6.1.2 Operands
+### Operands
 Operands may be terminals or non-terminals. If an operand appears as identifier in some other
 production it is called a non-terminal, otherwise it is called a terminal. Terminals are either literal or
 symbolic.
@@ -21,7 +21,7 @@ the source being described.
 Symbolic terminals formed with lower case characters represent something which the configuration may,
 or may not, allow in the source program, see nnn, nnn, nnn, nnn.
 Symbolic terminals formed with uppercase characters represent events and tokens, see nnn and nnn.
-6.1.3 Operators
+### Operators
 The following lists the valid operators, their meaning, and their precedence; the operator listed first has
 the highest precedence; apart from precedence recognition is from left to right:
 
@@ -30,10 +30,10 @@ the highest precedence; apart from precedence recognition is from left to right:
 - abuttal specifies that the preceding and the following construct must appear in the given order;
 
 - the operator '|' specifies alternatives between the preceding and the following constructs.
-6.1.4 Grouping
+### Grouping
 Parentheses and square brackets are used to group constructs. Parentheses are used for the purpose of
 grouping only. Square brackets specify that the enclosed construct is optional.
-6.1.5 BNF syntax definition
+### BNF syntax definition
 The BNF syntax, described in BNF, is:
 
 production := identifier ':=' bnf expression
@@ -45,14 +45,14 @@ abuttal t= [abuttal] bnf primary
 bnf primary := '[T' bnf expression ']' | '(' bnf expression ')' | literal |
 
 identifier | message identifier | bnf primary '+'
-6.1.6 Syntactic errors
+### Syntactic errors
 The syntax descriptions (see nnn and nnn) make use of message_identifiers which are shown as
 Msgnn.nn or Msgnn, where nn is a number. These actions produce the correspondingly numbered error
 messages (see nnn and nnn).
-6.2 Lexical
+## Lexical
 The lexical level processes the source and provides tokens for further recognition by the top syntax level.
-6.2.1 Lexical elements
-6.2.1.1 Events
+### Lexical elements
+#### Events
 The fully-capitalized identifiers in the BNF syntax (see nnn) represent events. An event is either supplied
 by the configuration or occurs as result of a look-ahead in left-to-right parsing. The following events are
 defined:
@@ -64,14 +64,13 @@ general_letter, or a digit, or'.';
 to EOL represent a repetition of comment or blank, and the EOL is not immediately followed by an
 EOS;
 
-36
 - EXPONENT_SIGN occurs when the character about to be scanned is '+' or '-', and the characters to
 the left of the sign, currently parsed as part of Const_symbol, represent a plain_number followed by 'E'
 or 'e’, and the characters to the right of the sign represent a repetition of digit not followed by a
 general_letter or'.’.
 - | would put ASSIGN here for the leftmost '=' in a clause that is not within parentheses or brackets. But Simon not
 happy with message term being an assignment?
-6.2.1.2 Actions and tokens
+#### Actions and tokens
 Mixed case identifiers with an initial capital letter cause an action when they appear as operands ina
 production. These actions perform further tests and create tokens for use by the top syntax level. The
 following actions are defined:
@@ -121,14 +120,13 @@ produced.
 The terms extra_letter, other_blank_character, other_negator, and other_character used in the
 productions of the lexical level refer to characters of the groups extra_letters (see nnn),
 
-37
 other_blank_characters (see nnn), other_negators (see nnn) and other_characters (see nnn),
 respectively.
-6.2.1.4 Rules
+#### Rules
 In scanning, recognition that causes an action (see nnn) only occurs if no other recognition is possible,
 except that Embedded_apostrophe and Embedded_quotation_mark actions occur wherever possible.
-6.2.2 Lexical level
-6.2.3 Interaction between levels of syntax
+###Lexical level
+### Interaction between levels of syntax
 When the lexical process recognizes tokens to be supplied to the top level, there can be changes made
 or tokens added. Recognition is performed by the lexical process and the top level process ina
 synchronized way. The tokens produced by the lexical level can be affected by what the top level syntax
@@ -165,20 +163,19 @@ operator is inferred.
 When any of the keywords ‘OTHERWISE’, 'THEN', or ‘ELSE’ is recognized, a semicolon token is supplied
 as the following token. A semicolon token is supplied as the previous token when the 'THEN' keyword is
 recognized. A semicolon token is supplied as the token following a LABEL.
-6.2.3.1 Reserved symbols
+#### Reserved symbols
 A Const_symbol which starts with a period and is not a Number shall be spelled .MN, .RESULT, .RC,
 .RS, or .SIGL otherwise Msg50.1 is issued.
-6.2.3.2 Function name syntax
+#### Function name syntax
 A symbol which is the leftmost component of a function shall not end with a period, otherwise Msg51.1 is
 issued.
-6.3 Syntax
-6.3.1 Syntax elements
+## Syntax
+### Syntax elements
 The tokens generated by the actions described in nnn form the basis for recognizing larger constructs.
-6.3.2 Syntax level
+### Syntax level
 
 starter:=x3j18
 
-38
 x3j18:=program Eos | Msg35.1
 
 program := [label list] [ncl] [requires+] [prolog_instruction+]
@@ -255,7 +252,6 @@ do = do specification nel [instruction+] [group_handler]
 ('END' [NAME] | Eos Msg14.1 | Msg35.1)
 group option := 'LABEL' ( NAME | Msgnn ) | 'PROTECT' ( term | Msgnn )
 
-39
 group handler catch | finally catch finally
 
 |
@@ -343,7 +339,6 @@ resources := 'STREAM' (VAR_SYMBOL | Msg53.1)
 vref := '(' var symbol (')' | Msg46.1)
 var symbol = VAR_SYMBOL | Msg20.1
 
-40
 arg := 'ARG' [template list]
 
 eall := 'CALL' (callon_spec |
@@ -422,7 +417,6 @@ conditions = 'ANY' | 'ERROR' term | 'FAILURE' term
 | 'USER' ( symbol constant term | Msg19.18) | Msg25.23
 raise option := ExitRetOption | Description | ArrayOption
 
-4]
 ExitRetOption := 'EXIT! [term] | 'RETURN' [term]
 Description ='DESCRIPTION' term
 ArrayOption = 'ADDITIONAL' term | "'ARRAY' arguments
@@ -511,8 +505,8 @@ indexed = (symbol | STRING) indices
 indices = '#[' [expression list] (']' | Msg36.n)
 initializer = '['expression list (']' | Msg36.n)
 
-6.1 Syntactic information
-6.1.1 VAR_SYMBOL matching
+## Syntactic information
+### VAR_SYMBOL matching
 Any VAR_SYMBOL in a do_ending must be matched by the same VAR_SYMBOL occurring at the start
 of an assignment contained in the do_specification of the do that contains both the do_specification and
 the do_ending, as described in nnn.
@@ -531,19 +525,19 @@ or leave will be a single instruction in an instruction_list associated with a d
 be the same, or the latter nested one or more levels within the former. The number of levels is called the
 nesting_correction and influences the semantics of the iterafe or leave. It is zero if the two dos are the
 same. The nesting_correction for /ferates or leaves that do not contain VAR_SYMBOL is zero.
-6.1.2 Trace-only labels
+### Trace-only labels
 Instances of LABEL which occur within a grouping_instruction and are not in a nc/ at the end of that
 grouping_instruction are instances of trace-only labels.
-6.1.3 Clauses and line numbers
+### Clauses and line numbers
 The activity of tracing execution is defined in terms of clauses. A program consists of clauses, each
 clause ended by a semicolon special token. The semicolon may be explicit in the program or inferred.
 The line number of a clause is one more than the number of EOL events recognized before the first token
 of the clause was recognized.
-6.1.4 Nested IF instructions
+### Nested IF instructions
 The syntax specification nnn allows 'IF' instructions to be nested and does not fully specify the
 association of an 'ELSE' keyword with an 'IF' keyword. An 'ELSE' associates with the closest prior 'IF' that
 it can associate with in conformance with the syntax.
-6.1.5 Choice of messages
+### Choice of messages
 The specifications nnn and nnn permit two alternative messages in some circumstances. The following
 rules apply:
 - Msg15.1 shall be preferred to Msg15.3 if the choice of Msg15.3 would result in the replacement for
@@ -554,16 +548,14 @@ the insertion being a blank character;
 a period;
 - Preference is given to the message that appears later in the list: Msg21.1, Msg27.1, Msg25.16,
 Msg36, Msg38.3, Msg35.1, other messages.
-6.1.6 Creation of messages
-
-43
+### Creation of messages
 The message_identifiers in clause 6 correlate with the tails of stem #ErrorText., which is initialized in nnn
 to identify particular messages. The action of producing an error message will replace any insertions in
 the message text and present the resulting text, together with information on the origin of the error, to the
 configuration by writing on the default error stream.
 Further activity by the language processor is permitted, but not defined by this standard.
 The effect of an error during the writing of an error message is not defined.
-6.1.6.1 Error message prefix
+#### Error message prefix
 The error message selected by the message number is preceded by a prefix. The text of the prefix is
 #ErrorText.0.1 except when the error is in source that execution of an interactive trace interpret
 instruction (see nnn) is processing, in which case the text is #ErrorText.0.2. The insert called <value> in
@@ -575,7 +567,7 @@ unmatched '/*'. For the others, it is the line number of the clause containing t
 the message text.
 The insert called <source> is the value provided on the API_ Start function which started processing of the
 program, see nnn.
-6.2 Replacement of insertions
+## Replacement of insertions
 Within the text of error messages, an insertion consists of the characters '<', '>', and what is between
 those characters. There will be a word in the insertion that specifies the replacement text, with the
 following meaning:
@@ -613,13 +605,10 @@ Replacement text is truncated to #Limit_Messagelnsert characters if it would oth
 that, except for a keywords replacement. When an insert is both truncated and appears within quotes in
 the message, the three characters '...' are inserted in the message after the trailing quote.
 
-6.3 Syntactic equivalence
+## Syntactic equivalence
 
-44
 If a message_term contains a '[' it is regarded as an equivalent message_term without a '[', for execution.
 The equivalent is term~'[]'(expression_list). See nnn. If a message_instruction has the construction
 message_term '=' expression it is regarded as equivalent to a message_term with the same components
 as the message_term left of the '=', except that the taken_constant has an '=' character appended and
 arguments has the expression from the right of the '=' as an extra first argument. See nnn.
-
-45

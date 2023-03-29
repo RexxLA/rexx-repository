@@ -1,13 +1,13 @@
-12 Provided classes
+# Provided classes
 
 (Informative)
 
-12.1 Notation
+## Notation
 
 The provided classes are defined mainly through code.
-12.2 The Collection Classes
+## The Collection Classes
 
-12.2.1 Collection Class Routines
+### Collection Class Routines
 
 These routines are used in the definition of the collection classes
 ::routine CommonxXor
@@ -81,7 +81,6 @@ sc-next
 end
 r=This~class~new
 
-137
 cs=MayEnBag (arg(2))~supplier
 do while cs~available
 i=cs~index
@@ -150,12 +149,11 @@ s~-next
 end
 return r
 
-12.2.2 The collection class
+### The collection class
 
 ::Cclass 'Collection'
 
-138
-12.2.2.1 INIT
+#### INIT
 
 ::method init
 
@@ -175,7 +173,7 @@ a[2]/*Unique*/=0
 
 return self
 
-12.2.2.2 EXPOSED
+#### EXPOSED
 
 ::method exposed private
 expose a
@@ -183,7 +181,7 @@ expose a
 /* This method allows subclasses to get at the implementation of Collection. */
 return a
 
-12.2.2.3 FINDINDEX
+#### FINDINDEX
 
 ::method findindex private
 expose a
@@ -194,7 +192,7 @@ if alj+l]==arg(1) then return j
 end j
 return 0
 
-12.2.2.4 AT
+#### AT
 
 ::method at /* vANY */
 expose a
@@ -203,13 +201,13 @@ j=self~findindex(arg(1))
 if j=0 then return .nil
 return a[j]
 
-12.2.2.5 []
+#### []
 
 ::method '[]'
 /* Synonym for the AT method. */
 forward message 'AT'
 
-12.2.2.6 PUT
+#### PUT
 
 ::method put /* rANY rANy */
 expose a
@@ -228,14 +226,13 @@ a[lj+1] =index
 a[j+2]=0
 return /* Error 91 in OOI if context requiring result. */
 
-12.2.2.7 []=
+#### []=
 
-139
 :smethod '[]='
 /* Synonym for the PUT method. */
 forward message 'PUT'
 
-12.2.2.8 HASINDEX
+#### HASINDEX
 
 ::method hasindex /* vANY */
 /* Returns 1 (true) if the collection contains any item associated with the
@@ -243,7 +240,7 @@ index specified or returns 0 (false) otherwise. */
 
 return self~findindex (arg(1))>0
 
-12.2.2.9 ITEMS
+#### ITEMS
 
 ::method items
 expose a
@@ -251,7 +248,7 @@ expose a
 /* Returns the number of items in the collection. */
 return a[1]/*ItemsCount*/
 
-12.2.2.10 REMOVE
+#### REMOVE
 
 ::method remove /* vANY */
 
@@ -269,7 +266,7 @@ self~removeit (j)
 
 return r
 
-12.2.2.11 REMOVEIT
+#### REMOVEIT
 
 ::method removeit private
 
@@ -287,7 +284,7 @@ a[1] /*ItemsCount*/=a [1] /*ItemsCount*/-1
 
 return
 
-12.2.2.12 MAKEARRYA
+#### MAKEARRYA
 
 ::method makearray
 
@@ -301,7 +298,7 @@ end j
 
 return r
 
-12.2.2.13 MAKEARRAYX
+#### MAKEARRAYX
 
 ::method makearrayx private
 expose a
@@ -312,20 +309,19 @@ r[r~dimension(1)+1]=a[j+1]
 end j
 return r
 
-12.2.2.14 SUPPLIER
+#### SUPPLIER
 
 ::method supplier
 expose a
 
-140
 /* Returns a supplier object for the list. */
 return .supplier~new(self~makearray: .collection, self~makearrayx)
 
-12.2.3 Class list
+### Class list
 
 ::¢class 'List' subclass Collection
 
-12.2.3.1 PUT
+#### PUT
 
 ::method put /* vANY rANY */
 use arg item, index
@@ -337,7 +333,7 @@ if j=0 then call Raise 'Syntax',93.918
 alj]=item
 return
 
-12.2.3.2 OF
+#### OF
 
 ::method of class /* 1 or more oANY Are they omittable? Not in I00 */
 /* Returns a newly created list containing the specified value objects in the
@@ -348,7 +344,7 @@ r~ insert (arg(j))
 end j
 return r
 
-12.2.3.3 INSERT
+#### INSERT
 
 ::method insert /* rANY oANY */
 
@@ -403,7 +399,7 @@ a[j+2]=0
 
 return a[j+1]
 
-12.2.3.4 FIRST
+#### FIRST
 
 ::method first
 a=self~exposed
@@ -414,7 +410,7 @@ if a[1]/*ItemsCount*/=0 then return .nil
 141
 return a[5]
 
-12.2.3.5 LAST
+#### LAST
 
 ::smethod last
 a=self~exposed
@@ -423,7 +419,7 @@ a=self~exposed
 if a[1]/*ItemsCount*/=0 then return .nil
 return a[3*a[1]/*ItemsCount*/+2]
 
-12.2.3.6 FIRSTITEM
+#### FIRSTITEM
 
 ::method firstitem
 a=self~exposed
@@ -432,7 +428,7 @@ a=self~exposed
 if a[1]/*ItemsCount*/=0 then return .nil
 return a[4]
 
-12.2.3.7 LASTITEM
+#### LASTITEM
 
 ::method lastitem
 a=self~exposed
@@ -441,7 +437,7 @@ a=self~exposed
 if a[1]/*ItemsCount*/=0 then return .nil
 return a[3*a[1]/*ItemsCount*/+1]
 
-12.2.3.8 NEXT
+#### NEXT
 
 ::method next /* vANY */
 a=self~exposed
@@ -453,7 +449,7 @@ j=j+3
 if j>3*a[1]/*ItemsCount*/ then return .nil /* Next of last was requested. */
 return a[j+1]
 
-12.2.3.9 PREVIOUS
+#### PREVIOUS
 
 ::method previous /* vANY */
 
@@ -471,7 +467,7 @@ if j<4 then return .nil /* Previous of first was requested. */
 
 return a[j+1]
 
-12.2.3.10 SECTION
+#### SECTION
 
 ::method section /* rANY oWHOLE>=0 */
 
@@ -494,8 +490,7 @@ if j>1+3*a[1]/*ItemsCount*/ then leave
 end
 return r
 
-142
-12.2.4 Class queue
+### Class queue
 
 ::class 'Queue' subclass Collection
 
@@ -505,7 +500,7 @@ indexes specify the position of an item relative to the head (first item) of
 the queue. Adding or removing an item changes the association of an index to
 its queue item. */
 
-12.2.4.1 PUSH
+#### PUSH
 
 ::method push /* vANY */
 
@@ -536,7 +531,7 @@ alj+l]=a[j+4]-1; /* Index changes */
 end j
 return r
 
-12.2.4.3 QUEUE
+#### QUEUE
 
 ::method queue /* vANY */
 /* Adds the object value to the queue at its tail. */
@@ -546,7 +541,7 @@ a[1+3*a[1] /*ItemCount*/]=arg(1)
 a[2+3*a[1] /*ItemCount*/]=a[1]/*ItemCount*/
 return
 
-12.2.4.4 PEEK
+#### PEEK
 
 ::method peek
 
@@ -556,7 +551,7 @@ a=self~exposed
 
 return a[4]
 
-12.2.45 REMOVE
+#### REMOVE
 
 ::method remove /* rcWHOLE>O */
 /* Returns and removes from a collection the member item with the specified
@@ -572,12 +567,11 @@ alj+l]=k
 end j
 return r
 
-143
-12.2.5 Class table
+### Class table
 
 ::Class 'Table' subclass Collection
 
-12.2.5.1 MAKEARRAY
+#### MAKEARRAY
 
 ::method makearray
 /* Returns a single-index array containing the index objects. */
@@ -585,32 +579,32 @@ return r
 are in the returned array. */
 forward message 'MAKEARRAYX'
 
-12.2.5.2 UNION
+#### UNION
 
 ::method union /* rCOLLECTION */
 return CommonUnion (self,arg(1))
 
-12.2.5.3 INTERSECTION
+#### INTERSECTION
 
 ::method intersection /* rCOLLECTION */
 return CommoniIntersect (self,arg(1))
 
-12.2.5.4 XOR
+#### XOR
 
 ::method xor /* rCOLLECTION */
 return CommonXor (self,arg(1))
 
-12.2.5.5 DIFFERENCE
+#### DIFFERENCE
 
 ::method difference /* rCOLLECTION */
 return CommonDifference(self,arg(1))
 
-12.2.5.6 SUBSET
+#### SUBSET
 
 ::method subset /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
 
-12.2.6 Class set
+#### Class set
 
 ::¢class 'Set' subclass table
 
@@ -619,7 +613,7 @@ the same as the index. Any object can be placed in a set. There can be only
 
 one occurrence of any object in a set. */
 
-12.2.6.1 PUT
+#### PUT
 
 /* Second arg same as first. Committee has dropped second? */
 ::method put /* YANY oANY */
@@ -629,7 +623,7 @@ if arg(2,'E') then
 if arg(2)\==arg(1) then signal error /* 949 */
 self~put:super(arg(1),arg(1))
 
-12.2.6.2 OF
+#### OF
 
 ::method of class /* 1 or more rANYy */
 /* Returns a newly created set containing the specified value objects. */
@@ -639,33 +633,31 @@ r~put (arg(j))
 end j
 return r
 
-12.2.6.3 UNION
+#### UNION
 
 ::method union /* rCOLLECTION */
-
-144
 return CommonUnion (self, EnBag(arg(1)))
 
-12.2.6.4 INTERSECTION
+#### INTERSECTION
 
 ::method intersection /* rCOLLECTION */
 return CommoniIntersect (self,EnBag(arg(1)))
 
-12.2.6.5 XOR
+#### XOR
 
 ::method xor /* rCOLLECTION */
 return CommonXor (self, EnBag(arg(1)))
 
-12.2.6.6 DIFFERENCE
+#### DIFFERENCE
 
 ::method difference /* rCOLLECTION */
 return CommonDifference (self, EnBag(arg(1)))
 
-12.2.7 Class relation
+### Class relation
 
 ::Class 'Relation' subclass Collection
 
-12.2.7.1 PUT
+#### PUT
 
 ::method put /* vANY rANY */
 
@@ -689,7 +681,7 @@ a[j+2]=0
 
 return /* Error 91 in OOI if context requiring result. */
 
-12.2.7.2 ITEMS
+#### ITEMS
 
 ::method items /* oANY */
 a=self~exposed
@@ -703,12 +695,12 @@ if arg(1)==a[j+1] then n=n+1
 end j
 return n
 
-12.2.7.3 MAKEARRAY
+#### MAKEARRAY
 
 ::method makearray
 forward message 'MAKEARRAYX'
 
-12.2.7.4 SUPPLIER
+#### SUPPLIER
 
 ::method supplier /* oANY */
 a=self~exposed
@@ -722,7 +714,6 @@ if arg(1,'E') then
 if arg(1)\=s=a[j+1] then iterate
 n=r~dimension(1)+1
 
-145
 m[n] =a[j]
 r[n] =a[j+1]
 
@@ -746,7 +737,7 @@ es-next
 end
 return r
 
-12.2.7.6 INTERSECTION
+#### INTERSECTION
 
 ::method intersection /* rCOLLECTION */
 
@@ -770,7 +761,7 @@ return r
 
 cs~index)
 
-12.2.7.7 XOR
+#### XOR
 
 ::method xor /* rCOLLECTION */
 /* Returns a new relation that contains all items from self and
@@ -794,7 +785,7 @@ cs~next
 end
 return r
 
-12.2.7.8 DIFFERENCE
+#### DIFFERENCE
 
 ::method difference /* rCOLLECTION */
 
@@ -802,8 +793,6 @@ return r
 g Y P
 SELF whose indexes the other collection does not contain. */
 r=self~class~new
-
-146
 cs=self~supplier
 
 do while cs~available
@@ -820,12 +809,12 @@ end
 
 return r
 
-12.2.7.9 SUBSET
+#### SUBSET
 
 ::method subset /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
 
-12.2.7.10 REMOVEITEM
+#### REMOVEITEM
 
 ::method removeitem /* YANY rANY */
 a=self~exposed
@@ -840,7 +829,7 @@ end
 end j
 return .nil
 
-12.2.7.11 INDEX
+#### INDEX
 
 ::method index /* vANY */
 a=self~exposed
@@ -852,7 +841,7 @@ if arg(1)==a[j] then return a[j+1]
 end j
 return .nil
 
-12.2.7.12 ALLAT
+#### ALLAT
 
 ::method allat /* vANY */
 a=self~exposed
@@ -865,7 +854,7 @@ r[r~dimension(1)+1] = aljl
 end j
 return r
 
-12.2.7.13 HASITEM
+#### HASITEM
 
 ::method hasitem /* YANY rANY */
 a=self~exposed
@@ -876,10 +865,9 @@ if alj]==arg(1) & a[j+l]==arg(2) then return 1
 end j
 return 0
 
-12.2.7.14 ALLINDEX
+#### ALLINDEX
 ::method allindex /* vANY */
 
-147
 a=self~exposed
 /* Returns a single-index array containing all indexes for the specified
 item. */
@@ -891,7 +879,7 @@ end
 end j
 return r
 
-12.2.8 The bag class
+##3 The bag class
 
 ::class 'Bag' subclass relation
 
@@ -899,7 +887,7 @@ return r
 is the same as the index. Any object can be placed in a bag, and the same
 object can be placed in a bag multiple times. */
 
-12.2.8.1 OF
+#### OF
 
 ::method of class /* 1 or more rANYy */
 /* Returns a newly created bag containing the specified value objects. */
@@ -909,7 +897,7 @@ r~put (arg(j))
 end j
 return r
 
-12.2.8.2 PUT
+#### PUT
 
 ::method put /* vANY oANY */
 /* Committee does away with second argument? */
@@ -919,31 +907,31 @@ if arg(2,'E') then
 if arg(2)\=s=arg(1) then signal error
 self~put: super (arg(1),arg(1))
 
-12.2.8.3 UNION
+#### UNION
 
 ::method union /* rCOLLECTION */
 return CommonUnion (self, EnBag(arg(1)))
 
-12.2.8.4 INTERSECTION
+#### INTERSECTION
 
 ::method intersection /* rCOLLECTION */
 return CommoniIntersect (self,EnBag(arg(1)))
 
-12.2.8.5 XOR
+#### XOR
 
 ::method xor /* rCOLLECTION */
 return CommonXor (self, EnBag(arg(1)))
 
-12.2.8.6 DIFFERENCE
+#### DIFFERENCE
 
 ::method difference /* rCOLLECTION */
 return CommonDifference (self, EnBag(arg(1)))
 
-12.2.9 The directory class
+### The directory class
 
 ::class 'Directory' subclass Collection
 
-12.2.9.1 AT
+#### AT
 
 ::method at /* vANY */
 a=self~exposed
@@ -951,14 +939,13 @@ a=self~exposed
 /* Returns the item associated with the specified index. */
 j=self~findindex(arg(1))
 
-148
 if j=0 then return .nil
 
 /* Run the method if there is one. */
 if a[j+2] then return self~run(a[j])
 return a[j]
 
-12.2.9.2 PUT
+#### PUT
 
 ::method put /* vANY rANY */
 a=self~exposed
@@ -968,12 +955,12 @@ if \arg(2)~hasmethod('MAKESTRING') then call Raise 'Syntax', 93.938
 self~put:super(arg(1),arg(2) ~makestring)
 return
 
-12.2.9.3 MAKEARRAY
+#### MAKEARRAY
 
 ::method makearray
 forward message 'MAKEARRAYX'
 
-12.2.9.4 SUPPLIER
+#### SUPPLIER
 
 ::method supplier
 a=self~exposed
@@ -985,32 +972,32 @@ r[r~dimension(1)+1]=a[j]
 
 end j
 return .supplier~new(r,self~makearray)
-12.2.9.5 UNION
+#### UNION
 ::method union /* rCOLLECTION */
 
 return CommonUnion (self,arg(1))
 
-12.2.9.6 INTERSECTION
+#### INTERSECTION
 
 ::method intersection /* rCOLLECTION */
 return CommoniIntersect (self,arg(1))
 
-12.2.9.7 XOR
+#### XOR
 
 ::method xor /* rCOLLECTION */
 return CommonXor (self,arg(1))
 
-12.2.9.8 DIFFERENCE
+#### DIFFERENCE
 
 ::method difference /* rCOLLECTION */
 return CommonDifference(self,arg(1))
 
-12.2.9.9 SUBSET
+#### SUBSET
 
 ::method subset /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
 
-12.2.9.10 SETENTRY
+#### SETENTRY
 
 ::smethod setentry /* rSTRING oANY */
 
@@ -1029,7 +1016,6 @@ if \arg(2,'E') then do /* Removal */
 
 self~removeit (j)
 
-149
 return
 end
 
@@ -1045,7 +1031,7 @@ a[4j+2]=0
 
 return
 
-12.2.9.11 ENTRY
+#### ENTRY
 
 ::smethod entry /* rSTRING */
 a=self~exposed
@@ -1062,7 +1048,7 @@ if \al[j+2] then return al[j]
 return self~run(al[jl])
 end
 
-12.2.9.12 HASENTRY
+#### HASENTRY
 
 ::method hasentry /* rSTRING */
 /* Returns 1 (true) if the directory has an entry or a method for the specified
@@ -1070,7 +1056,7 @@ name (translated to uppercase) or 0 (false) otherwise. */
 
 return self~findindex (translate(arg(1)))>0
 
-12.2.9.13 SETMETHOD
+#### SETMETHOD
 
 ::method setmethod /* rSTRING oMETHOD */
 a=self~exposed
@@ -1094,7 +1080,7 @@ alj]=arg(2)
 a[j+2]=1
 return
 
-12.2.9.14 UNKNOWN
+#### UNKNOWN
 
 ::method unknown /* rSTRING rARRAY */
 
@@ -1109,7 +1095,6 @@ return self~entry(arg(1))
 /* 2?? Not clear whether second argument is mandatory. */
 t=.nil
 
-150
 if arg(2,'E') then t=arg(2) [1]
 self~setentry (left (arg(1),length(arg(1))-1),t)
 12.3 The stem class
@@ -1170,7 +1155,6 @@ hstart = 4
 istart = |
 jstart = 1
 
-151
 output = 1
 setOfTargets = .set~new
 
@@ -1232,7 +1216,6 @@ IF istart>coll.0 THEN DO
 hstart = h+1
 istart = 1
 
-152
 END
 jstart = 1
 output = |
@@ -1282,7 +1265,6 @@ do j=1 to k~dimension(1)-1
 if k[j]~string>k[j+1]~string |,
 (k[j]~string=k[j+1]~string & i[j]~string<i[j+1]~string) then do
 
-153
 t=k[j]sk(jJ=kUj+ 1 )sk[j+1]=t
 t=i[j)siG ]=if+ Usifj+t]=t
 hope=0
@@ -1332,7 +1314,6 @@ a=.alray~new
 a[1]/*ItemsCount*/=0
 a[2]/*Unique*/=0
 
-154
 return self
 
 ::method exposed private
@@ -1381,7 +1362,6 @@ return /* Error 91 in OOI if context requiring result. */
 :method ‘[]='
 /* Synonym for the PUT method. */
 
-155
 forward message 'PUT’
 
 z:method hasindex /* rANY */
@@ -1444,7 +1424,6 @@ expose a
 r=.array~new = /* To build result in. */
 do j=4 by 3 to 143*a[1]/*ItemsCount*/
 
-156
 r[r~dimension(1)+1]=a[j+1]
 end j
 return r
@@ -1498,7 +1477,6 @@ else p=self~last
 
 /* Convert from list index to underlying array index. */
 
-157
 if p==.nil then j=1
 else j=self~findindex(p)
 
@@ -1560,7 +1538,6 @@ if a[1]/*ItemsCount*/=0 then return .nil
 return a[3*a[1]/*ItemsCount*/+1 |
 
 ::method next P* rANY */
-158
 a=self~exposed
 /* Returns the index of the item that follows the list item having the specified
 index. */
@@ -1621,7 +1598,6 @@ its queue item. */
 a=self~exposed
 a[1]/*ItemCount*/=a[1 |/*ItemCount*/+1
 
-159
 /* Slide along to make a space. */
 do j=1+3*a[1]/*ItemCount*/ by -3 to 7
 
@@ -1673,7 +1649,6 @@ do j=4 by 3 to 143*a[1]/*ItemsCount*/
 k=k+1
 a{j+1J=k
 
-160
 end j
 return r
 
@@ -1723,7 +1698,6 @@ if arg(2,'E’) then
 if arg(2)\==arg(1) then signal error /* 949 */
 self~put:super(arg(1),arg(1))
 
-161
 zimethod of class /* 1 or more rANY */
 /* Returns a newly created set containing the specified value objects. */
 r=self~new
@@ -1781,7 +1755,6 @@ n=0
 
 do j=4 by 3 to 143*a[1]/*ItemsCount*/
 
-162
 if arg(1)==a[j+1] then n=n+1
 end j
 retum n
@@ -1880,7 +1853,6 @@ r=.array~new
 
 do j=4 by 3 to 143*a[1]/*ItemsCount*/
 
-164
 if arg(1)==a[j+1] then
 r[r~dimension(1)+1] = a[j]
 end j
@@ -1929,7 +1901,6 @@ if arg(2,'E’) then
 if arg(2)\==arg(1) then signal error
 self~put:super(arg(1),arg(1))
 
-165
 /* Bag may be a subclass of relation but many methods have different
 semantics. */
 
@@ -1980,7 +1951,6 @@ a=self~exposed
 /* Check out what happens to the SETENTRY fields. */
 r=.array~new /* For items */
 
-166
 do j=4 by 3 to 143*a[1]/*ItemsCount*/
 r[r~dimension(1)+1]=a[j]
 end j
@@ -2032,7 +2002,6 @@ uppercase). */
 
 n=translate(arg(1))
 
-167
 j=self~findindex(n)
 /*if j=0 then signal error according to online */
 /* Online has something about running UNKNOWN. */
@@ -2084,7 +2053,6 @@ return self~entry(arg(1))
 /* 22 Not clear whether second argument is mandatory. */
 t=.nil
 
-168
 if arg(2,'E’) then t=arg(2)[1]
 self~setentry(left(arg(1),length(arg(1))-1),t)
 
@@ -2131,7 +2099,6 @@ cs~next
 end
 cs=MayEnBag(arg(2))~supplier
 
-169
 do while cs~available
 r~remove(cs~index)
 cs~next
@@ -2183,7 +2150,6 @@ do while TmpSupp~available
 TmpColl[TmpSupp~index] = TmpSupp~index
 TmpSupp~next
 
-170
 end
 return TmpColl
 End commented away */
@@ -2230,7 +2196,6 @@ IF .Debug = .true THEN
 SAY" \\'target’ is an index-only collection (index==item)"
 DO WHILE tmpSupp ~ AVAILABLE
 
-171
 IF bIndexUsable THEN tmpColl[ tmpSupp ~ INDEX ] = tmpSupp ~ INDEX
 ELSE tmpColl[ tmpSupp ~ ITEM ] = tmpSupp ~ ITEM
 tmpSupp ~ NEXT
@@ -2239,7 +2204,7 @@ RETURN tmpColl
 
 SYNTAX: RAISE PROPAGATE /* raise error in caller */
 
-12.1 The stream class
+## The stream class
 
 The stream class provides input/output on external streams.
 ::class stream
@@ -2306,7 +2271,6 @@ There is also CLOSE as command with method COMMAND.
 Semantics are 'seen by other thread’.
 ::method string
 
-172
 ::method makearray /* rCHARLINE */
 Returns a fixed array that contains the data from the stream in line or character format, starting from the
 
@@ -2329,7 +2293,7 @@ current read position.
 
 Returns a stream object that contains the data from array.
 
-12.2 The alarm class
+## The alarm class
 ::class alarm
 
 ::method init /* Time, Msg */
@@ -2339,14 +2303,14 @@ Sets up an alarm for a future time atime.
 Cancels the pending alarm request represented by the receiver. This method takes no action if the
 specified time has already been reached.
 
-12.3 The monitor class
+## The monitor class
 The Monitor class forwards messages to a destination object.
 
 -local ['OUTPUT'] = .monitor~new(.output)
 
 ::class monitor
 
-12.3.1 INIT
+### INIT
 Initializes the newly created monitor object.
 
 ::method init /* oDESTINATION */
@@ -2355,14 +2319,14 @@ Destination = .queue~new
 if arg(1,'E') then Destination~push (arg(1))
 return
 
-12.3.2 CURRENT
+### CURRENT
 Returns the current destination object.
 
 ::smethod current
 expose Destination
 return Destination [1]
 
-12.3.3 DESTINATION
+### DESTINATION
 Returns a new destination object.
 
 ::method destination /* oDESTINATION */
@@ -2371,10 +2335,9 @@ if arg(1,'E') then Destination~push (arg(1))
 else Destination~pull
 return Destination [1]
 
-12.3.4 UNKNOWN
+### UNKNOWN
 Reissues or forwards to the current monitor destination all unknown messages sent to a monitor object
 
-173
 ::method unknown
 expose Destination
 
@@ -2382,5 +2345,3 @@ Extra parens needed here in original OREXX syntax
 
 forward to destination[1] message arg(1) arguments arg(2)
 return
-
-174

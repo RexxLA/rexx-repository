@@ -1,5 +1,5 @@
-Foreword
-Purpose
+# Foreword
+## Purpose
 This standard provides an unambiguous definition of the programming language Rexx. Its purpose is to
 facilitate portability of Rexx programs for use on a wide variety of computer systems.
 History
@@ -19,7 +19,7 @@ The popularity of "Object Oriented" programming, and the need for Rexx to work w
 various ways, led to Rexx extensions and to a second X3J18 project which produced this standard. (Ed -
 hopefully)
 
-Committee lists
+## Committee lists
 (Here)
 
 This standard was prepared by the Technical Development Committee for Rexx, X3J18.

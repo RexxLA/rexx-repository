@@ -1,11 +1,11 @@
-9 Instructions
+# Instructions
 This clause describes the execution of instructions, and how the sequence of execution can vary from the
 normal execution in order of appearance in the program.
 
 Execution of the program begins with its first clause.
 
 If we left Routine initialization to here we can leave method initialization.
-9.1. Method initialization
+## Method initialization
 
 There is a pool for local variables.
 
@@ -15,7 +15,7 @@ call Config ObjectNew
 
 Set self and super
 
-9.2 Routine initialization
+## Routine initialization
 
 If the routine is invoked as a function, #lsFunction.#NewLevel shall be set to '1', otherwise to '0O'; this
 affects the processing of a subsequent RETURN instruction.
@@ -57,7 +57,7 @@ Execution of the initialized routine continues at the new level of invocation.
 #Level = #NewLevel
 #NewLevel = #Level + 1
 
-9.3 Clause initialization
+## Clause initialization
 
 The clause is traced before execution:
 if pos(#Tracing.#Level, 'AIR') > 0 then call #TraceSource
@@ -70,7 +70,7 @@ A clause other than a null clause or label or procedure instruction sets:
 
 #AllowProcedure.#Level = '0' /* See message 17.1 */
 
-9.4 Clause termination
+## Clause termination
 
 if #InhibitTrace > 0 then #InhibitTrace = #InhibitTrace - 1
 Polling for a HALT condition occurs:
@@ -80,7 +80,6 @@ Polling for a HALT condition occurs:
 if #0utcome == 'Yes' then do
 call Config Halt Reset
 
-72
 call #Raise 'HALT', substr(#Response,2) /* May return */
 end
 
@@ -164,16 +163,15 @@ if length(#0utcome) = 0 | #0Outcome == '=' then leave
 
 interpret #Outcome
 
-73
 #AtPause = 0
 end /* forever loop */
 if #Outcome == '=' then call #Retry /* With no return */
 end
 end
 
-9.5 Instruction
+## Instruction
 
-9.5.1 ADDRESS
+### ADDRESS
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -240,7 +238,6 @@ end
 
 end
 
-74
 call AddressSetup /* Note what is specified on the ADDRESS instruction. */
 /* If there is no command, the persistent environment is being set. */
 if \#Contains(address,expression) then do
@@ -328,7 +325,6 @@ call #Raise 'SYNTAX', 53.3, Temp
 #Env_Resource.Which.EnvTail=Temp
 end
 
-75
 if #Contains (resourceo,append) then
 #Env_Position.Which.EnvTail='APPEND'
 return /* From NoteTarget */
@@ -349,13 +345,13 @@ arg Lhs, LhsLevel, Rhs, RhsLevel
 #Env_Position.E.Lhs.LhsLevel #Env_Position.E.Rhs.RhsLevel
 return
 
-9.5.2 ARG
+### ARG
 For a definition of the syntax of this instruction, see nnn.
 
 The ARG instruction is a shorter form of the equivalent instruction:
 PARSE UPPER ARG template list
 
-9.5.3 Assignment
+### Assignment
 
 Assignment can occur as the result of executing a clause containing an assignment (see nnn and nnn),
 or as a result of executing the VALUE built-in function, or as part of the execution of a PARSE instruction.
@@ -370,7 +366,7 @@ call Var Set #Pool,VAR SYMBOL, '0',Value
 Otherwise, a name is derived, see nnn. The value is associated with the derived name:
 call Var Set #Pool,Derived Name,'1',Value
 
-9.5.4 CALL
+### CALL
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -416,8 +412,7 @@ Name = Condition
 #TrapName.Condition.#Level = Name
 end
 
-76
-9.5.5 Command to the configuration
+### Command to the configuration
 For a definition of the syntax of a command, see nnn.
 A command that is not part of an ADDRESS instruction is processed in the ACTIVE environment.
 
@@ -494,7 +489,6 @@ call #Raise 'SYNTAX',54.1,Stem'0', Lines
 if Lines<0 then
 call #Raise 'SYNTAX',54.1,Stem'0', Lines
 
-77
 end
 else call value Stem'0',0O
 /* Use a stream for the stem */
@@ -568,7 +562,7 @@ return /* From CommandIssue */
 
 The configuration may choose to perform the test for message 54.1 before or after issuing the command.
 
-9.5.6 DO
+### DO
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -580,7 +574,6 @@ output.
 A do_instruction that does not contain a do_simple is equivalent, except for trace output, to a sequence of
 instructions in the following order.
 
-78
 #Loop = #Loop+1
 #Iterate.#Loop = #Clause (IterateLabel)
 #Once.#Loop = #Clause (OnceLabel)
@@ -661,7 +654,6 @@ else do if value(#Identity.#Loop) < #To.#Loop then leave
 end
 end
 
-79
 if #Contains(dorep, repexpr) | #Contains(dorep, 'OVER') then do
 if #Repeat.#Loop = 0 then leave
 #Repeat.#Loop = #Repeat.#Loop-1
@@ -685,7 +677,7 @@ LeaveLabel:
 
 #Loop = #Loop - 1
 
-9.5.7 DO loop tracing
+### DO loop tracing
 
 When clauses are being traced by #TraceSource, due to pos(#Tracing.#Level, 'AIR') > 0, the DO
 instruction shall be traced when it is encountered and again each time the IterateLabel (see nnn) is
@@ -705,7 +697,7 @@ represents updating the control variable of the loop. That assignment is subject
 expressions involving state variables are not. When tracing intermediates, the BY value will have a tag of
 ‘>+>',
 
-9.5.8 DROP
+### DROP
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -739,7 +731,7 @@ call #Raise 'SYNTAX', 20.1, word
 Otherwise the VAR_SYMBOL indicated by the word is dropped, as if that VAR_SYMBOL were a word of
 the variable_list.
 
-9.5.9 EXIT
+### EXIT
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -752,7 +744,6 @@ if #Contains(exit, expression) then Value = #Evaluate(exit, expression)
 
 #Pool = #Pooll
 
-80
 The opportunity is provided for a final trap.
 #API Enabled = '1'
 call Var_Reset #Pool
@@ -765,7 +756,7 @@ If the normal sequence of execution "falls through" the end of the program; that
 further statement if one were appended to the program, then the program is terminated in the same
 manner as an EXIT instruction with no argument.
 
-9.5.10 EXPOSE
+### EXPOSE
 
 The expose instruction identifies variables that are not local to the method.
 
@@ -807,7 +798,7 @@ call #Raise 'SYNTAX', 20.1, word
 Otherwise the VAR_SYMBOL indicated by the word is exposed, as if that VAR_SYMBOL were a word of
 the variable_list.
 
-9.5.11 FORWARD
+### FORWARD
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -815,7 +806,7 @@ The FORWARD instruction is used to send a message based on the current message.
 if #Contains (forward, 'ARRAY') & #Contains(forward, 'ARGUMENTS') then
 call #Raise 'SYNTAX', nn.n
 
-9.5.12 GUARD
+### GUARD
 For a definition of the syntax of this instruction, see nnn.
 
 The GUARD instruction is used to conditionally delay the execution of a method.
@@ -828,7 +819,7 @@ if Value \== '0' then call #Raise 'SYNTAX', 34.7, Value
 Drop exclusive access and wait for change
 
 end
-9.5.13 IF
+### IF
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -843,8 +834,7 @@ addition to the instructions.
 In the latter case, if tracing clauses, the clause consisting of the ELSE keyword shall be traced in addition
 to the instructions.
 
-81
-9.5.14 INTERPRET
+### INTERPRET
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -870,7 +860,7 @@ where Label is the first LABEL in the program.
 
 Otherwise the instruction_list in the program is executed.
 
-9.5.15 ITERATE
+### ITERATE
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -880,12 +870,12 @@ For a definition of the nesting correction, see nnn.
 #Loop = #Loop - NestingCorrection
 call #Goto #Iterate.#Loop
 
-9.5.16 Execution of labels
+### Execution of labels
 
 The execution of a label has no effect, other than clause termination activity and any tracing.
 if #Tracing.#Level=='L' then call #TraceSource
 
-9.5.17 LEAVE
+### LEAVE
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -895,21 +885,21 @@ For a definition of the nesting correction, see nnn.
 #Loop = #Loop - NestingCorrection
 call #Goto #Leave.#Loop
 
-9.5.18 Message term
+### Message term
 We can do this by reference to method invokation, just as we do CALL by reference to invoking a function.
 
-9.5.19 LOOP
+### LOOP
 Shares most of it's definition with repetitive DO.
 
-9.5.20 NOP
+### NOP
 For a definition of the syntax of this instruction, see nnn.
 The NOP instruction has no effect other than the effects associated with all instructions.
 
-9.5.21 NUMERIC
+### NUMERIC
 For a definition of the syntax of this instruction, see nnn.
 The NUMERIC instruction is used to change the way in which arithmetic operations are carried out.
 
-9.5.21.1. NUMERIC DIGITS
+#### NUMERIC DIGITS
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -921,7 +911,6 @@ if #Contains(numericdigits, expression) then
 Value = #Evaluate(numericdigits, expression)
 else Value = 9
 
-82
 if \datatype(Value,'W') then
 
 call #Raise 'SYNTAX',26.5,Value
@@ -934,7 +923,7 @@ if Value>#Limit Digits then
 call #Raise 'SYNTAX',33.2,Value
 #Digits.#Level = Value
 
-9.5.21.2 NUMERIC FORM
+#### NUMERIC FORM
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -963,7 +952,7 @@ end
 end
 #Form.#Level = Value
 
-9.5.21.3. NUMERIC FUZZ
+#### NUMERIC FUZZ
 For a definition of the syntax of this instruction, see nnn.
 NUMERIC FUZZ controls how many digits, at full precision, will be ignored during a numeric comparison.
 
@@ -980,7 +969,7 @@ If Value >= #Digits.#Level then
 call #Raise 'SYNTAX',33.1,#Digits.#Level,Value
 #Fuzz.#Level = Value
 
-9.5.22 OPTIONS
+#### OPTIONS
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -992,7 +981,7 @@ treats the value as a series of blank delimited words. Any words in the value th
 the language processor are ignored without producing an error.
 call Config Options (Expression)
 
-9.5.23 PARSE
+#### PARSE
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1004,7 +993,6 @@ the null string is implied.
 
 Processing for the PARSE instruction begins by constructing a value, the source to be parsed.
 
-83
 ArgNum = 0
 select
 when #Contains (parse type, 'ARG') then do
@@ -1056,8 +1044,6 @@ BreakEnd = 1
 SourceEnd = length(ToParse) + 1
 If Uppering then ToParse = translate (ToParse)
 
-1
-
 do while Template.Tok \== '' & Template.Tok \== ','
 
 /* Isolate the data to be processed on this iteration. */
@@ -1081,7 +1067,6 @@ DataEnd = BreakStart
 Data=substr (ToParse,DataStart, DataEnd-DataStart)
 call WordParse /* Does the assignments. */
 
-84
 end /* while */
 if Template.Tok \== ',' then leave
 /* Continue with next source. */
@@ -1159,7 +1144,6 @@ Token=Token + 1
 end
 else BreakStart = Template.Token
 
-85
 if
 
 if
@@ -1276,10 +1260,8 @@ if #Tracing.#Level == 'R' | #Tracing.#Level == 'I'
 
 return
 
-9.5.24 PROCEDURE
+### PROCEDURE
 For a definition of the syntax of this instruction, see nnn.
-
-86
 
 then call #Trace Tag
 The PROCEDURE instruction is used within an internal routine to protect all the existing variables by
@@ -1335,14 +1317,14 @@ call #Raise 'SYNTAX', 20.1, word
 Otherwise the VAR_SYMBOL indicated by the word is exposed, as if that VAR_SYMBOL were a word of
 the variable_list.
 
-9.5.25 PULL
+### PULL
 
 For a definition of the syntax of this instruction, see nnn.
 
 A PULL instruction is a shorter form of the equivalent instruction:
 PARSE UPPER PULL template list
 
-9.5.26 PUSH
+### PUSH
 For a definition of the syntax of this instruction, see nnn.
 The PUSH instruction is used to place a value on top of the stack.
 
@@ -1352,7 +1334,7 @@ else
 Value = ''
 call Config Push Value
 
-9.5.27 QUEUE
+### QUEUE
 For a definition of the syntax of this instruction, see nnn.
 The QUEUE instruction is used to place a value on the bottom of the stack.
 
@@ -1362,18 +1344,17 @@ else
 Value = ''
 call Config Queue Value
 
-9.5.28 RAISE
+### RAISE
 
 The RAISE instruction returns from the current method or routine and raises a condition.
 
-9.5.29 REPLY
+### REPLY
 
 The REPLY instruction is used to allow both the invoker of a method, and the replying method, to
 continue executing.
 
-87
 Must set up for error of expression on subsequent RETURN.
-9.5.30 RETURN
+### RETURN
 For a definition of the syntax of this instruction, see nnn.
 The RETURN instruction is used to return control and possibly a result from a program or internal routine
 to the point of its invocation.
@@ -1408,7 +1389,7 @@ call Config Termination
 #API Enabled = '0'
 
 The processing of the program is complete. See nnn for what API Start returns as the result.
-9.5.31 SAY
+### SAY
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1420,7 +1401,7 @@ else
 Value = ''
 call Config Default Output Value
 
-9.5.32 SELECT
+### SELECT
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1448,7 +1429,6 @@ if Value \== '0' then
 call #Raise 'SYNTAX', 34.2, Value
 end /* Of each when */
 
-88
 If \#Contains(select body, 'OTHERWISE') then
 call #Raise 'SYNTAX', 7.3, LineNum
 If #Contains (select body, instruction list) then
@@ -1458,7 +1438,7 @@ EndLabel:
 
 When tracing, the clause containing the END keyword is traced at this point.
 
-9.5.33 SIGNAL
+### SIGNAL
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1507,7 +1487,7 @@ If the name matches a label, execution continues at that label after these setti
 
 if #Level = #AtPause then #AtPause = 0
 
-9.5.34 TRACE
+### TRACE
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1537,8 +1517,6 @@ end
 do while left(Value,1)=='?'
 #Interactive.#Level = \#Interactive.#Level
 Value = substr(Value,2)
-
-89
 end
 if length(Value) \= 0 then do
 Value = translate( left(Value,1) )
@@ -1549,7 +1527,7 @@ end
 #Tracing.#Level = Value
 end
 
-9.5.35 Trace output
+### Trace output
 
 If #NoSource is '1' there is no trace output.
 
@@ -1586,7 +1564,7 @@ setting. If a'SYNTAX' condition occurs and it is not trapped by SIGNAL ON SYNTAX
 error shall be traced, along with a traceback. A traceback is a display of each active CALL and
 INTERPRET instruction, and function invocation, displayed in reverse order of execution, each with a tag
 of '+4+'.
-9.5.36 USE
+### USE
 For a definition of the syntax of this instruction, see nnn.
 The USE instruction assigns the values of arguments to variables.
 Better not say copies since COPY method has different semantics.
@@ -1599,7 +1577,7 @@ else
 
 Messy because VALUE bif won't DROP and var_drop needs to know if compound.
 
-9.6 Conditions and Messages
+## Conditions and Messages
 
 When an error occurs during execution of a program, an error number and message are associated with
 it. The error number has two parts, the error code and the error subcode. These are the integer and
@@ -1610,7 +1588,6 @@ for future extensions of this standard.
 
 concatenated with #RC
 
-90
 Error number 3 is available to report error conditions occuring during the initialization phase; error
 number 2 is available to report error conditions during the termination phase. These are error conditions
 recognized by the language processor, but the circumstances of their detection is outside of the scope of
@@ -1632,7 +1609,7 @@ the condition.
 The action of the program as a result of a condition is dependent on any signa/_spec and callon_spec in
 the program.
 
-9.6.1 Raising of conditions
+### Raising of conditions
 
 The routine #Raise corresponds to raising a condition. In the following definition, the instructions
 containing SIGNAL VALUE and INTERPRET denote transfers of control in the program being
@@ -1689,7 +1666,6 @@ end
 
 /* All CALL actions are initially delayed until a clause boundary. */
 
-91
 if arg(1,'E') then do
 /* Events within the handler are not stacked up, except for one
 extra HALT while a first is being handled. */
@@ -1717,7 +1693,7 @@ interpret 'CALL' #TrapName.#Condition.#Level
 #Enabling.#Condition.#Level = 'ON'
 return /* To clause termination */
 
-9.6.2 Messages during execution
+### Messages during execution
 
 The state function #Message corresponds to constructing a message.
 
@@ -1752,5 +1728,3 @@ Expanded = Expanded || Begin
 
 say Expanded
 return
-
-92
