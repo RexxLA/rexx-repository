@@ -1,0 +1,196 @@
+/*
+options utf8
+
+Error both under MacOS and Windows...
+ 1 +++ options utf8
+   +++         ^^^^
+   +++ Error: Any UTF8 option on the OPTIONS instruction must match the UTF8 setting passed to the processor
+
+Hum, I did not pass any option to the processor.
+
+Ok, so I don't declare this option in the source file, and pass it (or not) to the processor.
+That way, I can see the impact of -utf8
+- No impact under MacOS, where the default encoding is UTF-8.
+- There is an impact under Windows, where the default encoding is Cp1252.
+  There is even an additional impact under Windows, depending on the encoding used for execution.
+  So 4 cases to test...
+  Used chcp 65001 for a proper display. That doesn't impact the bytes.
+
+java org.netrexx.process.NetRexxC -utf8 test_c2x.nrx
+java -Dfile.encoding=UTF-8 test_c2x
+
+Under MacOS, the 4 test cases give the same result.
+
+Under Windows:
+
+        dump("René")                                        dump("🎅")
+
+    Compiled without -utf8, executed without utf8
+        string:     Ren√©                                   string:     üéÖ
+        length:     5                                       length:     4
+        native c2x: 52656EC3A9                              native c2x: F017817D2026
+        characters: R e n √ ©                               characters:  ü é Ö
+        characters (charAt): 52 65 6E C3 A9                 characters (charAt): F0 178 17D 2026
+        bytes:      52 65 6E C3 A9                          bytes:      F0 9F 8E 85
+
+    Compiled without -utf8, executed with utf8
+        string:     RenÃ©                                   string:     ðŸŽ…
+        length:     5                                       length:     4
+        native c2x: 52656EC3A9                              native c2x: F017817D2026
+        characters: R e n Ã ©                               characters: ð Ÿ Ž …
+        characters (charAt): 52 65 6E C3 A9                 characters (charAt): F0 178 17D 2026
+        bytes:      52 65 6E C3 83 C2 A9                    bytes:      C3 B0 C5 B8 C5 BD E2 80 A6
+
+    Compiled with -utf8, executed without utf8
+        string:     RenÈ                                    string:     ?
+        length:     4                                       length:     2
+        native c2x: 52656EE9                                native c2x: D83CDF85
+        characters: R e n È                                 characters: ? ?
+        characters (charAt): 52 65 6E E9                    characters (charAt): D83C DF85
+        bytes:      52 65 6E E9                             bytes:      3F
+
+    Compiled with -utf8, executed with utf8
+        string:     René                                    string:     🎅
+        length:     4                                       length:     2
+        native c2x: 52656EE9                                native c2x: D83CDF85
+        characters: R e n é                                 characters: ? ?
+        characters (charAt): 52 65 6E E9                    characters (charAt): D83C DF85
+        bytes:      52 65 6E C3 A9                          bytes:      F0 9F 8E 85
+
+
+Various encodings with Executor4:
+    say "René"~text~utf8~c2x        -- 52 65 6E C3A9
+    say "René"~text~utf8~c2u        -- U+0052 U+0065 U+006E U+00E9
+    say "René"~text~utf16be~c2x     -- 0052 0065 006E 00E9
+    say "René"~text~utf16be~c2u     -- U+0052 U+0065 U+006E U+00E9
+    say "René"~text~utf16le~c2x     -- 5200 6500 6E00 E900
+    say "René"~text~utf16le~c2u     -- U+0052 U+0065 U+006E U+00E9
+    say "René"~text~utf32be~c2x     -- 00000052 00000065 0000006E 000000E9
+    say "René"~text~utf32be~c2u     -- U+0052 U+0065 U+006E U+00E9
+    say "René"~text~utf32le~c2x     -- 52000000 65000000 6E000000 E9000000
+    say "René"~text~utf32le~c2u     -- U+0052 U+0065 U+006E U+00E9
+
+    say "🎅"~text~utf8~c2x        -- F09F8E85
+    say "🎅"~text~utf8~c2u        -- U+1F385
+    say "🎅"~text~utf16be~c2x     -- D83CDF85   <-- netrexx with Java 19 on MacOS
+    say "🎅"~text~utf16be~c2u     -- U+1F385
+    say "🎅"~text~utf16le~c2x     -- 3CD885DF
+    say "🎅"~text~utf16le~c2u     -- U+1F385
+    say "🎅"~text~utf32be~c2x     -- 0001F385
+    say "🎅"~text~utf32be~c2u     -- U+1F385
+    say "🎅"~text~utf32le~c2x     -- 85F30100
+    say "🎅"~text~utf32le~c2u     -- U+1F385
+
+*/
+
+dumper.dump("René")
+
+-- René, encoded UTF-16BE
+-- [later] no, it's not encoded UTF-16BE: The escape \x is defining a 16-bit character from 0x0000 to 0x00FF.
+-- It's not possible to inject just ONE byte in a netrexx string.
+dumper.dump("\x00\x52\x00\x65\x00\x6E\x00\xE9",-
+            "\\x00\\x52\\x00\\x65\\x00\\x6E\\x00\\xE9",-
+            1)
+
+-- René, encoded what? could be Unicode codepoint 8-bit
+-- [later] no, it's codepoint 16-bit (limited to BMP): The escape \x is defining a 16-bit character from 0x0000 to 0x00FF.
+-- It's not possible to inject just ONE byte in a netrexx string.
+dumper.dump("\x52\x65\x6E\xE9",-
+            "\\x52\\x65\\x6E\\xE9",-
+            1)
+
+-- René, encoded UTF-8
+-- [later] no, it's not encoded UTF-8: The escape \x is defining a 16-bit character from 0x0000 to 0x00FF.
+-- It's not possible to inject just ONE byte in a netrexx string.
+dumper.dump("\x52\x65\x6E\xC3\xA9",-
+            "\\x52\\x65\\x6E\\xC3\\xA9",-
+            1)
+
+-- \r\n
+dumper.dump("\r\n",-
+            "\\r\\n")
+
+-- \r\n
+dumper.dump("\x0D\x0A",-
+            "\\x0D\\x0A")
+
+-- "null" character
+dumper.dump("\0",-
+            "\\0")
+
+-- "null" character, encoded 8-bit [later] it's not 8-bit, it's one 16-bit codepoint
+dumper.dump("\x00",-
+            "\\x00")
+
+-- "null" character, encoded 16-bit [later] it's not 16-bit, it's two 16-bit codepoints
+dumper.dump("\x00\x00",-
+            "\\x00\\x00")
+
+-- "null" character, encoded 32-bit [later] it's not 32-bit, it's four 16-bit codepoints
+dumper.dump("\x00\x00\x00\x00",-
+            "\\x00\\x00\\x00\\x00")
+
+-- Emoji
+dumper.dump("🎅")
+
+-- Emoji [later] no, this bytes sequence is four 16-bit codepoints
+-- The native c2x should not be D83CDF85 because it's indistinguishable from c2x("🎅"), should be 00D8003C00DF0085
+dumper.dump("\xD8\x3C\xDF\x85",-
+            "\\xD8\\x3C\\xDF\\x85",-
+            1)
+
+-- Emoji
+dumper.dump("\uD83C\uDF85",-
+            "\\uD83C\\uDF85",-
+            1)
+
+-- From language reference
+-- In Unicode: 'mfc'
+dumper.dump('\x6d\u0066\x63',-
+            '\\x6d\\u0066\\x63',-
+            1)
+
+exit
+
+
+class dumper
+
+properties private static
+    idntfr = 0
+
+method dump(str, pp=str, saystr=0) static
+    idntfr = idntfr + 1
+    say "Example" idntfr
+    say "string:    " pp "\-"
+    if saystr then say str "\-"
+    say
+    say "length:    " str.length
+    say "native c2x:" c2x(str)
+
+    -- characters
+    say "characters:" "\-"
+    loop c over str.toCharArray
+        rexxC = Rexx(c)
+        if rexxC.c2d < 32 then say "["rexxC.c2x"]" "\-"
+        else say c "\-"
+    end
+    say
+
+    -- charAt
+    say "characters (charAt):" "\-"
+    loop i=0 to str.length - 1
+        c = str.charAt(i)
+        -- say java.lang.Integer.toHexString(c) "\-"
+        say Rexx(c).c2x "\-"
+    end
+    say
+
+    -- bytes
+    say "bytes:     " "\-"
+    loop b over str.toByteArray()
+        say Rexx(b).d2x(2) "\-"
+    end
+    say
+
+    say
+    return
