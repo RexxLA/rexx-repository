@@ -19,9 +19,12 @@ That way, I can see the impact of -utf8
 java org.netrexx.process.NetRexxC -utf8 test_c2x.nrx
 java -Dfile.encoding=UTF-8 test_c2x
 
-Under MacOS, the 4 test cases give the same result.
+Under MacOS, the 4 test cases give the same result,
+using openjdk version "19.0.2" 2023-01-17
 
-Under Windows:
+Under Windows,
+using openjdk version "17.0.6" 2023-01-17 LTS
+
 
         dump("René")                                        dump("🎅")
 
