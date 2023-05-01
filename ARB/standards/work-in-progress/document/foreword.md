@@ -1,14 +1,19 @@
 # Foreword
+
 ## Purpose
+
 This standard provides an unambiguous definition of the programming language Rexx. Its purpose is to
 facilitate portability of Rexx programs for use on a wide variety of computer systems.
 History
 The computer programming language Rexx was designed by Mike Cowlishaw to satisfy the following
 principal aims:
+
 - to provide a highly readable command programming language for the benefit of programmers and
 program readers, users and maintainers;
+
 - to incorporate within this language program design features such as natural data typing and control
 structures which would contribute to rapid, efficient and accurate program development;
+
 - to define a language whose implementations could be both reliable and efficient on a wide variety of
 computing platforms.
 
@@ -20,6 +25,7 @@ various ways, led to Rexx extensions and to a second X3J18 project which produce
 hopefully)
 
 ## Committee lists
+
 (Here)
 
 This standard was prepared by the Technical Development Committee for Rexx, X3J18.

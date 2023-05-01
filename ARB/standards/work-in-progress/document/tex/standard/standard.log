@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.12.4)  29 MAR 2023 22:33
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.12.4)  1 MAY 2023 22:49
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -240,39 +240,29 @@ Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 )
 (/usr/local/texlive/2022/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
 
-Package fontspec Info: Font family 'TeXGyrePagella(0)' created for font 'TeX
-(fontspec)             Gyre Pagella' with options
+Package fontspec Info: Font family 'LiberationSans(0)' created for font
+(fontspec)             'LiberationSans' with options
 (fontspec)             [Ligatures=TeX,Mapping=tex-text].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
 (fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"TeX Gyre
-(fontspec)             Pagella/OT:script=latn;language=dflt;mapping=tex-text;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: <->"TeX Gyre
-(fontspec)             Pagella/OT:script=latn;language=dflt;+smcp;mapping=tex-t
-ext;"
-(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"TeX Gyre
-(fontspec)             Pagella/B/OT:script=latn;language=dflt;mapping=tex-text;
-"
-(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: <->"TeX
-(fontspec)             Gyre
-(fontspec)             Pagella/B/OT:script=latn;language=dflt;+smcp;mapping=tex
--text;"
-(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"TeX Gyre
-(fontspec)             Pagella/I/OT:script=latn;language=dflt;mapping=tex-text;
-"
-(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
-(fontspec)             <->"TeX Gyre
-(fontspec)             Pagella/I/OT:script=latn;language=dflt;+smcp;mapping=tex
--text;"
-(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"TeX Gyre
-(fontspec)             Pagella/BI/OT:script=latn;language=dflt;mapping=tex-text
-;"
-(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
-(fontspec)             <->"TeX Gyre
-(fontspec)             Pagella/BI/OT:script=latn;language=dflt;+smcp;mapping=te
-x-text;"
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"LiberationSans/OT:script=latn;language=dflt;mapping=
+tex-text;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"LiberationSans/B/OT:script=latn;language=dflt;mappin
+g=tex-text;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->"LiberationSans/I/OT:script=latn;language=dflt;mappin
+g=tex-text;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->"LiberationSans/BI/OT:script=latn;language=dflt;mappi
+ng=tex-text;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 
 
 Package fontspec Info: Font family 'IBMPlexMono(0)' created for font 'IBM Plex
@@ -1364,7 +1354,17 @@ aTeX
 \SmallKanaExtensionClass=\XeTeXcharclass34
 \CJKUnifiedIdeographsExtensionGClass=\XeTeXcharclass35
 \KanaExtendedBClass=\XeTeXcharclass36
-)) (./standard.aux (./structure.aux))
+)) (./standard.aux (./structure.aux
+
+LaTeX Warning: Label `purpose' multiply defined.
+
+
+LaTeX Warning: Label `configuration' multiply defined.
+
+
+LaTeX Warning: Label `variable-pool' multiply defined.
+
+))
 \openout1 = `standard.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
@@ -1378,8 +1378,7 @@ LaTeX Font Info:    ... okay on input line 2.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 2.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
 .
-
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmr.fd
+ (/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 2.
@@ -1448,21 +1447,21 @@ LaTeX Font Info:    Redeclaring symbol font `operators' on input line 2.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
 (Font)              `operators' in the math version `normal' on input line 2.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/TeXGyrePagella(0)/m/n on input line 
+(Font)                  OT1/cmr/m/n --> TU/LiberationSans(0)/m/n on input line 
 2.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
 (Font)              `operators' in the math version `bold' on input line 2.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/TeXGyrePagella(0)/m/n on input line
+(Font)                  OT1/cmr/bx/n --> TU/LiberationSans(0)/m/n on input line
  2.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  TU/TeXGyrePagella(0)/m/n --> TU/TeXGyrePagella(0)/m/n o
+(Font)                  TU/LiberationSans(0)/m/n --> TU/LiberationSans(0)/m/n o
 n input line 2.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/TeXGyrePagella(0)/m/it on input lin
+(Font)                  OT1/cmr/m/it --> TU/LiberationSans(0)/m/it on input lin
 e 2.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/TeXGyrePagella(0)/b/n on input line
+(Font)                  OT1/cmr/bx/n --> TU/LiberationSans(0)/b/n on input line
  2.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
 (Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 2.
@@ -1470,10 +1469,10 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
 (Font)                  OT1/cmtt/m/n --> TU/IBMPlexMono(0)/m/n on input line 2.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/TeXGyrePagella(0)/m/n --> TU/TeXGyrePagella(0)/b/n o
+(Font)                  TU/LiberationSans(0)/m/n --> TU/LiberationSans(0)/b/n o
 n input line 2.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/TeXGyrePagella(0)/b/it on input li
+(Font)                  OT1/cmr/bx/it --> TU/LiberationSans(0)/b/it on input li
 ne 2.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 2.
@@ -1501,9 +1500,9 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
 
 )
-(|'inkscape' -V ) (../boilerplate/template.tex
+(../boilerplate/template.tex
 
-Package fontspec Info: Font family 'TeXGyrePagella(1)' created for font 'TeX
+Package fontspec Info: Font family 'TeXGyrePagella(0)' created for font 'TeX
 (fontspec)             Gyre Pagella' with options [].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
@@ -1532,12 +1531,17 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <14.4> on input line 8.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 8.
+
+
+LaTeX Font Warning: Font shape `TU/LiberationSans(0)/b/sc' undefined
+(Font)              using `TU/LiberationSans(0)/b/n' instead on input line 8.
+
 \openout5 = `standard.sh'.
 
 runsystem(bash -c "bash standard.sh >standard.stdout 2>standard.stderr || echo 
 $? >standard.exitCode")...executed.
 
- (./standard.stdout)
+(./standard.stdout)
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 8.
  [1
@@ -1545,8 +1549,12 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ]
 \rexx@copyrightBox=\box135
-\rexx@copyrightHeight=\skip95
 
+
+LaTeX Font Warning: Font shape `TU/LiberationSans(0)/m/sc' undefined
+(Font)              using `TU/LiberationSans(0)/m/n' instead on input line 8.
+
+\rexx@copyrightHeight=\skip95
 (../boilerplate/bookmeta.tex
 \openout5 = `standard.sh'.
 
@@ -1580,78 +1588,468 @@ Package marginnote Warning: Consecutive odd pages found.
 
 Package marginnote Info: Using workaround for absolute page number on input lin
 e 25.
-) (./standard.toc)
+) (./standard.toc [2
+
+])
 \tf@toc=\write9
 \openout9 = `standard.toc'.
 
- [2
-
-]
+ [3]
 \openout2 = `structure.aux'.
 
  (./structure.tex (./foreword.tex
 Chapter 1.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
 
-Overfull \hbox (7.41153pt too wide) in paragraph at lines 7--18
-\TU/TeXGyrePagella(0)/m/n/12 This standard provides an unambiguous definition o
-f the programming language
+Overfull \hbox (6.42017pt too wide) in paragraph at lines 49--54
+\TU/LiberationSans(0)/m/n/12 Committee approval of this standard does not neces
+sarily imply that all committee
+ []
+
+[1
+
+
+
+
+]
+
+Package marginnote Warning: Consecutive odd pages found.
+(marginnote)                Note, it is not recommended to use consecutive
+(marginnote)                odd pages in a double-ended document.
+(marginnote)                The pages of your document should always
+(marginnote)                be a sequence: odd-even-odd-even-...
+(marginnote)                Maybe you've forgotten a \cleardoublepage before
+(marginnote)                changing the page numbering on page 1.
+
+Package marginnote Info: Using workaround for absolute page number on input lin
+e 54.
+) (./introduction.tex [2]
+Chapter 2.
+) (./scope_purpose_and_application.tex [3
+
+]
+Chapter 3.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[4
+
+]) (./normative_references.tex [5]
+Chapter 4.
+) (./definitions_and_document_notation.tex [6
+
+]
+Chapter 5.
+[7
+
+]
+Overfull \hbox (6.43188pt too wide) in paragraph at lines 105--108
+\TU/LiberationSans(0)/m/n/12 Clauses which begin with two colons are directives
+. Directives are not executable,
+ []
+
+[8]
+Overfull \hbox (10.21509pt too wide) in paragraph at lines 141--144
+\TU/LiberationSans(0)/m/n/12 Commands are sent to the current named environment
+, initially selected externally
+ []
+
+[9] [10] [11] [12]
+Overfull \hbox (3.57642pt too wide) in paragraph at lines 318--322
+\TU/LiberationSans(0)/m/n/12 The names in a variable pool have an attribute of 
+‘tailed’ or ‘non-tailed’. Otherwise
+ []
+
+) (./conformance.tex [13] [14]
+Chapter 6.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (3.04517pt too wide) in paragraph at lines 38--42
+[]\TU/LiberationSans(0)/m/n/12 Exponents shall be supported. The limit of the a
+bsolute value of an exponent
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+) (./configuration.tex [15
+
+]
+Chapter 7.
+
+Overfull \hbox (9.11548pt too wide) in paragraph at lines 27--33
+\TU/LiberationSans(0)/m/n/12 followed by any arguments. This does not constrain
+ how a specific implementation
+ []
+
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (13.22485pt too wide) in paragraph at lines 42--45
+[]\TU/LiberationSans(0)/m/n/12 Config_- is used only from the language processo
+r when processing programs; 
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (12.59204pt too wide) in paragraph at lines 48--55
+\TU/LiberationSans(0)/m/n/12 behavior and the remainder shall be suitable as a 
+human-readable description
+ []
+
+[16
+
+]
+Overfull \hbox (10.10266pt too wide) in paragraph at lines 98--100
+[]\TU/LiberationSans(0)/m/n/12 where: How is one of ‘COMMAND’, ‘FUNCTION’, or ‘
+SUBROUTINE’ and indicates
  []
 
 
-Overfull \hbox (16.05054pt too wide) in paragraph at lines 42--47
-[]\TU/TeXGyrePagella(0)/m/n/12 This standard was processed and approved for sub
-mittal to ANSI by the Accredited
+Overfull \hbox (16.89478pt too wide) in paragraph at lines 110--113
+[]\TU/LiberationSans(0)/m/n/12 Arguments is the initial argument list to be use
+d in processing. This has components
+ []
+
+[17]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[18]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (33.37524pt too wide) in paragraph at lines 237--241
+\TU/LiberationSans(0)/m/n/12 other_-blank_-characters. Other_-blank_-characters
+ are determined by the configuration.
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[19]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[20]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (14.34204pt too wide) in paragraph at lines 394--397
+[]\TU/LiberationSans(0)/m/n/12 ‘equal’ and Config_-Compare(b,c) produces ‘equal
+’ then Config_-Compare(a,c)
+ []
+
+[21]
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (34.77563pt too wide) in paragraph at lines 397--400
+[]\TU/LiberationSans(0)/m/n/12 ‘greater’ and Config_-Compare(b,c) produces ‘gre
+ater’ then Config _-Compare(a,c)
+ []
+
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (22.7522pt too wide) in paragraph at lines 400--403
+[]\TU/LiberationSans(0)/m/n/12 ‘lesser’ and Config _-Compare(b,c) produces ‘les
+ser’ then Config_-Compare(a,c)
+ []
+
+Warning: \Huger is more than \Huge.
+[22]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (14.82056pt too wide) in paragraph at lines 478--481
+\TU/LiberationSans(0)/m/n/12 and larger, in ranking order, followed by the sequ
+ence of characters LowBound
+ []
+
+[23]
+Overfull \hbox (18.85767pt too wide) in paragraph at lines 557--559
+[]\TU/LiberationSans(0)/m/n/12 Config Command(Environment, Command) where: Envi
+ronment is the environment
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[24]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (17.30884pt too wide) in paragraph at lines 593--596
+\TU/LiberationSans(0)/m/n/12 Syntax: Config ExternalRoutine(How, NameType, Name
+, Environment, Arguments,
+ []
+
+[25]
+Overfull \hbox (1.5pt too wide) in paragraph at lines 638--657
+\TU/LiberationSans(0)/m/n/12 OO! has external classes explicitly via the ::CLAS
+S abc EXTERNAL mechanism.
  []
 
 
-Overfull \hbox (0.81554pt too wide) in paragraph at lines 42--47
-\TU/TeXGyrePagella(0)/m/n/12 approval of this standard does not necessarily imp
-ly that all committee members
+Overfull \hbox (1.12915pt too wide) in paragraph at lines 638--657
+\TU/LiberationSans(0)/m/n/12 knowledge of its method names because of the searc
+h algorithm that determines
  []
 
 
-Overfull \hbox (10.73056pt too wide) in paragraph at lines 42--47
-\TU/TeXGyrePagella(0)/m/n/12 voted for its approval. At the time it approved th
-is standard, the NCITS Committee
+Overfull \hbox (5.79907pt too wide) in paragraph at lines 638--657
+\TU/LiberationSans(0)/m/n/12 method. Perhaps combine Config_-ExternalRoutine wi
+th Config_-ExternalMethod.
  []
 
-)) [1
 
-
-
-
-] [2] (../boilerplate/acknowledgements.tex
-Underfull \hbox (badness 10000) in paragraph at lines 4--7
-\TU/TeXGyrePagella(0)/m/n/9 application and web site (which enable this
+Overfull \hbox (14.1936pt too wide) in paragraph at lines 638--657
+\TU/LiberationSans(0)/m/n/12 There are terminology decisions to make about “fil
+es”, “programs”, and “packages”.
  []
 
-[3
+[26]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[27]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[28]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (12.68579pt too wide) in paragraph at lines 848--868
+\TU/LiberationSans(0)/m/n/12 Position. Set #Linein_-Position.Stream to correspo
+nd with this position. If Operation
+ []
+
+[29]
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (8.5597pt too wide) in paragraph at lines 913--921
+\TU/LiberationSans(0)/m/n/12 indicator in the response shall be ‘N’. When Data 
+is not ‘EOL’ then #Charout_-
+ []
+
+Warning: \Huger is more than \Huge.
+[30]
+Overfull \hbox (15.34009pt too wide) in paragraph at lines 940--943
+[]\TU/LiberationSans(0)/m/n/12 Config Stream Unique () Semantics: Set #Outcome 
+to a name that the configuration
+ []
+
+
+Overfull \hbox (10.47485pt too wide) in paragraph at lines 940--943
+\TU/LiberationSans(0)/m/n/12 recognizes as a stream name. The name shall not be
+ a name that the configuration
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[31]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.23853pt too wide) in paragraph at lines 1008--1013
+\TU/LiberationSans(0)/m/n/12 The external variable pools interface consists of 
+functions which the configuration
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[32]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (18.51587pt too wide) in paragraph at lines 1070--1077
+[]\TU/LiberationSans(0)/m/n/12 set variables #Limit_-Digits, #Limit_-Environmen
+tName, #Limit_-ExponentDigits,
+ []
+
+
+Overfull \hbox (3.1643pt too wide) in paragraph at lines 1070--1077
+\TU/LiberationSans(0)/m/n/12 #Limit_-Literal, #Limit_-Messagelnsert, #Limit_-Na
+me, #Limit_-String, #Limit_-
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[33]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[34]
+Overfull \hbox (13.12329pt too wide) in paragraph at lines 1217--1225
+\TU/LiberationSans(0)/m/n/12 points in processing where it would otherwise be o
+utput. Otherwise, set #NoSource
+ []
+
+[35]
+Overfull \hbox (2.91626pt too wide) in paragraph at lines 1241--1246
+\TU/LiberationSans(0)/m/n/12 #Adjust<Index “#Adjust” # ™ > reflects the differe
+nce between the local date/time
+ []
+
+[36]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (2.45337pt too wide) in paragraph at lines 1343--1346
+[]\TU/LiberationSans(0)/m/n/12 These functions interact with the processing of 
+clauses. To define this interaction,
+ []
+
+[37]
+Overfull \hbox (1.32446pt too wide) in paragraph at lines 1389--1391
+[]\TU/LiberationSans(0)/m/n/12 where: Symbol is a symbol. Semantics: Return the
+ value of the variable identified
+ []
+
+[38]
+Overfull \hbox (2.43079pt too wide) in paragraph at lines 1447--1452
+\TU/LiberationSans(0)/m/n/12 Syntax: API ValueOther (Qualifier) where: Qualifie
+r is an indication distinguishing
+ []
+
+
+Overfull \hbox (2.90259pt too wide) in paragraph at lines 1447--1452
+\TU/LiberationSans(0)/m/n/12 the result to be returned including any necessary 
+further qualification. Semantics:
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[39]))
+Overfull \hbox (12.68665pt too wide) in paragraph at lines 1486--21
+\TU/LiberationSans(0)/m/n/12 return an indication that there is no suitable nam
+e to return. When API NextVariable
+ []
+
+[40] (../boilerplate/acknowledgements.tex [41
 
 
 
 
-])
+]) (./standard.ind)
 
-! LaTeX Error: File `../boilerplate/colophon.tex' not found.
+Package caption Warning: Unused \captionsetup[lstlisting] on input line 34.
+See the caption package documentation for explanation.
 
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: tex)
+[42
 
-Enter file name: 
-! Emergency stop.
-<read *> 
-         
-l.25 \input{../boilerplate/colophon}
-                                    ^^M
-End of file on the terminal!
+] (./standard.aux (./structure.aux))
 
- 
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `standard.out' has not changed.
+(rerunfilecheck)             Checksum: A636A8DBA808304ABB68DCB3DD2D0D97;3952.
+ ) ) 
 Here is how much of TeX's memory you used:
- 34988 strings out of 476179
- 697162 string characters out of 5809544
- 1191129 words of memory out of 5000000
- 55006 multiletter control sequences out of 15000+600000
- 472421 words of font info for 96 fonts, out of 8000000 for 9000
+ 35175 strings out of 476179
+ 700178 string characters out of 5809544
+ 1197105 words of memory out of 5000000
+ 55170 multiletter control sequences out of 15000+600000
+ 472405 words of font info for 94 fonts, out of 8000000 for 9000
  1371 hyphenation exceptions out of 8191
- 107i,7n,108p,1867b,895s stack positions out of 10000i,1000n,20000p,200000b,200000s
-Output written on standard.pdf (6 pages).
+ 107i,8n,108p,1867b,898s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on standard.pdf (46 pages).

@@ -75,10 +75,12 @@ on which error messages are written.
 
 An input stream having a name which is the null
 string. The use of this stream may be implied.
+
 ### default output stream:
 
 An output stream having a name which is the null
 string. The use of this stream may be implied.
+
 ### direct symbol:
 
 A symbol which, without any modification, names a
@@ -90,6 +92,7 @@ Clauses which begin with two colons are
 directives. Directives are not executable, they
 indicate the structure of the program. Directives
 may also be written with the two colons implied.
+
 ### dropped:
 
 A symbol which is in an unitialized state, as
@@ -188,6 +191,7 @@ in a variable pool have an attribute of ‘implicit’ or
 
 One or more clauses that describe some course of
 action to be taken by the language processor.
+
 ### internal routine:
 
 A function or subroutine that is in the same
@@ -230,6 +234,7 @@ string of length zero.
 ### production:
 
 The definition of a construct, in Backus-Naur form.
+
 ### return code:
 
 A string that conveys some information about the
@@ -241,6 +246,7 @@ information.
 ### routine:
 
 Some processing which can be invoked by name.
+
 ### state variable:
 
 A component of the state of progress in processing
@@ -270,6 +276,7 @@ keyboard.
 For many operations the unit of data is a string. It
 may, or may not, be comprised of a sequence of
 characters which can be accessed individually.
+
 ### subcode:
 
 The decimal part of an error number.
@@ -318,14 +325,18 @@ A collection of the names of variables and their
 associated values.
 
 ## Document notation
+
 ### Rexx Code
+
 Some Rexx code is used in this standard. This
 code shall be assumed to have its private set of
 variables. Variables used in this code are not
 directly accessible by the program to be
 processed. Comments in the code are not part of
 the provisions of this standard.
+
 ### Italics
+
 Throughout this standard, except in Rexx code,
 references to the constructs defined in section nnn
 are italicized.

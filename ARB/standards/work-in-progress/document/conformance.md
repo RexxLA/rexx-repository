@@ -1,4 +1,5 @@
 # Conformance
+
 ## Conformance
 A conforming language processor shall not
 implement any variation of this standard except
@@ -8,13 +9,17 @@ prescribed by this standard and noted in the
 documentation accompanying the processor.
 A conforming processor shall include in its
 accompanying documentation
+
 - alist of all definitions or values for the
 features in this standard which are specified to
 be dependent on the configuration.
+
 - a statement of conformity, giving the complete
 reference of this standard (ANSI X3.274-1996)
 with which conformity is claimed.
+
 ## Limits
+
 Aside from the items listed here (and the assumed
 limitation in resources of the configuration), a
 conforming language processor shall not put
@@ -26,18 +31,24 @@ five, or any of these multiplied by some power of
 ten.
 Limitations that conforming language processors
 may impose are:
+
 - NUMERIC DIGITS values shall be supported
 up to a value of at least nine hundred and
 ninety nine.
+
 - Exponents shall be supported. The limit of
 the absolute value of an exponent shall be at
 least as large as the largest number that can be
 expressed without an exponent in nine digits.
+
 - String lengths shall be supported. The limit
 on the length shall be at least as large as the
 largest number that can be expressed without
-an exponent in nine digits.- String literal length
+an exponent in nine digits.
+
+- String literal length
 shall be supported up to at least two hundred
 and fifty.
+
 - Symbol length shall be supported up to at
 least two hundred and fifty.
