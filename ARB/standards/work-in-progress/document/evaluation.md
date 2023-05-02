@@ -265,17 +265,20 @@ the prefix_expression.
 Otherwise, let Ihs be the value of power_expression within it, and rhs be the value of prefix_expression
 within it.
 
+```
 if datatype(lhs)\=='NUM' then call #Raise 'SYNTAX',41.1,lhs,'**'
 
 if \datatype(rhs,'W') then call #Raise 'SYNTAX',26.1,rhs,'**'
-
+```
 The value of the power_expression is
 
 ArithOp(lhs,'**',rhs)
 
 If the power_expression is not a prefix_expression then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
+
 ### The value of a multiplication
+
 See nnn for the syntax of a multiplication.
 If the multiplication is a power_expression then the value of the multiplication is the value of the
 power_expression.
@@ -327,15 +330,20 @@ If the addition is not a multiplication then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
 ### The value of a concatenation
+
 See nnn for the syntax of a concatenation.
 If the concatenation is an addition then the value of the concatenation is the value of the addition.
 Otherwise, let Ihs be the value of concatenation within it, and rhs be the value of the additive_expression
 within it.
 If the concatenation contains '||' then the value of the concatenation will have the following characteristics:
+
 - Config_Length(Value) will be equal to Config_Length(Ihs)+Config_Length(rhs).
+
 - #Outcome will be 'equal' after each of:
+
 - Config_Compare(Config_Subsir(Ihs,n)},Config_Subsitr(Value,n)) for values of n not less than 1
 and not more than Config_Length(Ihs);
+
 - Config_Compare(Config_Subsir(rhs,n),Config_Substr(Value,Config_Length(Ihs)+n)) for values of
 n not less than 1 and not more than Config_Length(rhs).
 Otherwise the value of the concatenation will have the following characteristics:
@@ -343,9 +351,12 @@ Otherwise the value of the concatenation will have the following characteristics
 - Config_Length(Value) will be equal to Config_Length(Ihs)+1+Config_Length(rhs).
 
 - #Outcome will be 'equal' after each of:
+
 - Config_Compare(Config_Subsir(Ihs,n)},Config_Subsitr(Value,n)) for values of n not less than 1
 and not more than Config_Length(Ihs);
+
 - Config_Compare(' ',Config_Substr(Value,Config_Length(Ihs)}+1));
+
 - Config_Compare(Config_Subsitr(rhs,n),Config_Substr(Value,Config_Length(Ins)+1+n)) for values
 of n not less than 1 and not more than Config_Length(rhs).
 
@@ -375,7 +386,7 @@ less than Config_Length(rhs) then #Test is set to 'L’.
 
 If the comparison has a comparison_operator that is a normal_compare then the variable #Test is set as
 follows:
-
+```
 if datatype(lhs)\== 'NUM' | datatype(rhs)\== 'NUM' then do
 /* Non-numeric non-strict comparison */
 lhs=strip(lhs, 'B', ' ') /* ExtraBlanks not stripped */
@@ -409,13 +420,13 @@ In all other cases the value of the comparison is '0'.
 
 If the comparison is not a concatenation then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
+```
 
 ### The value of an and_expression
+
 See nnn for the syntax of an and_expression.
 
-If the and_expression is a comparison then the value of the and_expression is the value of the
-
-comparison.
+If the and_expression is a comparison then the value of the and_expression is the value of the comparison.
 
 Otherwise, let Ihs be the value of the and_expression within it, and rhs be the value of the comparison
 within it.
@@ -467,7 +478,7 @@ signed or unsigned integers.
 
 The code of ArithOp itself is assumed to operate under a sufficiently high setting of numeric digits to
 avoid exponential notation.
-
+```
 ArithoOp:
 
 arg Numberl, Operator, Number2
@@ -1082,6 +1093,7 @@ if arg(1) == '/' then return 1l/a
 else return a * arg(2)
 Over flowed:
 return 'MN '.MN
+```
 
 ## Functions
 
@@ -1196,7 +1208,7 @@ taken_constant, and symbol. */
 
 /* This code is used in a context where #Self is the receiver of the
 method invocation which the subject message term is running under. */
-
+```
 SelectMethod:
 
 /* If symbol given, receiver must be self. */
@@ -1263,6 +1275,7 @@ end
 if t == 'UNKNOWN' then return .nil
 if \arg(3,'E') then return SelectMethod arg(1),'UNKNOWN'
 else return SelectMethod arg(1),'UNKNOWN',arg(3)
+```
 
 ### Use of Config_ExternalRoutine
 

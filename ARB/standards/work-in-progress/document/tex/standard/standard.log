@@ -1,15 +1,15 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.12.4)  1 MAY 2023 22:49
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.4.21)  2 MAY 2023 21:09
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
 **standard.tex
 (./standard.tex
-LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-02-24> (../boilerplate/preamble.tex
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/book.cls
-Document Class: book 2021/10/04 v1.4n Standard LaTeX document class
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/bk10.clo
-File: bk10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2023-02-22> (../boilerplate/preamble.tex
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2022/07/02 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/bk10.clo
+File: bk10.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count181
 \c@chapter=\count182
@@ -20,225 +20,229 @@ File: bk10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 \c@subparagraph=\count187
 \c@figure=\count188
 \c@table=\count189
-\abovecaptionskip=\skip47
-\belowcaptionskip=\skip48
-\bibindent=\dimen138
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
 )
 (../boilerplate/rexx.sty
 Package: ../boilerplate/rexx 
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 )
-\serifindent=\skip49
+\serifindent=\skip50
 \c@rexx@sizenew=\count190
-\dateup=\skip50
-\dateleft=\skip51
-\dateright=\skip52
-\psp@raise=\skip53
-\psp@width=\skip54
-\toc@vgap=\skip55
-\toc@inset=\skip56
-\toc@numwidth=\skip57
-\toc@pagegap=\skip58
-\toc@marginchap=\skip59
-\toc@marginsec=\skip60
-\toc@marginsubsec=\skip61
+\dateup=\skip51
+\dateleft=\skip52
+\dateright=\skip53
+\psp@raise=\skip54
+\psp@width=\skip55
+\toc@vgap=\skip56
+\toc@inset=\skip57
+\toc@numwidth=\skip58
+\toc@pagegap=\skip59
+\toc@marginchap=\skip60
+\toc@marginsec=\skip61
+\toc@marginsubsec=\skip62
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2022-02-21 v7.00n Hypertext links for LaTeX
+(/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/iftex.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode not found.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
-Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/hycolor/hycolor.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/auxhook/auxhook.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/auxhook/auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/kvoptions/kvoptions.sty
-Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
-)
-\@linkdim=\dimen139
-\Hy@linkcounter=\count191
-\Hy@pagecounter=\count192
+(/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2022-05-17 v2.50 Cross-referencing by name of section
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2022-02-21 v7.00n Hyperref: PDFDocEncoding definition (HO)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/intcalc/intcalc.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count191
+)
+\@linkdim=\dimen141
+\Hy@linkcounter=\count192
+\Hy@pagecounter=\count193
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2023-02-07 v7.00v Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count193
+\Hy@SavedSpaceFactor=\count194
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2022-02-21 v7.00n Hyperref: PDF Unicode definition (HO)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2023-02-07 v7.00v Hyperref: PDF Unicode definition (HO)
 )
-Package hyperref Info: Hyper figures OFF on input line 4137.
-Package hyperref Info: Link nesting OFF on input line 4142.
-Package hyperref Info: Hyper index ON on input line 4145.
-Package hyperref Info: Plain pages OFF on input line 4152.
-Package hyperref Info: Backreferencing OFF on input line 4157.
+Package hyperref Info: Hyper figures OFF on input line 4177.
+Package hyperref Info: Link nesting OFF on input line 4182.
+Package hyperref Info: Hyper index ON on input line 4185.
+Package hyperref Info: Plain pages OFF on input line 4192.
+Package hyperref Info: Backreferencing OFF on input line 4197.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4390.
-\c@Hy@tempcnt=\count194
+Package hyperref Info: Bookmarks ON on input line 4425.
+\c@Hy@tempcnt=\count195
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/url/url.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4749.
-\XeTeXLinkMargin=\dimen140
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen142
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count195
-\Field@Width=\dimen141
-\Fld@charsize=\dimen142
-Package hyperref Info: Hyper figures OFF on input line 6027.
-Package hyperref Info: Link nesting OFF on input line 6032.
-Package hyperref Info: Hyper index ON on input line 6035.
-Package hyperref Info: backreferencing OFF on input line 6042.
-Package hyperref Info: Link coloring OFF on input line 6047.
-Package hyperref Info: Link coloring with OCG OFF on input line 6052.
-Package hyperref Info: PDF/A mode OFF on input line 6057.
-LaTeX Info: Redefining \ref on input line 6097.
-LaTeX Info: Redefining \pageref on input line 6101.
+\Fld@menulength=\count196
+\Field@Width=\dimen143
+\Fld@charsize=\dimen144
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring OFF on input line 6062.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count196
-\c@Item=\count197
-\c@Hfootnote=\count198
+\Hy@abspage=\count197
+\c@Item=\count198
+\c@Hfootnote=\count199
 )
 Package hyperref Info: Driver (autodetected): hxetex.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/hxetex.def
-File: hxetex.def 2022-02-21 v7.00n Hyperref driver for XeTeX
+(/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/hxetex.def
+File: hxetex.def 2023-02-07 v7.00v Hyperref driver for XeTeX
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/stringenc/stringenc.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\pdfm@box=\box50
-\c@Hy@AnnotLevel=\count199
-\HyField@AnnotCount=\count266
-\Fld@listcount=\count267
-\c@bookmark@seq@number=\count268
+\pdfm@box=\box51
+\c@Hy@AnnotLevel=\count266
+\HyField@AnnotCount=\count267
+\Fld@listcount=\count268
+\c@bookmark@seq@number=\count269
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
-Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/atveryend-ltx.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-86.
+85.
 )
-\Hy@SectionHShift=\skip62
-) (/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
+\Hy@SectionHShift=\skip63
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: xetex.def on input line 107.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-def/xetex.def
-File: xetex.def 2021/03/18 v5.0k Graphics/color driver for xetex
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics-def/xetex.def
+File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
 ))
-(/usr/local/texlive/2022/texmf-dist/tex/latex/fontspec/fontspec.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2022-02-24 L3 programming layer (loader) 
+(/usr/local/texlive/2023/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2023-02-22 L3 programming layer (loader) 
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
-File: l3backend-xetex.def 2022-02-07 L3 backend support: XeTeX
-
-(|extractbb --version)
-\c__kernel_sys_dvipdfmx_version_int=\count269
-\l__color_backend_stack_int=\count270
-\g__color_backend_stack_int=\count271
-\g__graphics_track_int=\count272
-\l__pdf_internal_box=\box51
-\g__pdf_backend_object_int=\count273
-\g__pdf_backend_annotation_int=\count274
-\g__pdf_backend_link_int=\count275
+(/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
+File: l3backend-xetex.def 2023-01-16 L3 backend support: XeTeX
+\g__graphics_track_int=\count270
+\l__pdf_internal_box=\box52
+\g__pdf_backend_object_int=\count271
+\g__pdf_backend_annotation_int=\count272
+\g__pdf_backend_link_int=\count273
 ))
-Package: xparse 2022-01-12 L3 Experimental document command parser
+Package: xparse 2023-02-02 L3 Experimental document command parser
 )
 Package: fontspec 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
 Package: fontspec-xetex 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTe
 X
-\l__fontspec_script_int=\count276
-\l__fontspec_language_int=\count277
-\l__fontspec_strnum_int=\count278
-\l__fontspec_tmp_int=\count279
-\l__fontspec_tmpa_int=\count280
-\l__fontspec_tmpb_int=\count281
-\l__fontspec_tmpc_int=\count282
-\l__fontspec_em_int=\count283
-\l__fontspec_emdef_int=\count284
-\l__fontspec_strong_int=\count285
-\l__fontspec_strongdef_int=\count286
-\l__fontspec_tmpa_dim=\dimen143
-\l__fontspec_tmpb_dim=\dimen144
-\l__fontspec_tmpc_dim=\dimen145
+\l__fontspec_script_int=\count274
+\l__fontspec_language_int=\count275
+\l__fontspec_strnum_int=\count276
+\l__fontspec_tmp_int=\count277
+\l__fontspec_tmpa_int=\count278
+\l__fontspec_tmpb_int=\count279
+\l__fontspec_tmpc_int=\count280
+\l__fontspec_em_int=\count281
+\l__fontspec_emdef_int=\count282
+\l__fontspec_strong_int=\count283
+\l__fontspec_strongdef_int=\count284
+\l__fontspec_tmpa_dim=\dimen145
+\l__fontspec_tmpb_dim=\dimen146
+\l__fontspec_tmpc_dim=\dimen147
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+(/usr/local/texlive/2023/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
 
 Package fontspec Info: Font family 'LiberationSans(0)' created for font
 (fontspec)             'LiberationSans' with options
@@ -308,219 +312,222 @@ Space,Mapping=tex-text,Scale=0.82].
 (fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/tools/tabularx.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/tools/array.sty
-Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen146
-\ar@mcellbox=\box52
-\extrarowheight=\dimen147
+(/usr/local/texlive/2023/texmf-dist/tex/latex/tools/array.sty
+Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen148
+\ar@mcellbox=\box53
+\extrarowheight=\dimen149
 \NC@list=\toks17
-\extratabsurround=\skip63
-\backup@length=\skip64
-\ar@cellbox=\box53
+\extratabsurround=\skip64
+\backup@length=\skip65
+\ar@cellbox=\box54
 )
-\TX@col@width=\dimen148
-\TX@old@table=\dimen149
-\TX@old@col=\dimen150
-\TX@target=\dimen151
-\TX@delta=\dimen152
-\TX@cols=\count287
+\TX@col@width=\dimen150
+\TX@old@table=\dimen151
+\TX@old@col=\dimen152
+\TX@target=\dimen153
+\TX@delta=\dimen154
+\TX@cols=\count285
 \TX@ftn=\toks18
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/booktabs/booktabs.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen153
-\lightrulewidth=\dimen154
-\cmidrulewidth=\dimen155
-\belowrulesep=\dimen156
-\belowbottomsep=\dimen157
-\aboverulesep=\dimen158
-\abovetopsep=\dimen159
-\cmidrulesep=\dimen160
-\cmidrulekern=\dimen161
-\defaultaddspace=\dimen162
-\@cmidla=\count288
-\@cmidlb=\count289
-\@aboverulesep=\dimen163
-\@belowrulesep=\dimen164
-\@thisruleclass=\count290
-\@lastruleclass=\count291
-\@thisrulewidth=\dimen165
+\heavyrulewidth=\dimen155
+\lightrulewidth=\dimen156
+\cmidrulewidth=\dimen157
+\belowrulesep=\dimen158
+\belowbottomsep=\dimen159
+\aboverulesep=\dimen160
+\abovetopsep=\dimen161
+\cmidrulesep=\dimen162
+\cmidrulekern=\dimen163
+\defaultaddspace=\dimen164
+\@cmidla=\count286
+\@cmidlb=\count287
+\@aboverulesep=\dimen165
+\@belowrulesep=\dimen166
+\@thisruleclass=\count288
+\@lastruleclass=\count289
+\@thisrulewidth=\dimen167
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/makeidx.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/makeidx.sty
 Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xy.sty
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xy.tex Bootstrap'ing:
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xy.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xy.tex Bootstrap'ing:
 catcodes, docmode,
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyrecat.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyidioms.tex)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xyrecat.tex)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xyidioms.tex)
 
  Xy-pic version 3.8.9 <2013/10/06>
  Copyright (c) 1991-2013 by Kristoffer H. Rose <krisrose@tug.org> and others
  Xy-pic is free software: see the User's Guide for details.
 
 Loading kernel: messages; fonts; allocations: state,
-\X@c=\dimen166
-\Y@c=\dimen167
-\U@c=\dimen168
-\D@c=\dimen169
-\L@c=\dimen170
-\R@c=\dimen171
+\X@c=\dimen168
+\Y@c=\dimen169
+\U@c=\dimen170
+\D@c=\dimen171
+\L@c=\dimen172
+\R@c=\dimen173
 \Edge@c=\toks19
-\X@p=\dimen172
-\Y@p=\dimen173
-\U@p=\dimen174
-\D@p=\dimen175
-\L@p=\dimen176
-\R@p=\dimen177
+\X@p=\dimen174
+\Y@p=\dimen175
+\U@p=\dimen176
+\D@p=\dimen177
+\L@p=\dimen178
+\R@p=\dimen179
 \Edge@p=\toks20
-\X@origin=\dimen178
-\Y@origin=\dimen179
-\X@xbase=\dimen180
-\Y@xbase=\dimen181
-\X@ybase=\dimen182
-\Y@ybase=\dimen183
-\X@min=\dimen184
-\Y@min=\dimen185
-\X@max=\dimen186
-\Y@max=\dimen187
-\lastobjectbox@=\box54
-\zerodotbox@=\box55
-\almostz@=\dimen188
+\X@origin=\dimen180
+\Y@origin=\dimen181
+\X@xbase=\dimen182
+\Y@xbase=\dimen183
+\X@ybase=\dimen184
+\Y@ybase=\dimen185
+\X@min=\dimen186
+\Y@min=\dimen187
+\X@max=\dimen188
+\Y@max=\dimen189
+\lastobjectbox@=\box55
+\zerodotbox@=\box56
+\almostz@=\dimen190
  direction,
-\d@X=\dimen189
-\d@Y=\dimen190
-\K@=\count292
-\KK@=\count293
-\Direction=\count294
-\K@dXdY=\dimen191
-\K@dYdX=\dimen192
+\d@X=\dimen191
+\d@Y=\dimen192
+\K@=\count290
+\KK@=\count291
+\Direction=\count292
+\K@dXdY=\dimen193
+\K@dYdX=\dimen194
 \xyread@=\read2
 \xywrite@=\write3
-\csp@=\count295
-\quotPTK@=\dimen193
+\csp@=\count293
+\quotPTK@=\dimen195
 
 utility macros; pictures: \xy, positions,
 \swaptoks@@=\toks21
-\connectobjectbox@@=\box56
+\connectobjectbox@@=\box57
  objects,
 \styletoks@=\toks22
  decorations;
 kernel objects: directionals, circles, text; options; algorithms: directions,
 edges, connections;  Xy-pic loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/ifpdf.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/iftex/ifpdf.sty
 Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
 )
 Package: xy 2013/10/06 Xy-pic version 3.8.9
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyall.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xyall.tex
  Xy-pic option: All features v.3.8
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xycurve.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xycurve.tex
  Xy-pic option: Curve and Spline extension v.3.12 curve,
-\crv@cnt@=\count296
+\crv@cnt@=\count294
 \crvpts@=\toks23
-\splinebox@=\box57
-\splineval@=\dimen194
-\splinedepth@=\dimen195
-\splinetol@=\dimen196
-\splinelength@=\dimen197
+\splinebox@=\box58
+\splineval@=\dimen196
+\splinedepth@=\dimen197
+\splinetol@=\dimen198
+\splinelength@=\dimen199
  circles,
-\L@=\dimen198
+\L@=\dimen256
  loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyframe.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xyframe.tex
  Xy-pic option: Frame and Bracket extension v.3.14 loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xycmtip.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xycmtip.tex
  Xy-pic option: Computer Modern tip extension v.3.7
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xytips.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xytips.tex
  Xy-pic option: More Tips extension v.3.11 loaded) loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyline.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xyline.tex
  Xy-pic option: Line styles extension v.3.10
-\xylinethick@=\dimen199
+\xylinethick@=\dimen257
  loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyrotate.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xyrotate.tex
  Xy-pic option: Rotate and Scale extension v.3.8 loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xycolor.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xycolor.tex
  Xy-pic option: Colour extension v.3.11 loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xymatrix.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xymatrix.tex
  Xy-pic option: Matrix feature v.3.14
-\Row=\count297
-\Col=\count298
+\Row=\count295
+\Col=\count296
 \queue@=\toks24
 \queue@@=\toks25
-\qcount@=\count299
-\qcount@@=\count300
-\matrixsize@=\count301
+\qcount@=\count297
+\qcount@@=\count298
+\matrixsize@=\count299
  loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xyarrow.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xyarrow.tex
  Xy-pic option: Arrow and Path feature v.3.9 path, \ar, loaded)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xypic/xygraph.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xypic/xygraph.tex
  Xy-pic option: Graph feature v.3.11 loaded) loaded))
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2021/12/07 v1.3c Standard LaTeX Color (DPC)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: xetex.def on input line 149.
-)
-(/usr/local/texlive/2022/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/local/texlive/2023/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: xetex.def on input line 227.
 LaTeX Info: Redefining \color on input line 711.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1352.
-Package xcolor Info: Model `RGB' extended on input line 1368.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1370.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1371.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count302
-\lst@gtempboxa=\box58
+(/usr/local/texlive/2023/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count300
+\lst@gtempboxa=\box59
 \lst@token=\toks26
-\lst@length=\count303
-\lst@currlwidth=\dimen256
-\lst@column=\count304
-\lst@pos=\count305
-\lst@lostspace=\dimen257
-\lst@width=\dimen258
-\lst@newlines=\count306
-\lst@lineno=\count307
-\lst@maxwidth=\dimen259
+\lst@length=\count301
+\lst@currlwidth=\dimen258
+\lst@column=\count302
+\lst@pos=\count303
+\lst@lostspace=\dimen259
+\lst@width=\dimen260
+\lst@newlines=\count304
+\lst@lineno=\count305
+\lst@maxwidth=\dimen261
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-\c@lstnumber=\count308
-\lst@skipnumbers=\count309
-\lst@framebox=\box59
+(/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+\c@lstnumber=\count306
+\lst@skipnumbers=\count307
+\lst@framebox=\box60
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2020/03/24 1.8d listings configuration
+(/usr/local/texlive/2023/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2023/02/27 1.9 listings configuration
 ))
-Package: listings 2020/03/24 1.8d (Carsten Heinz)
+Package: listings 2023/02/27 1.9 (Carsten Heinz)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2022/03/01 v3.6b Customizing captions (AR)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/03/12 v3.6j Customizing captions (AR)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
-\caption@tempdima=\dimen260
-\captionmargin=\dimen261
-\caption@leftmargin=\dimen262
-\caption@rightmargin=\dimen263
-\caption@width=\dimen264
-\caption@indent=\dimen265
-\caption@parindent=\dimen266
-\caption@hangindent=\dimen267
+(/usr/local/texlive/2023/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/03/12 v2.4 caption3 kernel (AR)
+\caption@tempdima=\dimen262
+\captionmargin=\dimen263
+\caption@leftmargin=\dimen264
+\caption@rightmargin=\dimen265
+\caption@width=\dimen266
+\caption@indent=\dimen267
+\caption@parindent=\dimen268
+\caption@hangindent=\dimen269
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 Package caption Info: \@makecaption = \long macro:#1#2->\vskip \abovecaptionski
@@ -532,489 +539,498 @@ Package caption Warning: Unknown document class (or package),
 (caption)                standard defaults will be used.
 See the caption package documentation for explanation.
 
-\c@caption@flags=\count310
-\c@continuedfloat=\count311
+\c@caption@flags=\count308
+\c@continuedfloat=\count309
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
-) (/usr/local/texlive/2022/texmf-dist/tex/latex/tools/longtable.sty
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
-\LTleft=\skip65
-\LTright=\skip66
-\LTpre=\skip67
-\LTpost=\skip68
-\LTchunksize=\count312
-\LTcapwidth=\dimen268
-\LT@head=\box60
-\LT@firsthead=\box61
-\LT@foot=\box62
-\LT@lastfoot=\box63
-\LT@gbox=\box64
-\LT@cols=\count313
-\LT@rows=\count314
-\c@LT@tables=\count315
-\c@LT@chunks=\count316
+\LTleft=\skip66
+\LTright=\skip67
+\LTpre=\skip68
+\LTpost=\skip69
+\LTchunksize=\count310
+\LTcapwidth=\dimen270
+\LT@head=\box61
+\LT@firsthead=\box62
+\LT@foot=\box63
+\LT@lastfoot=\box64
+\LT@gbox=\box65
+\LT@cols=\count311
+\LT@rows=\count312
+\c@LT@tables=\count313
+\c@LT@chunks=\count314
 \LT@p@ftn=\toks27
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/colortbl/colortbl.sty
-Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
 \everycr=\toks28
-\minrowclearance=\skip69
+\minrowclearance=\skip70
+\rownum=\count315
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/framed/framed.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/framed/framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
-\OuterFrameSep=\skip70
-\fb@frw=\dimen269
-\fb@frh=\dimen270
-\FrameRule=\dimen271
-\FrameSep=\dimen272
+\OuterFrameSep=\skip71
+\fb@frw=\dimen271
+\fb@frh=\dimen272
+\FrameRule=\dimen273
+\FrameSep=\dimen274
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
-Package: fancyvrb 2021/12/21 4.1b verbatim text (tvz,hv)
-\FV@CodeLineNo=\count317
+(/usr/local/texlive/2023/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2023/01/19 4.5a verbatim text (tvz,hv)
+\FV@CodeLineNo=\count316
 \FV@InFile=\read3
-\FV@TabBox=\box65
-\c@FancyVerbLine=\count318
-\FV@StepNumber=\count319
+\FV@TabBox=\box66
+\c@FancyVerbLine=\count317
+\FV@StepNumber=\count318
 \FV@OutFile=\write4
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/alltt.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/alltt.sty
 Package: alltt 2021/01/29 v2.0g defines alltt environment
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/eurosym/eurosym.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/eurosym/eurosym.sty
 Package: eurosym 1998/08/06 v1.1 European currency symbol ``Euro''
-\@eurobox=\box66
+\@eurobox=\box67
 )
 (../boilerplate/netrexxformat.tex
-(/usr/local/texlive/2022/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2020/03/24 1.8d listings language file
+(/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/listings/lstlang2.sty
-File: lstlang2.sty 2020/03/24 1.8d listings language file
+(/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang2.sty
+File: lstlang2.sty 2023/02/27 1.9 listings language file
 ))
 (../boilerplate/rxasformat.tex) (../boilerplate/rail.sty
 Package: ../boilerplate/rail 1998/05/19
-\railunit=\skip71
-\railextra=\skip72
-\railboxheight=\skip73
-\railboxskip=\skip74
-\railboxleft=\skip75
-\railboxright=\skip76
-\railovalspace=\skip77
-\railframespace=\skip78
-\railtextleft=\skip79
-\railtextright=\skip80
-\railtextup=\skip81
-\railjoinsize=\skip82
-\railjoinadjust=\skip83
-\railnamesep=\skip84
-\rail@extra=\count320
-\rail@boxht=\count321
-\rail@boxsp=\count322
-\rail@boxlf=\count323
-\rail@boxrt=\count324
-\rail@boxhht=\count325
-\rail@ovalsp=\count326
-\rail@framesp=\count327
-\rail@textlf=\count328
-\rail@textrt=\count329
-\rail@textup=\count330
-\rail@joinsz=\count331
-\rail@joinhsz=\count332
-\rail@joinadj=\count333
+\railunit=\skip72
+\railextra=\skip73
+\railboxheight=\skip74
+\railboxskip=\skip75
+\railboxleft=\skip76
+\railboxright=\skip77
+\railovalspace=\skip78
+\railframespace=\skip79
+\railtextleft=\skip80
+\railtextright=\skip81
+\railtextup=\skip82
+\railjoinsize=\skip83
+\railjoinadjust=\skip84
+\railnamesep=\skip85
+\rail@extra=\count319
+\rail@boxht=\count320
+\rail@boxsp=\count321
+\rail@boxlf=\count322
+\rail@boxrt=\count323
+\rail@boxhht=\count324
+\rail@ovalsp=\count325
+\rail@framesp=\count326
+\rail@textlf=\count327
+\rail@textrt=\count328
+\rail@textup=\count329
+\rail@joinsz=\count330
+\rail@joinhsz=\count331
+\rail@joinadj=\count332
 \rail@reserved=\toks29
-\rail@nr=\count334
-\rail@x=\count335
-\rail@y=\count336
-\rail@ex=\count337
-\rail@sx=\count338
-\rail@rx=\count339
-\rail@tmpa=\count340
-\rail@tmpb=\count341
-\rail@tmpc=\count342
-\rail@box=\box67
-\rail@jx=\count343
-\rail@jy=\count344
-\rail@gx=\count345
-\rail@gy=\count346
-\rail@gex=\count347
-\rail@grx=\count348
-\rail@sy=\count349
-\rail@mx=\count350
+\rail@nr=\count333
+\rail@x=\count334
+\rail@y=\count335
+\rail@ex=\count336
+\rail@sx=\count337
+\rail@rx=\count338
+\rail@tmpa=\count339
+\rail@tmpb=\count340
+\rail@tmpc=\count341
+\rail@box=\box68
+\rail@jx=\count342
+\rail@jy=\count343
+\rail@gx=\count344
+\rail@gy=\count345
+\rail@gex=\count346
+\rail@grx=\count347
+\rail@sy=\count348
+\rail@mx=\count349
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pst-barcode/pst-barcode.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pstricks/pstricks.sty
-Package: pstricks 2021/08/23 v0.71 LaTeX wrapper for `PSTricks' (RN,HV)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pst-barcode/pst-barcode.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pstricks/pstricks.sty
+Package: pstricks 2022/19/23 v0.72 LaTeX wrapper for `PSTricks' (RN,HV)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xkeyval/pst-xkey.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xkeyval/pst-xkey.tex
 File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xkeyval/xkvutils.tex
 \XKV@toks=\toks30
 \XKV@tempa@toks=\toks31
 )
-\XKV@depth=\count351
+\XKV@depth=\count350
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/pstricks.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/pst-fp.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/pstricks.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/pst-fp.tex
 `pst-fp' v0.06, 2020/11/20 (hv)
-\pstFP@xs=\count352
-\pstFP@xia=\count353
-\pstFP@xib=\count354
-\pstFP@xfa=\count355
-\pstFP@xfb=\count356
-\pstFP@rega=\count357
-\pstFP@regb=\count358
-\pstFP@regs=\count359
-\pstFP@times=\count360
+\pstFP@xs=\count351
+\pstFP@xia=\count352
+\pstFP@xib=\count353
+\pstFP@xfa=\count354
+\pstFP@xfb=\count355
+\pstFP@rega=\count356
+\pstFP@regb=\count357
+\pstFP@regs=\count358
+\pstFP@times=\count359
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
 x
 \pgfutil@everybye=\toks32
-\pgfutil@tempdima=\dimen273
-\pgfutil@tempdimb=\dimen274
-
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-li
-sts.tex))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfutil@tempdima=\dimen275
+\pgfutil@tempdimb=\dimen276
+)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box69
+) (/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks33
 \pgfkeys@temptoks=\toks34
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.c
-ode.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfil
+tered.code.tex
 \pgfkeys@tmptoks=\toks35
-))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
-Loading pgffor.code.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex
-\pgf@x=\dimen275
-\pgf@xa=\dimen276
-\pgf@xb=\dimen277
-\pgf@xc=\dimen278
-\pgf@y=\dimen279
-\pgf@ya=\dimen280
-\pgf@yb=\dimen281
-\pgf@yc=\dimen282
-\c@pgf@counta=\count361
-\c@pgf@countb=\count362
-\c@pgf@countc=\count363
-\c@pgf@countd=\count364
-\pgfutil@tempcnta=\count365
-\pgfutil@tempcntb=\count366
+)))
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex
+\pgf@x=\dimen277
+\pgf@xa=\dimen278
+\pgf@xb=\dimen279
+\pgf@xc=\dimen280
+\pgf@y=\dimen281
+\pgf@ya=\dimen282
+\pgf@yb=\dimen283
+\pgf@yc=\dimen284
+\c@pgf@counta=\count360
+\c@pgf@countb=\count361
+\c@pgf@countc=\count362
+\c@pgf@countd=\count363
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen283
-\pgfmath@count=\count367
-\pgfmath@box=\box68
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen285
+\pgfmath@count=\count364
+\pgfmath@box=\box70
 \pgfmath@toks=\toks36
 \pgfmath@stack@operand=\toks37
 \pgfmath@stack@operation=\toks38
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.
-tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.
+tex)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic
 .code.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigo
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigo
 nometric.code.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rando
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rando
 m.code.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.compa
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.compa
 rison.code.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.
 code.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round
 .code.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.
 code.tex)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
-erarithmetics.code.tex)))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count368
-))
-\pgffor@iter=\dimen284
-\pgffor@skip=\dimen285
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
+erarithmetics.code.tex)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count365
+)))
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
+\pgffor@iter=\dimen286
+\pgffor@skip=\dimen287
 \pgffor@stack=\toks39
 \pgffor@toks=\toks40
-)
-\psLoopIndex=\count369
-
-`PSTricks' v3.13  <2022/01/09> (tvz,hv)
-\pst@dima=\dimen286
-\pst@dimb=\dimen287
-\pst@dimc=\dimen288
-\pst@dimd=\dimen289
-\pst@dimg=\dimen290
-\pst@dimh=\dimen291
-\pst@dimm=\dimen292
-\pst@dimn=\dimen293
-\pst@dimo=\dimen294
-\pst@dimp=\dimen295
-\pst@hbox=\box69
-\pst@ibox=\box70
-\pst@boxg=\box71
-\pst@cnta=\count370
-\pst@cntb=\count371
-\pst@cntc=\count372
-\pst@cntd=\count373
-\pst@cntg=\count374
-\pst@cnth=\count375
-\pst@cntm=\count376
-\pst@cntn=\count377
-\pst@cnto=\count378
-\pst@cntp=\count379
-\@zero=\count380
+))
+\psLoopIndex=\count366
+`PSTricks' v3.18  <2022/11/28> (tvz,hv)
+\pst@dima=\dimen288
+\pst@dimb=\dimen289
+\pst@dimc=\dimen290
+\pst@dimd=\dimen291
+\pst@dimg=\dimen292
+\pst@dimh=\dimen293
+\pst@dimm=\dimen294
+\pst@dimn=\dimen295
+\pst@dimo=\dimen296
+\pst@dimp=\dimen297
+\pst@hbox=\box71
+\pst@ibox=\box72
+\pst@boxg=\box73
+\pst@cnta=\count367
+\pst@cntb=\count368
+\pst@cntc=\count369
+\pst@cntd=\count370
+\pst@cntg=\count371
+\pst@cnth=\count372
+\pst@cntm=\count373
+\pst@cntn=\count374
+\pst@cnto=\count375
+\pst@cntp=\count376
+\@zero=\count377
 \pst@toks=\toks41
 --- We are running latex or xelatex ---
-(/usr/local/texlive/2022/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/pstricks-color.tex)
-\psunit=\dimen296
-\psxunit=\dimen297
-\psyunit=\dimen298
-\pst@C@@rType=\count381
-\pslinewidth=\dimen299
-\psk@startLW=\dimen300
-\psk@endLW=\dimen301
+(/usr/local/texlive/2023/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg))
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/pstricks-color.tex)
+\psunit=\dimen298
+\psxunit=\dimen299
+\psyunit=\dimen300
+\pst@C@@rType=\count378
+\pslinewidth=\dimen301
+\psk@startLW=\dimen302
+\psk@endLW=\dimen303
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/pstricks-arrows.tex
-\pshooklength=\dimen302
-\pshookwidth=\dimen303
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/pstricks-arrows.tex
+\pshooklength=\dimen304
+\pshookwidth=\dimen305
 )
 \pst@customdefs=\toks42
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/pstricks-dots.tex)
-\pslinearc=\dimen304
-\pst@symbolStep=\dimen305
-\pst@symbolWidth=\dimen306
-\pst@symbolLinewidth=\dimen307
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/pstricks-dots.tex)
+\pslinearc=\dimen306
+\pst@symbolStep=\dimen307
+\pst@symbolWidth=\dimen308
+\pst@symbolLinewidth=\dimen309
 \everypsbox=\toks43
-\psframesep=\dimen308
-\pslabelsep=\dimen309
-\sh@wgridXunit=\dimen310
-\sh@wgridYunit=\dimen311
-\pst@shift=\dimen312
-\ps@imagectr=\count382
+\psframesep=\dimen310
+\pslabelsep=\dimen311
+\sh@wgridXunit=\dimen312
+\sh@wgridYunit=\dimen313
+\pst@shift=\dimen314
+\ps@imagectr=\count379
 
-(/usr/local/texlive/2022/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg
+(/usr/local/texlive/2023/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg
 Using PSTricks configuration for LaTeX+dvipdfmx
 )))
-File: pstricks.tex 2022/01/09 v3.13 `PSTricks' (tvz,hv)
- (/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/pst-fp.tex
+File: pstricks.tex 2022/11/28 v3.18 `PSTricks' (tvz,hv)
+ (/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/pst-fp.tex
 `pst-fp' v0.06, 2020/11/20 (hv))
 File: pst-fp.tex 2020/11/20 v0.06 `PST-fp' (hv)
 
 >>> Loading XeTeX special macros
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks/pstricks-xetex.def))
-Package: pst-barcode 2016/04/22 package wrapper for pst-barcode.tex (hv)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks/pstricks-xetex.def))
+Package: pst-barcode 2022/08/23 package wrapper for pst-barcode.tex (hv)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-barcode/pst-barcode.tex
-`PST-barcode' v0.18, 2017/08/22 (tb,hv)
-(/usr/local/texlive/2022/texmf-dist/tex/latex/marginnote/marginnote.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-barcode/pst-barcode.tex
+`PST-barcode' v0.19, 2022/08/21 (tb,hv)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/marginnote/marginnote.sty
 Package: marginnote 2018/08/09 v1.4b non floating margin notes for LaTeX
-\c@mn@abspage=\count383
+\c@mn@abspage=\count380
 )
-\QR@box=\box72
+\QR@box=\box74
 )
-File: pst-barcode.tex 2017/08/22 v0.18 `PST-barcode' (hv)
+File: pst-barcode.tex 2022/08/21 v0.19 `PST-barcode' (hv)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pstricks-add/pstricks-add.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pst-plot/pst-plot.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pstricks-add/pstricks-add.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pst-plot/pst-plot.sty
 Package: pst-plot 2011/06/05 v1.00 LaTeX wrapper for `pst-plot' (HV)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/xkeyval/pst-xkey.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/xkeyval/pst-xkey.sty
 Package: pst-xkey 2005/11/25 v1.6 package wrapper for pst-xkey.tex (HA)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/multido/multido.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/multido/multido.sty
 Package: multido 2004/05/17 package wrapper for PSTricks `multido.tex', (HV/RN)
 
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/multido/multido.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/multido/multido.tex
  v1.42, 2010/05/14 <tvz>
-\multido@count=\count384
-\multidocount=\count385
+\multido@count=\count381
+\multidocount=\count382
 \multido@stuff=\toks44
 )
 File: multido.tex 2010/05/14 v1.42 `multido' (tvz,hv)
 )
 Package: pst-plot 2021/09/23 package wrapper for pst-plot.tex (hv)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-plot/pst-plot.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-tools/pst-tools.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-plot/pst-plot.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-tools/pst-tools.tex
 `PST-tools' v0.12, 2021/09/23 (hv)
-\randomi=\count386
-\ranval=\count387
+\randomi=\count383
+\ranval=\count384
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks-add/pstricks-add.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-node/pst-node.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks-add/pstricks-add.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-node/pst-node.tex
  v1.43, 2022/01/31
-\psrow=\count388
-\pscol=\count389
-\psmatrixcnt=\count390
-\psrowsep=\skip85
-\pscolsep=\skip86
-\pst@args=\count391
-\num@pts=\count392
-\pst@argcnt=\count393
+\psrow=\count385
+\pscol=\count386
+\psmatrixcnt=\count387
+\psrowsep=\skip86
+\pscolsep=\skip87
+\pst@args=\count388
+\num@pts=\count389
+\pst@argcnt=\count390
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-arrow/pst-arrow.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-arrow/pst-arrow.tex
 `pst-arrow' v0.05, 2021/11/16 (dr,hv))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-3d/pst-3d.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-3d/pst-3d.tex
 `PST-3d' v1.11, 2010/02/14 (tvz))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-math/pst-math.tex
-`pst-math' v0.64 , (CJ,hv)) `pstricks-add' v3.92, 2021/12/25 (dr,hv)
-\psparallelogramsep=\dimen313
-\pst@cntC=\count394
-\pst@stepcount=\count395
-\chart@ColorIndex=\dimen314
-\chart@ColorStep=\dimen315
-\pst@chartHeight=\dimen316
-\pst@chartStackDepth=\dimen317
-\pst@chartStackWidth=\dimen318
-\chart@Toggle=\count396
-\psVectorCtr=\count397
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-math/pst-math.tex
+`pst-math' v0.66 , (CJ,hv)) `pstricks-add' v3.93, 2022/11/21 (dr,hv)
+\psparallelogramsep=\dimen315
+\pst@cntC=\count391
+\pst@stepcount=\count392
+\chart@ColorIndex=\dimen316
+\chart@ColorStep=\dimen317
+\pst@chartHeight=\dimen318
+\pst@chartStackDepth=\dimen319
+\pst@chartStackWidth=\dimen320
+\chart@Toggle=\count393
+\psVectorCtr=\count394
 )
- v1.93, 2021/09/23 (tvz,hv)
-\pstRadUnit=\dimen319
-\pstRadUnitInv=\dimen320
-\pst@linecnt=\count398
+ v1.94, 2022/11/21 (tvz,hv)
+\pstRadUnit=\dimen321
+\pstRadUnitInv=\dimen322
+\pst@linecnt=\count395
 \RCD@file=\read4
-\psxlabelsep=\dimen321
-\psylabelsep=\dimen322
-\psk@subticksize=\dimen323
-\pst@xticksizeA=\dimen324
-\pst@xticksizeB=\dimen325
-\pst@xticksizeC=\dimen326
-\pst@yticksizeA=\dimen327
-\pst@yticksizeB=\dimen328
-\pst@yticksizeC=\dimen329
-\@digitcounter=\count399
-\psk@llx=\dimen330
-\psk@lly=\dimen331
-\psk@urx=\dimen332
-\psk@ury=\dimen333
-\pst@xunit=\dimen334
-\pst@yunit=\dimen335
+\psxlabelsep=\dimen323
+\psylabelsep=\dimen324
+\psk@subticksize=\dimen325
+\pst@xticksizeA=\dimen326
+\pst@xticksizeB=\dimen327
+\pst@xticksizeC=\dimen328
+\pst@yticksizeA=\dimen329
+\pst@yticksizeB=\dimen330
+\pst@yticksizeC=\dimen331
+\@digitcounter=\count396
+\psk@llx=\dimen332
+\psk@lly=\dimen333
+\psk@urx=\dimen334
+\psk@ury=\dimen335
+\pst@xunit=\dimen336
+\pst@yunit=\dimen337
 )
-File: pst-plot.tex 2021/09/23 1.93 `pst-plot' (tvz,hv)
+File: pst-plot.tex 2022/11/21 1.94 `pst-plot' (tvz,hv)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pst-node/pst-node.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pst-node/pst-node.sty
 Package: pst-node 2012/09/18 v1.01 LaTeX wrapper for `pst-node' (HV)
 Package: pst-node 2010/04/22 package wrapper for pst-node.tex
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-node/pst-node.tex)
-File: pst-node.tex 2021/09/23 1.93 `pst-node' (tvz,hv)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-node/pst-node.tex)
+File: pst-node.tex 2022/11/21 1.94 `pst-node' (tvz,hv)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pst-3d/pst-3d.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pst-3d/pst-3d.sty
 Package: pst-3d 2009/07/28 package wrapper for pst-3d.tex (hv)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-3d/pst-3d.tex)
-File: pst-3d.tex 2021/09/23 v1.93 `PST-3d' (hv)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-3d/pst-3d.tex)
+File: pst-3d.tex 2022/11/21 v1.94 `PST-3d' (hv)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pst-math/pst-math.sty
-Package: pst-math 2018/12/16 v 0.65 package wrapper for PSTricks pst-math.tex
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pst-math/pst-math.sty
+Package: pst-math 2022/10/17 v 0.66 package wrapper for PSTricks pst-math.tex
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pst-calculate/pst-calculate.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pst-calculate/pst-calculate.sty
 Package: pst-calculate 2019/01/24 v. 0.02(Herbert Voss) Support for caculations
  with floating point numbers.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/siunitx/siunitx.sty
-Package: siunitx 2022-02-15 v3.0.49 A comprehensive (SI) units package
-\l__siunitx_angle_tmp_dim=\dimen336
-\l__siunitx_angle_marker_box=\box73
-\l__siunitx_angle_unit_box=\box74
-\l__siunitx_compound_count_int=\count400
+(/usr/local/texlive/2023/texmf-dist/tex/latex/siunitx/siunitx.sty
+Package: siunitx 2023-03-04 v3.2.2 A comprehensive (SI) units package
+\l__siunitx_angle_tmp_dim=\dimen338
+\l__siunitx_angle_marker_box=\box75
+\l__siunitx_angle_unit_box=\box76
+\l__siunitx_compound_count_int=\count397
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/translations/translations.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/translations/translations.sty
 Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages
  (CN)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count401
+\etb@tempcnta=\count398
 ))
-\l__siunitx_number_exponent_fixed_int=\count402
-\l__siunitx_number_min_decimal_int=\count403
-\l__siunitx_number_min_integer_int=\count404
-\l__siunitx_number_round_precision_int=\count405
-\l__siunitx_number_group_minimum_int=\count406
+\l__siunitx_number_exponent_fixed_int=\count399
+\l__siunitx_number_min_decimal_int=\count400
+\l__siunitx_number_min_integer_int=\count401
+\l__siunitx_number_round_precision_int=\count402
+\l__siunitx_number_lower_threshold_int=\count403
+\l__siunitx_number_upper_threshold_int=\count404
+\l__siunitx_number_group_first_int=\count405
+\l__siunitx_number_group_size_int=\count406
+\l__siunitx_number_group_minimum_int=\count407
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks45
-\ex@=\dimen337
+\ex@=\dimen339
 ))
-\l__siunitx_table_tmp_box=\box75
-\l__siunitx_table_tmp_dim=\dimen338
-\l__siunitx_table_column_width_dim=\dimen339
-\l__siunitx_table_integer_box=\box76
-\l__siunitx_table_decimal_box=\box77
-\l__siunitx_table_before_box=\box78
-\l__siunitx_table_after_box=\box79
-\l__siunitx_table_before_dim=\dimen340
-\l__siunitx_table_carry_dim=\dimen341
-\l__siunitx_unit_tmp_int=\count407
-\l__siunitx_unit_position_int=\count408
-\l__siunitx_unit_total_int=\count409
-
-(/usr/local/texlive/2022/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
-Package: l3keys2e 2022-01-12 LaTeX2e option processing using LaTeX3 keys
-))) (/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/ifluatex.sty
+\l__siunitx_table_tmp_box=\box77
+\l__siunitx_table_tmp_dim=\dimen340
+\l__siunitx_table_column_width_dim=\dimen341
+\l__siunitx_table_integer_box=\box78
+\l__siunitx_table_decimal_box=\box79
+\l__siunitx_table_uncert_box=\box80
+\l__siunitx_table_before_box=\box81
+\l__siunitx_table_after_box=\box82
+\l__siunitx_table_before_dim=\dimen342
+\l__siunitx_table_carry_dim=\dimen343
+\l__siunitx_unit_tmp_int=\count408
+\l__siunitx_unit_position_int=\count409
+\l__siunitx_unit_total_int=\count410
+))
+(/usr/local/texlive/2023/texmf-dist/tex/generic/iftex/ifluatex.sty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xstring/xstring.sty
-(/usr/local/texlive/2022/texmf-dist/tex/generic/xstring/xstring.tex
-\integerpart=\count410
-\decimalpart=\count411
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xstring/xstring.tex
+\integerpart=\count411
+\decimalpart=\count412
 )
-Package: xstring 2021/07/21 v1.84 String manipulations (CT)
+Package: xstring 2023/01/14 v1.85 String manipulations (CT)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pst-math/pst-math.tex)
-File: pst-math.tex 2021/09/23 v1.93 `PST-math' (hv)
-\c@Rand@No=\count412
-\c@Random@Left=\count413
-\c@Random@Right=\count414
-\c@Random@No@max=\count415
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pst-math/pst-math.tex)
+File: pst-math.tex 2022/11/21 v1.94 `PST-math' (hv)
+\c@Rand@No=\count413
+\c@Random@Left=\count414
+\c@Random@Right=\count415
+\c@Random@No@max=\count416
 )
 Package: pstricks-add 2021/09/10 v. 0.17 package wrapper for pstricks-add.tex (
 hv)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pstricks-add/pstricks-add.tex)
-File: pstricks-add.tex 2021/09/23 v1.93 `PSTricks-add' (hv)
-) (/usr/local/texlive/2022/texmf-dist/tex/latex/bashful/bashful.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pstricks-add/pstricks-add.tex)
+File: pstricks-add.tex 2022/11/21 v1.94 `PSTricks-add' (hv)
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/bashful/bashful.sty
 Package: bashful 2012/03/08{} bashful V 0.93{} by Yossi Gil{} yogi@cs.technion.
 ac.il: Write and execute a bash script within LaTeX, with, or without displayin
 g the script and/or its output. 
 Package bashful Info: This is bashful, bashful V 0.93{} by Yossi Gil{} yogi@cs.
 technion.ac.il on input line 33.
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/catchfile/catchfile.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/catchfile/catchfile.sty
 Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
 )
 \writer@BL=\write5
 \reader@BL=\read5
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/metalogo/metalogo.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/metalogo/metalogo.sty
 Package: metalogo 2010/05/29 v0.12 Extended TeX logo macros
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
-\Gin@req@height=\dimen342
-\Gin@req@width=\dimen343
+\Gin@req@height=\dimen344
+\Gin@req@width=\dimen345
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/iftex/ifxetex.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/iftex/ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
 )
 \xl@everylogo=\toks46
@@ -1023,77 +1039,78 @@ LaTeX Info: Redefining \TeX on input line 193.
 LaTeX Info: Redefining \LaTeX on input line 202.
 LaTeX Info: Redefining \LaTeXe on input line 219.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/grffile/grffile.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/grffile/grffile.sty
 Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
 y)
 Package grffile Info: This package is an empty stub for compatibility on input 
 line 40.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pdfpages/pdfpages.sty
-Package: pdfpages 2022/01/29 v0.5u Insert pages of external PDF documents (AM)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+Package: pdfpages 2022/12/19 v0.5x Insert pages of external PDF documents (AM)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/tools/calc.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count416
-\calc@Bcount=\count417
-\calc@Adimen=\dimen344
-\calc@Bdimen=\dimen345
-\calc@Askip=\skip87
-\calc@Bskip=\skip88
+\calc@Acount=\count417
+\calc@Bcount=\count418
+\calc@Adimen=\dimen346
+\calc@Bdimen=\dimen347
+\calc@Askip=\skip88
+\calc@Bskip=\skip89
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count418
-\calc@Cskip=\skip89
+\calc@Ccount=\count419
+\calc@Cskip=\skip90
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/eso-pic/eso-pic.sty
 Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
-\ESO@tempdima=\dimen346
-\ESO@tempdimb=\dimen347
+\ESO@tempdima=\dimen348
+\ESO@tempdimb=\dimen349
 )
-\AM@pagewidth=\dimen348
-\AM@pageheight=\dimen349
-\AM@fboxrule=\dimen350
+\AM@pagewidth=\dimen350
+\AM@pageheight=\dimen351
+\AM@fboxrule=\dimen352
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pdfpages/ppxetex.def
-File: ppxetex.def 2022/01/29 v0.5u Pdfpages driver for XeTeX (AM)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pdfpages/ppxetex.def
+File: ppxetex.def 2022/12/19 v0.5x Pdfpages driver for XeTeX (AM)
 )
-\pdfpages@includegraphics@status=\count419
-\AM@pagebox=\box80
+\pdfpages@includegraphics@status=\count420
+\AM@pagebox=\box83
 \AM@global@opts=\toks48
-\AM@pagecnt=\count420
+\AM@pagecnt=\count421
 \AM@toc@title=\toks49
-\c@AM@survey=\count421
-\AM@templatesizebox=\box81
+\AM@lof@heading=\toks50
+\c@AM@survey=\count422
+\AM@templatesizebox=\box84
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/svg/svg.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/svg/svg.sty
 Package: svg 2020/11/26 v2.02k (include SVG pictures)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/koma-script/scrbase.sty
-Package: scrbase 2021/11/13 v3.35 KOMA-Script package (KOMA-Script-independent 
+(/usr/local/texlive/2023/texmf-dist/tex/latex/koma-script/scrbase.sty
+Package: scrbase 2022/10/12 v3.38 KOMA-Script package (KOMA-Script-independent 
 basics and keyval usage)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/koma-script/scrlfile.sty
-Package: scrlfile 2021/11/13 v3.35 KOMA-Script package (file load hooks)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/koma-script/scrlfile.sty
+Package: scrlfile 2022/10/12 v3.38 KOMA-Script package (file load hooks)
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
-Package: scrlfile-hook 2021/11/13 v3.35 KOMA-Script package (using LaTeX hooks)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
+Package: scrlfile-hook 2022/10/12 v3.38 KOMA-Script package (using LaTeX hooks)
 
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/koma-script/scrlogo.sty
-Package: scrlogo 2021/11/13 v3.35 KOMA-Script package (logo)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/koma-script/scrlogo.sty
+Package: scrlogo 2022/10/12 v3.38 KOMA-Script package (logo)
 )))
 Applying: [2021/05/01] Usage of raw or classic option list on input line 252.
 Already applied: [0000/00/00] Usage of raw or classic option list on input line
  368.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/tools/shellesc.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/tools/shellesc.sty
 Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
 Package shellesc Info: Unrestricted shell escape enabled on input line 75.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/ifplatform/ifplatform.sty
 Package: ifplatform 2017/10/13 v0.4a Testing for the operating system
 runsystem(uname -s > "standard.w18")...executed.
 
@@ -1102,37 +1119,25 @@ runsystem(uname -s > "standard.w18")...executed.
 runsystem(rm -- "standard.w18")...executed.
 
 )
-\c@svg@param@lastpage=\count422
-\svg@box=\box82
-\c@svg@param@currpage=\count423
+\c@svg@param@lastpage=\count423
+\svg@box=\box85
+\c@svg@param@currpage=\count424
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/transparent/transparent.sty
-Package: transparent 2019/11/29 v1.4 Transparency via pdfTeX's color stack (HO)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/transparent/transparent.sty
+Package: transparent 2022-10-27 v1.5 Transparency with color stacks
 
+(/usr/local/texlive/2023/texmf-dist/tex/latex/transparent/transparent-nometadat
+a.sty
+Package: transparent-nometadata 2022-10-27 v1.5 Transparency via pdfTeX's color
+ stack (HO)
 
 
 Package transparent Warning: Loading aborted, because pdfTeX is not running in 
 PDF mode.
 
-) (/usr/local/texlive/2022/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
-x
-\pgfutil@everybye=\toks50
-\pgfutil@tempdima=\dimen351
-\pgfutil@tempdimb=\dimen352
-
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-li
-sts.tex))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box83
-) (/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/pgf.revision.tex)
-Package: pgfrcs 2021/05/15 v3.1.9a (3.1.9a)
-))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
-Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)
+)) (/usr/local/texlive/2023/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \pgf@x=\dimen353
 \pgf@y=\dimen354
 \pgf@xa=\dimen355
@@ -1145,132 +1150,129 @@ Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@yd=\dimen362
 \w@pgf@writea=\write6
 \r@pgf@reada=\read6
-\c@pgf@counta=\count424
-\c@pgf@countb=\count425
-\c@pgf@countc=\count426
-\c@pgf@countd=\count427
+\c@pgf@counta=\count425
+\c@pgf@countb=\count426
+\c@pgf@countc=\count427
+\c@pgf@countd=\count428
 \t@pgf@toka=\toks51
 \t@pgf@tokb=\toks52
 \t@pgf@tokc=\toks53
-\pgf@sys@id@count=\count428
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
-File: pgf.cfg 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@sys@id@count=\count429
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
 Driver file for pgf: pgfsys-xetex.def
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.de
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.de
 f
-File: pgfsys-xetex.def 2021/05/15 v3.1.9a (3.1.9a)
+File: pgfsys-xetex.def 2023-01-15 v3.1.10 (3.1.10)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx
 .def
-File: pgfsys-dvipdfmx.def 2021/05/15 v3.1.9a (3.1.9a)
+File: pgfsys-dvipdfmx.def 2023-01-15 v3.1.10 (3.1.10)
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-p
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-p
 df.def
-File: pgfsys-common-pdf.def 2021/05/15 v3.1.9a (3.1.9a)
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 )
-\pgfsys@objnum=\count429
+\pgfsys@objnum=\count430
 )))
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.
 code.tex
-File: pgfsyssoftpath.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfsyssoftpath@smallbuffer@items=\count430
-\pgfsyssoftpath@bigbuffer@items=\count431
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count431
+\pgfsyssoftpath@bigbuffer@items=\count432
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.
+(/usr/local/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.
 code.tex
-File: pgfsysprotocol.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-)) (/usr/local/texlive/2022/texmf-dist/tex/latex/float/float.sty
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (/usr/local/texlive/2023/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count432
+\c@float@type=\count433
 \float@exts=\toks54
-\float@box=\box84
+\float@box=\box86
 \@float@everytoks=\toks55
-\@floatcapt=\box85
+\@floatcapt=\box87
 )
 \@indexfile=\write7
 \openout7 = `standard.idx'.
 
 
 Writing index file standard.idx
-(/usr/local/texlive/2022/texmf-dist/tex/latex/enumitem/enumitem.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\labelindent=\skip90
+\labelindent=\skip91
 \enit@outerparindent=\dimen363
 \enit@toks=\toks56
-\enit@inbox=\box86
-\enit@count@id=\count433
-\enitdp@description=\count434
+\enit@inbox=\box88
+\enit@count@id=\count434
+\enitdp@description=\count435
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/underscore/underscore.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/underscore/underscore.sty
 Package: underscore 2006/09/13
 LaTeX Info: Redefining \_ on input line 42.
 )
-(/usr/local/texlive/2022/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2022/02/26 3.73 The Babel package
-\babel@savecnt=\count435
+(/usr/local/texlive/2023/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2023/02/13 3.86 The Babel package
+\babel@savecnt=\count436
 \U@D=\dimen364
 \l@unhyphenated=\language87
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/babel/xebabel.def
-(/usr/local/texlive/2022/texmf-dist/tex/generic/babel/txtbabel.def))
+(/usr/local/texlive/2023/texmf-dist/tex/generic/babel/xebabel.def)
 \bbl@readstream=\read7
-\bbl@dirlevel=\count436
-Package babel Info: You haven't specified a language. I'll use 'nil'
-(babel)             as the main language. Reported on input line 4305.
+\bbl@dirlevel=\count437
+Package babel Info: You haven't specified a language as a class or package
+(babel)             option. I'll load 'nil'. Reported on input line 4422.
 
-(/usr/local/texlive/2022/texmf-dist/tex/generic/babel/nil.ldf
-Language: nil 2022/02/26 3.73 Nil language
+(/usr/local/texlive/2023/texmf-dist/tex/generic/babel/nil.ldf
+Language: nil 2023/02/13 3.86 Nil language
 \l@nil=\language88
 ))
-(/usr/local/texlive/2022/texmf-dist/tex/latex/multirow/multirow.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip91
-\multirow@cntb=\count437
-\multirow@dima=\skip92
+\multirow@colwidth=\skip92
+\multirow@cntb=\count438
+\multirow@dima=\skip93
 \bigstrutjot=\dimen365
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/threeparttable/threeparttable.sty
 Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box87
-) (/usr/local/texlive/2022/texmf-dist/tex/luatex/barracuda/barracuda.sty
-Package: barracuda 2020/01/15 v0.0.10 a barcode typesetting package
-\barracudabox=\box88
+\@tempboxb=\box89
+) (/usr/local/texlive/2023/texmf-dist/tex/luatex/barracuda/barracuda.sty
+Package: barracuda 2022/06/23 v0.0.12 a barcode typesetting package
+\barracudabox=\box90
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen366
 \WF@size=\dimen367
-\c@WF@wrappedlines=\count438
-\WF@box=\box89
+\c@WF@wrappedlines=\count439
+\WF@box=\box91
 \WF@everypar=\toks57
 Package: wrapfig 2003/01/31  v 3.6
 )
-(/usr/local/texlive/2022/texmf-dist/tex/latex/tools/multicol.sty
-Package: multicol 2021/10/28 v1.9b multicolumn formatting (FMi)
-\c@tracingmulticols=\count439
-\mult@box=\box90
+(/usr/local/texlive/2023/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2021/11/30 v1.9d multicolumn formatting (FMi)
+\c@tracingmulticols=\count440
+\mult@box=\box92
 \multicol@leftmargin=\dimen368
-\c@unbalance=\count440
-\c@collectmore=\count441
-\doublecol@number=\count442
-\multicoltolerance=\count443
-\multicolpretolerance=\count444
+\c@unbalance=\count441
+\c@collectmore=\count442
+\doublecol@number=\count443
+\multicoltolerance=\count444
+\multicolpretolerance=\count445
 \full@width=\dimen369
 \page@free=\dimen370
 \premulticols=\dimen371
 \postmulticols=\dimen372
-\multicolsep=\skip93
-\multicolbaselineskip=\skip94
-\partial@page=\box91
-\last@line=\box92
+\multicolsep=\skip94
+\multicolbaselineskip=\skip95
+\partial@page=\box93
+\last@line=\box94
 \maxbalancingoverflow=\dimen373
-\mult@rightbox=\box93
-\mult@grightbox=\box94
-\mult@firstbox=\box95
-\mult@gfirstbox=\box96
-\@tempa=\box97
-\@tempa=\box98
+\mult@rightbox=\box95
+\mult@grightbox=\box96
+\mult@firstbox=\box97
+\mult@gfirstbox=\box98
 \@tempa=\box99
 \@tempa=\box100
 \@tempa=\box101
@@ -1305,18 +1307,20 @@ Package: multicol 2021/10/28 v1.9b multicolumn formatting (FMi)
 \@tempa=\box130
 \@tempa=\box131
 \@tempa=\box132
-\c@minrows=\count445
-\c@columnbadness=\count446
-\c@finalcolumnbadness=\count447
+\@tempa=\box133
+\@tempa=\box134
+\c@minrows=\count446
+\c@columnbadness=\count447
+\c@finalcolumnbadness=\count448
 \last@try=\dimen374
 \multicolovershoot=\dimen375
 \multicolundershoot=\dimen376
-\mult@nat@firstbox=\box133
-\colbreak@box=\box134
-\mc@col@check@num=\count448
+\mult@nat@firstbox=\box135
+\colbreak@box=\box136
+\mc@col@check@num=\count449
 )
-(/usr/local/texlive/2022/texmf-dist/tex/xelatex/ucharclasses/ucharclasses.sty
-Package: ucharclasses 2022/03/01 v2.5.0 Unicode block character classes for XeL
+(/usr/local/texlive/2023/texmf-dist/tex/xelatex/ucharclasses/ucharclasses.sty
+Package: ucharclasses 2022/10/20 v2.6.0 Unicode block character classes for XeL
 aTeX
 \BopomofoClass=\XeTeXcharclass1
 \BopomofoExtendedClass=\XeTeXcharclass2
@@ -1364,6 +1368,60 @@ LaTeX Warning: Label `configuration' multiply defined.
 
 LaTeX Warning: Label `variable-pool' multiply defined.
 
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `routine' multiply defined.
+
+
+LaTeX Warning: Label `instruction' multiply defined.
+
+
+LaTeX Warning: Label `trace' multiply defined.
+
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `address' multiply defined.
+
+
+LaTeX Warning: Label `arg' multiply defined.
+
+
+LaTeX Warning: Label `trace' multiply defined.
+
+
+LaTeX Warning: Label `stream' multiply defined.
+
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `exposed' multiply defined.
+
+
+LaTeX Warning: Label `insert' multiply defined.
+
+
+LaTeX Warning: Label `push' multiply defined.
+
+
+LaTeX Warning: Label `queue' multiply defined.
+
+
+LaTeX Warning: Label `call' multiply defined.
+
+
+LaTeX Warning: Label `guard' multiply defined.
+
 ))
 \openout1 = `standard.aux'.
 
@@ -1378,8 +1436,8 @@ LaTeX Font Info:    ... okay on input line 2.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 2.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
 .
- (/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmr.fd
-File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 2.
 LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 2.
@@ -1394,22 +1452,7 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 2.
 LaTeX Font Info:    ... okay on input line 2.
 Package hyperref Info: Link coloring OFF on input line 2.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
-
-(/usr/local/texlive/2022/texmf-dist/tex/latex/refcount/refcount.sty
-Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-)
-(/usr/local/texlive/2022/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
-ty
-Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-)
-\c@section@level=\count449
-)
-LaTeX Info: Redefining \ref on input line 2.
-LaTeX Info: Redefining \pageref on input line 2.
-LaTeX Info: Redefining \nameref on input line 2.
- (./standard.out) (./standard.out)
+(./standard.out) (./standard.out)
 \@outlinefile=\write8
 \openout8 = `standard.out'.
 
@@ -1484,22 +1527,26 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: longtable package is loaded.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/caption/ltcaption.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/pdflscape/pdflscape.sty
-Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/graphics/lscape.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.st
+y
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
+F (HO)
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
 
-)
+))
 (../boilerplate/template.tex
 
 Package fontspec Info: Font family 'TeXGyrePagella(0)' created for font 'TeX
@@ -1548,13 +1595,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 ]
-\rexx@copyrightBox=\box135
+\rexx@copyrightBox=\box137
 
 
 LaTeX Font Warning: Font shape `TU/LiberationSans(0)/m/sc' undefined
 (Font)              using `TU/LiberationSans(0)/m/n' instead on input line 8.
 
-\rexx@copyrightHeight=\skip95
+\rexx@copyrightHeight=\skip96
 (../boilerplate/bookmeta.tex
 \openout5 = `standard.sh'.
 
@@ -1590,11 +1637,11 @@ Package marginnote Info: Using workaround for absolute page number on input lin
 e 25.
 ) (./standard.toc [2
 
-])
+] [3])
 \tf@toc=\write9
 \openout9 = `standard.toc'.
 
- [3]
+ [4]
 \openout2 = `structure.aux'.
 
  (./structure.tex (./foreword.tex
@@ -1613,19 +1660,7 @@ sarily imply that all committee
 
 
 
-]
-
-Package marginnote Warning: Consecutive odd pages found.
-(marginnote)                Note, it is not recommended to use consecutive
-(marginnote)                odd pages in a double-ended document.
-(marginnote)                The pages of your document should always
-(marginnote)                be a sequence: odd-even-odd-even-...
-(marginnote)                Maybe you've forgotten a \cleardoublepage before
-(marginnote)                changing the page numbering on page 1.
-
-Package marginnote Info: Using workaround for absolute page number on input lin
-e 54.
-) (./introduction.tex [2]
+]) (./introduction.tex [2]
 Chapter 2.
 ) (./scope_purpose_and_application.tex [3
 
@@ -1839,8 +1874,8 @@ Overfull \hbox (17.30884pt too wide) in paragraph at lines 593--596
  []
 
 [25]
-Overfull \hbox (1.5pt too wide) in paragraph at lines 638--657
-\TU/LiberationSans(0)/m/n/12 OO! has external classes explicitly via the ::CLAS
+Overfull \hbox (1.4989pt too wide) in paragraph at lines 638--657
+\TU/LiberationSans(0)/m/n/12 OOI has external classes explicitly via the ::CLAS
 S abc EXTERNAL mechanism.
  []
 
@@ -2015,13 +2050,2582 @@ Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-[39]))
-Overfull \hbox (12.68665pt too wide) in paragraph at lines 1486--21
+[39]) (./syntax_constructs.tex
+Overfull \hbox (12.68665pt too wide) in paragraph at lines 1486--2
 \TU/LiberationSans(0)/m/n/12 return an indication that there is no suitable nam
 e to return. When API NextVariable
  []
 
-[40] (../boilerplate/acknowledgements.tex [41
+[40]
+Chapter 8.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (7.70532pt too wide) in paragraph at lines 49--51
+[]\TU/LiberationSans(0)/m/n/12 the operator ‘|’ specifies alternatives between 
+the preceding and the following
+ []
+
+
+Underfull \vbox (badness 1067) has occurred while \output is active []
+
+ [41
+
+]
+Overfull \hbox (3.11548pt too wide) in paragraph at lines 87--89
+\TU/LiberationSans(0)/m/n/12 The lexical level processes the source and provide
+s tokens for further recognition
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[42]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (6.96008pt too wide) in paragraph at lines 138--144
+\TU/LiberationSans(0)/m/n/12 syntax level, as keywords or VAR_-SYMBOL tokens, s
+ee nnn. The characters
+ []
+
+
+Overfull \hbox (12.09204pt too wide) in paragraph at lines 138--144
+\TU/LiberationSans(0)/m/n/12 shall be produced if Var_-symbo/ contains more tha
+n #Limit_-Name characters,
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (20.59009pt too wide) in paragraph at lines 155--159
+[]\TU/LiberationSans(0)/m/n/12 Embedded_-apostrophe records an occurrence of tw
+o consecutive apostrophes
+ []
+
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (9.70728pt too wide) in paragraph at lines 159--165
+\TU/LiberationSans(0)/m/n/12 Embedded_-apostrophe is replaced by a single quota
+tion mark or apostrophe,
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[43]
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (0.76392pt too wide) in paragraph at lines 189--193
+[]\TU/LiberationSans(0)/m/n/12 Operator supplies the source recognized as Opera
+tor (excluding characters
+ []
+
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (14.26392pt too wide) in paragraph at lines 204--206
+[]\TU/LiberationSans(0)/m/n/12 other_-blank_-characters (see nnn), other_-negat
+ors (see nnn) and other_-characters
+ []
+
+[44]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[45]
+Overfull \hbox (12.44421pt too wide) in paragraph at lines 330--352
+\TU/LiberationSans(0)/m/n/12 modifier properties visibility := ‘INHERITABLE’ | 
+‘PRIVATE’ | ‘PUBLIC’ | ‘INDIRECT’
+ []
+
+[46]
+Overfull \hbox (2.75415pt too wide) in paragraph at lines 415--419
+[]\TU/LiberationSans(0)/m/n/12 /* Third part is for single instructions. */ sin
+gle instruction:= assignment | message
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [47]
+Overfull \hbox (5.68921pt too wide) in paragraph at lines 470--485
+\TU/LiberationSans(0)/m/n/12 =‘TO’ term guard = ‘GUARD’ (‘ON’ | Msg25.22) [(‘WH
+EN’ | Msg25.21) expression]
+ []
+
+
+Overfull \hbox (20.24915pt too wide) in paragraph at lines 493--512
+\TU/LiberationSans(0)/m/n/12 NUMBER | [indicator] ‘(’ symbol ‘)’ indicator := ‘
++’ | ‘-’ | ‘s! procedure = ’PROCEDURE’
+ []
+
+
+Overfull \hbox (12.88672pt too wide) in paragraph at lines 493--512
+\TU/LiberationSans(0)/m/n/12 queue = ‘QUEUE’ [expression] raise = ‘RAISE’ condi
+tions (raise option | Msg25.24)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [48]
+Overfull \hbox (4.32617pt too wide) in paragraph at lines 532--539
+\TU/LiberationSans(0)/m/n/12 absolute positional:= NUMBER ‘=’ position pogition
+ := NUMBER | vrefp | Msg38.2
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [49]
+Overfull \hbox (7.13391pt too wide) in paragraph at lines 599--623
+\TU/LiberationSans(0)/m/n/12 SYMBOL occurring at the start of an assignment con
+tained in the do_-specification
+ []
+
+
+Overfull \hbox (2.76001pt too wide) in paragraph at lines 599--623
+\TU/LiberationSans(0)/m/n/12 of the do that contains both the do_-specification
+ and the do_-ending, as described
+ []
+
+
+Overfull \hbox (7.79797pt too wide) in paragraph at lines 599--623
+\TU/LiberationSans(0)/m/n/12 in nnn. If there is a VAR_-SYMBOL in a do_-ending 
+for which there is no assignment
+ []
+
+[50]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[51]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+) (./evaluation.tex
+Underfull \vbox (badness 1173) has occurred while \output is active []
+
+ [52]
+[53]
+Chapter 9.
+
+Overfull \hbox (13.57251pt too wide) in paragraph at lines 4--8
+\TU/LiberationSans(0)/m/n/12 The syntax section describes how expressions and t
+he components of expressions
+ []
+
+
+Overfull \hbox (1.11047pt too wide) in paragraph at lines 16--19
+[]\TU/LiberationSans(0)/m/n/12 datatype (Subject) == ‘NUM’ is equivalent to tes
+ting whether the subject matches
+ []
+
+[54
+
+] [55]
+Overfull \hbox (8.65063pt too wide) in paragraph at lines 150--158
+\TU/LiberationSans(0)/m/n/12 name. Also, when the name is a stem, Var_-Drop(Poo
+l,TailedName,‘1’) is executed
+ []
+
+[56]
+Overfull \hbox (12.65845pt too wide) in paragraph at lines 178--183
+\TU/LiberationSans(0)/m/n/12 specified name. Also, when the name is a stem, Var
+_-Expose(Pool, TailedName,‘1’)
+ []
+
+
+Overfull \hbox (3.80774pt too wide) in paragraph at lines 230--238
+\TU/LiberationSans(0)/m/n/12 NOVALUE condition is raised; see nnn and nnn for e
+xceptions to this. #Response
+ []
+
+[57] [58]
+LaTeX Font Info:    Font shape `TU/IBMPlexMono(0)/m/n' will be
+(Font)              scaled to size 9.84009pt on input line 332.
+ [59]
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (20.93188pt too wide) in paragraph at lines 411--414
+[]\TU/LiberationSans(0)/m/n/12 Config_-Length(Value) will be equal to Config_-L
+ength(Ihs)+Config_-Length(rhs). 
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.52563pt too wide) in paragraph at lines 416--419
+[]\TU/LiberationSans(0)/m/n/12 Config_-Compare(Config_-Subsir(Ihs,n)},Config_-S
+ubsitr(Value,n)) for values
+ []
+
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (54.44946pt too wide) in paragraph at lines 419--424
+[]\TU/LiberationSans(0)/m/n/12 Config_-Compare(Config_-Subsir(rhs,n),Config_-Su
+bstr(Value,Config_-Length(Ihs)+n))
+ []
+
+
+Overfull \hbox (18.55688pt too wide) in paragraph at lines 419--424
+\TU/LiberationSans(0)/m/n/12 Otherwise the value of the concatenation will have
+ the following characteristics: 
+ []
+
+Warning: \Huger is more than \Huge.
+
+Underfull \hbox (badness 1490) in paragraph at lines 424--427
+[]\TU/LiberationSans(0)/m/n/12 Config_-Length(Value) will be equal to Config_-L
+ength(Ihs)+1+Config_-
+ []
+
+[60]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.52563pt too wide) in paragraph at lines 429--432
+[]\TU/LiberationSans(0)/m/n/12 Config_-Compare(Config_-Subsir(Ihs,n)},Config_-S
+ubsitr(Value,n)) for values
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (71.46509pt too wide) in paragraph at lines 434--436
+[]\TU/LiberationSans(0)/m/n/12 Config_-Compare(Config_-Subsitr(rhs,n),Config_-S
+ubstr(Value,Config_-Length(Ins)+1+n))
+ []
+
+[61]
+Overfull \hbox (168.94873pt too wide) in paragraph at lines 504--504
+[]\TU/IBMPlexMono(0)/m/n/12 The value of #Test, in conjunction with the operato
+r in the comparison, determines the value of the[] 
+ []
+
+
+Overfull \hbox (198.469pt too wide) in paragraph at lines 504--504
+[]\TU/IBMPlexMono(0)/m/n/12 - #Test is ’E’ and the operator is one of ’=””, ’==
+””, ’>=’, <=”, ‘\>’, ’\<’, ’p>=’, ’<<=’, \>>’, or <<)[] 
+ []
+
+
+Overfull \hbox (180.75684pt too wide) in paragraph at lines 504--504
+[]\TU/IBMPlexMono(0)/m/n/12 - #Test is ’G’ and the operator is one of ’>’, ’>=”
+, ‘\<’, ‘\=’, ’<>’, ’><’, Nes”, ‘>>! ‘p>’, or <<”)[] 
+ []
+
+
+Overfull \hbox (180.75684pt too wide) in paragraph at lines 504--504
+[]\TU/IBMPlexMono(0)/m/n/12 - #Test is ’L’ and the operator is one of ’<’, <=”,
+ \>’, \=’, ’<>’, ’><’, \==’, ’<<’, *<<=’, or \>>’.[] 
+ []
+
+[62]
+Overfull \hbox (9.5393pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* The Operator will be applied to Numberl and Numb
+er2 under the numeric[] 
+ []
+
+
+Overfull \hbox (39.05957pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* The result is the result of the operation, or th
+e raising of a ’SYNTAX’ or[] 
+ []
+
+
+Overfull \hbox (27.25146pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* Variables with digit 1 in their names refer to t
+he first argument of the[] 
+ []
+
+
+Overfull \hbox (15.44336pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 operation. Variables with digit 2 refer to the seco
+nd argument. Variables[] 
+ []
+
+
+Overfull \hbox (21.34741pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* The operands are prepared first. (Page 130) Func
+tion Prepare does this,[] 
+ []
+
+[63]
+Overfull \hbox (3.63525pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* Comparison requires the result of subtraction ma
+de into a logical */[] 
+ []
+
+
+Overfull \hbox (9.5393pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* ”,...terms being operated upon have leading zero
+s removed (noting the[] 
+ []
+
+
+Overfull \hbox (39.05957pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 position of any decimal point, and leaving just one
+ zero if all the digits in[] 
+ []
+
+
+Overfull \hbox (27.25146pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 the number are zeros) and are then truncated to DIG
+ITS+1 significant digits[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [64]
+Overfull \hbox (15.44336pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 if verify (left (Mantissa,1),’+-’) = 0 then Mantiss
+a = substr(Mantissa,2)[] 
+ []
+
+
+Overfull \hbox (27.25146pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 following an ’E’ that indicates how the decimal poi
+nt will be shifted. Thus[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [65]
+Overfull \hbox (9.5393pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* The parts of the value are composed into a singl
+e string, Number3. */[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [66]
+Overfull \hbox (27.25146pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* Page 136 ”Engineering notation causes powers of 
+ten to be expressed as a[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [67]
+Overfull \hbox (44.96362pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* ”Numeric comparison is affected by subtracting t
+he two numbers (calculating[] 
+ []
+
+
+Overfull \hbox (21.34741pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* Page 135 ”The effect of NUMERIC FUZZ is to tempo
+rarily reduce the value[] 
+ []
+
+
+Overfull \hbox (27.25146pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 of NUMERIC DIGITS by the NUMERIC FUZZ value for eac
+h numeric comparison” */[] 
+ []
+
+
+Overfull \hbox (21.34741pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* Page 130 ”If either number is zero then the othe
+r number ... is used as[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [68]
+Overfull \hbox (15.44336pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 so that right truncation/extension of mantissa does
+n’t alter exponent. */[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [69]
+Overfull \hbox (3.63525pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 taking into account any extra (carry) digit on the 
+left after addition,[] 
+ []
+
+
+Overfull \hbox (39.05957pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* Page 130. ”values of 5 through 9 are rounded up,
+ values of 0 through 4 are[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [70]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [71]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [72]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [73]
+Overfull \hbox (3.63525pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 Exponent3 = Exponent3 + length(y) /* The loop may h
+ave been left early.[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [74]
+Overfull \hbox (15.44336pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 /* Split the value up so that PostOp can put it tog
+ether with rounding */[] 
+ []
+
+
+Overfull \hbox (9.5393pt too wide) in paragraph at lines 1189--1189
+[]\TU/IBMPlexMono(0)/m/n/12 Parse value Prepare(a,#Digits.#Level+L+1) with Sign
+3 Mantissa3 Exponent3[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [75]
+Overfull \hbox (9.55884pt too wide) in paragraph at lines 1209--1213
+\TU/LiberationSans(0)/m/n/12 The argument positions are the positions in the ex
+oression_-list where syntactically
+ []
+
+
+Overfull \hbox (53.7522pt too wide) in paragraph at lines 1217--1221
+[]\TU/LiberationSans(0)/m/n/12 From the left, if #ArgExists.#NewLevel.ArgNumber
+ is ‘1’ then #Arg.#NewLevel.ArgNumber
+ []
+
+
+Overfull \hbox (42.23657pt too wide) in paragraph at lines 1217--1221
+\TU/LiberationSans(0)/m/n/12 is set to the value of the corresponding expressio
+n. If #ArgExists.#NewLevel.ArgNumber
+ []
+
+
+Overfull \hbox (112.67017pt too wide) in paragraph at lines 1222--1225
+[]\TU/LiberationSans(0)/m/n/12 #ArgExists.#NewLevel.0 is set to the largest Arg
+Number for which #ArgExists.#NewLevel.ArgNumber
+ []
+
+[76]
+Overfull \hbox (0.26001pt too wide) in paragraph at lines 1229--1234
+\TU/LiberationSans(0)/m/n/12 The value of a LABEL, or of the taken_-constant in
+ the function or call_-instruction,
+ []
+
+[77]
+Overfull \hbox (27.25146pt too wide) in paragraph at lines 1393--1393
+[]\TU/IBMPlexMono(0)/m/n/12 if arg(3,’E’) then if arg(1)\==#Self then signal er
+ror /* syntax number? */[] 
+ []
+
+[78]
+Overfull \hbox (15.44336pt too wide) in paragraph at lines 1393--1393
+[]\TU/IBMPlexMono(0)/m/n/12 Mix = x~Inherited /* An array, ordered as the direc
+tive left-to-right. */[] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [79]
+Overfull \hbox (7.88586pt too wide) in paragraph at lines 1402--1404
+[]\TU/LiberationSans(0)/m/n/12 The argument How is ‘SUBROUTINE’ if the invocati
+on is from a call, “‘FUNCTION’
+ []
+
+) (./directives.tex [80]
+Chapter 10.
+
+Overfull \hbox (3.09094pt too wide) in paragraph at lines 33--38
+[]\TU/LiberationSans(0)/m/n/12 #Instance (Identifier, BNF primary) where: Ident
+ifier is an identifier in a production
+ []
+
+
+Overfull \hbox (4.42688pt too wide) in paragraph at lines 39--43
+[]\TU/LiberationSans(0)/m/n/12 #Evaluate (Identifier, BNF primary) where: Ident
+ifier is an identifier in a production
+ []
+
+
+Overfull \hbox (1.08704pt too wide) in paragraph at lines 44--48
+[]\TU/LiberationSans(0)/m/n/12 #Execute (Identifier, BNF primary) where: Identi
+fier is an identifier in a production
+ []
+
+
+Overfull \hbox (4.88306pt too wide) in paragraph at lines 44--48
+\TU/LiberationSans(0)/m/n/12 Perform the instructions identified by the BNF_-pr
+imary in the production identified
+ []
+
+[81
+
+]
+Overfull \hbox (31.35376pt too wide) in paragraph at lines 90--93
+[]\TU/LiberationSans(0)/m/n/12 variables. call Config ObjectNew #ReservedPool =
+ #Outcome #Pool = #ReservedPool
+ []
+
+
+Overfull \hbox (13.99829pt too wide) in paragraph at lines 102--104
+[]\TU/LiberationSans(0)/m/n/12 The third parameter of API_-Start is used to det
+ermine the initial active environment. 
+ []
+
+[82]
+Overfull \hbox (9.23468pt too wide) in paragraph at lines 117--119
+[]\TU/LiberationSans(0)/m/n/12 #A11Blanks<Index “#Al1Blanks” # “” > = ’ ’#Outco
+me /* “Real” blank concatenated
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [83]
+Overfull \hbox (30.77759pt too wide) in paragraph at lines 198--200
+[]\TU/LiberationSans(0)/m/n/12 #ErrorText.14 = #ErrorText.14.1= #ErrorText.14.2
+= #ErrorText.14.3= #ErrorText.14.4= 
+ []
+
+
+Overfull \hbox (30.77759pt too wide) in paragraph at lines 203--205
+[]\TU/LiberationSans(0)/m/n/12 #ErrorText.15.2= #ErrorText.15.3= #ErrorText.15.
+4= #ErrorText.16 = #ErrorText.16.1=
+ []
+
+
+Overfull \hbox (0.86133pt too wide) in paragraph at lines 240--242
+[]\TU/LiberationSans(0)/m/n/12 ‘END corresponding to DO on line ’, ‘must have a
+ symbol following that matches’,
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [84]
+Overfull \hbox (2.84656pt too wide) in paragraph at lines 263--266
+\TU/LiberationSans(0)/m/n/12 matching END’ ‘THEN requires a following instructi
+on’ ‘ELSE requires a following
+ []
+
+
+Overfull \hbox (0.6543pt too wide) in paragraph at lines 295--297
+[]\TU/LiberationSans(0)/m/n/12 ‘The EXPOSE ‘instruction executed after a method
+ invocation!’ ‘THEN expected’ 
+ []
+
+
+Overfull \hbox (38.56274pt too wide) in paragraph at lines 307--309
+[]\TU/LiberationSans(0)/m/n/12 #ErrorText.19.2= #ErrorText.19.3= #ErrorText.19.
+4= #ErrorText.19.6= #ErrorText.19.7=
+ []
+
+[85]
+Overfull \hbox (22.99243pt too wide) in paragraph at lines 336--339
+[]\TU/LiberationSans(0)/m/n/12 #ErrorText.24 = #ErrorText.24.1= #ErrorText.25 =
+ #ErrorText.25.1= #ErrorText.25.2=
+ []
+
+
+Overfull \hbox (38.56274pt too wide) in paragraph at lines 336--339
+\TU/LiberationSans(0)/m/n/12 #ErrorText.25.3= #ErrorText.25.4= #ErrorText.25.5=
+ #ErrorText.25.6= #ErrorText.25.7= 
+ []
+
+
+Overfull \hbox (16.64087pt too wide) in paragraph at lines 353--355
+[]\TU/LiberationSans(0)/m/n/12 expected after CLASS;’, “found”“! ‘String or sym
+bol expected after INHERIT;’,”found
+ []
+
+
+Overfull \hbox (67.33032pt too wide) in paragraph at lines 358--361
+[]\TU/LiberationSans(0)/m/n/12 expected after MIXINCLASS;‘, “found”“! ‘String o
+r symbol expected after SUBCLASS;’,”found
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [86]
+Overfull \hbox (71.04126pt too wide) in paragraph at lines 453--456
+[]\TU/LiberationSans(0)/m/n/12 #ErrorText.25.11= #ErrorText.25.12= #ErrorText.2
+5.13= #ErrorText.25.14= #ErrorText.25.15=
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [87]
+Overfull \hbox (32.42224pt too wide) in paragraph at lines 521--523
+[]\TU/LiberationSans(0)/m/n/12 “Positional pattern of parsing template’, ‘must 
+be a whole number; found “”’”NUMERIC
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [88]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [89]
+Overfull \hbox (42.64093pt too wide) in paragraph at lines 630--632
+[]\TU/LiberationSans(0)/m/n/12 ‘must be exactly “0” or “1”; found “”’ #ErrorTex
+t.35 = ‘Invalid expression’ #ErrorText.35.1=
+ []
+
+
+Overfull \hbox (30.77759pt too wide) in paragraph at lines 669--671
+[]\TU/LiberationSans(0)/m/n/12 #ErrorText.40 = #ErrorText.40.1= #ErrorText.40.3
+= #ErrorText.40.4= #ErrorText.40.5= 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [90]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [91]
+Overfull \hbox (9.86053pt too wide) in paragraph at lines 820--827
+\TU/LiberationSans(0)/m/n/12 ‘after STREAM keyword; found “”’ #ErrorText.53.2= 
+‘Variable reference expected’,
+ []
+
+
+Overfull \hbox (0.91626pt too wide) in paragraph at lines 828--830
+[]\TU/LiberationSans(0)/m/n/12 If the activity defined by clause 6 does not pro
+duce any error message, execution
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [92]
+Overfull \hbox (28.61353pt too wide) in paragraph at lines 859--861
+[]\TU/LiberationSans(0)/m/n/12 #Level = 1 /* Level of invocation */ #NewLevel =
+ 2 #IsFunction.#Level = (#HowInvoked
+ []
+
+
+Overfull \hbox (75.58398pt too wide) in paragraph at lines 887--891
+[]\TU/LiberationSans(0)/m/n/12 #Enabling.SYNTAX.#Level = ‘OFF’ #Enabling.HALT.#
+Level = ‘OFF’ #Enabling.ERROR.#Level
+ []
+
+
+Overfull \hbox (95.20923pt too wide) in paragraph at lines 892--908
+[]\TU/LiberationSans(0)/m/n/12 #PendingNow.HALT.#Level = 0 #PendingNow.ERROR.#L
+evel = 0 #PendingNow.FAILURE.#Level
+ []
+
+
+Overfull \hbox (11.5393pt too wide) in paragraph at lines 892--908
+\TU/LiberationSans(0)/m/n/12 constant) call var_-value #ReservedPool, ‘#CLASSES
+.’ClassName, ’1’ if #Indicator
+ []
+
+
+Overfull \hbox (29.00305pt too wide) in paragraph at lines 892--908
+\TU/LiberationSans(0)/m/n/12 == ‘D’ then do call Config ObjectNew #Class = #Out
+come call var_-set #ReservedPool,
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [93]
+Overfull \hbox (4.55493pt too wide) in paragraph at lines 912--918
+\TU/LiberationSans(0)/m/n/12 #Outcome call Config ObjectSource (#Pool) #MethodN
+ame = #Instance(method,
+ []
+
+
+Overfull \hbox (19.08228pt too wide) in paragraph at lines 912--918
+\TU/LiberationSans(0)/m/n/12 taken constant) call var_-value #Class, ‘#METHODS.
+’#MethodName, ‘1’ if #Indicator
+ []
+
+
+Overfull \hbox (11.17773pt too wide) in paragraph at lines 919--922
+[]\TU/LiberationSans(0)/m/n/12 GUARDED & public is default. if #contains(method
+, ‘PRIVATE’) then m~setprivate;
+ []
+
+
+Overfull \hbox (21.0315pt too wide) in paragraph at lines 930--933
+[]\TU/LiberationSans(0)/m/n/12 For ATTRIBUTE, should we actually construct sour
+ce for two methods? ATTRIBUTE
+ []
+
+) (./instructions.tex [94]
+Chapter 11.
+
+Overfull \hbox (28.92017pt too wide) in paragraph at lines 39--41
+[]\TU/LiberationSans(0)/m/n/12 #Tracing.#NewLevel = #Tracing.#Level #Interactiv
+e.#NewLevel = #Interactive.#Level 
+ []
+
+
+Overfull \hbox (15.27954pt too wide) in paragraph at lines 42--44
+[]\TU/LiberationSans(0)/m/n/12 call EnvAssign ACTIVE, #NewLevel, ACTIVE, #Level
+ call EnvAssign ALTERNATE,
+ []
+
+
+Overfull \hbox (57.70422pt too wide) in paragraph at lines 45--48
+\TU/LiberationSans(0)/m/n/12 NOVALUE LOSTDIGITS’,t) #Enabling.Condition.#NewLev
+el = #Enabling.Condition.#Level 
+ []
+
+
+Overfull \hbox (111.30493pt too wide) in paragraph at lines 49--52
+[]\TU/LiberationSans(0)/m/n/12 #Instruction.Condition.#NewLevel = #Instruction.
+Condition.#Level #TrapName.Condition.#NewLevel
+ []
+
+
+Overfull \hbox (104.55688pt too wide) in paragraph at lines 49--52
+\TU/LiberationSans(0)/m/n/12 = #TrapName.Condition.#Level #EventLevel.Condition
+.#NewLevel = #EventLevel.Condition.#Level
+ []
+
+
+Overfull \hbox (136.67798pt too wide) in paragraph at lines 56--63
+[]\TU/LiberationSans(0)/m/n/12 built-in function are copied. #Condition.#NewLev
+el = #Condition.#Level #ConditionDescription.#NewLevel
+ []
+
+
+Overfull \hbox (35.60962pt too wide) in paragraph at lines 56--63
+\TU/LiberationSans(0)/m/n/12 = #ConditionDescription.#Level #ConditionExtra.#Ne
+wLevel = #ConditionExtra.#Level
+ []
+
+
+Overfull \hbox (7.71704pt too wide) in paragraph at lines 56--63
+\TU/LiberationSans(0)/m/n/12 the initialized routine continues at the new level
+ of invocation. #Level = #NewLevel
+ []
+
+[95
+
+]
+Overfull \hbox (24.2268pt too wide) in paragraph at lines 94--99
+[]\TU/LiberationSans(0)/m/n/12 if this is the clause in which the condition aro
+se. do t=1 to 4 #Condition=WORD(‘HALT
+ []
+
+
+Overfull \hbox (39.88892pt too wide) in paragraph at lines 94--99
+\TU/LiberationSans(0)/m/n/12 handling. */ do while #PendingNow.#Condition.#Leve
+l #PendingNow.#Condition.#Level
+ []
+
+[96]
+Overfull \hbox (19.55383pt too wide) in paragraph at lines 130--135
+\TU/LiberationSans(0)/m/n/12 immediately alters the trace setting according to 
+the TRACE instruction encountered
+ []
+
+
+Overfull \hbox (38.67993pt too wide) in paragraph at lines 143--146
+\TU/LiberationSans(0)/m/n/12 stop tracing. */ #Trace_-QueryPrior=#Outcome #Inte
+ractive.#Level = ‘0’ #Tracing.#Level
+ []
+
+[97]
+Overfull \hbox (17.79907pt too wide) in paragraph at lines 218--228
+\TU/LiberationSans(0)/m/it/12 #Contains (address, taken constant), & #Contains 
+(address,valueexp), & #Contains
+ []
+
+
+Overfull \hbox (16.83228pt too wide) in paragraph at lines 218--228
+\TU/LiberationSans(0)/m/it/12 call EnvAssign ACTIVE, #Level, ALTERNATE, #Level 
+call EnvAssign ALTERNATE,
+ []
+
+
+Overfull \hbox (1.01196pt too wide) in paragraph at lines 218--228
+\TU/LiberationSans(0)/m/it/12 #Level, TRANSIENT, #Level return end / \TU/Libera
+tionSans(0)/m/n/12 The environment name will be explicitly
+ []
+
+
+Overfull \hbox (14.1311pt too wide) in paragraph at lines 218--228
+\TU/LiberationSans(0)/m/n/12 specified. */ if #Contains(address,taken constant)
+ then Name = #Instance(address,
+ []
+
+
+Overfull \hbox (0.33423pt too wide) in paragraph at lines 218--228
+\TU/LiberationSans(0)/m/n/12 taken _- constant) else Name = #Evaluate(valueexp,
+ expression) if length(Name)
+ []
+
+
+Overfull \hbox (88.70532pt too wide) in paragraph at lines 238--241
+\TU/LiberationSans(0)/m/n/12 there is no command, the persistent environment is
+ being set. */ if #Contains(address,expression)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [98]
+Overfull \hbox (38.00616pt too wide) in paragraph at lines 257--260
+[]\TU/LiberationSans(0)/m/n/12 #Env_-Resource.I.EnvTail = ’’ #Env_-Resource.O.E
+nvTail = ‘! #Env_-Resource.E.EnvTail
+ []
+
+
+Overfull \hbox (9.3086pt too wide) in paragraph at lines 261--263
+[]\TU/LiberationSans(0)/m/n/12 #Env_-Position.I.EnvTail = ‘INPUT’ #Env_-Positio
+n.O.EnvTail = ‘REPLACE’ #Env_-
+ []
+
+
+Overfull \hbox (13.57837pt too wide) in paragraph at lines 270--275
+[]\TU/LiberationSans(0)/m/n/12 if #Contains(connection,input) then do /* input 
+redirection */ if #Contains (resourcei,
+ []
+
+
+Overfull \hbox (119.35938pt too wide) in paragraph at lines 270--275
+\TU/LiberationSans(0)/m/n/12 ‘STREAM’) then do #Env_-Type.I.EnvTail = ‘STREAM’ 
+#Env_-Resource.1.EnvTail=#Evaluate(resourcei,
+ []
+
+
+Overfull \hbox (11.52734pt too wide) in paragraph at lines 270--275
+\TU/LiberationSans(0)/m/n/12 VAR_-SYMBOL) end if #Contains (resourcei, ‘STEM’) 
+then do #Env_-Type.I.EnvTail
+ []
+
+
+Overfull \hbox (16.469pt too wide) in paragraph at lines 283--286
+\TU/LiberationSans(0)/m/n/12 description of #Contains specifies that the releva
+nt resourceo is used in NoteTarget.
+ []
+
+
+Overfull \hbox (15.62024pt too wide) in paragraph at lines 297--300
+[]\TU/LiberationSans(0)/m/n/12 if #Contains (resourceo, ‘STREAM’) then do #Env_
+-Type.Which.EnvTail=‘STREAM’
+ []
+
+
+Underfull \hbox (badness 1874) in paragraph at lines 301--304
+[]\TU/LiberationSans(0)/m/n/12 if #Contains(resourceo,‘STEM’) then do #Env_-Typ
+e.Which.EnvTail=‘STEM’
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [99]
+Overfull \hbox (29.92017pt too wide) in paragraph at lines 312--324
+\TU/LiberationSans(0)/m/n/12 #Env_-Name.Rhs.RhsLevel #Env_- Type.I.Lhs.LhsLevel
+ = #Env_-Type.I.Rhs.RhsLevel
+ []
+
+
+Overfull \hbox (93.969pt too wide) in paragraph at lines 312--324
+\TU/LiberationSans(0)/m/n/12 #Env_- Resource.I.Lhs.LhsLevel = #Env_-Resource.I.
+Rhs.RhsLevel #Env_-Position.I.Lhs.LhsLevel
+ []
+
+
+Overfull \hbox (68.50024pt too wide) in paragraph at lines 312--324
+\TU/LiberationSans(0)/m/n/12 = #Env_-Position.I.Rhs.RhsLevel #Env_- Type.O.Lhs.
+LhsLevel = #Env_-Type.O.Rhs.RhsLevel
+ []
+
+
+Underfull \hbox (badness 1496) in paragraph at lines 312--324
+\TU/LiberationSans(0)/m/n/12 #Env_-Resource.O.Lhs.LhsLevel = #Env_-Resource.O.R
+hs.RhsLevel #Env_-
+ []
+
+
+Overfull \hbox (42.60571pt too wide) in paragraph at lines 312--324
+\TU/LiberationSans(0)/m/n/12 Position.O.Lhs.LhsLevel = #Env_-Position.O.Rhs.Rhs
+Level #Env_- Type.E.Lhs.LhsLevel
+ []
+
+
+Overfull \hbox (93.0647pt too wide) in paragraph at lines 312--324
+\TU/LiberationSans(0)/m/n/12 = #Env_-Type.E.Rhs.RhsLevel #Env_-Resource.E.Lhs.L
+hsLevel #Env_-Resource.E.Rhs.RhsLevel
+ []
+
+
+Overfull \hbox (13.36548pt too wide) in paragraph at lines 336--341
+\TU/LiberationSans(0)/m/n/12 Assignment can occur as the result of executing a 
+clause containing an assignment
+ []
+
+[100]
+! Undefined control sequence.
+<argument> ...Lines = value(Stem'0') if \datatype 
+                                                  (Lines,`W') then call \#Ra...
+l.422 call \#Raise `SYNTAX',54.1,Stem'0', Lines /}
+                                                   Use a stream for the stem
+? q
+OK, entering \batchmode...
+
+Overfull \hbox (32.46313pt too wide) in paragraph at lines 418--428
+\TU/LiberationSans(0)/m/n/12 reasonableness of the stem. \TU/LiberationSans(0)/
+m/it/12 / Stem = #Env_-Resource.I.EnvTail Lines = value(Stem’0’)
+ []
+
+! Undefined control sequence.
+<argument> / Lines=value (Stem'0'); if \datatype 
+                                                 (Lines,`W') then call \#Rai...
+l.438 ...', Lines end else call value Stem'0',O /}
+                                                   Use a
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (14.72876pt too wide) in paragraph at lines 435--441
+[]\TU/LiberationSans(0)/m/n/12 /* Check that Stem.0 will accept incrementing. \
+TU/LiberationSans(0)/m/it/12 / Lines=value (Stem’0’); if (Lines,‘W’)
+ []
+
+ [101]
+! Undefined control sequence.
+l.449 if \datatype
+                  (Lines,`W') then call \#Raise `SYNTAX',54.1,Stem'0', Lines
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (62.23547pt too wide) in paragraph at lines 452--455
+[]\TU/LiberationSans(0)/m/n/12 end else call value Stem’0’,0O /* Use a stream f
+or the stem */ #Env_- Type.E.PASSED.#Level
+ []
+
+
+Overfull \hbox (1.09009pt too wide) in paragraph at lines 464--466
+[]\TU/LiberationSans(0)/m/n/12 #Response = Config Command (PASSED, Cmd) #Indica
+tor = left (#Response,1)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [102]
+Overfull \hbox (8.70532pt too wide) in paragraph at lines 514--519
+\TU/LiberationSans(0)/m/n/12 execute them repeatedly. Executing a do_-simple ha
+s the same effect as executing
+ []
+
+! Undefined control sequence.
+l.528 specification, repexpr) then if \datatype
+                                               (repexpr,`W') then call \#Raise
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (1.719pt too wide) in paragraph at lines 524--537
+\TU/LiberationSans(0)/m/n/12 #Contains (do specification,assignment) then do #S
+tartValue.#Loop = #Evaluate
+ []
+
+
+Overfull \hbox (20.17993pt too wide) in paragraph at lines 524--537
+\TU/LiberationSans(0)/m/n/12 #Raise ‘SYNTAX’, 41.6, #StartValue.#Loop #StartVal
+ue.#Loop = #StartValue.#Loop
+ []
+
+! Undefined control sequence.
+l.545 ...cification, forexpr) then do if \datatype
+                                                  (forexpr,
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+ [103]
+Overfull \hbox (16.64673pt too wide) in paragraph at lines 575--579
+\TU/LiberationSans(0)/m/n/12 value(#Identity.#Loop) > #To.#Loop then leave end 
+else do if value(#Identity.#Loop)
+ []
+
+
+Overfull \hbox (10.47571pt too wide) in paragraph at lines 580--588
+[]\TU/LiberationSans(0)/m/n/12 if #Contains(dorep, repexpr) | #Contains(dorep, 
+‘OVER’) then do if #Repeat.#Loop
+ []
+
+
+Overfull \hbox (3.45142pt too wide) in paragraph at lines 580--588
+\TU/LiberationSans(0)/m/n/12 then call value #Identity.#Loop, #OverArray[#OverA
+rray~items - #Repeat.#Loop]
+ []
+
+ [104] [105]
+Overfull \hbox (8.46008pt too wide) in paragraph at lines 707--709
+[]\TU/LiberationSans(0)/m/n/12 If VAR_-SYMBOL has a period other than as last c
+haracter, the variable associated
+ []
+
+
+Overfull \hbox (4.57141pt too wide) in paragraph at lines 735--738
+\TU/LiberationSans(0)/m/n/12 message. if #Contains (forward, ‘ARRAY’) & #Contai
+ns(forward, ‘ARGUMENTS’)
+ []
+
+ [106]
+Underfull \vbox (badness 1297) has occurred while \output is active []
+
+ [107]
+! Undefined control sequence.
+l.861 if \datatype
+                  (Value,`W') then
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+ [108]
+Overfull \hbox (2.57141pt too wide) in paragraph at lines 878--880
+[]\TU/LiberationSans(0)/m/n/12 The value of form is either taken directly from 
+the SCIENTIFIC or ENGINEERING
+ []
+
+
+Overfull \hbox (33.33313pt too wide) in paragraph at lines 883--890
+\TU/LiberationSans(0)/m/n/12 then Value = ‘ENGINEERING’ else do Value = #Evalua
+te (numericformsuffix,valueexp)
+ []
+
+
+Overfull \hbox (17.32727pt too wide) in paragraph at lines 883--890
+\TU/LiberationSans(0)/m/n/12 Value = translate (left (Value,1)) select when Val
+ue == ‘S’ then Value = ‘SCIENTIFIC’
+ []
+
+
+Overfull \hbox (63.23633pt too wide) in paragraph at lines 883--890
+\TU/LiberationSans(0)/m/n/12 when Value == ‘E’ then Value = ‘ENGINEERING’ other
+wise call #Raise ‘SYNTAX’,33.3,Value
+ []
+
+! Undefined control sequence.
+l.899 ...z,expression) else Value = 0 If \datatype
+                                                  (Value,`W') then
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (42.33618pt too wide) in paragraph at lines 898--904
+[]\TU/LiberationSans(0)/m/n/12 If #Contains (numericfuzz,expression) then Value
+ = #Evaluate (numericfuzz,expression)
+ []
+
+
+Overfull \hbox (12.01001pt too wide) in paragraph at lines 898--904
+\TU/LiberationSans(0)/m/n/12 #Digits.#Level then call #Raise ‘SYNTAX’,33.1,#Dig
+its.#Level,Value #Fuzz.#Level
+ []
+
+ [109]
+Overfull \hbox (15.69165pt too wide) in paragraph at lines 936--954
+\TU/LiberationSans(0)/m/n/12 from external queue or default input. */ #Response
+ = Config Pull() if left(#Response,
+ []
+
+
+Overfull \hbox (0.58118pt too wide) in paragraph at lines 936--954
+\TU/LiberationSans(0)/m/n/12 1) == ‘F’ then call Config Default Input ToParse =
+ #Outcome end when #Contains
+ []
+
+
+Overfull \hbox (6.44446pt too wide) in paragraph at lines 936--954
+\TU/LiberationSans(0)/m/n/12 when #Contains (parse type, ‘VALUE’) then if #Cont
+ains(parse value, expression)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [110]
+Overfull \hbox (83.0061pt too wide) in paragraph at lines 1015--1022
+\TU/LiberationSans(0)/m/it/12 / \TU/LiberationSans(0)/m/n/12 Selected source ru
+ns up to the pattern. \TU/LiberationSans(0)/m/it/12 / BreakStart=PatternPos Bre
+akEnd=PatternPos+length
+ []
+
+
+Overfull \hbox (28.13696pt too wide) in paragraph at lines 1023--1036
+\TU/LiberationSans(0)/m/n/12 ‘NOVALUE’, Template.Token Token=Token + 1 end else
+ BreakStart = Template.Token 
+ []
+
+! Undefined control sequence.
+l.1043 \datatype
+                 (BreakStart,`W')
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+ [111]
+! Undefined control sequence.
+l.1096 if \Target
+                 .NextTok then do call Assign (Data)
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (10.18188pt too wide) in paragraph at lines 1122--1127
+\TU/LiberationSans(0)/m/it/12 Template.Tok==‘.’ then Tag=‘>.>’ else do Tag=‘>=>
+’ call value Template.Tok,arg(1)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [112]
+Overfull \hbox (8.46008pt too wide) in paragraph at lines 1171--1173
+[]\TU/LiberationSans(0)/m/n/12 If VAR_-SYMBOL has a period other than as last c
+haracter, the variable associated
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [113] [114]
+Overfull \hbox (7.79016pt too wide) in paragraph at lines 1279--1282
+[]\TU/LiberationSans(0)/m/n/12 The SELECT instruction is used to conditionally 
+execute one of several alternative
+ []
+
+
+Overfull \hbox (1.93188pt too wide) in paragraph at lines 1286--1293
+[]\TU/LiberationSans(0)/m/n/12 LineNum = #LineNumber Ending = #Clause (EndLabel
+) Value=#Evaluate (select
+ []
+
+
+Overfull \hbox (27.04712pt too wide) in paragraph at lines 1310--1312
+[]\TU/LiberationSans(0)/m/n/12 If #Contains (signal,signal spec) then do Condit
+ion = #Instance(signal spec,condition) 
+ []
+
+ [115]
+! Undefined control sequence.
+l.1364 \datatype
+                (Value,`W') then call \#Raise `SYNTAX', 26.7, Value if
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (8.13892pt too wide) in paragraph at lines 1359--1374
+\TU/LiberationSans(0)/m/n/12 then Value = #Evaluate(valueexp, expression) if #C
+ontains (trace, taken constant)
+ []
+
+
+Overfull \hbox (5.69751pt too wide) in paragraph at lines 1359--1374
+\TU/LiberationSans(0)/m/n/12 interacting. */ do while left(Value,1)==‘?’ #Inter
+active.#Level = #Interactive.#Level
+ []
+
+
+Underfull \vbox (badness 6047) has occurred while \output is active []
+
+ [116]
+Overfull \hbox (2.46118pt too wide) in paragraph at lines 1396--1427
+\TU/LiberationSans(0)/m/n/12 #InhibitTrace is greater than zero, #TraceSource d
+oes nothing except decrement
+ []
+
+
+Overfull \hbox (6.65259pt too wide) in paragraph at lines 1396--1427
+\TU/LiberationSans(0)/m/n/12 #InhibitTrace. Otherwise, unless the current claus
+e is a null clause, #TraceSource
+ []
+
+
+Overfull \hbox (8.44727pt too wide) in paragraph at lines 1430--1432
+[]\TU/LiberationSans(0)/m/n/12 Messy because VALUE bif won’t DROP and var_-drop
+ needs to know if compound. 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [117]
+Overfull \hbox (39.8186pt too wide) in paragraph at lines 1454--1457
+\TU/LiberationSans(0)/m/n/12 called with the ‘Standard’ option. When the ‘Stand
+ard’ option is omitted, implementation-
+ []
+
+
+Overfull \hbox (21.1261pt too wide) in paragraph at lines 1475--1486
+\TU/LiberationSans(0)/m/n/12 of control in the program being processed. The ins
+truction EXIT denotes termination.
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1493 boundary. */ if \arg
+                           (1,`E') then do Description = \#PendingDescription.
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 1493.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 1493.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 1493.
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1495 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (10.78894pt too wide) in paragraph at lines 1491--1495
+[]\OT1/cmr/m/n/12 (1\OML/cmm/m/it/12 ; []E[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 t
+hendoDescription \OT1/cmr/m/n/12 = []\OML/cmm/m/it/12 PendingDescription:[]Cond
+ition:[]LevelExtra \OT1/cmr/m/n/12 =
+ []
+
+ [118]
+Overfull \hbox (98.77563pt too wide) in paragraph at lines 1498--1501
+[]\TU/LiberationSans(0)/m/n/12 Description = arg(2) Extra = arg(3) end else do 
+Description = #Message(arg(2),arg(3),arg(4),arg(5))
+ []
+
+
+Overfull \hbox (24.71399pt too wide) in paragraph at lines 1513--1518
+[]\TU/LiberationSans(0)/m/n/12 if #Instruction.#Condition.#Level == “‘SIGNAL’ t
+hen do #ConditionDescription.#Level
+ []
+
+
+Overfull \hbox (57.9414pt too wide) in paragraph at lines 1513--1518
+\TU/LiberationSans(0)/m/n/12 ‘SIGNAL’ #Enabling.#Condition.#Level = ‘OFF’ signa
+l value #TrapName.#Condition.#Level
+ []
+
+
+Overfull \hbox (90.01392pt too wide) in paragraph at lines 1521--1539
+\TU/LiberationSans(0)/m/it/12 then return EventLevel = #EventLevel.#Condition. 
+#Level if #PendingNow.#Condition.EventLevel
+ []
+
+
+Overfull \hbox (126.48071pt too wide) in paragraph at lines 1521--1539
+\TU/LiberationSans(0)/m/n/12 delayed event. \TU/LiberationSans(0)/m/it/12 / #Pe
+ndingNow.#Condition.EventLevel = ‘1’ #PendingDescription.#Condition.EventLevel
+ []
+
+
+Overfull \hbox (76.5393pt too wide) in paragraph at lines 1521--1539
+\TU/LiberationSans(0)/m/it/12 = Description #PendingExtra.#Condition.EventLevel
+ = Extra #Enabling.#Condition.EventLevel
+ []
+
+
+Overfull \hbox (115.94055pt too wide) in paragraph at lines 1521--1539
+\TU/LiberationSans(0)/m/n/12 CONDITION built-in function. \TU/LiberationSans(0)
+/m/it/12 / #Condition.#NewLevel = #Condition #ConditionDescription.#NewLevel
+ []
+
+
+Overfull \hbox (112.78735pt too wide) in paragraph at lines 1521--1539
+\TU/LiberationSans(0)/m/it/12 = #PendingDescription. #Condition. #Level #Condit
+ionExtra.#NewLevel = #PendingExtra.#Condition.
+ []
+
+
+Overfull \hbox (90.85352pt too wide) in paragraph at lines 1521--1539
+\TU/LiberationSans(0)/m/it/12 #Level #ConditionInstruction.#NewLevel = ‘CALL’ i
+nterpret ‘CALL’ #TrapName.#Condition.#Level
+ []
+
+
+Overfull \hbox (11.37915pt too wide) in paragraph at lines 1548--1552
+[]\TU/LiberationSans(0)/m/n/12 In addition to the result defined below, the val
+ues of MsgNumber and #LineNumber
+ []
+
+
+Overfull \hbox (1.8675pt too wide) in paragraph at lines 1562--1565
+[]\TU/LiberationSans(0)/m/n/12 if Insert = ’’ then leave Insert = arg(Index) if
+ length(Insert) > #Limit MessageInsert
+ []
+
+ [119]) (./built-in_functions.tex [120]
+Chapter 12.
+ [121
+
+]
+Overfull \hbox (33.33618pt too wide) in paragraph at lines 59--67
+\TU/LiberationSans(0)/m/it/12 length(CheckList) j=eajae1 t = substr(CheckList,j
+,1) if t==’ ’ then leave ArgType.ArgPos
+ []
+
+! Undefined control sequence.
+<argument> / if \Cdatatype 
+                           (Value, `N') then if \#DatatypeResult==`E' then c...
+l.88 Arg.ArgPos=\#DatatypeResult /}
+                                    Update argument copy. */ end
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.91 ...setting for the built-in. */ if \Edatatype
+                                                  (Value,`W')
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.96 */ if \Edatatype
+                     (Value,`W') then call Raise 40.12, ArgPos, Value if
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (9.77954pt too wide) in paragraph at lines 95--99
+[]\TU/LiberationSans(0)/m/n/12 when Type == ‘WHOLE>=0’ then do /* Non-negative 
+whole number */ if (Value,‘W’)
+ []
+
+! Undefined control sequence.
+l.101 if \Edatatype
+                   (Value,`W') then call Raise 40.12, ArgPos, Value if
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.107 \Cdatatype
+                (Value,`W') then call Raise 40.12, ArgPos, Value \#Bif\_
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.111 number */ if \Cdatatype
+                             (Value,`W') then call Raise 40.12, ArgPos, Value
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.117 if \Edatatype
+                   (Value,`N') then call Raise 40.11, ArgPos, Value
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [122]
+! Undefined control sequence.
+<argument> / if \datatype 
+                          (Value, `X') then call Raise 40.25, Value /
+l.138 ...lue, `X') then call Raise 40.25, Value /}
+                                                   ArgPos will be 1
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> / if \datatype 
+                          (Value,`B') then call Raise 40.24, Value /
+l.140 ...alue,`B') then call Raise 40.24, Value /}
+                                                   ArgPos will be 1
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.143 if \datatype
+                   (Value, `S') then call Raise 40.26, Value /* ArgPos will be
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (0.34009pt too wide) in paragraph at lines 153--155
+[]\TU/LiberationSans(0)/m/n/12 if val == ‘?’ then do /* Allow leading ‘?’ */ if
+ left(Val,1) == ‘?’ then Val = substr(Val,2) 
+ []
+
+
+Overfull \hbox (32.37329pt too wide) in paragraph at lines 168--170
+[]\TU/LiberationSans(0)/m/n/12 Cdatatype: /* This check is made with the digits
+ setting of the caller. \TU/LiberationSans(0)/m/it/12 / / \TU/LiberationSans(0)
+/m/n/12 #DatatypeResult
+ []
+
+ [123]
+Overfull \hbox (116.85461pt too wide) in paragraph at lines 199--214
+\TU/LiberationSans(0)/m/it/12 argQ)>3 then returm numeric digits 18 if arg(1,‘E
+’) then if pos(translate(left(arg(1),1)),“CEHLMNRS”)=0
+ []
+
+
+Overfull \hbox (3.0315pt too wide) in paragraph at lines 220--230
+\TU/LiberationSans(0)/m/n/12 returm /* Reconvert to further check the original.
+ */ if TimeFormat(Micro,InOption)
+ []
+
+
+Overfull \hbox (25.18384pt too wide) in paragraph at lines 231--240
+\TU/LiberationSans(0)/m/n/12 day will be irrelevant; actually it will be the fi
+rst day possible. */ x = Time2Date2(arg(1))
+ []
+
+
+Overfull \hbox (222.97852pt too wide) in paragraph at lines 241--247
+[]\TU/LiberationSans(0)/m/n/12 when arg(2) == ‘H’ then return Hour when arg(2) 
+== ‘L’ then return right(Hour,?2,‘0’)‘:’right(Minute,2,’0’)‘:’right(Second,2,’0
+’),
+ []
+
+
+Overfull \hbox (6.40735pt too wide) in paragraph at lines 241--247
+\TU/LiberationSans(0)/m/it/12 arg(2) == ‘N’ then return right(Hour,?2,‘0’)‘:’ri
+ght(Minute,2,’0’)‘:’right(Second,2,’0’)
+ []
+
+
+Overfull \hbox (3.58813pt too wide) in paragraph at lines 248--252
+\TU/LiberationSans(0)/m/n/12 timestamp (the number of microseconds relative to 
+0001 01 01 00:00:00.000000)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [124]
+Overfull \hbox (30.62915pt too wide) in paragraph at lines 314--317
+\TU/LiberationSans(0)/m/n/12 range. \TU/LiberationSans(0)/m/it/12 / Integer=Int
+eger\TU/LiberationSans(0)/m/n/12 FromRadix+pos (substr (Subject,j,1),‘012345678
+9ABCDEF’)-
+ []
+
+ [125] [126]
+Overfull \hbox (6.22961pt too wide) in paragraph at lines 451--453
+\TU/LiberationSans(0)/m/n/12 COPIES returns concatenated copies of the first ar
+gument. The second argument
+ []
+
+
+Underfull \vbox (badness 2376) has occurred while \output is active []
+
+ [127]
+Overfull \hbox (12.4425pt too wide) in paragraph at lines 462--464
+\TU/LiberationSans(0)/m/n/12 COUNTSTR counts the appearances of the first argum
+ent in the second argument. 
+ []
+
+
+Overfull \hbox (41.2218pt too wide) in paragraph at lines 499--511
+[]\TU/LiberationSans(0)/m/n/12 /* Several of the options are shorthands for VER
+IFY \TU/LiberationSans(0)/m/it/12 / azl=“abcdefghijklmnopqrstuvwxyz”
+ []
+
+ [128]
+Overfull \hbox (18.6565pt too wide) in paragraph at lines 529--542
+\TU/LiberationSans(0)/m/it/12 pos (left (String,1),#Al1Blanks)>0 then return 0 
+if pos (right (String,1),#Al1Blanks)>0
+ []
+
+
+Overfull \hbox (14.52173pt too wide) in paragraph at lines 529--542
+\TU/LiberationSans(0)/m/n/12 them. \TU/LiberationSans(0)/m/it/12 / if HexDigits
+//2 = 0 then return 0 end else do if verify(c,“abcdefABCDEF”D09)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [129]
+Overfull \hbox (18.56873pt too wide) in paragraph at lines 606--608
+[]\TU/LiberationSans(0)/m/n/12 DigitRun: Outcome = ’’ do while Residue == ’’ if
+ pos(left (Residue, 1), ‘0123456789’)
+ []
+
+
+Overfull \hbox (8.62024pt too wide) in paragraph at lines 635--638
+\TU/LiberationSans(0)/m/n/12 DELWORD deletes words from the first argument. The
+ second argument specifies
+ []
+
+ [130] [131] [132]
+Overfull \hbox (11.52258pt too wide) in paragraph at lines 826--829
+\TU/LiberationSans(0)/m/n/12 SPACE formats the blank-delimited words in the fir
+st argument with pad characters
+ []
+
+ [133]
+Overfull \hbox (17.71509pt too wide) in paragraph at lines 852--856
+\TU/LiberationSans(0)/m/n/12 #Bif_- ArgExists.3 then Unwanted = #Bif_- Arg.3 el
+se Unwanted = #A11Blanks<Index
+ []
+
+ [134]
+Overfull \hbox (7.79712pt too wide) in paragraph at lines 951--957
+[]\TU/LiberationSans(0)/m/n/12 /* The input table defaults to all characters. \
+TU/LiberationSans(0)/m/it/12 / if #Bif ArgExists.3 then do #Response
+ []
+
+ [135]
+Overfull \hbox (13.7815pt too wide) in paragraph at lines 1015--1021
+[]\TU/LiberationSans(0)/m/n/12 Start = 1 Count = 0 do forever Start = verify(St
+ring, #Al1Blanks<Index “#A11Blanks”
+ []
+
+
+Overfull \hbox (9.77649pt too wide) in paragraph at lines 1039--1043
+\TU/LiberationSans(0)/m/n/12 WORDPOS finds the leftmost occurrence in the secon
+d argument of the sequence
+ []
+
+ [136]
+Overfull \hbox (22.63501pt too wide) in paragraph at lines 1052--1057
+\TU/LiberationSans(0)/m/n/12 WordNumber = Start to StringWords - PhraseWords + 
+1 if Phrase == subword(String,
+ []
+
+
+Overfull \hbox (21.55298pt too wide) in paragraph at lines 1076--1079
+[]\TU/LiberationSans(0)/m/n/12 if #Bif_-ArgExists.1 then #Bif_-Arg.1 mr if #Bif
+_-ArgExists.2 then #Bif Arg.2 #Response
+ []
+
+
+Overfull \hbox (12.43188pt too wide) in paragraph at lines 1084--1087
+\TU/LiberationSans(0)/m/n/12 These functions perform arithmetic at the numeric 
+settings current at the invocation
+ []
+
+ [137]
+Overfull \hbox (10.57532pt too wide) in paragraph at lines 1106--1108
+[]\TU/LiberationSans(0)/m/n/12 call CheckArgs, ‘rNUM OWHOLE>=0 OWHOLE>=0 OWHOLE
+>=0 OWHOLE>=0’ 
+ []
+
+
+Overfull \hbox (9.21313pt too wide) in paragraph at lines 1133--1141
+\TU/LiberationSans(0)/m/it/12 ArgExists.4 #Bif ArgExists.5 then do if #Bif_-Arg
+Exists.5 then Expt = #Digits.#Level
+ []
+
+ [138]
+! Undefined control sequence.
+l.1167 if \ShowExp
+                   then Point = Point + Exponent end /* Expp or Expt given
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [139]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [140]
+Underfull \vbox (badness 1783) has occurred while \output is active []
+
+ [141]
+Overfull \hbox (6.01782pt too wide) in paragraph at lines 1400--1404
+\TU/LiberationSans(0)/m/n/12 returns information on the targets of command outp
+ut and the source of command
+ []
+
+
+Overfull \hbox (4.77368pt too wide) in paragraph at lines 1411--1413
+[]\TU/LiberationSans(0)/m/n/12 Tail = Optionl’ .ACTIVE. ’#Level return #Env_-Po
+sition.Tail #Env_-Type.Tail #Env_-
+ []
+
+
+Overfull \hbox (47.11829pt too wide) in paragraph at lines 1429--1431
+[]\TU/LiberationSans(0)/m/n/12 if #Bif_-Arg.2 ==‘0O’ then return #ArgExists.#Le
+vel.ArgNum else return #ArgExists.#Level
+ []
+
+ [142] [143]
+Overfull \hbox (27.8175pt too wide) in paragraph at lines 1507--1510
+\TU/LiberationSans(0)/m/n/12 #SourceLine.0O then call Raise 40.34, Num, #Source
+Line.0 return #SourceLine.Num 
+ []
+
+
+Overfull \hbox (53.83118pt too wide) in paragraph at lines 1537--1539
+[]\TU/LiberationSans(0)/m/n/12 Value=translate (left (Value,1)) if Value==‘0O’ 
+then #Interactive.#Level=‘0’ #Tracing.#Level
+ []
+
+ [144]
+Overfull \hbox (1.77954pt too wide) in paragraph at lines 1572--1576
+\TU/LiberationSans(0)/m/n/12 length(Stringl) > length(String2) then String2=lef
+t (String2,length(String1l),#Bif_-
+ []
+
+
+Overfull \hbox (25.844pt too wide) in paragraph at lines 1577--1581
+\TU/LiberationSans(0)/m/it/12 String1l=#Outcome #Response=Config C2B(String2) S
+tring2=#0utcome / \TU/LiberationSans(0)/m/n/12 Exchange
+ []
+
+ [145]
+Overfull \hbox (7.98071pt too wide) in paragraph at lines 1651--1655
+[]\TU/LiberationSans(0)/m/n/12 /* Convert to manifest binary \TU/LiberationSans
+(0)/m/it/12 / Subject = abs(#Bif Arg.1) r = ReRadix(Subject,10,2)
+ []
+
+
+Overfull \hbox (7.07642pt too wide) in paragraph at lines 1661--1665
+\TU/LiberationSans(0)/m/n/12 right (Output, #Bif_-Arg.2,left(xrange(),1)) else 
+return right (Output, #Bif Arg.2,right
+ []
+
+
+Overfull \hbox (51.5647pt too wide) in paragraph at lines 1675--1682
+[]\TU/LiberationSans(0)/m/n/12 /* Convert to manifest hexadecimal \TU/Liberatio
+nSans(0)/m/it/12 / Subject = abs(#Bif Arg.1 ) r = ReRadix(Subject,10,16)
+ []
+
+
+Overfull \hbox (10.82642pt too wide) in paragraph at lines 1675--1682
+\TU/LiberationSans(0)/m/it/12 / \TU/LiberationSans(0)/m/n/12 Twos-complement fo
+r negatives */ if #Bif_-Arg.1<0 then do Subject = 16**length(r)
+ []
+
+ [146]
+Overfull \hbox (13.23853pt too wide) in paragraph at lines 1718--1720
+[]\TU/LiberationSans(0)/m/n/12 Length = 8*( (length (Subject) +1) %2) #Response
+ = Config B2C(right(r,Length,‘0’))
+ []
+
+
+Overfull \hbox (29.02649pt too wide) in paragraph at lines 1750--1782
+\TU/LiberationSans(0)/m/n/12 CHAROUT can be read by a different number of CHARI
+Ns. - The CHARIN/CHAROUT
+ []
+
+
+Overfull \hbox (15.29907pt too wide) in paragraph at lines 1750--1782
+\TU/LiberationSans(0)/m/n/12 condition. - When a persistent stream is repositio
+ned and written to with CHAROUT,
+ []
+
+ [147]
+Overfull \hbox (13.1878pt too wide) in paragraph at lines 1785--1788
+[]\TU/LiberationSans(0)/m/n/12 if #Bif_-ArgExists.1 then Stream else Stream #St
+reamState.Stream = ’’ /* Argument
+ []
+
+
+Overfull \hbox (3.5636pt too wide) in paragraph at lines 1791--1793
+[]\TU/LiberationSans(0)/m/n/12 if left(#Response, 1) == ‘R’ then call Raise 40.
+41, 2, #Bif_- Arg.2 if left(#Response,
+ []
+
+
+Overfull \hbox (47.80273pt too wide) in paragraph at lines 1807--1810
+[]\TU/LiberationSans(0)/m/n/12 if left(#Response, 1) == ‘N’ then do if left (#R
+esponse, 1) == ‘E’ then #StreamState.Stream
+ []
+
+
+Overfull \hbox (48.2511pt too wide) in paragraph at lines 1807--1810
+\TU/LiberationSans(0)/m/n/12 = ‘ERROR’ /* This call will return. */ call #Raise
+ ‘NOTREADY’, Stream, substr(#Response,
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [148]
+Underfull \vbox (badness 2376) has occurred while \output is active []
+
+ [149]
+Overfull \hbox (16.07446pt too wide) in paragraph at lines 1881--1897
+\TU/LiberationSans(0)/m/n/12 call #Raise ‘NOTREADY’, Stream, substr(#Response, 
+2) leave end r = r||#Outcome
+ []
+
+ [150]
+Overfull \hbox (2.9347pt too wide) in paragraph at lines 1996--1998
+[]\TU/LiberationSans(0)/m/n/12 if #Bif ArgExists.2 & translate(left(#Bif Arg.2,
+ 1)) == ‘C’ then ArgData = ‘rSTREAM
+ []
+
+ [151]
+Overfull \hbox (31.80188pt too wide) in paragraph at lines 2010--2014
+\TU/LiberationSans(0)/m/n/12 return substr(#Response, 2) end when Operation == 
+‘S’ then do if StreamState.Stream
+ []
+
+
+Overfull \hbox (41.26978pt too wide) in paragraph at lines 2052--2060
+\TU/LiberationSans(0)/m/it/12 then do #Response = Config Time () #ClauseTime.#L
+evel = #Time #ClauseLocal.#Level
+ []
+
+
+Overfull \hbox (3.99634pt too wide) in paragraph at lines 2061--2063
+[]\TU/LiberationSans(0)/m/n/12 /* If there is no second argument, the current d
+ate is returned. */ if #Bif ArgExists.2
+ []
+
+ [152]
+Overfull \hbox (46.11633pt too wide) in paragraph at lines 2148--2153
+[]\TU/LiberationSans(0)/m/n/12 if Logic <> ‘BD’ then do /* Convert Month & Day 
+to Days of year. \TU/LiberationSans(0)/m/it/12 / if datatype(Month,‘W’)=0
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [153]
+Overfull \hbox (14.59595pt too wide) in paragraph at lines 2209--2211
+[]\TU/LiberationSans(0)/m/n/12 return right (Month,2,‘0’) (arg(3)) right (Day,2
+,‘0’) (arg(3)) right (Year,2,‘0’) otherwise
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [154]
+Overfull \hbox (4.2268pt too wide) in paragraph at lines 2249--2251
+[]\TU/LiberationSans(0)/m/n/12 if #Bif_-ArgExists.3 then call Config Random See
+d #Bif_-Arg.3 call Config Random
+ []
+
+ [155]
+Overfull \hbox (27.45148pt too wide) in paragraph at lines 2287--2290
+[]\TU/LiberationSans(0)/m/n/12 if #ClauseTime.#Level == ’’ then do #Response = 
+Config Time () #ClauseTime.#Level
+ []
+
+
+Overfull \hbox (3.31079pt too wide) in paragraph at lines 2291--2293
+[]\TU/LiberationSans(0)/m/n/12 /* If there is no second argument, the current t
+ime is returned. */ if #Bif ArgExists.2
+ []
+
+
+Overfull \hbox (20.85376pt too wide) in paragraph at lines 2348--2362
+\TU/LiberationSans(0)/m/n/12 day will be irrelevant; actually it will be the fi
+rst day possible. \TU/LiberationSans(0)/m/it/12 / x = Time2Date2(arg(1))
+ []
+
+
+Overfull \hbox (0.9729pt too wide) in paragraph at lines 2348--2362
+\TU/LiberationSans(0)/m/it/12 12’:‘right (Minute,2,’0’)‘pm’ when Hour=12 then r
+eturn ‘12:’right(Minute,2,’0’)‘pm’
+ []
+
+
+Overfull \hbox (0.4397pt too wide) in paragraph at lines 2348--2362
+\TU/LiberationSans(0)/m/it/12 when Hour>0 then return Hour’:‘right (Minute,2,’0
+’)‘am’ when Hour=0 then return
+ []
+
+
+Overfull \hbox (4.17883pt too wide) in paragraph at lines 2348--2362
+\TU/LiberationSans(0)/m/n/12 arg(2) == ‘N’ then return right (Hour,2,‘0’)‘:’rig
+ht (Minute,2,’0’)‘:’right(Second,2,’0’)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [156]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [157]
+Overfull \hbox (8.20532pt too wide) in paragraph at lines 2440--2442
+[]\TU/LiberationSans(0)/m/n/12 if #Bif_-Arg.0 = 1 then do Minimum = 0 Maximum =
+ #Bif_-Arg.1 if Maximum>100000
+ []
+
+
+Overfull \hbox (4.2268pt too wide) in paragraph at lines 2454--2456
+[]\TU/LiberationSans(0)/m/n/12 if #Bif_-ArgExists.3 then call Config Random See
+d #Bif_-Arg.3 call Config Random
+ []
+
+ [158]
+Overfull \hbox (27.45148pt too wide) in paragraph at lines 2492--2495
+[]\TU/LiberationSans(0)/m/n/12 if #ClauseTime.#Level == ’’ then do #Response = 
+Config Time () #ClauseTime.#Level
+ []
+
+
+Overfull \hbox (3.31079pt too wide) in paragraph at lines 2496--2498
+[]\TU/LiberationSans(0)/m/n/12 /* If there is no second argument, the current t
+ime is returned. */ if #Bif ArgExists.2
+ []
+
+! Undefined control sequence.
+l.2512 if \datatype
+                   (HH,`W') \textbar{} \datatype(MM,`W') \textbar{}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.2512 if \datatype(HH,`W') \textbar{} \datatype
+                                                (MM,`W') \textbar{}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.2513 \datatype
+                (SS,`N') then call Raise 40.19, InValue, InOption
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (0.4339pt too wide) in paragraph at lines 2540--2542
+[]\TU/LiberationSans(0)/m/n/12 if #StartTime.#Level == ’’ then do #StartTime.#L
+evel #ClauseTime.#Level return
+ []
+
+
+Overfull \hbox (2.38696pt too wide) in paragraph at lines 2546--2550
+\TU/LiberationSans(0)/m/n/12 (Hour,2,‘0’)‘:’right (Minute,2,’0’)‘:’right(Second
+,2,’0’), || ‘.’right (Microsecond,6,’0’) 
+ []
+
+
+Overfull \hbox (1.80103pt too wide) in paragraph at lines 2551--2556
+\TU/LiberationSans(0)/m/it/12 then return trunc(#ClauseLocal.#Level - #ClauseTi
+me.#Level) otherwise / \TU/LiberationSans(0)/m/n/12 arg(2)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [159]) (./built-in_classes.tex [160]
+Chapter 13.
+! Undefined control sequence.
+l.36 return \self
+                 ==a
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+ [161
+
+]
+Overfull \hbox (71.70728pt too wide) in paragraph at lines 81--83
+[]\TU/LiberationSans(0)/m/n/12 Returns a human-readable string representation f
+or the object. return #Receiver~ObjectName 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [162] [163]
+Overfull \hbox (1.969pt too wide) in paragraph at lines 203--205
+[]\TU/LiberationSans(0)/m/n/12 ::method superclasses class Returns the immediat
+e superclasses of the receiver
+ []
+
+
+Overfull \hbox (3.07922pt too wide) in paragraph at lines 208--210
+[]\TU/LiberationSans(0)/m/n/12 Returns a string that is the class identity (ins
+tance SUBCLASS and MIXINCLASS
+ []
+
+
+Overfull \hbox (4.21118pt too wide) in paragraph at lines 248--250
+[]\TU/LiberationSans(0)/m/n/12 11.3 The string class The string class provides 
+conventional strings and numbers. 
+ []
+
+
+! LaTeX Error: Command \G unavailable in encoding TU.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.258 use arg a return \a G
+                           eneral problem of making the error message come
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [164]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [165]
+Overfull \hbox (21.72095pt too wide) in paragraph at lines 370--374
+\TU/LiberationSans(0)/m/n/12 items from the receiver array. The first item in t
+he new array is the item corresponding
+ []
+
+ [166]
+Overfull \hbox (0.6565pt too wide) in paragraph at lines 411--413
+[]\TU/LiberationSans(0)/m/n/12 Returns 1 if the message object has completed it
+s message; returns 0 otherwise.
+ []
+
+) (./provided_classes.tex [167]
+Chapter 14.
+
+Overfull \hbox (52.82251pt too wide) in paragraph at lines 15--40
+\TU/LiberationSans(0)/m/it/12 then v=2 if (arg(1)~class==.Table & arg(2)~class=
+=.Bag) then v=2 if (arg(1)~class==.Table
+ []
+
+
+Overfull \hbox (41.54517pt too wide) in paragraph at lines 15--40
+\TU/LiberationSans(0)/m/it/12 & arg(2)~class==.Relation) then v=2 if (arg(1)~cl
+ass==.Directory & arg(2)~class==.Bag)
+ []
+
+! Undefined control sequence.
+l.52 \ab
+        \textsubscript{hasindex(ss}index) then r{[}ss\textasciitilde index{]}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.58 \This
+          \textsubscript{hasindex(cs}index) then
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+ [168
+
+]
+Overfull \hbox (11.55103pt too wide) in paragraph at lines 72--76
+[]\TU/LiberationSans(0)/m/n/12 cs=MayEnBag (arg(2))~supplier do while cs~availa
+ble i=cs~index if w~hasindex(i)
+ []
+
+
+Overfull \hbox (13.80298pt too wide) in paragraph at lines 103--110
+[]\TU/LiberationSans(0)/m/n/12 ::routine EnBag r=.Bag~new s=arg(1)~supplier do 
+while s~available if arg(1)~class
+ []
+
+ [169] [170]
+Overfull \hbox (0.219pt too wide) in paragraph at lines 253--258
+\TU/LiberationSans(0)/m/n/12 ::method makearrayx private expose a /* Returns a 
+single-index array containing
+ []
+
+ [171] [172] [173]
+Overfull \hbox (25.22876pt too wide) in paragraph at lines 442--445
+[]\TU/LiberationSans(0)/m/n/12 /* Adds the object value to the queue at its hea
+d. \TU/LiberationSans(0)/m/it/12 / a=self~exposed a[1] /\TU/LiberationSans(0)/m
+/n/12 ItemCount\TU/LiberationSans(0)/m/it/12 /=a
+ []
+
+
+Overfull \hbox (28.7815pt too wide) in paragraph at lines 456--461
+\TU/LiberationSans(0)/m/it/12 a=self~exposed a[1] /\TU/LiberationSans(0)/m/n/12
+ ItemCount\TU/LiberationSans(0)/m/it/12 /=a [1] /\TU/LiberationSans(0)/m/n/12 I
+temCount\TU/LiberationSans(0)/m/it/12 /+1 a[1+3\TU/LiberationSans(0)/m/n/12 a[1
+] /\TU/LiberationSans(0)/m/it/12 ItemCount*/]=arg(1)
+ []
+
+ [174]
+Overfull \hbox (4.6936pt too wide) in paragraph at lines 475--482
+\TU/LiberationSans(0)/m/n/12 member item with the specified index. \TU/Liberati
+onSans(0)/m/it/12 / a=self~exposed if a[1]/\TU/LiberationSans(0)/m/n/12 ItemCou
+nt\TU/LiberationSans(0)/m/it/12 /<arg(1)
+ []
+
+ [175]
+Overfull \hbox (39.49329pt too wide) in paragraph at lines 560--562
+\TU/LiberationSans(0)/m/n/12 ::method intersection /* rCOLLECTION */ return Com
+moniIntersect (self,EnBag(arg(1))) 
+ []
+
+
+Overfull \hbox (38.6222pt too wide) in paragraph at lines 571--573
+\TU/LiberationSans(0)/m/n/12 ::method difference /* rCOLLECTION */ return Commo
+nDifference (self, EnBag(arg(1))) 
+ []
+
+ [176]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.611 a{[}1{]}/}
+                ItemsCount\emph{/ n=0 do j=4 by 3 to
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+<recently read> \egroup 
+                        
+l.611 a{[}1{]}/}
+                ItemsCount\emph{/ n=0 do j=4 by 3 to
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.614 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (383.80034pt too wide) in paragraph at lines 607--614
+\TU/LiberationSans(0)/m/n/12 number of items associated with all indexes in the
+ relation. \TU/LiberationSans(0)/m/it/12 / if $[]\OT1/cmr/m/n/12 (1\OML/cmm/m/i
+t/12 ; []E[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 thenreturna[]\OT1/cmr/m/n/12 1[]/
+\OML/cmm/m/it/12 ItemsCount[]a[]\OT1/cmr/m/n/12 1[]/[]/\OML/cmm/m/it/12 ifarg\O
+T1/cmr/m/n/12 (1) ==
+ []
+
+
+Overfull \hbox (4.95618pt too wide) in paragraph at lines 633--635
+[]\TU/LiberationSans(0)/m/it/12 end j return .supplier~new(m,r) 12.2.7.5 UNION 
+::method union /* rCOLLECTION
+ []
+
+ [177]
+Overfull \hbox (8.99048pt too wide) in paragraph at lines 653--661
+[]\TU/LiberationSans(0)/m/it/12 r=self$[]$new sc=self$[]$new cs=self~supplier d
+o while cs~available sc [cs~index]
+ []
+
+
+Overfull \hbox (12.9397pt too wide) in paragraph at lines 673--681
+[]\TU/LiberationSans(0)/m/it/12 r=self$[]$new cs=self~supplier do while cs~avai
+lable r[cs~index] =cs~item cs~next
+ []
+
+
+Overfull \hbox (35.3811pt too wide) in paragraph at lines 673--681
+\TU/LiberationSans(0)/m/it/12 end cs=MayEnBag (arg(1))~supplier do while cs~ava
+ilable if self$[]$item,cs~index)
+ []
+
+ [178]
+Overfull \hbox (3.17883pt too wide) in paragraph at lines 730--735
+\TU/LiberationSans(0)/m/it/12 ::method allat /* vANY \TU/LiberationSans(0)/m/n/
+12 / a=self~exposed / \TU/LiberationSans(0)/m/it/12 Returns a single-index arra
+y containing
+ []
+
+ [179]
+Overfull \hbox (39.49329pt too wide) in paragraph at lines 789--791
+\TU/LiberationSans(0)/m/it/12 ::method intersection /* rCOLLECTION */ return Co
+mmoniIntersect (self,EnBag(arg(1))) 
+ []
+
+
+Overfull \hbox (39.05579pt too wide) in paragraph at lines 800--802
+\TU/LiberationSans(0)/m/it/12 ::method difference /* rCOLLECTION */ return Comm
+onDifference (self, EnBag(arg(1))) 
+ []
+
+
+Overfull \hbox (2.21704pt too wide) in paragraph at lines 813--815
+[]\TU/LiberationSans(0)/m/it/12 /* Returns the item associated with the specifi
+ed index. */ j=self~findindex(arg(1)) 
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.827 \arg
+          (2)\textasciitilde hasmethod(`MAKESTRING') then call Raise `Syntax',
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \textasciitilde invalid in math mode on input line 827.
+
+
+LaTeX Warning: Command \textasciitilde invalid in math mode on input line 828.
+
+
+LaTeX Warning: Command \textasciitilde invalid in math mode on input line 829.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.830 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+ [180]
+Overfull \hbox (29.35461pt too wide) in paragraph at lines 845--847
+[]\TU/LiberationSans(0)/m/it/12 end j return .supplier$[]$makearray) #### UNION
+ ::method union /* rCOLLECTION
+ []
+
+ [181]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.886 if j=0 \& \arg
+                    (2,`E') then return
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.887 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.888 if \arg
+             (2,`E') then do /* Removal */
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.889 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Undefined control sequence.
+l.913 ...textasciitilde hasindex(j) then do if \al
+                                                  [j+2] then return
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (27.46118pt too wide) in paragraph at lines 907--915
+\TU/LiberationSans(0)/m/it/12 the specified name (translated to uppercase). \TU
+/LiberationSans(0)/m/n/12 / n=translate(arg(1)) j=self~findindex(n)
+ []
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.936 then do /}
+                 It's new \emph{/
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \textasciitilde invalid in math mode on input line 936.
+
+! Extra }, or forgotten $.
+<recently read> \egroup 
+                        
+l.936 then do /}
+                 It's new \emph{/
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.940 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (262.7915pt too wide) in paragraph at lines 928--940
+\TU/LiberationSans(0)/m/it/12 method.) \TU/LiberationSans(0)/m/n/12 / n=transla
+te(arg(1)) j=self~findindex(n) if j=0 & $[]\OT1/cmr/m/n/12 (2\OML/cmm/m/it/12 ;
+ []E[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 thenreturnif []\OT1/cmr/m/n/12 (2\OML/c
+mm/m/it/12 ; []E[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 thendoself[]removeit\OT1/cm
+r/m/n/12 (\OML/cmm/m/it/12 j\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 returnendifj \OT1
+/cmr/m/n/12 =
+ []
+
+
+Overfull \hbox (37.75655pt too wide) in paragraph at lines 928--940
+\OT1/cmr/m/n/12 0\OML/cmm/m/it/12 thendo\OT1/cmr/m/n/12 /\OML/cmm/m/it/12 It[]s
+new[]ItemsCount[]ItemsCount[]al[]\OT1/cmr/m/n/12 1[]/[]/\OML/cmm/m/it/12 alj \O
+T1/cmr/m/n/12 +
+ []
+
+ [182]
+Overfull \hbox (2.97876pt too wide) in paragraph at lines 953--955
+[]\TU/LiberationSans(0)/m/n/12 return self~entry(arg(1)) /* 2?? Not clear wheth
+er second argument is mandatory.
+ []
+
+! Undefined control sequence.
+\J ->\ERROR 
+            
+l.979 .List\textasciitilde new if \J
+                                    18list\textasciitilde hasmethod(``J18'')
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.997 2)\sout
+             {''{[}{]}=''('\,''drei'', 3)}''{[}J=''('vier'',
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (47.89868pt too wide) in paragraph at lines 1014--1018
+\TU/LiberationSans(0)/m/n/12 receiver list items. \TU/LiberationSans(0)/m/it/12
+ / r=.array~new = / \TU/LiberationSans(0)/m/n/12 To build result in. \TU/Libera
+tionSans(0)/m/it/12 / do j=4 by 3 to 143\TU/LiberationSans(0)/m/n/12 a[1]/\TU/L
+iberationSans(0)/m/it/12 ItemsCount\TU/LiberationSans(0)/m/n/12 /
+ []
+
+
+Overfull \hbox (5.76392pt too wide) in paragraph at lines 1021--1024
+[]\TU/LiberationSans(0)/m/n/12 /* Returns a single-index array containing the r
+eceiver index items. \TU/LiberationSans(0)/m/it/12 / r=.array~new
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [183]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [184]
+Overfull \hbox (21.65845pt too wide) in paragraph at lines 1121--1128
+[]\TU/LiberationSans(0)/m/n/12 /* Adds the object value to the queue at its tai
+l. \TU/LiberationSans(0)/m/it/12 / a=self~exposed a[1]/\TU/LiberationSans(0)/m/
+n/12 ItemCount\TU/LiberationSans(0)/m/it/12 /=a[1
+ []
+
+
+Underfull \hbox (badness 2126) in paragraph at lines 1121--1128
+\TU/LiberationSans(0)/m/it/12 |/\TU/LiberationSans(0)/m/n/12 ItemCount*/+1 a[{1
++3\TU/LiberationSans(0)/m/it/12 a[1]/\TU/LiberationSans(0)/m/n/12 ItemCount*/|=
+arg(1) a[2+3\TU/LiberationSans(0)/m/it/12 a[1]/\TU/LiberationSans(0)/m/n/12 Ite
+mCount\TU/LiberationSans(0)/m/it/12 /|=al[ 1
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [185]
+Overfull \hbox (7.13501pt too wide) in paragraph at lines 1186--1193
+[]\TU/LiberationSans(0)/m/n/12 routine EnBag r=.Bag~new s=arg(1)~supplier do wh
+ile s~available if arg(1)~class
+ []
+
+
+Overfull \hbox (4.40344pt too wide) in paragraph at lines 1217--1219
+[]\TU/LiberationSans(0)/m/n/12 /* 98-09-24, —ref; CAST2.CMD return a collection
+ of type “target” which collected
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [186] [187]
+Overfull \hbox (0.44446pt too wide) in paragraph at lines 1371--1374
+[]\TU/LiberationSans(0)/m/n/12 ::method init /* oDESTINATION */ expose Destinat
+ion Destination = .queue~new
+ []
+
+ [188]) (./rationale.tex [189]
+Chapter 15.
+) (./incompatibilities.tex [190
+
+]
+Chapter 16.
+ [191
+
+]
+Chapter 17.
+) (./to_be_processed.tex [192
+
+]
+Chapter 18.
+
+Overfull \hbox (8.67798pt too wide) in paragraph at lines 19--28
+[]\TU/LiberationSans(0)/m/n/12 Arguments ‘by-reference’. The introduction of al
+iasing makes this natural although
+ []
+
+
+Overfull \hbox (33.40845pt too wide) in paragraph at lines 39--45
+\TU/LiberationSans(0)/m/n/12 justify a new syntax construct. The new syntax is 
+Receiver ~ MethodName(Arguments)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [193
+
+]
+Overfull \hbox (6.04907pt too wide) in paragraph at lines 77--92
+\TU/LiberationSans(0)/m/n/12 execute sequentially. The language definition will
+ be tightened to ensure atomicity
+ []
+
+
+Overfull \hbox (22.64282pt too wide) in paragraph at lines 93--95
+[]\TU/LiberationSans(0)/m/n/12 This rule provides sensible synchronization with
+out much effort from the programmer
+ []
+
+
+Overfull \hbox (20.11157pt too wide) in paragraph at lines 102--104
+[]\TU/LiberationSans(0)/m/n/12 More detailed control, eg division of a method i
+nto sections which allow/disallow
+ []
+
+
+Underfull \vbox (badness 1939) has occurred while \output is active []
+
+ [194]
+Overfull \hbox (7.31079pt too wide) in paragraph at lines 149--152
+\TU/LiberationSans(0)/m/n/12 events serially, which has more risk of deadlock t
+han locking them simultaneously.
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [195]
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (1.58118pt too wide) in paragraph at lines 193--201
+\TU/LiberationSans(0)/m/n/12 STDERR. We would prefer INPUT, OUTPUT, and ERROR t
+o be_- consistent
+ []
+
+
+Overfull \hbox (18.75891pt too wide) in paragraph at lines 229--233
+[]\TU/LiberationSans(0)/m/n/12 The .LOCAL read/write directory, initialized wit
+h the default streams, changable
+ []
+
+ [196]
+Overfull \hbox (8.72461pt too wide) in paragraph at lines 252--255
+[]\TU/LiberationSans(0)/m/n/12 All REQUIRES directives must appear together in 
+the file. B) These directives
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (10.13306pt too wide) in paragraph at lines 301--304
+[]\TU/LiberationSans(0)/m/n/12 The state variables (those with names beginning 
+‘#’ used to define processing
+ []
+
+ [197]) (./annexb.tex [198]
+Chapter 19.
+
+Overfull \hbox (12.23657pt too wide) in paragraph at lines 20--23
+[]\TU/LiberationSans(0)/m/n/12 Note that irrespective of how this standard is w
+ritten, the obligation on a conforming
+ []
+
+
+Overfull \hbox (16.26782pt too wide) in paragraph at lines 31--35
+\TU/LiberationSans(0)/m/n/12 is part of the notation used in this standard to e
+xplain the functions; implementations
+ []
+
+
+Overfull \hbox (3.3479pt too wide) in paragraph at lines 31--35
+\TU/LiberationSans(0)/m/n/12 may use a different mechanism. Notation for comple
+tion response and conditions 
+ []
+
+
+Overfull \hbox (9.54211pt too wide) in paragraph at lines 46--49
+\TU/LiberationSans(0)/m/n/12 2) if left (#Response,1) == ‘S’ then call #Raise ‘
+SYNTAX’, 48.1, substr(#Response,
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [199
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [200]
+Overfull \hbox (4.21509pt too wide) in paragraph at lines 130--173
+[]\TU/LiberationSans(0)/m/n/12 Evaluation (Definitions written as code) There i
+s no single definitional mechanism
+ []
+
+
+Overfull \hbox (0.90063pt too wide) in paragraph at lines 130--173
+\TU/LiberationSans(0)/m/n/12 introduced by prose. Ultimately, some understandin
+g of programming languages
+ []
+
+
+Overfull \hbox (6.90454pt too wide) in paragraph at lines 130--173
+\TU/LiberationSans(0)/m/n/12 variables, referred to as state variables, are ref
+erenced throughout this document;
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [201]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [202]
+Overfull \hbox (0.64478pt too wide) in paragraph at lines 260--262
+[]\TU/LiberationSans(0)/m/n/12 #ArgExists.#Level.ArgNumber indicates whether an
+ argument exists. (Initialized
+ []
+
+
+Overfull \hbox (6.6565pt too wide) in paragraph at lines 269--272
+[]\TU/LiberationSans(0)/m/n/12 #Interactive. indicates when tracing is interact
+ive. (‘?’ trace setting) #ClauseLocal.
+ []
+
+
+Overfull \hbox (26.719pt too wide) in paragraph at lines 305--310
+[]\TU/LiberationSans(0)/m/n/12 #Env_-Type. is the type of a resource, and is ad
+ditionally qualified by input/output/error
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [203])) [204] (../boilerplate/acknowledgements.tex [205
 
 
 
@@ -2031,7 +4635,7 @@ e to return. When API NextVariable
 Package caption Warning: Unused \captionsetup[lstlisting] on input line 34.
 See the caption package documentation for explanation.
 
-[42
+ [206
 
 ] (./standard.aux (./structure.aux))
 
@@ -2041,15 +4645,20 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `standard.out' has not changed.
-(rerunfilecheck)             Checksum: A636A8DBA808304ABB68DCB3DD2D0D97;3952.
- ) ) 
-Here is how much of TeX's memory you used:
- 35175 strings out of 476179
- 700178 string characters out of 5809544
- 1197105 words of memory out of 5000000
- 55170 multiletter control sequences out of 15000+600000
- 472405 words of font info for 94 fonts, out of 8000000 for 9000
- 1371 hyphenation exceptions out of 8191
- 107i,8n,108p,1867b,898s stack positions out of 10000i,1000n,20000p,200000b,200000s
+(rerunfilecheck)             Checksum: 7AB17E58F9E6271BB9CDC7506943AB9A;10553.
+ ) )
+(\end occurred inside a group at level 2)
 
-Output written on standard.pdf (46 pages).
+### simple group (level 2) entered at line 936 ({)
+### simple group (level 1) entered at line 611 ({)
+### bottom level 
+Here is how much of TeX's memory you used:
+ 35951 strings out of 476683
+ 719321 string characters out of 5804047
+ 1863018 words of memory out of 5000000
+ 55391 multiletter control sequences out of 15000+600000
+ 518225 words of font info for 114 fonts, out of 8000000 for 9000
+ 1371 hyphenation exceptions out of 8191
+ 107i,8n,108p,1867b,1165s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on standard.pdf (211 pages).

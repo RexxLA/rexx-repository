@@ -1098,7 +1098,7 @@ For ATTRIBUTE, should we actually construct source for two methods? ATTRIBUTE ca
 OO! doesn't have source (because it actually traps UNKNOWN?).
 
 For EXTERNAL test for null body. Simon Nash doc says "Accessibility to external methods ... is
-implementation-definead". Left like that it doesn't even tell us about search order. We will need a
+implementation-defined". Left like that it doesn't even tell us about search order. We will need a
 Config_ExternalClass to import the public names of the class.
 
 ## ROUTINE
@@ -1107,7 +1107,7 @@ For each routine in order of appearence:
 
 Add name (with duplicate check) to list for this file.
 
-Extra step needed in the invokation search order. Although this is nominally EXTERNAL we presumably wont use
+Extra step needed in the invocation search order. Although this is nominally EXTERNAL we presumably wont use
 the external call mechanism. (Except perhaps when the routine was made available by a REQUIRES; in that case
 the PARSE SOURCE answer has to change.)
 

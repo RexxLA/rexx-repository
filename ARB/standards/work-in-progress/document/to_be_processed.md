@@ -1,4 +1,4 @@
-To be processed:
+# To be processed:
 
 The following decisons are abstracted from minutes. We need to ensure they are covered in the main standard and
 their rationale appropriately reworded for this annex.
@@ -159,37 +159,49 @@ It won't be possible for a standard to exactly define in a system-independent wa
 -ENVIRONMENT and .LOCAL but (as with OOl) the .LOCAL will relate to "One API_START" and
 -ENVIRONMENT will have a wider scope. (Power on to power off of some system’).
 The proposed "search order" is:
+
 1. Things provided by the system which no user is expected to want to override. Perhaps .TRUE .FALSE
 NIL.
+
 2. The .LOCAL read/write directory, initialized with the default streams, changable by the user for
 individual program executions. Perhaps METHODS here.
+
 3. The read-only part of the environment, that is the builtin classes and objects. Also .SYSTEM perhaps.
+
 4. The read/write ENVIRONMENT directory. Changable by programmers co-operating at the system
 level.
 Final placement of all builtins needs discussion, but the read-only true&false requirement will be met.
 Note that the algorithm of method lookup does not change if "old objects see newest methods" is desired.
 What changes is whether the method tables are updated in place or copied-and-updated when they are
 changed.
+
 1. There have been sugestions to allow the REQUIRES directive appear in more places. The committee
 agrees with this and proposes:
+
 A) All REQUIRES directives must appear together in the file. B) These directives may appear anywhere
 the OOI implementation currently allows them to appear.
+
 2. Message numbers and prose are now allocated to messages detected by the syntax, additional to the
 messages known to the first standard. Most messages simply involve new minor codes sequential
 beyond those defined in the first standard.
+
 3. Proposed language, eg FORWARD, METHOD, and CLASS clauses, allow for many options which can
 appear in any order. These can be written in the BNF (in the manner that TO BY FOR were handled in
 the first standard) but it is neater to extend the BNF metalanguage.
+
 4. The OOI syntax used in the FORWARD instruction has examples of the 'argument' construct, which is
 either a symbol-or-string taken as a constant or is an expression in parentheses. The committee will
 define 'term' to be allowed in such places. This is a change to the OOI for valid programs only in the case
 where a MESSAGE option used a symbol intending it to be 'taken as a constant’. (As opposed to taken
 as a variable with the value defaulting to its name when uninitialized.)
+
 5. In a similar vein to 4 above, some other positions where the "variable reference” notation is used (or
 proposed) will be changed. It would be nice to allow "term" in all these places but ambiguity consideration
 means some will be "sub-expression", ie parenthesed expression, notation.
+
 6. The colon used for superclass specification will allow symbol-or-string to follow.
 DATA:
+
 7. The model of data used in defining the first standard needs changing for OO, to:
 
 - Variable pools are objects, objects are variable pools.
@@ -200,14 +212,15 @@ DATA:
 
 - The state variables (those with names beginning '#' used to define processing in the standard) are
 present in all pools, as opposed to being in a separate pool.
+
 This data model gives a natural interpretation to the variable pool API applied to local pools. (Local pools
 may access non-local pool items by reason of EXPOSE.)
 In principle this leads to different threads of execution (resulting from REPLY) being able to execute the
 API. (In practice OOI has a restriction to executing the API only on the 'main' thread and the committee
 needs to know if this is due to a generally applicable difficulty.)
+
 The committee considered the relevance of IBM's "Object Rexx Programming Guide" G25H-7597-1 to the
 Configuration section of the standard. The material there in Appendix A under headings External
-
 Function Interface, System Exit Interface, and Variable Pool Interface was deemed material for inclusion,
 and the rest not. This is similar to the first standard, although there will be an extra trap, for method calls.
 The committee considered the relevance of the STREAM section of IBM's "Object Rexx Reference”,

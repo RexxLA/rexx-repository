@@ -1,4 +1,4 @@
-Annex B
+# Annex B
 
 (informative)
 
@@ -81,7 +81,6 @@ The first change necessary is to define the values in the pools as references. F
 a change in definition style, since a reference always followed to a string value is semantically identical
 with the notion of having the value in the pool. However, references open the possibility of referencing
 
-180
 non-strings, which can behave in a changed way while still being refered to by the same reference.
 (Mutable objects)
 
@@ -142,7 +141,6 @@ The following are constants set by the configuration, by Config_Constants:
 #Limit_Digits is the maximum significant digits.
 #Limit_EnvironmentName is a maximum length.
 
-181
 #Limit_ExponentDigits is the maximum digits in an exponent.
 #Limit_Literal is a maximum length.
 
@@ -230,7 +228,6 @@ Level=1)
 #Arg.#Level.ArgNumber provides the value of an argument. (Initialized from API_Start for Level=1)
 When ArgNumber=0 this gives a count of the arguments.
 
-182
 #Tracing. is the trace setting letter.
 
 #Interactive. indicates when tracing is interactive. ('?' trace setting)
@@ -309,7 +306,6 @@ API_is used for an application programming interface.
 Trap_ is used for a routine called from the processor, not provided by it.
 Var_ is used for the routines operating on the variable pools.
 
-183
 These are notation routines, only available to code in this standard:
 
 #Contains checks whether some construct is in the source.

@@ -1,0 +1,1401 @@
+\hypertarget{provided-classes}{%
+\chapter{Provided classes}\label{provided-classes}}
+
+(Informative)
+
+\hypertarget{notation}{%
+\section{Notation}\label{notation}}
+
+The provided classes are defined mainly through code. \#\# The
+Collection Classes
+
+\hypertarget{collection-class-routines}{%
+\subsection{Collection Class Routines}\label{collection-class-routines}}
+
+These routines are used in the definition of the collection classes
+::routine CommonxXor /* Returns a new collection that contains all items
+from self and the argument except that all indexes that appear in both
+collections are removed. \emph{/ /} When the target is a bag, there may
+be an index in the bag that is duplicated and the same value as an index
+in the argument. Should one copy of the index survive in the bag?
+\emph{/ vel if (arg(1)\textasciitilde class==.Set \&
+arg(2)\textasciitilde class==.Bag) then v=2 if
+(arg(1)\textasciitilde class==.Table \&
+arg(2)\textasciitilde class==.Bag) then v=2 if
+(arg(1)\textasciitilde class==.Table \&
+arg(2)\textasciitilde class==.Relation) then v=2 if
+(arg(1)\textasciitilde class==.Directory \&
+arg(2)\textasciitilde class==.Bag) then v=2 if
+(arg(1)\textasciitilde class==.Directory \&
+arg(2)\textasciitilde class==.Relation) then v=2 /} This version it
+does: \emph{/ if v=1 then do This = arg(1) /} self of caller */
+r=This\textsubscript{class}new ab=MayEnBag (arg (2) )
+ss=This\textasciitilde supplier do while ss\textasciitilde available
+r{[}ss\textasciitilde index{]} =ss\textasciitilde item
+ss\textasciitilde next end cs=ab\textasciitilde supplier do while
+cs\textasciitilde available if r\textsubscript{hasindex(cs}index) then
+r\textasciitilde remove (cs\textasciitilde index) else
+r{[}cs\textasciitilde index{]} =cs\textasciitilde item
+cs\textasciitilde next end return r end
+
+/* But following matches practice on Set\textasciitilde XOR(bag) etc. */
+
+This = arg(1) /* self of caller */
+
+r=This\textsubscript{class}new
+
+ab=MayEnBag (arg (2) )
+
+ss=This\textasciitilde supplier
+
+do while ss\textasciitilde available if
+\ab\textsubscript{hasindex(ss}index) then r{[}ss\textasciitilde index{]}
+=ss\textasciitilde item ss\textasciitilde next end
+
+cs=ab\textasciitilde supplier
+
+do while cs\textasciitilde available if
+\This\textsubscript{hasindex(cs}index) then
+r{[}cs\textasciitilde index{]} =cs\textasciitilde item es-next end
+
+return r
+
+::routine CommoniIntersect /* Returns a new collection of the same class
+as SELF that contains the items from SELF that have indexes also in the
+argument. \emph{/ /} Actually an index in SELF can only be `matched'
+with one in the argument once. Hence copy and removal. \emph{/ This =
+arg(1) /} self of caller */ w= .Bag\textasciitilde new
+sc=This\textasciitilde supplier do while sc\textasciitilde available
+wlsc\textasciitilde index{]} =sc\textasciitilde index sc-next end
+r=This\textsubscript{class}new
+
+cs=MayEnBag (arg(2))\textasciitilde supplier do while
+cs\textasciitilde available i=cs\textasciitilde index if
+w\textasciitilde hasindex(i) then do r{[}i{]}=This {[}i{]}
+w\textasciitilde remove (i) end cs\textasciitilde next end return r
+
+::routine CommonUnion /* Returns a new collection of the same class as
+SELF that contains all the items from SELF and items from the argument
+that have an index not in the first. \emph{/ /} Best to add them all. By
+adding non-receiver first we ensure that receiver takes priority when
+same indexes. \emph{/ This = arg(1) /} self of caller */
+r=This\textsubscript{class}new cs=MayEnBag
+(arg(2))\textasciitilde supplier do while cs\textasciitilde available
+r{[}cs\textasciitilde index{]} =cs\textasciitilde item
+cs\textasciitilde next end cs=This\textasciitilde supplier do while
+cs\textasciitilde available r{[}cs\textasciitilde index{]}
+=cs\textasciitilde item cs\textasciitilde next end return r
+
+::routine CommonDifference /* Returns a new collection containing only
+those index-item pairs from the SELF whose indexes the other collection
+does not contain. \emph{/ This = arg(1) /} self of caller */
+r=This\textsubscript{class}new cs=This\textasciitilde supplier do while
+cs\textasciitilde available r{[}cs\textasciitilde index{]}
+=cs\textasciitilde item es-next end cs=MayEnBag
+(arg(2))\textasciitilde supplier do while cs\textasciitilde available
+r\textasciitilde remove (cs\textasciitilde index) es-next end return r
+
+::routine MayEnBag
+
+/* For List and Queue the indexes are dropped. */ rearg(1) if r-clags ==
+.List \textbar{} r-class == .Queue then r=EnBag(r) return r
+
+::routine EnBag r=.Bag\textasciitilde new
+s=arg(1)\textasciitilde supplier do while s\textasciitilde available if
+arg(1)\textasciitilde class == .List \textbar{}
+arg(1)\textasciitilde class == .Queue then r{[}s\textasciitilde item{]}
+=s\textasciitilde item else /* This case is when the receiver is a Bag.
+*/ r{[}s\textasciitilde index{]} =s\textasciitilde index
+s\textasciitilde-next end return r
+
+\hypertarget{the-collection-class}{%
+\subsection{The collection class}\label{the-collection-class}}
+
+::Cclass `Collection'
+
+\hypertarget{init}{%
+\subsubsection{INIT}\label{init}}
+
+::method init
+
+expose a /* A collection is modelled as using 3 slots in an array for
+each element. The first slot holds the item, the second the index, and
+the third is used by particular types of collection. This order of slots
+is arbitary, chosen to match order of arguments for PUT and
+SUPPLIER\textasciitilde NEW. \emph{/ /} The first set of 3 slots is
+reserved for other purposes, to avoid having separate variables which
+the subclassing would need to access. */
+
+a=.array\textasciitilde new
+
+a{[}1{]} /\emph{ItemsCount}/=0
+
+a{[}2{]}/\emph{Unique}/=0
+
+return self
+
+\hypertarget{exposed}{%
+\subsubsection{EXPOSED}\label{exposed}}
+
+::method exposed private expose a
+
+/* This method allows subclasses to get at the implementation of
+Collection. */ return a
+
+\hypertarget{findindex}{%
+\subsubsection{FINDINDEX}\label{findindex}}
+
+::method findindex private expose a /* Returns array index if the
+collection contains any item associated with the index specified or
+returns 0 otherwise. \emph{/ do j=4 by 3 to
+1+3}a{[}1{]}/\emph{ItemsCount}/ if alj+l{]}==arg(1) then return j end j
+return 0
+
+\hypertarget{at}{%
+\subsubsection{AT}\label{at}}
+
+::method at /* vANY \emph{/ expose a /} Returns the item associated with
+the specified index. */ j=self\textasciitilde findindex(arg(1)) if j=0
+then return .nil return a{[}j{]}
+
+\hypertarget{section}{%
+\subsubsection{{[}{]}}\label{section}}
+
+::method `{[}{]}' /* Synonym for the AT method. */ forward message `AT'
+
+\hypertarget{put}{%
+\subsubsection{PUT}\label{put}}
+
+::method put /* rANY rANy \emph{/ expose a use arg item, index /}
+Replaces any existing item associated with the specified index with the
+new item. Otherwise adds the item-index pair. \emph{/
+j=self\textasciitilde findindex (index) if j\textgreater0 then do
+alj{]}=item return end a{[}1{]} /}ItemsCount\emph{/=a {[}1{]}
+/}ItemsCount\emph{/+1 j=1+3}al{[}1{]} /\emph{ItemsCount}/ alj{]}=item
+a{[}lj+1{]} =index a{[}j+2{]}=0 return /* Error 91 in OOI if context
+requiring result. */
+
+\hypertarget{section-1}{%
+\subsubsection{{[}{]}=}\label{section-1}}
+
+:smethod `{[}{]}=' /* Synonym for the PUT method. */ forward message
+`PUT'
+
+\hypertarget{hasindex}{%
+\subsubsection{HASINDEX}\label{hasindex}}
+
+::method hasindex /* vANY \emph{/ /} Returns 1 (true) if the collection
+contains any item associated with the index specified or returns 0
+(false) otherwise. */
+
+return self\textasciitilde findindex (arg(1))\textgreater0
+
+\hypertarget{items}{%
+\subsubsection{ITEMS}\label{items}}
+
+::method items expose a
+
+/* Returns the number of items in the collection. \emph{/ return
+a{[}1{]}/}ItemsCount*/
+
+\hypertarget{remove}{%
+\subsubsection{REMOVE}\label{remove}}
+
+::method remove /* vANY */
+
+expose a /* Returns and removes from a collection the member item with
+the specified index. */
+
+j=self\textasciitilde findindex(arg(1))
+
+if j=0 then return .nil
+
+r=al{[}j{]}
+
+self\textasciitilde removeit (j)
+
+return r
+
+\hypertarget{removeit}{%
+\subsubsection{REMOVEIT}\label{removeit}}
+
+::method removeit private
+
+expose a
+
+use arg j
+
+/* Remove relevant slots from the array, with compaction. */
+
+do j=j+3 by 3 to 14+3\emph{a{[}1{]}/}ItemsCount*/
+alj-3l=saljl;alj-2{]}=al{[}j+1{]};alj-ll=alj+2{]} end j
+
+a{[}1{]} /\emph{ItemsCount}/=a {[}1{]} /\emph{ItemsCount}/-1
+
+return
+
+\hypertarget{makearrya}{%
+\subsubsection{MAKEARRYA}\label{makearrya}}
+
+::method makearray
+
+expose a /* Returns a single-index array containing the receiver list
+items. \emph{/ r= .array\textasciitilde new /} To build result in. */
+
+do j=4 by 3 to 1+3\emph{a{[}1{]}/}ItemsCount*/
+r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]} end j
+
+return r
+
+\hypertarget{makearrayx}{%
+\subsubsection{MAKEARRAYX}\label{makearrayx}}
+
+::method makearrayx private expose a /* Returns a single-index array
+containing the receiver index items. \emph{/ r=
+.array\textasciitilde new /} To build result in. \emph{/ do j=4 by 3 to
+1+3}a{[}1{]}/\emph{ItemsCount}/
+r{[}r\textasciitilde dimension(1)+1{]}=a{[}j+1{]} end j return r
+
+\hypertarget{supplier}{%
+\subsubsection{SUPPLIER}\label{supplier}}
+
+::method supplier expose a
+
+/* Returns a supplier object for the list. */ return
+.supplier\textsubscript{new(self}makearray: .collection,
+self\textasciitilde makearrayx)
+
+\hypertarget{class-list}{%
+\subsection{Class list}\label{class-list}}
+
+::¢class `List' subclass Collection
+
+\hypertarget{put-1}{%
+\subsubsection{PUT}\label{put-1}}
+
+::method put /* vANY rANY */ use arg item, index
+a=self\textasciitilde exposed
+
+/* PUT for a List must not be an insertion. */
+j=self\textasciitilde findindex (index) if j=0 then call Raise
+`Syntax',93.918 alj{]}=item return
+
+\hypertarget{of}{%
+\subsubsection{OF}\label{of}}
+
+::method of class /* 1 or more oANY Are they omittable? Not in I00
+\emph{/ /} Returns a newly created list containing the specified value
+objects in the order specified. */ r= self \textasciitilde{} new do j =
+1 to arg() r\textasciitilde{} insert (arg(j)) end j return r
+
+\hypertarget{insert}{%
+\subsubsection{INSERT}\label{insert}}
+
+::method insert /* rANY oANY */
+
+use arg item, index
+
+a=self\textasciitilde exposed /* Returns a list-supplied index for a new
+item, of specified value, which is added to the list. The new item
+follows the existing item with the specified index in the list ordering.
+\emph{/ /} Establish the index of what preceeds the new element. \emph{/
+/} If there was no index given, the new item becomes the last on list.
+\emph{/ /} .nil argument means first */
+
+if arg(2,`E') then p=arg(2)
+
+else p=self\textasciitilde last
+
+/* Convert from list index to underlying array index. */
+
+if p==.nil then j=1
+
+else j=self\textasciitilde findindex(p)
+
+if j=0 then call Raise `Syntax',93.918
+
+j=j+3 /* Where new entry will be. \emph{/ /} Move space to required
+place. */
+
+a{[}1{]} /\emph{ItemsCount}/=a {[}1{]} /\emph{ItemsCount}/+1
+
+do k=1+3\emph{a{[}1{]}/}ItemsCount*/ by -3 to j+3
+
+a{[}k{]} =a{[}k-3{]} ;a{[}k+1{]} =a{[}k-2{]} ;a{[}k{]} =a{[}k-3{]} end
+
+/* Insert new element. */
+
+alj{]}=item /* A new, unique, index is needed. \emph{/ /} The basic
+requirement is for something unique, so this would be correct:
+
+is.object\textasciitilde new /* a unique object, used as a key (the
+index on the list) \emph{/ }
+
+/ /* However, a number can be used. (At risk of the user thinking it is
+sensible to do arithmetic on it.) */
+
+a{[}j+1{]}=a{[}2{]}/\emph{Unique}/;a{[}2{]} /\emph{Unique}/=a{[}2{]}
+/\emph{Unique}/+1
+
+a{[}j+2{]}=0
+
+return a{[}j+1{]}
+
+\hypertarget{first}{%
+\subsubsection{FIRST}\label{first}}
+
+::method first a=self\textasciitilde exposed
+
+/* Returns the index of the first item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount*/=0 then return .nil
+
+141 return a{[}5{]}
+
+\hypertarget{last}{%
+\subsubsection{LAST}\label{last}}
+
+::smethod last a=self\textasciitilde exposed
+
+/* Returns the index of the last item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount*/=0 then return .nil return
+a{[}3\emph{a{[}1{]}/}ItemsCount*/+2{]}
+
+\hypertarget{firstitem}{%
+\subsubsection{FIRSTITEM}\label{firstitem}}
+
+::method firstitem a=self\textasciitilde exposed
+
+/* Returns the first item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}4{]}
+
+\hypertarget{lastitem}{%
+\subsubsection{LASTITEM}\label{lastitem}}
+
+::method lastitem a=self\textasciitilde exposed
+
+/* Returns the last item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount*/=0 then return .nil return
+a{[}3\emph{a{[}1{]}/}ItemsCount*/+1{]}
+
+\hypertarget{next}{%
+\subsubsection{NEXT}\label{next}}
+
+::method next /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
+the index of the item that follows the list item having the specified
+index. \emph{/ j=self\textasciitilde findindex(arg(1)) if j=0 then call
+Raise `Syntax',93.918 j=j+3 if
+j\textgreater3}a{[}1{]}/\emph{ItemsCount}/ then return .nil /* Next of
+last was requested. */ return a{[}j+1{]}
+
+\hypertarget{previous}{%
+\subsubsection{PREVIOUS}\label{previous}}
+
+::method previous /* vANY */
+
+a=self\textasciitilde exposed /* Returns the index of the item that
+precedes the list item having the specified index. */
+
+j=self\textasciitilde findindex(arg(1))
+
+if j=0 then call Raise `Syntax',93.918
+
+j=j-3
+
+if j\textless4 then return .nil /* Previous of first was requested. */
+
+return a{[}j+1{]}
+
+\hypertarget{section-2}{%
+\subsubsection{SECTION}\label{section-2}}
+
+::method section /* rANY oWHOLE\textgreater=0 */
+
+a=self\textasciitilde exposed /* Returns a new list containing selected
+items from the receiver list. The first item in the new list is the item
+corresponding to the index specified, in the receiver list. */
+
+j=self\textasciitilde findindex(arg(1))
+
+if j=0 then call Raise `Syntax',93.918
+
+r= .list\textasciitilde new /* To build result in. \emph{/ if arg(2,`E')
+then s = arg(2) else s = self\textasciitilde items; do s
+r\textasciitilde insert (a{[}j{]}) j=j+3 if
+j\textgreater1+3}a{[}1{]}/\emph{ItemsCount}/ then leave end return r
+
+\hypertarget{class-queue}{%
+\subsection{Class queue}\label{class-queue}}
+
+::class `Queue' subclass Collection
+
+/* A queue is a sequenced collection with whole-number indexes. The
+
+indexes specify the position of an item relative to the head (first
+item) of the queue. Adding or removing an item changes the association
+of an index to its queue item. */
+
+\hypertarget{push}{%
+\subsubsection{PUSH}\label{push}}
+
+::method push /* vANY */
+
+/* Adds the object value to the queue at its head. \emph{/
+a=self\textasciitilde exposed a{[}1{]} /}ItemCount\emph{/=a {[}1{]}
+/}ItemCount*/+1
+
+/* Slide along to make a space. \emph{/ do
+j=1+3}a{[}1{]}/\emph{ItemCount}/ by -3 to 7
+
+aljl=alj-3{]} alj+l{]}=a{[}j-2{]}+1; /* Index changes \emph{/ end j
+a{[}4{]}=arg(1) a{[}5J=1 return 12.2.4.2 PULL{]}=a{[}j+4{]}-1; /} Index
+changes */ end j return r
+
+\hypertarget{queue}{%
+\subsubsection{QUEUE}\label{queue}}
+
+::method queue /* vANY \emph{/ /} Adds the object value to the queue at
+its tail. \emph{/ a=self\textasciitilde exposed a{[}1{]}
+/}ItemCount\emph{/=a {[}1{]} /}ItemCount\emph{/+1 a{[}1+3\emph{a{[}1{]}
+/}ItemCount*/{]}=arg(1) a{[}2+3\emph{a{[}1{]}
+/}ItemCount*/{]}=a{[}1{]}/}ItemCount*/ return
+
+\hypertarget{peek}{%
+\subsubsection{PEEK}\label{peek}}
+
+::method peek
+
+a=self\textasciitilde exposed /* Returns the item at the head of the
+queue. The collection remains unchanged. */
+
+return a{[}4{]}
+
+\hypertarget{remove-1}{%
+\subsubsection{REMOVE}\label{remove-1}}
+
+::method remove /* rcWHOLE\textgreater O \emph{/ /} Returns and removes
+from a collection the member item with the specified index. \emph{/
+a=self\textasciitilde exposed if
+a{[}1{]}/}ItemCount\emph{/\textless arg(1) then return .nil
+r=self\textasciitilde remove: super (arg(1)) /} Reset the indexes.
+\emph{/ k=0 do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ k=k+1
+alj+l{]}=k end j return r
+
+\hypertarget{class-table}{%
+\subsection{Class table}\label{class-table}}
+
+::Class `Table' subclass Collection
+
+\hypertarget{makearray}{%
+\subsubsection{MAKEARRAY}\label{makearray}}
+
+::method makearray /* Returns a single-index array containing the index
+objects. \emph{/ /} This is different from Collection MAKEARRAY where
+items rather than indexes are in the returned array. */ forward message
+`MAKEARRAYX'
+
+\hypertarget{union}{%
+\subsubsection{UNION}\label{union}}
+
+::method union /* rCOLLECTION */ return CommonUnion (self,arg(1))
+
+\hypertarget{intersection}{%
+\subsubsection{INTERSECTION}\label{intersection}}
+
+::method intersection /* rCOLLECTION */ return CommoniIntersect
+(self,arg(1))
+
+\hypertarget{xor}{%
+\subsubsection{XOR}\label{xor}}
+
+::method xor /* rCOLLECTION */ return CommonXor (self,arg(1))
+
+\hypertarget{difference}{%
+\subsubsection{DIFFERENCE}\label{difference}}
+
+::method difference /* rCOLLECTION */ return
+CommonDifference(self,arg(1))
+
+\hypertarget{subset}{%
+\subsubsection{SUBSET}\label{subset}}
+
+::method subset /* rCOLLECTION */ return
+self\textsubscript{difference(arg(1))}items = 0
+
+\hypertarget{class-set}{%
+\subsubsection{Class set}\label{class-set}}
+
+::¢class `Set' subclass table
+
+/* A set is a collection that restricts the member items to have a value
+that is the same as the index. Any object can be placed in a set. There
+can be only
+
+one occurrence of any object in a set. */
+
+\hypertarget{put-2}{%
+\subsubsection{PUT}\label{put-2}}
+
+/* Second arg same as first. Committee has dropped second? \emph{/
+::method put /} YANY oANY \emph{/ /} Makes the object value a member
+item of the collection and associates it with specified index. \emph{/
+if arg(2,`E') then if arg(2)==arg(1) then signal error /} 949 */
+self\textasciitilde put:super(arg(1),arg(1))
+
+\hypertarget{of-1}{%
+\subsubsection{OF}\label{of-1}}
+
+::method of class /* 1 or more rANYy \emph{/ /} Returns a newly created
+set containing the specified value objects. */ r=self\textasciitilde new
+do j=1 to arg() r\textasciitilde put (arg(j)) end j return r
+
+\hypertarget{union-1}{%
+\subsubsection{UNION}\label{union-1}}
+
+::method union /* rCOLLECTION */ return CommonUnion (self,
+EnBag(arg(1)))
+
+\hypertarget{intersection-1}{%
+\subsubsection{INTERSECTION}\label{intersection-1}}
+
+::method intersection /* rCOLLECTION */ return CommoniIntersect
+(self,EnBag(arg(1)))
+
+\hypertarget{xor-1}{%
+\subsubsection{XOR}\label{xor-1}}
+
+::method xor /* rCOLLECTION */ return CommonXor (self, EnBag(arg(1)))
+
+\hypertarget{difference-1}{%
+\subsubsection{DIFFERENCE}\label{difference-1}}
+
+::method difference /* rCOLLECTION */ return CommonDifference (self,
+EnBag(arg(1)))
+
+\hypertarget{class-relation}{%
+\subsection{Class relation}\label{class-relation}}
+
+::Class `Relation' subclass Collection
+
+\hypertarget{put-3}{%
+\subsubsection{PUT}\label{put-3}}
+
+::method put /* vANY rANY */
+
+use arg item, index
+
+a=self\textasciitilde exposed /* Makes the object value a member item of
+the relation and associates it with the specified index. If the relation
+already contains any items with the specified index, this method adds a
+new member item value with the same index, without removing any existing
+members */
+
+a{[}1{]} /\emph{ItemsCount}/=a {[}1{]} /\emph{ItemsCount}/+1
+
+j=1+3\emph{al{[}1{]} /}ItemsCount*/
+
+alj{]}=item
+
+a{[}lj+1{]} =index
+
+a{[}j+2{]}=0
+
+return /* Error 91 in OOI if context requiring result. */
+
+\hypertarget{items-1}{%
+\subsubsection{ITEMS}\label{items-1}}
+
+::method items /* oANY \emph{/ a=self\textasciitilde exposed /} Returns
+the number of relation items with the specified index. If you specify no
+index, this method returns the total number of items associated with all
+indexes in the relation. \emph{/ if \arg(1,`E') then return
+a{[}1{]}/}ItemsCount\emph{/ n=0 do j=4 by 3 to
+1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1)==a{[}j+1{]} then n=n+1 end j
+return n
+
+\hypertarget{makearray-1}{%
+\subsubsection{MAKEARRAY}\label{makearray-1}}
+
+::method makearray forward message `MAKEARRAYX'
+
+\hypertarget{supplier-1}{%
+\subsubsection{SUPPLIER}\label{supplier-1}}
+
+::method supplier /* oANY \emph{/ a=self\textasciitilde exposed /}
+Returns a supplier object for the collection. If an index is specified,
+the supplier enumerates all of the items in the relation with the
+specified index. \emph{/ m=.array\textasciitilde new /} For the items
+\emph{/ r=.array\textasciitilde new /} For the indexes \emph{/ do j=4 by
+3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1,`E') then if
+arg(1)=s=a{[}j+1{]} then iterate n=r\textasciitilde dimension(1)+1
+
+m{[}n{]} =a{[}j{]} r{[}n{]} =a{[}j+1{]}
+
+end j return .supplier\textasciitilde new(m,r) 12.2.7.5 UNION ::method
+union /* rCOLLECTION */
+
+/* Union for a relation is just all of both. */
+r=self\textsubscript{class}new cs=self\textasciitilde supplier do while
+cs\textasciitilde available
+
+r{[}cs\textasciitilde index{]} =cs\textasciitilde item es-next end
+cs=MayEnBag (arg(1))\textasciitilde supplier do while
+cs\textasciitilde available r{[}cs\textasciitilde index{]}
+=cs\textasciitilde item es-next end return r
+
+\hypertarget{intersection-2}{%
+\subsubsection{INTERSECTION}\label{intersection-2}}
+
+::method intersection /* rCOLLECTION */
+
+/* Intersection for a relation requires the items as well as the keys to
+match. */
+
+r=self\textsubscript{class}new sc=self\textsubscript{class}new
+cs=self\textasciitilde supplier do while cs\textasciitilde available sc
+{[}cs\textasciitilde index{]} =cs\textasciitilde item
+cs\textasciitilde next end cs=MayEnBag (arg(1))\textasciitilde supplier
+do while cs\textasciitilde available if
+sc\textsubscript{hasitem(cs}item,cs\textasciitilde index) then r
+{[}ecs\textasciitilde index{]} =sc\textsubscript{removeitem(cs}item,
+cs\textasciitilde next end return r
+
+cs\textasciitilde index)
+
+\hypertarget{xor-2}{%
+\subsubsection{XOR}\label{xor-2}}
+
+::method xor /* rCOLLECTION \emph{/ /} Returns a new relation that
+contains all items from self and
+
+the argument except that all index-item pairs that appear in both
+collections are removed. */
+
+r=self\textsubscript{class}new cs=self\textasciitilde supplier do while
+cs\textasciitilde available r{[}cs\textasciitilde index{]}
+=cs\textasciitilde item cs\textasciitilde next end cs=MayEnBag
+(arg(1))\textasciitilde supplier do while cs\textasciitilde available if
+self\textsubscript{hasitem(cs}item,cs\textasciitilde index) then
+r\textsubscript{removeitem(cs}item, cs\textasciitilde index) else
+r{[}cs\textasciitilde index{]} =cs\textasciitilde item
+cs\textasciitilde next end return r
+
+\hypertarget{difference-2}{%
+\subsubsection{DIFFERENCE}\label{difference-2}}
+
+::method difference /* rCOLLECTION */
+
+/* Returns a new relation containing only those index-item pairs from
+the g Y P SELF whose indexes the other collection does not contain. */
+r=self\textsubscript{class}new cs=self\textasciitilde supplier
+
+do while cs\textasciitilde available r{[}cs\textasciitilde index{]}
+=cs\textasciitilde item cs\textasciitilde next end
+
+cs=MayEnBag (arg(1))\textasciitilde supplier
+
+do while cs\textasciitilde available r\textsubscript{removeitem(cs}item,
+cs\textasciitilde index) cs\textasciitilde next end
+
+return r
+
+\hypertarget{subset-1}{%
+\subsubsection{SUBSET}\label{subset-1}}
+
+::method subset /* rCOLLECTION */ return
+self\textsubscript{difference(arg(1))}items = 0
+
+\hypertarget{removeitem}{%
+\subsubsection{REMOVEITEM}\label{removeitem}}
+
+::method removeitem /* YANY rANY \emph{/ a=self\textasciitilde exposed
+/} Returns and removes from a relation the member item value (associated
+with the specified index). If value is not a member item associated with
+index index, this method returns the NIL object and removes no item.
+\emph{/ do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj{]}==arg(1)
+\& a{[}j+1l{]}==arg(2) then do self\textasciitilde removeit (j) return
+arg(1) end end j return .nil
+
+\hypertarget{index}{%
+\subsubsection{INDEX}\label{index}}
+
+::method index /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
+the index for the specified item. If there is more than one index
+associated with the specified item, the one this method returns is not
+defined. \emph{/ do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if
+arg(1)==a{[}j{]} then return a{[}j+1{]} end j return .nil
+
+\hypertarget{allat}{%
+\subsubsection{ALLAT}\label{allat}}
+
+::method allat /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
+a single-index array containing all the items associated with the
+specified index. \emph{/ r=.array\textasciitilde new do j=4 by 3 to
+1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1)==a{[}j+1{]} then
+r{[}r\textasciitilde dimension(1)+1{]} = aljl end j return r
+
+\hypertarget{hasitem}{%
+\subsubsection{HASITEM}\label{hasitem}}
+
+::method hasitem /* YANY rANY \emph{/ a=self\textasciitilde exposed /}
+Returns 1 (true) if the relation contains the member item value
+(associated with specified index). Returns 0 (false) otherwise. \emph{/
+do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj{]}==arg(1) \&
+a{[}j+l{]}==arg(2) then return 1 end j return 0
+
+\hypertarget{allindex}{%
+\subsubsection{ALLINDEX}\label{allindex}}
+
+::method allindex /* vANY */
+
+a=self\textasciitilde exposed /* Returns a single-index array containing
+all indexes for the specified item. \emph{/ r=.array\textasciitilde new
+do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj{]}==arg(1) then do
+r{[}r-\textasciitilde dimension (1)+1{]} =a{[}j+1{]} end end j return r
+
+\#\#3 The bag class
+
+::class `Bag' subclass relation
+
+/* A bag is a collection that restricts the member items to having a
+value that is the same as the index. Any object can be placed in a bag,
+and the same object can be placed in a bag multiple times. */
+
+\hypertarget{of-2}{%
+\subsubsection{OF}\label{of-2}}
+
+::method of class /* 1 or more rANYy \emph{/ /} Returns a newly created
+bag containing the specified value objects. */ r=self\textasciitilde new
+do j=1 to arg() r\textasciitilde put (arg(j)) end j return r
+
+\hypertarget{put-4}{%
+\subsubsection{PUT}\label{put-4}}
+
+::method put /* vANY oANY \emph{/ /} Committee does away with second
+argument? \emph{/ /} Makes the object value a member item of the
+collection and associates it with the specified index. If you specify
+index, it must be the same as value. */ if arg(2,`E') then if
+arg(2)=s=arg(1) then signal error self\textasciitilde put: super
+(arg(1),arg(1))
+
+\hypertarget{union-2}{%
+\subsubsection{UNION}\label{union-2}}
+
+::method union /* rCOLLECTION */ return CommonUnion (self,
+EnBag(arg(1)))
+
+\hypertarget{intersection-3}{%
+\subsubsection{INTERSECTION}\label{intersection-3}}
+
+::method intersection /* rCOLLECTION */ return CommoniIntersect
+(self,EnBag(arg(1)))
+
+\hypertarget{xor-3}{%
+\subsubsection{XOR}\label{xor-3}}
+
+::method xor /* rCOLLECTION */ return CommonXor (self, EnBag(arg(1)))
+
+\hypertarget{difference-3}{%
+\subsubsection{DIFFERENCE}\label{difference-3}}
+
+::method difference /* rCOLLECTION */ return CommonDifference (self,
+EnBag(arg(1)))
+
+\hypertarget{the-directory-class}{%
+\subsection{The directory class}\label{the-directory-class}}
+
+::class `Directory' subclass Collection
+
+\hypertarget{at-1}{%
+\subsubsection{AT}\label{at-1}}
+
+::method at /* vANY */ a=self\textasciitilde exposed
+
+/* Returns the item associated with the specified index. */
+j=self\textasciitilde findindex(arg(1))
+
+if j=0 then return .nil
+
+/* Run the method if there is one. */ if a{[}j+2{]} then return
+self\textasciitilde run(a{[}j{]}) return a{[}j{]}
+
+\hypertarget{put-5}{%
+\subsubsection{PUT}\label{put-5}}
+
+::method put /* vANY rANY \emph{/ a=self\textasciitilde exposed /} Makes
+the object value a member item of the collection and associates it with
+the specified index. */ if
+\arg(2)\textasciitilde hasmethod(`MAKESTRING') then call Raise `Syntax',
+93.938 self\textasciitilde put:super(arg(1),arg(2)
+\textasciitilde makestring) return
+
+\hypertarget{makearray-2}{%
+\subsubsection{MAKEARRAY}\label{makearray-2}}
+
+::method makearray forward message `MAKEARRAYX'
+
+\hypertarget{supplier-2}{%
+\subsubsection{SUPPLIER}\label{supplier-2}}
+
+::method supplier a=self\textasciitilde exposed /* Returns a supplier
+object for the directory. \emph{/ /} Check out what happens to the
+SETENTRY fields. \emph{/ r=.array\textasciitilde new /} For items
+\emph{/ do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/
+r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]}
+
+end j return .supplier\textsubscript{new(r,self}makearray) \#\#\#\#
+UNION ::method union /* rCOLLECTION */
+
+return CommonUnion (self,arg(1))
+
+\hypertarget{intersection-4}{%
+\subsubsection{INTERSECTION}\label{intersection-4}}
+
+::method intersection /* rCOLLECTION */ return CommoniIntersect
+(self,arg(1))
+
+\hypertarget{xor-4}{%
+\subsubsection{XOR}\label{xor-4}}
+
+::method xor /* rCOLLECTION */ return CommonXor (self,arg(1))
+
+\hypertarget{difference-4}{%
+\subsubsection{DIFFERENCE}\label{difference-4}}
+
+::method difference /* rCOLLECTION */ return
+CommonDifference(self,arg(1))
+
+\hypertarget{subset-2}{%
+\subsubsection{SUBSET}\label{subset-2}}
+
+::method subset /* rCOLLECTION */ return
+self\textsubscript{difference(arg(1))}items = 0
+
+\hypertarget{setentry}{%
+\subsubsection{SETENTRY}\label{setentry}}
+
+::smethod setentry /* rSTRING oANY */
+
+a=self\textasciitilde exposed /* Sets the directory entry with the
+specified name (translated to uppercase) to the second argument,
+replacing any existing entry or method for the specified name. */
+
+n=translate(arg(1))
+
+j=self\textasciitilde findindex(n)
+
+if j=0 \& \arg(2,`E') then return
+
+if \arg(2,`E') then do /* Removal */
+
+self\textasciitilde removeit (j)
+
+return end
+
+if j=0 then do /* It's new \emph{/
+a{[}1{]}/}ItemsCount\emph{/=a{[}1{]}/}ItemsCount\emph{/ +1
+j=1+3}al{[}1{]} /\emph{ItemsCount}/ alj+l{]}=n end
+
+alj{]}=arg(2)
+
+a{[}4j+2{]}=0
+
+return
+
+\hypertarget{entry}{%
+\subsubsection{ENTRY}\label{entry}}
+
+::smethod entry /* rSTRING \emph{/ a=self\textasciitilde exposed /}
+Returns the directory entry with the specified name (translated to
+uppercase). \emph{/ n=translate(arg(1))
+j=self\textasciitilde findindex(n) /}if j=0 then signal error according
+to online \emph{/ /} Online has something about running UNKNOWN. \emph{/
+if j=0 then return .nil /} If there is an entry decide whether to invoke
+it. */ if a\textasciitilde hasindex(j) then do if \al[j+2] then return
+al{[}j{]} return self\textasciitilde run(al{[}jl{]}) end
+
+\hypertarget{hasentry}{%
+\subsubsection{HASENTRY}\label{hasentry}}
+
+::method hasentry /* rSTRING \emph{/ /} Returns 1 (true) if the
+directory has an entry or a method for the specified name (translated to
+uppercase) or 0 (false) otherwise. */
+
+return self\textasciitilde findindex (translate(arg(1)))\textgreater0
+
+\hypertarget{setmethod}{%
+\subsubsection{SETMETHOD}\label{setmethod}}
+
+::method setmethod /* rSTRING oMETHOD \emph{/
+a=self\textasciitilde exposed /} Associates entry with the specified
+name (translated to uppercase) with method method. Thus, the language
+processor returns the result of running method when you access this
+entry. \emph{/ /} (Part of METHOD checking converts string or array to
+actual method.) \emph{/ n=translate(arg(1))
+j=self\textasciitilde findindex(n) if j=0 \& \arg(2,`E') then return if
+\arg(2,`E') then do self\textasciitilde removeit (j) return end if j=0
+then do /} It's new \emph{/
+a{[}1{]}/}ItemsCount\emph{/=a{[}1{]}/}ItemsCount\emph{/ +1
+j=1+3}al{[}1{]} /\emph{ItemsCount}/ alj+l{]}=n end alj{]}=arg(2)
+a{[}j+2{]}=1 return
+
+\hypertarget{unknown}{%
+\subsubsection{UNKNOWN}\label{unknown}}
+
+::method unknown /* rSTRING rARRAY */
+
+/* Runs either the ENTRY or SETENTRY method, depending on whether the
+message name supplied ends with an equal sign. If the message name does
+not end with an equal sign, this method runs the ENTRY method, passing
+the message name as its argument. */
+
+if right (arg(1),1)=s=`=' then
+
+return self\textasciitilde entry(arg(1)) /* 2?? Not clear whether second
+argument is mandatory. */ t=.nil
+
+if arg(2,`E') then t=arg(2) {[}1{]} self\textasciitilde setentry (left
+(arg(1),length(arg(1))-1),t) 12.3 The stem class For some reason, the
+stem class doesn't have PUT and AT methods, which stops us having a
+general rule about {[}{]} synonyms AT, {[}{]}= synonyms PUT. Anyway,
+committee doing without this class as such.
+
+Here is temporary stuff showing how to use algebra in the collection
+coding.
+
+/* This 1998 version uses Rony's rules for XOR and INTERSECTION based on
+UNION and DIFFERENCE */
+
+/* Test Set-Operator-Methods on different collection objects */
+
+/* This top part has some rough parts - not meant for standard. */
+
+/* The dumps put out results sorted, so that comparisons can be made
+between implementations that keep collections in different orders. */
+
+/* Invocation example: settest.cmd 1\textgreater{} tmp.res
+2\textgreater{} tmp.err */
+
+/* Jnitial verification that new definitions are in effect */ J18list =
+.List\textasciitilde new if \J18list\textasciitilde hasmethod(``J18'')
+then signal error
+
+/* Input collections used for the tests */
+
+coll.1 = .array\textasciitilde of(1, 2,, 4)
+
+coll.2 = list\textasciitilde of(2, 3, 6)
+
+coll.3 = .queue\textsubscript{newPUSH(2)PUSH(3)}\textasciitilde PUSH(7)
+
+coll.4 = .directory\textsubscript{new}\textasciitilde setentry(1,
+``eins'')\textasciitilde\textasciitilde setentry(3, ``drei'')
+
+coll.5 = .bag\textsubscript{newput(2)put(3)put(5)}\textasciitilde put(2)
+
+coll.6 =
+.relation\textsubscript{new}\textasciitilde{}``{[}J=''(''zwei'',
+2)\sout{''{[}{]}=''('\,''drei'', 3)}''{[}J=''('vier'',
+8)\textasciitilde\textasciitilde''J=''C''drei'',3) coll.7 =
+.set\textasciitilde of(2, 3, 9){]}=tmpSupp\textasciitilde ITEM
+tmpSupp\textasciitilde NEXT END do until hope hope=1 do j=1 to
+k\textasciitilde dimension(1)-1 if
+k{[}j{]}\textsubscript{string\textgreater k{[}j+1{]}}string \textbar,
+(k{[}j{]}\textsubscript{string=k{[}j+1{]}}string \&
+i{[}j{]}\textsubscript{string\textless i{[}j+1{]}}string) then do{]}=t
+hope=0 end end end if O=collection\textasciitilde items then say'' The
+result is empty!'' else do j=1 to k\textasciitilde dimension(1) SAY ''
+'' ``index'' pp(k{[}j{]}) ``item'' ppd{[}j){]}=alj+1{]};a{[}j- 1
+{]}=alj+2{]} end j
+
+a{[}1{]}/\emph{ItemsCount}/=a{[} 1 {]}/\emph{ItemsCount}/-1
+
+return
+
+::method makearray expose a /* Returns a single-index array containing
+the receiver list items. \emph{/ r=.array\textasciitilde new = /} To
+build result in. \emph{/ do j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/
+r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]} end j returm r
+
+::method makearrayx private expose a
+
+/* Returns a single-index array containing the receiver index items.
+\emph{/ r=.array\textasciitilde new = /} To build result in. \emph{/ do
+j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/
+
+r{[}r\textasciitilde dimension(1)+1{]}=a{[}j+1{]} end j return r
+
+:imethod supplier expose a /* Returns a supplier object for the list. */
+return
+.supplier\textsubscript{new(self}makearray:.collection,self\textasciitilde makearrayx)
+
+::class `List' subclass Collection
+
+zimethod J18 = /* Here to demonstrate .LIST is replaced */ return
+
+/* List and Queue are special because there is an order to their
+elements. */
+
+::method put /* rANY rANY */ use arg item, index
+a=self\textasciitilde exposed
+
+/* PUT for a List must not be an insertion. */
+j=self\textasciitilde findindex(index) if j=0 then call Raise
+`Syntax',93.918 a{[}j{]}=item retum
+
+zimethod of class /* 1 or more oANY Are they omittable? Not in IOO
+\emph{/ /} Returns a newly created list containing the specified value
+objects in the order specified. */ r=self \textasciitilde{} new do j = 1
+to argQ) r \textasciitilde{} insert(arg(j)) end j return r
+
+zimethod insert /* rANY oANY */
+
+use arg item, index
+
+a=self\textasciitilde exposed /* Returns a list-supplied index for a new
+item, of specified value, which is added to the list. The new item
+follows the existing item with the specified index in the list ordering.
+\emph{/ /} Establish the index of what preceeds the new element. \emph{/
+/} Tf there was no index given, the new item becomes the last on list.
+\emph{/ /} mil argument means first */
+
+if arg(2,`E') then p=arg(2)
+
+else p=self\textasciitilde last
+
+/* Convert from list index to underlying array index. */
+
+if p==.nil then j=1 else j=self\textasciitilde findindex(p)
+
+if j=0 then call Raise `Syntax',93.918
+
+j=J+3 /* Where new entry will be. \emph{/ /} Move space to required
+place. */
+
+a{[}1{]}/\emph{ItemsCount}/=a{[}1 {]}/\emph{ItemsCount}/+1
+
+do k=1+3\emph{a{[}1{]}/}ItemsCount*/ by -3 to j+3
+
+a{[}k{]}=a{[}k-3{]};a{[}k+1 {]}=a{[}k-2{]};a{[}k{]}=a{[}k-3{]} end
+
+/* Insert new element. */
+
+a{[}j{]}=item /* A new, unique, index is needed. \emph{/ /} The basic
+requirement is for something unique, so this would be correct:
+
+i=.object\textasciitilde new /* a unique object, used as a key (the
+index on the list) \emph{/ }/ /* However, a number can be used. (At risk
+of the user thinking it is sensible to do arithmetic on it.) */
+
+a{[}j+1{]}=a{[}2{]}/\emph{Unique}/;a{[}2{]}/\emph{Unique}/=a{[}2
+{]}/\emph{Unique}/+1
+
+a{[}j+2{]}=0
+
+return a{[}j+1{]}
+
+:smethod first a=self\textasciitilde exposed
+
+/* Returns the index of the first item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}5{]}
+
+::method last a=self\textasciitilde exposed
+
+/* Returns the index of the last item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount*/=0 then return .nil return
+a{[}3\emph{a{[}1{]}/}ItemsCount*/+2{]}\textbar{}
+
+::method firstitem a=self\textasciitilde exposed
+
+/* Returns the first item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}4{]}
+
+::method lastitem a=self\textasciitilde exposed
+
+/* Returns the last item in the list. \emph{/ if
+a{[}1{]}/}ItemsCount\emph{/=0 then return .nil return
+a{[}3\emph{a{[}1{]}/}ItemsCount*/+1 \textbar{]}
+a{[}j+1{]}=al{[}j+4{]}-1; /} Index changes */ end j returm r
+
+zimethod queue =/* rANY */
+
+/* Adds the object value to the queue at its tail. \emph{/
+a=self\textasciitilde exposed a{[}1{]}/}ItemCount\emph{/=a{[}1
+\textbar/}ItemCount*/+1
+a{[}\{1+3\emph{a{[}1{]}/}ItemCount*/\textbar=arg(1)
+a{[}2+3\emph{a{[}1{]}/}ItemCount\emph{/\textbar=al{[} 1 {]}/}ItemCount*/
+return{]} r{[}n{]}=a{[}j+1{]} end j return
+.supplier\textasciitilde new(m,r){]}=1
+
+returm
+
+:imethod unknown =/* rSTRING rARRAY */
+
+/* Runs either the ENTRY or SETENTRY method, depending on whether the
+message name supplied ends with an equal sign. If the message name does
+not end with an equal sign, this method runs the ENTRY method, passing
+the message name as its argument. */ if right(arg(1),1)==`=``' then
+
+return self\textasciitilde entry(arg(1)) /* 22 Not clear whether second
+argument is mandatory. */ t=.nil
+
+if arg(2,`E') then t=arg(2){[}1{]}
+self\textasciitilde setentry(left(arg(1),length(arg(1))-1),t)
+
+routine CommonXor /* Returns a new collection that contains all items
+from self and the argument except that all indexes that appear in both
+collections are removed. \emph{/ /} When the target is a bag, there may
+be an index in the bag that is duplicated and the same value as an index
+in the argument. Should one copy of the index survive in the bag? */
+Ihs=arg(1)\textasciitilde difference(arg(2))
+rhs=Cast(arg(1),MayEnBag(arg(2)))\textasciitilde difference(arg(1))
+return lhs\textasciitilde union(rhs)
+
+nroutine CommonUnion /* Returns a new collection of the same class as
+SELF that contains all the items from SELF and items from the argument
+that have an index not in the first. \emph{/ /} Best to add them all. By
+adding non-receiver first we ensure that receiver takes priority when
+same indexes. \emph{/ This = arg(1) /} self of caller */
+r=This\textsubscript{class}new
+cs=MayEnBag(arg(2))\textasciitilde supplier do while
+cs\textasciitilde available
+r{[}cs\textasciitilde index{]}=cs\textasciitilde item
+cs\textasciitilde next end cs=This\textasciitilde supplier do while
+cs\textasciitilde available
+r{[}cs\textasciitilde index{]}=cs\textasciitilde item
+cs\textasciitilde next end return r
+
+nroutine CommonDifference /* Returns a new collection containing only
+those index-item pairs from the SELF whose indexes the other collection
+does not contain. \emph{/ This = arg(1) /} self of caller */
+r=This\textsubscript{class}new cs=This\textasciitilde supplier do while
+cs\textasciitilde available
+r{[}cs\textasciitilde index{]}=cs\textasciitilde item
+cs\textasciitilde next end cs=MayEnBag(arg(2))\textasciitilde supplier
+
+do while cs\textasciitilde available r\textsubscript{remove(cs}index)
+cs\textasciitilde next end
+
+return r
+
+routine MayEnBag
+
+/* For List and Queue the indexes are dropped. */ r=arg(1) if
+r\textasciitilde class == .List \textbar{} r\textasciitilde class ==
+.Queue then r=EnBag(r) retum r
+
+routine EnBag r=.Bag\textasciitilde new s=arg(1)\textasciitilde supplier
+do while s\textasciitilde available if arg(1)\textasciitilde class ==
+.List \textbar{} arg(1)\textasciitilde class == .Queue then
+1{[}s\textasciitilde item{]}=s\textasciitilde item else /* This case is
+when the receiver is a Bag. */
+1{[}s\textasciitilde index{]}=s\textasciitilde index
+s\textasciitilde next end return r
+
+/* This Cast routine commented away, since replaced by Oct 98 Rony
+version. routine Cast public use arg Target, Other TmpColl =
+Target\textsubscript{class}new /* Create an instance of type Target
+\emph{/ TmpSupp = Other\textasciitilde supplier /} Get supplier from
+Other */ signal on syntax do while TmpSupp\textasciitilde available
+TmpColl{[}TmpSupp\textasciitilde index{]} = TmpSupp\textasciitilde item
+TmpSupp\textasciitilde next end return TmpColl
+
+/* Tf syntax error 93.949, then target is an index-only collection like
+a set.*/ syntax:
+
+if condition( ``O'' )\textasciitilde code = ``93.949'' then signal
+IndexOnly
+
+raise propagate /* Unhandled syntax error, raise in caller */
+
+IndexOnly: /* This for index-only collections. */ do while
+TmpSupp\textasciitilde available
+TmpColl{[}TmpSupp\textasciitilde index{]} = TmpSupp\textasciitilde index
+TmpSupp\textasciitilde next
+
+end return TmpColl End commented away */
+
+/* 98-09-24, ---ref; CAST2.CMD return a collection of type ``target''
+which collected all item/index pairs of the argument ``other'' */
+
+2: ROUTINE cast PUBLIC USE ARG target, other
+
+SIGNAL ON SYNTAX IF ~other \textasciitilde{} HASMETHOD( ``SUPPLIER'' )
+THEN RAISE SYNTAX 98.907 ARRAY (``COLLECTION
+(i.e.~argument2=`other'-object must have a `SUPPLIER'-method)'' )
+
+tmpColl = target \textasciitilde{} CLASS \textasciitilde{} NEW /* create
+a an instance of type target \emph{/ tmpSupp = other\textasciitilde{}
+SUPPLIER /} get supplier from other */
+
+/* is index of ``other'' usable ? */ bIndexUsable = other
+\textasciitilde{} HASMETHOD( ``UNION'' )
+
+IF .Debug = .true THEN IF ~bIndexUsable THEN SAY'' /// index of `other'
+not usable for setlike-operations''
+
+/* possible syntax-error, if index and item must have the same value,
+e.g.~for sets/bags \emph{/ SIGNAL ON SYNTAX NAME INDEX ONLY target
+\textasciitilde{} CLASS \textasciitilde{} NEW \textasciitilde{} PUT(
+1,2) /} test, if target-type is index-only */
+
+SIGNAL ON SYNTAX DO WHILE tmpSupp \textasciitilde{} AVAILABLE IF
+bIndexUsable THEN tmpColl{[} tmpSupp \textasciitilde{} INDEX {]} =
+tmpSupp \textasciitilde{} ITEM ELSE tmpColl{[} tmpSupp \textasciitilde{}
+ITEM {]} = tmpSupp \textasciitilde{} ITEM tmpSupp \textasciitilde{} NEXT
+END RETURN tmpColl
+
+INDEX\_ONLY : /* this is for index-only collections (e.g.~sets, bags) */
+SIGNAL ON SYNTAX IF .Debug = .true THEN SAY'' \textbackslash{}`target'
+is an index-only collection (index==item)'' DO WHILE tmpSupp
+\textasciitilde{} AVAILABLE
+
+IF bIndexUsable THEN tmpColl{[} tmpSupp \textasciitilde{} INDEX {]} =
+tmpSupp \textasciitilde{} INDEX ELSE tmpColl{[} tmpSupp
+\textasciitilde{} ITEM {]} = tmpSupp \textasciitilde{} ITEM tmpSupp
+\textasciitilde{} NEXT END RETURN tmpColl
+
+SYNTAX: RAISE PROPAGATE /* raise error in caller */
+
+\hypertarget{the-stream-class}{%
+\section{The stream class}\label{the-stream-class}}
+
+The stream class provides input/output on external streams. ::class
+stream
+
+::method init /* rString \emph{/ Initializes a stream object for a
+stream named name, but does not open the stream. ::smethod query /}
+keywords */
+
+There is also QUERY as command with method COMMAND.
+
+Used with options, the QUERY method returns specific information about a
+stream. ::method charin
+
+::smethod charout
+
+::method chars
+
+::method linein
+
+::method lineout
+
+::method lines
+
+::method qualify
+
+::method command /* rString */
+
+Returns a string after performing the specified stream command. ::method
+open
+
+There is also OPEN as command with method COMMAND.
+
+Opens the stream to which you send the message and returns ``READY:''.
+
+Committee dropping OPEN POSITION QUERY SEEK as methods in favour of
+command use. ::method state
+
+Returns a string that indicates the current state of the specified
+stream. ::method say
+
+::method uninit
+
+::method position /* Ugh \emph{/ POSITION is a synonym for SEEK.
+::method seek /} Ugh */
+
+Sets the read or write position a specified number (offset) within a
+persistent stream.
+
+::method flush
+
+Returns ``READY:''. Forces any data currently buffered for writing to be
+written to the stream receiving the message.
+
+There is also FLUSH as command with method COMMAND.
+
+Committee dropping FLUSH.
+
+::method close
+
+Closes the stream that receives the message.
+
+There is also CLOSE as command with method COMMAND.
+
+Semantics are `seen by other thread'. ::method string
+
+::method makearray /* rCHARLINE */ Returns a fixed array that contains
+the data from the stream in line or character format, starting from the
+
+current read position. ::method supplier
+
+Returns a supplier object for the stream. ::method description
+
+::smethod arrayin /* rCHARLINE */
+
+Mixed case value works on OOI.
+
+Committee dropping Arrayin \& Arrayout. Arrayin == MakeArray
+
+Returns a fixed array that contains the data from the stream in line or
+character format, starting from the
+
+current read position. ::smethod arrayout /* rARRAY rCHARLINE */
+
+Returns a stream object that contains the data from array.
+
+\hypertarget{the-alarm-class}{%
+\section{The alarm class}\label{the-alarm-class}}
+
+::class alarm
+
+::method init /* Time, Msg */ Sets up an alarm for a future time atime.
+::method cancel
+
+Cancels the pending alarm request represented by the receiver. This
+method takes no action if the specified time has already been reached.
+
+\hypertarget{the-monitor-class}{%
+\section{The monitor class}\label{the-monitor-class}}
+
+The Monitor class forwards messages to a destination object.
+
+-local {[}`OUTPUT'{]} = .monitor\textasciitilde new(.output)
+
+::class monitor
+
+\hypertarget{init-1}{%
+\subsection{INIT}\label{init-1}}
+
+Initializes the newly created monitor object.
+
+::method init /* oDESTINATION */ expose Destination Destination =
+.queue\textasciitilde new if arg(1,`E') then
+Destination\textasciitilde push (arg(1)) return
+
+\hypertarget{current}{%
+\subsection{CURRENT}\label{current}}
+
+Returns the current destination object.
+
+::smethod current expose Destination return Destination {[}1{]}
+
+\hypertarget{destination}{%
+\subsection{DESTINATION}\label{destination}}
+
+Returns a new destination object.
+
+::method destination /* oDESTINATION */ expose Destination if arg(1,`E')
+then Destination\textasciitilde push (arg(1)) else
+Destination\textasciitilde pull return Destination {[}1{]}
+
+\hypertarget{unknown-1}{%
+\subsection{UNKNOWN}\label{unknown-1}}
+
+Reissues or forwards to the current monitor destination all unknown
+messages sent to a monitor object
+
+::method unknown expose Destination
+
+Extra parens needed here in original OREXX syntax
+
+forward to destination{[}1{]} message arg(1) arguments arg(2) return

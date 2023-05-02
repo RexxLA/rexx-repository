@@ -1,6 +1,9 @@
 # Syntax constructs
+
 ## Notation
+
 ### Backus-Naur Form (BNF)
+
 The syntax constructs in this standard are defined in Backus-Naur Form (BNF). The syntax used in these
 BNF productions has
 
@@ -12,7 +15,9 @@ BNF productions has
 The left-hand side identifies syntactic constructs. The right-hand side describes valid ways of writing a
 specific syntactic construct.
 The right-hand side consists of operands and operators, and may be grouped.
+
 ### Operands
+
 Operands may be terminals or non-terminals. If an operand appears as identifier in some other
 production it is called a non-terminal, otherwise it is called a terminal. Terminals are either literal or
 symbolic.
@@ -30,10 +35,14 @@ the highest precedence; apart from precedence recognition is from left to right:
 - abuttal specifies that the preceding and the following construct must appear in the given order;
 
 - the operator '|' specifies alternatives between the preceding and the following constructs.
+
 ### Grouping
+
 Parentheses and square brackets are used to group constructs. Parentheses are used for the purpose of
 grouping only. Square brackets specify that the enclosed construct is optional.
+
 ### BNF syntax definition
+
 The BNF syntax, described in BNF, is:
 
 production := identifier ':=' bnf expression
@@ -45,21 +54,31 @@ abuttal t= [abuttal] bnf primary
 bnf primary := '[T' bnf expression ']' | '(' bnf expression ')' | literal |
 
 identifier | message identifier | bnf primary '+'
+
 ### Syntactic errors
+
 The syntax descriptions (see nnn and nnn) make use of message_identifiers which are shown as
 Msgnn.nn or Msgnn, where nn is a number. These actions produce the correspondingly numbered error
 messages (see nnn and nnn).
+
 ## Lexical
+
 The lexical level processes the source and provides tokens for further recognition by the top syntax level.
+
 ### Lexical elements
+
 #### Events
+
 The fully-capitalized identifiers in the BNF syntax (see nnn) represent events. An event is either supplied
 by the configuration or occurs as result of a look-ahead in left-to-right parsing. The following events are
 defined:
+
 - EOL occurs at the end of a line of the source. It is provided by Config_SourceChar, see nnn;
+
 - EOS occurs at the end of the source program. It is provided by Config_SourceChar;
-- RADIX occurs when the character about to be scanned is 'X' or 'x' or 'B' or ‘b' not followed by a
-general_letter, or a digit, or'.';
+
+- RADIX occurs when the character about to be scanned is 'X' or 'x' or 'B' or ‘b' not followed by a general_letter, or a digit, or'.';
+
 - CONTINUE occurs when the character about to be scanned is ',', and the characters after the ',’ up
 to EOL represent a repetition of comment or blank, and the EOL is not immediately followed by an
 EOS;
@@ -68,32 +87,42 @@ EOS;
 the left of the sign, currently parsed as part of Const_symbol, represent a plain_number followed by 'E'
 or 'e’, and the characters to the right of the sign represent a repetition of digit not followed by a
 general_letter or'.’.
+
 - | would put ASSIGN here for the leftmost '=' in a clause that is not within parentheses or brackets. But Simon not
 happy with message term being an assignment?
 #### Actions and tokens
 Mixed case identifiers with an initial capital letter cause an action when they appear as operands ina
 production. These actions perform further tests and create tokens for use by the top syntax level. The
 following actions are defined:
+
 - Special supplies the source recognized as special to the top syntax level;
+
 - Eol supplies a semicolon to the top syntax level;
+
 - Eos supplies an end of source indication to the top syntax level;
+
 - Var_symbol supplies the source recognized as Var_symbol to the top syntax level, as keywords or
 VAR_SYMBOL tokens, see nnn. The characters in a Var_symbol are converted by Config_Upper to
 uppercase. Msg30.1 shall be produced if Var_symbo/ contains more than #Limit_Name characters,
 see nnn;
+
 - Const_symbol supplies the source recognized as Const_symbo! to the top syntax level. If itis a
 number it is passed as a NUMBER token, otherwise it is passed as a CONST_SYMBOL token. The
 characters in a Const_symbol are converted by Config_Upper to become the characters that comprise
 that NUMBER or CONST_SYMBOL. Msg30.1 shall be produced if Const_symbo! contains more than
 #Limit_Name characters;
+
 - Embedded_quotation_mark records an occurrence of two consecutive quotation marks within a
 string delimited by quotation marks for further processing by the String action;
+
 - Embedded_apostrophe records an occurrence of two consecutive apostrophes within a string
 delimited by apostrophes for further processing by the String action;
+
 - String supplies the source recognized as String to the top syntax level as a STRING token. Any
 occurrence of Embedded_quotation_mark or Embedded_apostrophe is replaced by a single quotation
 mark or apostrophe, respectively. Msg30.2 shall be produced if the resulting string contains more than
 #Limit_Literal characters;
+
 - Binary_string supplies the converted binary string to the top syntax level as a STRING token, after
 checking conformance to the binary_string syntax. If the binary_string does not contain any
 occurrence of a binary_digit, a string of length 0 is passed to the top syntax level. The occurrences of
@@ -101,6 +130,7 @@ binary_digit are concatenated to form a number in radix 2. Zero or 4 digits are 
 necessary to make the number of digits a multiple of 8. If the resulting number of digits exceeds 8
 times #Limit_Literal then Msg30.2 shall be produced. The binary digits are converted to an encoding,
 see nnn. The encoding is supplied to the top syntax level as a STRING token;
+
 - Hex_string supplies the converted hexadecimal string to the top syntax level as a STRING token,
 after checking conformance to the hex_string syntax. If the hex_string does not contain any
 occurrence of a hex_digit, a string of length 0 is passed to the top syntax level. The occurrences of
@@ -108,9 +138,11 @@ hex_digit are each converted to a number with four binary digits and concatenate
 added at the left if necessary to make the number of digits a multiple of 8. If the resulting number of
 digits exceeds 8 times #Limit_Literal then Msg30.2 shall be produced. The binary digits are converted
 to an encoding. The encoding is supplied to the top syntax level as a STRING token;
+
 - Operator supplies the source recognized as Operator (excluding characters that are not
 operator_char ) to the top syntax level. Any occurrence of an ofher_negator within Operator is
 supplied as ‘\';
+
 - Blank records the presence of a blank. This may subsequently be tested (see nnn).
 Constructions of type Number, Const_symbol, Var_symbol or String are called operands.
 6.2.1.3 Source characters
@@ -122,10 +154,14 @@ productions of the lexical level refer to characters of the groups extra_letters
 
 other_blank_characters (see nnn), other_negators (see nnn) and other_characters (see nnn),
 respectively.
+
 #### Rules
+
 In scanning, recognition that causes an action (see nnn) only occurs if no other recognition is possible,
 except that Embedded_apostrophe and Embedded_quotation_mark actions occur wherever possible.
-###Lexical level
+
+### Lexical level
+
 ### Interaction between levels of syntax
 When the lexical process recognizes tokens to be supplied to the top level, there can be changes made
 or tokens added. Recognition is performed by the lexical process and the top level process ina
@@ -143,12 +179,16 @@ is passed as a VAR_SYMBOL). If an operand is followed by a colon token in the le
 the operand only is passed to the top level syntax as a LABEL, provided the context permits a LABEL.
 Except where the rules above determine the token passed, a Var_symbol is passed as a terminal (a
 keyword) rather than as a VAR_SYMBOL under the following circumstances:
+
 - if the symbol is spelled 'WHILE' or 'UNTIL' it is a keyword wherever a VAR_SYMBOL would be part
 of an expression within a do_specification,
+
 - if the symbol is spelled 'TO' , ‘BY’, or 'FOR' it is a keyword wherever a VAR_SYMBOL would be part
 of an expression within a do_rep;
+
 - if the symbol is spelled 'WITH' it is a keyword wherever a VAR_SYMBOL would be part of a
 parsevalue, or part of an expression or taken_constant within address;
+
 - if the symbol is spelled 'THEN' it is keyword wherever a VAR_SYMBOL would be part of an
 expression immediately following the keyword 'IF' or 'WHEN'.
 Except where the rules above determine the token passed, a Var_symbol is passed as a keyword if the
@@ -163,15 +203,21 @@ operator is inferred.
 When any of the keywords ‘OTHERWISE’, 'THEN', or ‘ELSE’ is recognized, a semicolon token is supplied
 as the following token. A semicolon token is supplied as the previous token when the 'THEN' keyword is
 recognized. A semicolon token is supplied as the token following a LABEL.
+
 #### Reserved symbols
+
 A Const_symbol which starts with a period and is not a Number shall be spelled .MN, .RESULT, .RC,
 .RS, or .SIGL otherwise Msg50.1 is issued.
+
 #### Function name syntax
 A symbol which is the leftmost component of a function shall not end with a period, otherwise Msg51.1 is
 issued.
+
 ## Syntax
+
 ### Syntax elements
 The tokens generated by the actions described in nnn form the basis for recognizing larger constructs.
+
 ### Syntax level
 
 starter:=x3j18
@@ -492,7 +538,6 @@ initializer
 message term:= term ('~' | '~~') method name [arguments]
 term '['[ expression list ] (']' | Msg36.2)
 
-42
 method name:=(taken constant | Msg19.19)
 [':' ( VAR_SYMBOL | Msg19.21 )]
 /* Method-call without arguments ig syntactically like symbol. */
@@ -506,7 +551,9 @@ indices = '#[' [expression list] (']' | Msg36.n)
 initializer = '['expression list (']' | Msg36.n)
 
 ## Syntactic information
+
 ### VAR_SYMBOL matching
+
 Any VAR_SYMBOL in a do_ending must be matched by the same VAR_SYMBOL occurring at the start
 of an assignment contained in the do_specification of the do that contains both the do_specification and
 the do_ending, as described in nnn.
@@ -525,37 +572,53 @@ or leave will be a single instruction in an instruction_list associated with a d
 be the same, or the latter nested one or more levels within the former. The number of levels is called the
 nesting_correction and influences the semantics of the iterafe or leave. It is zero if the two dos are the
 same. The nesting_correction for /ferates or leaves that do not contain VAR_SYMBOL is zero.
+
 ### Trace-only labels
+
 Instances of LABEL which occur within a grouping_instruction and are not in a nc/ at the end of that
 grouping_instruction are instances of trace-only labels.
+
 ### Clauses and line numbers
+
 The activity of tracing execution is defined in terms of clauses. A program consists of clauses, each
 clause ended by a semicolon special token. The semicolon may be explicit in the program or inferred.
 The line number of a clause is one more than the number of EOL events recognized before the first token
 of the clause was recognized.
+
 ### Nested IF instructions
+
 The syntax specification nnn allows 'IF' instructions to be nested and does not fully specify the
 association of an 'ELSE' keyword with an 'IF' keyword. An 'ELSE' associates with the closest prior 'IF' that
 it can associate with in conformance with the syntax.
+
 ### Choice of messages
+
 The specifications nnn and nnn permit two alternative messages in some circumstances. The following
 rules apply:
+
 - Msg15.1 shall be preferred to Msg15.3 if the choice of Msg15.3 would result in the replacement for
 the insertion being a blank character;
+
 - Msg15.2 shall be preferred to Msg15.4 if the choice of Msg15.4 would result in the replacement for
 the insertion being a blank character;
+
 - Msg31.3 shall be preferred to Msg31.2 if the replacement for the insertion in the message starts with
 a period;
+
 - Preference is given to the message that appears later in the list: Msg21.1, Msg27.1, Msg25.16,
 Msg36, Msg38.3, Msg35.1, other messages.
+
 ### Creation of messages
+
 The message_identifiers in clause 6 correlate with the tails of stem #ErrorText., which is initialized in nnn
 to identify particular messages. The action of producing an error message will replace any insertions in
 the message text and present the resulting text, together with information on the origin of the error, to the
 configuration by writing on the default error stream.
 Further activity by the language processor is permitted, but not defined by this standard.
 The effect of an error during the writing of an error message is not defined.
+
 #### Error message prefix
+
 The error message selected by the message number is preceded by a prefix. The text of the prefix is
 #ErrorText.0.1 except when the error is in source that execution of an interactive trace interpret
 instruction (see nnn) is processing, in which case the text is #ErrorText.0.2. The insert called <value> in
@@ -567,13 +630,17 @@ unmatched '/*'. For the others, it is the line number of the clause containing t
 the message text.
 The insert called <source> is the value provided on the API_ Start function which started processing of the
 program, see nnn.
+
 ## Replacement of insertions
+
 Within the text of error messages, an insertion consists of the characters '<', '>', and what is between
 those characters. There will be a word in the insertion that specifies the replacement text, with the
 following meaning:
+
 - if the word is 'hex-encoding' and the message is not Msg23.1 then the replacement text is the value
 of the leftmost character which caused the source to be syntactically incorrect. The value is in
 hexadecimal notation;
+
 - if the word is 'token' then the replacement text is the part of the source program which was
 recognized as the detection token, or in the case of Msg31.1 and Msg31.2, the token before the
 detection token.
@@ -581,6 +648,7 @@ The detection token is the leftmost token for which the program up to and includ
 not be parsed as the left part of a program without causing a message. If the detection token is a
 semicolon that was not present in the source but was supplied during recognition then the
 replacement is the previous token;
+
 - if the word is ‘position’ then the replacement text is a number identifying the detection character. The
 detection character is the leftmost character in the hex_string or binary_string which did not match the
 required syntax. The number is a count of the characters in the string which preceded the detection
@@ -592,9 +660,12 @@ Otherwise a blank run that follows an odd numbered sequence of non-blanks (or a 
 multiple of four in the case of radix 'B’) is not valid.
 If the string is invalid for a reason not described above, the leftmost blank of the rightmost sequence of
 blanks is the invalid blank to be referenced in the message;
+
 - if the word is 'char' then the replacement text is the detection character;
+
 - if the word is ‘linenumber' then the replacement text is the line number of a clause associated with
 the error. The wording of the message text specifies which clause that is;
+
 - if the word is 'keywords' then the replacement text is a list of the keywords that the syntax would
 allow at the context where the error occurred. If there are two keywords they shall be separated by the
 four characters ' or '. If more, the last shall be preceded by the three characters 'or' and the others

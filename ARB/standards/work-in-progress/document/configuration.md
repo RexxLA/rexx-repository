@@ -75,7 +75,7 @@ where:
 How is one of ‘COMMAND’, 'FUNCTION', or 'SUBROUTINE' and indicates how the program is
 invoked.
 
-What does OO! say for How when running REQUIREd files?
+What does OOI say for How when running REQUIREd files?
 
 Source is an identification of the source of the program to be processed.
 
@@ -517,7 +517,7 @@ Name is the name of the routine to be invoked.
 Environment is an environment value with the same components as on API_ Start.
 
 Arguments is a specification of the arguments to the routine, with the same components as on
-APL Start.
+API Start.
 
 Streams is a specification of the default streams, with the same components as on API_ Start.
 
@@ -543,7 +543,7 @@ response is 'F’. As a result SYNTAX condition 40.1 is raised implicitly.
 
 ### Config_ExternalMethod
 
-OO! has external classes explicitly via the ::CLASS abc EXTERNAL mechanism. Analogy with classic would also
+OOI has external classes explicitly via the ::CLASS abc EXTERNAL mechanism. Analogy with classic would also
 allow the subject of ::REQUIRES to be coded in non-Rexx. However ::REQUIRES subject is coded, we need to
 gather in knowledge of its method names because of the search algorithm that determines which method is called.
 Hence reasonable that the ultimate external call is to a method. Perhaps combine Config_ExternalRoutine with
@@ -1207,7 +1207,7 @@ comprising the variable pool interface are described in terms of the appropriate
 functions defined in nnn. The first parameter on these calls is the state variable #Pool. If these Var_
 functions do not return an indicator 'N', 'R', or 'D' then the API function shall return an error indication.
 
-### APL Set
+### API Set
 
 Syntax:
 API Set(Symbol, Value)
@@ -1301,7 +1301,7 @@ Var Drop(#Pool, Symbol, '0')
 Otherwise:
 Var Drop(#Pool, Symbol, '1')
 
-### APL ValueOther
+### API ValueOther
 Syntax:
 API ValueOther (Qualifier)
 where:
