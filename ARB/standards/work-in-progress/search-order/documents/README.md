@@ -20,5 +20,5 @@
 1. [Research by Rony for Windows and Unix-like](searchorder.md)
 2. [Definition of an External Program Search Algorithm - Draft 0.3](external-program-search-algorithm.md)
 3. [A list of tests by Josep Maria Blasco](a-list-of-tests.md)
-4. [The Search Order for External Files](2023-05-16-The-search-order-for-external-rexx-files.pdf)
-5. [The Search Order for External Files - Slides](2023-05-16-The-search-order-for-external-rexx-files-Slides.pdf)
+4. [The Search Order for External Files, by Josep Maria Blasco](2023-05-16-The-search-order-for-external-rexx-files.pdf)
+5. [The Search Order for External Files - Slides, by Josep Maria Blasco](2023-05-16-The-search-order-for-external-rexx-files-Slides.pdf)
