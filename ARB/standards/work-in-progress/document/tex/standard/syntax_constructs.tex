@@ -188,7 +188,8 @@ are defined:
 \item
   Operator supplies the source recognized as Operator (excluding
   characters that are not operator\_char ) to the top syntax level. Any
-  occurrence of an ofher\_negator within Operator is supplied as '\,';
+  occurrence of an ofher\_negator within Operator is supplied as
+  '\textquotesingle;
 \item
   Blank records the presence of a blank. This may subsequently be tested
   (see nnn). Constructions of type Number, Const\_symbol, Var\_symbol or
@@ -227,20 +228,20 @@ affect subsequent recognition by the top level. Both processes operate
 on the characters and the tokens in the order they are produced. The
 term ``context'' refers to the progress of the recognition at some
 point, without consideration of unprocessed characters and tokens. If a
-token which is `+', `-', ' or `(' appears in a lexical level context
-(other than after the keyword `PARSE') where the keyword `VALUE' could
-appear in the corresponding top level context, then `VALUE' is passed to
-the top level before the token is passed. If an `=' operator\_char
-appears in a lexical level context where it could be the `=' of an
-assignment or message\_instruction in the corresponding top level
-context then it is recognized as the `=``' of that instruction. (It will
-be outside of brackets and parentheses, and any Var\_symbo/ immediately
-preceding it is passed as a VAR\_SYMBOL). If an operand is followed by a
-colon token in the lexical level context then the operand only is passed
-to the top level syntax as a LABEL, provided the context permits a
-LABEL. Except where the rules above determine the token passed, a
-Var\_symbol is passed as a terminal (a keyword) rather than as a
-VAR\_SYMBOL under the following circumstances:
+token which is `+', `-', \textquotesingle{} or `(' appears in a lexical
+level context (other than after the keyword `PARSE') where the keyword
+`VALUE' could appear in the corresponding top level context, then
+`VALUE' is passed to the top level before the token is passed. If an `='
+operator\_char appears in a lexical level context where it could be the
+`=' of an assignment or message\_instruction in the corresponding top
+level context then it is recognized as the `=``' of that instruction.
+(It will be outside of brackets and parentheses, and any Var\_symbo/
+immediately preceding it is passed as a VAR\_SYMBOL). If an operand is
+followed by a colon token in the lexical level context then the operand
+only is passed to the top level syntax as a LABEL, provided the context
+permits a LABEL. Except where the rules above determine the token
+passed, a Var\_symbol is passed as a terminal (a keyword) rather than as
+a VAR\_SYMBOL under the following circumstances:
 
 \begin{itemize}
 \item
@@ -428,7 +429,9 @@ nop \textbar{} numeric \textbar{} options parse \textbar{} procedure
 raise \textbar{} reply \textbar{} return \textbar{} say \textbar{}
 signal \textbar{} trace \textbar{} use `THEN' Msg8.1 `ELSE' Msg8.2
 `WHEN' Msg9.1 \textbar{} `OTHERWISE' Msg9.2 command = expression address
-= `ADDRESS' {[}(taken constant {[}expression{]}{]}
+= `ADDRESS' {[}(taken constant {[}expression{]}
+
+Msg19.1 \textbar{} valueexp) {[} `WITH' connection{]} {]}
 
 taken constant symbol \textbar{} STRING
 
@@ -568,8 +571,8 @@ multiplication multiplicative operator
 power expression multiplicative operator:= '*' \textbar{} `/' \textbar{}
 `//' \textbar{} `\%! power expression := prefix expression \textbar{}
 power expression'**' prefix expression prefix expression := (`+'
-\textbar{} `-' \textbar{} '\,') prefix expression term \textbar{}
-Msg35.1 /* ``Stub'' has to be identified semantically? */
+\textbar{} `-' \textbar{} '\textquotesingle) prefix expression term
+\textbar{} Msg35.1 /* ``Stub'' has to be identified semantically? */
 
 term = simple term {[} `.' ( term \textbar{} Msgnn ){]} simple term :=
 symbol \textbar{} STRING \textbar{} invoke \textbar{} indexed `('
