@@ -30,6 +30,8 @@ In Unicode it is possible to have characters that include accents, or to have a 
 
 ### Grapheme clusters
 
+### Surrogate pairs
+
 ## Non-printing characters
 There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.
 
@@ -57,10 +59,14 @@ Implementations should be validated against malevolently constructed ‘UTF-8’
 - __c2x__: we need to decide how to handle compatibility, perhaps adding length and encoding parameters
 
 ## I/O functions and methods
+
+### Internal representation versus marshalling
+A Rexx implementation should be free to choose how characters and strings are represented internally. A compressed approach or structures specific to the implementation should be possible; when data needs to be marshalled for I/O and transmission purposes, conversions to standard encoded representations should be available. These standards should be at least contain support for UTF-8 and historic codepages used by the implementations. These might be handled by external libaries but should be available from built-in functions.
 The I/O components should be able to recognize byte order of UTF(16 or 32) files by checking the byte order marker (BOM).
 
-Options should guide the writing of files. We have to see what from DBCS support in Classic Rexx can be carried over.
+Options can guide the writing of files. We have to see what from DBCS support in Classic Rexx can be carried over.
 
-__NetRexx__ currently uses UTF-8 for __charin()__ and __charout()__ - other encodings can be used by employing the java.util and java.nio classes.
+__NetRexx__ currently uses UTF-8 for the __charin()__ and __charout()__ stream functions - other encodings can be used by employing the java.util and java.nio classes.
 
 __EXECIO__ implementations and emulations probably should not be changed.
+
