@@ -49,6 +49,7 @@ It should be decided what should be the default type: 8bit characters or Unicode
 In Unicode it is possible to have characters that include accents, or to have a combination of a character and an accent to form an accented character. There should be a decision whether that combination forms a single character or it counts as two characters.
 
 ### Grapheme clusters
+With a __grapheme_cluster__ two or more characters can be combined into one __grapheme__ (character with a length of 1). Rexx should support this mechanism, but its priority is lower than the other forms of Unicode support. In this we can probably follow the level of support in other languages.
 
 ### Surrogate pairs
 Surrogates are code points from two special ranges of Unicode values, reserved for use as the leading, and trailing values of paired code units in UTF-16. Leading surrogates, also called high surrogates, are encoded from D80016 to DBFF16, and trailing surrogates, or low surrogates, from DC0016 to DFFF16. They are called surrogates, since they do not represent characters directly, but only as a pair.
