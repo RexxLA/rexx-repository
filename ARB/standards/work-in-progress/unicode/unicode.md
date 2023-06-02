@@ -51,6 +51,7 @@ In Unicode it is possible to have characters that include accents, or to have a 
 ### Grapheme clusters
 
 ### Surrogate pairs
+Surrogates are code points from two special ranges of Unicode values, reserved for use as the leading, and trailing values of paired code units in UTF-16. Leading surrogates, also called high surrogates, are encoded from D80016 to DBFF16, and trailing surrogates, or low surrogates, from DC0016 to DFFF16. They are called surrogates, since they do not represent characters directly, but only as a pair.
 
 ## Non-printing characters
 There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.
