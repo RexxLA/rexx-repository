@@ -14,7 +14,21 @@ The possibilities here are
 - Character content (of variables and constants)
 - String content (of variables and constants)
 
-Languages (not Rexx) that have keywords mostly avoid having these keywords in Unicode.
+Languages (not Rexx) that have keywords mostly avoid having these keywords in Unicode. There should be an
+explicit decision whether emoticons are supported or not for language symbols.
+
+## What should be supported
+
+## Which Unicode subsets are supported
+In business applications Unicode support can be limited to subsets; European commercial banking seems to converge on MES-2. We should decide how Rexx supports subsets and subset testing.
+
+### The default type
+It should be decided what should be the default type: 8bit characters or Unicode code points. A bridging strategy is a possibility - seen the fact there is a .text type available for ooRexx. It seems there is a consensus for Unicode strings being the default string type towards the future.
+
+### Combining characters
+In Unicode it is possible to have characters that include accents, or to have a combination of a character and an accent to form an accented character. There should be a decision whether that combination forms a single character or it counts as two characters.
+
+### Grapheme clusters
 
 ## Non-printing characters
 There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.
@@ -39,6 +53,8 @@ Implementations should be validated against malevolently constructed ‘UTF-8’
 - __substr()__: the same goes for substr()
 - __translate()__: here are more repercussions that might not have been wholly solved in any implementation (needs further study)
 - __lower()__ and __upper()__: how, for example, to change the case on Greek or Cyrillic
+
+- __c2x__: we need to decide how to handle compatibility, perhaps adding length and encoding parameters
 
 ## I/O functions and methods
 The I/O components should be able to recognize byte order of UTF(16 or 32) files by checking the byte order marker (BOM).
