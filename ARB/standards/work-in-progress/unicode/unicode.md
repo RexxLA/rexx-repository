@@ -6,6 +6,26 @@ Most modern languages have chosen an internal Unicode representation and can use
 
 NetRexx, being Java (or CLI), uses Java's internal character encoding, which is UTF-16. cRexx is being designed with Unicode in mind. Most other variants and implementations thereof tolerate some Unicode use by being *codepage agnostic*, which stops short of full Unicode support.
 
+## Definitions
+Unicode (https://www.unicode.org/) is a specification that aims to list every character used by human languages and give each character its own unique code. The Unicode specifications are continually revised and updated to add new languages and symbols.
+
+A character is the smallest possible component of a text. ‘A’, ‘B’, ‘C’, etc., are all different characters. So are ‘È’ and ‘Í’. Characters vary depending on the language or context you’re talking about. For example, there’s a character for “Roman Numeral One”, ‘Ⅰ’, that’s separate from the uppercase letter ‘I’. They’ll usually look the same, but these are two different characters that have different meanings.
+
+The Unicode standard describes how characters are represented by code points. A code point value is an integer in the range 0 to 0x10FFFF (about 1.1 million values, the actual number assigned is less than that). In the standard and in this document, a code point is written using the notation U+265E to mean the character with value 0x265e (9,822 in decimal).
+
+### Encodings
+a Unicode string is a sequence of code points, which are numbers from 0 through 0x10FFFF (1,114,111 decimal). This sequence of code points needs to be represented in memory as a set of code units, and code units are then mapped to 8-bit bytes. The rules for translating a Unicode string into a sequence of bytes are called a character encoding. UTF-8 is the encoding most computer languages and applications are converging upon.
+
+### UTF-8
+UTF-8 has several useful properties:
+
+- It can handle any Unicode code point.
+- A Unicode string is turned into a sequence of bytes that contains embedded zero bytes only where they represent the null character (U+0000). This means that UTF-8 strings can be processed by C functions such as strcpy() and sent through protocols that can’t handle zero bytes for anything other than end-of-string markers.
+- A string of ASCII text is also valid UTF-8 text.
+- UTF-8 is compact; the majority of commonly used characters can be represented with one or two bytes.
+- If bytes are corrupted or lost, it’s possible to determine the start of the next UTF-8-encoded code point and resynchronize. It’s also unlikely that random 8-bit data will look like valid UTF-8.
+- UTF-8 is a byte oriented encoding. The encoding specifies that each character is represented by a specific sequence of one or more bytes. This avoids the byte-ordering issues that can occur with integer and word oriented encodings, like UTF-16 and UTF-32, where the sequence of bytes varies depending on the hardware on which the string was encoded.
+
 ## Which elements of the language can be Unicode
 
 The possibilities here are
