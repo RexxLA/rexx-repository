@@ -7,7 +7,12 @@ Most modern languages have chosen an internal Unicode representation and can use
 NetRexx, being Java (or CLI), uses Java's internal character encoding, which is UTF-16. cRexx is being designed with Unicode in mind. Most other variants and implementations thereof tolerate some Unicode use by being *codepage agnostic*, which stops short of full Unicode support.
 
 ## Definitions
-Unicode (https://www.unicode.org/) is a specification that aims to list every character used by human languages and give each character its own unique code. The Unicode specifications are continually revised and updated to add new languages and symbols.
+Unicode ([https://www.unicode.org/][unicode_org]) is a specification that aims to list every character used by human languages and give each character its own unique code. The Unicode specifications are continually revised and updated to add new languages and symbols.
+
+- [Standard][unicode_standard]
+- [Reports][unicode_reports]
+- [Glossary][unicode_glossary]
+- [Accumulation of URLs][notes_unicode]
 
 A character is the smallest possible component of a text. ‘A’, ‘B’, ‘C’, etc., are all different characters. So are ‘È’ and ‘Í’. Characters vary depending on the language or context you’re talking about. For example, there’s a character for “Roman Numeral One”, ‘Ⅰ’, that’s separate from the uppercase letter ‘I’. They’ll usually look the same, but these are two different characters that have different meanings.
 
@@ -39,26 +44,31 @@ explicit decision whether emoticons are supported or not for language symbols.
 
 ## What should be supported
 
-## Which Unicode subsets are supported
-In business applications Unicode support can be limited to subsets; European commercial banking seems to converge on MES-2. We should decide how Rexx supports subsets and subset testing.
+### Which Unicode subsets are supported
+In business applications Unicode support can be limited to subsets; European commercial banking seems to converge on [MES-2][wikipedia_standardized_subsets]. We should decide how Rexx supports subsets and subset testing.
 
 ### The default type
 It should be decided what should be the default type: 8bit characters or Unicode code points. A bridging strategy is a possibility - seen the fact there is a .text type available for ooRexx. It seems there is a consensus for Unicode strings being the default string type towards the future.
 
 ### Combining characters
-In Unicode it is possible to have characters that include accents, or to have a combination of a character and an accent to form an accented character. There should be a decision whether that combination forms a single character or it counts as two characters.
+In Unicode it is possible to have characters that include accents, or to have a combination of a character and an accent to form an accented character. There should be a decision whether that combination forms a single character or it counts as two characters.  
+🟨(jlf) If we decide it's a single character then it implies we support the __grapheme__ __clusters__. (/jlf)
 
 ### Grapheme clusters
-With a __grapheme_cluster__ two or more characters can be combined into one __grapheme__ (character with a length of 1). Rexx should support this mechanism, but its priority is lower than the other forms of Unicode support. In this we can probably follow the level of support in other languages.
+With a __grapheme_cluster__ two or more characters can be combined into one __grapheme__ (character with a length of 1). Rexx should support this mechanism, but its priority is lower than the other forms of Unicode support. In this we can probably follow the level of support in other languages.  
+🟨(jlf) Postponing the support of ___grapheme__ __clusters__ will imply a new set of BIF/BIM or additional parameters/options if we decide later to support graphemes.(/jlf)
 
 ### Surrogate pairs
-Surrogates are code points from two special ranges of Unicode values, reserved for use as the leading, and trailing values of paired code units in UTF-16. Leading surrogates, also called high surrogates, are encoded from D80016 to DBFF16, and trailing surrogates, or low surrogates, from DC0016 to DFFF16. They are called surrogates, since they do not represent characters directly, but only as a pair.
+Surrogates are code points from two special ranges of Unicode values, reserved for use as the leading, and trailing values of paired code units in UTF-16. Leading surrogates, also called high surrogates, are encoded from D800<sub>16</sub> to DBFF<sub>16</sub>, and trailing surrogates, or low surrogates, from DC00<sub>16</sub> to DFFF<sub>16</sub>. They are called surrogates, since they do not represent characters directly, but only as a pair.
 
 ## Non-printing characters
-There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.
+There should be a decision whether to count non-printing characters or not, and in which bifs. For example for __centre()__ it seems counterproductive to count the number of invisible characters.  
+🟨(jlf) This question did not arise for existing Rexxes, including NetRexx. For example, the control characters are counted as a character by all the bifs (right?).
+The ignorable characters could be ignored (and maybe other categories) but that will have an impact on ALL the bifs taking character indexes or returning a length.(/jlf)
 
 ## Validation of UTF-8 input
-Implementations should be validated against malevolently constructed ‘UTF-8’ input. They can offer validation methods to the language user but should not assume responsibility for everything in user code. It might be an idea to standardize the names of the validation methods/functions.
+Implementations should be validated against malevolently constructed ‘UTF-8’ input. They can offer validation methods to the language user but should not assume responsibility for everything in user code. It might be an idea to standardize the names of the validation methods/functions.  
+🟨(jlf) Maybe off-topic but some languages likes [Julia][julia_discussion_validation], [Raku][raku_have_you_misunderstood_nfg] are taking care to not loose the invalid bytes of an ill-formed UTF-xx string. Especially needed on Windows where it's common to have isolated surrogate characters. The encoding [WTF-8][sapin_wtf8] has been invented because of that.(/jlf)
 
 ## Which BIFs are impacted by Unicode versus ASCII/EBCDIC
 
@@ -80,6 +90,35 @@ Implementations should be validated against malevolently constructed ‘UTF-8’
 
 - __c2x__: we need to decide how to handle compatibility, perhaps adding length and encoding parameters
 
+🟨(jlf) All the BIF taking a character index or length as argument, or returning a character index or length are impacted, no?.  
+That brings the question of direct access (compatible with legacy Rexx) versus iteration/offset (not compatible).
+
+In REXX/VM Reference, these BIF are impacted by the option EXMODE:
+
+        ABBREV
+        COMPARE
+        COPIES
+        DATATYPE
+        FIND
+        INDEX, POS, and LASTPOS
+        INSERT and OVERLAY
+        JUSTIFY
+        LEFT, RIGHT, and CENTER
+        LENGTH
+        REVERSE
+        SPACE
+        STRIP
+        SUBSTR and DELSTR
+        SUBWORD and DELWORD
+        SYMBOL
+        TRANSLATE
+        VALUE
+        VERIFY
+        WORD, WORDINDEX, and WORDLENGTH
+        WORDS
+        WORDPOS
+(/jlf)
+
 ## I/O functions and methods
 
 ### Internal representation versus marshalling
@@ -92,3 +131,12 @@ __NetRexx__ currently uses UTF-8 for the __charin()__ and __charout()__ stream f
 
 __EXECIO__ implementations and emulations probably should not be changed.
 
+[julia_discussion_validation]: https://discourse.julialang.org/t/problems-with-deprecations-of-islower-lowercase-isupper-uppercase/7797/133
+[notes_unicode]: https://jlfaucher.github.io/executor.master/unicode/_notes-unicode.html
+[raku_have_you_misunderstood_nfg]: https://lwn.net/Articles/865371/
+[sapin_wtf8]: http://simonsapin.github.io/wtf-8/
+[unicode_glossary]: https://www.unicode.org/glossary
+[unicode_org]: https://www.unicode.org/
+[unicode_reports]: https://www.unicode.org/reports/
+[unicode_standard]: https://www.unicode.org/versions/Unicode15.0.0/
+[wikipedia_standardized_subsets]: https://en.wikipedia.org/wiki/Unicode#Standardized_subsets
