@@ -138,5 +138,5 @@ __EXECIO__ implementations and emulations probably should not be changed.
 [unicode_glossary]: https://www.unicode.org/glossary
 [unicode_org]: https://www.unicode.org/
 [unicode_reports]: https://www.unicode.org/reports/
-[unicode_standard]: https://www.unicode.org/versions/Unicode15.0.0/
+[unicode_standard]: https://www.unicode.org/versions/latest/
 [wikipedia_standardized_subsets]: https://en.wikipedia.org/wiki/Unicode#Standardized_subsets
