@@ -31,7 +31,7 @@ ko = 0
 /* strings */
 /******************************************************************************/
 
-/* no surrogate, no grapheme made of several codepoints */
+/* BMP only (no surrogate when UTF-16), no grapheme made of several codepoints */
 s1 = "café"
 
     /*
@@ -49,7 +49,7 @@ s1 = "café"
     */
 
 
-/* surrogate pairs */
+/* Supplementary planes (surrogate pairs when UTF-16) */
 s2 = "𝖼𝖺𝖿é"
 
     /*
@@ -359,8 +359,19 @@ say
 
 
 /******************************************************************************/
-/* center with pad being 1 grapheme made of several codepoints*/
+/* center with pad being 1 grapheme made of several bytes */
 /******************************************************************************/
+
+/*
+Pad character "═"
+'UTF-8 not-ASCII (3 bytes)'
+
+Codepoints
+ 1 : ( "═"   U+2550 So 1 "BOX DRAWINGS DOUBLE HORIZONTAL" )
+
+Graphemes
+ 1 : T'═'
+*/
 
 say 'center("'s4'", 10, "═")'
 #if defined REGINA || defined OOREXX
@@ -493,8 +504,19 @@ say
 
 
 /******************************************************************************/
-/* substr with pad being 1 grapheme made of several codepoints */
+/* substr with pad being 1 grapheme made of several bytes */
 /******************************************************************************/
+
+/*
+Pad character "▷"
+'UTF-8 not-ASCII (3 bytes)'
+
+Codepoints
+ 1 : ( "▷"   U+25B7 Sm 1 "WHITE RIGHT-POINTING TRIANGLE" )
+
+Graphemes
+ 1 : T'▷'
+*/
 
 say 'substr("'s4'", 3, 6, "▷")'
 #if defined REGINA || defined OOREXX
