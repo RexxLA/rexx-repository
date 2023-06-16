@@ -18,7 +18,11 @@
 > 4) Even the XRANGE() and TRANSLATE() bifs can be a bit of a problem.
 
 (Josep Maria)
-For classic Rexx, an almost zero-cost way to implement Unicode would be to (1) introduce new Unicode strings, ended with "u" or "U", i.e., "xxx"X would be an hexadecimal string, "xxxx"b would be a binary string (no departure so far), and "xxxx"U would be a Unicode string (new stuff). This would break programs where a literal string ("xxxx") is collated to a variable called "U", but no more (and maybe we should have an option to disable "U" strings). (2) Codepoint literals could be written as a variation of the hexadecimal string format, for example "U+E9"X, or "Ue9"x, or somesuch. This would be syntactically different from "normal" hexadecimal strings, which would indicate it was a Unicode reference. (3) In the same way that 2+ "a" produces a syntax error, "hello" + "mom"U should produce a syntax error ("Can not collate Unicode and byte strings", for example). BIFs could be dual-pathed for Unicode strings and for classic strings without problems. 
+
+A. For classic Rexx, an almost zero-cost way to implement Unicode would be to (1) introduce new Unicode strings, ended with "u" or "U", i.e., "xxx"X would be an hexadecimal string, "xxxx"b would be a binary string (no departure so far), and "xxxx"U would be a Unicode string (new stuff). This would break programs where a literal string ("xxxx") was collated to a variable called "U", but no more (and maybe we should have an Option to disable sucg "U" strings and then ensure perfect backwards compatibility). (2) Codepoint literals could be written as a variation of the hexadecimal string format, for example "U+E9"X, or "Ue9"x, or somesuch. This would be syntactically different enough from "normal" hexadecimal strings, and would indicate it was a Unicode codepoint reference. (3) In the same way that 2+ "a" produces a syntax error, "hello" + "mom"U should produce a syntax error ("Can not collate Unicode and byte strings", for example). BIFs could be dual-pathed for Unicode strings and for classic strings without problems, and without interference between "classic" strings and Unicode Strings. (4) Of course there should exist a set of encode/decode BIFs to transform Unicode strings to "classic" strings and vice versa.
+
+B. Object oriented versions of Rexx could well follow the Classic Rexx paradigm and extend over it (i.e., duplicating classic rexx BIFs as the corresponding class BIMs, etc).
+
 (/Josep Maria)
 
 <examples & study to start>
