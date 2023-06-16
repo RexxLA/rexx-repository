@@ -69,6 +69,7 @@ The ignorable characters could be ignored (and maybe other categories) but that 
 ## Validation of UTF-8 input
 Implementations should be validated against malevolently constructed ‘UTF-8’ input. They can offer validation methods to the language user but should not assume responsibility for everything in user code. It might be an idea to standardize the names of the validation methods/functions.  
 🟨(jlf) Maybe off-topic but some languages likes [Julia][julia_discussion_validation], [Raku][raku_have_you_misunderstood_nfg] are taking care to not loose the invalid bytes of an ill-formed UTF-xx string. Especially needed on Windows where it's common to have isolated surrogate characters. The encoding [WTF-8][sapin_wtf8] has been invented because of that.(/jlf)
+(rvj) as does GO, which replaces them with the 'missing character' on output.(/rvj)
 
 ## Which BIFs are impacted by Unicode versus ASCII/EBCDIC
 
@@ -131,6 +132,25 @@ __NetRexx__ currently uses UTF-8 for the __charin()__ and __charout()__ stream f
 
 __EXECIO__ implementations and emulations probably should not be changed.
 
+# What do other languages do
+
+## Python
+Python is a scripting language which can be seen as having goals overlapping those of Rexx. Python introduced a 'text' type in Python 2 and switched the standard __str__ type over to Unicode in Python 3.
+
+## NetRexx
+NetRexx, the Rexx variant for the Java Virtual Machine, needed to use the Java __char__ and __String__ elements and has a transparent Unicode implementation, albeit missing functionality like Normalization and Grapheme support (which can be done by casting the Rexx type to String and performing these functions in Java). Most Rexx BIFs work as expected, with chars being handled as codepoints, and with the exception of e.g. characters formed with combined accents. C2X and C2D methods work on characters, and not Strings. The XRANGE BIF is removed and supplanted by a SEQENCE BIM. 
+
+## Go
+The Go (golang) language has the distinction of being invented and implemented by a team that included the designers of UTF-8, Ken Thompson and Rob Pike. In the GO design strings can be addressed as bytes and as characters. The __rune__ datatype (int32) has an important role next to the UTF-8 representation. Go preserves the bytes, and for example 
+```go
+import "unicode/utf8"
+
+s := "Hello, 世世"
+fmt.Println(len(s))                             // 13
+fmt.Println(utf8.RuneCountInString(s))          // 9
+```
+Go's __range__ loop handles UTF-8 in strings implicitly, for other actions the utf8 library is needed.
+
 [julia_discussion_validation]: https://discourse.julialang.org/t/problems-with-deprecations-of-islower-lowercase-isupper-uppercase/7797/133
 [notes_unicode]: https://jlfaucher.github.io/executor.master/unicode/_notes-unicode.html
 [raku_have_you_misunderstood_nfg]: https://lwn.net/Articles/865371/
@@ -140,3 +160,5 @@ __EXECIO__ implementations and emulations probably should not be changed.
 [unicode_reports]: https://www.unicode.org/reports/
 [unicode_standard]: https://www.unicode.org/versions/latest/
 [wikipedia_standardized_subsets]: https://en.wikipedia.org/wiki/Unicode#Standardized_subsets
+[Python Unicode HOWTO]: https://docs.python.org/3/howto/unicode.html
+
