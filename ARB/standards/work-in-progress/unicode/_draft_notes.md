@@ -17,9 +17,10 @@
 > 3) APIs are definitely a problem area, the .Byte nature of the arguments and return values show up everywhere.
 > 4) Even the XRANGE() and TRANSLATE() bifs can be a bit of a problem.
 
-Josep Maria:  
-For classical Rexx, it could be more difficult to bring Unicode without introducing new BIFs ?  
-Separate Unicode from not Unicode. Feasible without breaking.  
+(Josep Maria)
+For classic Rexx, an almost zero-cost way to implement Unicode would be to (1) introduce new Unicode strings, ended with "u" or "U", i.e., "xxx"X would be an hexadecimal string, "xxxx"b would be a binary string (no departure so far), and "xxxx"U would be a Unicode string (new stuff). This would break programs where a literal string ("xxxx") is collated to a variable called "U", but no more (and maybe we should have an option to disable "U" strings). (2) Codepoint literals could be written as a variation of the hexadecimal string format, for example "U+E9"X, or "Ue9"x, or somesuch. This would be syntactically different from "normal" hexadecimal strings, which would indicate it was a Unicode reference. (3) In the same way that 2+ "a" produces a syntax error, "hello" + "mom"U should produce a syntax error ("Can not collate Unicode and byte strings", for example). BIFs could be dual-pathed for Unicode strings and for classic strings without problems. 
+(/Josep Maria)
+
 <examples & study to start>
 
 
