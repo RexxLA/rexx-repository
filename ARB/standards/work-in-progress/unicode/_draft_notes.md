@@ -15,7 +15,19 @@
 > 1) If there are two types that behave like strings, then the interactions between these two types (I'll use the names .Text and .Byte so it's clear which I'm talking about) need to be addressed. For example, concatenation. What happens if you concatenate a .Text to a .Byte? What type is the operation result? Note that any operation involving disparate types carries with it the risk of creating an invalid .Text encoding. This applies to all of the comparison operators, but also things like insert(), overlay(), pos(), etc. where more than one "string" is involved. 
 > 2) Streams are inherently byte oriented in the way they have been used. There's probably going to need to be different modes for using the streams. 
 > 3) APIs are definitely a problem area, the .Byte nature of the arguments and return values show up everywhere.
-> 4) Even the XRANGE() and TRANSLATE() bifs can be a bit of a problem. 
+> 4) Even the XRANGE() and TRANSLATE() bifs can be a bit of a problem.
+
+Josep Maria:  
+For classical Rexx, it could be more difficult to bring Unicode without introducing new BIFs ?  
+Separate Unicode from not Unicode. Feasible without breaking.  
+<examples & study to start>
+
+
+### Define what is a character
+
+See requirement document.
+
+Probably grapheme, but good to investigate if an other approach could be valuable for some sceanrios.
 
 
 ### Internal representation
@@ -68,6 +80,7 @@ All bytes compatible with Unicode? or not?
 
 ### String & characters notations
 
+
 c2x, x2c
 
 U+ notation (proto), 
@@ -99,6 +112,8 @@ Rope
 
 ### Segmentation
 
+Josep Maria : a priority should be given. For example, sgmentation by words and sentences is less prioritary than codepoints & graphemes.
+
 Code point, Grapheme  (proto)
 
 Codepoint/grapheme indexation  (proto)
@@ -121,9 +136,16 @@ Collation, sorting
 
 Normalization, equivalence  (proto)
 
-String comparison (proto)
+String comparison (proto): strict, not strict
 
 String matching - Lower vs Casefold  (proto)
+
+Josep Maria : strict (NFC), not strict (maybe another normalisation). Comparaison should not be based on internal representation. Internal representation should be hidden to the user.
+
+Shmuel : codepoints are important for some scenarios.
+
+René : we can offer methods in addition to operators.
+
 
 
 ### Identifiers, Security
@@ -141,3 +163,6 @@ CLDR Common Locale Data Repository
 
 
 ### Terminal / console / cmd
+
+Describing the right environnment for the tests.
+
