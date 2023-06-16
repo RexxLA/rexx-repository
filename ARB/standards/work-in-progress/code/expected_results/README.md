@@ -27,3 +27,8 @@ No makefile for Windows (yet).
 
     make
     rexx regina_expected_results.rex
+
+## Executor
+
+    make
+    rexx executor_expected_results.rex

@@ -16,6 +16,7 @@ To preprocess with the right variable defined:
     -DNETREXX
     -DOOREXX
     -DREGINA
+    -DEXECUTOR
 */
 #endif
 
@@ -23,6 +24,11 @@ To preprocess with the right variable defined:
 class netrexx_expected_results
 properties static
 #endif
+
+#ifdef EXECUTOR
+#include "executor_bif_declaration.rex"
+#endif
+
 
 ok = 0
 ko = 0
@@ -176,69 +182,69 @@ s5 = "äöü äöü x̂ ϔ ﷺ baﬄe"
 /* to test simple vs full case mapping */
 s6 = "Bundesstraße im Freiland"
 
-/*
-Codepoints
-     1  : ( "B"   U+0042 Lu 1 "LATIN CAPITAL LETTER B" )
-     2  : ( "u"   U+0075 Ll 1 "LATIN SMALL LETTER U" )
-     3  : ( "n"   U+006E Ll 1 "LATIN SMALL LETTER N" )
-     4  : ( "d"   U+0064 Ll 1 "LATIN SMALL LETTER D" )
-     5  : ( "e"   U+0065 Ll 1 "LATIN SMALL LETTER E" )
-     6  : ( "s"   U+0073 Ll 1 "LATIN SMALL LETTER S" )
-     7  : ( "s"   U+0073 Ll 1 "LATIN SMALL LETTER S" )
-     8  : ( "t"   U+0074 Ll 1 "LATIN SMALL LETTER T" )
-     9  : ( "r"   U+0072 Ll 1 "LATIN SMALL LETTER R" )
-     10 : ( "a"   U+0061 Ll 1 "LATIN SMALL LETTER A" )
-     11 : ( "ß"   U+00DF Ll 1 "LATIN SMALL LETTER SHARP S" )
-     12 : ( "e"   U+0065 Ll 1 "LATIN SMALL LETTER E" )
-     13 : ( " "   U+0020 Zs 1 "SPACE", "SP" )
-     14 : ( "i"   U+0069 Ll 1 "LATIN SMALL LETTER I" )
-     15 : ( "m"   U+006D Ll 1 "LATIN SMALL LETTER M" )
-     16 : ( " "   U+0020 Zs 1 "SPACE", "SP" )
-     17 : ( "F"   U+0046 Lu 1 "LATIN CAPITAL LETTER F" )
-     18 : ( "r"   U+0072 Ll 1 "LATIN SMALL LETTER R" )
-     19 : ( "e"   U+0065 Ll 1 "LATIN SMALL LETTER E" )
-     20 : ( "i"   U+0069 Ll 1 "LATIN SMALL LETTER I" )
-     21 : ( "l"   U+006C Ll 1 "LATIN SMALL LETTER L" )
-     22 : ( "a"   U+0061 Ll 1 "LATIN SMALL LETTER A" )
-     23 : ( "n"   U+006E Ll 1 "LATIN SMALL LETTER N" )
-     24 : ( "d"   U+0064 Ll 1 "LATIN SMALL LETTER D" )
+    /*
+    Codepoints
+         1  : ( "B"   U+0042 Lu 1 "LATIN CAPITAL LETTER B" )
+         2  : ( "u"   U+0075 Ll 1 "LATIN SMALL LETTER U" )
+         3  : ( "n"   U+006E Ll 1 "LATIN SMALL LETTER N" )
+         4  : ( "d"   U+0064 Ll 1 "LATIN SMALL LETTER D" )
+         5  : ( "e"   U+0065 Ll 1 "LATIN SMALL LETTER E" )
+         6  : ( "s"   U+0073 Ll 1 "LATIN SMALL LETTER S" )
+         7  : ( "s"   U+0073 Ll 1 "LATIN SMALL LETTER S" )
+         8  : ( "t"   U+0074 Ll 1 "LATIN SMALL LETTER T" )
+         9  : ( "r"   U+0072 Ll 1 "LATIN SMALL LETTER R" )
+         10 : ( "a"   U+0061 Ll 1 "LATIN SMALL LETTER A" )
+         11 : ( "ß"   U+00DF Ll 1 "LATIN SMALL LETTER SHARP S" )
+         12 : ( "e"   U+0065 Ll 1 "LATIN SMALL LETTER E" )
+         13 : ( " "   U+0020 Zs 1 "SPACE", "SP" )
+         14 : ( "i"   U+0069 Ll 1 "LATIN SMALL LETTER I" )
+         15 : ( "m"   U+006D Ll 1 "LATIN SMALL LETTER M" )
+         16 : ( " "   U+0020 Zs 1 "SPACE", "SP" )
+         17 : ( "F"   U+0046 Lu 1 "LATIN CAPITAL LETTER F" )
+         18 : ( "r"   U+0072 Ll 1 "LATIN SMALL LETTER R" )
+         19 : ( "e"   U+0065 Ll 1 "LATIN SMALL LETTER E" )
+         20 : ( "i"   U+0069 Ll 1 "LATIN SMALL LETTER I" )
+         21 : ( "l"   U+006C Ll 1 "LATIN SMALL LETTER L" )
+         22 : ( "a"   U+0061 Ll 1 "LATIN SMALL LETTER A" )
+         23 : ( "n"   U+006E Ll 1 "LATIN SMALL LETTER N" )
+         24 : ( "d"   U+0064 Ll 1 "LATIN SMALL LETTER D" )
 
-Graphemes
-     1  : T'B'
-     2  : T'u'
-     3  : T'n'
-     4  : T'd'
-     5  : T'e'
-     6  : T's'
-     7  : T's'
-     8  : T't'
-     9  : T'r'
-     10 : T'a'
-     11 : T'ß'
-     12 : T'e'
-     13 : T' '
-     14 : T'i'
-     15 : T'm'
-     16 : T' '
-     17 : T'F'
-     18 : T'r'
-     19 : T'e'
-     20 : T'i'
-     21 : T'l'
-     22 : T'a'
-     23 : T'n'
-     24 : T'd'
+    Graphemes
+         1  : T'B'
+         2  : T'u'
+         3  : T'n'
+         4  : T'd'
+         5  : T'e'
+         6  : T's'
+         7  : T's'
+         8  : T't'
+         9  : T'r'
+         10 : T'a'
+         11 : T'ß'
+         12 : T'e'
+         13 : T' '
+         14 : T'i'
+         15 : T'm'
+         16 : T' '
+         17 : T'F'
+         18 : T'r'
+         19 : T'e'
+         20 : T'i'
+         21 : T'l'
+         22 : T'a'
+         23 : T'n'
+         24 : T'd'
 
-Unicode standard section 5.18 Case Mappings:
-    Default casing                                         Tailored casing
-    (small sharp) ß <--- ß (capital sharp)                 (small sharp) ß <--> ẞ (capital sharp)
-    (small sharp) ß ---> SS
-                 ss <--> SS                                             ss <--> SS
-When using the default Unicode casing operations, capital sharp s will lowercase
-to small sharp s, but not vice versa: small sharp s uppercases to “SS”.
-A tailored casing operation is needed in circumstances requiring small sharp s
-to uppercase to capital sharp s.
-*/
+    Unicode standard section 5.18 Case Mappings:
+        Default casing                                         Tailored casing
+        (small sharp) ß <--- ß (capital sharp)                 (small sharp) ß <--> ẞ (capital sharp)
+        (small sharp) ß ---> SS
+                     ss <--> SS                                             ss <--> SS
+    When using the default Unicode casing operations, capital sharp s will lowercase
+    to small sharp s, but not vice versa: small sharp s uppercases to “SS”.
+    A tailored casing operation is needed in circumstances requiring small sharp s
+    to uppercase to capital sharp s.
+    */
 
 
 #ifdef NETREXX
@@ -315,7 +321,7 @@ expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
-#ifdef OOREXX
+#if defined OOREXX || defined EXECUTOR
 /* Error 93.936:  C2D result is not a valid whole number with NUMERIC DIGITS 9. */
 numeric digits 10
 #endif
@@ -330,7 +336,7 @@ expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
-#ifdef OOREXX
+#if defined OOREXX || defined EXECUTOR
 numeric digits
 #endif
 
@@ -544,18 +550,19 @@ say
 
 #ifdef NETREXX
 /* interpreter using UCS-2 internally */
-say '"\\uD83C\\uDF85"'
-actual = "\uD83C\uDF85"
+/* no BIF X2C supporting several characters (yet), so fallback to the method X2C */
+say '"D83C".x2c || "DF85".x2c'
+actual = "D83C".x2c || "DF85".x2c
 expected = "🎅"
 say my_compare(actual, expected)
 say
 #endif
 
-#if defined REGINA || defined OOREXX
+#if defined REGINA || defined OOREXX || defined EXECUTOR
 /* interpreter using byte encoding internally */
 /* bytes for UTF-8 encoding */
-say 'x2c("F0")x2c("9F")x2c("8E")x2c("85")'
-actual = x2c("F0")x2c("9F")x2c("8E")x2c("85")
+say 'x2c("F09F8E85")'
+actual = x2c("F09F8E85")
 expected = "🎅"
 say my_compare(actual, expected)
 say
@@ -578,15 +585,22 @@ method my_compare(actual, expected) static
 #elif defined CREXX
 my_compare: procedure = .string expose ok ko
     arg actual = .string, expected = .string
-#elif defined OOREXX
+#elif defined OOREXX || defined EXECUTOR
 my_compare: procedure expose ok ko
     use strict arg actual, expected
 #else
 my_compare: procedure expose ok ko actual expected
     /* yes, don't use arg, better to expose */
 #endif
+#ifdef EXECUTOR
+    /* Error 23.900:  UTF-8 not-ASCII 'actual ...' cannot be converted to a String instance. */
+    /* Must explicitely convert to string */
+    say 'actual  :' "'"actual~string"'"
+    say 'expected:' "'"expected~string"'"
+#else
     say 'actual  :' "'"actual"'"
     say 'expected:' "'"expected"'"
+#endif
 #ifdef CREXX
     /* bypass Error at "eqs", invalid instruction mnemonic
               Errors in assembler can't generate output file: (null) */
@@ -602,3 +616,8 @@ my_compare: procedure expose ok ko actual expected
         ko = ko + 1
     end
     return result
+
+
+#ifdef EXECUTOR
+#include "executor_bif_implementation.rex"
+#endif
