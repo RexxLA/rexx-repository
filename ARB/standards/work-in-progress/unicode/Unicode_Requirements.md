@@ -145,7 +145,7 @@ The Go (golang) language has the distinction of being invented and implemented b
 ```go
 import "unicode/utf8"
 
-s := "Hello, 世世"
+s := "Hello, 世界"
 fmt.Println(len(s))                             // 13
 fmt.Println(utf8.RuneCountInString(s))          // 9
 ```
