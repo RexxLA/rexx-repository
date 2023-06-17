@@ -28,11 +28,6 @@
 
 ### BIDI
 
-
 ### Regular expressions
 
-
-### Terminal / console / cmd
-
-Describing the right environnment for the tests.
-
+### [Terminal / console / cmd](Terminal_console_CMD.md)
