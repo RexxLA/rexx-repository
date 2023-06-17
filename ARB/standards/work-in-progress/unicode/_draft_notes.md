@@ -24,11 +24,7 @@
 
 ### Identifiers, Security
 
-
-### Locale
-
-CLDR Common Locale Data Repository
-
+### [Locale](./Locale.md)
 
 ### BIDI
 
