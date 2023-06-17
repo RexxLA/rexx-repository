@@ -18,12 +18,7 @@
 
 ### [Segmentation](./Segmentation.md)
 
-### Upper, lower, caseless
-
-Case mappings (proto)
-
-Collation, sorting
-
+### [Upper, lower, caseless](Upper_lower_caseless.md)
 
 ### [String comparison](./String_comparison.md)
 
