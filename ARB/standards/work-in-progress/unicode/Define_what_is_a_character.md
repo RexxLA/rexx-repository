@@ -1,6 +1,10 @@
-# Unicode Draft Notes
+# Define what is a character
 
-## Define what is a character
+## ARB recommendations
+
+(TBD)
+
+## Draft notes
 
 See requirement document.
 

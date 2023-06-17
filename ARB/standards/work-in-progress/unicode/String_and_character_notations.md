@@ -1,6 +1,10 @@
-# Unicode Draft Notes
+# String and character notations
 
-## String and character notations
+## ARB recommendations
+
+(TBD)
+
+## Draft Notes
 
 c2x, x2c
 

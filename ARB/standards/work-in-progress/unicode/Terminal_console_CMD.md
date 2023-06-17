@@ -1,5 +1,9 @@
-# Unicode Draft Notes
+# Terminal, console, CMD
 
-## Terminal, console, CMD
+## ARB recommendations
 
-Describing the right environment for the tests.
+(TBD)
+
+## Draft Notes
+
+> (René) Describing the right environment for the tests.

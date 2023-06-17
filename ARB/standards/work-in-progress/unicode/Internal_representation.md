@@ -1,6 +1,10 @@
-# Unicode Draft Notes
+# Internal representation
 
-## Internal representation
+## ARB recommendations
+
+(TBD)
+
+## Draft Notes
 
 Two families of Rexx regarding the interpretation of strings:
 

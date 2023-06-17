@@ -1,7 +1,9 @@
-# Unicode Draft Notes
+# Upper, lower, caseless
 
-## Upper, lower, caseless
+## ARB recommendations
+
+(TBD)
+
+## Draft Notes
 
 Case mappings (proto)
-
-Collation, sorting

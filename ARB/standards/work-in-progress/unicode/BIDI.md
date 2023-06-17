@@ -1,5 +1,5 @@
-# Unicode Draft Notes
+# BIDI
 
-## BIDI
+## ARB recommendations
 
 (TBD)

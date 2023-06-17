@@ -1,12 +1,18 @@
-# Unicode Draft Notes
+# String comparison
 
-## String comparison
+## ARB recommendations
+
+(TBD)
+
+## Draft Notes
 
 Normalization, equivalence  (proto)
 
 String comparison (proto): strict, not strict
 
 String matching - Lower vs Casefold  (proto)
+
+Collation, sorting
 
 Josep Maria : strict comparison should probably use NFC, and not strict maybe NFKC. Codepoint-based comparison (which would be stricter that strict comparison) would always be obtainable via APIs, if really needed. Comparison should never be based on internal representation. Internal representation should either be completely hidden to the user, or only obtainable via API calls. The following quote is extracted from [UAX #15 Unicode Normalization Forms](https://unicode.org/reports/tr15/#Norm_Forms), section 1.2:
 

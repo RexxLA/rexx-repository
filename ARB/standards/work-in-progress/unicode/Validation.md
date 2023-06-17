@@ -1,6 +1,10 @@
-# Unicode Draft Notes
-
 ## Validation
+
+## ARB recommendations
+
+(TBD)
+
+## Draft Notes
 
 Invalid format (proto)
 

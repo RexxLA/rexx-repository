@@ -1,6 +1,10 @@
-# Unicode Draft Notes
+# Backwards compatibility
 
-## Backwards compatibility
+## ARB recommendations
+
+(TBD)
+
+## Draft Notes
 
 (at least) three groups of users:
 
@@ -23,4 +27,3 @@
 
 (/Josep Maria)
 
-<examples & study to start>
