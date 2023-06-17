@@ -4,12 +4,7 @@
 
 ### [Backward compatibility](./Backward_compatibility.md)
 
-### Define what is a character
-
-See requirement document.
-
-Probably grapheme, but good to investigate if an other approach could be valuable for some sceanrios.
-
+### [Define what is a character](./Define_what_is_a_character.md)
 
 ### [Internal representation](Internal_representation.md)
 
