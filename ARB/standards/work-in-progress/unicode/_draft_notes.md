@@ -26,7 +26,7 @@
 
 ### [Locale](./Locale.md)
 
-### BIDI
+### [BIDI](./BIDI.md)
 
 ### Regular expressions
 
