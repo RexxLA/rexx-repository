@@ -28,6 +28,6 @@
 
 ### [BIDI](./BIDI.md)
 
-### Regular expressions
+### [Regular expressions](./Regular_expressions.md)
 
 ### [Terminal / console / cmd](Terminal_console_CMD.md)
