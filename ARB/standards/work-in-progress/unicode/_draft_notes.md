@@ -57,11 +57,11 @@ Two families of Rexx regarding the interpretation of strings:
 
 Invalid format (proto)
 
-Mojibake
+[Mojibake](https://en.wikipedia.org/wiki/Mojibake)
 
 Filenames
 
-WTF8 (proto)
+[WTF8](http://simonsapin.github.io/wtf-8/) (proto)
 
 Optimization, SIMD
 
