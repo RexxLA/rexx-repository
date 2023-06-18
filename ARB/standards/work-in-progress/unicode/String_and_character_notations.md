@@ -45,7 +45,7 @@ Such integer acts as a key to query the properties of the Unicode character.
 
 c2x implies that "characters" have a "hexadecimal" representation. This is maybe saying too much, i.e., exposing too much about the underlying representation. I don't think c2x and x2c should be implemented for text strings.
 
-* If we end up working with codepoints, we could provide a c2u function. It would return the codepoint number, i.e., an integer. u2c would be reversible, i.e., we should guarantee that u2c(c2u(c)) == c.
-* If we end up working with grapheme clusters, c2u should return an array of codepoints (maybe by using a stem under Classic Rexx implementations).
+* If we end up working with codepoints, we could provide a c2u function. It would return the codepoint number in hexadecimal notation. u2c would be reversible, i.e., we should guarantee that u2c(c2u(c)) == c.
+* If we end up working with grapheme clusters, c2u might return an array of codepoints (maybe by using a stem under Classic Rexx implementations), or, maybe better, a string in the "nnnn[, nnnn]" format, ready for u2c.
 
 (/jmb)
