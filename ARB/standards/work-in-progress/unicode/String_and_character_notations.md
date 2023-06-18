@@ -12,10 +12,10 @@ If we could work modulo backward compatibility, I would suggest:
 
 * `"nnnn"U` for Unicode codepoints. This is Rexx-like, in the sense that `"nnnn"B` is binary and `"nnnn"X` is hexadecimal.
 * We should probably also allow for `"nnnn, nnnn, nnnn, nnnn"U` to indicate a sequence of codepoints, e. g. `"52, 65, 6E, E9"U == "René"`.
-* `"xxxx"T` for explicit Text strings. I would say that "T" is better than "U" because "U" exposes the underlying implementation ("Unicode"), while "T", for "Text" represents an abstract idea.
+* `"xxxx"T` for explicit Text strings. I would say that "T" is better than "U" because "U" exposes the underlying implementation ("Unicode"), while "T", for "Text", represents an abstract idea.
 * "U" + "T" would only break two suffixes, and would be enough to add Unicode functionality, while the default strings would still be byte strings, i.e., Classic Rexx strings.
 * If we have to have a Rexx version where the default strings are "T" strings, we need a new suffix for "old-style", byte, or Classic Rexx strings.
-* Maybe "C" for such a suffix? We could say that "C" means "Classic".
+* Maybe "C" for such a suffix? We could say that "C" means "Classic", or "Compatibility".
 * So, this would be: `"xxxx"C` is a byte string; `"xxxx"T` is a text string (probably composed of graphemes); `"xxxx[, xxxx]*"U` is a (sequence of) codepoints.
 * For "compatibility", or old-style programs, `"xxxx" == "xxxx"C`. For new programs, `"xxxx" == "xxxx"T`. Explicit use of the "C" and "T" suffixes should always be allowed.
 
