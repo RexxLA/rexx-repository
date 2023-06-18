@@ -27,7 +27,7 @@ Commands executed by the Makefile:
 
     make netrexx_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/netrexx_expected_results.rexx)  
+[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/netrexx_expected_results.nrx)  
 [Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/netrexx_results.txt)
 
 Commands executed by the Makefile:
@@ -41,7 +41,7 @@ Commands executed by the Makefile:
 
     make oorexx_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/oorexx_expected_results.rexx)  
+[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/oorexx_expected_results.rex)  
 [Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/oorexx_results.txt)
 
 Commands executed by the Makefile:
@@ -53,7 +53,7 @@ Commands executed by the Makefile:
 
     make regina_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/regina_expected_results.rexx)  
+[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/regina_expected_results.rex)  
 [Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/regina_results.txt)
 
 Commands executed by the Makefile:
@@ -65,7 +65,7 @@ Commands executed by the Makefile:
 
     make executor_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/executor_expected_results.rexx)  
+[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/executor_expected_results.rex)  
 [Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/executor_results.txt)
 
 Commands executed by the Makefile:
