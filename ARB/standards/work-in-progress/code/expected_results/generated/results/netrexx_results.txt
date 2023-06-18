@@ -1,0 +1,122 @@
+c2x("café")
+actual  : 'Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass'
+expected: '<TBD>'
+Ko *****
+
+c2x("𝖼𝖺𝖿é")
+actual  : 'Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass'
+expected: '<TBD>'
+Ko *****
+
+c2x("café")
+actual  : 'Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass'
+expected: '<TBD>'
+Ko *****
+
+c2x("noël👩‍👨‍👩‍👧🎅")
+actual  : 'Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass'
+expected: '<TBD>'
+Ko *****
+
+c2x("äöü äöü x̂ ϔ ﷺ baﬄe")
+actual  : 'Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass'
+expected: '<TBD>'
+Ko *****
+
+c2d("ë")
+actual  : 'Error: The method 'c2d(java.lang.String)' cannot be found in class 'netrexx_expected_results' or a superclass'
+expected: '<TBD>'
+Ko *****
+
+c2d("🎅")
+actual  : 'Error: The method 'c2d(java.lang.String)' cannot be found in class 'netrexx_expected_results' or a superclass'
+expected: '<TBD>'
+Ko *****
+
+center("noël👩‍👨‍👩‍👧🎅", 10)
+actual  : 'l👩‍👨‍👩‍'
+expected: '  noël👩‍👨‍👩‍👧🎅  '
+Ko *****
+
+center("noël👩‍👨‍👩‍👧🎅", 5)
+actual  : '‍👨‍?'
+expected: 'noël👩‍👨‍👩‍👧'
+Ko *****
+
+center("noël👩‍👨‍👩‍👧🎅", 3)
+actual  : '👨‍'
+expected: 'oël'
+Ko *****
+
+center("noël👩‍👨‍👩‍👧🎅", 10, "═")
+actual  : 'l👩‍👨‍👩‍'
+expected: '══noël👩‍👨‍👩‍👧🎅══'
+Ko *****
+
+copies("́cafe", 4)
+actual  : '́cafécafécafécafe'
+expected: '́cafécafécafécafe'
+Ok
+
+length("café")
+actual  : '4'
+expected: '4'
+Ok
+
+length("𝖼𝖺𝖿é")
+actual  : '7'
+expected: '4'
+Ko *****
+
+length("café")
+actual  : '5'
+expected: '4'
+Ko *****
+
+length("noël👩‍👨‍👩‍👧🎅")
+actual  : '17'
+expected: '6'
+Ko *****
+
+length("äöü äöü x̂ ϔ ﷺ baﬄe")
+actual  : '22'
+expected: '18'
+Ko *****
+
+pos("café", "é")
+actual  : '0'
+expected: '4'
+Ko *****
+
+pos("𝖼𝖺𝖿é", "é")
+actual  : '0'
+expected: '4'
+Ko *****
+
+pos("café", "é")
+actual  : '0'
+expected: '4'
+Ko *****
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 3)
+actual  : 'ël?'
+expected: 'ël👩‍👨‍👩‍👧'
+Ko *****
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 6)
+actual  : 'ël👩‍?'
+expected: 'ël👩‍👨‍👩‍👧🎅  '
+Ko *****
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 6, "▷")
+actual  : 'ël👩‍?'
+expected: 'ël👩‍👨‍👩‍👧🎅▷▷'
+Ko *****
+
+"D83C".x2c || "DF85".x2c
+actual  : '🎅'
+expected: '🎅'
+Ok
+
+Ok = 3
+Ko = 21

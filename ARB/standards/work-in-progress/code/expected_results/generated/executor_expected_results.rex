@@ -1,33 +1,52 @@
 /* Rexx */
-#ifdef CREXX
-options levelb
-import rxfnsb
-#endif
 
-#include "do_not_edit.txt"
+
+
+/******************************************************************************/
+/*                                                                            */
+/*                        THIS FILE HAS BEEN GENERATED                        */
+/*                                                                            */
+/*                   DO NOT EDIT - ALL CHANGES WILL BE LOST                   */
+/*                                                                            */
+/******************************************************************************/
+
 
 /*
 Script displaying some expected results for Unicode strings.
 */
-#if 0
+
+
+
+
+
 /*
-To preprocess with the right variable defined:
-    -DCREXX
-    -DNETREXX
-    -DOOREXX
-    -DREGINA
-    -DEXECUTOR
+Temporary declarations to have BIFs forwarding to RexxText.
 */
-#endif
 
-#ifdef NETREXX
-class netrexx_expected_results
-properties static
-#endif
+/* A global routine with the same name as a builtin function overrides this function. */
+.globalRoutines["C2X"] = .routines~c2x
+.globalRoutines["CENTER"] = .routines~center
+.globalRoutines["CENTRE"] = .routines~centre
+.globalRoutines["COPIES"] = .routines~copies
+.globalRoutines["LENGTH"] = .routines~length
+.globalRoutines["LEFT"] = .routines~left
+.globalRoutines["LOWER"] = .routines~lower
+.globalRoutines["POS"] = .routines~pos
+.globalRoutines["REVERSE"] = .routines~reverse
+.globalRoutines["RIGHT"] = .routines~right
+.globalRoutines["SUBSTR"] = .routines~substr
+.globalRoutines["UPPER"] = .routines~upper
 
-#ifdef EXECUTOR
-#include "executor_bif_declaration.rex"
-#endif
+/*
+No added value, Executor directly forward to String
+
+.globalRoutines["C2D"] = .routines~c2d
+.globalRoutines["X2B"] = .routines~x2b
+.globalRoutines["X2C"] = .routines~x2c
+.globalRoutines["X2D"] = .routines~x2d
+*/
+
+
 
 
 ok = 0
@@ -247,11 +266,23 @@ s6 = "Bundesstraße im Freiland"
     */
 
 
-#ifdef NETREXX
-method main(argv=String[]) public static
-#endif
 
-#include "check_interpreter.rex"
+
+
+/* Check that the right interpreter is used */
+
+
+parse version v
+if pos("REXX-ooRexx_4.3.0", v) == 0 then do
+    error = "You are not using the Executor interpreter"
+    call lineout "stdout", error
+    call lineout "stdout", v
+    call lineout "stderr", error
+    call lineout "stderr", v
+    exit 1
+end
+
+
 
 
 /******************************************************************************/
@@ -259,51 +290,41 @@ method main(argv=String[]) public static
 /******************************************************************************/
 
 say 'c2x("'s1'")'
-#ifdef NETREXX
-actual = "Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass"
-#else
+
 actual = c2x(s1)
-#endif
+
 expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
 say 'c2x("'s2'")'
-#ifdef NETREXX
-actual = "Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass"
-#else
+
 actual = c2x(s2)
-#endif
+
 expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
 say 'c2x("'s3'")'
-#ifdef NETREXX
-actual = "Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass"
-#else
+
 actual = c2x(s3)
-#endif
+
 expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
 say 'c2x("'s4'")'
-#ifdef NETREXX
-actual = "Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass"
-#else
+
 actual = c2x(s4)
-#endif
+
 expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
 say 'c2x("'s5'")'
-#ifdef NETREXX
-actual = "Error: The method 'c2x(netrexx.lang.Rexx)' cannot be found in class 'netrexx_expected_results' or a superclass"
-#else
+
 actual = c2x(s5)
-#endif
+
 expected = "<TBD>"
 say my_compare(actual, expected)
 say
@@ -314,33 +335,29 @@ say
 /******************************************************************************/
 
 say 'c2d("ë")'
-#ifdef NETREXX
-actual = "Error: The method 'c2d(java.lang.String)' cannot be found in class 'netrexx_expected_results' or a superclass"
-#else
+
 actual = c2d("ë")
-#endif
+
 expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
-#if defined OOREXX || defined EXECUTOR
+
 /* Error 93.936:  C2D result is not a valid whole number with NUMERIC DIGITS 9. */
 numeric digits 10
-#endif
+
 
 say 'c2d("🎅")'
-#ifdef NETREXX
-actual = "Error: The method 'c2d(java.lang.String)' cannot be found in class 'netrexx_expected_results' or a superclass"
-#else
+
 actual = c2d("🎅")
-#endif
+
 expected = "<TBD>"
 say my_compare(actual, expected)
 say
 
-#if defined OOREXX || defined EXECUTOR
+
 numeric digits
-#endif
+
 
 
 /******************************************************************************/
@@ -382,11 +399,9 @@ Graphemes
 */
 
 say 'center("'s4'", 10, "═")'
-#if defined REGINA || defined OOREXX
-actual = 'Error 40.23: CENTER argument 3 must be a single character; found "═"'
-#else
+
 actual = center(s4, 10, "═")
-#endif
+
 expected = "══noël👩‍👨‍👩‍👧🎅══"
 say my_compare(actual, expected)
 say
@@ -527,11 +542,9 @@ Graphemes
 */
 
 say 'substr("'s4'", 3, 6, "▷")'
-#if defined REGINA || defined OOREXX
-actual = 'Error 40.23: SUBSTR argument 4 must be a single character; found "▷"'
-#else
+
 actual = substr(s4, 3, 6, "▷")
-#endif
+
 expected = "ël👩‍👨‍👩‍👧🎅▷▷"
 say my_compare(actual, expected)
 say
@@ -541,26 +554,11 @@ say
 /* x2c */
 /******************************************************************************/
 
-#ifdef CREXX
-/* interpreter using Unicode scalar values internally */
-say 'x2c("1F385")'
-actual = x2c("1F385")
-expected = "🎅"
-say my_compare(actual, expected)
-say
-#endif
 
-#ifdef NETREXX
-/* interpreter using UCS-2 internally */
-/* no BIF X2C supporting several characters (yet), so fallback to the method X2C */
-say '"D83C".x2c || "DF85".x2c'
-actual = "D83C".x2c || "DF85".x2c
-expected = "🎅"
-say my_compare(actual, expected)
-say
-#endif
 
-#if defined REGINA || defined OOREXX || defined EXECUTOR
+
+
+
 /* interpreter using byte encoding internally */
 /* bytes for UTF-8 encoding */
 say 'x2c("F09F8E85")'
@@ -568,7 +566,7 @@ actual = x2c("F09F8E85")
 expected = "🎅"
 say my_compare(actual, expected)
 say
-#endif
+
 
 
 say "Ok =" ok
@@ -582,34 +580,17 @@ return
 /******************************************************************************/
 
 /* Can't be named "compare" because of crexx, hence the name "my_compare" */
-#if defined NETREXX
-method my_compare(actual, expected) static
-#elif defined CREXX
-my_compare: procedure = .string expose ok ko
-    arg actual = .string, expected = .string
-#elif defined OOREXX || defined EXECUTOR
+
 my_compare: procedure expose ok ko
     use strict arg actual, expected
-#else
-my_compare: procedure expose ok ko actual expected
-    /* yes, don't use arg, better to expose */
-#endif
-#ifdef EXECUTOR
+
     /* Error 23.900:  UTF-8 not-ASCII 'actual ...' cannot be converted to a String instance. */
     /* Must explicitely convert to string */
     say 'actual  :' "'"actual~string"'"
     say 'expected:' "'"expected~string"'"
-#else
-    say 'actual  :' "'"actual"'"
-    say 'expected:' "'"expected"'"
-#endif
-#ifdef CREXX
-    /* bypass Error at "eqs", invalid instruction mnemonic
-              Errors in assembler can't generate output file: (null) */
-    if compare(actual, expected) = 0 then do
-#else
+
     if actual == expected then do
-#endif
+
         result = "Ok"
         ok = ok + 1
     end
@@ -620,6 +601,33 @@ my_compare: procedure expose ok ko actual expected
     return result
 
 
-#ifdef EXECUTOR
-#include "executor_bif_implementation.rex"
-#endif
+
+/*
+Temporary implementations to have BIFs forwarding to RexxText.
+*/
+
+::requires "extension/extensions.cls"
+
+::routine C2X;      return "C2X"~doWith(arg(1)~text, .context~args~section(2))
+::routine CENTER;   return "CENTER"~doWith(arg(1)~text, .context~args~section(2))
+::routine CENTRE;   return "CENTRE"~doWith(arg(1)~text, .context~args~section(2))
+::routine COPIES;   return "COPIES"~doWith(arg(1)~text, .context~args~section(2))
+::routine LENGTH;   return "LENGTH"~doWith(arg(1)~text, .context~args~section(2))
+::routine LEFT;     return "LEFT"~doWith(arg(1)~text, .context~args~section(2))
+::routine LOWER;    return "LOWER"~doWith(arg(1)~text, .context~args~section(2))
+::routine POS;      return "Not yet implemented"
+::routine REVERSE;  return "REVERSE"~doWith(arg(1)~text, .context~args~section(2))
+::routine RIGHT;    return "RIGHT"~doWith(arg(1)~text, .context~args~section(2))
+::routine SUBSTR;   return "SUBSTR"~doWith(arg(1)~text, .context~args~section(2))
+::routine UPPER;    return "UPPER"~doWith(arg(1)~text, .context~args~section(2))
+
+/*
+No added value, Executor directly forward to String
+
+::routine C2D;      return "C2D"~doWith(arg(1)~text, .context~args~section(2))
+::routine X2B;      return "X2B"~doWith(arg(1)~text, .context~args~section(2))
+::routine X2C;      return "X2C"~doWith(arg(1)~text, .context~args~section(2))
+::routine X2D;      return "X2D"~doWith(arg(1)~text, .context~args~section(2))
+*/
+
+

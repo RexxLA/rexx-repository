@@ -1,0 +1,122 @@
+c2x("café")
+actual  : '63 61 66 C3A9'
+expected: '<TBD>'
+Ko *****
+
+c2x("𝖼𝖺𝖿é")
+actual  : 'F09D96BC F09D96BA F09D96BF C3A9'
+expected: '<TBD>'
+Ko *****
+
+c2x("café")
+actual  : '63 61 66 65 CC81'
+expected: '<TBD>'
+Ko *****
+
+c2x("noël👩‍👨‍👩‍👧🎅")
+actual  : '6E 6F C3AB 6C F09F91A9 E2808D F09F91A8 E2808D F09F91A9 E2808D F09F91A7 F09F8E85'
+expected: '<TBD>'
+Ko *****
+
+c2x("äöü äöü x̂ ϔ ﷺ baﬄe")
+actual  : 'C3A4 C3B6 C3BC 20 61 CC88 6F CC88 75 CC88 20 78 CC82 20 CF94 20 EFB7BA 20 62 61 EFAC84 65'
+expected: '<TBD>'
+Ko *****
+
+c2d("ë")
+actual  : '50091'
+expected: '<TBD>'
+Ko *****
+
+c2d("🎅")
+actual  : '4036988549'
+expected: '<TBD>'
+Ko *****
+
+center("noël👩‍👨‍👩‍👧🎅", 10)
+actual  : '  noël👩‍👨‍👩‍👧🎅  '
+expected: '  noël👩‍👨‍👩‍👧🎅  '
+Ok
+
+center("noël👩‍👨‍👩‍👧🎅", 5)
+actual  : 'noël👩‍👨‍👩‍👧'
+expected: 'noël👩‍👨‍👩‍👧'
+Ok
+
+center("noël👩‍👨‍👩‍👧🎅", 3)
+actual  : 'oël'
+expected: 'oël'
+Ok
+
+center("noël👩‍👨‍👩‍👧🎅", 10, "═")
+actual  : '══noël👩‍👨‍👩‍👧🎅══'
+expected: '══noël👩‍👨‍👩‍👧🎅══'
+Ok
+
+copies("́cafe", 4)
+actual  : '́cafécafécafécafe'
+expected: '́cafécafécafécafe'
+Ok
+
+length("café")
+actual  : '4'
+expected: '4'
+Ok
+
+length("𝖼𝖺𝖿é")
+actual  : '4'
+expected: '4'
+Ok
+
+length("café")
+actual  : '4'
+expected: '4'
+Ok
+
+length("noël👩‍👨‍👩‍👧🎅")
+actual  : '6'
+expected: '6'
+Ok
+
+length("äöü äöü x̂ ϔ ﷺ baﬄe")
+actual  : '18'
+expected: '18'
+Ok
+
+pos("café", "é")
+actual  : 'Not yet implemented'
+expected: '4'
+Ko *****
+
+pos("𝖼𝖺𝖿é", "é")
+actual  : 'Not yet implemented'
+expected: '4'
+Ko *****
+
+pos("café", "é")
+actual  : 'Not yet implemented'
+expected: '4'
+Ko *****
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 3)
+actual  : 'ël👩‍👨‍👩‍👧'
+expected: 'ël👩‍👨‍👩‍👧'
+Ok
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 6)
+actual  : 'ël👩‍👨‍👩‍👧🎅  '
+expected: 'ël👩‍👨‍👩‍👧🎅  '
+Ok
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 6, "▷")
+actual  : 'ël👩‍👨‍👩‍👧🎅▷▷'
+expected: 'ël👩‍👨‍👩‍👧🎅▷▷'
+Ok
+
+x2c("F09F8E85")
+actual  : '🎅'
+expected: '🎅'
+Ok
+
+Ok = 14
+Ko = 10
