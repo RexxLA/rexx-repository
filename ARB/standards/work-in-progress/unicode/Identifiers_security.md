@@ -254,6 +254,11 @@ The following changes will need to be made to the parser:
 
 [RFC 2457-non_ascii_idents][rust_rfcs_2457]
 
+Excerpts:
+
+* To disallow any Unicode identifiers in a project (for example to ease collaboration or for security reasons) limiting the accepted identifiers to ASCII add this lint to the lib.rs or main.rs file of your project: #![forbid(non_ascii_idents)] (It would be interesting to implement a similar mechanism - jmb).
+* Rust lexers normalize identifiers to NFC.
+
 [Github pull request][rust_lang_pull_2457]
 
 Allow non-ASCII letters (such as accented characters, Cyrillic, Greek, Kanji, etc.) in Rust identifiers.
