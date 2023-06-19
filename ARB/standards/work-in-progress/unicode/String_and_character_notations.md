@@ -53,8 +53,9 @@ c2x implies that "characters" have a "hexadecimal" representation. This is maybe
 ## How other languages are supporting escape characters for Unicode:
 
     \N{Unicode name}    Character name in the Unicode database (Python, Julia)
+    \u{nnnn ...}        Unicode character(s), where each nnnn is 1-6 hexadecimal digits (Ruby)
     \u{X..X}            Unicode character denoted by a 1–8 hex digits (Swift)
     \u{XXXXXX}          hexadecimal Unicode code point UTF-8 encoded (1 or more digits) (zig)
-    \uXXXX              Unicode character denoted by four hex digits (Python, Julia, Netrexx, Java, JSON)
-    \UXXXXXXXX          Unicode character denoted by eight hex digits (Python, Julia)
+    \uXXXX              Unicode character denoted by four hex digits (Java, JSON, Julia, Netrexx, Python, Ruby)
+    \UXXXXXXXX          Unicode character denoted by eight hex digits (Julia, Python)
     \xXX                1 byte denoted by 2 hex digits (Netrexx, Ruby)
