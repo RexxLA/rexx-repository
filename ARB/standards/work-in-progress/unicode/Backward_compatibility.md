@@ -179,14 +179,85 @@ Illustration of the impact of the string's encoding on the BIFs:
 
 What you have done is really impressive, many thanks for sharing it here. Some quick comments
 
-* For simplicity, I'd prefer to use "xxxx"T instead of T"xxxx". We already have "xxxx"X and "xxxx"B. It's difficult to understand (and to explain to students) why some strings use a prefix and some use a postfix.
-* c2x(a) operates in such a way that the resulting string, "hhhhh", if prepended to an "X", "hhhh"X, will be identical to "a", i.e., "hhhh"X == a. And similarly for c2b and binary strings. I love the design of c2u. For simmetry reasons, the language should allow specifying strings as "U+xxxx U+xxxx"U. Since the internal U becomes redundant, I'd make it (and the plus sign) optional. Then "U+0041"U = "U41"U = "41"U. If the U is optional, then we should allow for "," as a delimiter. Blanks between hex strings have a different, defined meaning.
-* My impression is that c2g should return graphemes in the "xxxx, xxxx, xx"U form. Again, blanks between hex strings have a different, defined meaning.
-* Having a RexxText class that is tied to the String class is a neat solution, but, in my opinion, it has a major drawback. It keeps String as the basic, universal class, and if one wants RexxText, one has to do additional work. For me, this is a perfectly workable solution. But what I've understood, from our conversations in the ARB list, is that many people consider it to be unacceptable. I.e., we would want that a "normal" programmer can use Unicode strings by default.
-* "If a string must be built using Unicode scalars then use the notation already adopted by other languages" -- I wouldn't agree on that. Backslash-escaped strings are not present in ooRexx, not in classic Rexx. If we open the door to \UXXXX, then we should accept \n, \t and all that. Also, it's difficult to explain why some strings are parse-time and some others are run-time.
-* I understand the logic behind length("Noël")= 4, "Noël"~length= 5, but I'm not sure this can be reasonably explained to new users.
-* To make c2x and similar BIFs work, you have to tie a RexxText to a String, i.e., somehow you are telling the user that there is an "underlying" or "ultimate" representation for the RexxText instance. Do we really want that? I don't think so. One think is to have all kind of encode/decode BIFs, BIMs, and so on; and the other is tying the RexxText instance to its encoding. You could well end up by having two strings that are identical (regarding, for example, NFC normalization) but return different c2x results. We definitely don't want that.
-* Also, x2c et al are used to store certain values in a byte. But we won't know, in general terms, how a codepoint is stored. Or a grapheme cluster.
-* Ontologically, I'm not convinced that a .String has to have a .RexxText, i.e., that a~text is a good idea. This assumes that a .String has an ~encoding. I'm not convinced about that, either. It can have one, it can have several, it can have none. A .String is a byte-indexable array of characters. .RexxText (or whatever name we agree upon) should be a _primary_ type, not a property of a .String instance.
+* For simplicity, I'd prefer to use "xxxx"T instead of T"xxxx". We already have "xxxx"X and "xxxx"B. It's difficult to understand (and to explain to students) why some strings use a prefix and some use a postfix.  
+  (jlf)  
+  agreed. The "T" prefix is just a pretty-print to make a distinction between RexxText instance and String instance. It's a prefix because I see it immediatly, but a suffix would be also ok.  
+  (/jlf)
+
+* c2x(a) operates in such a way that the resulting string, "hhhhh", if prepended to an "X", "hhhh"X, will be identical to "a", i.e., "hhhh"X == a. And similarly for c2b and binary strings. I love the design of c2u. For simmetry reasons, the language should allow specifying strings as "U+xxxx U+xxxx"U. Since the internal U becomes redundant, I'd make it (and the plus sign) optional. Then "U+0041"U = "U41"U = "41"U. If the U is optional, then we should allow for "," as a delimiter. Blanks between hex strings have a different, defined meaning.  
+  (jlf)  
+  Yes, I saw your proposition elsewhere. I don't have a strong opinion about "nnnn, nnnn, nnnn, nnnn"U. If other people find it useful then why not.  
+  I use the blanks inside the hex string (not between), to make clear what is the segmentation. They are just separators. It's a real added value to me and will not abandon them.  
+  (/jlf)
+
+* My impression is that c2g should return graphemes in the "xxxx, xxxx, xx"U form. Again, blanks between hex strings have a different, defined meaning.  
+  (jlf)  
+  No, here too, I look at the same internal encoding, with a different perspective. Same hex digits as c2x.  
+  The blank separator between the graphemes is a real added value to me.  
+  Side note:  
+  I understand that NetRexx can show only Unicode scalars. Any other representation would need to pass an encoding.  
+  cRexx takes the same decision, because they want to hide the internal representation.  
+  Giving access to the internal representation is not making the rest of the functionalities less abstract.  
+  (/jlf)
+
+* Having a RexxText class that is tied to the String class is a neat solution, but, in my opinion, it has a major drawback. It keeps String as the basic, universal class, and if one wants RexxText, one has to do additional work. For me, this is a perfectly workable solution. But what I've understood, from our conversations in the ARB list, is that many people consider it to be unacceptable. I.e., we would want that a "normal" programmer can use Unicode strings by default.  
+  (jlf)  
+  Agreed. This is just a proto, and I'm not expecting anyone to want it in production.  
+  Yes, currently String is the main class.  
+  Since it's a circular dependency, it will also work if RexxText becomes the main class.  
+  The big problem with RexxText being the main class is the performance regression.  
+  I'm not focusing on perf, even if sometimes I can't resist and do some optimizations.  
+  I bet that most of the rexxers will strongly complain about the perf (in general, not talking about Executor).  
+  (/jlf)
+
+* "If a string must be built using Unicode scalars then use the notation already adopted by other languages" -- I wouldn't agree on that. Backslash-escaped strings are not present in ooRexx, not in classic Rexx. If we open the door to \UXXXX, then we should accept \n, \t and all that. Also, it's difficult to explain why some strings are parse-time and some others are run-time.  
+  (jlf)  
+  Very useful when you copy-paste examples from blogs.  
+  Rony had the same need for [JSON](https://sourceforge.net/p/oorexx/code-0/HEAD/tree/main/trunk/extensions/json/json.cls).  
+  It's impossible to support the escape characters at parse-time without breaking all the scripts, unless a solution exists that I don't see.  
+  The unescape at run-time can be seen as a facility provided by a library, not a core functionality.  
+  (/jlf)
+
+* I understand the logic behind length("Noël")= 4, "Noël"~length= 5, but I'm not sure this can be reasonably explained to new users.  
+  (jlf)  
+  Yes, but that's the reality.  
+  And that's a fundamental rule of the prototype: "The ooRexx programmer has the choice".  
+  Would be more easy for new users after the switch String <--> RexxText, maybe.  
+  I struggle to find how Regina (and any Rexx without class) could support both lengths with only the `length` BIF.  
+  I asked to cRexx team how they get the length in bytes. Apparently, there is no BIF, but it's possible to [use
+  some microcode to implement a `length` procedure](https://groups.io/g/rexxla-arb/message/186).  
+  I guess I will be told that nobody needs the length of a string in bytes.  
+  (/jlf)
+
+* To make c2x and similar BIFs work, you have to tie a RexxText to a String, i.e., somehow you are telling the user that there is an "underlying" or "ultimate" representation for the RexxText instance. Do we really want that? I don't think so. One think is to have all kind of encode/decode BIFs, BIMs, and so on; and the other is tying the RexxText instance to its encoding. You could well end up by having two strings that are identical (regarding, for example, NFC normalization) but return different c2x results. We definitely don't want that.  
+  (jlf)  
+  Yes, the couple (String, RexxText) is the driving principle of the architecture.  
+  The prototype is an experimentation of a smooth transition from bytes to graphemes.  
+  Regarding the different values for c2X, this is exactly what I want.  
+  The abstraction is elsewhere.  
+  (/jlf)
+
+* Also, x2c et al are used to store certain values in a byte. But we won't know, in general terms, how a codepoint is stored. Or a grapheme cluster.  
+  (jlf)  
+  Your assertion is true for NetRexx and cRexx.  
+  It's false for Executor because by design, the internal representation is not hidden. I'm so glad to have access to it when analyzing encoding errors.  
+  Both approaches allow the same abstractions.  
+  (/jlf)
+
+* Ontologically, I'm not convinced that a .String has to have a .RexxText, i.e., that a~text is a good idea. This assumes that a .String has an ~encoding. I'm not convinced about that, either. It can have one, it can have several, it can have none. A .String is a byte-indexable array of characters. .RexxText (or whatever name we agree upon) should be a _primary_ type, not a property of a .String instance.  
+  (jlf)  
+  The couple (String, RexxText) is the driving principle of the architecture.  
+  Both classes are a primary type.  
+  A String instance can exist without a linked RexxText instance.  
+  A RexxText instance cannot exist without a String instance.  
+  The circularity makes trivial the change of default class. Today, the default class is String because RexxText is incomplete.  
+  Yes, a string has an encoding. Always. You can't interpret the bytes without this information.  
+  Even Java needs an encoding. 
+  The difference is when the encoding information is lost.  
+  For Java, it's lost at the moment when a String instance is created from a ByteBuffer.  
+  That's why the ARB mailing list is talking about passing a size parameter or an encoding to c2x.  
+  For Executor (like Ruby), the encoding is never lost.  
+  That's why Executor can always provide a c2x string that is aligned with the string's encoding.  
+  (/jlf)
 
 Again, many thanks for sharing your design and your ideas.
