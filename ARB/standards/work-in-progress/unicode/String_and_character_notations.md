@@ -49,3 +49,12 @@ c2x implies that "characters" have a "hexadecimal" representation. This is maybe
 * If we end up working with grapheme clusters, c2u might return an array of codepoints (maybe by using a stem under Classic Rexx implementations), or, maybe better, a string in the "nnnn[, nnnn]" format, ready for u2c.
 
 (/jmb)
+
+## How other languages are supporting escape characters for Unicode:
+
+    \N{Unicode name}    Character name in the Unicode database (Python, Julia)
+    \u{X..X}            Unicode character denoted by a 1–8 hex digits (Swift)
+    \u{XXXXXX}          hexadecimal Unicode code point UTF-8 encoded (1 or more digits) (zig)
+    \uXXXX              Unicode character denoted by four hex digits (Python, Julia, Netrexx, Java, JSON)
+    \UXXXXXXXX          Unicode character denoted by eight hex digits (Python, Julia)
+    \xXX                1 byte denoted by 2 hex digits (Netrexx, Ruby)
