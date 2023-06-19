@@ -174,3 +174,12 @@ Illustration of the impact of the string's encoding on the BIFs:
         s~length=                                       -- 8 because String is always byte-oriented (ignores the encoding)
         length(s)=                                      -- 2 because forwards to Text (encoding UTF-32 is not compatible with String)
         s~text~utf8=                                    -- T'AB'
+
+## Some quick comments about Executor (jmb)
+
+What you have done is really impressive, many thanks for sharing it here. Some quick comments
+
+* For simplicity, I'd prefer to use "xxxx"T instead of T"xxxx". We already have "xxxx"X and "xxxx"B. It's difficult to understand (and to explain to students) why some strings use a prefix and some use a postfix.
+* c2x(a) operates in such a way that the resulting string, "hhhhh", if prepended to an "X", "hhhh"X, will be identical to "a", i.e., "hhhh"X == a. And similarly for c2b and binary strings. I love the design of c2u. For simmetry reasons, the language should allow specifying strings as "U+xxxx U+xxxx"U. Since the internal U becomes redundant, I'd make it (and the plus sign) optional. Then "U+0041"U = "U41"U = "41"U. If the U is optional, then we should allow for "," as a delimiter. Blanks between hex strings have a different, defined meaning.
+* My impression is that c2g should return graphemes in the "xxxx, xxxx, xx"U form. Again, blanks between hex strings have a different, defined meaning.
+* Having a RexxText class that is tied to the String class is a neat solution, but, in my opinion, it has a major drawback. It keeps String as the basic, universal class, and if one wants RexxText, one has to do additional work. For me, this is a perfectly workable solution. But what I've understood, from our conversations in the ARB list, is that many people consider it to be unacceptable. I.e., we would want that a "normal" programmer can use Unicode strings by default.
