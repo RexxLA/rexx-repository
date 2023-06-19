@@ -26,3 +26,151 @@
 2. Object oriented versions of Rexx could well follow the Classic Rexx paradigm and extend over it (i.e., duplicating classic rexx BIFs as the corresponding class BIMs, etc).
 
 (/jmb)
+
+## Rationale for Executor
+
+[Executor](https://github.com/jlfaucher/executor) is an extension of ooRexx 4.2.
+
+### Goals
+
+#### Functional
+
+- RexxText supports the same methods as String, with grapheme indexes and canonical equivalence.
+- The BIFs delegate to RexxText when a String instance is not compatible with a byte string.
+- The parse instruction supports RexxText.
+
+#### Architecture
+
+- The existing String class is kept unchanged, its methods are byte-oriented.
+- The prototype adds a layer of services working at grapheme level, provided by the RexxText class.
+- The RexxText class works on the bytes managed by the String class.
+- String instances are immutable, the same for RexxText instances.
+- No automatic conversion to Unicode by the interpreter.
+- The strings crossing the I/O barriers are kept unchanged.
+- Supported encodings : byte, UTF-8, UTF-16, UTF-32.
+
+
+### Bytes versus graphemes
+
+A String instance is linked to a RexxText instance, which itself is linked to this String instance:
+
+        a String
+         ▲  text --------> a RexxText
+         │                     indexer (anEncoding)
+         │                          codepoints (sequential access)
+         │                          graphemes  (direct access)
+         +-<---------------------<- string
+
+The ooRexx programmer has the choice :
+- working with String at byte level
+- working with RexxText at grapheme level.
+- the same instance of String is used in both cases.
+
+Working at byte level:
+
+        myString=                       -- 'où as tu été ?'
+        myString~length=                -- 18
+
+                                        -- 1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18
+        myString                        -- 6F C3 B9 20 61 73 20 74 75 20 65 CC 81 74 C3 A9 20 3F
+                                        -- o. ù....  . a. s.  . t. u.  . e. acute t. é....  . ?.
+
+Working at grapheme level:
+
+        myText  =                       -- T'où as tu été ?'
+        myText~length=                  -- 14
+
+                                        -- 1  2     3  4  5  6  7  8  9  10       11 12    13 14
+        myText                          -- 6F C3B9  20 61 73 20 74 75 20 65 CC81  74 C3A9  20 3F
+                                        -- o. ù...   . a. s.  . t. u.  . e. acut  t. é...   . ?.
+
+The Unicode scalars (codepoints) are available with
+- aText~c2u which returns a String instance "U+xxxx U+xxxx ..." (4 to 6 hex digits per codepoint)
+- aText~codepoints which returns a codepoint supplier. A codepoint is an integer.
+
+The Unicode graphemes are available with
+- aText~c2g which returns a String instance with the same hex digits as c2x, but with a space between graphemes.
+- aText~graphemes returns a grapheme supplier. A grapheme is a RexxText instance.
+
+### Compatibility
+
+There is no reason to break the compatibility with the String instances:
+- c2x is available, the hex digits show the bytes of the string encoding (yes, not hidden),
+  spaces are used to separate the codepoints (easy to read and analyze, in particular when encoding errors).
+- x2c, d2c are available on a RexxText instance. Forwards to the String instance,
+  the result is a RexxText instance with default encoding.
+- c2d is available. Forwards to the String class, the result is a String instance.
+- The bit methods are available. Forwards to the String instance, the result is a String instance.
+
+The `xrange` BIF is available for Unicode. If the default encoding is a Unicode encoding
+then it supports the whole Unicode characters. Otherwise forwards to the legacy
+implementation (byte 00..FF).
+
+### Escape characters
+
+If a string must be built using Unicode scalars then use the notation already
+adopted by other languages:
+
+        \u{Unicode name}    Character name in the Unicode database
+        \U{Unicode name}    same as \u
+        \u{X..X}            Unicode character denoted by 1-8 hex digits. The first character must be a digit 0..9 ('u' lowercase)
+        \U{X..X}            same as \u
+        \uXXXX              Unicode character denoted by 4 hex digits ('u' lowercase)
+        \UXXXXXXXX          Unicode character denoted by 8 hex digits ('U' uppercase)
+        \xXX                1 byte denoted by 2 hex digits ('x' lowercase)
+        \XXXXX              2 bytes denoted by 4 hex digits ('X' uppercase)
+
+These escape characters must be explictely unescaped by calling ~unescape
+(so it's done at run-time, not at parse-time).  
+Other languages support escape characters at parse-time.  
+Cannot be applied to legacy strings because that will break compatibility. To study...
+
+### BIFs
+
+The BIFs are routed either towards String or towards RexxText,
+in function of the compatibility of the arguments with String:
+
+        BIF(str1, str2, ..., strN)
+
+if at least one str argument is not compatible with String then the BIF is
+routed towards the RexxText class.
+
+Illustration of the impact of the string's encoding on the BIFs:
+
+        -- The default encoding is UTF-8
+        -- (i.e a string without explicit encoding is seen as an UTF-8 string)
+    
+    
+        -- UTF-8 encoding
+
+        "Noel"~isCompatibleWithByteString=              -- 1
+        length("Noel")=                                 -- 4 because "Noel"~length = 4
+        "Noël"~isCompatibleWithByteString=              -- 0
+        length("Noël")=                                 -- 4 because "Noël"~text~length = 4
+        "Noël"~length=                                  -- 5 because String remains byte-oriented, not impacted by the default encoding
+
+        -- UTF-16BE encoding
+        s = "0041004200430044"x
+        s=                                              -- '[00]A[00]B[00]C[00]D'
+        s~isCompatibleWithByteString=                   -- 1
+        s~description=                                  -- 'UTF-8 ASCII (8 bytes)'
+        length(s)=                                      -- 8 because encoding UTF-8 ASCII is compatible with String
+        s~encoding = "UTF16"
+        s~isCompatibleWithByteString=                   -- 0
+        s~description=                                  -- 'UTF-16BE (8 bytes)'
+        s~length=                                       -- 8 because String is always byte-oriented (ignores the encoding)
+        length(s)=                                      -- 4 because forwards to Text (encoding UTF-16BE is not compatible with String)
+        s~text~utf8=                                    -- T'ABCD'
+
+        -- UTF-32 encoding
+        s = "0000004100000042"x
+        s=                                              -- '[000000]A[000000]B'
+        s~isCompatibleWithByteString=                   -- 1
+        s~description=                                  -- 'UTF-8 ASCII (8 bytes)'
+        length(s)=                                      -- 8 because encoding UTF-8 ASCII is compatible with String
+        s~encoding = "UTF32"
+        s~isCompatibleWithByteString=                   -- 0
+        s~description=                                  -- 'UTF-32BE (8 bytes)'
+        s~length=                                       -- 8 because String is always byte-oriented (ignores the encoding)
+        length(s)=                                      -- 2 because forwards to Text (encoding UTF-32 is not compatible with String)
+        s~text~utf8=                                    -- T'AB'
