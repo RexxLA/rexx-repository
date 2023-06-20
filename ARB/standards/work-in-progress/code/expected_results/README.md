@@ -47,6 +47,7 @@ Commands executed by the Makefile:
 Commands executed by the Makefile:
 
     cpp -DOOREXX -E -C -P -Ihelpers expected_results.rex > generated/oorexx_expected_results.rexx
+    cd generated
     rexx oorexx_expected_results.rex > results/oorexx_results.txt
 
 ## Regina
@@ -59,6 +60,7 @@ Commands executed by the Makefile:
 Commands executed by the Makefile:
 
     cpp -DREGINA -E -C -P -Ihelpers expected_results.rex > generated/regina_expected_results.rexx
+    cd generated
     rexx regina_expected_results.rex > results/regina_results.txt
 
 ## Executor
@@ -71,4 +73,5 @@ Commands executed by the Makefile:
 Commands executed by the Makefile:
 
     cpp -DEXECUTOR -E -C -P -Ihelpers expected_results.rex > generated/executor_expected_results.rexx
+    cd generated
     rexx executor_expected_results.rex > results/executor_results.txt
