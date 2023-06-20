@@ -185,10 +185,16 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   (/jlf)
 
 * c2x(a) operates in such a way that the resulting string, "hhhhh", if prepended to an "X", "hhhh"X, will be identical to "a", i.e., "hhhh"X == a. And similarly for c2b and binary strings. I love the design of c2u. For simmetry reasons, the language should allow specifying strings as "U+xxxx U+xxxx"U. Since the internal U becomes redundant, I'd make it (and the plus sign) optional. Then "U+0041"U = "U41"U = "41"U. If the U is optional, then we should allow for "," as a delimiter. Blanks between hex strings have a different, defined meaning.  
+
   (jlf)  
   Yes, I saw your proposition elsewhere. I don't have a strong opinion about "nnnn, nnnn, nnnn, nnnn"U. If other people find it useful then why not.  
   I use the blanks inside the hex string (not between), to make clear what is the segmentation. They are just separators. It's a real added value to me and will not abandon them.  
   (/jlf)
+  
+  (jmb)  
+  I see that my assertion was unclear. I'll try to explain better. "hhhh"x == "hh hh"x, and "hhhhhhhh"x == "hhhh hhhh"x, i.e., blanks (in certain positions) are _irrelevant_ in hex strings. That's why I oppose simple blanks as separators: it's not a good idea to have non-significant blanks in one kind of strings, and significant in another kind of strings.
+  I'd make the comma mandatory, and maybe the blanks optional. And I agree with you, blanks make the string much more readable, so probably c2u should return "41, 42" instead of "41,42".  
+  (/jmb)
 
 * My impression is that c2g should return graphemes in the "xxxx, xxxx, xx"U form. Again, blanks between hex strings have a different, defined meaning.  
   (jlf)  
