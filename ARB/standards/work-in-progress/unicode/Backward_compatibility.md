@@ -289,7 +289,11 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   Of course in computer science you will only have perfect indiscernibility in the reflexive case (i.e., when you are comparing one variable to itself), because otherwise address(x) \\= address(y).  
   I'll state again my point in a different way. We can (and should) offer a decode BIM. Then the _decoded_ byte string may well be different, depending on the way we store Unicode strings. This would allow for ``"René"~decode("UTF-8")~length = 5. But first-order BIMs should always return the same, except perhaps for the ones that manage internal representations, like encode and decode.  
   "René" only _has_ a c2x if we assume that an Unicode string _has_ an encoding. I strongly oppose this idea, as I've explained in detail in the next point.
-  On the other hand, "René"~decode("UTF-8") is a byte string, and then of course it has c2x.  
+  On the other hand, "René"~decode("UTF-8") is a byte string, and then of course it has c2x.
+    
+  [later -- for entertainment only]
+    
+  The superman example contained in the Wikipedia article is, of course, ludicrous. The same happens with many classical discussions in logic. For example: assume there is an universe that contains two perfectly identical spheres, orbiting each other, and no more objects. If we don't introduce a viewer, who can point her finger and say "_this_ sphere", or "_that_ sphere", then both spheres are indeed indistinguishable (=indiscernible), but nonetheless not identical (=not the same). And this would seem to contradict the law of identify of indiscernibles. Then a lot of subtle discussions ensue, where the concept of "thisness" is considered and discussed, and so on. A can of worms, of course. A little humour is the only antidote :)  
   (/jmb)  
   
 * Also, x2c et al are used to store certain values in a byte. But we won't know, in general terms, how a codepoint is stored. Or a grapheme cluster.  
