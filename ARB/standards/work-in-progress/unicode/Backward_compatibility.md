@@ -251,6 +251,11 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   I guess I will be told that nobody needs the length of a string in bytes.  
   (/jlf)
 
+  (jmb)  
+  Rexxes without classes will have to deal with two types anyway. When a string is Unicode, LENGTH should return the number of grapheme clusters. If you want the length in bytes, you will have to decode first the Unicode string into a byte buffer, and, voilà!, you have your length in bytes.  
+  I understand the experiment you are making with your prototype, and I have the highest respect for your work. But the general idea (i.e., not limited to Executor) that a Unicode string has to have a length in bytes seems completely wrong to me. It will have a length in bytes _as soon as you decode it_.  
+  (/jmb)  
+
 * To make c2x and similar BIFs work, you have to tie a RexxText to a String, i.e., somehow you are telling the user that there is an "underlying" or "ultimate" representation for the RexxText instance. Do we really want that? I don't think so. One think is to have all kind of encode/decode BIFs, BIMs, and so on; and the other is tying the RexxText instance to its encoding. You could well end up by having two strings that are identical (regarding, for example, NFC normalization) but return different c2x results. We definitely don't want that.  
   (jlf)  
   Yes, the couple (String, RexxText) is the driving principle of the architecture.  
