@@ -282,6 +282,15 @@ What you have done is really impressive, many thanks for sharing it here. Some q
       say ClarkKent~text == Superman~text   -- 1
       
   (/jlf)
+
+  (jmb)  
+  :-)  
+  It's one of the basic rules of equality, as studied by logic. These laws are so ingrained in our way of thinking that normally they are thought of as evident and therefore never explicited. From equality, one should expect (a) reflexivity, i.e, $\forall x (x = x)$; (b) symmetry, i.e., $\forall x \forall y (x = y \rightarrow y = x)$; (c) transitivity, i.e., $\forall x \forall y \forall z ( (x = y \land y = z) \rightarrow x = z)$, (d) the law of indiscernibility of identicals, which can be very clearly stated in plain language: if two things A and B are identical, then there should not be any property P such that P(A) \\= P(B).  
+  Of course in computer science you will only have perfect indiscernibility in the reflexive case (i.e., when you are comparing one variable to itself), because otherwise address(x) \\= address(y).  
+  I'll state again my point in a different way. We can (and should) offer a decode BIM. Then the _decoded_ byte string may well be different, depending on the way we store Unicode strings. This would allow for ``"René"~decode("UTF-8")~length = 5. But first-order BIMs should always return the same, except perhaps for the ones that manage internal representations, like encode and decode.  
+  "René" only _has_ a c2x if we assume that an Unicode string _has_ an encoding. I strongly oppose this idea, as I've explained in detail in the next point.
+  On the other hand, "René"~decode("UTF-8") is a byte string, and then of course it has c2x.  
+  (/jmb)  
   
 * Also, x2c et al are used to store certain values in a byte. But we won't know, in general terms, how a codepoint is stored. Or a grapheme cluster.  
   (jlf)  
