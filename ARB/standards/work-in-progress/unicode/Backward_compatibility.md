@@ -233,6 +233,12 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   It's impossible to support the escape characters at parse-time without breaking all the scripts, unless a solution exists that I don't see.  
   The unescape at run-time can be seen as a facility provided by a library, not a core functionality.  
   (/jlf)
+  
+  (jmb)  
+  I'd vote for the run-time library, or a BIF, or BIM, or somesuch.  
+  The only way I see to support escape characters at parse-time without breaking everything is to introduce still another form of string, i.e., choose a new suffix, say "P" (this is not a proposal) and then stipulate that P-strings, in the form "xxxx"P, can have escaped sequences.  
+  But if we are already considering X for hex, B for binary, T for Unicode, and maybe C for compatibility, maybe adding still a new type of string would be too much, and go against the spirit of simplicity of Rexx ("Keep the language small")  
+  (/jmb)  
 
 * I understand the logic behind length("Noël")= 4, "Noël"~length= 5, but I'm not sure this can be reasonably explained to new users.  
   (jlf)  
