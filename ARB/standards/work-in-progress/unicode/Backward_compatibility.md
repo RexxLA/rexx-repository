@@ -306,14 +306,14 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   That's why Executor can always provide a c2x string that is aligned with the string's encoding.  
   (/jlf)
   
-  (jmb)
-  I will defend now the following position: strings do not always have encoding, but, yes, you can't interpret the bytes _as a Unicode string_ without that information.
+  (jmb)  
+  I will defend now the following position: strings do not always have encoding, but, yes, you can't interpret the bytes _as a Unicode string_ without that information.  
   Examples.  
-  (1) You are asked to read a Stream which is BINARY RECLENGTH 80 and to set the "80"X bit of the fifth byte in each of the logical lines. You can do that without knowing anything about the encoding. Indeed, given the nature of your job, it might well be that the file is purely binary, i.e., that it doesn't store text at all, but only binary data (i.e., bit masks, integers, and so on).
-  (2) Many strings, like "4131"X, can be understood in several different ways, for example as "A1" (utf-8), or as 䄱, "4131"U, which is a CJK Unified Ideograph ("a kind of grain").
-  One can conclude, then, that your statement, "A string (always) has an encoding" is not universally true. Some strings have no encoding because they are not intended to represent characters, but only binary data.
-  Some other strings can be interpreted in radically different ways depending on the encoding, and also have valid interpretations which imply no encoding at all (for example, "4131"~x2d = 16689, an space-efficient way to store a number when you are space-constrained).
-  Therefore, a string doesn't _"have"_ an encoding, neither does it _have to have_ one. One _uses_ an encoding to interpret a string.
-  (/jmb)  
+  (1) You are asked to read a Stream which is BINARY RECLENGTH 80 and to set the "80"X bit of the fifth byte in each of the logical lines. You can do that without knowing anything about the encoding. Indeed, given the nature of your job, it might well be that the file is purely binary, i.e., that it doesn't store text at all, but only binary data (i.e., bit masks, integers, and so on).  
+  (2) Many strings, like "4131"X, can be understood in several different ways, for example as "A1" (utf-8), or as 䄱, "4131"U, which is a CJK Unified Ideograph ("a kind of grain").  
+  One can conclude, then, that your statement, "A string (always) has an encoding" is not universally true. Some strings have no encoding because they are not intended to represent characters, but only binary data.  
+  Some other strings can be interpreted in radically different ways depending on the encoding, and also have valid interpretations which imply no encoding at all (for example, "4131"~x2d = 16689, an space-efficient way to store a number when you are space-constrained).  
+  Therefore, a string doesn't _"have"_ an encoding, neither does it _have to have_ one. One _uses_ an encoding to interpret a string.  
+  (/jmb)    
 
 Again, many thanks for sharing your design and your ideas.
