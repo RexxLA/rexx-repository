@@ -218,7 +218,13 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   The big problem with RexxText being the main class is the performance regression.  
   I'm not focusing on perf, even if sometimes I can't resist and do some optimizations.  
   I bet that most of the rexxers will strongly complain about the perf (in general, not talking about Executor).  
-  (/jlf)
+  (/jlf)  
+  
+  (jmb)  
+  Performance doesn't have to suffer at all for pure ASCII strings. The fact that a literal string is pure ASCII can be determined at parse time, and for run-time strings, such a determination is O(n), with a very fast character test. The fact that a string is pure ASCII can be stored as an attribute of the string instance, and some very simple rules followed (for example, if we concatenate two pure ASCII strings, we get a pure ASCII string). BIFs and BIMs should operate on pure ASCII strings at the same speed than current Rexx programs (if the internal representation is utf-8, of course).  
+  On the other hand, if one wants diacritics, devanagari and all that, and still be able to use all the classic BIFs, one should be prepared for an unavoidable performance drop.  
+  Finally, if you are really concerned about performance and additionally you know very well what you are doing, you can always resort to byte strings and manage the utf-8 details by yourself.  
+  (/jmb)  
 
 * "If a string must be built using Unicode scalars then use the notation already adopted by other languages" -- I wouldn't agree on that. Backslash-escaped strings are not present in ooRexx, not in classic Rexx. If we open the door to \UXXXX, then we should accept \n, \t and all that. Also, it's difficult to explain why some strings are parse-time and some others are run-time.  
   (jlf)  
