@@ -268,6 +268,21 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   As a prototype for experimentation this is, undoubtedly, invaluable. I'm not criticizing Executor. I'n trying to think about a new Rexx standard that includes Unicode. I don't think it's a good idea to tell people that string A and B are strictly equal, A == B, but that there are some internal details, that, well... This would go against the most basic nature of equality, i.e., the law of [indiscernibility of identicals](https://en.wikipedia.org/wiki/Identity_of_indiscernibles#Indiscernibility_of_identicals).  
   (/jmb)  
 
+  (jlf)
+  Interesting link, thanks. Will need to read it several times, but could not resist to try to apply the reasoning:   
+  ClarkKent = "René"  
+  Superman = "René"  
+  Lois Lane knows that ClarkKent has 4 codepoints: U+0052 U+0065 U+006E U+00E9  
+  Lois Lane knows that Superman has 5 codepoints: U+0052 U+0065 U+006E U+0065 U+0301  
+  Therefore Superman is not identical to ClarkKent.  
+  But Unicode says that they are equal when comparing their grapheme clusters.  
+  Do we go against the most basic nature of equality?  
+  
+      say ClarkKent == Superman             -- 0
+      say ClarkKent~text == Superman~text   -- 1
+      
+  (/jlf)
+  
 * Also, x2c et al are used to store certain values in a byte. But we won't know, in general terms, how a codepoint is stored. Or a grapheme cluster.  
   (jlf)  
   Your assertion is true for NetRexx and cRexx.  
