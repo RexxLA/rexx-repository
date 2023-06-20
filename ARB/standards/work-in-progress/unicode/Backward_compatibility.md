@@ -262,7 +262,11 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   The prototype is an experimentation of a smooth transition from bytes to graphemes.  
   Regarding the different values for c2X, this is exactly what I want.  
   The abstraction is elsewhere.  
-  (/jlf)
+  (/jlf)  
+    
+  (jmb)  
+  As a prototype for experimentation this is, undoubtedly, invaluable. I'm not criticizing Executor. I'n trying to think about a new Rexx standard that includes Unicode. I don't think it's a good idea to tell people that string A and B are strictly equal, A == B, but that there are some internal details, that, well... This would go against the most basic nature of equality, i.e., the law of [indiscernibility of identicals](https://en.wikipedia.org/wiki/Identity_of_indiscernibles#Indiscernibility_of_identicals).  
+  (/jmb)  
 
 * Also, x2c et al are used to store certain values in a byte. But we won't know, in general terms, how a codepoint is stored. Or a grapheme cluster.  
   (jlf)  
