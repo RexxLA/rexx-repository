@@ -192,7 +192,7 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   (/jlf)
   
   (jmb)  
-  I see that my assertion was unclear. I'll try to explain better. "hhhh"x == "hh hh"x, and "hhhhhhhh"x == "hhhh hhhh"x, i.e., blanks (in certain positions) are _irrelevant_ in hex strings. That's why I oppose simple blanks as separators: it's not a good idea to have non-significant blanks in one kind of strings, and significant in another kind of strings.
+  I see that my assertion was unclear. I'll try to explain better. "hhhh"x == "hh hh"x, and "hhhhhhhh"x == "hhhh hhhh"x, i.e., blanks (in certain positions) are _irrelevant_ in hex strings. That's why I oppose simple blanks as separators: it's not a good idea to have non-significant blanks in one kind of strings, and significant in another kind of strings.  
   I'd make the comma mandatory, and maybe the blanks optional. And I agree with you, blanks make the string much more readable, so probably c2u should return "41, 42" instead of "41,42".  
   (/jmb)
 
@@ -205,7 +205,11 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   cRexx takes the same decision, because they want to hide the internal representation.  
   Giving access to the internal representation is not making the rest of the functionalities less abstract.  
   (/jlf)
-
+    
+  (jmb)  
+  About the string returned by c2g, please see my reply to the preceding point.  
+  As I see it, the problem with giving access to the internal representation is not the lack of abstraction, but the fact that you're entering a contract with the programmers stating that the representation exists. Then prople will start producing programs that obey this contract. If we later decided, for whatever reason, that the representation should be changed, this change would become impossible.  
+  (/jmb)  
 * Having a RexxText class that is tied to the String class is a neat solution, but, in my opinion, it has a major drawback. It keeps String as the basic, universal class, and if one wants RexxText, one has to do additional work. For me, this is a perfectly workable solution. But what I've understood, from our conversations in the ARB list, is that many people consider it to be unacceptable. I.e., we would want that a "normal" programmer can use Unicode strings by default.  
   (jlf)  
   Agreed. This is just a proto, and I'm not expecting anyone to want it in production.  
