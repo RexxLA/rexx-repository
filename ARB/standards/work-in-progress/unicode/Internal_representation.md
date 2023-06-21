@@ -20,3 +20,32 @@ Two families of Rexx regarding the interpretation of strings:
 
 > (rené)
 > I think it would be wrong to assume a character encoding.
+
+## Raw bytes versus Unicode
+
+### Armin Ronacher about Python 3
+
+(jlf)  
+These blogs are old and biased, the situation could be better today for Python 3, but I still find them useful for the cases they describe.  
+It's because of these blogs that I decided to apply the following rules with Executor:
+
+- No automatic conversion to Unicode by the interpreter.
+- The strings crossing the I/O barriers are kept unchanged.
+
+(/jlf)
+
+#### [More About Unicode in Python 2 and 3](https://lucumr.pocoo.org/2014/1/5/unicode-in-2-and-3/)  
+January 5, 2014
+
+(jlf)  
+Looks similar to what could happen to Regina and ooRexx?  
+(/jlf)
+
+
+#### [Everything you did not want to know about Unicode in Python 3](https://lucumr.pocoo.org/2014/5/12/everything-about-unicode/)  
+May 12, 2014
+
+(jlf)  
+The guy is not happy with the decision to force Unicode everywhere.
+Illustration with the `cat` command.  
+(/jlf)
