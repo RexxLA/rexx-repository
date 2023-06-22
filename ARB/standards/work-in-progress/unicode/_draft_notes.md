@@ -22,6 +22,8 @@
 
 ### [String comparison](./String_comparison.md)
 
+### [Performance](./Performance.md)
+
 ### [Identifiers, Security](./Identifiers_security.md)
 
 ### [Locale](./Locale.md)
