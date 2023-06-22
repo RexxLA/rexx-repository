@@ -228,7 +228,7 @@ What you have done is really impressive, many thanks for sharing it here. Some q
 
   (jmb)  
   (Some additional thoughts about performance)  
-  In many cases, and if we restrict ourselves to the BMP, NFC normalization can produce a string where every grapheme cluster is a single codepoint. This is also a good candidate for optimization. In this case, the ideal storage format is 16-bit words, since if allows for indexed, direct access. If we go beyond the BMP but we still have one grapheme cluster = one codepoint, then we can use 32-bit integers.  
+  In many cases, and if we restrict ourselves to the BMP, NFC normalization can produce a string where every grapheme cluster is a single codepoint. This is also a good candidate for optimization. In this case, the ideal storage format is 16-bit words, since it allows for indexed, direct access. If we go beyond the BMP but we still have one grapheme cluster = one codepoint, then we can use 32-bit integers.  
   The only case where performance will forcefully degrade is when we are dealing with a string which cannot be confined to 8-bit, 16-bit or 32-bit clusters=codepoints.  
   Of course dealing with 16-bit or 32-bit codepoints should be a little more expensive, but the major performance benefit of these formats is that they allow direct access.  
   To summarize: if we want to maintain maximum performance, the minimum requirement would be to dual-path all BIFs and BIMs for "simple" cases (i.e., one grapheme cluster = one codepoint) and then implement at least 32-bit integer codepoints (but, most probably, also 16- and 8-bit, to conserve space).  
