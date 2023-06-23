@@ -1,6 +1,9 @@
 # Date Built-in-function
 
-## Option
+##
+[https://www.rexxla.org/presentations/2019/Subclassing%20the%20ooRexx%20dateTime%20class.pdf](Jon Wolfers' 2019 Symposium Presentation)
+
+## Options (Existing ones with issues)
 
 ### Date('Julian')
 - *Date('J')*:
@@ -24,3 +27,4 @@ The accepted input month format is English only and the three character, capital
 
 ### Date(Non-Standard-Options)
 Date() seems one of the most popular bifs to extend - in the sense of adding new functionality with options that are not in X3J18-199X or -extended. This has a drawback of letting execs being produced that are only valid for a limited number of implementations. The proposal here would be to properly extend (in the oo-sense of subclassing) the Date() class (which already subclasses Time() in some implementations) with new proper names, that can be standardized. One of those proposals is *LocalDate()*, another is *ISODate()*.
+
