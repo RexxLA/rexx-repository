@@ -209,22 +209,9 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   (jmb)  
   About the string returned by c2g, please see my reply to the preceding point.  
   As I see it, the problem with giving access to the internal representation is not the lack of abstraction, but the fact that you're entering a contract with the programmers stating that the representation exists. Then prople will start producing programs that obey this contract. If we later decided, for whatever reason, that the representation should be changed, this change would become impossible.  
-  (/jmb)  
-* Having a RexxText class that is tied to the String class is a neat solution, but, in my opinion, it has a major drawback. It keeps String as the basic, universal class, and if one wants RexxText, one has to do additional work. For me, this is a perfectly workable solution. But what I've understood, from our conversations in the ARB list, is that many people consider it to be unacceptable. I.e., we would want that a "normal" programmer can use Unicode strings by default.  
-  (jlf)  
-  Agreed. This is just a proto, and I'm not expecting anyone to want it in production.  
-  Yes, currently String is the main class.  
-  Since it's a circular dependency, it will also work if RexxText becomes the main class.  
-  The big problem with RexxText being the main class is the performance regression.  
-  I'm not focusing on perf, even if sometimes I can't resist and do some optimizations.  
-  I bet that most of the rexxers will strongly complain about the perf (in general, not talking about Executor).  
-  (/jlf)  
+  (/jmb)
   
-  (jmb)  
-  Performance doesn't have to suffer at all for pure ASCII strings. The fact that a literal string is pure ASCII can be determined at parse time, and for run-time strings, such a determination is O(n), with a very fast character test. The fact that a string is pure ASCII can be stored as an attribute of the string instance, and some very simple rules followed (for example, if we concatenate two pure ASCII strings, we get a pure ASCII string). BIFs and BIMs should operate on pure ASCII strings at the same speed than current Rexx programs (if the internal representation is utf-8, of course).  
-  On the other hand, if one wants diacritics, devanagari and all that, and still be able to use all the classic BIFs, one should be prepared for an unavoidable performance drop.  
-  Finally, if you are really concerned about performance and additionally you know very well what you are doing, you can always resort to byte strings and manage the utf-8 details by yourself.  
-  (/jmb)  
+* Discussion about performance moved to [a separate section](./Performance.md)
 
 * "If a string must be built using Unicode scalars then use the notation already adopted by other languages" -- I wouldn't agree on that. Backslash-escaped strings are not present in ooRexx, not in classic Rexx. If we open the door to \UXXXX, then we should accept \n, \t and all that. Also, it's difficult to explain why some strings are parse-time and some others are run-time.  
   (jlf)  
@@ -268,6 +255,34 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   As a prototype for experimentation this is, undoubtedly, invaluable. I'm not criticizing Executor. I'n trying to think about a new Rexx standard that includes Unicode. I don't think it's a good idea to tell people that string A and B are strictly equal, A == B, but that there are some internal details, that, well... This would go against the most basic nature of equality, i.e., the law of [indiscernibility of identicals](https://en.wikipedia.org/wiki/Identity_of_indiscernibles#Indiscernibility_of_identicals).  
   (/jmb)  
 
+  (jlf)
+  Interesting link, thanks. Will need to read it several times, but could not resist to try to apply the reasoning:   
+  ClarkKent = "René"  
+  Superman = "René"  
+  Lois Lane knows that ClarkKent has 4 codepoints: U+0052 U+0065 U+006E U+00E9  
+  Lois Lane knows that Superman has 5 codepoints: U+0052 U+0065 U+006E U+0065 U+0301  
+  Therefore Superman is not identical to ClarkKent.  
+  But Unicode says that they are equal when comparing their grapheme clusters.  
+  Do we go against the most basic nature of equality?  
+  
+      say ClarkKent == Superman             -- 0
+      say ClarkKent~text == Superman~text   -- 1
+      
+  (/jlf)
+
+  (jmb)  
+  :-)  
+  It's one of the basic rules of equality, as studied by logic. These laws are so ingrained in our way of thinking that normally they are thought of as evident and therefore never explicited. From equality, one should expect (a) reflexivity, i.e, $\forall x (x = x)$; (b) symmetry, i.e., $\forall x \forall y (x = y \rightarrow y = x)$; (c) transitivity, i.e., $\forall x \forall y \forall z ( (x = y \land y = z) \rightarrow x = z)$, (d) the law of indiscernibility of identicals, which can be very clearly stated in plain language: if two things A and B are identical, then there should not be any property P such that P(A) \\= P(B).  
+  Of course in computer science you will only have perfect indiscernibility in the reflexive case (i.e., when you are comparing one variable to itself), because otherwise address(x) \\= address(y).  
+  I'll state again my point in a different way. We can (and should) offer a decode BIM. Then the _decoded_ byte string may well be different, depending on the way we store Unicode strings. This would allow for ``"René"~decode("UTF-8")~length = 5. But first-order BIMs should always return the same, except perhaps for the ones that manage internal representations, like encode and decode.  
+  "René" only _has_ a c2x if we assume that an Unicode string _has_ an encoding. I strongly oppose this idea, as I've explained in detail in the next point.
+  On the other hand, "René"~decode("UTF-8") is a byte string, and then of course it has c2x.
+    
+  [later -- for entertainment only]
+    
+  The superman example contained in the Wikipedia article is, of course, ludicrous. The same happens with many classical discussions in logic. For example: assume there is an universe that contains two perfectly identical spheres, orbiting each other, and no more objects. If we don't introduce a viewer, who can point her finger and say "_this_ sphere", or "_that_ sphere", then both spheres are indeed indistinguishable (=indiscernible), but nonetheless not identical (=not the same). And this would seem to contradict the law of identify of indiscernibles. Then a lot of subtle discussions ensue, where the concept of "thisness" is considered and discussed, and so on. A can of worms, of course. A little humour is the only antidote :)  
+  (/jmb)  
+  
 * Also, x2c et al are used to store certain values in a byte. But we won't know, in general terms, how a codepoint is stored. Or a grapheme cluster.  
   (jlf)  
   Your assertion is true for NetRexx and cRexx.  
@@ -290,5 +305,15 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   For Executor (like Ruby), the encoding is never lost.  
   That's why Executor can always provide a c2x string that is aligned with the string's encoding.  
   (/jlf)
+  
+  (jmb)  
+  I will defend now the following position: strings do not always have encoding, but, yes, you can't interpret the bytes _as a Unicode string_ without that information.  
+  Examples.  
+  (1) You are asked to read a Stream which is BINARY RECLENGTH 80 and to set the "80"X bit of the fifth byte in each of the logical lines. You can do that without knowing anything about the encoding. Indeed, given the nature of your job, it might well be that the file is purely binary, i.e., that it doesn't store text at all, but only binary data (i.e., bit masks, integers, and so on).  
+  (2) Many strings, like "4131"X, can be understood in several different ways, for example as "A1" (utf-8), or as 䄱, "4131"U, which is a CJK Unified Ideograph ("a kind of grain").  
+  One can conclude, then, that your statement, "A string (always) has an encoding" is not universally true. Some strings have no encoding because they are not intended to represent characters, but only binary data.  
+  Some other strings can be interpreted in radically different ways depending on the encoding, and also have valid interpretations which imply no encoding at all (for example, "4131"~x2d = 16689, an space-efficient way to store a number when you are space-constrained).  
+  Therefore, a string doesn't _"have"_ an encoding, neither does it _have to have_ one. One _uses_ an encoding to interpret a string.  
+  (/jmb)    
 
 Again, many thanks for sharing your design and your ideas.
