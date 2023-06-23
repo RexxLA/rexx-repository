@@ -26,5 +26,5 @@ The accepted input month format is English only and the three character, capital
 - Output format is localized in the IBM CMS/TSO implementations - but some languages do not captalize month names.
 
 ### Date(Non-Standard-Options)
-Date() seems one of the most popular bifs to extend - in the sense of adding new functionality with options that are not in X3J18-199X or -extended. This has a drawback of letting execs being produced that are only valid for a limited number of implementations. The proposal here would be to properly extend (in the oo-sense of subclassing) the Date() class (which already subclasses Time() in some implementations) with new proper names, that can be standardized. One of those proposals is *LocalDate()*, another is *ISODate()*.
+Date() seems one of the most popular bifs to extend - in the sense of adding new functionality with options that are not in X3J18-199X or -extended. This has a drawback of letting execs being produced that are only valid for a limited number of implementations. The proposal here would be to properly extend (in the oo-sense of subclassing) the Date() class (which already subclasses Time() in some implementations) with new proper names, that can be standardized. One of those proposals is *LocalDate()*, another is *ISODate()*. [ISO 8601 Wikipedia](https://en.wikipedia.org/wiki/ISO_8601).
 
