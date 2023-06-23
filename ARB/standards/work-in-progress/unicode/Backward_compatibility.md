@@ -220,7 +220,7 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   It's impossible to support the escape characters at parse-time without breaking all the scripts, unless a solution exists that I don't see.  
   The unescape at run-time can be seen as a facility provided by a library, not a core functionality.  
   (/jlf)
-  
+  (rvj) NetRexx has these already and let go of the 'string'X notation(/rvj)
   (jmb)  
   I'd vote for the run-time library, or a BIF, or BIM, or somesuch.  
   The only way I see to support escape characters at parse-time without breaking everything is to introduce still another form of string, i.e., choose a new suffix, say "P" (this is not a proposal) and then stipulate that P-strings, in the form "xxxx"P, can have escaped sequences.  
