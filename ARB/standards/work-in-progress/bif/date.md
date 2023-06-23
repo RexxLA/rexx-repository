@@ -1,7 +1,7 @@
 # Date Built-in-function
 
 ##
-[https://www.rexxla.org/presentations/2019/Subclassing%20the%20ooRexx%20dateTime%20class.pdf](Jon Wolfers' 2019 Symposium Presentation)
+[Jon Wolfers' 2019 Symposium Presentation](https://www.rexxla.org/presentations/2019/Subclassing%20the%20ooRexx%20dateTime%20class.pdf)
 
 ## Options (Existing ones with issues)
 
