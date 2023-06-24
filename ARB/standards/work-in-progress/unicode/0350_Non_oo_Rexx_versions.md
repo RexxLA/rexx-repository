@@ -24,30 +24,30 @@ strings would still be byte-oriented by default, to make it possible to run old 
 Let's see how the "library" approach could work in a non-oo interpreter, for example Regina Rexx. Unicode could be implemented as a separate library, but, as we will soon see, it would also require some
 collaboration from the interpreter. 
 
-* The library would offer a new BIF. Let's call it UNICODE (this is not a name proposal). We will be using U for brevity (this might be an alias). U(string) would return a Unicode value (to be defined shortly). With a little help
-from the interpreter, Static, parse-time analysis, would be able to determine if calls to UNICODE calls were indeed to be resolved to the new BIF, so that calls with a literal argument could be treated as literal Unicode strings.
+* The library would offer a new BIF. Let's call it **UNICODE** (this is not a name proposal). We will be using U for brevity (this might be an alias). U(string) would return a Unicode value (to be defined shortly). With a little help
+from the interpreter, Static, parse-time analysis, would be able to determine if calls to UNICODE calls were indeed to be resolved to the new BIF, so that calls with a literal argument could be treated as **literal Unicode strings**.
 To avoid trivial errors, U applied to a Unicode string would be the same string.
 
-* The result from UNICODE would be the very same string received as an argument (or a copy of the string if the original had active references), but with an implementarion-defined, internal, flag that would indicate
-that the string was, indeed, an Unicode string.
+* The **result** from UNICODE would be the very same string received as an argument (or a copy of the string if the original had active references), but with an implementarion-defined, internal, flag that would indicate
+that the string was, indeed, an **Unicode string**.
 
-* The encoding to use would be the same as the one used in the program file. An optional, second argument could make the encoding explicit: UNICODE("string", "UTF-8").
+* The **encoding** to use would be the same as the one used in the program file. An optional, second argument could make the encoding explicit: UNICODE("string", "UTF-8").
 
-* If any encoding errors were found, a new condition would be raised. An optional, third, boolean parameter could be specified to allow ignoring of encoding errors, e.g., UNICODE("string", "UTF-8", 0). The fact that there was or not
+* If any encoding errors were found, a **new condition** would be raised. An optional, third, boolean parameter could be specified to allow ignoring of encoding errors, e.g., UNICODE("string", "UTF-8", 0). The fact that there was or not
 an encoding error would be stored as part of the string status, and would be accesible using a specialized BIF.
 
-* The interpreter would provide a whole set of new BIFs for Unicode strings. They would work at the grapheme cluster level.
+* The interpreter would provide a whole set of **new BIFs** for Unicode strings. They would work at the _grapheme cluster_ level.
 
-* Arithmetic operators would work as usual, with ASCII numbers, and the "e", "E", ".", "+" and "-" characters, regardless of whether they are part of an Unicode or a byte string. The result of an arithmetic operation would always be a plain (i.e., non-unicode) ASCII string.
+* **Arithmetic** operators would work as usual, with ASCII numbers, and the "e", "E", ".", "+" and "-" characters, regardless of whether they are part of an Unicode or a byte string. The result of an arithmetic operation would always be a plain (i.e., non-unicode) ASCII string.
 
-* Concatenation would follow a protocol similar to the one used by Executor, as indicated in *[String Concatenation](525_String_concatenation.md)*.
+* **Concatenation** would follow a protocol similar to the one used by Executor, as indicated in *[String Concatenation](525_String_concatenation.md)*.
 
-* Comparison is tricky. Depending on how we define it, it can incur in an implicit encoding or recoding, and probably in a (also implicit) normalization. It may well be that the best option would be to completely
+* **Comparison** is tricky. Depending on how we define it, it can incur in an implicit encoding or recoding, and probably in a (also implicit) normalization. It may well be that the best option would be to completely
 disallow direct comparison of Unicode and non-Unicode strings, i.e., UNICODE("A") = "A" would produce a syntax error. Parse-time literal strings would be normalized by default (unless the third parameter was 0).
 The fact that a string was normalized would be stored as part of the string status. When two strings of different encodings had to be compared, a "neutral" encoding should be used (always the same). If a recoding
 to the neutral encoding was even produced, it would be cached as part of the string status.
 
-* Compatibility: if the Unicode package was not loaded, everything would work as before; if the Unicode package was loaded, a set of new BIFs would be introduced. Implementations should offer a program that checked for possible conflicts. These conflicts would only arise when an external function was called that had the same name as one of the new BIFs.
+* **Compatibility**: if the Unicode package was not loaded, everything would work as before; if the Unicode package was loaded, a set of new BIFs would be introduced. Implementations should offer a program that checked for possible conflicts. These conflicts would only arise when an external function were called that had the same name as one of the new BIFs.
 
 Examples (assuming a UTF-8 ambiance; BIF names are samples, not proposals):
 
