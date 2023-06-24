@@ -15,7 +15,7 @@ As discussed in the *[Preliminary questions](0150_Preliminary_questions.md)* sec
 
 In the "library" approach, a new, loadable, optional library would be written. This library would supply the user with a set of new functions (and, in the oo cases, of classes and methods) to manage Unicode values.
 
-In the "first-class Unicode" approach, the Rexx language would experiment a profound, radical change. Strings would be, by default, Unicode strings. This would represent a big compatibility problem; some of the issuse are
+In the "first-class Unicode" approach, the Rexx language would experiment a profound, radical change. Strings would be, by default, Unicode strings. This would represent a big compatibility problem; some of the issues are
 addressed in the *[Backward Compatibility](0300_Backward_compatibility.md)* section. Old-style, byte-oriented strings would still be usable, probably by specifying a new, incompatible, string suffix. Interpreters should implement a compatibility mode, where
 strings would still be byte-oriented by default, to make it possible to run old programs.
 
@@ -24,7 +24,7 @@ strings would still be byte-oriented by default, to make it possible to run old 
 Let's see how the "library" approach could work in a non-oo interpreter, for example Regina Rexx. Unicode could be implemented as a separate library, but, as we will soon see, it would also require some
 collaboration from the interpreter. 
 
-* The library would offer a new, BIF. Let's call it UNICODE (this is not a name proposal). We will be using U for brevity (this might be an alias). U(string) would return a Unicode value (to be defined shortly). With a little help
+* The library would offer a new BIF. Let's call it UNICODE (this is not a name proposal). We will be using U for brevity (this might be an alias). U(string) would return a Unicode value (to be defined shortly). With a little help
 from the interpreter, Static, parse-time analysis, would be able to determine if calls to UNICODE calls were indeed to be resolved to the new BIF, so that calls with a literal argument could be treated as literal Unicode strings.
 To avoid trivial errors, U applied to a Unicode string would be the same string.
 
@@ -46,6 +46,8 @@ an encoding error would be stored as part of the string status, and would be acc
 disallow direct comparison of Unicode and non-Unicode strings, i.e., UNICODE("A") = "A" would produce a syntax error. Parse-time literal strings would be normalized by default (unless the third parameter was 0).
 The fact that a string was normalized would be stored as part of the string status. When two strings of different encodings had to be compared, a "neutral" encoding should be used (always the same). If a recoding
 to the neutral encoding was even produced, it would be cached as part of the string status.
+
+* Compatibility: if the Unicode package was not loaded, everything would work as before; if the Unicode package was loaded, a set of new BIFs would be introduced. Implementations should offer a program that checked for possible conflicts. These conflicts would only arise when an external function was called that had the same name as one of the new BIFs.
 
 Examples (assuming a UTF-8 ambiance; BIF names are samples, not proposals):
 
