@@ -8,7 +8,7 @@
 
 See [requirement document](./Unicode_Requirements.md).
 
-Probably grapheme, but good to investigate if another approach could be valuable for some sceanrios.
+Probably grapheme, but good to investigate if another approach could be valuable for some scenarios.
 
 (jmb)
 
