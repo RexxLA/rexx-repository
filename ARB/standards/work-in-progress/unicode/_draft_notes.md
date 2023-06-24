@@ -4,7 +4,7 @@
 
 ### [Backward compatibility](./0300_Backward_compatibility.md)
 
-### [Define what is a character](./Define_what_is_a_character.md)
+### [Define what is a character](./0350_Define_what_is_a_character.md)
 
 ### [Internal representation](Internal_representation.md)
 
