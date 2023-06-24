@@ -16,7 +16,7 @@
 
 ### [String concatenation](0525_String_concatenation.md)
 
-### [Segmentation](./Segmentation.md)
+### [Segmentation](0550_Segmentation.md)
 
 ### [Upper, lower, caseless](Upper_lower_caseless.md)
 
