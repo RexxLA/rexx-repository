@@ -18,18 +18,18 @@
 
 ### [Segmentation](0550_Segmentation.md)
 
-### [Upper, lower, caseless](Upper_lower_caseless.md)
+### [Upper, lower, caseless](0575_Upper_lower_caseless.md)
 
-### [String comparison](./String_comparison.md)
+### [String comparison](String_comparison.md)
 
-### [Performance](./Performance.md)
+### [Performance](Performance.md)
 
-### [Identifiers, Security](./Identifiers_security.md)
+### [Identifiers, Security](Identifiers_security.md)
 
-### [Locale](./Locale.md)
+### [Locale](Locale.md)
 
-### [BIDI](./BIDI.md)
+### [BIDI](BIDI.md)
 
-### [Regular expressions](./Regular_expressions.md)
+### [Regular expressions](Regular_expressions.md)
 
 ### [Terminal / console / cmd](Terminal_console_CMD.md)
