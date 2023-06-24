@@ -40,7 +40,7 @@ an encoding error would be stored as part of the string status, and would be acc
 
 * Arithmetic operators would work as usual, with ASCII numbers, and the "e", "E", ".", "+" and "-" characters, regardless of whether they are part of an Unicode or a byte string. The result of an arithmetic operation would always be a plain (i.e., non-unicode) ASCII string.
 
-* Concatenation would follow a protocol similar to the one used by Executor, as indicated in *[String Contatenation](525_String_concatenation.md)*.
+* Concatenation would follow a protocol similar to the one used by Executor, as indicated in *[String Concatenation](525_String_concatenation.md)*.
 
 * Comparison is tricky. Depending on how we define it, it can incur in an implicit encoding or recoding, and probably in a (also implicit) normalization. It may well be that the best option would be to completely
 disallow direct comparison of Unicode and non-Unicode strings, i.e., UNICODE("A") = "A" would produce a syntax error. Parse-time literal strings would be normalized by default (unless the third parameter was 0).
