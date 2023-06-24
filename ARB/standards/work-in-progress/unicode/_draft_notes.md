@@ -20,9 +20,9 @@
 
 ### [Upper, lower, caseless](0575_Upper_lower_caseless.md)
 
-### [String comparison](String_comparison.md)
+### [String comparison](0600_String_comparison.md)
 
-### [Performance](Performance.md)
+### [Performance](0625_Performance.md)
 
 ### [Identifiers, Security](Identifiers_security.md)
 
