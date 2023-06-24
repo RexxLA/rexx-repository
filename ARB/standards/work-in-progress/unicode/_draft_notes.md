@@ -2,6 +2,12 @@
 
 ## Identification of subcommittees
 
+### [Preliminary questions](0150_Preliminary_questions.md)
+
+A set of questions that are logically preliminary but that, most probably, will have to be decided at the end of ur work, when we will have maximum information.
+
+This would correspond roughly to (a part of) the introduction of the recommendations.
+
 ### [Backward compatibility](0300_Backward_compatibility.md)
 
 ### [Define what is a character](0350_Define_what_is_a_character.md)
