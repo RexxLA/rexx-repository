@@ -2,13 +2,13 @@
 
 ## Identification of subcommittees
 
-### [Backward compatibility](./0300_Backward_compatibility.md)
+### [Backward compatibility](0300_Backward_compatibility.md)
 
-### [Define what is a character](./0350_Define_what_is_a_character.md)
+### [Define what is a character](0350_Define_what_is_a_character.md)
 
 ### [Internal representation](0400_Internal_representation.md)
 
-### [Validation](./Validation.md)
+### [Validation](0450_Validation.md)
 
 ### [Serialization and deserialisation](./Serialization_and_deserialization.md)
 
