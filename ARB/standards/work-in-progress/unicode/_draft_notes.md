@@ -24,12 +24,12 @@
 
 ### [Performance](0625_Performance.md)
 
-### [Identifiers, Security](Identifiers_security.md)
+### [Identifiers, Security](0650_Identifiers_security.md)
 
-### [Locale](Locale.md)
+### [Locale](0675_Locale.md)
 
-### [BIDI](BIDI.md)
+### [BIDI](0700_BIDI.md)
 
-### [Regular expressions](Regular_expressions.md)
+### [Regular expressions](0725_Regular_expressions.md)
 
-### [Terminal / console / cmd](Terminal_console_CMD.md)
+### [Terminal / console / cmd](0750_Terminal_console_CMD.md)
