@@ -8,9 +8,9 @@ A set of questions that are logically preliminary but that, most probably, will 
 
 This would correspond roughly to (a part of) the introduction of the recommendations.
 
-### [Backward compatibility](0300_Backward_compatibility.md)
+### [Define what is a character](0275_Define_what_is_a_character.md)
 
-### [Define what is a character](0350_Define_what_is_a_character.md)
+### [Backward compatibility](0300_Backward_compatibility.md)
 
 ### [Internal representation](0400_Internal_representation.md)
 
