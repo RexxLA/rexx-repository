@@ -46,10 +46,18 @@ disallow direct comparison of Unicode and non-Unicode strings, i.e., UNICODE("A"
 The fact that a string was normalized would be stored as part of the string status. When two strings of different encodings had to be compared, a "neutral" encoding should be used (always the same). If a recoding
 to the neutral encoding was even produced, it would be cached as part of the string status.
 
-Examples (assuming a UTF-8 ambiance):
+Examples (assuming a UTF-8 ambiance; BIF names are samples, not proposals):
 
     a = "Síntesis"           -- A byte string. "53 C3 AD 6E 74 65 73 69 73"X
     u = U("Síntesis")        -- An Unicode String "U 53, ED, 6E, 74, 65, 73, 69, 73"X
+    IsUNnicode(a)            -- 0
+    IsUnicode(u)             -- 1
+    SubStr(a,2,1)            -- "C3"X, a 1-byte string.
+    SubStr(u,2,1)            -- "í" == "U ED"X, a one grapheme (and one codepoint) Unicode string.
+    Encoding(u)              -- "UTF-8", a byte string, the (implicit) encoding used.
+    Encoding(a)              -- ??? Probably a syntax error, or maybe "NONE", or even "UTF-8".
+    
+    
 
 xx
 
