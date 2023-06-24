@@ -12,7 +12,7 @@
 
 ### [Serialization and deserialisation](0475_Serialization_and_deserialization.md)
 
-### [String and character notations](./String_and_character_notations.md)
+### [String and character notations](0500_String_and_character_notations.md)
 
 ### [String concatenation](String_concatenation.md)
 
