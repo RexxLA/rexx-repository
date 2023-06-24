@@ -6,7 +6,7 @@
 
 ### [Define what is a character](./0350_Define_what_is_a_character.md)
 
-### [Internal representation](Internal_representation.md)
+### [Internal representation](0400_Internal_representation.md)
 
 ### [Validation](./Validation.md)
 
