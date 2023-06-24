@@ -14,7 +14,7 @@
 
 ### [String and character notations](0500_String_and_character_notations.md)
 
-### [String concatenation](String_concatenation.md)
+### [String concatenation](0525_String_concatenation.md)
 
 ### [Segmentation](./Segmentation.md)
 
