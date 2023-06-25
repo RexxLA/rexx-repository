@@ -4,7 +4,7 @@
 
 ### [Preliminary questions](0150_Preliminary_questions.md)
 
-A set of questions that are logically preliminary but that, most probably, will have to be decided at the end of ur work, when we will have maximum information.
+A set of questions that are logically preliminary but that, most probably, will have to be decided at the end of our work, when we will have maximum information.
 
 This would correspond roughly to (a part of) the introduction of the recommendations.
 
