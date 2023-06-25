@@ -30,28 +30,50 @@ This loading would be undoable (i.e., you wouldn't be able to unload Unicode onc
 * The **result** from a call to TEXT would be the very same string received as an argument (or a copy of the string if the original had active references to it), but with an implementarion-defined, internal, flag that would indicate that the string was, indeed, an **Unicode string**.
 
 * The **encoding** to use would be the same as the one used in the program file, if supported by Rexx. An explicit encoding could be specified using an OPTIONS instruction.
-
-    ```OPTIONS UNICODE ENCODING(ISO-8859-1)```
-
+  ```
+  OPTIONS UNICODE ENCODING(ISO-8859-1)
+  ```
 * **Explicit encodings**. An optional, second argument to TEXT could make the encoding explicit:
+  ```
+  TEXT("string", "UTF-8").
+  ```
+* If any encoding errors were found, a **new condition** would be raised. An optional third parameter could be specified to allow ignoring of encoding errors, e.g.,
+  ```
+  TEXT("string", "UTF-8", "Ignore")
+  ```
+* The fact that there was or not an encoding error would be stored as part of the string status, and would be accesible using a specialized BIF.
 
-    ```TEXT("string", "UTF-8").```
-
-* If any encoding errors were found, a **new condition** would be raised. An optional third parameter could be specified to allow ignoring of encoding errors, e.g., TEXT("string", "UTF-8", "Ignore"). The fact that there was or not an encoding error would be stored as part of the string status, and would be accesible using a specialized BIF.
-
-* The interpreter would provide a whole set of **new BIFs** for Unicode strings. They would work at the _grapheme cluster_ level.
-
+* The interpreter would provide an adapted set of **BIFs** for Unicode strings. They would work similarly to the standard BIFs, but at the _grapheme cluster_ level.
+  ```
+  Options Unicode Encoding(UTF-8)
+  string = "René"
+  text = Text(string)
+  Say Length(string)   -- 5
+  Say Length(text)     -- 4
+  ```
 * **Arithmetic** operators would work as usual, with ASCII numbers, and the "e", "E", ".", "+" and "-" characters, regardless of whether they are part of an Unicode or a byte string. The result of an arithmetic operation would always be a plain (i.e., non-unicode) ASCII string.
 
 * **Concatenation** would follow a protocol similar to the one used by Executor, as indicated in *[String Concatenation](0525_String_concatenation.md)*.
 
-* **Comparison** is tricky. Depending on how we define it, it can incur in an implicit encoding or recoding, and probably in a (also implicit) normalization. It may well be that the best option would be to completely disallow direct comparison of Unicode and non-Unicode strings, i.e., TEXT("A") = "A" would produce a syntax error. Parse-time literal strings would be normalized by default (unless the third parameter was "Ignore"). The fact that a string was normalized would be stored as part of the string status. When two strings of different encodings had to be compared, a "neutral" encoding should be used (always the same). If a recoding
-to the neutral encoding was even produced, it would be cached as part of the string status.
+* **Comparison** is tricky. Depending on how we define it, it can incur in an implicit encoding or recoding, and probably in a (also implicit) normalization.
+  
+* **Comparing Unicode and non-Unicode strings**. It may well be that the best option would be to completely disallow direct comparison of Unicode and non-Unicode strings.
+  ```
+  TEXT("A") = "A"     -- Syntax error.
+  ```
+* Another possibility would be to first encode the non-Unicode string using the default encoding.
+    
+* **Comparison and normalization**. Parse-time literal strings would be normalized by default (unless the third parameter was "Ignore"). The fact that a string was normalized would be stored as part of the internal string status.
+  
+* **Comparing differently encoded strings**. When two strings of different encodings had to be compared, a "neutral" encoding should be used (always the same). An implementation may chose to define and fix this neutral encoding, or to allow the user to specify an "default neutral" encoding on an application level.
+
+* **Performance of comparisons**. If a transcoding to the neutral encoding was even computed, it would be cached as part of the string status and used on subsequent calculations.
 
 * **Compatibility**: If the Unicode option was not activated, everything should work as before, and we would have complete compatibility. When the Unicode option was activated, a new set of BIFs would be introduced. Implementations should offer a program that would check for possible conflicts. These conflicts would only arise when an external function were called that had the same name as one of the new BIFs.
 
-Examples (assuming a UTF-8 ambiance; BIF names are samples, not proposals):
+Examples (new BIF names are examples, not proposals):
 
+    Options Unicode Encoding(UTF-8)
     a = "Síntesis"                     -- A byte string. "53 C3 AD 6E 74 65 73 69 73"X
     u = U("Síntesis")                  -- An Unicode literal String "U 53, ED, 6E, 74, 65, 73, 69, 73"X
     Text(a) == u                 
