@@ -20,13 +20,22 @@ strings would still be byte-oriented by default, to make it possible to run old 
 
 ### The "optional" approach (a brainstorm proposal) (jmb)
 
-Let's see how the "optional" approach could work in a non-oo interpreter, for example Regina Rexx. Unicode would be loaded by an OPTIONS instruction. This loading would be undoable (i.e., you wouldn't be able to unload Unicode once loaded). Implementations may choose to implement Unicode as a separate library.
+Let's see how the "optional" approach could work in a non-oo interpreter as, for example, Regina Rexx. Unicode would be loaded by an OPTIONS instruction. 
 
-* Unicode support would offer several new BIFs. Let's call the main one **TEXT** (this is not a name proposal). TEXT(string) would return a Unicode value (to be defined shortly). With a little help from the interpreter, static, parse-time analysis, would be able to determine if calls to TEXT were indeed to be resolved to the new BIF, so that calls with a literal argument could be treated as **literal Unicode strings** and optimized as such. 
+    OPTIONS UNICODE -- Or OPTIONS Text, etc. This is not a name proposal
+This loading would be undoable (i.e., you wouldn't be able to unload Unicode once loaded). Implementations may choose to implement Unicode as a separate library.
 
-* The **result** from TEXT would be the very same string received as an argument (or a copy of the string if the original had active references to it), but with an implementarion-defined, internal, flag that would indicate that the string was, indeed, an **Unicode string**.
+* Unicode support would offer several new BIFs. Let's call the main one **TEXT** (again, this is not a name proposal). TEXT(string) would return _a Unicode string_ (to be defined shortly). With a little help from the interpreter, static, parse-time analysis, would be able to determine if calls to TEXT were indeed to be resolved to the new BIF, and then calls with a literal argument could be treated as **literal Unicode strings** and optimized as such.
 
-* The **encoding** to use would be the same as the one used in the program file. An optional, second argument could make the encoding explicit: TEXT("string", "UTF-8").
+* The **result** from a call to TEXT would be the very same string received as an argument (or a copy of the string if the original had active references to it), but with an implementarion-defined, internal, flag that would indicate that the string was, indeed, an **Unicode string**.
+
+* The **encoding** to use would be the same as the one used in the program file, if supported by Rexx. An explicit encoding could be specified using an OPTIONS instruction.
+
+    ```OPTIONS UNICODE ENCODING(ISO-8859-1)```
+
+* **Explicit encodings**. An optional, second argument to TEXT could make the encoding explicit:
+
+    ```TEXT("string", "UTF-8").```
 
 * If any encoding errors were found, a **new condition** would be raised. An optional third parameter could be specified to allow ignoring of encoding errors, e.g., TEXT("string", "UTF-8", "Ignore"). The fact that there was or not an encoding error would be stored as part of the string status, and would be accesible using a specialized BIF.
 
