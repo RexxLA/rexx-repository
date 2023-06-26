@@ -27,14 +27,14 @@ Of course, if the interpreter is object-oriented, it will also offer a correspon
 
 An implementation is _object-oriented_ if its abstractions are mainly provided by classes, class methods. etc.
 
-### Two classes/polimorphism
+### Two classes/polymorphism
 
 An Unicode implementarion has to present abstractions to manage Unicode strings and byte strings.
 
-The _two classes_ approach provides two different classes (i.e., roughly, "Unicode string" and "byte string", regardless of their concretion) 
-and a set of mechanisms to transform values of each of the classes in values of the other class.
+The _two classes_ approach provides two different classes (i.e., roughly, "Unicode string" and "byte string", regardless of their final names) 
+and a set of mechanisms to transform values of each of the classes into values of the other class.
 
-A _polimorphic_ approach mimics the Classic Rexx paradigm of "no types" and doesn't define two classes, but two possible _states_ of 
+A _polymorphic_ approach mimics the Classic Rexx paradigm of "no types" and doesn't define two classes, but two possible _states_ of 
 a unique type.
 
-Please note that classic Rexx implementations would probably be forced to implement polimorphism, since they don't have classes.
+Please note that classic Rexx implementations would probably be forced to implement polymorphism, since they don't have classes.
