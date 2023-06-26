@@ -314,6 +314,10 @@ What you have done is really impressive, many thanks for sharing it here. Some q
   One can conclude, then, that your statement, "A string (always) has an encoding" is not universally true. Some strings have no encoding because they are not intended to represent characters, but only binary data.  
   Some other strings can be interpreted in radically different ways depending on the encoding, and also have valid interpretations which imply no encoding at all (for example, "4131"~x2d = 16689, an space-efficient way to store a number when you are space-constrained).  
   Therefore, a string doesn't _"have"_ an encoding, neither does it _have to have_ one. One _uses_ an encoding to interpret a string.  
-  (/jmb)    
+  (/jmb)  
+
+  (jmb 20230626)  
+  Coming back to this thread and pondering the question again, I see that what bothers me is the notation ``s~encoding``. My impression is that the encoding is an _immutable_ attribute _of the result of the encoding operation_, instead of a _mutable_ attribute of the source string, as expressions like ``S~encoding = 'UTF-8'`` seem to suggest. ``Text = s~encode("UTF-8")`` and ``encoding = text~encoding`` look right to me, but neither ``s~encoding`` nor ``text~encoding = ...`` look right.  
+  (/jmb)  
 
 Again, many thanks for sharing your design and your ideas.
