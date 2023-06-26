@@ -119,6 +119,11 @@ general use of those characters for other purposes, such as for general text in 
 
 ## Examples of implementation by several languages
 
+### cRexx
+
+TBD: describe the rules implemented by cRexx.
+
+
 ### Elixir
 
 [Link][elixir_unicode_syntax]
@@ -168,20 +173,165 @@ Elixir implements the requirements outlined in the [Unicode Annex #31][unicode_t
   R3 requires a wider variety of whitespace and syntax characters to be supported.
 
 
+### Julia
+
+#### [Variables in Julia](https://cormullion.github.io/assets/images/juliamono/juliamanual/manual/variables.html)
+
+Variable names are case-sensitive.
+
+Unicode names (in UTF-8 encoding) are allowed:
+
+        julia> δ = 0.00001
+        1.0e-5
+
+        julia> 안녕하세요 = "Hello"
+        "Hello"
+
+Variable names must begin with a letter (A-Z or a-z), underscore, or a subset of
+Unicode code points greater than 00A0; in particular, [Unicode character categories](https://www.fileformat.info/info/unicode/category/index.htm)
+Lu/Ll/Lt/Lm/Lo/Nl (letters), Sc/So (currency and other symbols), and a few other
+letter-like characters (e.g. a subset of the Sm math symbols) are allowed.
+Subsequent characters may also include ! and digits (0-9 and other characters in
+categories Nd/No), as well as other Unicode code points: diacritics and other
+modifying marks (categories Mn/Mc/Me/Sk), some punctuation connectors (category Pc),
+primes, and a few other characters.
+
+Operators like + are also valid identifiers, but are parsed specially. In some contexts,
+operators can be used just like variables; for example (+) refers to the addition
+function, and (+) = f will reassign it. Most of the Unicode infix operators (in
+category Sm), such as ⊕, are parsed as infix operators and are available for
+user-defined methods (e.g. you can use const ⊗ = kron to define ⊗ as an infix
+Kronecker product). Operators can also be suffixed with modifying marks, primes,
+and sub/superscripts, e.g. +̂ₐ″ is parsed as an infix operator with the same
+precedence as +.
+
+Julia identifiers are NFC-normalized.  
+jlf: really? that's in contradiction with Unicode recommendations.
+
+#### (jlf) Are Julia identifiers canonicalized to NFC or to NFKC?
+
+[https://github.com/JuliaLang/julia/issues/5434](https://github.com/JuliaLang/julia/issues/5434)
+is a long mailing list from year 2014 about Unicode identifiers in Julia.
+
+Some quotes:
+
+[Jeff Bezanson](https://github.com/JuliaLang/julia/issues/5434#issuecomment-32715371)  
+Many in the lisp/scheme world argue for case-insensitive identifiers because to
+them letter case is just a personal style choice, with the same character underneath.
+For example some people like to name functions in all-uppercase where they are
+defined and otherwise use lowercase. However, those people are wrong.
+
+[jiahao](https://github.com/JuliaLang/julia/issues/5434#issuecomment-32773731)  
+The majority opinion (or maybe just mine) is that neither NFC nor NKFC is entirely
+suitable. The former will not normalize Greek mu μ and micro µ, while the latter
+would normalize ℍ and H, and χ² and χ2.
+
+At this point, I would suggest NFD/NFC by default_, because I'm pretty sure we
+don't want to mess with combining diacritics regardless, and print warnings if
+NKFD-equivalent identifiers exist in scope. (_D may be sufficient since we don't
+necessarily need to recompose the Unicode string for an identifier name, although
+introspection would be less pretty)
+
+[Stefan Karpinski](https://github.com/JuliaLang/julia/issues/5434#issuecomment-32779438)  
+A good first-order approximation of my proposal is:
+
+1. NFC/D normalize source code silently.
+2. Warn if two NFKC/D-equivalent identifiers appear in the same file.
+
+There may be additional character equivalences that should trigger warnings, but
+we can add those as they come up.
+
+[stevengj](https://github.com/JuliaLang/julia/issues/5434#issuecomment-35852577)  
+It might be useful to read through the Python discussions on why they chose NFKC,
+and explicitly discussed and rejected the possibility of flagging compatible
+characters as an error. It seems that for users of several non-English languages,
+it is actually quite difficult in practice to avoid cases of the "same" identifier
+in NFC-inequivalent forms, e.g. [in Japanese](https://mail.python.org/pipermail/python-3000/2007-June/008220.html) 
+or [in Korean](https://mail.python.org/pipermail/python-3000/2007-June/008227.html)
+or [in Serbian and Croatian](https://mail.python.org/pipermail/python-3000/2007-June/008316.html),
+and supporting users in these languages was a strong motivating factor in their
+decision (see the conclusion of the linked thread). The example of the punctuation
+characters from [#5903](https://github.com/JuliaLang/julia/issues/5903) is yet
+another one of these unintentional inequivalencies for non-English users. (In
+these cases, giving an error as @StefanKarpinski suggests, or even just a warning,
+would be a huge headache: one of the linked authors wrote, "as a daily user of
+several Japanese input methods, I can tell you it would be a massive pain in the
+ass if Python doesn't convert those, and errors would be an on-the-minute-every-minute
+annoyance.")
+
+I really think that using NFKC has far more advantages (avoiding extreme confusion
+in the many many cases where NFC-inequivalent identifiers are typically read as
+equivalent by mundanes) than disadvantages (treating e.g. H and ℍ as the same identifier).
+
+[Stefan Karpinski](https://github.com/JuliaLang/julia/issues/5434#issuecomment-36690894)  
+This is why I've been arguing for an error. Our general philosophy is that if
+there's no obvious one right interpretation of something, raise an error. NFC is
+fine-grained enough that we can be sure that NFC-equivalent identifiers are meant
+to be the same. NFKC is coarse-grained enough that we can be sure that NFKC-distinct
+identifiers are clearly meant to be different. Everything between is no man's land.
+So we should throw an error. Otherwise, we are implicitly guessing what the user
+really meant. Not canonicalizing to NFKC is guessing that distinct identifiers are
+actually meant to be different. Canonicalizing to NFKC is guessing that distinct
+but NFKC-equivalent identifiers are meant to be the same. Either strategy will
+inevitably be wrong some of the time.
+
+[nalimilan](https://github.com/JuliaLang/julia/issues/5434#issuecomment-36720711)
+I agree with @StefanKarpinski: there's not much to win by silently normalizing
+identifiers using NFKC. If we report an error/warning, people will notice the
+problem early and avoid much trouble. Julia IDEs will be made smart enough to
+detect cases where two identifiers are equal after NFKC normalization, and will
+suggest you to adapt automatically when typing them. OTC if the parser does the
+normalization, you will never be able to trust grep to find an identifier because
+of the many possible variants.
+
+jlf: so it seems they decided to not use NFKC... They worry about mathematical
+characters that become normalized. I understand they prefer to keep ALL the
+possible mathematical characters, which makes sense for a scientific programming
+language.
+
+@jmb You are mathematician, do you think it would be a problem if Rexx applies
+the NFKC transformation?
+
+
+### Code review
+
+[jl_is_identifier](https://github.com/JuliaLang/julia/blob/879f6d482420e181f17af60d361b601cbcc204f9/src/rtutils.c#L567C1-L582C1)
+
+[jl_id_start_char](https://github.com/JuliaLang/julia/blob/879f6d482420e181f17af60d361b601cbcc204f9/src/flisp/julia_extensions.c#L127C1-L134C2)
+
+[jl_id_char](https://github.com/JuliaLang/julia/blob/879f6d482420e181f17af60d361b601cbcc204f9/src/flisp/julia_extensions.c#L136C1-L153C2)
+
+jlf: Can't find where NFC is applied for identifiers.
+To continue...
+
+(/jlf)
+
+
+
+### NetRexx
+
+TBD: describe the rules implemented by NetRexx.
+
+
 ### Python
 
-[PEP-3131 Supporting Non-ASCII Identifiers][python_pep_3131]
+#### [Lexical analysis](https://docs.python.org/3/reference/lexical_analysis.html#identifiers)
+
+All identifiers are converted into the normal form NFKC while parsing;
+comparison of identifiers is based on NFKC.
+
+#### [PEP-3131 Supporting Non-ASCII Identifiers][python_pep_3131]
 
 Created: 01-May-2007
 
 Python-Version: 3.0
 
-#### Abstract
+##### Abstract
 
 This PEP suggests to support non-ASCII letters (such as accented characters,
 Cyrillic, Greek, Kanji, etc.) in Python identifiers.
 
-#### Rationale
+##### Rationale
 
 Python code is written by many people in the world who are not familiar with the
 English language, or even well-acquainted with the Latin writing system. Such 
@@ -195,7 +345,7 @@ For some languages, common transliteration systems exist (in particular, for the
 Latin-based writing systems). For other languages, users have larger difficulties 
 to use Latin to write their native words.
 
-#### Specification of Language Changes
+##### Specification of Language Changes
 
 The syntax of identifiers in Python will be based on the Unicode standard annex 
 [UAX-31][unicode_tr31], with elaboration and changes as defined below.
@@ -235,7 +385,7 @@ to support Catalan.
 All identifiers are converted into the normal form NFKC while parsing; comparison
 of identifiers is based on NFKC.
 
-#### Implementation
+##### Implementation
 
 The following changes will need to be made to the parser:
 
