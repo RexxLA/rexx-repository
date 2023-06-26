@@ -299,6 +299,13 @@ language.
 @jmb You are mathematician, do you think it would be a problem if Rexx applies
 the NFKC transformation?
 
+(jmb)  
+Well, I'm just not the right person to ask :) As a mathematician, I suffer to think that ℜ = ℝ, and r = ℝ looks like an aberration to me. 
+But, yes, at first glance, it seems that we should use NFKC for "=", and probably NFC for "==", leaving codepoint equality
+to explicit, low-level calls. And, if we follow this logic, then identifiers should be processed modulo NFKC.  
+The question about whether we should warn the user when she uses two different but equivalent versions in the same source file remains open.  
+(/jmb)
+
 
 ### Code review
 
