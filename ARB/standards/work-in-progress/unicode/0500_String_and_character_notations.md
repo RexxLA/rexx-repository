@@ -58,4 +58,4 @@ c2x implies that "characters" have a "hexadecimal" representation. This is maybe
     \u{XXXXXX}          hexadecimal Unicode code point UTF-8 encoded (1 or more digits) (zig)
     \uXXXX              Unicode character denoted by four hex digits (Java, JSON, Julia, Netrexx, Python, Ruby)
     \UXXXXXXXX          Unicode character denoted by eight hex digits (Julia, Python)
-    \xXX                1 byte denoted by 2 hex digits (Netrexx, Ruby)
+    \xXX                1 byte denoted by 2 hex digits (Netrexx, Python, Ruby)
