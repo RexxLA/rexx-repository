@@ -221,6 +221,13 @@ them letter case is just a personal style choice, with the same character undern
 For example some people like to name functions in all-uppercase where they are
 defined and otherwise use lowercase. However, those people are wrong.
 
+(jmb)  
+Fascinating thread. In mathematics, ℕ is used for the natural numbers, ℤ for integers, ℚ for rationals, ℝ for reals, ℂ for complex numbers, and so on. 
+In many other areas, like model theory, Fraktur symbols like 𝔅 are also used. Then, for example, you can find constructions as 𝔅 = {B,...}, where 𝔅 and B are different entities.  
+It would be a real pity to "normalize" these and loose the expresive power of these symbols.  
+As Bezanson comments, this also raises another question: if we treat mathematical symbols specially, should we uppercase them? There doesn't seem to be a right (Rexx) answer to this question. If we uppercase them, then, after all, why don't we normalize them too? And if we don't uppercase them (in mathematics, 𝕒 and 𝔸 are usually used to denote _different_ objects, then why do we treat "a" and "A" as the same symbol?  
+(/jmb)  
+
 [jiahao](https://github.com/JuliaLang/julia/issues/5434#issuecomment-32773731)  
 The majority opinion (or maybe just mine) is that neither NFC nor NKFC is entirely
 suitable. The former will not normalize Greek mu μ and micro µ, while the latter
