@@ -117,3 +117,52 @@ the byte-oriented interface cannot represent all data; only the character-orient
 API can. As a consequence, libraries and applications that want to support all
 user data in a cross-platform manner have to accept mish-mash of bytes and
 characters exactly in the way that caused endless troubles for Python 2.x.
+
+### Java "file.encoding" property, "codepage-aware" Rexx stream-BIF/stream class (Rony 20230627)
+
+One area that needs to be addressed is processing text from streams (files) which may be encoded according to different codepages.
+In Java there is a system property named "file.encoding" that determines the default encoding. On Java 17 on European Windows this encoding may be set to "Cp1252". Starting with Java 18 the default "file.encoding" gets set to "UTF-8" on all systems.
+The Java classes java.io.Reader [1] and java.io.Writer [2] get used for reading or writing characters and strings.
+(The encoding of the standard files stdout and stderr may deviate from the "file.encoding" system property, e.g. on a Western Windows Java may explicitly define system properties like "sun.stdout.encoding" and "sun.stderr.encoding".)
+If files are to be read or written in "byte mode" one would use java.io.InputStream [3] and java.io.OutputStream [4] respectively in Java.
+(Beware of mixing these classes up with "java.util.stream.Stream" [5], [6] introduced with Java 8.)
+
+---
+Ad current Rexx stream BIFs/classes: linein/lineout BIFs/methods would be about byte-streams where CR and/or LF characters get removed/appended, whereas charin/charout would not change the byte-data at all.
+
+---
+
+The idea:
+
+* Start out first by adding bytein/byteout BIFs/methods which always operate on bytes (like InputStream and OutputStream in the Java case). In classic Rexx and ooRexx bytein/byteout would by default be synonyms with charin/charout unless
+* the stream-BIF "OPEN" command includes explicitly a codepage name which would make linein/lineout and charin/charout "codepage-aware" and apply the appropriate codepage processing.
+
+So, if a future "codepage-aware" version of Rexx/ooRexx would allow indicating a specific codepage in its open command/method, e.g. "UTF-8", "Cp1252", "Cp850", then linein/lineout and charin/charout should operate with (potentially mulit-byte) characters. If a binary interaction was desired in such a scenario then bytein/byteout should be employed instead.
+
+If no codepage is supplied in the "OPEN" command the original "character is a single byte" semantics (with no automatic codepage translatation taking place by Rexx) apply for backward compatibility.
+
+Probably a "query codepage" command should be devised that returns the empty string (if no codepage was defined for the stream) or the codepage supplied in the "OPEN" command causing linein/lineout/charin/charout to apply the appropriate codepage processing.
+
+E.g. some hypothetical code:
+
+      myFile="someEncodedTextFile.txt"
+      call stream myFile, "c", "open both utf-8" -- "utf-8" will trigger codepage-aware processing 
+
+      say stream(myFile,"c","query codepage")    -- says: "utf-8"
+
+      say linein()        -- read a line and read position gets increased accordingly
+      say charin(,,15)    -- read 15 (potentially multibyte) characters, read position gets increased accordingly
+
+      say bytein(,,15)    -- read 15 bytes, read position gets increased accordingly
+
+      call lineout myFile -- close file or "call myFile,'c','close' "
+      
+The encoding option could be something like "utf8", "utf-8",  "utf-16", "utf-32", "cp437", "cp-437", "cp850" according to [7] ...
+
+[1] [Javadoc 8 for java.io.Reader](https://docs.oracle.com/javase/8/docs/api/java/io/Reader.html)  
+[2] [Javadoc 8 for java.io.Writer](https://docs.oracle.com/javase/8/docs/api/java/io/Writer.html)  
+[3] [Javadoc 8 for java.io.InputStream](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html)  
+[4] [Javadoc 8 for java.io.OutputStream](https://docs.oracle.com/javase/8/docs/api/java/io/OutputStream.html)  
+[5] [Javadoc 8 for java.util.stream.Stream](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html)  
+[6] [Tutorial on java.util.stream.Stream](https://www.baeldung.com/java-8-streams)  
+[7] [Oracle technotes on Java 8 supported encodings](https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html)  
