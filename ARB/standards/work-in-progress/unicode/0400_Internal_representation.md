@@ -23,6 +23,8 @@ Two families of Rexx regarding the interpretation of strings:
 
 ## Raw bytes versus Unicode
 
+See also [0475_Serialization_and_deserialization.md](0475_Serialization_and_deserialization.md).
+
 ### Armin Ronacher about Python 3
 
 (jlf)  

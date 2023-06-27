@@ -92,3 +92,37 @@ same as utf16le_crlf-dump.txt
 
 [utf16le_nobom_lf-dump.txt](https://github.com/jlfaucher/executor/blob/21d0ad5979c361ca52c4080a504e43501a8b81a8/sandbox/jlf/unicode/bbedit-save_as/utf16le_nobom_lf-dump.txt#LL28C10-L28C15):
 same as utf16le_lf-dump.txt
+
+
+## Raw bytes versus Unicode
+
+See also [0400_Internal_representation.md](0400_Internal_representation.md).
+
+### [PEP 383 – Non-decodable Bytes in System Character Interfaces](https://peps.python.org/pep-0383/)
+
+(jlf) referencing this PEP because of its Rationale.
+For Rexx, we are thinking to separate bytes and text by using 2 different types.
+But according this PEP, it's maybe not enough. (/jlf)
+
+#### Rationale (exerpts)
+The C char type is a data type that is commonly used to represent both character
+data and bytes. Certain POSIX interfaces are specified and widely understood as
+operating on character data, however, the system call interfaces make no assumption
+on the encoding of these data, and pass them on as-is. With Python 3, character
+strings use a Unicode-based internal representation, making it difficult to ignore
+the encoding of byte strings in the same way that the C interfaces can ignore the
+encoding.
+
+On the other hand, Microsoft Windows NT has corrected the original design limitation
+of Unix, and made it explicit in its system interfaces that these data (file names,
+environment variables, command line arguments) are indeed character data, by providing
+a Unicode-based API (keeping a C-char-based one for backwards compatibility).
+
+For Python 3, one proposed solution is to provide two sets of APIs:
+a byte-oriented one, and a character-oriented one, where the character-oriented
+one would be limited to not being able to represent all data accurately.
+Unfortunately, for Windows, the situation would be exactly the opposite:
+the byte-oriented interface cannot represent all data; only the character-oriented
+API can. As a consequence, libraries and applications that want to support all
+user data in a cross-platform manner have to accept mish-mash of bytes and
+characters exactly in the way that caused endless troubles for Python 2.x.
