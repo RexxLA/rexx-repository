@@ -20,6 +20,8 @@ Several choices that have to be made (description, not advocacy).
 
 ### [Validation](0450_Validation.md)
 
+### [Streams (input/output)](0462_Streams_input_output.md)
+
 ### [Serialization and deserialisation](0475_Serialization_and_deserialization.md)
 
 ### [String and character notations](0500_String_and_character_notations.md)
