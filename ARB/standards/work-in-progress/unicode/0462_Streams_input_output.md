@@ -145,6 +145,7 @@ Probably a "query codepage" command should be devised that returns the empty str
 
 E.g. some hypothetical code:
 
+<pre>
       myFile="someEncodedTextFile.txt"
       call stream myFile, "c", "open both utf-8" -- "utf-8" will trigger codepage-aware processing 
 
@@ -153,10 +154,11 @@ E.g. some hypothetical code:
       say linein()        -- read a line and read position gets increased accordingly
       say charin(,,15)    -- read 15 (potentially multibyte) characters, read position gets increased accordingly
 
-      say bytein(,,15)    -- read 15 bytes, read position gets increased accordingly
+      say <i>bytein(,,15)</i>    -- read 15 <i>bytes</i>, read position gets increased accordingly
 
       call lineout myFile -- close file or "call myFile,'c','close' "
-      
+</pre>
+
 The encoding option could be something like "utf8", "utf-8",  "utf-16", "utf-32", "cp437", "cp-437", "cp850" according to [7] ...
 
 [1] [Javadoc 8 for java.io.Reader](https://docs.oracle.com/javase/8/docs/api/java/io/Reader.html)  
