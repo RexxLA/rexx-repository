@@ -111,6 +111,17 @@ BYTE and BYTES work like WORD and WORDS. These two functions only make sense if 
 
 BYTES(string) returns the number of bytes in string. BYTES(string, encoding) decodes string using encoding. String has to be an Unicode string, else syntax error. If encoding is the null string, "UTF-8" is assumed.
 
+    CHAR(string,i) -- Returns the i-th character (grapheme cluster) in string, or the null string if string has less than i characters.
+
+The number of characters is returned by the LENGTH BIF:
+
+    Do i = 1 To Length(string)
+      c = char(string,i)
+      -- Do something with i and c
+    End
+
+(Rust adds a second, boolean argument, is_extended: "if is_extended is true, the iterator is over the _extended grapheme clusters_; otherwise, the iterator is over the _legacy grapheme clusters_. UAX#29 recommends extended grapheme cluster boundaries for general processing." -- See if this affects us or not).
+
     CODEPOINT(string,i) -- Returns the i-th codepoint in string, or the null string if string has less than i codepoints.
 
 CODEPOINT and CODEPOINTS work like WORD and WORDS. [Rust uses CHARS, but (1) CHARS is already the name of a BIF in Rexx, and (2) since codepoints are _not_ characters, it's best if the BIF name reflects it.]
@@ -118,22 +129,3 @@ CODEPOINT and CODEPOINTS work like WORD and WORDS. [Rust uses CHARS, but (1) CHA
     CODEPOINTS(string) -- Number of codepoints in a string  
 
 In all the BIFs, if the string is malformed, a syntax error or similar condition should be raised.
-
-    GRAPHEME(string,i) -- Returns the i-th grapheme in string, or the null string if string has less than i graphemes.
-
-GRAPHEME and GRAPHEMES work like WORD and WORDS.
-
-Maybe we should offer an alias called CHAR? This would allow
-
-    Do i = 1 To Length(string)
-      c = char(string,i)
-      -- Do something with i and c
-    End
-
-Problem: CHARS is already taken.
-    
-    GRAPHEMES(string) -- Number of graphemes in a string
-
-This should be an alias for LENGTH. Maybe LENGTH and CHAR are enough.
-
-[Rust adds a second, boolean argument, is_extended: "if is_extended is true, the iterator is over the _extended grapheme clusters_; otherwise, the iterator is over the _legacy grapheme clusters_. UAX#29 recommends extended grapheme cluster boundaries for general processing."]
