@@ -100,4 +100,13 @@ Examples (new BIF names are examples, not proposals):
     Decode(rnon, "UTF-16")             -- "0052 0065 006E 00E9"X
     Length(Decode(rnon))               -- 4
     Length(Decode(rcomb))              -- 5
+
+### New and necessary built-in functions
+
+    GRAPHEME(string,i) -- Returns the i-th grapheme in string, or the null string if string has less than i graphemes.
+
+``GRAPHEME`` and ``GRAPHEMES`` work like ``WORD`` and ``WORDS``.
     
+    GRAPHEMES(string) -- Number of graphemes in a string
+
+[Rust adds a second, boolean argument, ``is_extended``: "if ``is_extended`` is true, the iterator is over the _extended grapheme clusters_; otherwise, the iterator is over the _legacy grapheme clusters_. UAX#29 recommends extended grapheme cluster boundaries for general processing."]
