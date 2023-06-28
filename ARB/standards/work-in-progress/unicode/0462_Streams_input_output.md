@@ -4,39 +4,6 @@
 
 (TBD)
 
-## Draft Notes
-
-### ISO-8859-1 jlf question
-ISO-8859-1  
-All bytes compatible with Unicode? or not?  
-- [ISO8859](https://www.unicode.org/Public/MAPPINGS/ISO8859/)
-  Each character has a Unicode mapping.
-- [Wikipedia](https://en.wikipedia.org/wiki/ISO/IEC_8859-1#Code_page_layout)
-  The characters 00x to 1Fx and 7Fx to 9Fx are UNDEFINED. Why?
-
-I follow the Wikipedia mapping, and because of that, I have this error:
-
-        xrange()~text("iso-8859-1")~utf8=
-        ISO-8859-1 encoding: cannot convert ISO-8859-1 not-ASCII character 0 (0) at byte-position 1 to UTF-8.
-
-For Windows-1252, [Wikipedia](https://en.wikipedia.org/wiki/Windows-1252) defines
-a mapping for each character, with this comment:  
-According to the information on Microsoft's and the Unicode Consortium's websites,
-positions 81, 8D, 8F, 90, and 9D are unused; however, the Windows API
-`MultiByteToWideChar` maps these to the corresponding C1 control codes.
-
-[Note Microsoft](https://learn.microsoft.com/en-us/windows/win32/intl/code-pages):
-Originally, Windows code page 1252, the code page commonly used for English and 
-other Western European languages, was based on an American National Standards 
-Institute (ANSI) draft. That draft eventually became ISO 8859-1, but Windows 
-code page 1252 was implemented before the standard became final, and is not 
-exactly the same as ISO 8859-1.
-
-By following theses rules, all the byte characters can be converted to Unicode:
-
-        xrange()~text("windows-1252")~utf8=
-        T'[000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F] !"#$%&''()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ'
-
 ## End of lines with stream in text mode
 
 Illustration with Executor, same with ooRexx.  
