@@ -38,3 +38,13 @@ A _polymorphic_ approach mimics the Classic Rexx paradigm of "no types" and does
 a unique type.
 
 Please note that classic Rexx implementations would probably be forced to implement polymorphism, since they don't have classes.
+
+### Unicode-first/byte string first
+
+A decision has to be taken about the meaning of an unpostfixed string.
+
+The language will be _Unicode-first_ if such an unpostfixed string is automatically supposed to be an Unicode string.
+
+The language will be _byte-string-first_ is such an unpostfixed string is automatically supposed to be a byte string (like in current Rexxes).
+
+An implementation can offer a choice of the two variants, for example by using an OPTIONS instruction or directive.
