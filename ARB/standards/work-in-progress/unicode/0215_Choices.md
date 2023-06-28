@@ -50,3 +50,11 @@ The language will be _byte-string-first_ is such an unpostfixed string is automa
 An argument of coherence will extend the choice to other areas of the language, such as the default opening of a stream.
 
 An implementation can offer a choice of the two variants, for example by using an OPTIONS instruction or directive.
+
+### Characters are codepoints/grapheme clusters
+
+There are different interpretations of what a character is.
+
+Netrexx, for example, identifies characters with _Unicode codepoints_.
+
+Swift, on the other hand, identifies characters with _extended grapheme clusters_.
