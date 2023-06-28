@@ -47,4 +47,6 @@ The language will be _Unicode-first_ if such an unpostfixed string is automatica
 
 The language will be _byte-string-first_ is such an unpostfixed string is automatically supposed to be a byte string (like in current Rexxes).
 
+An argument of coherence will extend the choice to other areas of the language, such as the default opening of a stream.
+
 An implementation can offer a choice of the two variants, for example by using an OPTIONS instruction or directive.
