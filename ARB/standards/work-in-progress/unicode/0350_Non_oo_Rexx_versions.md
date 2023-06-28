@@ -101,7 +101,15 @@ Examples (new BIF names are examples, not proposals):
     Length(Decode(rnon))               -- 4
     Length(Decode(rcomb))              -- 5
 
-### New and necessary built-in functions
+### New and necessary built-in functions (names and function are of course debatable)
+
+    CODEPOINT(string,i) -- Returns the i-th codepoint in string, or the null string if string has less than i codepoints.
+
+``CODEPOINT`` and ``CODEPOINTS`` work like ``WORD`` and ``WORDS``. [Rust uses ``CHARS``, but (1) ``CHARS`` is already the name of a BIF in Rexx, and (2) since codepoints are _not_ characters, it's best if the BIF name reflects it.]
+
+    CODEPOINTS(string) -- Number of codepoints in a string  
+
+In all the BIFs, if the string is malformed, a syntax error or similar condition should be raised.
 
     GRAPHEME(string,i) -- Returns the i-th grapheme in string, or the null string if string has less than i graphemes.
 
