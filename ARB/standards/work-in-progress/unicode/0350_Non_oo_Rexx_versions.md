@@ -107,9 +107,9 @@ Examples (new BIF names are examples, not proposals):
 
 ``BYTE`` and ``BYTES`` work like ``WORD`` and ``WORDS``. These two functions only make sense if a standard encoding is assumed (i.e., most probably UTF-8).
 
-    BYTES(string) -- Number of bytes in a string  
+    BYTES(string[, encoding]) -- Number of bytes in a string  
 
-Same as ``LENGTH(TEXT2BYTES(string))``.
+``BYTES(string)`` returns the number of bytes in string. ``BYTES(string, encoding)`` decodes string using encoding. String has to be an Unicode string, else syntax error. If encoding is the null string, "UTF-8" is assumed.
 
     CODEPOINT(string,i) -- Returns the i-th codepoint in string, or the null string if string has less than i codepoints.
 
@@ -137,7 +137,3 @@ Problem: ``CHARS`` is already taken.
 This should be an alias for ``LENGTH``.
 
 [Rust adds a second, boolean argument, ``is_extended``: "if ``is_extended`` is true, the iterator is over the _extended grapheme clusters_; otherwise, the iterator is over the _legacy grapheme clusters_. UAX#29 recommends extended grapheme cluster boundaries for general processing."]
-
-    TEXT2BYTES(string) -- Returns a byte string containing the byte representation of string.
-
-Same as ``DECODE(string, "UTF-8")``. An errror is raised if ``string`` is not an Unicode string.
