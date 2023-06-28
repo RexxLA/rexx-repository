@@ -463,3 +463,4 @@ Maybe to study to understand the vulnerabilities in source code ([https://trojan
 [unicode_tr31]:https://www.unicode.org/reports/tr31/
 [unicode_tr36]: https://unicode.org/reports/tr36/
 [unicode_tr39]: http://www.unicode.org/reports/tr39/
+[COBOL Unicode Support]: https://www.ibm.com/support/pages/system/files/support/swg/swgdocs.nsf/0/71b800373dae5e6c85256d8d006cdb06/$FILE/SS8429-Unicode%20Support%20in%20Enterprise%20COBOL.pdf
