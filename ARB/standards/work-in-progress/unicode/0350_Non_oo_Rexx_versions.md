@@ -75,8 +75,8 @@ Examples (new BIF names are examples, not proposals):
 
     Options Unicode Encoding(UTF-8)
     a = "Síntesis"                     -- A byte string. "53 C3 AD 6E 74 65 73 69 73"X
-    u = U("Síntesis")                  -- An Unicode literal String "U 53, ED, 6E, 74, 65, 73, 69, 73"X
-    Text(a) == u                 
+    u = Text("Síntesis")               -- An Unicode literal String "U 53, ED, 6E, 74, 65, 73, 69, 73"X
+    Text(a) == u                       -- 1        
     IsUnicode(a)                       -- 0
     IsUnicode(u)                       -- 1
     SubStr(a,2,1)                      -- "C3"X, a 1-byte string.
@@ -85,8 +85,8 @@ Examples (new BIF names are examples, not proposals):
     Encoding(a)                        -- ??? Probably a syntax error, or maybe "NONE", or even "UTF-8".
     12 + Text("13")                    -- 25, a byte string.
     12 = Text("12")                    -- Syntax error, force the user to specify what she's trying to do.
-    rnon = U2C("U 52, 65, 6E, E9"X)    -- "René", NFC form
-    rcomb = U2C("U 52, 65, 65, 301"X)  -- "René", NFD form
+    rnon  = U2T("U 52, 65, 6E, E9"X)   -- "René", NFC form
+    rcomb = U2T("U 52, 65, 65, 301"X)  -- "René", NFD form
     IsNormalized(rnon)                 -- 1
     IsNormalized(rcomb)                -- 0: default would be NFC
     IsNormalized(rcomb, "NFD")         -- 1
@@ -96,10 +96,10 @@ Examples (new BIF names are examples, not proposals):
     rnon == rcomb                      -- 1 (using the cached normalization)
     Length(rnon)                       -- 4
     Length(rcomb)                      -- 4 (internal normalization to NFC, and caching of this normalized value).
-    Decode(rnon)                       -- "Renè", a byte string
-    Decode(rnon, "UTF-16")             -- "0052 0065 006E 00E9"X
-    Length(Decode(rnon))               -- 4
-    Length(Decode(rcomb))              -- 5
+    Bytes(rnon)                        -- "Renè", a byte string
+    Bytes(rnon, "UTF-16")              -- "0052 0065 006E 00E9"X
+    Length(Bytes(rnon))                -- 5 
+    Length(Bytes(rcomb))               -- 6 ("52 65 6E 65 CC 81"X, since U+301 is UTF8 CC81)
 
 ### New and necessary built-in functions (names and function are of course debatable)
 
