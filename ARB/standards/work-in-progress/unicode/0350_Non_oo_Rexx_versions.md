@@ -103,11 +103,15 @@ Examples (new BIF names are examples, not proposals):
 
 ### New and necessary built-in functions (names and function are of course debatable)
 
+In all the BIFs, if the string is malformed, a syntax error or similar condition should be raised.
+
     BYTES(string[, encoding])
     
-BYTES(string, encoding) decodes string using encoding (default = "UTF-8"). String has to be an Unicode string, else syntax error. 
+BYTES(string, encoding) decodes _string_ using _encoding_ (default = "UTF-8"). String has to be an Unicode string, otherwise an exception is raised. 
 
-    CHAR(string,i) -- Returns the i-th character (grapheme cluster) in string, or the null string if string has less than i characters. Similar to SUBSTR(string,i,1). Maybe adopt ooRexx notation, string[i]?
+    CHAR(string,i) 
+        
+Returns the _i_-th character (grapheme cluster) in _string_, or the null string if _string_ has less than _i_ characters. Similar to SUBSTR(string,i,1). Maybe adopt ooRexx notation, string[i]?
 
 The number of characters is returned by the LENGTH BIF:
 
@@ -116,12 +120,14 @@ The number of characters is returned by the LENGTH BIF:
       -- Do something with i and c
     End
 
-(Rust adds a second, boolean argument, is_extended: "if is_extended is true, the iterator is over the _extended grapheme clusters_; otherwise, the iterator is over the _legacy grapheme clusters_. UAX#29 recommends extended grapheme cluster boundaries for general processing." -- See if this affects us or not).
+(Rust adds a second, boolean argument, _is_extended_: "if _is_extended_ is true, the iterator is over the _extended grapheme clusters_; otherwise, the iterator is over the _legacy grapheme clusters_. UAX#29 recommends extended grapheme cluster boundaries for general processing." -- See if this affects us or not).
 
-    CODEPOINT(string,i) -- Returns the i-th codepoint in string, or the null string if string has less than i codepoints.
+    CODEPOINT(string,i)
+    
+Returns the _i_-th codepoint in _string_, or the null string if _string_ has less than _i_ codepoints.
 
-CODEPOINT and CODEPOINTS work like WORD and WORDS. [Rust uses CHARS, but (1) CHARS is already the name of a BIF in Rexx, and (2) since codepoints are _not_ characters, it's best if the BIF name reflects it.]
+CODEPOINT and CODEPOINTS work like WORD and WORDS. (Rust uses CHARS, but (1) CHARS is already the name of a BIF in Rexx, and (2) since codepoints are _not_ characters, it's best if the BIF name reflects it.)
 
-    CODEPOINTS(string) -- Number of codepoints in a string  
-
-In all the BIFs, if the string is malformed, a syntax error or similar condition should be raised.
+    CODEPOINTS(string)
+    
+Number of codepoints in _string_.
