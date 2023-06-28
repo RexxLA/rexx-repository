@@ -103,20 +103,16 @@ Examples (new BIF names are examples, not proposals):
 
 ### New and necessary built-in functions (names and function are of course debatable)
 
-    BYTE(string,i) -- Returns the i-th byte in string, or the null string if string has less than i bytes.
+    BYTES(string[, encoding])
+    
+BYTES(string, encoding) decodes string using encoding (default = "UTF-8"). String has to be an Unicode string, else syntax error. 
 
-BYTE and BYTES work like WORD and WORDS. These two functions only make sense if a standard encoding is assumed (i.e., most probably UTF-8).
-
-    BYTES(string[, encoding]) -- Number of bytes in a string  
-
-BYTES(string) returns the number of bytes in string. BYTES(string, encoding) decodes string using encoding. String has to be an Unicode string, else syntax error. If encoding is the null string, "UTF-8" is assumed.
-
-    CHAR(string,i) -- Returns the i-th character (grapheme cluster) in string, or the null string if string has less than i characters.
+    CHAR(string,i) -- Returns the i-th character (grapheme cluster) in string, or the null string if string has less than i characters. Similar to SUBSTR(string,i,1). Maybe adopt ooRexx notation, string[i]?
 
 The number of characters is returned by the LENGTH BIF:
 
     Do i = 1 To Length(string)
-      c = char(string,i)
+      c = Char(string,i)
       -- Do something with i and c
     End
 
