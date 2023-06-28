@@ -137,3 +137,7 @@ Problem: ``CHARS`` is already taken.
 This should be an alias for ``LENGTH``.
 
 [Rust adds a second, boolean argument, ``is_extended``: "if ``is_extended`` is true, the iterator is over the _extended grapheme clusters_; otherwise, the iterator is over the _legacy grapheme clusters_. UAX#29 recommends extended grapheme cluster boundaries for general processing."]
+
+    TEXT2BYTES(string) -- Returns a byte string containing the byte representation of string.
+
+Same as ``DECODE(string, "UTF-8")``. An errror is raised if ``string`` is not an Unicode string.
