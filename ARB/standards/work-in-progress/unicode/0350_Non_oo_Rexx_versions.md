@@ -27,20 +27,25 @@ This loading would be undoable (i.e., you wouldn't be able to unload Unicode onc
 
 * Unicode support would offer several new BIFs. Let's call the main one **TEXT** (again, this is not a name proposal). TEXT(string) would return _a Unicode string_ (to be defined shortly). With a little help from the interpreter, static, parse-time analysis, would be able to determine if calls to TEXT were indeed to be resolved to the new BIF, and then calls with a literal argument could be treated as **literal Unicode strings** and optimized as such.
 
+* Of course new string literals could also be introduced, for example in the form **"string"T**.
+
 * The **result** from a call to TEXT would be the very same string received as an argument (or a copy of the string if the original had active references to it), but with an implementarion-defined, internal, flag that would indicate that the string was, indeed, an **Unicode string**.
 
-* The **encoding** to use would be the same as the one used in the program file, if supported by Rexx. An explicit encoding could be specified using an OPTIONS instruction.
+* Please note that this is the description given to the user, not becessarily what would be used as the **internal representation**. An implementation should be free to keep the original string, recode it into UTF-16, -32 or -8, or use some other means of storage.
+
+* The **encoding** to use would be the same as the one used in the program file. An explicit encoding could also be specified using an OPTIONS instruction.
   ```
-  OPTIONS UNICODE ENCODING(ISO-8859-1)
+  OPTIONS UNICODE ENCODING(ISO-8859-1) -- Applies to the whole file
   ```
 * **Explicit encodings**. An optional, second argument to TEXT could make the encoding explicit:
   ```
-  TEXT("string", "UTF-8").
+  TEXT("string", "UTF-8") -- Applies only to this bytes to text conversion
   ```
 * If any encoding errors were found, a **new condition** would be raised. An optional third parameter could be specified to allow ignoring of encoding errors, e.g.,
   ```
   TEXT("string", "UTF-8", "Ignore")
   ```
+  Question: what do we do with the "bad" codes? Substitute them, keep them as-is? This needs more work (see what other languages do).
 * The fact that there was or not an encoding error would be stored as part of the string status, and would be accesible using a specialized BIF.
 
 * The interpreter would provide an adapted set of **BIFs** for Unicode strings. They would work similarly to the standard BIFs, but at the _grapheme cluster_ level.
@@ -61,15 +66,17 @@ This loading would be undoable (i.e., you wouldn't be able to unload Unicode onc
   ```
   TEXT("A") = "A"     -- Syntax error.
   ```
-* Another possibility would be to first encode the non-Unicode string using the default encoding.
+* Another possibility would be to first encode the non-Unicode string using the default, Rexx-chosen, encoding.
     
 * **Comparison and normalization**. Parse-time literal strings would be normalized by default (unless the third parameter was "Ignore"). The fact that a string was normalized would be stored as part of the internal string status.
   
 * **Comparing differently encoded strings**. When two strings of different encodings had to be compared, a "neutral" encoding should be used (always the same). An implementation may chose to define and fix this neutral encoding, or to allow the user to specify an "default neutral" encoding on an application level.
 
-* **Performance of comparisons**. If a transcoding to the neutral encoding was even computed, it would be cached as part of the string status and used on subsequent calculations.
+* **Performance of comparisons**. If a transcoding to the neutral encoding was even computed, it should be cached as part of the string status and used on subsequent calculations.
 
-* **Compatibility**: If the Unicode option was not activated, everything should work as before, and we would have complete compatibility. When the Unicode option was activated, a new set of BIFs would be introduced. Implementations should offer a program that would check for possible conflicts. These conflicts would only arise when an external function were called that had the same name as one of the new BIFs.
+* **Compatibility**: If the Unicode option was not activated, everything should work as before, and we would have complete compatibility. When the Unicode option was activated, a new set of BIFs would be introduced, and maybe the new "string"T literals. Implementations should offer a program that would check for possible conflicts. These conflicts would only arise when an external function were called that had the same name as one of the new BIFs.
+
+**BIFs**. Since new BIFs will always incur in the risk of creating incompatibilities, many built-in operations have been grouped under a single UNICODE BIF.
 
 Examples (new BIF names are examples, not proposals):
 
@@ -77,19 +84,19 @@ Examples (new BIF names are examples, not proposals):
     a = "Síntesis"                     -- A byte string. "53 C3 AD 6E 74 65 73 69 73"X
     u = Text("Síntesis")               -- An Unicode literal String "U 53, ED, 6E, 74, 65, 73, 69, 73"X
     Text(a) == u                       -- 1        
-    IsUnicode(a)                       -- 0
-    IsUnicode(u)                       -- 1
+    Unicode(a)                         -- 0
+    Unicode(u)                         -- 1
     SubStr(a,2,1)                      -- "C3"X, a 1-byte string.
     SubStr(u,2,1)                      -- "í" == "U ED"X, a one grapheme (and one codepoint) Unicode string.
-    Encoding(u)                        -- "UTF-8", a byte string, the (implicit) encoding used.
-    Encoding(a)                        -- ??? Probably a syntax error, or maybe "NONE", or even "UTF-8".
+    Unicode(u,"Encoding")              -- "UTF-8", a byte string, the (implicit) encoding used.
+    Unicode(a,"Encoding")              -- ??? Probably a syntax error, or maybe "NONE", or even "UTF-8".
     12 + Text("13")                    -- 25, a byte string.
     12 = Text("12")                    -- Syntax error, force the user to specify what she's trying to do.
     rnon  = U2T("U 52, 65, 6E, E9"X)   -- "René", NFC form
     rcomb = U2T("U 52, 65, 65, 301"X)  -- "René", NFD form
-    IsNormalized(rnon)                 -- 1
-    IsNormalized(rcomb)                -- 0: default would be NFC
-    IsNormalized(rcomb, "NFD")         -- 1
+    Unicode(rnon,"Normalized")         -- 1
+    Unicode(rcomb,"Normalized")        -- 0: default would be NFC
+    Unicode(rcomb, "Normalized", "NFD") -- 1
     "Una" a                            -- "Una Síntesis", a byte string.
     "Una" u                            -- Text("Una Síntesis"), an Unicode string. Implicit promotion of "Una" to Unicode
     rnon == rcomb                      -- 1 (internal normalization of rcomb, caching of this normalized value)
@@ -102,6 +109,8 @@ Examples (new BIF names are examples, not proposals):
     Length(Bytes(rcomb))               -- 6 ("52 65 6E 65 CC 81"X, since U+301 is UTF8 CC81)
 
 ### New and necessary built-in functions (names and function are of course debatable)
+
+Alphabetical list (working draft, incomplete): BYTES, CHAR (optional), CODEPOINT, CODEPOINTS, UNICODE.
 
 In all the BIFs, if the string is malformed, a syntax error or similar condition should be raised.
 
