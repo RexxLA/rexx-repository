@@ -27,6 +27,10 @@
 
 (/jmb)
 
+## Non object-oriented versions and BIFs
+
+Any new BIF introduced will create a compatibility problem, since BIFs are searched before external routines. There seems to be no way out of this problem.
+
 ## Rationale for Executor
 
 [Executor](https://github.com/jlfaucher/executor) is an extension of ooRexx 4.2.
