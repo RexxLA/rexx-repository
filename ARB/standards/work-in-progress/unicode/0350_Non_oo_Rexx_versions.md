@@ -110,7 +110,7 @@ Examples (new BIF names are examples, not proposals):
 
 ### New and necessary built-in functions (names and function are of course debatable)
 
-Alphabetical list (working draft, incomplete): BYTES, CHAR (optional), CODEPOINT (or CODE?), CODEPOINTS, TEXT, UNICODE (maybe TEXT and UNICODE would be the same?).
+Alphabetical list (working draft, incomplete): BYTES, CHAR (optional), CODEPOINT (or CODE?), CODEPOINTS, TEXT, UNICODE
 
 In all the BIFs, if the string is malformed, a syntax error or similar condition should be raised.
 
@@ -137,7 +137,7 @@ Returns the _i_-th codepoint in _string_, or the null string if _string_ has les
 
     CODEPOINT(codepoint, property)
 
-For example, ``CODEPOINT(s, "Name")``.
+For example, ``CODEPOINT(code, "Name")``, ``CODEPOINT(code,"GC")``, ``CODEPOINT(code,"NV")``, etc.
 
 CODEPOINT and CODEPOINTS work like WORD and WORDS. (Rust uses CHARS, but (1) CHARS is already the name of a BIF in Rexx, and (2) since codepoints are _not_ characters, it's best if the BIF name reflects it.)
 
@@ -145,14 +145,26 @@ CODEPOINT and CODEPOINTS work like WORD and WORDS. (Rust uses CHARS, but (1) CHA
     
 Number of codepoints in _string_.
 
+    TEXT(string)
+
+Converts (encodes) a byte _string_ using the default encoding.
+
+    TEXT(string, encoding)
+
+Encodes a byte _string_ using _encoding_.
+
+    TEXT(string, encoding, handler)
+
+Encodes _string_ using _encoding_. If errors occur during the encoding process, they are handled according to the _handler_.
+
     UNICODE(string)
 
 Returns 1 if _string_ is an unicode string, and 0 otherwise.
 
     UNICODE(string,"Encoding")
 
-Returns the encoding used to produce the string. It's databable whether this value should be ratained or not.
+Returns the encoding used to produce the string. It's databable whether this value should be retained or not.
 
-  UNICODE(string, "Normalized"[, normalizaton])
+    UNICODE(string, "Normalized"[, normalizaton])
 
-Returns 1 when the _string_ is normalized under the _normalization_ form. Default is "NFC".
+Returns 1 when the _string_ is normalized using the _normalization_ form. Default is "NFC".
