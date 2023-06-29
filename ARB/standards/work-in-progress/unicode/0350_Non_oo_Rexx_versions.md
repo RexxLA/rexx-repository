@@ -125,7 +125,7 @@ Returns the _i_-th character (grapheme cluster) in _string_, or the null string 
 The number of characters is returned by the LENGTH BIF:
 
     Do i = 1 To Length(string)
-      c = Char(string,i)
+      c = Char(string,i)  -- Or c = Substr(string, i, 1), or even c = string[i].
       -- Do something with i and c
     End
 
@@ -156,6 +156,8 @@ Encodes a byte _string_ using _encoding_.
     TEXT(string, encoding, handler)
 
 Encodes _string_ using _encoding_. If errors occur during the encoding process, they are handled according to the _handler_.
+
+(Another possibility would be to return the null string when there is an error, and then leave to another BIF --for example, UNICODE-- the task of finding the error details).
 
     UNICODE(string)
 
