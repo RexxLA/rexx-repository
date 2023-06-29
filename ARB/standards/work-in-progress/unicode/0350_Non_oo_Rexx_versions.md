@@ -110,7 +110,7 @@ Examples (new BIF names are examples, not proposals):
 
 ### New and necessary built-in functions (names and function are of course debatable)
 
-Alphabetical list (working draft, incomplete): BYTES, CHAR (optional), CODEPOINT, CODEPOINTS, UNICODE.
+Alphabetical list (working draft, incomplete): BYTES, CHAR (optional), CODEPOINT (or CODE?), CODEPOINTS, TEXT, UNICODE (maybe TEXT and UNICODE would be the same?).
 
 In all the BIFs, if the string is malformed, a syntax error or similar condition should be raised.
 
@@ -135,8 +135,24 @@ The number of characters is returned by the LENGTH BIF:
     
 Returns the _i_-th codepoint in _string_, or the null string if _string_ has less than _i_ codepoints.
 
+    CODEPOINT(codepoint, property)
+
+For example, ``CODEPOINT(s, "Name")``.
+
 CODEPOINT and CODEPOINTS work like WORD and WORDS. (Rust uses CHARS, but (1) CHARS is already the name of a BIF in Rexx, and (2) since codepoints are _not_ characters, it's best if the BIF name reflects it.)
 
     CODEPOINTS(string)
     
 Number of codepoints in _string_.
+
+    UNICODE(string)
+
+Returns 1 if _string_ is an unicode string, and 0 otherwise.
+
+    UNICODE(string,"Encoding")
+
+Returns the encoding used to produce the string. It's databable whether this value should be ratained or not.
+
+  UNICODE(string, "Normalized"[, normalizaton])
+
+Returns 1 when the _string_ is normalized under the _normalization_ form. Default is "NFC".
