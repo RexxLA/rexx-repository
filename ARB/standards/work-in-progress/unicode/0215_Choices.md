@@ -58,3 +58,11 @@ There are different interpretations of what a character is.
 Netrexx, for example, identifies characters with _Unicode codepoints_.
 
 Swift, on the other hand, identifies characters with _extended grapheme clusters_.
+
+### The interpreter normalizes/doesn't normalize Unicode strings
+
+Irrespective of the choice of internal representation, the interpreter can choose to normalize all strings, or to keep them unnormalized.
+
+### Maximum length of a grapheme cluster
+
+Grapheme clusters, in principle, can be of an unlimited length, but it does not seem realistic to accept extra long grapheme clusters.
