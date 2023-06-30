@@ -135,3 +135,23 @@ The encoding option could be something like "utf8", "utf-8",  "utf-16", "utf-32"
 [5] [Javadoc 8 for java.util.stream.Stream](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html)  
 [6] [Tutorial on java.util.stream.Stream](https://www.baeldung.com/java-8-streams)  
 [7] [Oracle technotes on Java 8 supported encodings](https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html)  
+
+(Shmuel)
+As I see it, we should consider COMMAND OPEN options for all of
+
+      BOM
+          DISCARD
+          GENERATE
+      CODEPAGE
+          AUTO
+          ISO8859-1
+          UTF-8
+          UTF-16BE
+          UTF-16LE
+      EOL
+          CR
+          CRLF
+          LF
+          NEL
+
+(/Shmuel)        
