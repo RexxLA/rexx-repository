@@ -18,6 +18,12 @@ In the "optional" approach, Unicode support would be optional. It would be activ
 In the "first-class Unicode" approach, the Rexx language would experiment a profound, radical change. Strings would be, by default, Unicode strings. This would represent a big compatibility problem; some of the issues are addressed in the *[Backward Compatibility](0300_Backward_compatibility.md)* section. Old-style, byte-oriented strings would still be usable, probably by specifying a new, incompatible, string suffix. Interpreters should implement a compatibility mode, where
 strings would still be byte-oriented by default, to make it possible to run old programs.
 
+### What the consideration of non-object oriented interpreters shows us about compatibility
+
+* New BIFs will always be disruptive. They are searched after internal routines, and before external routines: when a new BIF is introduced, some programs will inevitably break. (That's most probably the reason why the new .String BIMs of ooRexx have not their counterparts as new BIFs, even if Mike had stated that it would be nice if both sets were as similar as feasible). If we has to add Unicode only to object-oriented versions of ooRexx, we could avoid the problem, because only new BIMs would be needed (especially, for the new classes).
+
+* If one wants new literals (for example, "string"T for Unicode strings, or "string"C for compatibility/classic strings), we also encounter a compatibility problem: "string"T would be interpreted as "string"||T in old programs, and as a Unicode literal in new programs. This problem also applies to object oriented versions of Rexx.
+
 ### The "optional" approach (a brainstorm proposal) (jmb)
 
 Let's see how the "optional" approach could work in a non-oo interpreter as, for example, Regina Rexx. Unicode would be loaded by an OPTIONS instruction. 
