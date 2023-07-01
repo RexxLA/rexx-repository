@@ -20,7 +20,7 @@ strings would still be byte-oriented by default, to make it possible to run old 
 
 ### What the consideration of non-object oriented interpreters shows us about compatibility
 
-* New BIFs will always be disruptive. They are searched after internal routines, and before external routines: when a new BIF is introduced, some programs will inevitably break. (That's most probably the reason why the new .String BIMs of ooRexx have not their counterparts as new BIFs, even if Mike had stated that it would be nice if both sets were as similar as feasible). If we has to add Unicode only to object-oriented versions of ooRexx, we could avoid the problem, because only new BIMs would be needed (especially, for the new classes).
+* New BIFs will always be disruptive. They are searched after internal routines, and before external routines: when a new BIF is introduced, some programs will inevitably break. (That's most probably the reason why the new .String BIMs of ooRexx do not have counterparts as new BIFs, even if Mike had stated that it would be nice if both sets were as similar as feasible). If we had to add Unicode only to object-oriented versions of ooRexx, we could avoid the problem, because only new BIMs would be needed (especially, for the new classes).
 
 * If one wants new literals (for example, "string"T for Unicode strings, or "string"C for compatibility/classic strings), we also encounter a compatibility problem: "string"T would be interpreted as "string"||T in old programs, and as a Unicode literal in new programs. This problem also applies to object oriented versions of Rexx.
 
@@ -28,16 +28,19 @@ strings would still be byte-oriented by default, to make it possible to run old 
 
 Let's see how the "optional" approach could work in a non-oo interpreter as, for example, Regina Rexx. Unicode would be loaded by an OPTIONS instruction. 
 
-    OPTIONS UNICODE -- Or OPTIONS Text, etc. This is not a name proposal
+    OPTIONS UNICODE -- Or OPTIONS TEXT, etc. This is not a name proposal
+    
 This loading would be undoable (i.e., you wouldn't be able to unload Unicode once loaded). Implementations may choose to implement Unicode as a separate library.
 
 * Unicode support would offer several new BIFs. Let's call the main one **TEXT** (again, this is not a name proposal). TEXT(string) would return _a Unicode string_ (to be defined shortly). With a little help from the interpreter, static, parse-time analysis, would be able to determine if calls to TEXT were indeed to be resolved to the new BIF, and then calls with a literal argument could be treated as **literal Unicode strings** and optimized as such.
 
-* Of course new string literals could also be introduced, for example in the form **"string"T**.
+* Of course new string literals could also be introduced, for example in the form **"string"T**. This is more Rexx-like and has a lower astonishment factor, but it creates a new incompatibility (although the new BIFs create a still bigger incompatibility).
+
+* A third possibility would be to innovate syntactivally, and create constructs like .TEXT["string"] and so on. In ooRexx this would be a class method, in non-oo rexxes, a syntactical novelty. It has the advantage of not introducing any incompatibility, but it's not very pleasant, aesthetically.
 
 * The **result** from a call to TEXT would be the very same string received as an argument (or a copy of the string if the original had active references to it), but with an implementarion-defined, internal, flag that would indicate that the string was, indeed, an **Unicode string**.
 
-* Please note that this is the description given to the user, not becessarily what would be used as the **internal representation**. An implementation should be free to keep the original string, recode it into UTF-16, -32 or -8, or use some other means of storage.
+* Please note that this is the description given to the user, not necessarily what would be used as the **internal representation**. An implementation should be free to keep the original string, recode it into UTF-16, -32 or -8, or use some other means of storage.
 
 * The **encoding** to use would be the same as the one used in the program file. An explicit encoding could also be specified using an OPTIONS instruction.
   ```
@@ -47,12 +50,13 @@ This loading would be undoable (i.e., you wouldn't be able to unload Unicode onc
   ```
   TEXT("string", "UTF-8") -- Applies only to this bytes to text conversion
   ```
-* If any encoding errors were found, a **new condition** would be raised. An optional third parameter could be specified to allow ignoring of encoding errors, e.g.,
+* If any encoding errors were found, a **new condition** would be raised. An optional third parameter could be specified to allow special handling of encoding errors, e.g.,
   ```
-  TEXT("string", "UTF-8", "Ignore")
+  TEXT("string", "UTF-8", "handling")
   ```
   Question: what do we do with the "bad" codes? Substitute them, keep them as-is? This needs more work (see what other languages do).
-* The fact that there was or not an encoding error would be stored as part of the string status, and would be accesible using a specialized BIF.
+
+* Another possibility is to return the null string when an encoding error occurs. Then the user could be able to ask for the details using a BIF. The fact that there was or not an encoding error would be stored as part of the string status, and would be accesible using a specialized BIF.
 
 * The interpreter would provide an adapted set of **BIFs** for Unicode strings. They would work similarly to the standard BIFs, but at the _grapheme cluster_ level.
   ```
@@ -62,7 +66,7 @@ This loading would be undoable (i.e., you wouldn't be able to unload Unicode onc
   Say Length(string)   -- 5
   Say Length(text)     -- 4
   ```
-* **Arithmetic** operators would work as usual, with ASCII numbers, and the "e", "E", ".", "+" and "-" characters, regardless of whether they are part of an Unicode or a byte string. The result of an arithmetic operation would always be a plain (i.e., non-unicode) ASCII string.
+* **Arithmetic** operators would work as usual, with ASCII numbers, and the "e", "E", ".", "+" and "-" characters, regardless of whether they are part of an Unicode or a byte string.
 
 * **Concatenation** would follow a protocol similar to the one used by Executor, as indicated in *[String Concatenation](0525_String_concatenation.md)*.
 
@@ -74,7 +78,7 @@ This loading would be undoable (i.e., you wouldn't be able to unload Unicode onc
   ```
 * Another possibility would be to first encode the non-Unicode string using the default, Rexx-chosen, encoding.
     
-* **Comparison and normalization**. Parse-time literal strings would be normalized by default (unless the third parameter was "Ignore"). The fact that a string was normalized would be stored as part of the internal string status.
+* **Comparison and normalization**. Parse-time literal strings would be normalized by default (unless the third parameter to TEXT was specified). The fact that a string was normalized would be stored as part of the internal string status.
   
 * **Comparing differently encoded strings**. When two strings of different encodings had to be compared, a "neutral" encoding should be used (always the same). An implementation may chose to define and fix this neutral encoding, or to allow the user to specify an "default neutral" encoding on an application level.
 
