@@ -24,6 +24,14 @@ strings would still be byte-oriented by default, to make it possible to run old 
 
 * If one wants new literals (for example, "string"T for Unicode strings, or "string"C for compatibility/classic strings), we also encounter a compatibility problem: "string"T would be interpreted as "string"||T in old programs, and as a Unicode literal in new programs. This problem also applies to object oriented versions of Rexx.
 
+* Another possibility would be to use a different and unused delimiter, for example, a backtick ("`"). Then `string` would be Unicode, and "string" or 'string" would be byte-strings.
+
+### A possible way to minimize name pollution when using new BIFs
+
+Define some few heavily overloaded BIFs (for example, "CODEPOINT", or "UNICODE"), _a la_ STREAM, or ARG. For example, instead of defining ``ISLOWER(codepoint)``, use ``CODEPOINT(codepoint,"Query","Letter")``, and so on: instead of 12 or so IsXXX functions, like in Go, we will have only an overloading of CODEPOINT, a function that we need to have anyway, for other purposes.
+
+Please note that many of these calls can be detected and optimized at parse time, if so desired.
+
 ### The "optional" approach (a brainstorm proposal) (jmb)
 
 Let's see how the "optional" approach could work in a non-oo interpreter as, for example, Regina Rexx. Unicode would be loaded by an OPTIONS instruction. 
