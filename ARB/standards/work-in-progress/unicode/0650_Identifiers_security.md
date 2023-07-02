@@ -173,6 +173,85 @@ Elixir implements the requirements outlined in the [Unicode Annex #31][unicode_t
   R3 requires a wider variety of whitespace and syntax characters to be supported.
 
 
+### Go
+
+(jlf)  
+Go is not following the Unicode recommendations for the identifiers.
+This is in line with the minimal support of Unicode by the core language
+("minimal" is not a critic).  
+(/jlf)
+
+[Source code representation](https://go.dev/ref/spec#Source_code_representation)  
+Source code is Unicode text encoded in UTF-8. The text is not canonicalized, so
+a single accented code point is distinct from the same character constructed from
+combining an accent and a letter; those are treated as two code points.  
+(jlf) Next sentence is part of the Go specification, it's not a general definition
+by ARB (/jlf).  
+For simplicity, this document will use the unqualified term character to refer to
+a Unicode code point in the source text.
+
+Each code point is distinct; for instance, uppercase and lowercase letters are
+different characters.
+
+    newline        = /* the Unicode code point U+000A */ .
+    unicode_char   = /* an arbitrary Unicode code point except newline */ .
+    unicode_letter = /* a Unicode code point categorized as "Letter" */ .
+    unicode_digit  = /* a Unicode code point categorized as "Number, decimal digit" */ .
+
+    letter        = unicode_letter | "_" .
+    decimal_digit = "0" … "9" .
+    binary_digit  = "0" | "1" .
+    octal_digit   = "0" … "7" .
+    hex_digit     = "0" … "9" | "A" … "F" | "a" … "f" .
+
+    identifier = letter { letter | unicode_digit } .
+
+    rune_lit         = "'" ( unicode_value | byte_value ) "'" .
+    unicode_value    = unicode_char | little_u_value | big_u_value | escaped_char .
+    byte_value       = octal_byte_value | hex_byte_value .
+    octal_byte_value = `\` octal_digit octal_digit octal_digit .
+    hex_byte_value   = `\` "x" hex_digit hex_digit .
+    little_u_value   = `\` "u" hex_digit hex_digit hex_digit hex_digit .
+    big_u_value      = `\` "U" hex_digit hex_digit hex_digit hex_digit
+                               hex_digit hex_digit hex_digit hex_digit .
+    escaped_char     = `\` ( "a" | "b" | "f" | "n" | "r" | "t" | "v" | `\` | "'" | `"` ) .
+
+    string_lit             = raw_string_lit | interpreted_string_lit .
+    raw_string_lit         = "`" { unicode_char | newline } "`" .
+    interpreted_string_lit = `"` { unicode_value | byte_value } `"` .
+
+Go treats all characters in any of the Letter categories Lu, Ll, Lt, Lm, or Lo
+as Unicode letters, and those in the Number category Nd as Unicode digits.  
+(jlf)  
+This definition excludes the accents as standalone codepoint, so the NFD
+identifiers are excluded.
+
+    // NFC
+    []byte("Noël")                          // [78 111 195 171 108]
+    fmt.Printf("% x\n", "Noël")             // 4e 6f c3 ab 6c
+    []rune("Noël")                          // [78 111 235 108]
+    fmt.Printf("% x\n", []rune("Noël"))     // [ 4e  6f  eb  6c]
+    Noël := "NFC"                           // NFC
+
+    // NFD
+    []byte("Noël")                         // [78 111 101 204 136 108]
+    fmt.Printf("% x\n", "Noël")            // 4e 6f 65 cc 88 6c
+    []rune("Noël")                         // [78 111 101 776 108]
+    fmt.Printf("% x\n", []rune("Noël"))    // [ 4e  6f  65  308  6c]
+    Noël := "NFD"                          // 1:31: illegal character U+0308 '̈'
+
+Identifiers name program entities such as variables and types. An identifier is
+a sequence of one or more letters and digits. The first character in an identifier
+must be a letter.
+
+[Exported identifiers](https://go.dev/ref/spec#Exported_identifiers): one of the
+conditions is "the first character of the identifier's name is a Unicode uppercase
+letter (Unicode character category Lu)".
+
+[Uniqueness of identifiers](https://go.dev/ref/spec#Uniqueness_of_identifiers):
+one of the conditions is "Two identifiers are different if they are spelled differently".
+
+
 ### Julia
 
 #### [Variables in Julia](https://cormullion.github.io/assets/images/juliamono/juliamanual/manual/variables.html)
