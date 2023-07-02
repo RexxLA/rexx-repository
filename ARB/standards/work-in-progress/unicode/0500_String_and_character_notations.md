@@ -43,7 +43,7 @@ Such integer acts as a key to query the properties of the Unicode character.
 
 (jmb -- Updated 20230702)
 
-Assuming that c2x makes sense implies that a choice has been made, namely, to store the string in a certain (internal) representation.
+Assuming that c2x makes sense implies that [a choice has been made](0215_Choices.md), namely, to store the string in a certain (internal) representation.
 
 If no representation can be implied, c2x makes no sense.
 
@@ -51,7 +51,9 @@ Therefore, it's risky to stipulate that c2x has to be offered as a BIF, since it
 
 The inherent property of a Unicode string is that it is composed of _codepoints_, and nothing more. Codepoints are integers (although they often expressed in hexadecimal notation).
 
-A BIF should exist that returns the codepoint array associated with a grapheme cluster.
+"Nothing more" means that we can not say anything more about a string without making additional assumptions, for example about its internal representation. If we _do_ know that a string is stored with a UTF-8 encoding, _then, and only then_, c2x makes sense.
+
+A BIF should exist that returns the codepoint array associated with a grapheme cluster or, more generally, with a Unicode string.
 
 The C2X BIF can only be applied to _byte_ strings, e.g., to _decodings_ of a Unicode string.
 
