@@ -9,7 +9,8 @@
 Invalid format (proto)
 
 [Mojibake](https://en.wikipedia.org/wiki/Mojibake)
-[Encoding, Web](https://encoding.spec.whatwg.org)
+
+[Web Encoding Spec](https://encoding.spec.whatwg.org)
 
 Filenames
 
