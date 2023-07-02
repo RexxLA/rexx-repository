@@ -41,12 +41,21 @@ For all the interpreters, the 32 bit codepoints can be requested with a dedicate
 Such integer acts as a key to query the properties of the Unicode character.  
 (/jlf)
 
-(jmb)
+(jmb -- Updated 20230702)
 
-c2x implies that "characters" have a "hexadecimal" representation. This is maybe saying too much, i.e., exposing too much about the underlying representation. I don't think c2x and x2c should be implemented for text strings.
+Assuming that c2x makes sense implies that a choice has been made, namely, to store the string in a certain (internal) representation.
 
-* If we end up working with codepoints, we could provide a c2u function. It would return the codepoint number in hexadecimal notation. u2c would be reversible, i.e., we should guarantee that u2c(c2u(c)) == c.
-* If we end up working with grapheme clusters, c2u might return an array of codepoints (maybe by using a stem under Classic Rexx implementations), or, maybe better, a string in the "nnnn[, nnnn]" format, ready for u2c.
+If no representation can be implied, c2x makes no sense.
+
+Therefore, it's risky to stipulate that c2x has to be offered as a BIF, since it constrains the implementors, i.e., it implicitly mandates a particular form of implementation.
+
+The inherent property of a Unicode string is that it is composed of _codepoints_, and nothing more. Codepoints are integers (although they often expressed in hexadecimal notation).
+
+A BIF should exist that returns the codepoint array associated with a grapheme cluster.
+
+The C2X BIF can only be applied to _byte_ strings, e.g., to _decodings_ of a Unicode string.
+
+A Unicode string does not have to have an encoding. It may have one, or it may not. Stipulating that it _must_ have one is, again, saying too much about the implementation. An implementor should be free to store the original encoding, or to throw it away.
 
 (/jmb)
 
