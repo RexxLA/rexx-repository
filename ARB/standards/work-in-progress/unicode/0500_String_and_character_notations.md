@@ -51,7 +51,7 @@ Therefore, it's risky to stipulate that c2x has to be offered as a BIF, since it
 
 The inherent property of a Unicode string is that it is composed of _codepoints_, and nothing more. Codepoints are integers (although they often expressed in hexadecimal notation).
 
-"Nothing more" means that we can not say anything more about a string without making additional assumptions, for example about its internal representation. If we _do_ know that a string is stored with a UTF-8 encoding, _then, and only then_, c2x makes sense.
+"Nothing more" means that we can not say anything more about a string without making additional assumptions, for example about its internal representation. If we _do_ know that a string is stored with a certain encoding, for example UTF-8, _then, and only then_, c2x makes sense.
 
 A BIF should exist that returns the codepoint array associated with a grapheme cluster or, more generally, with a Unicode string.
 
