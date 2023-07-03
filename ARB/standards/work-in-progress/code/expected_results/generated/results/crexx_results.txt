@@ -118,5 +118,5 @@ actual  : 'ó'
 expected: '🎅'
 Ko *****
 
-Ok = 0
-Ko = 0
+Ok = 3
+Ko = 21

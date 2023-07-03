@@ -1,6 +1,7 @@
 /* Rexx */
 #ifdef CREXX
 options levelb
+namespace expected_results expose ok ko
 import rxfnsb
 #endif
 
@@ -585,7 +586,7 @@ return
 #if defined NETREXX
 method my_compare(actual, expected) static
 #elif defined CREXX
-my_compare: procedure = .string expose ok ko
+my_compare: procedure = .string
     arg actual = .string, expected = .string
 #elif defined OOREXX || defined EXECUTOR
 my_compare: procedure expose ok ko

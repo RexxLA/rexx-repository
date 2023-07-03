@@ -1,6 +1,7 @@
 /* Rexx */
 
 options levelb
+namespace expected_results expose ok ko
 import rxfnsb
 
 
@@ -551,7 +552,7 @@ return
 
 /* Can't be named "compare" because of crexx, hence the name "my_compare" */
 
-my_compare: procedure = .string expose ok ko
+my_compare: procedure = .string
     arg actual = .string, expected = .string
 
     say 'actual  :' "'"actual"'"
