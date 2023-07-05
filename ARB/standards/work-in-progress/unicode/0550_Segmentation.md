@@ -20,6 +20,8 @@ one does not see how could one arrive at one or several pairs "RI RI" without ha
 See [this discussion](https://stackoverflow.com/questions/26862282/swift-countelements-return-incorrect-value-when-count-flag-emoji) about how different
 versions of Swift handle the problem.
 
+[Table 1c](https://www.unicode.org/reports/tr29/#Regex_Definitions) removes this ambiguity.
+
 ### Codepoint/grapheme indexation  (proto)
 
 ### Whitespaces, separators
