@@ -256,7 +256,7 @@ s6 = "Bundesstraße im Freiland"
 
     Unicode standard section 5.18 Case Mappings:
         Default casing                                         Tailored casing
-        (small sharp) ß <--- ß (capital sharp)                 (small sharp) ß <--> ẞ (capital sharp)
+        (small sharp) ß <--- ẞ (capital sharp)                 (small sharp) ß <--> ẞ (capital sharp)
         (small sharp) ß ---> SS
                      ss <--> SS                                             ss <--> SS
     When using the default Unicode casing operations, capital sharp s will lowercase
