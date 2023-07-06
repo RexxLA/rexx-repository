@@ -16,6 +16,8 @@ Several choices that have to be made (description, not advocacy).
 
 ### [Backward compatibility](0300_Backward_compatibility.md)
 
+### [Non object-oriented Rexx versions](0350_Non_oo_Rexx_versions.md)
+
 ### [Internal representation](0400_Internal_representation.md)
 
 ### [Validation](0450_Validation.md)
