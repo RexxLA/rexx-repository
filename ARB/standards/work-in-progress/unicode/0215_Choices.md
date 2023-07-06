@@ -66,3 +66,5 @@ Irrespective of the choice of internal representation, the interpreter can choos
 ### Maximum length of a grapheme cluster
 
 Grapheme clusters, in principle, can be of an unlimited length, but it does not seem realistic to accept extra long grapheme clusters.
+
+See the [Stream Safe Text Format](https://unicode.org/reports/tr15/#UAX15-D3) in UAX15-D3.
