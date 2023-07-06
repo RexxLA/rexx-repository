@@ -12,6 +12,13 @@ Probably grapheme, but good to investigate if another approach could be valuable
 
 (jmb)
 
+Some BIFs will be really difficult to define if we opt for grapheme clusters. See for example this document: ["Proper Complex Script Support
+in Text Terminals"](https://www.unicode.org/L2/L2023/23107-terminal-suppt.pdf). There doesn't seem to exist a reasonable way to decide what is the "perceived" width of a grapheme cluster (even if a grapheme cluster is _defined_ to be a user-perceived character -- in appears that there are some serious consistency problems in the Unicode usage of the term "perception"). Hence, BIFs like CENTER will have to be (a) defined against the (false) assumption that one grapheme cluster = 1 space (and then their general utility, especially as formatting functions, will be greatly diminished), or (b) defined against some specifications which are inconsistent and immature.
+
+(/jmb)
+
+(jmb)
+
 An example of why we need to work with graphemes. Look at the output of this small NetRexx program
 
 ```
