@@ -24,6 +24,8 @@ In my view of github's code editor (Windows 11, Chrome), "जन्म" appears 
 
 Now, what should Center("जन्म",8) be supposed to mean, exactly?
 
+Still some details more. जन्म counts as _three_ graphemes, namely ज, न् and म. But न्म is kind of a ligature...
+
 (/jmb)
 
 (jmb)
