@@ -20,7 +20,7 @@ Take, for example, devanagari जन्म, _janma_, "birth". It's formed by the
       जन्मX  
       xxxX
 
-In my view of github's code editor (Windows 11, Chrome), "जन्म" appears slightly _wider_ that "xxx"; in Notepad++ for Windoes, slightly _narrower_. And in the Windows CLI with codepage 65001, well, it's a disaster, _comme d'habitude_.
+In my view of github's code editor (Windows 11, Chrome), "जन्म" appears slightly _wider_ that "xxx"; in Notepad++ for Windows, slightly _narrower_. And in the Windows CLI with codepage 65001, well, it's a disaster, _comme d'habitude_.
 
 Now, what should Center("जन्म",8) be supposed to mean, exactly?
 
