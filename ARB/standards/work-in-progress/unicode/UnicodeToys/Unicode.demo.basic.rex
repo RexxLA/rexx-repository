@@ -123,5 +123,4 @@ SubStr: Procedure
   .Validate~classType( "pad" , pad , .String )
 Return string~substr(n, length, pad)
 
-
 ::Requires Unicode.cls
