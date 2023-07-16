@@ -1,5 +1,7 @@
 # The Unicode Toys
 
+Take a look at [UnicodeToys.md](UnicodeToys.md) for a gentle introduction.
+
 ### Basic classes and classfiles
 
 * [Runes.cls](Runes.cls) implements strings composed of codepoints. RUNES(string) returns a Runes value. BYTES(string) transforms a Runes strings into a classic Rexx string (currently, in UTF-8 format). TEXT(string) transforms a Runes string int a Text string.
