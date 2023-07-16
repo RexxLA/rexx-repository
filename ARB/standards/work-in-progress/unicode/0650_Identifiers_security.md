@@ -182,6 +182,10 @@ because they may refer to technical terms in a different script than the one
 used for the bulk of the program. For instance, a Russian HTTP server may use 
 the identifier HTTPЗапрос (HTTPRequest).
 
+(jmb)  
+Been thinking a little about this too. Restricting identifiers to be of the same script seems too strong. For example, to me it seems that "Firstα", "Lastα" and "Thisα" are perfectly valid identifiers, when we are dealing with something called α (alpha).  
+(/jmb)  
+
 ## Examples of implementation by several languages
 
 ### cRexx
