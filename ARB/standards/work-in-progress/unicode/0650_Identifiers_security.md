@@ -117,6 +117,71 @@ security technique. The exclusion of characters from identifiers does not affect
 general use of those characters for other purposes, such as for general text in documents. 
 
 
+### UTS #55: UNICODE SOURCE CODE HANDLING
+
+[link](http://www.unicode.org/reports/tr55/)
+
+(jlf) This is only a tiny selection of recommendations applicable to Rexx(/jlf).
+
+#### Identifiers / [Normalization and Case](http://www.unicode.org/reports/tr55/#Normalization-Case)
+
+Case-sensitive computer languages should meet requirement UAX31-R4 with 
+normalization form C. They should not ignore default ignorable code points in 
+identifier comparison.
+
+Case-insensitive languages should meet requirement UAX31-R4 with normalization 
+form KC, and requirement UAX31-R5 with full case folding. They should ignore 
+default ignorable code points in comparison. Conformance with these requirements 
+and ignoring of default ignorable code points may be achieved by comparing 
+identifiers after applying the transformation toNFKC_Casefold.
+
+Note: Full case folding is preferable to simple case folding, as it better 
+matches expectations of case-insensitive equivalence. 
+
+The choice between Normalization Form C and Normalization Form KC should match 
+expectations of identifier equivalence for the language.
+
+In a case-sensitive language, identifiers are the same if and only if they look 
+the same, so Normalization Form C (canonical equivalence) is appropriate, as 
+canonical equivalent sequences should display the same way.
+
+In a case-insensitive language, the equivalence relation between identifiers is 
+based on a more abstract sense of character identity; for instance, e and E are 
+treated as the same letter. Normalization Form KC (compatibility equivalence) is 
+an equivalence between characters that share such an abstract identity.
+
+Example: In a case-insensitive language, SO and so are the same identifier; if 
+that language uses Normalization Form KC, the identifiers so and 𝖘𝖔 are likewise 
+identical.
+
+### [Whitespace and Syntax](http://www.unicode.org/reports/tr55/#Whitespace-Syntax)
+
+It is recommended that all computer languages meet requirement UAX31-R3a 
+Pattern_White_Space Characters, which specifies the characters to be interpreted 
+as end of line and horizontal space, as well as ignorable characters to be 
+allowed between lexical elements, but not treated as spaces.
+
+Languages that do not allow for user-defined operators should nevertheless claim 
+conformance to UAX31-R3b, thereby reserving the classes of characters which may 
+be assigned to syntax or identifiers in future versions. This ensures 
+compatibility should they add additional operators or allow for user-defined 
+operators in future versions. It also allows for better forward compatibility of 
+tools that operate on source code but do not need to validate its lexical 
+correctness, such as syntax highlighters, or some linters or pretty-printers; 
+unidentified runs of characters neither reserved for whitespace nor syntax can 
+be treated as identifiers, which they might become when the language moves to a 
+newer version of the Unicode Standard.
+
+### [Mixed-Script Detection](http://www.unicode.org/reports/tr55/#Mixed-Script)
+
+(jlf The following sentence surprised me (/jlf)  
+Mixed-script detection, as described in Unicode Technical Standard #39, Unicode 
+Security Mechanisms [UTS39], should not directly be applied to computer language 
+identifiers; indeed, it is often expected to mix scripts in these identifiers, 
+because they may refer to technical terms in a different script than the one 
+used for the bulk of the program. For instance, a Russian HTTP server may use 
+the identifier HTTPЗапрос (HTTPRequest).
+
 ## Examples of implementation by several languages
 
 ### cRexx
