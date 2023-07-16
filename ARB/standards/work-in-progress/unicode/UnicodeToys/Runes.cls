@@ -213,4 +213,4 @@ Invalid4: Raise Syntax 22.900 Additional("Invalid UTF-8 sequence '"||(c||c2||c3|
 --------------------------------------------------------------------------------
 ::Method allRunes
   Expose codes
-  Return codes~makeString("L", " ")
+  Return .Runes~new(codes~makeString("L", " "))
