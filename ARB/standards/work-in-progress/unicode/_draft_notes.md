@@ -20,7 +20,7 @@ Several choices that have to be made (description, not advocacy).
 
 ### [Internal representation](0400_Internal_representation.md)
 
-### [Validation](0450_Validation.md)
+### [Validation_and_Error_Messages](0450_Validation_and_Error_Messages.md)
 
 ### [Streams (input/output)](0462_Streams_input_output.md)
 
