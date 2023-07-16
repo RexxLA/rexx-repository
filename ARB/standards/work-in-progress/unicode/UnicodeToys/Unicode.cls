@@ -113,7 +113,6 @@ Use Strict Arg code
   
 ::Routine AllRunes Public  
   Use Strict Arg object
-  .Validate~classType( "object" , object , .Runes )
   Return object~allRunes
   
 /*****************************************************************************
@@ -131,10 +130,8 @@ Use Strict Arg code
 
 ::Routine !Length Public
   Use Strict Arg string
-Return string~length
+  Return string~length
   
-  
-    
 ::Requires Unicode.Property.cls
 ::Requires Unicode.General_Category.cls
 ::Requires Unicode.Grapheme_Cluster_Break.cls
