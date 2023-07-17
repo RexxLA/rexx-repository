@@ -23,9 +23,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1a JMB 20230717 Move to "demo" subdir                                 */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -75,5 +76,4 @@ NextTest:
   Say
 Return  
 
-
-::Requires Unicode.cls
+::Requires "../Unicode.cls"
