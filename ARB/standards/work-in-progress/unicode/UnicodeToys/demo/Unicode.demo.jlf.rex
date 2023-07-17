@@ -21,9 +21,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1a JMB 20230717 Move to "demo" subdir                                 */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -84,4 +85,4 @@ Pos:
   Use Strict Arg string, needle, start = 1, length = (string~length - start + 1)
 Return string~pos(needle, start, length)
 
-::Requires Unicode.cls
+::Requires "../Unicode.cls"
