@@ -27,9 +27,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1a JMB 20230717 Move UCD files to the UCD subdirectory                */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -51,8 +52,8 @@
 
 ::Class Unicode.General_Category Public SubClass Unicode.Property
 
-::Constant Variables  "Lu Ll Lt Lm Lo Lo_CJK_Compatibility_Ideograph Lo_CJK_Unified_Ideograph Lo_Hangul_Syllabe Lo_Khitan_Small_Script Lo_Tangut_Component Lo_Tangut_Ideograph Mn Mc Me Nd Nl No Pc Pd Ps Pe Pi Pf Po Sm Sc Sk So Zs Zl Zp Cc Cf Cs Co Cn"
-::Constant UCDFile    "UnicodeData-15.0.0.txt"  
+::Constant Variables   "Lu Ll Lt Lm Lo Lo_CJK_Compatibility_Ideograph Lo_CJK_Unified_Ideograph Lo_Hangul_Syllabe Lo_Khitan_Small_Script Lo_Tangut_Component Lo_Tangut_Ideograph Mn Mc Me Nd Nl No Pc Pd Ps Pe Pi Pf Po Sm Sc Sk So Zs Zl Zp Cc Cf Cs Co Cn"
+::Constant UnicodeData "UnicodeData-15.0.0.txt"  
 ::Constant BinaryFile "General_Category.bin"  
 
 ::Attribute myself Class Get
@@ -119,7 +120,7 @@
 --  
 
 ::Method Generate Class
-  Expose myDir Cn Var2Char.
+  Expose myDir separator Cn Var2Char.
   
   -- Default is "Cn" -- reserved (unassigned code point)
   --
@@ -132,7 +133,7 @@
   
   self~log( "Generating binary file..." )
   
-  inFile = myDir || self~UCDFile
+  inFile = myDir"UCD/"separator || self~UnicodeData
   
   Call Stream inFile, "c", "query exists"
   
@@ -238,13 +239,15 @@
 -- 
  
 ::Method Activate Class
-  Use Local
-  -- Should be "Expose myself myDir (variables) Var2Char.", but the variables are not constructed yet.
+  Use Local c char variable
+  -- Should be "Expose (variables) etc.", but the variables are not constructed yet.
     
   self~activate:super
   
+  separator = .File~separator
+  
   Parse source . . myself  
-  myDir = Left( myself, LastPos( .File~separator,myself ) )  
+  myDir = Left( myself, LastPos( separator, myself ) )  
 
   variables = self~variables
    
@@ -457,7 +460,7 @@ Hangul_Syllabe_Code:
 Return d2x( tail + (vowel-1)*28 + (lead-1)*588 + 44032 )  
   
 ::Method Consistency_Check Class
-  Expose myDir
+  Expose myDir separator
   
   Call Time "R"
   
@@ -465,7 +468,7 @@ Return d2x( tail + (vowel-1)*28 + (lead-1)*588 + 44032 )
   self~log( "" )
   self~log( "Checking the 'General_Category' (gc) property for 1114112 codepoints..." )
   
-  inFile = myDir || self~UCDFile
+  inFile = myDir"UCD"separator || self~UnicodeData
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
