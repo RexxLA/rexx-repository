@@ -13,7 +13,7 @@ The included classes contain a simple implementation of a portion of Unicode fun
 
 ### Functionality of the Unicode Toys: a simple tour
 
-To start playing with the Toys, download all the files in the [UnicodeToys](.) directory, create a new Rexx program, and add a ``::Requires Unicode.cls`` directive. You can then write your programs as you were programming in classic Rexx, and of course you can also use the new object-oriented features.
+To start playing with the Toys, download all the files in the [UnicodeToys](.) directory and its subdirectories, create a new Rexx program, and add a ``::Requires Unicode.cls`` directive. You can then write your programs as you were programming in classic Rexx, and of course you can also use the new object-oriented features.
 
 Since other implementations (like Jean Louis Faucher's Executor) are centered in the OO aspects of implementing Unicode, I will choose the contrary approach and present things as if we were using an enhanced version of, say Regina Rexx.
 
