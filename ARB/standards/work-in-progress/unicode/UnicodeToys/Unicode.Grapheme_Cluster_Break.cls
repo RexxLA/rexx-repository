@@ -28,7 +28,8 @@
 /*  Ver.  Aut Date     Comments                                              */
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1  JMB 20230716 Initial release                                       */
-/*  00.1a JMB 20230717 Fix bug in Use Local in method Activate (thanks jlf!) */
+/*  00.1a JMB 20230717 1) Bug in Use Local in method Activate (thanks jlf!)  */
+/*                     2) Move UCD files to the UCD subdirectory             */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -136,8 +137,10 @@
   
   self~activate:super
   
+  separator = .File~separator
+  
   Parse Source . . myself
-  myDir = Left( myself,LastPos(.File~separator,myself) )
+  myDir = Left( myself,LastPos(separator,myself) )
 
   variables = self~variables
   Do counter c variable over variables~makeArray( " " )
@@ -186,7 +189,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
 
   
 ::Method Generate Class
-  Expose myDir (variables) Extend2ExtCccZwj.  
+  Expose myDir separator (variables) Extend2ExtCccZwj.  
   
   Call Time "R"
   
@@ -194,7 +197,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
 
   buffer = .MutableBuffer~new( Copies( Other, X2D( 20000 ) ) )
 
-  inFile = myDir || self~GraphemeBreakPropertyFile
+  inFile = myDir"UCD"separator || self~GraphemeBreakPropertyFile
 
   Call Stream inFile, "c", "Query exist"
 
@@ -229,7 +232,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
   
   -- The "Extended_Pictographic" property is on another file
   
-  inFile = myDir || self~EmojiDataFile
+  inFile = myDir"UCD"separator || self~EmojiDataFile
 
   Call Stream inFile, "c", "Query exist"
 
@@ -262,7 +265,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
 
   -- And, still, the ccc property is on another file
 
-  inFile = myDir || self~UnicodeDataFile
+  inFile = myDir"UCD"separator || self~UnicodeDataFile
   
   Call Stream inFile, "c", "Query exist"
 
@@ -296,7 +299,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
   self~log( "Done, took" elapsed "seconds." )  
 
 ::Method Consistency_Check Class
-  Expose myDir Extend2ExtCccZwj.
+  Expose myDir separator Extend2ExtCccZwj.
   
   Call Time "R"
   
@@ -309,7 +312,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
   self~log( "" )
   self~log( "Checking the 'Grapheme_Cluster_Break' property for 1114112 codepoints..." )
   
-  inFile = myDir || self~GraphemeBreakPropertyFile
+  inFile = myDir"UCD"separator || self~GraphemeBreakPropertyFile
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
@@ -354,7 +357,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
 
   Call Stream inFile,"C","Close"
 
-  inFile = myDir || self~EmojiDataFile
+  inFile = myDir"UCD"separator || self~EmojiDataFile
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
@@ -503,9 +506,9 @@ UTF8: Procedure -- Internal, fast
 
 
 ::Method GraphemeBreakTest Class
-  Expose myDir
+  Expose myDir separator
   
-  inFile = myDir || self~GraphemeBreakTestFile
+  inFile = myDir"UCD"separator || self~GraphemeBreakTestFile
 
   self~log("Running all the tests in GraphemeBreakTest.txt...")
 
