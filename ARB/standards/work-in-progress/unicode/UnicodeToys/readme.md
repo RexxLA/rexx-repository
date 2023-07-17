@@ -14,7 +14,7 @@ Take a look at [UnicodeToys.md](UnicodeToys.md) for a gentle introduction.
 
 ### Included Unicode UCD (Unicode Database) files
 
-A number of UCD files that are necessary for the Unicode Toys classes to run are included in this distribution. Their names have "-15.0.0" added at the end, so that one can know for sure on which Unicode version the programs are based without having to resort to manual inspection of the files. All the files are official and have been downloaded from the Unicode web page.
+A number of UCD files that are necessary for the Unicode Toys classes to run are included in this distribution. Their names have "-15.0.0" added at the end, so that one can know for sure on which Unicode version the programs are based without having to resort to manual inspection of the files. All the files are official and have been downloaded from the Unicode web page. They are located in the [UCD](UCD/) subdirectory.
 
 * [UnicodeData-15.0.0.txt](UnicodeData-15.0.0.txt) is the main UCD file.
 * [NameAliases-15.0.0.txt](NameAliases-15.0.0.txt) lists a series of name aliases for certain codepoints.
