@@ -1,6 +1,6 @@
 # The Unicode Toys
 
-Take a look at [UnicodeToys.md](doc/UnicodeToys.md) for a gentle introduction.
+Take a look at [UnicodeToys.md](doc/UnicodeToys.md) for a gentle introduction. You can also browse the [diary](Diary.md).
 
 ### Basic classes and classfiles
 
