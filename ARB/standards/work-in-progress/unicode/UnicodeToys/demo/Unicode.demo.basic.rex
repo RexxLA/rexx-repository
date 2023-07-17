@@ -21,9 +21,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1a JMB 20230717 Move to "demo" subdir                                 */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -123,4 +124,4 @@ SubStr: Procedure
   .Validate~classType( "pad" , pad , .String )
 Return string~substr(n, length, pad)
 
-::Requires Unicode.cls
+::Requires "../Unicode.cls"
