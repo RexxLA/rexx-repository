@@ -30,7 +30,8 @@
 /*                                                                           */
 /*  Ver. Aut Date     Comments                                               */
 /*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1a JMB 20230717 Move UCD files to the UCD subdirectory                */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -84,14 +85,16 @@
   Return .Unicode.General_Category~Algorithmic_Code(name)
 
 ::Method Activate Class
-  Expose n2r. c2n.
+  Expose n2r. c2n. myself myDir separator
   
   self~activate:super
   
-  Parse source . . myself  
-  myDir = Left( myself, LastPos( .File~separator,myself ) )  
+  separator = .File~separator
   
-  inFile = myDir || self~UnicodeDataFile
+  Parse source . . myself  
+  myDir = Left( myself, LastPos( separator, myself ) )  
+  
+  inFile = myDir"UCD/"separator || self~UnicodeDataFile
   
   Call Stream inFile, "c", "query exists"
   
@@ -118,7 +121,7 @@
 
   -- Now parse NameAliases.txt
 
-  inFile = myDir || self~NameAliasesFile
+  inFile = myDir"UCD/"separator || self~NameAliasesFile
   
   Call Stream inFile, "c", "query exists"
   
