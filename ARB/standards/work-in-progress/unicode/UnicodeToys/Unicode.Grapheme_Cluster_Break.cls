@@ -25,9 +25,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Ver.  Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1a JMB 20230717 Fix bug in Use Local in method Activate (thanks jlf!) */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -131,7 +132,7 @@
   Return Other
 
 ::Method Activate Class
-  Use Local char variable nameOf. myself myDir
+  Use Local char variable nameOf.
   
   self~activate:super
   
