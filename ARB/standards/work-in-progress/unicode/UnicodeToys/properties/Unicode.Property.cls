@@ -26,6 +26,7 @@
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*                     Move binary files to the "bin" subdir                 */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -102,9 +103,9 @@
 -- Loads the binary file into a string and returns that string
     
 ::Method BinaryFileContents Class
-  Expose myDir binaryString
+  Expose myDir binaryString separator
     
-  binaryFile = myDir || self~binaryFile
+  binaryFile = myDir".."separator"bin"separator || self~binaryFile
     
   -- If the binary file does not exist, call the "generate" method.
   Call           Stream  binaryFile, "C", "Query Exists"
@@ -125,10 +126,10 @@
 Return binaryString
 
 ::Method StoreBinaryFile Class
-  Expose myDir
+  Expose myDir separator
   Use Strict Arg buffer
 
-  binaryFile = myDir || self~binaryFile
+  binaryFile = myDir".."separator"bin"separator || self~binaryFile
   
   k      = -1       -- Offset of a chunk
   seen.  = 0        -- Marks a chunk as seen
