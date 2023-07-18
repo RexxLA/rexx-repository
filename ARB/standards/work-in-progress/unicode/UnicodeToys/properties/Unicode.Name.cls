@@ -33,6 +33,8 @@
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1a JMB 20230717 Move UCD files to the UCD subdirectory                */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*                     Fix control character labels for name property        */
+/*                     Fix some bugs, add consistency check                  */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -59,6 +61,8 @@
 ::Constant UnicodeDataFile "UnicodeData-15.0.0.txt"  
 ::Constant NameAliasesFile "NameAliases-15.0.0.txt"  
 
+::Attribute myself Class Get
+
 ::Method "[]" Class
   Expose c2n.
   Use Strict Arg code
@@ -73,14 +77,19 @@
 ::Method n2r Class
   Expose n2r.
   Use Strict Arg name
-  name = Upper(ChangeStr("_",Space(name,0),""))
-  If name \== "HANGULJUNGSEONGO-E" Then Do
-    name = ChangeStr("- ",name,">")
-    name = ChangeStr(" -",name,"<")
-    name = ChangeStr("-", name,"")
-    name = ChangeStr(">",name,"- ")
-    name = ChangeStr("<",name," -")
+  label = 0
+  If name[1] == "<" Then Do
+    If name[Length(name)] \== ">" Then Return ""
+    label = 1
+    Parse Var name "<"name">"
   End
+  name = ChangeStr("- ",name,">")
+  name = ChangeStr(" -",name,"<")
+  name = Upper(ChangeStr("_",Space(name,0),""))
+  If name \== "HANGULJUNGSEONGO-E" Then name = ChangeStr("-", name,"")
+  name = ChangeStr(">",name,"- ")
+  name = ChangeStr("<",name," -")
+  If label Then name = "<"name">"
   code = n2r.name
   If code \== "" Then Return code
   Return .Unicode.General_Category~Algorithmic_Code(name)
@@ -107,6 +116,7 @@
   n2r. = ""
   Do While Lines(InFile) > 0
     Parse Value LineIn(Infile) With code";"name ";" ";"ccc";"
+    If name[1] == "<" Then Iterate
     If name~endsWith("First>") Then Do
       Parse Value LineIn(Infile) With code2";"
       Iterate
@@ -150,6 +160,32 @@ Compress:
   key = ChangeStr(">",key,"- ")    -- Now restore non-medial dash-blank sequences..
   key = ChangeStr("<",key," -")    -- ..and non-medial blank-slash sequences too.
 Return key  
+  
+::Method Consistency_Check Class  
+
+  Call Time "R"
+
+  self~log( "Running consistency checks..." )
+  self~log( "" )
+  self~log( "Checking the 'Name' (na) property for 1114112 codepoints..." )
+
+  Do i = 0 To X2D(10FFFF)
+    code = d2x(i)
+    If i // 100000 = 0 Then self~log(i "codepoints checked...")
+    If Length(code) < 4 Then code = Right(code,4,0)
+    Else If code[1] == "0" Then code = Strip(code, "L",0)
+    If code == N2R(R2N(code)) Then Iterate
+    Say "Consistency check failed at:" code
+    Parse pull
+  End
+
+  count = i - 1
+  elapsed = Time("E")
+  If elapsed = 0 Then elapsed = "0.001"
+  
+  self~log( count "codepoints checked in" elapsed "seconds." )
+  self~log( "This is" (count/elapsed) "codepoints/second." )  
 
 ::Requires Unicode.Property.cls  
 ::Requires Unicode.General_Category.cls
+::Requires "../Unicode.cls"
