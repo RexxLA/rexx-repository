@@ -31,9 +31,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -89,4 +90,4 @@
   graphemes = .Unicode.Grapheme_Cluster_Break~codepointsToGraphemes( self~allRunes, "UTF8" )
 
 ::Requires Runes.cls
-::Requires Unicode.Grapheme_Cluster_Break.cls
+::Requires "properties/Unicode.Grapheme_Cluster_Break.cls"
