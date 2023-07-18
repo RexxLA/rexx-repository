@@ -27,6 +27,7 @@
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                     Move binary files to the "bin" subdir                 */
+/*                     Fix some bugs, add consistency check for names        */
 /*                                                                           */
 /*****************************************************************************/
 
