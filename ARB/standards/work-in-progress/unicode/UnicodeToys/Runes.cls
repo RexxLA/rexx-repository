@@ -26,9 +26,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -112,6 +113,19 @@
   Use Strict Arg n
   .Validate~nonNegativeWholeNumber( "n" , n )
   Return self~class~new( Copies( self~makeString, n ) )  
+
+::Method Left
+  Use Strict Arg length, pad = " "
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  If pad~class \== self~class Then pad = self~class~new(pad)
+  If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 3, pad)
+  res = ""
+  max = self~length
+  Do i = 1 By length
+    If i <= max Then res ||= self[i]
+    Else             res ||= pad
+  End
+  Return res
 
 ::Method Length
   Expose codes
