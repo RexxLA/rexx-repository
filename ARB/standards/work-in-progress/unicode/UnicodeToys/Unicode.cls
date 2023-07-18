@@ -36,6 +36,7 @@
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*                     Fix some bugs, add consistency check for names        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -126,7 +127,7 @@ Use Strict Arg code
 ::Routine !Length Public
   Use Strict Arg string
 Return string~length
-
+  
 ::Requires "properties/Unicode.Property.cls"
 ::Requires "properties/Unicode.General_Category.cls"
 ::Requires "properties/Unicode.Grapheme_Cluster_Break.cls"
