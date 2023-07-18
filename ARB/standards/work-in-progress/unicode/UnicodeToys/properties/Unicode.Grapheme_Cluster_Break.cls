@@ -30,6 +30,7 @@
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1a JMB 20230717 1) Bug in Use Local in method Activate (thanks jlf!)  */
 /*                     2) Move UCD files to the UCD subdirectory             */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -197,7 +198,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
 
   buffer = .MutableBuffer~new( Copies( Other, X2D( 20000 ) ) )
 
-  inFile = myDir"UCD"separator || self~GraphemeBreakPropertyFile
+  inFile = myDir".."separator"UCD"separator || self~GraphemeBreakPropertyFile
 
   Call Stream inFile, "c", "Query exist"
 
@@ -232,7 +233,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
   
   -- The "Extended_Pictographic" property is on another file
   
-  inFile = myDir"UCD"separator || self~EmojiDataFile
+  inFile = myDir".."separator"UCD"separator || self~EmojiDataFile
 
   Call Stream inFile, "c", "Query exist"
 
@@ -265,7 +266,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
 
   -- And, still, the ccc property is on another file
 
-  inFile = myDir"UCD"separator || self~UnicodeDataFile
+  inFile = myDir".."separator"UCD"separator || self~UnicodeDataFile
   
   Call Stream inFile, "c", "Query exist"
 
@@ -312,7 +313,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
   self~log( "" )
   self~log( "Checking the 'Grapheme_Cluster_Break' property for 1114112 codepoints..." )
   
-  inFile = myDir"UCD"separator || self~GraphemeBreakPropertyFile
+  inFile = myDir".."separator"UCD"separator || self~GraphemeBreakPropertyFile
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
@@ -357,7 +358,7 @@ ManualCheck: break.[ Arg(1) || Arg(2) ] = -1; Return
 
   Call Stream inFile,"C","Close"
 
-  inFile = myDir"UCD"separator || self~EmojiDataFile
+  inFile = myDir".."separator"UCD"separator || self~EmojiDataFile
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
@@ -508,7 +509,7 @@ UTF8: Procedure -- Internal, fast
 ::Method GraphemeBreakTest Class
   Expose myDir separator
   
-  inFile = myDir"UCD"separator || self~GraphemeBreakTestFile
+  inFile = myDir".."separator"UCD"separator || self~GraphemeBreakTestFile
 
   self~log("Running all the tests in GraphemeBreakTest.txt...")
 
