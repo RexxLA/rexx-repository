@@ -56,6 +56,11 @@
 -- “Unicode Character Database.”
 -------------------------------------------------------------------------------
 
+separator = .File~separator
+Parse source . . myself  
+myDir = Left( myself, LastPos( separator, myself ) )  
+Call (myDir".."separator"Unicode.cls")
+
 ::Class Unicode.Name SubClass Unicode.Property Public
 
 ::Constant UnicodeDataFile "UnicodeData-15.0.0.txt"  
@@ -188,4 +193,4 @@ Return key
 
 ::Requires Unicode.Property.cls  
 ::Requires Unicode.General_Category.cls
-::Requires "../Unicode.cls"
+--::Requires "../Unicode.cls" Loaded in the prolog
