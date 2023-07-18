@@ -29,18 +29,13 @@
 /*    N2R(name)     -- Name To Rune: transforms a Unicode name or alias      */
 /*                                   into a normalized codepoint             */
 /*                                                                           */
-/*  official Unicode sources, since the standard is unclear on several       */
-/*  points. Building on that property, another primitive is provided that    */
-/*  transforms a set of codepoints (provided either as an array or as a      */
-/*  blank-delimited string) into the corresponding string composed of        */
-/*  grapheme clusters.                                                       */
-/*                                                                           */
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Ver.  Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -130,11 +125,13 @@ Use Strict Arg code
 
 ::Routine !Length Public
   Use Strict Arg string
-  Return string~length
+Return string~length
   
-::Requires Unicode.Property.cls
-::Requires Unicode.General_Category.cls
-::Requires Unicode.Grapheme_Cluster_Break.cls
+  
+    
+::Requires "properties/Unicode.Property.cls"
+::Requires "properties/Unicode.General_Category.cls"
+::Requires "properties/Unicode.Grapheme_Cluster_Break.cls"
 
 ::Requires Runes.cls
 ::Requires Text.cls
