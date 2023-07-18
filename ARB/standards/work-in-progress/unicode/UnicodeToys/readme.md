@@ -25,7 +25,7 @@ Take a look at [UnicodeToys.md](doc/UnicodeToys.md) for a gentle introduction. Y
 * By [Unicode.General_Category.cls](properties/Unicode.General_Category.cls): on the first run, and if not present, the class will automatically compile UnicodeData.txt and produce a [bin/General_Category.bin](bin/General_Category.bin) binary file (included).
 * By [Unicode.Grapheme_Cluster_Break.cls](properties/Unicode.Grapheme_Cluster_Break.cls): on the first run, and if not present, the class will automatically these .txt files and produce a [bin/Grapheme_Cluster_Break.bin](bin/Grapheme_Cluster_Break.bin) binary file (included).
 
-### Included and necessary Unicode UCD (Unicode Database) files
+### Included and necessary Unicode UCD (Unicode Character Database) files
 
 A number of UCD files that are necessary for the Unicode Toys classes to run are included in this distribution. They are all located in the [UCD](UCD/) subdirectory. Their names have "-15.0.0" added at the end, so that one can know for sure on which Unicode version the programs are based without having to resort to manual inspection of the files. All the files are official and have been downloaded from the Unicode web page.
 
