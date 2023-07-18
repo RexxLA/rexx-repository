@@ -1,18 +1,31 @@
 # The Unicode Toys
 
-Take a look at [UnicodeToys.md](doc/UnicodeToys.md) for a gentle introduction. You can also browse the [diary](Diary.md).
+Take a look at [UnicodeToys.md](doc/UnicodeToys.md) for a gentle introduction. You can also browse the [Diary](doc/Diary.md).
 
 ### Basic classes and classfiles
 
 * [Runes.cls](Runes.cls) implements strings composed of codepoints. RUNES(string) returns a Runes value. BYTES(string) transforms a Runes strings into a classic Rexx string (currently, in UTF-8 format). TEXT(string) transforms a Runes string int a Text string.
 * [Text.cls](Text.cls) implements strings composed of (extended) graphems clusters. TEXT(string) returns a Text value. RUNES(string) transforms a Text string into a Runes string. BYTES(string) transforms a Text string into a classic Rexx string (currently, in UTF-8 format).
-* [Unicode.Property.cls](properties/Unicode.Property.cls) is the base Unicode property class. Concrete Unicode property classes can subclass this class to get access to a number of common services.
-* [Unicode.General_Category.cls](properties/Unicode.General_Category.cls) implements the General_Category (gc) Unicode property, which can be found in the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) file. On the first run, and if not present, the class will automatically compile UnicodeData.txt and produce a [General_Category.bin](General_Category.bin) binary file (included). The class also implements the algorithmical part of the Name (na) property and of labels like "&lt;control-0001&gt;".
-* [Unicode.Name.cls](properties/Unicode.Name.cls) implements the Name (na) Unicode property, which can be found in the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) and [UCD/NameAliases-15.0.0.txt](UCD/NameAliases-15.0.0.txt) files. This class relies on the algorithmical handling of Unicode names included in [Unicode.General_Category.cls](Unicode.General_Category.cls).
-* [Unicode.Grapheme_Cluster_Break.cls](properties/Unicode.Grapheme_Cluster_Break.cls) implements a version of the Grapheme_Cluster_Break (gcb) property, which can be found on the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt), [UCD/GraphemeBreakProperty-15.0.0.txt](UCD/GraphemeBreakProperty-15.0.0.txt) and [UCD/emoji-data-15.0.0.txt](UCD/emoji-data-15.0.0.txt) files. On the first run, and if not present, the class will automatically these .txt files and produce a [Grapheme_Cluster_Break.bin](Grapheme_Cluster_Break.bin) binary file (included).
 * [Unicode.cls](Unicode.cls) implements a series of common and utility routines.
 
-### Included Unicode UCD (Unicode Database) files
+### Documentation
+
+* The [Diary](doc/Diary.md).
+* [UnicodeToys.md](doc/UnicodeToys.md): a gentle introduction.
+
+### Unicode property classes
+  
+* [Unicode.Property.cls](properties/Unicode.Property.cls) is the base Unicode property class. Concrete Unicode property classes can subclass this class to get access to a number of common services.
+* [Unicode.General_Category.cls](properties/Unicode.General_Category.cls) implements the General_Category (gc) Unicode property, which can be found in the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) file. he class also implements the algorithmical part of the Name (na) property and of labels like "&lt;control-0001&gt;".
+* [Unicode.Name.cls](properties/Unicode.Name.cls) implements the Name (na) Unicode property, which can be found in the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) and [UCD/NameAliases-15.0.0.txt](UCD/NameAliases-15.0.0.txt) files. This class relies on the algorithmical handling of Unicode names included in [Unicode.General_Category.cls](Unicode.General_Category.cls).
+* [Unicode.Grapheme_Cluster_Break.cls](properties/Unicode.Grapheme_Cluster_Break.cls) implements a version of the Grapheme_Cluster_Break (gcb) property, which can be found on the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt), [UCD/GraphemeBreakProperty-15.0.0.txt](UCD/GraphemeBreakProperty-15.0.0.txt) and [UCD/emoji-data-15.0.0.txt](UCD/emoji-data-15.0.0.txt) files.
+
+### Generated binary files
+
+* By [Unicode.General_Category.cls](properties/Unicode.General_Category.cls): on the first run, and if not present, the class will automatically compile UnicodeData.txt and produce a [bin/General_Category.bin](bin/General_Category.bin) binary file (included).
+* By [Unicode.Grapheme_Cluster_Break.cls](properties/Unicode.Grapheme_Cluster_Break.cls): on the first run, and if not present, the class will automatically these .txt files and produce a [bin/Grapheme_Cluster_Break.bin](bin/Grapheme_Cluster_Break.bin) binary file (included).
+
+### Included and necessary Unicode UCD (Unicode Database) files
 
 A number of UCD files that are necessary for the Unicode Toys classes to run are included in this distribution. They are all located in the [UCD](UCD/) subdirectory. Their names have "-15.0.0" added at the end, so that one can know for sure on which Unicode version the programs are based without having to resort to manual inspection of the files. All the files are official and have been downloaded from the Unicode web page.
 
