@@ -31,6 +31,7 @@
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1a JMB 20230717 Move UCD files to the UCD subdirectory                */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -133,7 +134,7 @@
   
   self~log( "Generating binary file..." )
   
-  inFile = myDir"UCD/"separator || self~UnicodeData
+  inFile = myDir".."separator"UCD"separator || self~UnicodeData
   
   Call Stream inFile, "c", "query exists"
   
@@ -468,7 +469,7 @@ Return d2x( tail + (vowel-1)*28 + (lead-1)*588 + 44032 )
   self~log( "" )
   self~log( "Checking the 'General_Category' (gc) property for 1114112 codepoints..." )
   
-  inFile = myDir"UCD"separator || self~UnicodeData
+  inFile = myDir".."separator"UCD"separator || self~UnicodeData
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
