@@ -55,7 +55,7 @@ Properties:
   
   Select Case property
     When "NA", "NAME" Then Do
-      If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("Unicode.Name.cls")
+      If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/Unicode.Name.cls")
       Return .Unicode.Name[ code ]
     End
     When "GC", "GENERALCATEGORY" Then 
@@ -69,12 +69,12 @@ Properties:
 
 ::Routine N2R Public
   Use Strict Arg name
-  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("Unicode.Name.cls")  
+  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/Unicode.Name.cls")  
   Return .Unicode.Name~n2r( name )
 
 ::Routine R2N Public
 Use Strict Arg code
-  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("Unicode.Name.cls")  
+  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/Unicode.Name.cls")  
   Return .Unicode.Name[ code ]
 
 ::Routine stringType Public
@@ -126,9 +126,7 @@ Use Strict Arg code
 ::Routine !Length Public
   Use Strict Arg string
 Return string~length
-  
-  
-    
+
 ::Requires "properties/Unicode.Property.cls"
 ::Requires "properties/Unicode.General_Category.cls"
 ::Requires "properties/Unicode.Grapheme_Cluster_Break.cls"
