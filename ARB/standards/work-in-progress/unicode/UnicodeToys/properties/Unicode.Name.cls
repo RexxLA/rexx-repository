@@ -32,6 +32,7 @@
 /*  ---- --- -------- ------------------------------------------------------ */
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1a JMB 20230717 Move UCD files to the UCD subdirectory                */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -94,7 +95,7 @@
   Parse source . . myself  
   myDir = Left( myself, LastPos( separator, myself ) )  
   
-  inFile = myDir"UCD/"separator || self~UnicodeDataFile
+  inFile = myDir".."separator"UCD"separator || self~UnicodeDataFile
   
   Call Stream inFile, "c", "query exists"
   
@@ -121,7 +122,7 @@
 
   -- Now parse NameAliases.txt
 
-  inFile = myDir"UCD/"separator || self~NameAliasesFile
+  inFile = myDir".."separator"UCD"separator || self~NameAliasesFile
   
   Call Stream inFile, "c", "query exists"
   
@@ -149,6 +150,6 @@ Compress:
   key = ChangeStr(">",key,"- ")    -- Now restore non-medial dash-blank sequences..
   key = ChangeStr("<",key," -")    -- ..and non-medial blank-slash sequences too.
 Return key  
-  
+
 ::Requires Unicode.Property.cls  
 ::Requires Unicode.General_Category.cls
