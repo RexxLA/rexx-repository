@@ -27,13 +27,16 @@
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1a JMB 20230717 Move to "demo" subdir                                 */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*                     Fix some bugs, add consistency check for names        */
 /*                                                                           */
 /*****************************************************************************/
 
 Say "Testing the base functionality for:"
 Say
-Say "  Class Unicode.General_Category~generate"
-Say "  Class Unicode.Grapheme_Cluster_Break~generate"
+Say "  Class Unicode.General_Category"
+Say "  Class Unicode.Name"
+Say "  Class Unicode.Grapheme_Cluster_Break"
 Say
 
 Call NextTest "Regenerating the binary files..."
@@ -44,6 +47,7 @@ Call NextTest "Regenerating the binary files..."
 Call NextTest "Performing self-tests (this will take some time)..."
 
 .Unicode.General_Category~Consistency_Check
+.Unicode.Name~Consistency_Check
 .Unicode.Grapheme_Cluster_Break~Consistency_Check
 
 Call NextTest "Testing the General_Category (gc) property for a number of codepoints..."
@@ -77,3 +81,4 @@ NextTest:
 Return  
 
 ::Requires "../Unicode.cls"
+::Requires "../properties/Unicode.Name.cls"
