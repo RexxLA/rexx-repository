@@ -22,9 +22,10 @@
 /*  Version history                                                          */
 /*  ===============                                                          */
 /*                                                                           */
-/*  Ver. Aut Date     Comments                                               */
-/*  ---- --- -------- ------------------------------------------------------ */
-/*  00.1 JMB 20230716 Initial release                                        */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -37,12 +38,13 @@
 ::Attribute myself 
 
 ::Method Activate Class
-  Expose myself myDir
+  Expose myself myDir separator
   
   self~activate:super
 
+  separator = .File~separator
   Parse Source . . myself
-  myDir = Left( myself,LastPos(.File~separator,myself) )
+  myDir = Left( myself,LastPos( separator, myself ) )
 
 -- Main getter method
 
@@ -154,5 +156,4 @@ Return binaryString
   Call CharOut binaryFile, offset || chunks, 1
   Call Stream  binaryFile, "C", "Close"
 
-Return 
-
+Return
