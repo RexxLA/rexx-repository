@@ -10,7 +10,6 @@
 /*                                                                           */
 /*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
 /*                                                                           */
-/*                                                                           */
 /*  The UNICODE.GENERAL_CATEGORY class                                       */
 /*  ==================================                                       */
 /*                                                                           */
@@ -32,6 +31,7 @@
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1a JMB 20230717 Move UCD files to the UCD subdirectory                */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*                     Fix some bugs, add consistency check for names        */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -274,18 +274,18 @@
     When Lo_Hangul_Syllabe              Then Return "HANGUL SYLLABE" Hangul_Syllabe_Name(code)
     When Lo_Khitan_Small_Script         Then Return "KHITAN SMALL SCRIPT CHARACTER-"code
     When Lo_Tangut_Component            Then Return "TANGUT COMPONENT-"Right(X2D(code) - X2D(18800)+1,3,0)
-    When Lo_Tangut_Ideograph            Then Return "TANGUT IDEOGRAPH-"code">"
+    When Lo_Tangut_Ideograph            Then Return "TANGUT IDEOGRAPH-"code
     When Cc                             Then Return "<control-"code">"
     When Co                             Then Return "<private-use-"code">"
     When Cn                             Then Do
-      If WordPos( Right(code,4), "FFFE", "FFFF") > 0 Then
+      If WordPos( Right(code,4), "FFFE FFFF") > 0 Then
                                              Return "<noncharacter-"code">"
       n = X2D( code )
       If n >= 64976, n <= 65007         Then -- code in U+FDD0..U+FDEF 
                                              Return "<noncharacter-"code">"
-                                             Return "<reserved-"code">"
+      Return "<reserved-"code">"
     End
-    When Gs                             Then Return "<surrogate-"code">"
+    When Cs                             Then Return "<surrogate-"code">"
     Otherwise                                Return ""
   End
   
@@ -311,11 +311,11 @@ Hangul_Syllabe_Name: Procedure
   
 ::Method Algorithmic_Code Class  
   Use Strict Arg name -- Name is supposed to be uppercased and compressed
-  
+    
   If name == "HANGULJUNGSEONGO-E" Then Return "1180" -- Special case
   If name[1] == "<" Then Signal Label                -- This is a label, not a name
   
-  Do word Over "CJKCOMPATIBILITYIDEOGRAPH CJKUNIFIEDIDEOGRAPH KHITANSMALLSCRIPTCHARACTER TANGUTIDEOGRAPH"
+  Do word Over "CJKCOMPATIBILITYIDEOGRAPH CJKUNIFIEDIDEOGRAPH KHITANSMALLSCRIPTCHARACTER TANGUTIDEOGRAPH"~makeArray(" ")
     If name~startsWith(word) Then Do
       code = SubStr(name,length(word)+1)
       Return CheckValid(code)
