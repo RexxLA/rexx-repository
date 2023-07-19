@@ -196,7 +196,7 @@ Syntax.Error:
   arguments  = additional[3]
   Parse Var errNumber errMajor"."
   errLines   = errorMessage(errNumber, arguments)
-  Say "Error" errMajor "running" Qualify(inFile)" line" linenumber":"errLines[1]
+  Say "Error" errMajor "running" Qualify(inFile)" line" linenumber": " errLines[1]
   Say "Error" errNumber": " errLines[2]
   errLines   = errorMessage(errNumber, arguments)
 Exit - errMajor
