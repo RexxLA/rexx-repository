@@ -622,6 +622,10 @@ Signal StringCommon
  
 UTF8: Procedure -- Internal, fast
   Use Arg code
+  If code~length < 4 Then code = Right(code,4,0)
+  Do While code~length > 4, code[1] == 0
+    code = Substr(code,2)
+  End
   n = X2D(code)
   b = X2B(code)
   If b~length == 20 Then b = "0000"||b
