@@ -37,6 +37,7 @@
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                     Fix some bugs, add consistency check for names        */
+/*  00.1d JMB 20230719 Add support for many !-BIfs                           */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -121,12 +122,39 @@ Use Strict Arg code
  * or a preprocessor that substitutes calls to "Length" by calls to          *
  * "!Length", as there is no other way to override BIFs.                     * 
  *                                                                           * 
- *                                                                           * 
  *****************************************************************************/ 
+
+::Routine !Center Public
+  Use Strict Arg string, length, pad = " "
+Return string~center(length, pad)  
+
+::Routine !Centre Public
+  Use Strict Arg string, length, pad = " "
+Return string~centre(length, pad)  
+
+::Routine !Copies Public
+  Use Strict Arg string, n
+Return string~copies(n)
+
+::Routine !Left Public
+  Use Strict Arg string, length, pad = " "
+Return string~left(length, pad)
 
 ::Routine !Length Public
   Use Strict Arg string
 Return string~length
+
+::Routine !Pos Public
+  Use Strict Arg needle, haystack, start = 1, length = ( Max(!Length(haystack)-start+1,0) )
+Return haystack~Pos(needle, start, length)  
+
+::Routine !Reverse Public
+  Use Strict Arg string
+Return string~reverse
+
+::Routine !Right Public
+  Use Strict Arg string, length, pad = " "
+Return string~right(length, pad)
   
 ::Requires "properties/Unicode.Property.cls"
 ::Requires "properties/Unicode.General_Category.cls"
