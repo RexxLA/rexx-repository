@@ -607,7 +607,7 @@ UnicodeUString:
       If extra == "" Then If \contents~endsWith(")") Then Call Syntax 22.903, line, contents
       contents = Strip(extra)
       code = N2R(name)
-      If code = "" Then Call Syntax 22.903, line, word
+      If code = "" Then Call Syntax 22.904, line, name
       v ||= UTF8(code)
       Iterate
     End
@@ -701,6 +701,7 @@ Syntax.Error: Raise propagate
   errMsg.22      = "Invalid character string."
   Unicode.22.902 = "Invalid UTF-8 sequenc ""&1""X."
   Unicode.22.903 = "Invalid Unicode codepoint ""&1""X."
+  Unicode.22.904 = "Invalid Unicode name ""&1""."
   errMsg.31      = "Name starts with number or "".""."
   errMsg.31.2    = "Variable symbol must not start with a number; found ""&1""."
   errMsg.31.3    = "Variable symbol must not start with a "".""; found ""&1""."
