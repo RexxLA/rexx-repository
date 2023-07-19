@@ -30,6 +30,7 @@
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*  00.1d JMB 20230719 Add support for LEFT, RIGHT and REVERSE               */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -118,14 +119,10 @@
   Use Strict Arg length, pad = " "
   .Validate~nonNegativeWholeNumber( "length" , length )
   If pad~class \== self~class Then pad = self~class~new(pad)
-  If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 3, pad)
-  res = ""
-  max = self~length
-  Do i = 1 By length
-    If i <= max Then res ||= self[i]
-    Else             res ||= pad
-  End
-  Return res
+  If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 2, pad)
+  If length > self~length Then 
+    Return self~class~new(self||Copies(" ",length-self~length))
+  Return self~subStr(1,length)
 
 ::Method Length
   Expose codes
@@ -147,6 +144,23 @@
     End
   End
   Return 0    
+
+::Method Reverse
+  ret = ""
+  Do i = self~length To 1 By -1
+    ret ||= self[i]
+  End
+  Return self~class~new(ret)
+
+::Method Right
+  Use Strict Arg length, pad = " "
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  If pad~class \== self~class Then pad = self~class~new(pad)
+  If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 2, pad)
+  res = ""
+  If length > self~length Then 
+    Return self~class~new(Copies(" ",length-self~length)||self)
+  Return self~subStr(self~length - length + 1)
   
 ::Method SubStr
   .Validate~positiveWholeNumber( "n" , Arg(1) )
