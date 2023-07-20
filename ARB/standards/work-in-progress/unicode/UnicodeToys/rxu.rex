@@ -48,6 +48,7 @@
 /*  Vers. Aut Date     Comments                                              */
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1d JMB 20230719 Initial release                                       */
+/*  00.1e JMB 20230720 Error when "0A"X, "0D"X or "1F"X in U string          */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -161,7 +162,9 @@ If token.Class == END_OF_SOURCE Then Leave
       Else 
         Call CharOut outFile, token.value
     End
-    When STRING CODEPOINTS, STRING TEXT Then
+    When STRING CODEPOINTS Then
+      Call CharOut outFile, "Text('"C2X(token.value)"'X)"
+    When STRING TEXT Then
       Call CharOut outFile, "Text('"ChangeStr("'",token.value,"''")"')"
     When STRING RUNES Then
       Call CharOut outFile, "Runes('"ChangeStr("'",token.value,"''")"')"
