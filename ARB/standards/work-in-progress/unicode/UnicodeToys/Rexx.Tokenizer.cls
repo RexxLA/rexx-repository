@@ -41,6 +41,7 @@
 /*  Vers. Aut Date     Comments                                              */
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1d JMB 20230719 Initial public release                                */
+/*  00.1e JMB 20230720 Support U+hhhh in U strings                           */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -154,7 +155,7 @@
     -- Horizontal tab ("09"x), Newline ("0B"x), Vertical tabulator ("0B"x), 
     -- Form Feed ("0C"X), carriage Return
     Call AssignCharacterCategory blank_character,  "090A0B0C0D"x
-    -- extra_letter
+    -- Extra_letter
     Call AssignCharacterCategory general_letter,   "$@#"
   End
   
@@ -612,6 +613,9 @@ UnicodeUString:
       Iterate
     End
     Parse Var contents word contents
+    If Upper(word) == "U+" Then Call Syntax 22.903, line, word
+    If Upper(Left(word,2)) == "U+" Then
+       word = SubStr(word,3)
     If \DataType(word,"X") Then Call Syntax 22.903, line, word
     If X2D(word) > X2D(10FFFF) Then Call Syntax 22.903, line, word
     If X2D(word) >= X2D(DB00), X2D(word) <= X2D(DFFF) Then Call Syntax 22.903, line, word
@@ -688,19 +692,13 @@ Syntax.Error: Raise propagate
   Regina.15.4    = "Only 0, 1, and blank are valid in a binary string; found ""&1""." 
   errMsg.15.5    = "Hexadecimal strings must be grouped in units that are multiples of two characters."
   errMsg.15.6    = "Binary strings must be grouped in units that are multiples of four characters."
-  Unicode.15.901 = "Unicode codepoints cannot exceed '10FFFF'; found ""&1""."
-  Unicode.15.902 = "Unicode codepoints cannot be surrogates; found ""&1""."
-  Unicode.15.903 = "Non-hexadecimal codepoints have to be in the format '(name)'; found ""&1""."
-  Unicode.15.904 = "There is no codepoint associated to the name or label ""&1""."
-  Unicode.15.905 = "Unmatched ""("" in Unicode string: ""&1""."
-  Unicode.15.906 = "Invalid codepoint ""&1""."
   errMsg.19      = "String or symbol expected."
   errMsg.19.909  = "String or symbol expected after tilde (~)."
   errMsg.21      = "Invalid data on end of clause."
   errMsg.21.901  = "Data must not follow the NOP keyword; found ""&1""."
   errMsg.22      = "Invalid character string."
-  Unicode.22.902 = "Invalid UTF-8 sequenc ""&1""X."
-  Unicode.22.903 = "Invalid Unicode codepoint ""&1""X."
+  Unicode.22.902 = "Invalid UTF-8 sequence ""&1""X."
+  Unicode.22.903 = "Invalid Unicode codepoint ""&1""."
   Unicode.22.904 = "Invalid Unicode name ""&1""."
   errMsg.31      = "Name starts with number or "".""."
   errMsg.31.2    = "Variable symbol must not start with a number; found ""&1""."
