@@ -32,3 +32,4 @@ A number of UCD files that are necessary for the Unicode Toys classes to run are
 * [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) is the main UCD file.
 * [UCD/NameAliases-15.0.0.txt](UCD/NameAliases-15.0.0.txt) lists a series of name aliases for certain codepoints.
 * [UCD/GraphemeBreakProperty-15.0.0.txt](UCD/GraphemeBreakProperty-15.0.0.txt) maps codepoints to their corresponding Grapheme_Cluster_Break (gcb) property.
+* [UCD/SpecialCasing-15.0.0.txt](UCD/SpecialCasing-15.0.0.txt) used to implement LOWER and UPPER.
