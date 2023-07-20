@@ -30,6 +30,7 @@ Take a look at [UnicodeToys.md](doc/UnicodeToys.md) for a gentle introduction. Y
 A number of UCD files that are necessary for the Unicode Toys classes to run are included in this distribution. They are all located in the [UCD](UCD/) subdirectory. Their names have "-15.0.0" added at the end, so that one can know for sure on which Unicode version the programs are based without having to resort to manual inspection of the files. All the files are official and have been downloaded from the Unicode web page.
 
 * [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) is the main UCD file.
+* [UCD/DerivedCoreProperties-15.0.0.txt](UCD/DerivedCoreProperties-15.0.0.txt).
 * [UCD/NameAliases-15.0.0.txt](UCD/NameAliases-15.0.0.txt) lists a series of name aliases for certain codepoints.
 * [UCD/GraphemeBreakProperty-15.0.0.txt](UCD/GraphemeBreakProperty-15.0.0.txt) maps codepoints to their corresponding Grapheme_Cluster_Break (gcb) property.
 * [UCD/SpecialCasing-15.0.0.txt](UCD/SpecialCasing-15.0.0.txt) used to implement LOWER and UPPER.
