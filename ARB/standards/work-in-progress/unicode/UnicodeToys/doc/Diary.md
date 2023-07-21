@@ -1,5 +1,6 @@
 # Unicode Toys: Diary
 
+20230721: 0.1e - New property classfile: Unicode.case. First version: implement toLowercase(). Implement LOWER BIF and !LOWER aux function. Create a persistence system for properties.  
 20230720: 0.1e - Fix some bugs. Add support for U+hhhh in U strings.  
 20230719: 0.1d - Add the Rexx tokenizer, rxu.rex, and support for LEFT, RIGHT and REVERSE.  
 20230718: 0.1c - Move property classes to the "properties" subdir. Move binary files to the "bin" subdir. Fix some bugs, and add a consistency check for the Name (na) property.  
