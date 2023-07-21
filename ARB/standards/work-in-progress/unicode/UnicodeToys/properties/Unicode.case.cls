@@ -227,7 +227,7 @@ UTF8: Procedure -- Internal, fast
 -- Finally, we load the two-stage table in memory (the "bin" string).
 -- 
  
-::Method Activate Class -- TODO
+::Method Activate Class
   Expose separator myself myDir mask.
     
   self~activate:super
@@ -245,69 +245,5 @@ UTF8: Procedure -- Internal, fast
   mask.Case_Ignorable = "10"X
     
   self~loadPersistent( myDir".."separator"bin"separator || self~binaryFile )
-    
-  -- binaryString = self~BinaryFileContents -- TODO
-    
-::Method Consistency_Check Class -- TODO
-  Expose myDir separator
-  
-  Call Time "R"
-  
-  self~log( "Running consistency checks..." )
-  self~log( "" )
-  self~log( "Checking the 'General_Category' (gc) property for 1114112 codepoints..." )
-  
-  inFile = myDir".."separator"UCD"separator || self~UnicodeData
-  
-  Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
-  
-  Call Stream inFile,"C","Open Read"
-  
-  last = -1
-  count = 0
-  Do While Lines(inFile)
-    Parse Value LineIn(inFile) With code1";"name";"gc";"
-    If X2D(code1) \== last + 1 Then Do
-      Do i = last + 1 To X2D(code1) - 1
-        iCode = D2X(i)
-        count += 1
-        If self[iCode] \== "Cn" Then
-          Say "Consistency check failed at codepoint 'U+"iCode"', got '"self[iCode]"', expected 'Cn'."
-      End
-    End
-    If name~endsWith("First>") Then Do
-      Parse Value LineIn(inFile) With code2";"
-      Do i = X2D(code1) To X2D(code2)
-        iCode = D2X(i)
-        count += 1
-        If self[iCode] \== gc Then
-          Say "Consistency check failed at codepoint 'U+"iCode"', got '"self[iCode]"', expected '"gc"'."
-      End
-      last = i - 1
-    End
-    Else Do
-      count += 1
-      If self[code1] \== gc Then
-        Say "Consistency check failed at codepoint 'U+"code1"', got '"self[code1]"', expected '"gc"'."
-      last = X2D(code1)
-    End
-  End
-  If last < 1114111 Then Do
-    Do i = last + 1 To 1114111
-      iCode = D2X(i)
-      count += 1
-      If self[iCode] \== "Cn" Then
-        Say "Consistency check failed at codepoint 'U+"iCode"', got '"self[iCode]"', expected 'Cn'."
-    End
-  End
-  
-  Call Stream inFile,"C","Close"
-  
-  elapsed = Time("E")
-  If elapsed = 0 Then elapsed = "0.001"
-  
-  self~log( count "codepoints checked in" elapsed "seconds." )
-  self~log( "This is" (count/elapsed) "codepoints/second." )
 
 ::Requires Unicode.Property.cls
---::Requires "../Runes.cls"
