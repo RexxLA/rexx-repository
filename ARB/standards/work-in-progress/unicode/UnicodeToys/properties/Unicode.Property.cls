@@ -28,19 +28,43 @@
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                     Move binary files to the "bin" subdir                 */
 /*                     Fix some bugs, add consistency check for names        */
+/*  00.1e JMB 20230721 Add persistence classes and methods                   */
 /*                                                                           */
 /*****************************************************************************/
 
+::Options Digits 16
+
 ::Class Unicode.Property Public
+
+::Method getPersistent Class Private
+  Expose persistentStore
+  Use Strict Arg key
+  Return persistentStore[key]
+  
+::Method setPersistent Class Private  
+  Expose persistentStore
+  Use Strict Arg key, value
+  persistentStore[key] = value
+
+::Method loadPersistent Class Private
+  Expose persistentStore
+  Use Strict Arg source
+  persistentStore~load(source)  
+  
+::Method savePersistent Class Private
+  Expose persistentStore
+  Use Strict Arg target
+  persistentStore~save(target)  
 
 -- Common activation. Subclasses that have an "activate" class
 -- method should use a self~activate:super method call at the
 -- beginning of the method code.
 
-::Attribute myself 
 
 ::Method Activate Class
-  Expose myself myDir separator
+  Expose myself myDir separator persistentStore
+  
+  persistentStore = .PersistentStringTable~new
   
   self~activate:super
 
@@ -129,8 +153,25 @@ Return binaryString
 ::Method StoreBinaryFile Class
   Expose myDir separator
   Use Strict Arg buffer
-
+  
+  array = self~TwoStageTable.Compress(buffer)
+  offset = array[1]
+  chunks = array[2]
+    
   binaryFile = myDir".."separator"bin"separator || self~binaryFile
+  
+  -- No I/O error handling
+  
+  Call Stream  binaryFile, "C", "Close" -- Recover if previous run crashed
+  
+  Call Stream  binaryFile, "C", "Open Write Replace"
+  Call CharOut binaryFile, offset || chunks, 1
+  Call Stream  binaryFile, "C", "Close"
+
+Return
+
+::Method TwoStageTable.Compress Class
+  Use Strict Arg buffer
   
   k      = -1       -- Offset of a chunk
   seen.  = 0        -- Marks a chunk as seen
@@ -150,12 +191,145 @@ Return binaryString
     chunks ||= chunk
   End
   
-  -- No I/O error handling
+Return offset, chunks
+
+::Method TwoStageTable.getByteAtFromCode Class
+  Use Strict Arg keyPrefix, code
+  Return self~TwoStageTable.getByteAtFromInt(keyPrefix, X2D(code))
+
+::Method TwoStageTable.getByteAtFromInt Class
+  Use Strict Arg keyPrefix, n  
+  highIndex  = n % 256
+  highOffset = self~getPersistent(keyPrefix".Table1")[ 1 + highIndex ]~c2x~x2d
+  lowOffset  = n // 256
+  Return       self~getPersistent(keyPrefix".Table2")[ 1 + highOffset*256 + lowOffset ]
+
+
+/*******************************************************************************
+ *                                                                             *
+ * Class PersistentStringTable                                                 *
+ * ===========================                                                 *
+ *                                                                             *
+ * A StringTable that can be quickly saved and restored to/from a binary file. *
+ *                                                                             *
+ * o  Keys must all be < 256 characters in length.                             *
+ * o  Values must all be strings.                                              *
+ * o  Total size of the file (i.e., keys + values + overhead) must not         *
+ *    exceed 2**32.                                                            *
+ *                                                                             *
+ ******************************************************************************/
+
+::Class PersistentStringTable SubClass StringTable Private
+::Method Save
+  Use Strict arg target
+  size = 4 -- To store the number of elements
+  Do With Index index Item item over self
+    If \item~isA(.String)  Then Raise Syntax 93.900 Additional("PersistentStringTable value cannot be saved because item at index '"index"' is not a string.")
+    If Length(index) > 255 Then Raise Syntax 93.900 Additional("PersistentStringTable value cannot be saved because index '"index"' is longer that 255 characters.")
+    --
+    --              +---------+---------+---------+---------+
+    --   0          | number of items                       |   4
+    --              +---------+---------+---------+---------+
+    --   4          | len1    |  5   (Length of key1)
+    --              +---------+---------+         +---------+
+    --   5          | key1                  ///             |   5 + len1
+    --              +---------+---------+---------+---------+
+    --   5 + len1   | offset of value 1                     |   5 + len1 + 4  --------------+       
+    --              +---------+---------+---------+---------+                               |
+    --   9 + len1   | length of value 1                     |   5 + len1 + 4 +8             |
+    --              +---------+---------+---------+---------+                               | This points here 
+    --   13 + len1  (structure is repeated for key2..leyn)                                  |
+    --              +---------+---------+         +---------+                               |
+    --   offset1    | value1                ///             |   offset1 + lenval1  <--------+           
+    --              +---------+---------+         +---------+
+    --              (structure is repeated for value2..valuen)
+    --
+    --
+    size += 1 + Length(index) + 4 + 4 + Length(item)
+  End
+  If size > 3**32-1 Then Raise Syntax 93.900 Additional("Stringtable too big.")
   
-  Call Stream  binaryFile, "C", "Close" -- Recover if previous run crashed
+  Call Stream target,"c","Open Write Replace"
+  If result \== "READY:" Then Raise Syntax 98.920 Array(target,result)
   
-  Call Stream  binaryFile, "C", "Open Write Replace"
-  Call CharOut binaryFile, offset || chunks, 1
-  Call Stream  binaryFile, "C", "Close"
+  bin = .MutableBuffer~new(,size)
+  
+  -- Store the number of items as a 32-bit integer
+  Call StoreInt32At 0, self~items
+  
+  offset  = 4  -- Current offset in bin
+  offset. = 0  -- Offset of the different self~index values
+  
+  Do index Over self~allIndexes
+    length = Length(index)
+    Call StoreInt8At  offset, length
+    offset += 1
+    Call StoreStringAt offset, index
+    offset += length
+    offset.index = offset
+    offset += 8
+  End
+
+  Do ix Over self~allIndexes
+    length = Length(self[ix])
+    Call StoreStringAt offset,     self[ix]
+    Call StoreInt32At offset.ix,   offset
+    Call StoreInt32At offset.ix+4, length
+    offset += length
+  End
+  
+  Call CharOut target, bin
+  If result \== 0 Then 
+    Raise Syntax 98.900 Additional("Not all bytes written to file '"target"';" result "bytes remaining.")
+  
+  Call Stream target, "c", "close"
+  If result \== "READY:" Then 
+    Raise Syntax 98.900 Additional("Error when closing file '"target"': '"result"'.")
+  
+Return
+
+StoreInt8At:
+  bin[Arg(1)+1] = X2C(D2X(Arg(2)))
+Return 
+
+StoreInt32At:
+  bin[Arg(1)+1] = Right(X2C(D2X(Arg(2))),4,"00"X)  
+Return 
+
+StoreStringAt:
+Nop
+  bin[Arg(1)+1] = Arg(2)
+Return
+  
+::Method Load
+  Use Strict Arg source
+  
+  If Stream(source,"c","Query exists") = "" Then
+    Raise Syntax 98.900 Additional("File '"source"' not found.")
+    
+  Call Stream source, "c", "Open read"
+  If result \== "READY:" Then Raise Syntax 98.900 Additional("Can not open file '"source"' for reading, error was '"result"'.")
+  
+  size = Stream(source,"c","Query size")
+  bin = CharIn(source,1,size)
+  
+  Call Stream source, "c", "Close"  
+  If result \== "READY:" Then 
+    Raise Syntax 98.900 Additional("Error when closing file '"source"': '"result"'.")
+    
+  items = Int32At(0)
+  offset = 4
+  Do i = 1 To items
+    length = Int8At(offset)
+    name = StringAt(offset+1,length)
+    valuePos = Int32At(1 + offset + length)
+    valueLen = Int32At(1 + offset + length + 4)
+    self[name] = StringAt(valuePos,valueLen)
+    offset += 1 + length + 8
+  End
 
 Return
+
+StringAt: Return bin[Arg(1)+1,Arg(2)]
+Int8At:   Return bin[Arg(1)+1,1]~c2x~x2d
+Int32At:  Return bin[Arg(1)+1,4]~c2x~x2d
