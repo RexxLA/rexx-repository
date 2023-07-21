@@ -19,6 +19,7 @@ Take a look at [UnicodeToys.md](doc/UnicodeToys.md) for a gentle introduction. Y
 * [Unicode.General_Category.cls](properties/Unicode.General_Category.cls) implements the General_Category (gc) Unicode property, which can be found in the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) file. The class also implements the algorithmical part of the Name (na) property and of labels like "&lt;control-0001&gt;".
 * [Unicode.Name.cls](properties/Unicode.Name.cls) implements the Name (na) Unicode property, which can be found in the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt) and [UCD/NameAliases-15.0.0.txt](UCD/NameAliases-15.0.0.txt) files. This class relies on the algorithmical handling of Unicode names included in [Unicode.General_Category.cls](Unicode.General_Category.cls).
 * [Unicode.Grapheme_Cluster_Break.cls](properties/Unicode.Grapheme_Cluster_Break.cls) implements a version of the Grapheme_Cluster_Break (gcb) property, which can be found on the (required and included) [UCD/UnicodeData-15.0.0.txt](UCD/UnicodeData-15.0.0.txt), [UCD/GraphemeBreakProperty-15.0.0.txt](UCD/GraphemeBreakProperty-15.0.0.txt) and [UCD/emoji-data-15.0.0.txt](UCD/emoji-data-15.0.0.txt) files.
+* [Unicode.Case.cls](properties/Unicode.Case.cls) will implement primitives related to casing. For the moment, it implements the toLowercase() function.
 
 ### Generated binary files
 
