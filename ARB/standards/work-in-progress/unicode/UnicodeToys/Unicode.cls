@@ -38,6 +38,7 @@
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*                     Fix some bugs, add consistency check for names        */
 /*  00.1d JMB 20230719 Add support for many !-BIfs                           */
+/*  00.1e JMB 20230721 Add support for LOWER, !LOWER                         */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -110,7 +111,7 @@ Use Strict Arg code
   
 ::Routine AllRunes Public  
   Use Strict Arg object
-  Return object~allRunes
+  Return object~allRunes  
   
 /*****************************************************************************
  *                                                                           *
@@ -143,6 +144,10 @@ Return string~left(length, pad)
 ::Routine !Length Public
   Use Strict Arg string
 Return string~length
+
+::Routine !Lower Public
+  Use Strict Arg string, n = 1, length = (Max(!Length(string) - n + 1,0))
+Return string~lower(n, length)
 
 ::Routine !Pos Public
   Use Strict Arg needle, haystack, start = 1, length = ( Max(!Length(haystack)-start+1,0) )
