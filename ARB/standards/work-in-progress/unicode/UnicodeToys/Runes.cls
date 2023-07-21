@@ -31,6 +31,7 @@
 /*  00.1  JMB 20230716 Initial release                                       */
 /*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
 /*  00.1d JMB 20230719 Add support for LEFT, RIGHT and REVERSE               */
+/*  00.1e JMB 20230721 Add support for LOWER(n,length)                       */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -127,6 +128,17 @@
 ::Method Length
   Expose codes
   Return codes~items  
+
+::Method Lower
+  Use Strict Arg n = 1, length = (Max(self~length - n + 1,0))
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  .Validate~positiveWholeNumber(    "n" ,      n      )
+  If length == 0 Then Return self
+  If n > self~length Then Return self
+  left = self[1,n-1]
+  center = .Unicode.case~toLowercase(self[n,length])
+  right = self[n+length,self~length] -- ensure we get all the rest
+  Return self~class~new(left || center || right)
   
 ::Method Pos
   Use Strict Arg needle, start = 1, length = (self~length - start + 1)
@@ -242,3 +254,5 @@ Invalid4: Raise Syntax 22.900 Additional("Invalid UTF-8 sequence '"||(c||c2||c3|
 ::Method allRunes
   Expose codes
   Return .Runes~new(codes~makeString("L", " "))
+  
+::Requires "properties/Unicode.case.cls"  
