@@ -48,11 +48,12 @@
 /*  Vers. Aut Date     Comments                                              */
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1d JMB 20230719 Initial release                                       */
-/*  00.1e JMB 20230720 Error when "0A"X, "0D"X or "1F"X in U string          */
+/*  00.1e JMB 20230721 Fix error when "0A"X, "0D"X or "1F"X in U string      */
+/*                     Add LOWER(n, length)                                  */
 /*                                                                           */
 /*****************************************************************************/
 
-BIFs = "LEFT LENGTH POS SUBSTR CENTER CENTRE REVERSE RIGHT"
+BIFs = "LEFT LENGTH LOWER POS SUBSTR CENTER CENTRE REVERSE RIGHT"
 
 Signal On User Syntax.Error -- Rexx.Tokekiner and subclasses raise Syntax.Error
 
