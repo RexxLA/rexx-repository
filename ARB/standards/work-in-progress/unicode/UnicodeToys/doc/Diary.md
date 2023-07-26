@@ -4,6 +4,7 @@
 
 * Extensive refactoring.
 * I'm beginning to work on abstracting the persistence level (persistent limited StringTable).
+* Start implementing a property registry.
 * Allow for three-stage tables in addition to two-stage tables.
 * Implement LOWER and UPPER, using full case mappings (i.e., use SpecialCasing.txt in addition to UnicodeData.txt).
 * Relocate binary file building routines to the ``build`` subdirectory, and self-tests to the ``tests`` subdirectory.
