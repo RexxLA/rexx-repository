@@ -20,13 +20,14 @@
 /*  Subclasses starting with "Regina" accept the Regina Rexx syntax;         */
 /*  subclasses starting with "ANSI.Rexx" accept only the ANSI Rexx syntax    */
 /*  (for example, comments starting with "--" are accepted by Regina but     */
-/*  not by ANSI; subclasses starting with "ooRexx" accept ooRexx syntax;     */
+/*  not by ANSI); subclasses starting with "ooRexx" accept ooRexx syntax;    */
 /*  for example, "[", "]" and "~" are valid characters for ooRexx subclasses */
 /*  but not for Regina or ANSI subclasses.                                   */
 /*                                                                           */
-/*  Classes with "Unicode" in their name accept three new, experimental,     */
+/*  Classes with "Unicode" in their name accept four new, experimental,      */
 /*  types of string:                                                         */
 /*                                                                           */
+/*    "string"C, Bytes strings (i.e., Classic Rexx strings)                  */
 /*    "string"R, Runes strings (checked for UTF8 correctness at parse time)  */
 /*    "string"T, Text strings (checked for UTF8 correctness at parse time)   */
 /*    "string"U, Unicode codepoint strings. Codepoints can be specified      */
@@ -42,6 +43,7 @@
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.1d JMB 20230719 Initial public release                                */
 /*  00.1e JMB 20230720 Support U+hhhh in U strings                           */
+/*  00.2  JMB 20230725 Add support for "C" (Classic Rexx) strings            */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -192,6 +194,7 @@ Return
     ( BINARY        , "B" ), -
     ( HEXADECIMAL   , "X" ), -
     ( CHARACTER     , "C" ), -  
+    ( BYTES         , "Y" ), -  -- With an explicit C suffix
     ( RUNES         , "R" ), -  -- Unicode only
     ( TEXT          , "T" ), -  -- Unicode only
     ( CODEPOINTS    , "U" )  -  -- Unicode only
@@ -446,10 +449,11 @@ environmentSymbol:
   End
   pos = p + 1
   r = thisLine[pos]~upper
-  If  .unicode, Pos(r,"XBRTU") == 0 Then r = ""
-  If \.unicode, Pos(r,"XB")    == 0 Then r = ""
+  If  .unicode, Pos(r,"XBRTUC") == 0 Then r = ""
+  If \.unicode, Pos(r,"XB")     == 0 Then r = ""
   If r \== "" , (pos+1 == maxPos | Verify(charCat[pos+1], var_symbol_char)) Then Do
     If Pos(r,"RTU") > 0 Then Signal UnicodeString
+    If r == "C" Then Signal BytesString
     inside = Translate(thisLine[start+1,pos-start-2]," ","09"x)  -- TODO See what does Regina consider whitespace inside such strings
     if inside[1] == " " Then Do
       If r == "X" Then Call Syntax 15.1, line, 1
@@ -481,6 +485,12 @@ StringCommon:
   If r == "" Then r = CHARACTER
   Return Token( STRING, r, v )
  
+BytesString: 
+  v = thisLine[oldPos,pos-oldPos-1]~changeStr(q||q,q)
+  r = BYTES
+  Call nextChar -- Skip radix
+  Return Token( STRING, r, v )  
+ 
 UnicodeString:
   If r == "U" Then Signal UnicodeUString
 UnicodeRandTStrings:  
@@ -503,7 +513,7 @@ UnicodeRandTStrings:
       End
       When "E1"X <= c, c <= "EC"X Then Do
         Call Get2CharsMore
-        Call Check_2_808F d
+        Call Check_2_80BF d
         Call Check_3_80BF e
       End
       When c == "E0"X Then Do
@@ -589,7 +599,6 @@ Check_4_80BF:
 Check_2_90BF: 
   If "90"X <= Arg(1), Arg(1) <= "BF"X Then Return 1
   Call Syntax 22.902, line, c2x(c||d)
-
 
 UnicodeUString:
   -- Load Unicode on demand when really needed
