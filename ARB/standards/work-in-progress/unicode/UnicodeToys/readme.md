@@ -1,4 +1,7 @@
-# The Unicode Toys
+# The Unicode Toys for Rexx
+
+* A gentle [introduction to the Unicode Toys for Rexx](doc/UnicodeToys.md).
+* A development [Diary](doc/Diary.md).
 
 ## Installation instructions
 
