@@ -70,15 +70,17 @@ Say "Done!"
 Exit
 
 Test:
-  Say "Lower('"Arg(1)"') = '"Lower(Arg(1))"'"
+  Use Arg string
+  Say "Lower('"string"') = '"Lower(string)"'"
 Return  
 
 NextTest:
+  Use Arg title
   Say
   Say "(press ENTER to continue)"
   Say 
   Parse Pull
-  Say Arg(1)
-  Say Copies("-",Length(Arg(1)))
+  Say title
+  Say Copies("-",Length(title))
   Say 
 Return  
