@@ -1,11 +1,22 @@
-# The Unicode Toys
+# The Unicode Toys for Rexx
 
 ### Introduction
 
-Unicode Toys is a set of ooRexx classes, files and programs that allow to play ("toys") with Unicode concepts. 
-They provide very simple implementations of several Unicode properties, like General Category, Grapheme Cluster Break or Name, 
-three different types of string (BYTES, implemented by ooRexx Strings; RUNES, consisting of Unicode codepoints; and TEXT, consisting of extended grapheme clusters),
-and a set of functions to convert between the three types.
+**The Unicode Toys for Rexx** is a set of ooRexx classes, files and programs that allow to play and experiment with Unicode concepts using
+the Rexx language.
+
+These classes and programs provide simple implementations of many Unicode properties, like General Category, Grapheme Cluster Break or Name.
+
+The package also includes ``rxu.rex``, a Rexx Preprocessor for Unicode that implements a version of Rexx extended with several
+new Unicode constructs:
+
+* **Text** strings: they are ended by a "T" suffix, "like this"T. They are composed of extended grapheme clusters. For example, "👩‍👨‍👩‍👧🎅"T is composed of two grapheme clusters only, although it is formed of eighth codepoints.
+* **Runes** strings: they are ended by a "R" suffix, "like this"R. They are composed of Unicode codepoints.
+* **Bytes** strings: they are ended by a "C" suffix, "like this"C. They are composed of individual bytes, and they are equivalent to Classic Rexx strings (hence the final "C").
+* **Codepoint strings**: they are ended by a "U" suffix, and can only contain:
+  * Unicode codepoints, in the U+ format, like "U+0061"U or "U+20 U+61 U+20"U.
+  * Unicode codepoints, without the U+ prefix, like "20 61 20"U.
+  * Unicode codepoint names, according to UnicodeData.txt and NameAliases.txt, like  "(Woman) (ZERO WIDTH JOINER) (MAN) (zwj) (WOMAN) (zwj) (GIRL) (FATHER CHRISTMAS)"U, which displays as "👩‍👨‍👩‍👧🎅".
 
 Like a meccano, these components ("toys") can be modified to quickly create prototypes, proof-of-concept implementations of new functions, etc.
 
@@ -13,7 +24,7 @@ The included classes contain a simple implementation of a portion of Unicode fun
 
 ### Functionality of the Unicode Toys: a simple tour
 
-To start playing with the Toys, download all the files in the [UnicodeToys](.) directory and its subdirectories, create a new Rexx program, and add a ``::Requires Unicode.cls`` directive. You can then write your programs as you were programming in classic Rexx, and of course you can also use the new object-oriented features.
+To start playing with the Toys, follow [the installation instructions](../../UnicodeToys#installation-instructions) to install the package.
 
 Since other implementations (like Jean Louis Faucher's Executor) are centered in the OO aspects of implementing Unicode, I will choose the contrary approach and present things as if we were using an enhanced version of, say Regina Rexx.
 
