@@ -1,0 +1,176 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  The UNICODE Toys for ooRexx                                              */
+/*  ===========================                                              */
+/*                                                                           */
+/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
+/*                                                                           */
+/*  See https://github.com/RexxLA, rexx-repository,                          */
+/*      path ARB/standards/work-in-progress/unicode/UnicodeToys              */
+/*                                                                           */
+/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
+/*                                                                           */
+/*                                                                           */
+/*  The basictour.rxu program                                                */
+/*  =========================                                                */
+/*                                                                           */
+/*  A basic tour into the features of Unicode Rexx.                          */
+/*                                                                           */
+/*  Version history                                                          */
+/*  ===============                                                          */
+/*                                                                           */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.2  JMB 20230725 Initial release                                       */
+/*                                                                           */
+/*****************************************************************************/
+
+Options Conversions Promote
+
+Call SysCls
+
+Say "The Unicode Toys for Rexx"
+Say "-------------------------"
+Say
+Say "A basic tour: main features, basic explanations and examples."
+Say
+Say "This is an interactive tour."
+Say
+Say "When the program appears to stop, press ENTER to continue to the next section."
+
+Call Section "Basic features:"
+
+Say "The main and most basic feature of the Unicode Toys is the introduction of a new command called 'rxu'."
+Say
+Say "'RXU' means 'Rexx for Unicode', or 'Unicode Rexx'."
+Say
+Say "Its format is the following:"
+Say
+Say "  rxu [options] programname [arguments]"
+Say
+Say "The 'rxu' command first transforms a Unicode Rexx program into an equivalent Rexx program,"
+Say "then executes the newly created Rexx program (passing the specified arguments, if any), and"
+Say "finally deletes the recently created Rexx program."
+Say
+Say "The next effect is that you can write Unicode Rexx programs and interpret them as if they were"
+Say "normal Rexx programs."
+Say
+Say "  rexx programname [arguments]          -- Runs a Rexx program"
+Say "  rxu  programname [arguments]          -- Runs a Rexx for Unicode program"
+
+Call Section "What is a Unicode-Rexx program?"
+
+Say "A Unicode Rexx program is a normal (oo)Rexx program, where the language has been enhanced with a"
+Say "number of new features."
+Say
+Say "The first and most apparent of these new features is the existence of four new types of string:"
+Say
+Say "* TEXT strings, like '"||'(man)(father christmas)'U"Σ'T. These are Unicode strings, composed of grapheme clusters."
+Say
+Say "* RUNES strings, like 'ὈΔΥΣΣΕΎΣ'R. They are composed of Unicode code points."
+Say
+Say "* BYTES strings, like 'string'C. These are the usual, Classic Rexx strings."
+Say
+Say "* U strings, like '(man) (zwj) (woman)'U, displayed as '"||'(man) (zwj) (woman)'U"', or '61 301'u, displayed as '"||'61 301'u"'."
+Say "  They are TEXT strings where the individual codepoints can be specified using either their"
+Say "  hexadecimal codepoint notation (with or without an optional 'U+' prefix), or their UCD"
+Say "  (Unicode Character Database) 'Name' property, written between parenthesis."
+Say
+Say "Rexx built-in functions (BIFs) adapt to the new strings, and return sensible results, depending"
+Say "on the type of string involved. For example LENGTH(string) returns the number of bytes for a BYTES"
+Say "string, the number of codepoints for a RUNES string, and the number of grapheme clusters for a TEXT"
+Say "string, and likewise for other BIFs."
+Say
+Say "This 'samples' directory contains a number of other sample programs that demonstrate the"
+Say "working of several of these BIFs."
+
+Call Section "The new strings in action (1)"
+
+Say "Consider the following statement:"
+Say
+Say '  text = "(Woman) (zwj) (Man) (zwj) (Woman) (zwj) (Girl) (Father Christmas)"U'
+Say
+text = "(Woman) (zwj) (Man) (zwj) (Woman) (zwj) (Girl) (Father Christmas)"U
+Say "This will create a TEXT string. Let's display it:"
+Say
+Say '  text = "'text'"T'
+Say
+Say "What's the length of the 'text' variable?"
+Say
+Say "  Say Length(text)                      --" Length(text)
+Say 
+Say "The length is 2 because there are precisely two grapheme clusters in our string ("zwj" is an"
+Say "abbreviation for 'zero width joiner', a kind of 'glue' that collates the different emojis into"
+Say "a single grapheme, in this case a 'super-emoji' of a family)."
+Say
+Do i = 1 To Length(text)
+  Say "  Grapheme number" i": '"text[i]"' ('"C2X(text[i])"'X)"
+End
+Say
+Say "There is also a new BIF called STRINGTYPE that tells us which kind of string we are using."
+Say
+Say "  Say StringType(text)                  --" StringType(text)
+
+Call Section "The new strings in action (2)"
+
+Say "The new RUNES(string) BIF transforms any compatible string into a RUNES string. Let's see what"
+Say "happens when we transform our TEXT string into a RUNES string."
+Say
+Say "  text = Runes(text)                    -- 'text' becomes a RUNES string"
+text = Runes(text)
+Say
+Say "  Say Length(text)                      --" Length(text)
+Say
+Say "Now LENGTH(text) has increased, because we are counting the codepoints instead of the graphemes:"
+Say
+Do counter i code Over AllRunes(text)~makeArray(" ")
+  Say "  Codepoint number" i":" Right("U+"code,7) " '"text[i]"' ("R2N(code)")"
+End
+Say
+Say "STRINGTYPE will also have changed."
+Say
+Say "  Say StringType(text)                  --" StringType(text)
+
+Call Section "The new strings in action (3)"
+
+Say "What happens if we now convert our string into a BYTES string?"
+Say 
+Say "  text = Bytes(text)                    -- Now 'text' is a RUNES string"
+text = Bytes(text)
+Say
+Say "It will continue to print correctly,"
+Say
+Say "  Say text                              --" text
+Say
+Say "But its STRINGTYPE and length will have changed once more:"
+Say
+Say "  Say StringType(text)                  --" StringType(text)
+Say "  Say Length(text)                      --" Length(text)
+Say
+Do i = 1 To Length(text) By 5
+  Call CharOut ,"  "Right(i  ,2)": '"text[i  ]"' ('"C2X(text[i  ])"'X)"
+  If i+1 <= Length(text) Then
+  Call CharOut ,"  "Right(i+1,2)": '"text[i+1]"' ('"C2X(text[i+1])"'X)"
+  If i+2 <= Length(text) Then
+  Call CharOut ,"  "Right(i+2,2)": '"text[i+2]"' ('"C2X(text[i+2])"'X)"
+  If i+3 <= Length(text) Then
+  Call CharOut ,"  "Right(i+3,2)": '"text[i+3]"' ('"C2X(text[i+3])"'X)"
+  If i+4 <= Length(text) Then
+  Call CharOut ,"  "Right(i+4,2)": '"text[i+4]"' ('"C2X(text[i+4])"'X)"
+  Say
+End
+Say
+Say "The individual bytes are no longer printable. They are the fragments of the UTF-8 representation"
+Say "of the original string."
+--Say "----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+---10
+
+Exit
+
+Section:
+  Arg title
+  Parse pull
+  Call SysCls
+  Say title
+  Say Copies("-",Length(title))
+  Say
+Return  
