@@ -20,9 +20,11 @@
 /*                                                                           */
 /*  Options:                                                                 */
 /*                                                                           */
-/*    /help, /h: display help for the RXU command                            */
-/*    /keep, /k: do not delete the generated .rex file                       */
-/*    /nokeep  : delete the generated .rex file (the default)                */
+/*    /help, /h  : display help for the RXU command                          */
+/*    /keep, /k  : do not delete the generated .rex file                     */
+/*    /nokeep    : delete the generated .rex file (the default)              */
+/*    /warnbif   : warn when using unsupported BIFs                          */
+/*    /nowarnbif : don't warn when using unsupported BIFs (the default)      */
 /*                                                                           */
 /*  "RXU filename" converts a file named "filename" (default extension:      */
 /*  ".rxu") into a ".rex" file, and then interprets the ".rex" file.         */
@@ -160,6 +162,8 @@ End
 
 -- Process options first
 
+warnbif = 0
+
 Do While Word(arguments,1)[1] == "/"
   Parse Var arguments "/"option arguments
   Select Case Upper(option)
@@ -169,6 +173,8 @@ Do While Word(arguments,1)[1] == "/"
     End
     When "K", "KEEP" Then keepOutputFile = 1
     When "NOKEEP"    Then keepOutputFile = 0
+    When "WARNBIF"   Then warnbif = 1
+    When "NOWARNBIF" Then warnbif = 0
     Otherwise
       Call LineOut .StdOut, "Invalid option '"option"'."
       Exit 1
@@ -284,7 +290,7 @@ If token.Class == END_OF_SOURCE Then Leave
         If BIFPos > 0, NextToken()["VALUE"] = "(" Then 
           Call CharOut outFile, "!"token.value
         Else Do
-          If WordPos(Upper(token.value),Unsupported) > 0, NextToken()["VALUE"] = "(" Then Do
+          If warnBIF, WordPos(Upper(token.value),Unsupported) > 0, NextToken()["VALUE"] = "(" Then Do
             If UnsupportedWarningIssued.[Upper(token.value)] == 0 Then Do
               UnsupportedWarningIssued.[Upper(token.value)] = 1
               Say "WARNING: Unsupported BIF '"token.value"' used in program '"filename"'."
