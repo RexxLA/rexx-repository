@@ -1,0 +1,32 @@
+text  = "text"T  -- This is a grapheme cluster string
+runes = "runes"R -- This is a codepoint striny
+bytes = "bytes"C -- This is a byte string
+
+Say "Testing 'Options conversions Left'"
+Options conversions Left
+Call Test
+
+Say "Testing 'Options conversions Right'"
+Options conversions Right
+Call Test
+
+Say "Testing 'Options conversions Promote'"
+Options conversions Promote
+Call Test
+
+Say "Testing 'Options conversions Demote'"
+Options conversions Demote
+Call Test
+
+Say "Testing 'Options conversions None'"
+Options conversions None
+Call Test
+
+Exit
+
+Test:
+  Say "StringType(bytes || bytes) = '"StringType(bytes || bytes)"'"
+  Say "StringType(bytes || runes) = '"StringType(bytes || runes)"'"
+  Say "StringType(bytes || text ) = '"StringType(bytes || text)"'"
+  Say
+Return

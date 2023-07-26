@@ -1,0 +1,74 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  The UNICODE Toys for ooRexx                                              */
+/*  ===========================                                              */
+/*                                                                           */
+/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
+/*                                                                           */
+/*  See https://github.com/RexxLA, rexx-repository,                          */
+/*      path ARB/standards/work-in-progress/unicode/UnicodeToys              */
+/*                                                                           */
+/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
+/*                                                                           */
+/*                                                                           */
+/*  The upper.rxu program                                                    */
+/*  =====================                                                    */
+/*                                                                           */
+/*  Testing some features of the UPPER BIF.                                  */
+/*                                                                           */
+/*  Version history                                                          */
+/*  ===============                                                          */
+/*                                                                           */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.2  JMB 20230725 Initial release                                       */
+/*                                                                           */
+/*****************************************************************************/
+
+Options Conversions Promote
+
+Say "Testing the UPPER BIF:"
+Say "----------------------"
+
+Call NextTest "Uppercasing several european characters"
+
+Call Test "áéíóúýàèìòùäëïöïÿâêîôûñãõç"T
+
+Call NextTest "Characters with iota-subscript (0345)"
+
+Say "In some cases (like the one shown below) uppercasing codepoint"
+Say "sequences containing U+0345 followed by other combining marks"
+Say "needs a reordering of the codepoints, lest the combining marks"
+Say "get applied to the resulting Iota."
+Say
+
+str = "(GREEK SMALL LETTER ALPHA) 0345 (COMBINING ACUTE ACCENT)"U
+Call Test str
+
+Say "Original string:" AllRunes(str)
+Say "Uppercased string:" AllRunes(Upper(str))
+
+Call NextTest "Uppercasing of the german es-zed"
+
+Call Test "Straße"R
+
+Say
+Say "Done!"
+
+Exit 
+
+Test:
+  Use Arg string
+  Say "Upper('"string"') = '"Upper(string)"'"
+Return  
+
+NextTest:
+  Parse arg title
+  Say
+  Say "(press ENTER to continue)"
+  Say 
+  Parse Pull
+  Say title
+  Say Copies("-",Length(title))
+  Say 
+Return  
