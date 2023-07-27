@@ -1,5 +1,18 @@
 # Unicode Toys: Diary
 
+20230726: 0.2a -
+
+* Change RUNES to CODEPOINTS everywhere.
+* Now CODEPOINT strings have to end with a "P" ("C" is already taken for "C"lassic strings).
+* ALLRUNES renamed to P2U (codePoints to Unicode) (returned values are suitable for U strings).
+* Add P2U(string,"U+"): returns the (hex) codepoints prefixed with "U+". One char is enough.
+* Add P2U(string,"NAMES"): P2U("Sí",names) = '(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)'.
+* Verify that UTF-8 is correct when creating CODEPOINTS or TEXT strings.
+* Add the option to specify an encoding when creating CODEPOINTS or TEXT strings.
+* Implement the UTF16 encoding. Verify that input is correct.
+* Implement all concatenation and comparison methods for OPTIONS CONVERSIONS.
+* Implement MAKESTRING and comparison methods, so that TEXT("61"X, UTF8) == TEXT("0061"X, UTF16).
+
 20230726: 0.2  - Numerous changes, too many to report in complete detail here:
 
 * Extensive refactoring.
