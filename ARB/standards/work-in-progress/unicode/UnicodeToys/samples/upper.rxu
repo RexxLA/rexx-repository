@@ -45,12 +45,12 @@ Say
 str = "(GREEK SMALL LETTER ALPHA) 0345 (COMBINING ACUTE ACCENT)"U
 Call Test str
 
-Say "Original string:" AllRunes(str)
-Say "Uppercased string:" AllRunes(Upper(str))
+Say "Original string:" P2U(str)
+Say "Uppercased string:" P2U(Upper(str))
 
 Call NextTest "Uppercasing of the german es-zed"
 
-Call Test "Straße"R
+Call Test "Straße"P
 
 Say
 Say "Done!"

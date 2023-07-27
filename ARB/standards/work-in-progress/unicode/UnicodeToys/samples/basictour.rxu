@@ -1,4 +1,5 @@
 /*****************************************************************************/
+/*****************************************************************************/
 /*                                                                           */
 /*  The UNICODE Toys for ooRexx                                              */
 /*  ===========================                                              */
@@ -22,6 +23,7 @@
 /*  Vers. Aut Date     Comments                                              */
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.2  JMB 20230725 Initial release                                       */
+/*  00.2a JMB 20230727 U strings are now CODEPOINTS, not TEXT.               */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -67,19 +69,19 @@ Say "The first and most apparent of these new features is the existence of four 
 Say
 Say "* TEXT strings, like '"||'(man)(father christmas)'U"Σ'T. These are Unicode strings, composed of grapheme clusters."
 Say
-Say "* RUNES strings, like 'ὈΔΥΣΣΕΎΣ'R. They are composed of Unicode code points."
+Say "* CODEPOINTS strings, like 'ὈΔΥΣΣΕΎΣ'P. They are composed of Unicode code points."
 Say
 Say "* BYTES strings, like 'string'C. These are the usual, Classic Rexx strings."
 Say
 Say "* U strings, like '(man) (zwj) (woman)'U, displayed as '"||'(man) (zwj) (woman)'U"', or '61 301'u, displayed as '"||'61 301'u"'."
-Say "  They are TEXT strings where the individual codepoints can be specified using either their"
+Say "  They are CODEPOINT strings where the individual codepoints can be specified using either their"
 Say "  hexadecimal codepoint notation (with or without an optional 'U+' prefix), or their UCD"
 Say "  (Unicode Character Database) 'Name' property, written between parenthesis."
 Say
 Say "Rexx built-in functions (BIFs) adapt to the new strings, and return sensible results, depending"
 Say "on the type of string involved. For example LENGTH(string) returns the number of bytes for a BYTES"
-Say "string, the number of codepoints for a RUNES string, and the number of grapheme clusters for a TEXT"
-Say "string, and likewise for other BIFs."
+Say "string, the number of codepoints for a CODEPOINTS string, and the number of grapheme clusters for"
+Say "a TEXT string, and likewise for other BIFs."
 Say
 Say "This 'samples' directory contains a number of other sample programs that demonstrate the"
 Say "working of several of these BIFs."
@@ -88,9 +90,9 @@ Call Section "The new strings in action (1)"
 
 Say "Consider the following statement:"
 Say
-Say '  text = "(Woman) (zwj) (Man) (zwj) (Woman) (zwj) (Girl) (Father Christmas)"U'
+Say '  text = Text("(Woman) (zwj) (Man) (zwj) (Woman) (zwj) (Girl) (Father Christmas)"U)'
 Say
-text = "(Woman) (zwj) (Man) (zwj) (Woman) (zwj) (Girl) (Father Christmas)"U
+text = Text("(Woman) (zwj) (Man) (zwj) (Woman) (zwj) (Girl) (Father Christmas)"U)
 Say "This will create a TEXT string. Let's display it:"
 Say
 Say '  text = "'text'"T'
@@ -113,17 +115,17 @@ Say "  Say StringType(text)                  --" StringType(text)
 
 Call Section "The new strings in action (2)"
 
-Say "The new RUNES(string) BIF transforms any compatible string into a RUNES string. Let's see what"
-Say "happens when we transform our TEXT string into a RUNES string."
+Say "The new CODEPOINTS(string) BIF transforms any compatible string into a CODEPOINTS string."
+Say "Let's see what happens when we transform our TEXT string into a CODEPOINTS string."
 Say
-Say "  text = Runes(text)                    -- 'text' becomes a RUNES string"
-text = Runes(text)
+Say "  text = Codepoints(text)               -- 'text' becomes a CODEPOINTS string"
+text = Codepoints(text)
 Say
 Say "  Say Length(text)                      --" Length(text)
 Say
 Say "Now LENGTH(text) has increased, because we are counting the codepoints instead of the graphemes:"
 Say
-Do counter i code Over AllRunes(text)~makeArray(" ")
+Do counter i code Over P2U(text)~makeArray(" ")
   Say "  Codepoint number" i":" Right("U+"code,7) " '"text[i]"' ("R2N(code)")"
 End
 Say
@@ -135,7 +137,7 @@ Call Section "The new strings in action (3)"
 
 Say "What happens if we now convert our string into a BYTES string?"
 Say 
-Say "  text = Bytes(text)                    -- Now 'text' is a RUNES string"
+Say "  text = Bytes(text)                    -- Now 'text' is a BYTES string"
 text = Bytes(text)
 Say
 Say "It will continue to print correctly,"

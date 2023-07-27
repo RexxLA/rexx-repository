@@ -40,11 +40,11 @@ Say "Uppercase sigma ('Σ') gets lowercased to 'σ' or to 'ς'"
 Say "depending on whether 'Σ' was a medial or final letter." 
 Say 
 
-Call Test "ὈΔΥΣΣΕΎΣ"R
+Call Test "ὈΔΥΣΣΕΎΣ"P
 
-Call NextTest "Testing non one-to-one casing for RUNES:"
+Call NextTest "Testing non one-to-one casing for CODEPOINTS:"
 
-Test = Runes("41 130"U)
+Test = CODEPOINTS("41 130"U)
 Call Test test
 
 Say "Length('"test"') =" Length(test)
