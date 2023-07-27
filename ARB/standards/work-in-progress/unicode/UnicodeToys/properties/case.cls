@@ -341,11 +341,11 @@
   
   Use Strict Arg string
   
-  runes = .Runes~new(string)
+  codepoints = .Codepoints~new(string)
 
   res     = ""
   changes = 0
-  codes   = runes~allRunes
+  codes   = codepoints~P2U
   length  = Words(codes)
   Do i = 1 To length
     code = Word(codes,i)
@@ -409,11 +409,11 @@ SpecialUpper:
 /*****************************************************************************/
   Use Strict Arg string
   
-  runes = .Runes~new(string)
+  codepoints = .Codepoints~new(string)
 
   res     = ""
   changes = 0
-  codes   = runes~allRunes
+  codes   = codepoints~P2U
   length  = Words(codes)
   Do counter i code Over codes~makeArray(" ")
   
