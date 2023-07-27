@@ -28,7 +28,8 @@
 /*  types of string:                                                         */
 /*                                                                           */
 /*    "string"C, Bytes strings (i.e., Classic Rexx strings)                  */
-/*    "string"R, Runes strings (checked for UTF8 correctness at parse time)  */
+/*    "string"P, Codepoints strings (checked for UTF8 correctness at         */
+/*               parse time)                                                 */
 /*    "string"T, Text strings (checked for UTF8 correctness at parse time)   */
 /*    "string"U, Unicode codepoint strings. Codepoints can be specified      */
 /*               using hexadecimal notation (61, 0061, 0000), or as a name,  */
@@ -44,6 +45,7 @@
 /*  00.1d JMB 20230719 Initial public release                                */
 /*  00.1e JMB 20230720 Support U+hhhh in U strings                           */
 /*  00.2  JMB 20230725 Add support for "C" (Classic Rexx) strings            */
+/*  00.2a JMB 20230727 Change RUNES to CODEPOINTS                            */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -195,9 +197,9 @@ Return
     ( HEXADECIMAL   , "X" ), -
     ( CHARACTER     , "C" ), -  
     ( BYTES         , "Y" ), -  -- With an explicit C suffix
-    ( RUNES         , "R" ), -  -- Unicode only
+    ( CODEPOINTS    , "P" ), -  -- Unicode only
     ( TEXT          , "T" ), -  -- Unicode only
-    ( CODEPOINTS    , "U" )  -  -- Unicode only
+    ( UNOTATION     , "U" )  -  -- Unicode only
 )
 
 ::Method InitializeTokenizer Private
@@ -449,10 +451,10 @@ environmentSymbol:
   End
   pos = p + 1
   r = thisLine[pos]~upper
-  If  .unicode, Pos(r,"XBRTUC") == 0 Then r = ""
+  If  .unicode, Pos(r,"XBPTUC") == 0 Then r = ""
   If \.unicode, Pos(r,"XB")     == 0 Then r = ""
   If r \== "" , (pos+1 == maxPos | Verify(charCat[pos+1], var_symbol_char)) Then Do
-    If Pos(r,"RTU") > 0 Then Signal UnicodeString
+    If Pos(r,"PTU") > 0 Then Signal UnicodeString
     If r == "C" Then Signal BytesString
     inside = Translate(thisLine[start+1,pos-start-2]," ","09"x)  -- TODO See what does Regina consider whitespace inside such strings
     if inside[1] == " " Then Do

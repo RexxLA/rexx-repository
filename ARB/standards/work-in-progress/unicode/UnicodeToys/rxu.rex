@@ -31,19 +31,21 @@
 /*  A ".rxu" can use an extended ooRexx syntax with the following            */
 /*  new constructs:                                                          */
 /*                                                                           */
-/*    "string"R, a Runes string (checked for UTF8 correctness at parse time) */
+/*    "string"C, a Classic Rexx string, composed of bytes.                   */
+/*    "string"P, a Codepoints string (checked for UTF8 correctness           */
+/*               at parse time)                                              */
 /*    "string"T, a Text string (checked for UTF8 correctness at parse time)  */
 /*    "string"U, a Unicode codepoint string. Codepoints can be specified     */
 /*               using hexadecimal notation (61, 0061, 0000), or as a name,  */
 /*               alias or label enclosed in parenthesis ("(cr)","(CR) (LF)", */
-/*               "(Woman) (zwj) (Man)").                                     */
+/*               "(Woman) (zwj) (Man)"). This is a Codepoints string.        */
 /*                                                                           */
 /*  Calls to a number of BIFs are substituted by equivalent calls to         */
 /*  a function with a name formed by an exclamation mark ("!") concatenated  */
 /*  to the BIF name. For example, "Length(var)" will be substituted by       */
 /*  "|Length(var)". These !-functions have been defined in Unicode.cls       */
 /*  and are re-routed to the corresponding BIMs for the Bytes (String),      */
-/*  Runes and Text classes.                                                  */
+/*  Codepoints and Text classes.                                             */
 /*                                                                           */
 /*  The list of supported BIFs is listed in the "BIFs" variable at the       */
 /*  start of the code.                                                       */
@@ -67,6 +69,9 @@
 /*                     Issue warnings for unsupported BIFs                   */
 /*                     Add support for OPTIONS instruction (see below)       */
 /*                     Add support for OPTIONS DEFAULTSTRING                 */
+/*  00.2a JMB 20230727 U strings are Codepoints, not Text.                   */
+/*                     Bug when source contains X or B strings.              */
+/*                     Change RUNES to CODEPOINTS                            */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -108,7 +113,7 @@
 --   DEFAULTSTRING <stringType>
 --     Determines the interpretation of an unpostfixed string, i.e., "string",
 --     with no B, X, C, R, T or U postfix. Possible values for <stringType>
---     are BYTES, RUNES or TEXT. The preprocessor encloses unpostfixed
+--     are BYTES, CODEPOINTS or TEXT. The preprocessor encloses unpostfixed
 --     strings with a call to the corresponding conversion BIF, e.g., if
 --     DEFAULTSTRING TEXT is in effect, then "string" will be equivalent to
 --     TEXT("string").
@@ -119,11 +124,11 @@
 --     will raise a Syntax error. 
 --   CONVERSIONS PROMOTE
 --     If one of the operands is TEXT, return a TEXT string.
---     Else, if one of the operands is RUNES, return a RUNES string.
+--     Else, if one of the operands is CODEPOINTS, return a CODEPOINTS string.
 --     Otherwise, return a Bytes string.
 --   CONVERSIONS DEMOTE
 --     If one of the operands is BYTES, return a BYTES string.
---     Else, if one of the operands is RUNES, return a RUNES string.
+--     Else, if one of the operands is CODEPOINTS, return a CODEPOINTS string.
 --     Otherwise, return a TEXT string.
 --   CONVERSIONS LEFT
 --     An attempt is made to convert the result to the class of the left
@@ -300,12 +305,16 @@ If token.Class == END_OF_SOURCE Then Leave
         End
       End
     End
-    When STRING CODEPOINTS Then
-      Call CharOut outFile, "Text('"C2X(token.value)"'X)"
+    When STRING UNOTATION Then
+      Call CharOut outFile, "Codepoints('"C2X(token.value)"'X)"
+    When STRING HEXADECIMAL Then
+      Call CharOut outFile, defaultString"('"C2X(token.value)"'X)"
+    When STRING BINARY Then
+      Call CharOut outFile, defaultString"('"X2B(C2X(token.value))"'B)"
     When STRING TEXT Then
       Call CharOut outFile, "Text('"ChangeStr("'",token.value,"''")"')"
-    When STRING RUNES Then
-      Call CharOut outFile, "Runes('"ChangeStr("'",token.value,"''")"')"
+    When STRING CODEPOINTS Then
+      Call CharOut outFile, "Codepoints('"ChangeStr("'",token.value,"''")"')"
     When STRING BYTES Then
       Call CharOut outFile, "Bytes('"ChangeStr("'",token.value,"''")"')"
     When STRING CHARACTER Then
@@ -345,14 +354,14 @@ Options:
     option  = Word(options, i)
     option2 = Word(options, i + 1)
     Select
-      When (option option2) == "DEFAULTSTRING BYTES" Then Do; i += 1; defaultString = "Bytes"; End
-      When (option option2) == "DEFAULTSTRING RUNES" Then Do; i += 1; defaultString = "Runes"; End
-      When (option option2) == "DEFAULTSTRING TEXT"  Then Do; i += 1; defaultString = "Text";  End
-      When (option option2) == "CONVERSIONS NONE"    Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "NONE"; '    ; End
-      When (option option2) == "CONVERSIONS PROMOTE" Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "PROMOTE"; ' ; End
-      When (option option2) == "CONVERSIONS DEMOTE"  Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "DEMOTE"; '  ; End
-      When (option option2) == "CONVERSIONS LEFT"    Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "LEFT"; '    ; End
-      When (option option2) == "CONVERSIONS RIGHT"   Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "RIGHT"; '   ; End
+      When (option option2) == "DEFAULTSTRING BYTES"      Then Do; i += 1; defaultString = "Bytes";      End
+      When (option option2) == "DEFAULTSTRING CODEPOINTS" Then Do; i += 1; defaultString = "Codepoints"; End
+      When (option option2) == "DEFAULTSTRING TEXT"       Then Do; i += 1; defaultString = "Text";       End
+      When (option option2) == "CONVERSIONS NONE"         Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "NONE"; '    ; End
+      When (option option2) == "CONVERSIONS PROMOTE"      Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "PROMOTE"; ' ; End
+      When (option option2) == "CONVERSIONS DEMOTE"       Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "DEMOTE"; '  ; End
+      When (option option2) == "CONVERSIONS LEFT"         Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "LEFT"; '    ; End
+      When (option option2) == "CONVERSIONS RIGHT"        Then Do; i += 1; Call CharOut outFile, '.environment~Unicode.Conversions = "RIGHT"; '   ; End
       Otherwise Nop
     End
   End
