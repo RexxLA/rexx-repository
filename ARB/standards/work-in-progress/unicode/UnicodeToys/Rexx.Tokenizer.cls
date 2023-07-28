@@ -46,6 +46,7 @@
 /*  00.1e JMB 20230720 Support U+hhhh in U strings                           */
 /*  00.2  JMB 20230725 Add support for "C" (Classic Rexx) strings            */
 /*  00.2a JMB 20230727 Change RUNES to CODEPOINTS                            */
+/*  00.2b JMB 20230729 Fix subtle bug when / at start of multi-line comment  */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -418,7 +419,7 @@ environmentSymbol:
            Call Syntax 6.1, save, save
          End
        End
-       Else If thisLine[p-1] == "*" Then Do
+       Else If p > 1, thisLine[p-1] == "*" Then Do
          level -= 1
          pos = p+1
          If level == 0 Then Return Token( CLASSIC_COMMENT, , "/*...*/", save start line pos)
