@@ -1,1 +1,24 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<OoRexxDocXml>
+    <parser>
+        <output>.</output>
+        <input>../encodings/Encoding.cls</input>
+        <input>../encodings/cp850.cls</input>
+        <input>../encodings/utf8.cls</input>
+        <input>../encodings/utf16.cls</input>
+    </parser>
+    <title>The Unicode Tools for Rexx</title>
+    <header>
+        <property>
+            <key>Run-Date</key>
+            <value>${.now?datetime}</value>
+        </property>
+    </header>
+    <overview>Overview</overview>
+    <settings>
+        <includePublic>true</includePublic>
+        <includePrivate>true</includePrivate>
+        <includePackage>true</includePackage>
+        <includeVariableReferences>true</includeVariableReferences>
+    </settings>
+</OoRexxDocXml>
