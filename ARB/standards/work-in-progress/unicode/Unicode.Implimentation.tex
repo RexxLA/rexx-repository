@@ -1,0 +1,657 @@
+﻿% \documentclass[draft]{article}
+\documentclass[b4paper]{article}
+\usepackage{enumitem}
+\usepackage{eqparbox}
+\usepackage{expl3}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}         %Requires luatex engine to handle UTF-8
+                              %Consider using minted, but ...
+\usepackage{upquote}
+
+\newlist{definition}{description}{2} %% <- pick a larger number if you want to nest these
+\setlist[definition]{
+    labelwidth=\eqboxwidth{listlabel@\EnumitemId},
+    leftmargin=!,
+    format=\definitionlabel,
+}
+\newcommand\definitionlabel[2][l]{\eqmakebox[listlabel@\EnumitemId][#1]{#2}}
+
+\newlist{resource}{description}{2} %% <- pick a larger number if you want to nest these
+\setlist[resource]{
+    labelwidth=\eqboxwidth{listlabel@\EnumitemId},
+    leftmargin=!,
+    format=\resourcelabel,
+}
+\newcommand\resourcelabel[2][l]{\eqmakebox[listlabel@\EnumitemId][#1]{#2}}
+
+\ExplSyntaxOn
+\NewDocumentCommand\enginedetails{}%
+  {
+    \c_sys_engine_exec_str
+    \c_space_tl
+    \c_sys_engine_version_str
+    \c_space_tl
+    (\c_sys_engine_format_str)
+  }
+\ExplSyntaxOff
+
+\title{Unicode Implementation Issues%
+  \thanks
+    {
+    This is a working document for the Rexx Language Association (RexxLA).
+    There will be one or more separate requirements documents.
+    It is written in \LaTeX\ \fmtversion\ and was rendered \today\ using \enginedetails.
+    }
+  }
+\author{Shmuel (Seymour J.) Metz}
+
+\begin{document}
+\lstset{language=Rexx, extendedchars=true, frame=trbl, escapechar={!}, linewidth=20em}
+
+\maketitle
+
+\begin{abstract}
+Classic Rexx supports character code pages in which every character can be represented in a single octet,
+and treats only ASCII letters as alphabetic.
+Unicode is nominally a 32-bit character set, with code points restricted to 17 16-bit planes,
+i.e., code points U+00 through U+10FFFF.
+This document describes basic issues and solutions for extending Rexx to support Unicode.
+\end{abstract}
+
+
+\section{Background}
+Many modern languages support Unicode encoded as
+\href{https://datatracker.ietf.org/doc/rfc3629/}{UTF-8} (\cite{RFC 3629}),
+and the \href{https://www.ietf.org/}{IETF}, in \cite{RFC 5198},
+has mandated the use of UTF-8 with NFC in new protocols.
+Rexx will need to support UTF-8 if it is not to become a backwater,
+and that support should not break existing code.
+
+
+\section{Scope}
+This document only describes issues related to expanded alphabets and multi-octet representations of characters;
+it does not address such issues as bidirectional text.
+It presents suggested solutions for requirements that are presented in other documents.
+Also, most of the details are under active discussion, so everything here is provisional.
+
+
+\section{Nomenclature}
+
+The definitions given in \cite{Glossary} and \cite{Unicode} take
+precedence over those given here. Quoted text is taken from those sources.
+Except for definitions taken from official IETF and Unicode documents,
+the nomenclature used here is illustrative rather than normative;
+language design teams will formally define, e.g., method names, encoding of parameters.
+Most of the sections assume that there will be destinct string types
+for extended grapheme clusters, Unicode code points, legacy code pages
+and raw octets. However, there has been discussion of including
+metadata, in which case come of the classes might be merged.
+
+\begin{definition}
+\item [.Legacy] The string class for strings in legacy code pages.
+\item [.octets] The string class for uninterprted octet strings.
+\item [.Ucp] The string class for strings of Unicode code points.
+\item [.Ugc] The string class for strings of Unicod extended grapheme clusters.
+\item [\textbf{\'{ }}] U+0301, COMBINING ACUTE ACCENT
+\\*
+Set in bold to distinguish it from U+27, APOSTROPHE.
+\item [Bidi] "Abbreviation of bidirectional, in reference to mixed left-to-right and right-to-left text."
+\item [BIF] Built In Function
+\item [BIM] Built In Method
+\item [Block] "A grouping of characters within the Unicode encoding
+space used for organizing code charts. Each block is a uniquely named,
+continuous, non-overlapping range of code points, containing a
+multiple of 16 code points, and starting at a location that is a
+multiple of 16. A block may contain unassigned code points, which are
+reserved."
+\item [BMP] Basic Multilingual Plane
+\\*
+The first 64 Ki code points of Unicode, from U+0000 to U+FFFF.
+\item [BOM] Byte Order Mark: U+FEFF, ZERO WIDTH NON-BREAKING SPACE (ZWNBSP)
+\\*
+Used as the first character to indicate byte order for UCS-2, UTF-16 and UCS-4;
+\\*
+Optional as the first character for UTF-8.
+\item [\'{E}] U+C9, LATIN CAPITAL LETTER E WITH ACUTE
+\\*
+Set in normal weight: U+45 U+0301 will be shown as "E\textbf{\'{ }}".
+\item [\'{e}] U+E9, LATIN SMALL LETTER E WITH ACUTE
+\\*
+Set in normal weight: U+65 U+0301 will be shown as "e\textbf{\'{ }}".
+\item [encoded character] The smallest constituant of a Unicode string.
+"The Unicode Standard does not define what is and is not a text
+element in different processes; instead, it defines elements called
+encoded characters. An encoded character is represented by a number
+from 0 to 10FFFF\textsubscript{16} called a code point."
+\item [EGC] Extended grapheme cluster
+\item [GCGID] "Acronym for Graphic Character Global Identifier.
+These are listed in the IBM document
+Character Data Representation Architecture, Level 1, Registry SC09-1391."
+See \url{https://www.ibm.com/downloads/cas/G01BQVRV}.
+\item [grapheme cluster]
+"A grapheme cluster consists of a base character followed by any
+number of continuing characters, where acontinuing character may
+include any nonspacing combining mark, certain spacing combining
+marks, or a join control."
+{\cite{Annex29}} defines two types of grapheme clusters;
+"An extended grapheme cluster is the same as a legacy grapheme cluster,
+with the addition of some other characters.
+The continuing characters are extended to include all spacing combining marks,
+such as the spacing (but dependent) vowel signs in Indic scripts."
+\item [high surrogate] A code point in the range U+D800-U+DBFF, used
+as the first half of a surrogate pair.
+\item [IETF] \href{https://ietf.org}{Internet Engineering Task Force}
+\item [introducer] The first octet in the UTF-8 encoding of a Unicode character beyond U+7F
+\item [low surrogate] A code point in the range U+DC00-U+DFFF, used
+as the second half of a surrogate pair.
+\item [NFC]  Unicode
+"Normalization Form C (NFC). A normalization form that erases any
+canonical differences, and generally produces a composed result. For
+example, a + umlaut is converted to \symbol{"00E4} in this form. This form most
+closely matches legacy usage. The formal definition is D120 in Section
+3.11, Normalization Forms."
+\\*
+the normalization endorsed by the IETF
+\item [NFD] Unicode
+"Normalization Form D (NFD). A normalization form that erases any
+canonical differences, and produces a decomposed result. For example,
+\symbol{"00E4} is converted to a + umlaut in this form. This form is most often
+used in internal processing, such as in collation. The formal
+definition is D118 in Section 3.11, Normalization Forms."
+
+\item [NFKC] Unicode
+"Normalization Form KC (NFKC). A normalization form that erases both
+canonical and compatibility differences, and generally produces a
+composed result: for example, the single \symbol{"01C6} character is converted to d
++ \symbol{"017E} in this form. This form is commonly used in matching. The formal
+definition is D121 in Section 3.11, Normalization Forms."
+
+\item [NFKD] Unicode
+"Normalization Form KD (NFKD). A normalization form that erases both
+canonical and compatibility differences, and produces a decomposed
+result: for example, the single \symbol{"01C6} character is converted to d + z +
+caron in this form. The formal definition is D119 in Section 3.11,
+Normalization Forms."
+
+\item [octet] 8-bit byte
+\item [Plane] "A range of 65,536 (1000016) contiguous Unicode code
+points, where the first code point is an integer multipleof 65,536
+(1000016). Planes are numbered from 0 to 16, with the number being the
+first code point of the plane divided by 65,536. Thus Plane 0 is
+U+0000..U+FFFF, Plane 1 is U+10000..U+1FFFF, ..., and Plane 16 (1016)
+is U+100000..10FFFF. (Note that ISO/IEC 10646 uses hexadecimal
+notation for the plane numbers-for example, Plane B instead of Plane
+11). (See Basic Multilingual Plane and supplementary planes.)"
+\item [RFC] Request For Comments
+\\*
+A formal document published by the IETF defining, e.g., a protocol.
+RFC documents contain technical specifications and organizational notes for the Internet.
+\begin{itemize}
+  \item Best Current Practice (BCP)
+  \item Experimental
+  \item Informational
+  \item Proposed Standard
+  \item Internet Standard (STD)
+  \item Historic
+\end{itemize}
+\item [surrogate] A code point in the range U+D800-U+DFFF used to
+encode 21-bit code points into pairs of 16-bit bytes.
+\item [surrogate pair] A high surrogate (in the range U+D800-U+DBFF)
+followed by a low surrogate (in the range U+DC00-U+DFFF),
+collectively representing a 21-bit code point.
+\item [TBD] To Be Determined.
+\item [UCS] Universal Character Set, ISO 10646, roughly equivalent to Unicode
+\item [UCS-2] A 16 bit subset of Unicode, containing only the BMP.
+\item [The Unicode Consortium] A non-profit corporation devoted to
+developing, maintaining, and promoting software internationalization standards and data.
+\item [UTF-8] UCS Transformation Format 8 (\cite{RFC 3629}).
+\\*
+The encoding of Unicode endorsed by the IETF
+\item [UTF-8 octet sequence]
+The sequence of octets representing a single Unicode code point.
+It may consist of a single ASCII character padded on the left with a zero bit,
+or of a one octet introducers followed by a 1-3 octet tail.
+
+\begin{tabular}{| r | l |}
+\hline
+Code points & UTF-8 octet sequence \\
+\hline
+U+0000 - U+007F    & 0xxxxxxx \\
+\hline
+U+0080 - U+07FF    & 110xxxxx 10xxxxxx \\
+\hline
+U+0800 - U+FFFF    & 1110xxxx 10xxxxxx 10xxxxxx \\
+\hline
+U+10000 - U+10FFFF & 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx \\
+\hline
+\end{tabular}
+\item [UTF-16] UCS Transformation Format 16 (\cite{RFC 2781}).
+\end{definition}
+
+Some code samples use ooRexx notation. Those samples are illustrative rather than normative.
+
+
+\section{Statement of problem}
+
+\subsection{Primary Problem}
+
+In Rexx, everything is a string; there are no classes, declarations or types.
+
+While the ANSI standard does not mandate any particular character width for \textbf{Config\_C2B()},
+most if not all implementations use a width of 8,
+and the length of \textbf{c2x(}\textit{foo}\textbf{)}
+is twice the length of \textit{foo}.
+
+A large body of existing code operates on binary data from external files,
+or accessed from memory via the \textbf{storage()} BIF,
+under the assumption that, e.g., \textbf{c2x()}, left(), \textbf{right()}, \textbf{substr()}, operate on octets.
+A UTF-8 introducer is treated the same as any other value.
+
+A large body of existing code operates on text under the assumption that those facilities operate on characters.
+
+The two categories overlap.
+
+There is no conflict as long as each character is contained within a single octet.
+However, Unicode has code points beyond U+FF,
+and UTF-8 encoding of non-ASCII Unicode characters will
+require more than a single octet even for code points less than U+100 if they are beyond U+7F.
+
+For example, the Unicode string 'Caf\'{e}' has 4 code points, 4
+grapheme clusters and 5 octets in UTF-8 encoding while
+'Cafe\textbf{\'{ }}' has 5 code points, 4 grapheme clusters and 6 octets
+in UTF-8 encoding, yet many text processing applications need to treat
+them as equivalent.
+
+\subsection{Secondary Problems}
+Rexx has built-in case conversion, but it is based on ASCII and
+can't even convert the accented letters found in, e.g., ISO-8859-1
+(Latin-1), ISO-8859-15 (Latin-9), much less all those found in Unicode.
+
+\begin{lstlisting}
+    foo = 'Ren!\'{e}!'
+    parse upper var foo bar
+\end{lstlisting}
+
+sets bar to REN\'{e} rather than to REN\'{E}.
+
+In current implementations the range of characters is extremely small,
+and thus the \textbf{xrange()} only returns short strings.
+With Unicode the range expands to U+00 through U+10FFFF.
+That is far too large to allow as either an explict or implicit range in \textbf{xrange()}.
+
+The current definition restricts symbols to ASCII characters,
+which excludes letters used in many languages. If the rules are extended to include
+Unicode letters and digits beyond ASCII, the rules for equality of symbols must be addressed.
+Are composed and decomposed strings identical?
+Are base characters identical to their compatibility alterrnates?
+Are subscript and superscript digits distinct from their ASCII
+counterparts?
+
+When dealing with Unicode, different code sequences may have identical
+rendering due to the existence of both fully composed and combining
+code points and the exixtence of compatibility code points.
+Rexx needs a way to test two Unicode strings for equivalence.
+
+There has been some discussion claiming a need to continue supporting legacy code pages.
+
+There has been some discussion of the need to detect unassigned code points.
+
+
+\section{Solutions}
+
+Most of this section assumes that there will be three distict string
+types, and that some methods will not exist in all three types, or
+will behave differently.
+The type names used here are placeholders, and will be replaced once
+there is consensus on what to call them.
+
+\subsection{\textbf{OPTIONS} statement or directive}
+
+Define an option on the OPTIONS statement, or on a similar directive,
+to specify either raw octets or Unicode characters.
+This breaks programs that operate on both binary data and text.
+
+OPTIONS mighy also specify a source encoding parameter, overriding any code page in an environment variable or file metadata.
+
+\subsection{Types}
+
+Allow Rexx variables to contain three distinct types of data: raw octets, Unicode code points and text,
+Define \textbf{storage()} as returning raw octets,
+and provide conversion functions ("casts").
+There is an ongoing discussion as to whether all three are needed.
+
+There should be no implicit conversion between \textbf{.octets} and Unicode strings.
+
+There should be implicit conversion between Unicode types, but it need not be reversible, i.e.,
+a conversion from .Ucp to .Ugc and back need not produce the same code points as the original
+
+If support for legacy code pages is needed, a fourth string type could be defined.
+Strings of this type could include a code page attribute.
+
+\subsection{Width parameter}
+
+Add a width parameter to \textbf{c2x()} for Unicode code point string
+(raw octet strings may require input and output widths for UCS-2 AND UTF-16 data, and the
+utility of \textbf{c2x()} for grapheme clusters needs more
+analysis), and raise conditions with distinct error codes if any code
+point is out of range or if an invalid UTF-8 sequence is detected.  A
+case could be made for using either the bit size or the digit size as
+the width.
+
+Assuming that the width is in in terms of octets
+\begin{lstlisting}[linewidth=35em]
+    foo = 'Ren!\'{e}!'
+    bar = foo~UTF-8
+    /* assumes that width parameter is in octets */
+    say foo~c2x(2) /* Displays 00520065006E00E9  */
+    say bar~c2x    /* Displays 52656EC3A9        */
+\end{lstlisting}
+
+There is an ongoing discussion as to whether an when to allow implicit coercions of type in, e.g.,
+\begin{lstlisting}[linewidth=35em]
+    foo = .octets~new
+    foo = 'Ren!\'{e}!'
+    !\textellipsis!
+    parse var foo ASCII !{\textquotesingle}\'{e}{\textquotesingle}! .
+    say ASCII                     /* Displays Ren */
+\end{lstlisting}
+
+If there is no raw octet string added to the language,
+then \textbf{c2x()} might behave differently depending on whether an explicit width is provided.
+
+\subsection{Constants}
+Other languages allow specifying Unicode characters using either
+the hexadecimal value of the code point or the assigned name of the code point,
+e.g., U+E9 might be coded as {\textbackslash}u\{E9\} or {\textbackslash}u[LATIN SMALL LETTER E WITH ACUTE].
+The syntax used for such constants should be consisten across Rexx variants,
+including rules for optional spaces between (hex) digits,
+and should take into account the recommendations in \cite{RFC 5137}.
+Implementations should use the machine readable data bases published by
+the Unicode Consortium in order to ease migration to new versions of Unicode.
+
+The form {\textquotesingle}U+digits U+digits ...{\textquotesingle}U is clearer,
+but may break code that abuts the variable U with a string literal.
+The form {\textquotesingle}U+digits U+digits ...{\textquotesingle}X is acceptable.
+There should be a discussion of syntax for named Unicode constants, e.g.,
+{\textquotesingle}[COMBINING ACUTE ACCENT]{\textquotesingle}U is
+equivalent to {\textquotesingle}U+0301{\textquotesingle}U.
+There has been some discussion of using the form
+{\textquotesingle}\textellipsis{\textquotesingle}T and of escape conventions
+used in other languages.
+
+Binary and hexadecimal literals are of type \textbf{.octets} and cannot be implicitly coerced to Unicode strings.
+Other string literals are legacy or Unicode and cannot be implictly coerced to \textbf{.octets}.
+
+An alternative is to add a new notation using the ASCII \verb|`| as a
+framing character. This has the potential issue that it may be
+difficult to visually distinguish  \verb|`| from  \verb|'|.
+
+Another alternative is to use literals of the forms
+{\textquotesingle}\textellipsis{\textquotesingle}type:codepage,
+{\textquotesingle}\textellipsis{\textquotesingle}U:codepoints and
+{\textquotesingle}\textellipsis{\textquotesingle}U:clusters. However, that makes it incompatinle with ooRexx.
+
+The forms {\textquotesingle}\textellipsis{\textquotesingle}\{modifier\} and
+{\textquotesingle}\textellipsis{\textquotesingle}type\{modifier\}
+have no obvious conflict with existing syntax and has no abutment issues.
+
+The following table is intended as a discussion point and should be updated whenever a consencuss is reached.
+
+\begin{tabular}{| l | l | l |}
+\hline
+Example & Type & Semantics \\
+\hline
+{\textquotesingle}Ren\'{e}{\textquotesingle}              & Ucp & Unicode text by code point \\
+                                                          & Ugc & Unicode text by grapheme cluster (TBD) \\
+\hline
+{\textquotesingle}U+00E9{\textquotesingle}R               & Ucp & Unicode text by code point \\
+\hline
+{\textquotesingle}U+00E9{\textquotesingle}Ucp             & Ucp & Unicode text by code point \\
+\hline
+{\textquotesingle}U+00E9{\textquotesingle}Ugc             & Ucp & Unicode text by grapheme cluster  \\
+\hline
+{\textquotesingle}Ren\'{e}{\textquotesingle}\{ucp\}       & Ucp & Unicode text by code point \\
+\hline
+{\textquotesingle}Ren\'{e}{\textquotesingle}\{ugc\}       & Ucp & Unicode text by grapheme cluster  \\
+\hline
+{\textquotesingle}Ren\'{e}{\textquotesingle}\{ISO8859-1\} & Legacy & ISO 8859-1 legacy text \\
+\hline
+\end{tabular}
+
+\subsection{Error detection}
+The condition names given below are illustrative and not normative.
+Unicode BIF/BIMs should detect invalid input and signal the following conditions, with unique error codes.
+
+\begin{definition}
+\item [INVALIDCODEPOINT]%
+But carefully read 3.2 Conformance Requirements,
+Code Points Unassigned to Abstract Characters, p. 77, in \cite{Unicode}.
+\item[INVALIDUTF]%
+An invalid UTF-8 octet sequence or invalid use of a UTF-16 surrogate.
+\item [NOENCODING]%
+The operation requested requires a code page name.
+\item [NOTEXT]%
+An operation was requested that is not valid for a binary file.
+\item [RANGE]%
+A code point or other numeric entioty excees the permitted range.
+This might occur, e.g., when an application requuires that characters be limited to the BMP.
+\end{definition}
+
+\subsection{I/O}
+
+The \textbf{command} method of the stream classes should support a \textbf{CODEPAGE} option;
+attempting to set a codepage for a binary file should raise a \textbf{NOTTEXT} condition with a distinct error code.
+There should be an option or suboption controling whether to use Unicode if an apparent BOM is detected.
+
+The default should probably be UTF-8 or ISO 8859-1 with switching to Unicode if a BOM is detected.
+
+A discussion is needed on whether and when to create or discard byte order marks.
+
+\subsection{Case folding}
+
+The rules for case folding should take into account mathematical usage.
+\begin{itemize}
+\item U+1D400 through U+1D7FF are semantically distinct from other letters.
+\item Superscripts and subscripts have semantic significance.
+\end{itemize}
+
+\subsection{Raw octet strings}
+The methods should include those of the ooRexx .string class, except that
+\begin{itemize}
+\item The unit of operation is the uninterpreted octet.
+\item The \textbf{makeString} method requires an encoding parameter.
+\item Parameters are raw octet strings.
+\item There are no caseless methods.
+\end{itemize}
+
+\subsection{Legacy strings}
+
+If there is a .Legacy string type then the methods should have the
+same semantics as the existing methods for the .string class.
+If the new standard has a code page attribute then there should be an
+access method for it and the init or new method should allow
+specifying the code page.
+
+The following Additional methods should be defined:
+\begin{definition}
+\item [iconv] %
+Convert from one code page to another and return a legacy string.
+\item [makeCodePageString] %
+Return a Unicode string in which individual code points can be accessed
+\item [makeGraphemClusterString] %
+Return a Unicode string in which only complete grapheme clusters can be accessed
+\end{definition}
+
+\subsection{Unicode strings}
+
+There should be subtypes depending on whether the
+unit of operation is the Unicode code point or the grapheme cluster.
+The methods should be those of the ooRexx .string class except:
+\begin{itemize}
+\item
+The caseless comparisons will use the \cite{UCD}.
+There will be variants to preserve or remove accents\footnote{Is Enye (\~n) considered an accented letter?}.
+\item There should be no \textbf{bit\textellipsis} methods.
+\item Add an optional third parameter to the \textbf{upper} and \textbf{lower} methods
+to control whether to translate mon-ASCII characters and whether to strip accents.
+\item
+The following Additional methods should be defined:
+\begin{definition}
+\item [makeCodePageString]
+Return a Unicode string in which individual code points can be accessed
+\item [makeGraphemClusterString]
+Return a Unicode string in which only complete grapheme clusters can be accessed
+\item [makeLegacyString]
+Return a legacy string for the specified code page in which individual octets can be accessed
+\item [makeOctets]
+Return a raw octet string using a specified encoding.\footnote{default
+to UTF-8 or raise NOENCODING if no encoding specified?}
+\item [NFC] Return a string normalized with Normalization Form C
+\item [NFD] Return a string normalized with Normalization Form D
+\end{definition}
+\end{itemize}
+
+There should be a description of how to handle conversion from Unicode code
+points and grapheme clusters that do not exist in the target code page.
+\begin{itemize}
+\item Replace with U+1A (SUB) or other specified character
+\item Raise SYNTAX with a unique error code
+\item Raise a new condition name with a unique error code
+\end{itemize}
+
+\subsection{Methods}
+The following table summarizes some of the methods that differ among string types.
+
+\begin{tabular}{| l | c | c | c | c |}
+\hline
+Method               & \textbf{.Legacy} & \textbf{.octets} & \textbf{.Ucp}  & \textbf{.Ugc} \\
+\hline
+\textbf{{[}{]}}      & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{\&}          & by octet         & \textbf{n/a}     & by code point  & by cluster    \\
+\textbf{|}           & by octet         & \textbf{n/a}     & by code point  & by cluster    \\
+\textbf{\&\&}        & by octet         & \textbf{n/a}     & by code point  & by cluster    \\
+\textbf{=}           & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{{\neg}=}     & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{><}          & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{<>}          & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{<}           & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{<=}          & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{>}           & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{{\neg}>}     & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{abbrev}      & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{bitand}      & \textbf{n/a}     & by octet         & \textbf{n/a}   & \textbf{n/a}  \\
+\textbf{bitor}       & \textbf{n/a}     & by octet         & \textbf{n/a}   & \textbf{n/a}  \\
+\textbf{bitxor}      & \textbf{n/a}     & by octet         & \textbf{n/a}   & \textbf{n/a}  \\
+\textbf{c2b}         & 8 bits           & default 8 bits   & Explicit width & \textbf{n/a}  \\
+\textbf{c2x}         & 8 bits           & default 8 bits   & Explicit width & \textbf{n/a}  \\
+\textbf{center}      & by octet         & \textbf{n/a}     & by code point  & by cluster    \\
+\textbf{change}      & \textbf{.Legacy} & \textbf{.octets} & by code point  & by cluster    \\
+\textbf{find}        & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{index}       & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{left}        & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{makeArray}   & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{makeString}  & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{pos}         & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{right}       & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{strip}       & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{substr}      & by octet         & by octet         & by code point  & by cluster    \\
+\textbf{verify}      & by octet         & by octet         & by code point  & by cluster    \\
+\hline
+\end{tabular}
+\\*
+\\*
+The backslash (``\textbackslash'') may be used in place of the Logical Not (``\neg'').
+
+In addition, the makeString and makeString methods should allow caseless option
+parameters to control the class and attributes of the returned array
+elements or string, including:
+
+\begin{definition}
+\item [Clusters] Unicode text with extended grapeme clusters as the abstract units.
+\item [Codepoints] Unicode text with Unicode scalars as the abstract units.
+\item [cp=legacy code page] Legacy or octet string with specified encoding.
+\item [cp=UTF-8]
+Legacy or octet string with UTF-8 encoding;
+functions like center and left will give unexpected results.
+\item [Legacy] Legacy string with default encoding unless cp= is also specified.
+\item [raw] Raw octet string; cp= must be specified.
+\end{definition}
+
+\subsection{Coercions}
+In addition to explicit casts via BIF/BIM, the following promotions
+from code-point strings to grapheme-cluster strings will be automatic
+
+\begin{itemize}
+\item Concatenation of code-point strings with grapheme-cluster strings.
+will be grapheme-cluster strings.
+\item Code point search arguments for grapheme-cluster strings.
+will be coerced to grapheme-cluster strings.
+\item Legacy strings tagged to a code page, in a context that requires Unicode,
+will be converted to the appropriate Unicode string type.
+\end{itemize}
+
+There will be no automatic promotion for octet strings, Unicode to
+legacy nor for legacy strings without code page tagging.
+
+
+\section{Bibliography}
+
+\begin{thebibliography}{9}
+\bibitem[Glossary of Unicode Terms]{Glossary}
+\href{https://unicode.org/glossary/}%
+{\textit{Glossary of Unicode Terms}}
+
+\bibitem[ISO/IEC 8859-1:1997 (E)]{ISO 8859-1}
+\href{https://www.open-std.org/JTC1/sc2/wg3/docs/n411.pdf}%
+{\textit{Final Text of DIS 8859-1, 8-bit single-byte coded graphic character sets-Part 1: Latin alphabet No.1}}
+
+\bibitem[ISO/IEC 10646:2020]{ISO 10646}
+\href{https://www.iso.org/standard/76835.html}%
+{\textit{Information technology - Universal coded character set (UCS)}}
+
+\bibitem[RFC 2781]{RFC 2781}
+\href{https://datatracker.ietf.org/doc/rfc2781/}%
+{\textit{UTF-16, a transformation format of ISO 10646}}
+
+\bibitem[RFC 3629, STD 63]{RFC 3629}
+\href{https://datatracker.ietf.org/doc/rfc3629/}%
+{\textit{UTF-8, a transformation format of ISO 10646}}
+
+\bibitem[RFC 5137, BCP 137]{RFC 5137}
+\href{https://datatracker.ietf.org/doc/rfc5137/}%
+{\textit{ASCII Escaping of Unicode Characters}}
+
+\bibitem[RFC 5198]{RFC 5198}
+\href{https://datatracker.ietf.org/doc/rfc5198/}%
+{\textit{Unicode Format for Network Interchange}}
+
+\bibitem[Unicode]{Unicode}
+\href{https://www.unicode.org/standard/standard.html}%
+{\textit{The Unicode Standard}}
+
+\bibitem[Unicode Character Database]{UCD}
+\href{https://www.unicode.org/ucd/}%
+{\textit{Unicode Character Database (UCD)}}
+
+\bibitem[Unicode CLDR Project]{CLDR}
+\href{https://cldr.unicode.org/}%
+{\textit{Unicode Common Locale Data Repository (CLDR)}}
+
+\bibitem[Unicode{\textregistered} Standard Annex 29]{Annex29}
+\href{https://www.unicode.org/reports/tr29/}%
+{\textit{Unicode{\textregistered} Standard Annex 29\\ %
+Unicode Text Segmentation}}
+
+\end{thebibliography}
+
+\section{Resources}
+There are some useful tools available on the WWW:
+
+\begin{resource}
+\item[Compart Unicode]%
+\href{https://www.compart.com/en/unicode/}%
+{Look up, e.g., code point.}
+\end{resource}
+
+\end{document}
