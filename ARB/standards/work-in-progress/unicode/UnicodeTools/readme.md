@@ -97,5 +97,82 @@ of type ``CODEPOINTS``.
 For example, UTF-32 is a fixed-length encoding, so that with a ``CODEPOINTS`` target type, direct-access character positioning and
 substitution is trivial to implement. On the other hand, if the target type is ``TEXT``, these operations become very difficult to implement.
 
+### STREAM QUERY extensions
 
+The ``STREAM`` BIF has been extended to support Unicode-enabled streams:
 
+```Rexx
+  Call Stream filename, "Command", "Open read ENCODING IMB1047 CODEPOINTS SYNTAX"    -- Now "filename" refers to a Unicode-enabled stream
+  Say  Stream(filename, "Command", "Query Encoding Name")                            -- "IBM1047"
+  Say  Stream(filename, "Command", "Query Encoding Target")                          -- "CODEPOINTS", the name of the target type
+  Say  Stream(filename, "Command", "Query Encoding Error")                           -- "SYNTAX", the name of the error handling option
+  Say  Stream(filename, "Command", "Query Encoding LastError")                       -- "", the offending line or character sequence
+  Say  Stream(filename, "Command", "Query Encoding")                                 -- "IBM1047 CODEPOINTS SYNTAX"
+```
+
+### Manual encoding and decoding
+
+Although the simplicity and ease of use of Unicode-enabled streams is very convenient, in some cases you may want to resort to manual
+encoding and decoding operations. For maximum control, you can use the new BIFs, ``ENCODE`` and ``DECODE`` (defined in 
+[Unicode.cls](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/packages/Unicode.cls.html)).
+
+``DECODE`` can be used as an *encoding validator*:
+
+```rexx
+   wellFormed = DECODE(string, encoding)
+```
+
+will return a boolean value indicating whether *string* can be decoded without errors by using the specified *encoded* (i.e., **1** when the decoding will succeed, and **0** otherwise).
+
+You can also use ``DECODE`` to decode a string, by specifying a target format (currently, only UTF-8 and UTF-32 are supported):
+
+```rexx
+   decoded = DECODE(string, encoding, "UTF-8")
+```
+
+In this case, the function will return the null string if *string* cannot be decoded without errors with the specified *encoding*, and the decoded version of its first argument if no ill-formed character combinations are found.
+
+Since encoding and decoding are considered to be low-level operations, the results of ``ENCODE`` and ``DECODE`` are always ``BYTES`` strings. If you need
+more features for the returned strings, you can always promote the results to higher types by using the ``CODEPOINTS`` and ``TEXT`` BIFs.
+
+#### Manual decoding and error handling
+
+A fourth argument to the ``ENCODE`` BIF determines the way in which ill-formed character sequences are handled:
+
+```rexx
+   decoded = DECODE(string, encoding, "UTF-8", "REPLACE")
+```
+
+When the fourth argument is omitted, or is specified as ``""`` or ``"NULL"`` (the default), a null string is returned if any ill-formed sequence is found.
+When the fourth argument is ``"REPLACE"``, any ill-formed character is replaced with the Unicode Replacement Character (U+FFFD). When the fourth
+argument if ``"SYNTAX"``, a Syntax error is raised in the event that an ill-formed sequence is found.
+
+## Other changes and additions
+
+### ooRexxDoc documentation
+
+I have started to document the programs using ooRexxDoc. This is a work-in-progress.
+
+### To the ``rxu`` [Rexx Preprocessor for Unicode](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/packages/rxu.rex.html)
+
+* Recognize BIFs in CALL instructions.
+* Remove support for OPTIONS CONVERSIONS (wanted to rethink the feature).
+* Change "C" suffix for classic strings to "Y", as per Rony's suggestion.
+* "U" strings are now BYTES strings.
+* Implement DATATYPE(string, "C") (syntax checks uniCode strings).
+* Implement LINEIN, LINEOUR, CHARIN, CHAROUT, CHARS and LINES.
+
+### To the main Unicode class, [Unicode.cls](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/packages/Unicode.cls.html)
+
+* Rename P2U to C2U, and create a new U2C BIF. Complete symmetry with C2X, X2C and DATATYPE("X").
+
+### Encoding support
+
+A new ``encoding`` subdirectory has been created. The main encoding class is [``Encoding.cls``](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/packages/Encoding.cls.html). Concrete encodings
+are subclasses of ``Encoding.cls``, and are automatically recognized when they are added to the ``encoding`` subdirectory.
+
+**Note**: the encoding interface is likely to change in the following releases.
+
+### Samples
+
+Numerous sample programs have been added to the ``samples`` directory. Most of these programs test the behaviour of the enhanced BIFs.
