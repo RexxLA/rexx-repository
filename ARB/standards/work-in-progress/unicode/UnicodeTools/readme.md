@@ -8,9 +8,9 @@ Interfaces and specifications are proposals to be discussed, and can be changed 
 
 ## Quick installation
 
-Download Unicode.zip, unzip it in some directory of your choice, and run ``setenv`` to set the path.
+Download Unicode.zip, unzip it in some directory of your choice, and run ``setenv`` to set the path (for Linux users: use ``. ./setenv.sh``, not ``./setenv.sh``, or your path will not be set).
 
-You can navigate to the ``samples`` directory and try the samples by using ``[rexx] rxu filename``.
+You can then navigate to the ``samples`` directory and try the samples by using ``[rexx] rxu filename``.
 
 ## Preliminary documentation
 
