@@ -10,7 +10,7 @@ Interfaces and specifications are proposals to be discussed, and can be changed 
 
 Download Unicode.zip, unzip it in some directory of your choice, and run ``setenv`` to set the path.
 
-You can navigate to the ``samples`` directry and try the samples by using ``[rexx] rxu filename``.
+You can navigate to the ``samples`` directory and try the samples by using ``[rexx] rxu filename``.
 
 ## Preliminary documentation
 
@@ -33,25 +33,25 @@ A stream is said to be **Unicode-enabled** when an ``ENCODING`` is specified in 
 Stream I/O BIFs recognize that the stream is Unicode-enabled, and change their behaviour accordingly:
 
 * The contents of the line is automatically decoded and converted to Unicode (i.e., to a UTF-8 *presentation*).
-* Both ``LINEIN`` and ``CHARIN`` return strings of type ``TEXT``, composed of extender grapheme clusters.
+* Both ``LINEIN`` and ``CHARIN`` return strings of type ``TEXT``, composed of extended grapheme clusters.
 * When you call ``CHARIN`` and specify the *length* parameter, the appropriate number of characters (grapheme clusters) are read and returned.
 * Each encoding can specify its own set of end-of-line characters. For example, the IBM-1047 encoding (a variant of EBCDIC)
   specifies that ``"15"X``, the NL character, is to be used as end-of-line. Both ``LINEIN`` and ``LINEOUT`` honor this requirement, i.e.,
   when reading lines, a line will be ended by ``"15"X``, and when writing lines, they will be ended by ``"15"X`` too, instead of the
   usual LF or CRLF combination
 * When using Unicode semantics, some operations can become very expensive to implement. For example, a simple direct-access character
-  substitution in a file is trivial to implent for ASCII streams, but it can become prohibitive when using a variable-length encoding.
+  substitution in a file is trivial to implement for ASCII streams, but it can become prohibitive when using a variable-length encoding.
   These operations have been restricted in the current release.
 * Similarly, when the Unicode-enabled stream has a string target of ``TEXT`` (the default), some operations can become prohibitive too:
   a ``TEXT`` "character" is, indeed, a grapheme cluster, and a grapheme cluster can have an arbitrary length. Direct-access character
   substitutions become too expensive to implement.
 
-**Note**: We should start a discussion about what features we are used to, like direct-access character substitution, make sense and should be
-implemented for Unicode-enabled streams.
+**Note**: *We should start a discussion about what features we are used to, like direct-access character substitution, make sense and should be
+implemented for Unicode-enabled streams*.
 
 ### Error handling
 
-When using a Unicode-enabled stream, encoding and decoding errors can occur. By default, ill-formed characters are relaced by the Unicode
+When using a Unicode-enabled stream, encoding and decoding errors can occur. By default, ill-formed characters are replaced by the Unicode
 Replacement Character (``U+FFFd``). You can explicitly request this behaviour by specifying the ``REPLACE`` option in the ``ENCODING``
 of your stream:
 
@@ -93,9 +93,9 @@ to receive ``CODEPOINTS`` strings. You can specify the target type in the ``ENCO
 When you specify ``TEXT`` (the default), returned strings are of type ``TEXT``. When you specify ``CODEPOINTS``, returned strings are
 of type ``CODEPOINTS``.
 
-**Note**: Some operations that are easy to implement for a ``CODEPOINTS`` target type can become impractical when switching to a ``TEXT`` type.
+**Note**: *Some operations that are easy to implement for a ``CODEPOINTS`` target type can become impractical when switching to a ``TEXT`` type.
 For example, UTF-32 is a fixed-length encoding, so that with a ``CODEPOINTS`` target type, direct-access character positioning and
-substitution is trivial to implement. On the other hand, if the target type is ``TEXT``, these operations become very difficult to implement.
+substitution is trivial to implement. On the other hand, if the target type is ``TEXT``, these operations become very difficult to implement*.
 
 ### STREAM QUERY extensions
 
@@ -171,7 +171,7 @@ I have started to document the programs using ooRexxDoc. This is a work-in-progr
 A new ``encoding`` subdirectory has been created. The main encoding class is [``Encoding.cls``](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/packages/Encoding.cls.html). Concrete encodings
 are subclasses of ``Encoding.cls``, and are automatically recognized when they are added to the ``encoding`` subdirectory.
 
-**Note**: the encoding interface is likely to change in the following releases.
+**Note**: *the encoding interface is likely to change in the following releases*.
 
 ### Samples
 
