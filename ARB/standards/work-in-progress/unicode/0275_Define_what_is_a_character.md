@@ -28,6 +28,10 @@ Still some details more. जन्म counts as _three_ graphemes, namely ज, �
 
 (/jmb)
 
+(rvj)
+In my view, centre()/center() lost its relevance when proportional fonts for terminals and printers were introduced.
+(/rvj)
+
 (jmb)
 
 An example of why we need to work with graphemes. Look at the output of this small NetRexx program
