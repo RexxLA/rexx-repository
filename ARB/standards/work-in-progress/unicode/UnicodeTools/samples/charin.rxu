@@ -1,0 +1,212 @@
+
+
+tmpfile = SysTempFileName("????.file")
+
+If tmpFile == "" Then Do
+  Say "Cannot create temporary file."
+  Exit 1
+End
+
+Say "Creating a UTF-16 file..."
+
+crlf = "000d000a"x
+Call CreateFile ("D83D DC68 200D D83D DC69 0061 0301 DC68"X,""),crlf
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-16 SYNTAX TEXT'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-16 SYNTAX TEXT"
+
+Call Test tmpFile, ,2, "F09F91A8E2808DF09F91A961CC81"X, 0 
+Call Test tmpFile,1,1, "F09F91A8E2808DF09F91A9"X,       0
+Call Test tmpFile,2,1, "61CC81"X,                       1
+Call Test tmpFile,1,0, "",                              0
+Call Test tmpFile, , , "F09F91A8E2808DF09F91A9"X,       0 
+Call Test tmpFile, , , "61CC81"X                ,       0 
+Call Test tmpFile, , , ""                       ,       1
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-16 REPLACE TEXT'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-16 REPLACE TEXT"
+
+Call Test tmpFile, , , "F09F91A8E2808DF09F91A9"X,       0 
+Call Test tmpFile, , , "61CC81"X                ,       0 
+Call Test tmpFile, , , "efbfbd"X                ,       0
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-16 SYNTAX CODEPOINTS'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-16 SYNTAX CODEPOINTS"
+
+Call Test tmpFile, ,2, "F09F91A8E2808D"X,               0 
+Call Test tmpFile,1,1, "F09F91A8"X,                     0
+Call Test tmpFile,2,1, "E2808D"X,                       1
+Call Test tmpFile,1,0, "",                              0
+Call Test tmpFile, , , "F09F91A8"X,                     0 
+Call Test tmpFile, ,4, "E2808DF09F91A961CC81"X,         0
+Call Test tmpFile, , , ""                       ,       1 
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-16 CODEPOINTS REPLACE'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-16 CODEPOINTS REPLACE"
+
+Call Test tmpFile, , , "F09F91A8"X,                     0 
+Call Test tmpFile, ,4, "E2808DF09F91A961CC81"X,         0
+Call Test tmpFile, , , "efbfbd"X                ,       0
+Parse Pull
+
+Say
+Say "Creating a UTF-32 file..."
+Say 
+
+crlf = "0000000d0000000a"x
+Call CreateFile ("0001F468 0000200D 0001F469 00000061 00000301 0000DC68"X,""),crlf
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-32 SYNTAX TEXT'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-32 SYNTAX TEXT"
+
+Call Test tmpFile, ,2, "F09F91A8E2808DF09F91A961CC81"X, 0 
+Call Test tmpFile,1,1, "F09F91A8E2808DF09F91A9"X,       0
+Call Test tmpFile,2,1, "61CC81"X,                       1
+Call Test tmpFile,1,0, "",                              0
+Call Test tmpFile, , , "F09F91A8E2808DF09F91A9"X,       0 
+Call Test tmpFile, , , "61CC81"X                ,       0 
+Call Test tmpFile, , , ""                       ,       1
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-32 REPLACE TEXT'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-32 REPLACE TEXT"
+
+Call Test tmpFile, , , "F09F91A8E2808DF09F91A9"X,       0 
+Call Test tmpFile, , , "61CC81"X                ,       0 
+Call Test tmpFile, , , "efbfbd"X                ,       0
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-32 SYNTAX CODEPOINTS'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-32 SYNTAX CODEPOINTS"
+
+Call Test tmpFile, ,2, "F09F91A8E2808D"X,               0 
+Call Test tmpFile,1,1, "F09F91A8"X,                     0
+Call Test tmpFile,2,1, "E2808D"X,                       0
+Call Test tmpFile,1,0, "",                              0
+Call Test tmpFile, , , "F09F91A8"X,                     0 
+Call Test tmpFile, ,4, "E2808DF09F91A961CC81"X,         0
+Call Test tmpFile, , , ""                       ,       1 
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-32 CODEPOINTS REPLACE'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-32 CODEPOINTS REPLACE"
+
+Call Test tmpFile, , , "F09F91A8"X,                     0 
+Call Test tmpFile, ,4, "E2808DF09F91A961CC81"X,         0
+Call Test tmpFile, , , "efbfbd"X                ,       0
+Parse Pull
+
+Say
+Say "Creating a UTF-8 file..."
+Say 
+
+crlf = "0d0a"x
+Call CreateFile ("F09F91A8 E2808D F09F91A9 61 CC81 FF"X,""),crlf
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-8 SYNTAX TEXT'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-8 SYNTAX TEXT"
+
+Call Test tmpFile, ,2, "F09F91A8E2808DF09F91A961CC81"X, 0 
+Call Test tmpFile,1,1, "F09F91A8E2808DF09F91A9"X,       0
+Call Test tmpFile,2,1, "61CC81"X,                       1
+Call Test tmpFile,1,0, "",                              0
+Call Test tmpFile, , , "F09F91A8E2808DF09F91A9"X,       0 
+Call Test tmpFile, , , "61CC81"X                ,       0 
+Call Test tmpFile, , , ""                       ,       1
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-8 REPLACE TEXT'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-8 REPLACE TEXT"
+
+Call Test tmpFile, , , "F09F91A8E2808DF09F91A9"X,       0 
+Call Test tmpFile, , , "61CC81"X                ,       0 
+Call Test tmpFile, , , "efbfbd"X                ,       0
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-8 SYNTAX CODEPOINTS'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-8 SYNTAX CODEPOINTS"
+
+Call Test tmpFile, ,2, "F09F91A8E2808D"X,               0 
+Call Test tmpFile,1,1, "F09F91A8"X,                     0
+Call Test tmpFile,2,1, "E2808D"X,                       1
+Call Test tmpFile,1,0, "",                              0
+Call Test tmpFile, , , "F09F91A8"X,                     0 
+Call Test tmpFile, ,4, "E2808DF09F91A961CC81"X,         0
+Call Test tmpFile, , , ""                       ,       1 
+Parse Pull
+
+Call Stream tmpFile, "C", "Close"
+Say "After 'Open Read Encoding UTF-8 CODEPOINTS REPLACE'"
+Call Stream tmpFile, "C", "Open Read Encoding UTF-8 CODEPOINTS REPLACE"
+
+Call Test tmpFile, , , "F09F91A8"X,                     0 
+Call Test tmpFile, ,4, "E2808DF09F91A961CC81"X,         0
+Call Test tmpFile, , , "efbfbd"X                ,       0
+Parse Pull
+
+Say "All tests PASSED!"
+
+Call Exit 0
+
+Test: Procedure
+  Parse Arg fn, start, length, expected, syntax
+  
+  Call CharOut , "Testing 'Call CharIn """fn"""," start"," length"'... "
+  
+  Signal On Syntax 
+  If length == "" Then Length = 1
+  If Arg(2,"o") Then Call CharIn fn,      , length
+  Else               Call CharIn fn, start, length
+  If syntax Then Do
+    Say "FAILED!"
+    Say "Expected Syntax error."
+    Call Exit 1
+  End
+  If result == expected Then Do
+    Say "PASSED!"
+    Return
+  End
+  Say "FAILED!"
+  Call Exit 1
+  
+Syntax:
+  If \syntax Then Do
+    Say "FAILED!"
+    Say Condition("O")~TraceBack~makeArray
+    Say "Unexpected Syntax error:" rc"."Condition("E") "on" Condition("O")~program":" Condition("O")~ErrorText
+    Say Condition("O")~Message
+    Call Exit 1
+  End
+  Say "PASSED!"
+  Return
+ 
+Exit:
+  Call Stream tmpfile,"C","CLOSE"
+  Call SysFileDelete tmpfile
+  Exit Arg(1)
+
+
+CreateFile: Procedure Expose tmpFile
+  Call Stream tmpFile,"C","Open Write Replace"
+  Use Strict Arg lines, eol
+  Do counter c line Over lines
+    Call CharOut tmpFile, line
+    -- No line-end after last line    
+    If c < lines~items Then Call CharOut tmpFile, eol
+  End
+  Call Stream tmpFile,"C","CLOSE"
+Return  

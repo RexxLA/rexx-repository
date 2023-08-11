@@ -1,0 +1,387 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+
+    <title>ooRexxDoc - The Unicode Tools for Rexx - utf8.cls</title>
+
+    <style type="text/css">
+        body { padding-top: 70px; }
+
+        #toTop{
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+            display: none;
+        }
+
+        pre {
+            overflow-x: auto;
+        }
+        pre code {
+            overflow-wrap: normal;
+            white-space: pre;
+        }
+
+        .keyword {
+            color: #ff5f00;
+        }
+
+        #search {
+            margin-left: 10px;
+        }
+
+        :target {
+            display: block;
+            position: relative;
+            top: -50px;
+            visibility: hidden;
+        }
+
+        .class-info {
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ooRexxDoc</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="../oorexxdoc.html">Home</a></li>
+                <li class="active"><a href="utf8.cls.html">utf8.cls</a></li>
+            </ul>
+            <form class="navbar-form">
+                <div class="form-group">
+                    <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
+                </div>
+                <span class="navbar-right">
+                        <span class="label label-info">Run-Date: 11 ago 2023 12:28:05</span>
+                </span>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Packages</div>
+                <div class="panel-body" style="max-height: 420px;overflow-y: scroll;">
+                        <a href="cp850.cls.html">cp850.cls</a>
+                        <hr width="99%"/>
+                        <a href="Encoding.cls.html">Encoding.cls</a>
+                        <hr width="99%"/>
+                        <a href="ibm1047.cls.html">ibm1047.cls</a>
+                        <hr width="99%"/>
+                        <a href="rxu.rex.html">rxu.rex</a>
+                        <hr width="99%"/>
+                        <a href="Stream.cls.html">Stream.cls</a>
+                        <hr width="99%"/>
+                        <a href="Unicode.cls.html">Unicode.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf16.cls.html">utf16.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf32.cls.html">utf32.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf8.cls.html">utf8.cls</a>
+                        <hr width="99%"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">utf8.cls Overview</div>
+                <div class="panel-body">
+                    <ul>
+                            <li>Classes
+                                <ul>
+                                        <li><a href="utf8.cls.html#UTF8">UTF8</a>
+                                                <ul>
+                                                    <li>Methods:
+                                                            <a href="utf8.cls.html#bytesNeededForChar">bytesNeededForChar</a>
+                                                            <a href="utf8.cls.html#decode">decode</a>
+                                                            <a href="utf8.cls.html#encode-1">encode</a>
+                                                    </li>
+                                                </ul>
+                                        </li>
+                                </ul>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <div class="container-fluid" id="content-main">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="container-fluid">
+            <h1>utf8.cls</h1>
+
+                <br /><br />
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>The <code>UTF-8</code> encoding class</h3>     <p>    This classfile is part of     <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>.       <p>See     <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">    https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/    </a>    for more information.      <p>    License: Apache License 2.0     [<a href="https://www.apache.org/licenses/LICENSE-2.0">    https://www.apache.org/licenses/LICENSE-2.0    </a>]      <h4>Description</h4>    <p>    The <code>UTF8</code> class implements encoding/decoding from/to the UTF8    format. This encoder/decoder is, in a sense, somewhat special: since UTF8 is the    designated interchange format for Unicode Rexx strings (i.e., how the string    <em>presents itself</em>, although not necessarily how it is <em>internally represented</em>),     the <code>encode</code> method has little to do, apart from ensuring that the result is of the    desired class.    <p>This is a subclass of <a href="Encoding.cls.html">the Encoding class</a>.     Please refer to the documentation for <a href="Encoding.cls.html">that class</a>    for additional details.      <h4>Version history</h4>    <table>    <tr><td><b>1.0 20230801</b><td>Initial release.  </table>
+                            <br /><br />
+                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
+                            <b>version</b>: 1.0 <br />
+                            <b>see</b>: <a href="Encoding.cls.html">Encoding.cls</a>     <style>   .bordered tr, .bordered tr td, .bordered tr th, .bordered caption { border: 1px solid black; border-collapse: collapse; }   .bordered caption {text-align:center;}  </style> <br />
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="UTF8"></a>
+                        <div class="panel-heading">
+                            <h4>Class: UTF8</h4>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div>
+                                    <span class="label label-info class-info">Sub-Class: Encoding</span>
+                            </div>
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h3>The <code>UTF-8</code> encoding class</h3>     <p>    This classfile is part of     <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>.       <p>See     <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">    https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/    </a>    for more information.      <p>    License: Apache License 2.0     [<a href="https://www.apache.org/licenses/LICENSE-2.0">    https://www.apache.org/licenses/LICENSE-2.0    </a>]      <h4>Description</h4>    <p>    The <code>UTF8</code> class implements encoding/decoding from/to the UTF8    format. This encoder/decoder is, in a sense, somewhat special: since UTF8 is the    designated interchange format for Unicode Rexx strings (i.e., how the string    <em>presents itself</em>, although not necessarily how it is <em>internally represented</em>),     the <code>encode</code> method has little to do, apart from ensuring that the result is of the    desired class.    <p>This is a subclass of <a href="Encoding.cls.html">the Encoding class</a>.     Please refer to the documentation for <a href="Encoding.cls.html">that class</a>    for additional details.      <h4>Version history</h4>    <table>    <tr><td><b>1.0 20230801</b><td>Initial release.  </table>
+                                            <br /><br />
+                                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
+                                            <b>version</b>: 1.0 <br />
+                                            <b>see</b>: <a href="Encoding.cls.html">Encoding.cls</a>     <style>   .bordered tr, .bordered tr td, .bordered tr th, .bordered caption { border: 1px solid black; border-collapse: collapse; }   .bordered caption {text-align:center;}  </style> <br />
+                                    </div>
+                                </div>
+
+                            <div>
+                                <h4>Attributes</h4>
+                                    <i>No Attributes</i>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Methods</h4>
+                                    <a id="bytesNeededForChar"></a>
+                                    <ul>
+                                        <li><b>bytesNeededForChar</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> string
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="decode"></a>
+                                    <ul>
+                                        <li><b>decode</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.UTF8~decode</code> method</h4>  <p><code>Decode</code> takes a UTF8 <code>string</code> as an argument, and returns a choice of Unicode conversions of the  string (UTF8, UTF32, or both), according to the third, optional <code>format</code> parameter (by default, it  returns the UTF8 version only).   <p>The argument <code>string</code> is checked for UTF8 well-formedness. The behaviour of the <code>decode</code> method  when <code>string</code> is not well-formed depends on the value of its second, optional, <code>option</code> argument.  <p>When <code>option</code> is <code>"Syntax"</code>", if <code>string</code> is ill-formed, a Syntax condition is raised.  <p>When <code>option</code> is the null string, if <code>string</code> is ill-formed, the null string is returned.  <p>Both <code>option</code> and <code>format</code> are case-insensitive.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>string</code> The string to decode. <br />
+                                                            <b>param</b>: <code>option = ""</code> What to do if we find an encoding error. <code>"Syntax"</code> produces a syntax error, and <code>""</code> (the default) returns the null string. <br />
+                                                            <b>param</b>: <code>format = "UTF8"</code> Format may be the null string, "UTF8" or "UTF-8", in which case a UTF-8 version of the argument string is returned;                                       it can be "UTF-32" or "UTF-32", in which case a UTF-32 version of the string is returned; or it can be any combination                                      of blank-separated values (repetitions are allowed). If both UTF-8 and                                      UTF-32 versions are requested, the returned value is an array containing the UTF-8 and the                                      UTF-32 versions of the argument string (in this order). <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Invalid option '<em>option</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Invalid format '<em>format</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 23.900</code> Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X. <br />
+                                                            <b>see</b>: <code>encode</code> <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> string, format = &quot;&quot;, errorHandling = &quot;&quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="encode-1"></a>
+                                    <ul>
+                                        <li><b>encode</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.UTF8~encode</code> method</h4>  <p>The <code>encode</code> method of the UTF8 class is special, in the sense     that UTF8 is, precisely, the encoding we are using as an interchange format.     Because of that reason, if an encoding (to UTF-8) of a <code>Text</code> or <code>Codepoints</code>     string <code>string</code> is requested, the result is automatically the result of calling     the <code>makeString</code> method (<code>Text</code> and <code>Codepoints</code> are sanitized    on construction, and therefore the string is well-formed by definition).   <p>If the <code>string</code> argument is a simpler string (e.g., a <code>Bytes</code> string), then it will have to    be <em>decoded</em> first (i.e., checked for UTF-8 well-formedness), and then we can    return this very same string.  <p>Please note that the present implementation supports only UTF-8 as the encoding of source programs.    If other encodings were to be supported, the preliminary decoding and sanitizing should, of course,    use the corresponding decoder.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>string</code> The string we want to encode <br />
+                                                            <b>param</b>: <code>option</code> What to do if we find an encoding error. <code>"Syntax"</code> raises a syntax condition, and <code>""</code> (the default) indicates
+           the error by returning the null string. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Invalid option '<em>option</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 23.900</code> Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X. <br />
+                                                            <b>see</b>: <a href="#decode"><em>decode</em></a> <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> String
+
+
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Constants</h4>
+                                        <a id="aliases"></a>
+                                        <ul>
+                                            <li><b>aliases</b>
+                                                Value: "UTF-8"
+
+                                            </li>
+                                        </ul>
+                                        <a id="alternateEndOfLine"></a>
+                                        <ul>
+                                            <li><b>alternateEndOfLine</b>
+                                                Value: "0D 0A"X
+
+                                            </li>
+                                        </ul>
+                                        <a id="bytesPerChar"></a>
+                                        <ul>
+                                            <li><b>bytesPerChar</b>
+                                                Value: 1
+
+                                            </li>
+                                        </ul>
+                                        <a id="endOfLine"></a>
+                                        <ul>
+                                            <li><b>endOfLine</b>
+                                                Value: "0A"X
+
+                                            </li>
+                                        </ul>
+                                        <a id="endOfLineAlignment"></a>
+                                        <ul>
+                                            <li><b>endOfLineAlignment</b>
+                                                Value: 1
+
+                                            </li>
+                                        </ul>
+                                        <a id="isFixedLength"></a>
+                                        <ul>
+                                            <li><b>isFixedLength</b>
+                                                Value: 0
+
+                                            </li>
+                                        </ul>
+                                        <a id="maxBytesPerChar"></a>
+                                        <ul>
+                                            <li><b>maxBytesPerChar</b>
+                                                Value: 4
+
+                                            </li>
+                                        </ul>
+                                        <a id="name"></a>
+                                        <ul>
+                                            <li><b>name</b>
+                                                Value: "UTF8"
+
+                                            </li>
+                                        </ul>
+                                        <a id="useAlternateEndOfLine"></a>
+                                        <ul>
+                                            <li><b>useAlternateEndOfLine</b>
+                                                Value: ( .endOfLine == "0D0A"X )
+
+                                            </li>
+                                        </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+        </div>
+    </div>
+    <br />
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/typeahead-bootstrap.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/search-data.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span> Back to Top</div>');
+            $(window).scroll(function () {
+                if ($(this).scrollTop() != 0) {
+                    $('#toTop').fadeIn();
+                } else {
+                    $('#toTop').fadeOut();
+                }
+            });
+            $('#toTop').click(function(){
+                $("html, body").animate({ scrollTop: 0 }, 200);
+                return false;
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#search').typeahead({
+                source: searchData,
+                displayText: function(item) {
+                    if(item.info !== null) {
+                        return item.type + ":" + item.name + " (" + item.info + ")";
+                    }
+
+                    return item.type + ":" + item.name;
+                },
+                matcher: function(item) {
+                    return item.name.toLowerCase().indexOf(this.query.toLowerCase()) != -1
+                },
+                afterSelect: function(item) {
+                    window.location.href = item.href;
+                    $("#search").val(item.name)
+                },
+                items: 20
+            });
+        })
+    </script>
+</body>
+</html>

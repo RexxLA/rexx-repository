@@ -1,0 +1,60 @@
+/**
+ * <h4><code>lineout.rxu</code></h4>
+ *
+ * <p>This program tests the extended features of the LINEOUT BIF.
+ */
+tmpfile = SysTempFileName("????.file")
+
+If tmpFile == "" Then Do
+  Say "Cannot create temporary file."
+  Exit 1
+End
+
+Say "Testing the LINEOUT BIF"
+Say "----------------------"
+Say
+Say "When the program appears to stop, please press ENTER to continue"
+Say
+Parse pull
+
+Call Stream tmpFile,"C", "Open Write Encoding UTF-16"
+
+Call LineOut tmpFile, "Abá" "(Man)"U "FF"X
+Call Stream  tmpFile, "C", "Close"
+
+Call Stream  tmpFile,"C", "Open Read"
+Say LineIn(tmpFile)~c2x"0A"
+
+Call Exit 0
+
+Exit:
+  Call Stream tmpfile,"C","CLOSE"
+  Call SysFileDelete tmpfile
+  Exit Arg(1)
+
+4: Return Right(Arg(1),4,"00"x)
+
+Test: Procedure Expose line. tmpfile
+  Use Strict Arg read, n, label
+  If read \== line.n Then Do
+    Say "Test failed: line no." n,,
+      "should be '"line.n"' ('"c2x(line.n)"'X),",,
+      "found     '"read"' ('"c2x(read)"'X)."
+    Call Exit 1
+  End
+  Say label": PASSED."
+Return
+
+
+CreateFile: Procedure Expose tmpFile
+  Call Stream tmpFile,"C","Open Write Replace"
+  Use Strict Arg lines, eol
+  Do counter c line Over lines
+    Call CharOut tmpFile, line
+    -- No line-end after last line    
+    If c < lines~items Then Call CharOut tmpFile, eol
+  End
+  Call Stream tmpFile,"C","CLOSE"
+Return  
+  
+  

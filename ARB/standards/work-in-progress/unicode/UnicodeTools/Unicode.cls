@@ -1,0 +1,796 @@
+/**
+ * <h2>The UNICODE Tools for Rexx</h2>
+ *
+ *<pre><code>   This classfile is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>. 
+ *   See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
+ *   License: Apache License 2.0 [<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>]</code></pre>
+ *
+ * <h3><code>Unicode.cls</code>: The main Unicode Tools for Rexx file</h3>
+ *
+ * <p>This class offers a set of public Unicode routines that implement
+ *   the basic Unicode Tools for Rexx architecture. Some of these routines are:
+ *
+ * <pre><code>
+ *   BYTES(string)      -- Creates a new string composed of bytes
+ *   CODEPOINTS(string) -- Creates a new string composed of Unicode codepoints
+ *   TEXT(string)       -- Creates a new string composed of grapheme clusters
+ *   UNICODE(code,"Property",propertyName)                                  
+ *     The swiss-knife Unicode BIF. It allows to map codepoints to Unicode properties.
+ *   C2U(string)       -- Returns the set of codepoints that compose the string in a series of formats
+ *   P2N(code)         -- codePoints To Name: returns the Unicode Name property
+ *   N2P(name)         -- Name To codePoints: transforms a Unicode name or alias into a normalized codepoint
+ * </code></pre>
+ *
+ * <p>
+ *   Although the whole set of Unicode Tools can be used in a purely
+ *   procedural way, the Tools are implemented by a set of classes, defined
+ *   in this file. These are:
+ *
+ * <pre><code>
+ *   .BYTES           -- Similar to .String, it implements a string composed of bytes
+ *   .CODEPOINTS      -- Implements a string composed of Unicode codepoints
+ *   .TEXT            -- Implements a string composed of extended grapheme clusters
+ * </code></pre>
+ *
+ * <p>
+ *   These classes implement the usual built-in methods (BIMs), but adapted
+ *   to the elementary constituents of each class.
+ *
+ * <p>
+ *   With some exceptions, which are detailed in the description of each !-BIF
+ *   (see below), standard Rexx built-in functions (BIFs) continue to work 
+ *   "in the same way" with <code>CODEPOINTS</code> or <code>TEXT</code> strings that they do with Classic 
+ *   Rexx strings. "In the same way" means that they implement the same 
+ *   logical operations, but applied, in each case, to their ultimate constituents. 
+ *   For example, <code>SUBSTR</code>, when applied to a <code>CODEPOINTS</code> string, will operate 
+ *   on codepoints; and <code>POS</code>, when applied to a <code>TEXT</code> string, will operate 
+ *   at the extended grapheme cluster level.
+ *
+ * <p>
+ *   The Rexx language does not allow any overriding of BIFs except by internal
+ *   routines, that is, it is not possible to design a new set of BIFs that
+ *   reside in an external file. To overcome this difficulty, Unicode.cls
+ *   can be used with <em>the Rexx Preprocessor for Unicode</em>, <code>rxu.rex</code>.
+ *   The preprocessor substitutes calls to the Rexx built-in functions by
+ *   equivalent calls to functions with a new name, obtained by prefixing an
+ *   exclamation mark character (<code>"!"</code>) to the standard BIF name.
+ *   For example, the preprocessor replaces function calls like <code>Length(var)</code>
+ *   with <code>!Lenght(var)</code>, and <code>CALL</code> instructions like
+ * <pre><code>Call Stream filename, "Command", "Query exists"</code></pre>
+ * <p>with
+ * <pre><code>Call !Stream filename, "Command", "Query exists"</code></pre>
+ * <p>
+ *   <code>Unicode.cls</code> implements these substitution !-BIFs (as we
+ *   could call them), adding new functionality when needed, and rerouting
+ *   the calls to the corresponding BIM, depending on the class of the
+ *   string. This means, for example, that, when using the new <code>rxu</code>
+ *   command one can program in a purely procedural way, handle strings in the
+ *   usual, Classic Rexx, way, and when one <em>promotes</em> a string, say,
+ *   to <code>TEXT</code>, by using a <code>Text(string)</code> function call, she can
+ *   expect the returned value to "magically" function as a normal string
+ *   that operates on extended grapheme clusters instead of on characters.
+ *              
+ *  <h4>Version history</h4>
+ *  
+ *  <table class="table">
+ *    <tr><th>Ver. <th>Aut.<th>Date    <th>Description
+ *    <tr><td>00.1 <td>JMB <td>20230716<td>Initial release                                       
+ *    <tr><td>00.1c<td>JMB <td>20230718<td>Move property classes to the "property" subdir        
+ *                     Fix some bugs, add consistency check for names       
+ *    <tr><td>00.1d<td>JMB <td>20230719<td>Add support for many !-BIfs
+ *    <tr><td>00.1e<td>JMB <td>20230721<td>Add support for LOWER, !LOWER
+ *    <tr><td>00.1f<td>JMB <td>        <td>Add support for UPPER, !UPPER
+ *    <tr><td>00.2 <td>JMB <td>20230725<td>Extensive refactoring. Move Bytes.cls, Runes.cls and Text.cls to Unicode.cls.
+ *                                         <br>Implement OPTIONS CONVERSIONS for some ops and BIFs
+ *    <tr><td>00.2a<td>JMB <td>20230727<td>Add format=("","U+","NAMES") for C2U.
+ *                                         <br>CODEPOINTS now checks for correct UTF-8.
+ *                                         <br>Change RUNES to CODEPOINTS, and ALLRUNES to C2U
+ *    <tr><td>00.3 <td>JMB <td>TBA     <td>Move utf-8 and -16 code to the "encodings" subdir, implement general interface to encodings.
+ *                                         <br>Remove code for OPTIONS CONVERSIONS.
+ *                                         <br>Add C2U("UTF32") option
+ *                                         <br>Implement !STREAM and !LINEIN
+ *                                         <br>Rename P2U to C2U.
+ *                                         <br>ADD U2C to BYTES (and, by extension, to CODEPOINTS and TEXT)
+ *                                         <br>DATATYPE BIM extended to accept "C" (for "uniCode") strings (the contents of a "U" string).
+ *                                         <br>Implement !CHARIN
+ *                                         <br>Move STREAM !BIFs to Stream.cls
+ *  </table>
+ *
+ *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
+ *  @version 1.0
+ */
+
+.local~bytes          = .Bytes       -- Make sure .Bytes is known everywhere
+.local~codepoints     = .Codepoints  -- Make sure .Codepoints is known everywhere
+.local~text           = .Text        -- Make sure .Text is known everywhere
+
+::Routine Unicode Public
+  Use Arg, option
+  option = Upper( Strip( option ) )
+  Select
+    When "PROPERTY"~Abbrev(option,1) Then Signal Properties
+    Otherwise Raise Syntax 88.900 Additional("Invalid option '"Arg(2)"'")
+  End
+    
+Properties:
+  Use Strict Arg code, optjon , property
+  .Unicode.property~checkCode( code )
+  code     = Upper( code )
+  property = Space( Translate( Upper( property ),"  ","-_"), 0)
+  
+  Select Case property
+    When "NA", "NAME" Then Do
+      If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")
+      Return .Unicode.Name[ code ]
+    End
+    When "GC", "GENERALCATEGORY" Then 
+      Return .Unicode.General_Category[ code ]
+    When "GCB", "GRAPHEMECLUSTERBREAK" Then 
+      Return .Unicode.Grapheme_Cluster_Break[ code ]
+    When "ALGORITHMICNAME" Then -- Until we have a true NAME implementation
+      Return .Unicode.General_Category~Algorithmic_Name( code )
+    Otherwise Raise Syntax 88.900 Additional("Invalid property '"Arg(3)"'")
+  End
+
+::Routine N2P Public
+  Use Strict Arg name
+  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
+  Return .Unicode.Name~n2p( name )
+
+::Routine P2N Public
+Use Strict Arg code
+  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
+  Return .Unicode.Name[ code ]
+
+::Routine stringType Public
+  Use Strict Arg string, option = ""
+  .Validate~classType( "option" , option , .String )
+  option = Upper(option)
+  Select
+    When Abbrev("BYTES",      option,1) Then Return self~stringType == "BYTES"
+    When Abbrev("CODEPOINTS", option,1) Then Return self~stringType == "CODEPOINTS"
+    When Abbrev("TEXT",       option,1) Then Return self~stringType == "TEXT"
+    Otherwise 
+      If option \== "" Then
+        Raise Syntax 40.900 Additional("Invalid option '"Arg(2)"'")
+  End
+  Select
+    When string~isA(.Text)       Then Return "TEXT"
+    When string~isA(.Codepoints) Then Return "CODEPOINTS"
+    When string~isA(.String)     Then Return "BYTES"
+    Otherwise                         Return "NONE"
+  End
+
+::Routine Bytes Public
+  Use Strict Arg string
+  return .Bytes~new(string)
+
+::Routine Codepoints Public
+  Use Strict Arg string
+  Return .Codepoints~new(string)
+
+::Routine Text Public
+  Use Strict Arg string
+  Return .Text~new(string)
+    
+::Routine C2U Public  
+  Use Strict Arg object, format=""
+  Return object~C2U(format) 
+  
+/**
+ *
+ * <h4><code>DECODE</code> (new BIF)</h4>
+ *
+ * <code><pre>
+ *
+ * <b>DECODE(</b> <em>string</em> , <em>encoding</em> , >─┬──────────┬──┬───────────────────┬─> <b>)</b>
+ *                               └─ <em>format</em> ─┘  └─ , <em>errorHandling</em> ─┘
+ * </pre></code>
+ * <p><code>DECODE</code> tests whether a <code>string</code> is encoded according to a certain <code>encoding</code>, 
+ *   and optionally decodes it to a certain <code>format</code>.
+ *
+ * <p><code>DECODE</code> works as an <code>encoding</code> <em>validator</em> when <code>format</code> is omitted, and
+ *   as a <em>decoder</em> when <code>format</code> is specified. It is an error to omit <code>format</code> and to specify
+ *   a value for <code>errorHandling</code> at the same time (that is, if <code>format</code> was omitted, then
+ *   <code>errorHandling</code> should be omitted too).
+ *
+ * <p>When <code>DECODE</code> is used as <em>validator</em>, it returns a boolean value, indicating
+ *   if the <code>string</code> is well-formed according to the specified <code>encoding</code>.
+ *   For example, <code>DECODE(string,"UTF-8")</code> returns <code>1</code> when string contains well-formed
+ *   UTF-8, and 0 if it contains ill-formed UTF-8.
+ *
+ * <p>To use <code>DECODE</code> as a <em>decoder</em>, you have to specify a <code>format</code>. This argument accepts a blank-separated
+ *   set of tokens. Each token can have one of the following values: <code>"UTF8"</code>, <code>"UTF-8"</code>, <code>"UTF32"</code>, or
+ *   <code>"UTF-32"</code> (duplicates are allowed and ignored). When <code>"UTF8"</code> or <code>"UTF-8"</code> have been specified,
+ *   a UTF-8 representation of the decoded string is returned. When <code>"UTF32"</code> or <code>"UTF-32"</code> have been specified,
+ *   UTF-32 representation of the decoded string is returned. When both have been specified, an two-items array is returned. The first item
+ *   of the array is the UTF-8 representation of the decoded string, and the second item of the array contains the UTF-32 representation
+ *   of the decoded string.
+ *
+ * <p>The optional <code>errorHandling</code> argument determines the behaviour of the function when the <code>format</code> argument
+ *   has been specified. If if has the value <code>""</code> (the default) or <code>"NULL"</code>, a null string is returned when there
+ *   a decoding error is encountered. If it has the value <code>"REPLACE"</code>, any ill-formed character will be replaced by the
+ *   Unicode Replacement Character (U+FFFD). If it has the value <code>"SYNTAX"</code>, a Syntax condition will be raised when
+ *   a decoding error is encountered.
+ *
+ * <p><b>Examples:</b>
+ *
+ * <code><pre> 
+ * DECODE(string, "UTF-16")                           -- Returns 1 if <em>string</em> contains proper UTF-8, and 0 otherwise
+ * var = DECODE(string, "UTF-16", "UTF-8")            -- Decodes <em>string</em> to the UTF-8 format. A null string is returned if <em>string</em> contains ill-formed UTF-16.
+ * DECODE(string, "UTF-16",,"SYNTAX")                 -- The fourth argument is checked for validity and then ignored.
+ * DECODE(string, "UTF-16",,"POTATO")                 -- Syntax error (Invalid option 'POTATO').
+ * var = DECODE(string, "UTF-16", "UTF-8", "REPLACE") -- Decodes <em>string</em> to the UTF-8 format. Ill-formed character sequences are replaced by U+FFFD.
+ * var = DECODE(string, "UTF-16", "UTF-8", "SYNTAX")  -- Decodes <em>string</em> to the UTF-8 format. Any ill-formed character sequence will raise a Syntax error.
+ * </pre></code>
+ */ 
+  
+::Routine DECODE Public  
+  Use Strict Arg string, encoding, format="", errorHandling=""
+  Return .Encoding[encoding]~decode(string, format, errorHandling)  
+  
+  
+/*****************************************************************************
+ *                                                                           *
+ * Implementation of some classic Rexx BIFs                                  *
+ * ----------------------------------------                                  * 
+ *                                                                           * 
+ * Names are preceded with "!", like in "!Length".                           *
+ * An internal routine called "Length" will be needed that calls "!Length",  * 
+ * or a preprocessor that substitutes calls to "Length" by calls to          *
+ * "!Length", as there is no other way to override BIFs.                     * 
+ *                                                                           * 
+ *****************************************************************************/ 
+
+
+::Routine !C2X Public
+  Use Strict Arg string
+Return string~c2x
+
+::Routine !Center Public
+  Use Strict Arg string, length, pad = " "
+Return string~center(length, pad)  
+
+::Routine !Centre Public
+  Use Strict Arg string, length, pad = " "
+Return string~centre(length, pad)  
+
+::Routine !Copies Public
+  Use Strict Arg string, n
+Return string~copies(n)
+
+/**
+ *  <h4>Helper routine for the <code>DATATYPE</code> BIF</h4>
+ *
+ *  <p>The <code>DATATYPE</code> BIF is enhanced by supporting a new <code>"C"</code> option (for "uniCode").
+ *
+ *  <p>Please refer to the documentation for the <code>DATATYPE</code> method of the <code>BYTES</code> class.
+ */
+
+::Routine !DataType Public
+  If Arg() > 2       Then Raise Syntax 40.4 Array("DATATYPE", 2)
+  If Arg(1,"O") == 1 Then Raise Syntax 40.5 Array("DATATYPE", 1)
+  If Arg(2,"O")      Then Return DataType(Arg(1))
+  Use Arg string, type
+  If Upper(type,1) \== "C" Then Return DataType(string, type)
+  If \string~isA(.Bytes) Then string = .Bytes~new(string)
+Return string~dataType("C")
+
+::Routine !Left Public
+  Use Strict Arg string, length, pad = " "
+Return string~left(length, pad)
+
+::Routine !Length Public
+  Use Strict Arg string
+Return string~length
+
+::Routine !Lower Public
+  Use Strict Arg string, n = 1, length = (Max(!Length(string) - n + 1,0))
+Return string~lower(n, length)
+
+::Routine !Pos Public
+  Use Strict Arg needle, haystack, start = 1, length = ( Max(!Length(haystack)-start+1,0) )
+Return haystack~Pos(needle, start, length)  
+
+::Routine !Reverse Public
+  Use Strict Arg string
+Return string~reverse
+
+::Routine !Right Public
+  Use Strict Arg string, length, pad = " "
+Return string~right(length, pad)
+
+::Routine !Substr Public
+  Use Strict Arg string, n, length = (Max(!Length(string)-n+1,0)), pad = " "
+Return string~substr(n, length, pad)
+
+::Routine !Upper Public
+  Use Strict Arg string, n = 1, length = (Max(!Length(string) - n + 1,0))
+Return string~upper(n, length)
+    
+/******************************************************************************/
+/*                                                                            */
+/* THE BYTES CLASS                                                            */ 
+/* ===============                                                            */ 
+/*                                                                            */
+/******************************************************************************/
+ 
+/**
+ *                                                                          
+ *  <h3>The <code>BYTES</code> class</h3>
+ *
+ *  <p> 
+ *    The <code>BYTES</code> class is fundamentally equivalent to the ooRexx built-in      
+ *    <code>STRING</code> class. <code>"Y"</code> strings and unpostfixed strings (when 
+ *    <code>OPTIONS DEFAULTSTRING BYTES</code> is in effect) will be of this class. 
+ *    Having an explicit class (a subclass of <code>STRING</code>) allows us to define fine-grained  
+ *    rules about BIF or operation results for mixed-type classes.            
+ *   
+ *                                                                          
+ */
+
+::Class "Bytes" SubClass String Public
+
+
+/**
+ * <h4>C2U: character to Unicode codepoints</h4>
+ *
+ * <p>This method assumes that the target string contains well-formed UTF-8. If this
+ * is not the case, it will raise a Syntax condition.
+ *
+ * <p>Please note that <code>CODEPOINTS</code> and <code>BYTES</code> strings are always well-formed.
+ *
+ * <p><code>C2U</code> returns a <code>BYTES</code> string such that if a <code>U</code> were appended to it
+ * and it was inserted as a literal in a Rexx source program it would have
+ * the same string value as the target string.
+ *
+ * <ul>
+ *   <li>
+ *     <code>string~c2u</code> will return a sequence of blank-separated codepoints,
+ *     (without the <code>"U+"</code> prefix). Codepoints smaller than U+1000 will be
+ *     padded on the left with zeros (<code>"0"</code>) until they are four bytes
+ *     long. Codepoints larger that U+FFFF will have any leading zeroes removed.
+ *     So, for example <code>"Sí"~C2U = "0053 00ED"</code>, and <code>"0053 00ED"U =
+ *     "53 C3AD"X = "Sí"</code>, since UTF-8 for <code>"í"</code> is precisely
+ *     <code>"C3AD"X</code>.
+ *   <li><code>string~c2u("U+")</code> returns
+ *      a list of blank-separated codepoints, with the <code>"U+"</code> prefix.
+ *      For example, <code>"Sí"~C2U("U+") = "U+0053 U+00ED"</code>.
+ *   <li><code>string~c2u("NAMES")</code> (abbreviable to "NA") returns a blank-separated
+ *      list of the Unicode "Name" ("Na") property for each character in the target string.
+ *      For example, <code>"Sí"~C2U("U+") = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"</code>.
+ *   <li><code>string~c2u("UTF32")</code> returns a UTF-32 representation of the target string, for example <code>"Sí"~C2U("UTF32") = "00000053 000000ED"X</code>.
+ * </ul>
+ */
+::Method C2U
+  Use Strict Arg format=""
+
+  utf32 = .Encoding~UTF8(self,"UTF32","Syntax")
+    
+  uFormat = Upper(format)
+  If uFormat == "UTF32" Then Return utf32
+  
+  LUtf32 = Length(utf32)
+  
+  codes = .Array~new( LUtf32 / 4 )
+  
+  Do i = 1 To LUtf32 By 4
+    code = Strip(C2X(utf32[i,4]),"L",0)
+    If Length(code) < 4 Then code = Right(code, 4, 0)
+    codes~append(code)
+  End
+  
+  Select
+    When format = "" Then Return codes~makeString("L", " ")
+    When uFormat == "U+" Then Return "U+"codes~makeString("L", " U+")
+    When Abbrev("NAMES",uFormat,2) Then Signal Names
+    Otherwise Raise Syntax 88.900 Additional("Invalid format '"format"'")
+  End
+Names:  
+  res = ""
+  Do i = 1 To codes~items
+    res ||= " ("P2N(codes[i])")"
+  End
+  Return Strip(res,"L")
+
+/**
+ * <h4>U2C: Unicode codepoints to Character</h4>
+ * 
+ * <p>
+ *   This method inspects the target string for validity (see below). If valid,
+ *   it translated the corresponding codepoints to UTF8, and returns the UTF8 string.
+ *   If not valid, a Syntax condition is raised.
+ *
+ * <p>
+ *   You can use the <code>DATATYPE(string, "C")</code> BIF (for "uniCode") or the
+ *   DATATYPE("C") method to verify whether a string is a proper Unicode codepoints string.
+ *
+ */
+ 
+::Method U2C 
+  contents = self~makeString
+  res = ""
+  Do While contents \= " "
+    contents = Strip(contents)
+    If contents[1] == "(" Then Do
+      Parse var contents "("name")"extra
+      If extra == "" Then If \contents~endsWith(")") Then Signal BadParenthesis
+      contents = Strip(extra)
+      code = N2P(name)
+      If code = "" Then Signal BadName
+    End
+    Else Do
+      Parse Var contents word contents
+      If Upper(word) == "U+"         Then Signal BadCodepoint
+      If Upper(Left(word,2)) == "U+" Then word = SubStr(word,3)
+      If \DataType(word,"X")         Then Signal BadCodepoint
+      If X2D(word) > X2D(10FFFF)     Then Signal BadCodepoint
+      If X2D(word) >= X2D(D800),,
+         X2D(word) <= X2D(DFFF)      Then Signal BadCodepoint
+    End
+    res ||= UTF8(word)
+  End
+Return res
+
+BadParenthesis:
+  Raise Syntax 22.900 Additional("Unmatched parenthesis in Unicode name")
+BadName:
+  Raise Syntax 22.900 Additional("Invalid Unicode name '"name"'")
+BadCodepoint:
+  Raise Syntax 22.900 Additional("Invalid Unicode codepoint '"word"'")
+  
+UTF8: Procedure
+  Use Arg code
+  If code~length < 4 Then code = Right(code,4,0)
+  Do While code~length > 4, code[1] == 0
+    code = Substr(code,2)
+  End
+  n = X2D(code)
+  b = X2B(code)
+  If b~length == 20 Then b = "0000"||b
+  If b~length == 8, n >= 128 Then b = "0000"||b
+  Select
+    When n <= 127   Then Return X2C(code[3,2])
+    When n <= 2047  Then Return X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6)))
+    When n <= 65535 Then Return X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
+    Otherwise            Return X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6)))
+  End 
+  
+--
+-- Reimplementation of many basic BIFs. Code is common to BYTES, CODEPOINTS and 
+-- TEXT, and will have different effects, depending on the most basic
+-- implementations of LENGTH, SUBSTR and [].
+--
+    
+::Method C2X
+  Use Strict Arg
+  Return self~makeString~c2x
+  
+::Method Center
+  Use Strict Arg n, pad = " "
+  .Validate~nonNegativeWholeNumber( "n" , n )
+  If pad~class \== self~class Then pad = self~class~new(pad)
+  If pad~length > 1 Then Raise Syntax 40.023 Array("CENTER",3,pad)
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~center:.String(n,pad))
+  size = self~length
+  If n == size Then Return self
+  If n > size Then Do
+    extra = n - size
+    left  = (extra) % 2
+    right = (extra) % 2 + (extra // 2 = 1)
+    Return self~class~new(Copies(pad,left) || self~makeString || Copies(pad, right))
+  End
+  left = (size - n + 1) % 2
+  Return self~subStr(left, n)
+
+::Method Centre
+  Forward Message (Center)
+  
+::Method Copies
+  Use Strict Arg n
+  .Validate~nonNegativeWholeNumber( "n" , n )
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~copies:.String(n))
+  Return self~class~new( Copies( self~makeString, n ) )    
+
+/**
+ *
+ * <h4>DATATYPE</h4>
+ *
+ * <p>The standard <code>DATATYPE</code> BIM is extended to accept a new value, "C", from "uniCode".
+ * <code>String~datatype("C")</code> returns <code>1</code> if and only if <code>string</code>
+ * follows the Unicode format, namely, if it consists of a blank-separated series of:
+ *
+ * <ul>
+ *   <li>Valid hexadecimal Unicode codepoints, like <code>61</code>, or <code>200D</code>, or <code>1F514</code>.
+ *   <li>Valid hexadecimal Unicode codepoints prefixed with "U+" or "u+", like <code>u+61</code>, or <code>U+200D</code>, or <code>u+1F514</code>.
+ *   <li>Names, alias or labels that designate a Unicode codepoint, enclosed between parentheses, like <code>(Latin small letter A)</code>,
+ *      <code>(ZWJ)</code>, <code>(Bell)</code>, or <code>(&lt;Control-001d&gt;)</code>.
+ * </ul>
+ */
+  
+::Method Datatype
+  If Arg() > 1 Then Raise Syntax 93.902 Array(1)
+  
+  If Arg() == 0 Then Return self~datatype:.String
+  
+  If Arg(1) \== "C" Then Return self~datatype:.String(Arg(1))
+
+  contents = self~makeString
+  Do While contents \= " "
+    contents = Strip(contents)
+    If contents[1] == "(" Then Do
+      Parse var contents "("name")"extra
+      If extra == "" Then If \contents~endsWith(")") Then Return 0
+      contents = Strip(extra)
+      code = N2P(name)
+      If code = "" Then Return 0
+    End
+    Else Do
+      Parse Var contents word contents
+      If Upper(word) == "U+"         Then Return 0
+      If Upper(Left(word,2)) == "U+" Then word = SubStr(word,3)
+      If \DataType(word,"X")         Then Return 0
+      If X2D(word) > X2D(10FFFF)     Then Return 0
+      If X2D(word) >= X2D(D800),,
+         X2D(word) <= X2D(DFFF)      Then Return 0
+    End
+  End
+Return 1
+
+  
+  
+  
+  
+::Method Left
+  Use Strict Arg length, pad = " "
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~left:.String(length,pad))
+  If pad~class \== self~class Then pad = self~class~new(pad)
+  If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 2, pad)
+  If length > self~length Then 
+    Return self~class~new(self||Copies(" ",length-self~length))
+  Return self~subStr(1,length)
+    
+::Method Lower
+  Use Strict Arg n = 1, length = (Max(self~length - n + 1,0))
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  .Validate~positiveWholeNumber(    "n" ,      n      )
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~lower:.String(n,length))
+  If length == 0 Then Return self
+  If n > self~length Then Return self
+  left = self[1,n-1]
+  center = .Unicode.case~toLowercase(self[n,length])
+  right = self[n+length,self~length] -- ensure we get all the rest
+  Return self~class~new(left || center || right)
+
+::Method Pos
+  Use Strict Arg needle, start = 1, length = (self~length - start + 1)
+  If needle~class \== self~class Then needle = self~class~new(needle)
+  .Validate~positiveWholeNumber(    "start" ,  start )
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~pos:.String(needle, start, length))
+  If self~length == 0    Then Return 0
+  If start > self~length Then Return 0
+  Do Label outer i = start By 1 While i + needle~length <= start + length
+    If self[i] == needle[1] Then Do
+      Do j = 2 To needle~length
+        If self[i+j-1] \== needle[j] Then Iterate outer
+      End
+      Return i
+    End
+  End
+  Return 0    
+
+::Method Reverse
+  ret = ""
+  Do i = self~length To 1 By -1
+    ret ||= self[i]
+  End
+  Return self~class~new(ret)
+
+::Method Right
+  Use Strict Arg length, pad = " "
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~right:.String(length,pad))
+  If pad~class \== self~class Then pad = self~class~new(pad)
+  If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 2, pad)
+  res = ""
+  If length > self~length Then 
+    Return self~class~new(Copies(" ",length-self~length)||self)
+  Return self~subStr(self~length - length + 1)
+
+::Method SubStr
+  .Validate~positiveWholeNumber( "n" , Arg(1) )
+  Use Strict Arg n, length = (self~length - n + 1), pad = " "
+  .Validate~classType( "pad" , pad , .String )
+  If pad~class \== self~class Then pad = self~class~new(pad)
+  If pad~length > 1 Then Raise Syntax 40.023 Array("SUBSTR",3,pad)
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~subStr:.String(n,length,pad))
+  max = self~length
+  res = ""
+  Do i = n For length
+    If i <= max Then res ||= self[i]
+    Else             res ||= pad
+  End
+  Return self~class~new(res)
+
+::Method Upper
+  Use Strict Arg n = 1, length = (Max(self~length - n + 1,0))
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  .Validate~positiveWholeNumber(    "n" ,      n      )
+  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~upper:.String(n,length))
+  If length == 0 Then Return self
+  If n > self~length Then Return self
+  left = self[1,n-1]
+  center = .Unicode.case~toUppercase(self[n,length])
+  right = self[n+length,self~length] -- ensure we get all the rest
+  Return self~class~new(left || center || right)
+
+/******************************************************************************/
+/*                                                                            */
+/* THE CODEPOINTS CLASS                                                       */ 
+/* ====================                                                       */ 
+/*                                                                            */
+/******************************************************************************/  
+  
+/*****************************************************************************/
+/*                                                                           */
+/*  The CODEPOINTS class                                                     */
+/*  ===============                                                          */
+/*                                                                           */
+/*  The CODEPOINTS class implements a new kind of string composed of Unicode */
+/*  codepoints. Some of the usual BIFs (e.g., LENBTH, SUBSTR, [], POS,       */
+/*  COPIES) are implemented at the codepoint level. A new C2U method is      */
+/*  provided: it returns a string composed of all the codepoints that        */
+/*  compose the receiving object, in a blank separated string.               */
+/*                                                                           */
+/*  Codepoints strings can be created by using the CODEPOINTS(string)        */
+/*  function, or using the "string"P notation (requires the rxu              */
+/*  preprocessor).                                                           */
+/*                                                                           */
+/*  Version history                                                          */
+/*  ===============                                                          */
+/*                                                                           */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*  00.1d JMB 20230719 Add support for LEFT, RIGHT and REVERSE               */
+/*  00.1e JMB 20230721 Add support for LOWER(n,length)                       */
+/*  00.1f JMB          Add support for UPPER(n,length)                       */
+/*  00.1f JMB          Make RUNES a subclass of BYTES, move to Unicode.cls   */
+/*                                                                           */
+/*****************************************************************************/
+
+/******************************************************************************
+ *                                                                            *
+ * Class "Codepoints"                                                         *
+ *                                                                            *
+ *   A .String-like class composed of Unicode codepoints                      *
+ *                                                                            *
+ *   This class builds over the built-in String class.                        *
+ *   It can be initialized with a .String, with a .Bytes string, with a       *
+ *   .Codepoints string, or with a .Text string. The "init" method constructs *
+ *   an array of utf 8codepoints and another array of hexadecimal codepoints, *
+ *   suitable for the U+ notation by prepending "U+" to them.                 *
+ *                                                                            *
+ *   A subset of the ooRexx BIMs have been implemented.                       *
+ *   Individual codepoints can be accessed using "string[i]" or               *
+ *   "substr(string,index,1)".                                                *
+ *                                                                            *
+ *   The "C2U" method returns a string of blank-separated codepoints.         *
+ *   These codepoints are ready to use as arguments for the UNICODE BIF.      *
+ *                                                                            *
+ ******************************************************************************/
+ 
+::Class "Codepoints" SubClass Bytes Public
+
+::Method init
+  Expose utf32
+    
+  -- .Encoding~UTF8 will do both the validation and the conversion.
+  utf32 = .Encoding~UTF8(self, "UTF32", "Syntax")
+
+--------------------------------------------------------------------------------
+--                                                                            --
+-- Reimplementation of .String BIMs                                           --
+--                                                                            --
+-- Only the most basic ones are needed, since the rest are based on those.    --
+-- Most of the reimplemented BIMs are defined in the Bytes class, and they    --
+-- are written in such a way that they will work with Bytes, Codepoints       --
+-- and Text strings.                                                          --
+--                                                                            --
+--------------------------------------------------------------------------------
+
+::Method "[]"
+  Expose utf32
+  Use Strict Arg n, length = 1
+  .Validate~positiveWholeNumber( "n" , n )
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  max = self~length
+  If n > max     Then Return self~class~new("")
+  If length == 0 Then Return self~class~new("")
+  
+  If n + length - 1 > max Then length = max - n + 1
+    
+  Return .Encoding["UTF32"]~decode(SubStr(utf32, 1 + (n-1)* 4, length * 4),"UTF8","Syntax")
+  
+::Method Length
+  Expose utf32
+  Return Length(utf32) / 4
+    
+--------------------------------------------------------------------------------
+-- End of reimplementation of .String BIMs                                    --
+--------------------------------------------------------------------------------
+                
+/*****************************************************************************/
+/*                                                                           */
+/*  The TEXT class                                                           */
+/*  ==============                                                           */
+/*                                                                           */
+/*  The TEXT class implements a new kind of string composed of Unicode       */
+/*  grapheme clusters. Some of the usual BIFs (e.g., LENGTH, SUBSTR, [],     */
+/*  POS, COPIES) are implemented at the grapheme cluster level (see the code */
+/*  for the CODEPOINTS class for details. The C2U method from the CODEPOINTS */
+/*  class is also available, since TEXT is a subclass of CODEPOINTS.         */
+/*                                                                           */
+/*  When string is a TEXT string, string[i] returns an (extended) grapheme   */
+/*  cluster which is itself a TEXT string. You can then use the C2U function */
+/*  on string[i], if so desired, to get the individual codepoints that       */
+/*  compose the i-th grapheme cluster of "string".                           */
+/*                                                                           */
+/*  TEXT strings can be created by using the TEXT(string) function,          */
+/*  or using the "string" T notation (requires the rxu preprocessor).        */
+/*                                                                           */
+/*  Version history                                                          */
+/*  ===============                                                          */
+/*                                                                           */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.1  JMB 20230716 Initial release                                       */
+/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
+/*  00.2  JMB 20230726 Merge code with Unicode.cls.                          */
+/*                                                                           */
+/*****************************************************************************/
+
+--
+--
+-- We redefine a number of BIMs (LENGTH, [], ...) so that we
+-- can operate with Codepoints strings as easily as with Byte strings:
+--
+
+::Class "Text" SubClass Codepoints Public
+  
+--------------------------------------------------------------------------------
+-- Reimplementation of .String BIMs                                           --
+--------------------------------------------------------------------------------  
+  
+::Method "[]"
+  Expose graphemes
+  Use Strict Arg n, length = 1
+  .Validate~positiveWholeNumber( "n" , n )
+  .Validate~nonNegativeWholeNumber( "length" , length )
+  max = self~length
+  If n > max Then Return self~class~new("")
+  res = ""
+  Do i = n for length While i <= max
+    res ||= graphemes[i]
+  End
+  Return self~class~new(res)
+
+::Method Length
+  Expose graphemes
+  Return graphemes~items
+
+--------------------------------------------------------------------------------
+-- End of reimplementation of .String BIMs                                    --
+--------------------------------------------------------------------------------
+
+::Method init
+  Expose graphemes
+  self~init:super
+  graphemes = .Unicode.Grapheme_Cluster_Break~codepointsToGraphemes( self~C2U, "UTF8" )
+  
+::Requires "Stream.cls"  
+::Requires "properties/Properties.cls"
+::Requires "encodings/Encoding.cls"

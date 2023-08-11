@@ -1,0 +1,1058 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+
+    <title>ooRexxDoc - The Unicode Tools for Rexx - Unicode.cls</title>
+
+    <style type="text/css">
+        body { padding-top: 70px; }
+
+        #toTop{
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+            display: none;
+        }
+
+        pre {
+            overflow-x: auto;
+        }
+        pre code {
+            overflow-wrap: normal;
+            white-space: pre;
+        }
+
+        .keyword {
+            color: #ff5f00;
+        }
+
+        #search {
+            margin-left: 10px;
+        }
+
+        :target {
+            display: block;
+            position: relative;
+            top: -50px;
+            visibility: hidden;
+        }
+
+        .class-info {
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ooRexxDoc</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="../oorexxdoc.html">Home</a></li>
+                <li class="active"><a href="Unicode.cls.html">Unicode.cls</a></li>
+            </ul>
+            <form class="navbar-form">
+                <div class="form-group">
+                    <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
+                </div>
+                <span class="navbar-right">
+                        <span class="label label-info">Run-Date: 11 ago 2023 12:28:05</span>
+                </span>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Packages</div>
+                <div class="panel-body" style="max-height: 420px;overflow-y: scroll;">
+                        <a href="cp850.cls.html">cp850.cls</a>
+                        <hr width="99%"/>
+                        <a href="Encoding.cls.html">Encoding.cls</a>
+                        <hr width="99%"/>
+                        <a href="ibm1047.cls.html">ibm1047.cls</a>
+                        <hr width="99%"/>
+                        <a href="rxu.rex.html">rxu.rex</a>
+                        <hr width="99%"/>
+                        <a href="Stream.cls.html">Stream.cls</a>
+                        <hr width="99%"/>
+                        <a href="Unicode.cls.html">Unicode.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf16.cls.html">utf16.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf32.cls.html">utf32.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf8.cls.html">utf8.cls</a>
+                        <hr width="99%"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Unicode.cls Overview</div>
+                <div class="panel-body">
+                    <ul>
+                            <li>Routines
+                                    <a href="Unicode.cls.html#%21C2X">!C2X</a>
+                                    <a href="Unicode.cls.html#%21Center">!Center</a>
+                                    <a href="Unicode.cls.html#%21Centre">!Centre</a>
+                                    <a href="Unicode.cls.html#%21Copies">!Copies</a>
+                                    <a href="Unicode.cls.html#%21DataType">!DataType</a>
+                                    <a href="Unicode.cls.html#%21Left">!Left</a>
+                                    <a href="Unicode.cls.html#%21Length">!Length</a>
+                                    <a href="Unicode.cls.html#%21Lower">!Lower</a>
+                                    <a href="Unicode.cls.html#%21Pos">!Pos</a>
+                                    <a href="Unicode.cls.html#%21Reverse">!Reverse</a>
+                                    <a href="Unicode.cls.html#%21Right">!Right</a>
+                                    <a href="Unicode.cls.html#%21Substr">!Substr</a>
+                                    <a href="Unicode.cls.html#%21Upper">!Upper</a>
+                                    <a href="Unicode.cls.html#Bytes-1">Bytes</a>
+                                    <a href="Unicode.cls.html#C2U-1">C2U</a>
+                                    <a href="Unicode.cls.html#Codepoints-1">Codepoints</a>
+                                    <a href="Unicode.cls.html#DECODE">DECODE</a>
+                                    <a href="Unicode.cls.html#N2P">N2P</a>
+                                    <a href="Unicode.cls.html#P2N">P2N</a>
+                                    <a href="Unicode.cls.html#stringType">stringType</a>
+                                    <a href="Unicode.cls.html#Text-1">Text</a>
+                                    <a href="Unicode.cls.html#Unicode">Unicode</a>
+                            </li>
+                            <li>Classes
+                                <ul>
+                                        <li><a href="Unicode.cls.html#Bytes">Bytes</a>
+                                                <ul>
+                                                    <li>Methods:
+                                                            <a href="Unicode.cls.html#C2U">C2U</a>
+                                                            <a href="Unicode.cls.html#C2X">C2X</a>
+                                                            <a href="Unicode.cls.html#Center">Center</a>
+                                                            <a href="Unicode.cls.html#Centre">Centre</a>
+                                                            <a href="Unicode.cls.html#Copies">Copies</a>
+                                                            <a href="Unicode.cls.html#Datatype">Datatype</a>
+                                                            <a href="Unicode.cls.html#Left">Left</a>
+                                                            <a href="Unicode.cls.html#Lower">Lower</a>
+                                                            <a href="Unicode.cls.html#Pos">Pos</a>
+                                                            <a href="Unicode.cls.html#Reverse">Reverse</a>
+                                                            <a href="Unicode.cls.html#Right">Right</a>
+                                                            <a href="Unicode.cls.html#SubStr">SubStr</a>
+                                                            <a href="Unicode.cls.html#U2C">U2C</a>
+                                                            <a href="Unicode.cls.html#Upper">Upper</a>
+                                                    </li>
+                                                </ul>
+                                        </li>
+                                        <li><a href="Unicode.cls.html#Codepoints">Codepoints</a>
+                                                <ul>
+                                                    <li>Methods:
+                                                            <a href="Unicode.cls.html#init">init</a>
+                                                            <a href="Unicode.cls.html#%5B%5D-1">[]</a>
+                                                            <a href="Unicode.cls.html#Length">Length</a>
+                                                    </li>
+                                                </ul>
+                                        </li>
+                                        <li><a href="Unicode.cls.html#Text">Text</a>
+                                                <ul>
+                                                    <li>Methods:
+                                                            <a href="Unicode.cls.html#%5B%5D-2">[]</a>
+                                                            <a href="Unicode.cls.html#Length-1">Length</a>
+                                                            <a href="Unicode.cls.html#init-1">init</a>
+                                                    </li>
+                                                </ul>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li>Requires
+                                    <a href="../packages/Stream.cls.html">Stream.cls</a>
+                                    properties/Properties.cls
+                                    <a href="../packages/Encoding.cls.html">Encoding.cls</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <div class="container-fluid" id="content-main">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="container-fluid">
+            <h1>Unicode.cls</h1>
+
+                <br /><br />
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2>The UNICODE Tools for Rexx</h2><pre><code>   This classfile is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>.    See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.   License: Apache License 2.0 [<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>]</code></pre> <h3><code>Unicode.cls</code>: The main Unicode Tools for Rexx file</h3> <p>This class offers a set of public Unicode routines that implement   the basic Unicode Tools for Rexx architecture. Some of these routines are: <pre><code>   BYTES(string)      -- Creates a new string composed of bytes   CODEPOINTS(string) -- Creates a new string composed of Unicode codepoints   TEXT(string)       -- Creates a new string composed of grapheme clusters   UNICODE(code,"Property",propertyName)                                       The swiss-knife Unicode BIF. It allows to map codepoints to Unicode properties.   C2U(string)       -- Returns the set of codepoints that compose the string in a series of formats   P2N(code)         -- codePoints To Name: returns the Unicode Name property   N2P(name)         -- Name To codePoints: transforms a Unicode name or alias into a normalized codepoint </code></pre> <p>   Although the whole set of Unicode Tools can be used in a purely   procedural way, the Tools are implemented by a set of classes, defined   in this file. These are: <pre><code>   .BYTES           -- Similar to .String, it implements a string composed of bytes   .CODEPOINTS      -- Implements a string composed of Unicode codepoints   .TEXT            -- Implements a string composed of extended grapheme clusters </code></pre> <p>   These classes implement the usual built-in methods (BIMs), but adapted   to the elementary constituents of each class. <p>   With some exceptions, which are detailed in the description of each !-BIF   (see below), standard Rexx built-in functions (BIFs) continue to work    "in the same way" with <code>CODEPOINTS</code> or <code>TEXT</code> strings that they do with Classic    Rexx strings. "In the same way" means that they implement the same    logical operations, but applied, in each case, to their ultimate constituents.    For example, <code>SUBSTR</code>, when applied to a <code>CODEPOINTS</code> string, will operate    on codepoints; and <code>POS</code>, when applied to a <code>TEXT</code> string, will operate    at the extended grapheme cluster level. <p>   The Rexx language does not allow any overriding of BIFs except by internal   routines, that is, it is not possible to design a new set of BIFs that   reside in an external file. To overcome this difficulty, Unicode.cls   can be used with <em>the Rexx Preprocessor for Unicode</em>, <code>rxu.rex</code>.   The preprocessor substitutes calls to the Rexx built-in functions by   equivalent calls to functions with a new name, obtained by prefixing an   exclamation mark character (<code>"!"</code>) to the standard BIF name.   For example, the preprocessor replaces function calls like <code>Length(var)</code>   with <code>!Lenght(var)</code>, and <code>CALL</code> instructions like <pre><code>Call Stream filename, "Command", "Query exists"</code></pre> <p>with <pre><code>Call !Stream filename, "Command", "Query exists"</code></pre> <p>   <code>Unicode.cls</code> implements these substitution !-BIFs (as we   could call them), adding new functionality when needed, and rerouting   the calls to the corresponding BIM, depending on the class of the   string. This means, for example, that, when using the new <code>rxu</code>   command one can program in a purely procedural way, handle strings in the   usual, Classic Rexx, way, and when one <em>promotes</em> a string, say,   to <code>TEXT</code>, by using a <code>Text(string)</code> function call, she can   expect the returned value to "magically" function as a normal string   that operates on extended grapheme clusters instead of on characters.                <h4>Version history</h4>    <table class="table">    <tr><th>Ver. <th>Aut.<th>Date    <th>Description    <tr><td>00.1 <td>JMB <td>20230716<td>Initial release                                           <tr><td>00.1c<td>JMB <td>20230718<td>Move property classes to the "property" subdir                             Fix some bugs, add consistency check for names           <tr><td>00.1d<td>JMB <td>20230719<td>Add support for many !-BIfs    <tr><td>00.1e<td>JMB <td>20230721<td>Add support for LOWER, !LOWER    <tr><td>00.1f<td>JMB <td>        <td>Add support for UPPER, !UPPER    <tr><td>00.2 <td>JMB <td>20230725<td>Extensive refactoring. Move Bytes.cls, Runes.cls and Text.cls to Unicode.cls.                                         <br>Implement OPTIONS CONVERSIONS for some ops and BIFs    <tr><td>00.2a<td>JMB <td>20230727<td>Add format=("","U+","NAMES") for C2U.                                         <br>CODEPOINTS now checks for correct UTF-8.                                         <br>Change RUNES to CODEPOINTS, and ALLRUNES to C2U    <tr><td>00.3 <td>JMB <td>TBA     <td>Move utf-8 and -16 code to the "encodings" subdir, implement general interface to encodings.                                         <br>Remove code for OPTIONS CONVERSIONS.                                         <br>Add C2U("UTF32") option                                         <br>Implement !STREAM and !LINEIN                                         <br>Rename P2U to C2U.                                         <br>ADD U2C to BYTES (and, by extension, to CODEPOINTS and TEXT)                                         <br>DATATYPE BIM extended to accept "C" (for "uniCode") strings (the contents of a "U" string).                                         <br>Implement !CHARIN                                         <br>Move STREAM !BIFs to Stream.cls  </table>
+                            <br /><br />
+                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
+                            <b>version</b>: 1.0 <br />
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21C2X"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !C2X</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Center"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Center</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, length, pad = &quot; &quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Centre"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Centre</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, length, pad = &quot; &quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Copies"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Copies</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, n
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21DataType"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !DataType</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h4>Helper routine for the <code>DATATYPE</code> BIF</h4>  <p>The <code>DATATYPE</code> BIF is enhanced by supporting a new <code>"C"</code> option (for "uniCode").  <p>Please refer to the documentation for the <code>DATATYPE</code> method of the <code>BYTES</code> class.
+                                    </div>
+                                </div>
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, type
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Left"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Left</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, length, pad = &quot; &quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Length"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Length</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Lower"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Lower</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, n = 1, length = (Max(!Length(string) - n + 1,0))
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Pos"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Pos</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> needle, haystack, start = 1, length = ( Max(!Length(haystack)-start+1,0) )
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Reverse"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Reverse</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Right"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Right</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, length, pad = &quot; &quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Substr"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Substr</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, n, length = (Max(!Length(string)-n+1,0)), pad = &quot; &quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="%21Upper"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: !Upper</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, n = 1, length = (Max(!Length(string) - n + 1,0))
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Bytes-1"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: Bytes</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="C2U-1"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: C2U</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> object, format=&quot;&quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Codepoints-1"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: Codepoints</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="DECODE"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: DECODE</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h4><code>DECODE</code> (new BIF)</h4> <code><pre> <b>DECODE(</b> <em>string</em> , <em>encoding</em> , >─┬──────────┬──┬───────────────────┬─> <b>)</b>                               └─ <em>format</em> ─┘  └─ , <em>errorHandling</em> ─┘ </pre></code> <p><code>DECODE</code> tests whether a <code>string</code> is encoded according to a certain <code>encoding</code>,    and optionally decodes it to a certain <code>format</code>. <p><code>DECODE</code> works as an <code>encoding</code> <em>validator</em> when <code>format</code> is omitted, and   as a <em>decoder</em> when <code>format</code> is specified. It is an error to omit <code>format</code> and to specify   a value for <code>errorHandling</code> at the same time (that is, if <code>format</code> was omitted, then   <code>errorHandling</code> should be omitted too). <p>When <code>DECODE</code> is used as <em>validator</em>, it returns a boolean value, indicating   if the <code>string</code> is well-formed according to the specified <code>encoding</code>.   For example, <code>DECODE(string,"UTF-8")</code> returns <code>1</code> when string contains well-formed   UTF-8, and 0 if it contains ill-formed UTF-8. <p>To use <code>DECODE</code> as a <em>decoder</em>, you have to specify a <code>format</code>. This argument accepts a blank-separated   set of tokens. Each token can have one of the following values: <code>"UTF8"</code>, <code>"UTF-8"</code>, <code>"UTF32"</code>, or   <code>"UTF-32"</code> (duplicates are allowed and ignored). When <code>"UTF8"</code> or <code>"UTF-8"</code> have been specified,   a UTF-8 representation of the decoded string is returned. When <code>"UTF32"</code> or <code>"UTF-32"</code> have been specified,   UTF-32 representation of the decoded string is returned. When both have been specified, an two-items array is returned. The first item   of the array is the UTF-8 representation of the decoded string, and the second item of the array contains the UTF-32 representation   of the decoded string. <p>The optional <code>errorHandling</code> argument determines the behaviour of the function when the <code>format</code> argument   has been specified. If if has the value <code>""</code> (the default) or <code>"NULL"</code>, a null string is returned when there   a decoding error is encountered. If it has the value <code>"REPLACE"</code>, any ill-formed character will be replaced by the   Unicode Replacement Character (U+FFFD). If it has the value <code>"SYNTAX"</code>, a Syntax condition will be raised when   a decoding error is encountered. <p><b>Examples:</b> <code><pre>  DECODE(string, "UTF-16")                           -- Returns 1 if <em>string</em> contains proper UTF-8, and 0 otherwise var = DECODE(string, "UTF-16", "UTF-8")            -- Decodes <em>string</em> to the UTF-8 format. A null string is returned if <em>string</em> contains ill-formed UTF-16. DECODE(string, "UTF-16",,"SYNTAX")                 -- The fourth argument is checked for validity and then ignored. DECODE(string, "UTF-16",,"POTATO")                 -- Syntax error (Invalid option 'POTATO'). var = DECODE(string, "UTF-16", "UTF-8", "REPLACE") -- Decodes <em>string</em> to the UTF-8 format. Ill-formed character sequences are replaced by U+FFFD. var = DECODE(string, "UTF-16", "UTF-8", "SYNTAX")  -- Decodes <em>string</em> to the UTF-8 format. Any ill-formed character sequence will raise a Syntax error. </pre></code>
+                                    </div>
+                                </div>
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, encoding, format=&quot;&quot;, errorHandling=&quot;&quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="N2P"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: N2P</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> name
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="P2N"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: P2N</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> code
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="stringType"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: stringType</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string, option = &quot;&quot;
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Text-1"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: Text</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                                <br /><span class="keyword">USE ARG</span> string
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Unicode"></a>
+                        <div class="panel-heading">
+                            <h4>Routine: Unicode</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h2>The UNICODE Tools for Rexx</h2><pre><code>   This classfile is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>.    See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.   License: Apache License 2.0 [<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>]</code></pre> <h3><code>Unicode.cls</code>: The main Unicode Tools for Rexx file</h3> <p>This class offers a set of public Unicode routines that implement   the basic Unicode Tools for Rexx architecture. Some of these routines are: <pre><code>   BYTES(string)      -- Creates a new string composed of bytes   CODEPOINTS(string) -- Creates a new string composed of Unicode codepoints   TEXT(string)       -- Creates a new string composed of grapheme clusters   UNICODE(code,"Property",propertyName)                                       The swiss-knife Unicode BIF. It allows to map codepoints to Unicode properties.   C2U(string)       -- Returns the set of codepoints that compose the string in a series of formats   P2N(code)         -- codePoints To Name: returns the Unicode Name property   N2P(name)         -- Name To codePoints: transforms a Unicode name or alias into a normalized codepoint </code></pre> <p>   Although the whole set of Unicode Tools can be used in a purely   procedural way, the Tools are implemented by a set of classes, defined   in this file. These are: <pre><code>   .BYTES           -- Similar to .String, it implements a string composed of bytes   .CODEPOINTS      -- Implements a string composed of Unicode codepoints   .TEXT            -- Implements a string composed of extended grapheme clusters </code></pre> <p>   These classes implement the usual built-in methods (BIMs), but adapted   to the elementary constituents of each class. <p>   With some exceptions, which are detailed in the description of each !-BIF   (see below), standard Rexx built-in functions (BIFs) continue to work    "in the same way" with <code>CODEPOINTS</code> or <code>TEXT</code> strings that they do with Classic    Rexx strings. "In the same way" means that they implement the same    logical operations, but applied, in each case, to their ultimate constituents.    For example, <code>SUBSTR</code>, when applied to a <code>CODEPOINTS</code> string, will operate    on codepoints; and <code>POS</code>, when applied to a <code>TEXT</code> string, will operate    at the extended grapheme cluster level. <p>   The Rexx language does not allow any overriding of BIFs except by internal   routines, that is, it is not possible to design a new set of BIFs that   reside in an external file. To overcome this difficulty, Unicode.cls   can be used with <em>the Rexx Preprocessor for Unicode</em>, <code>rxu.rex</code>.   The preprocessor substitutes calls to the Rexx built-in functions by   equivalent calls to functions with a new name, obtained by prefixing an   exclamation mark character (<code>"!"</code>) to the standard BIF name.   For example, the preprocessor replaces function calls like <code>Length(var)</code>   with <code>!Lenght(var)</code>, and <code>CALL</code> instructions like <pre><code>Call Stream filename, "Command", "Query exists"</code></pre> <p>with <pre><code>Call !Stream filename, "Command", "Query exists"</code></pre> <p>   <code>Unicode.cls</code> implements these substitution !-BIFs (as we   could call them), adding new functionality when needed, and rerouting   the calls to the corresponding BIM, depending on the class of the   string. This means, for example, that, when using the new <code>rxu</code>   command one can program in a purely procedural way, handle strings in the   usual, Classic Rexx, way, and when one <em>promotes</em> a string, say,   to <code>TEXT</code>, by using a <code>Text(string)</code> function call, she can   expect the returned value to "magically" function as a normal string   that operates on extended grapheme clusters instead of on characters.                <h4>Version history</h4>    <table class="table">    <tr><th>Ver. <th>Aut.<th>Date    <th>Description    <tr><td>00.1 <td>JMB <td>20230716<td>Initial release                                           <tr><td>00.1c<td>JMB <td>20230718<td>Move property classes to the "property" subdir                             Fix some bugs, add consistency check for names           <tr><td>00.1d<td>JMB <td>20230719<td>Add support for many !-BIfs    <tr><td>00.1e<td>JMB <td>20230721<td>Add support for LOWER, !LOWER    <tr><td>00.1f<td>JMB <td>        <td>Add support for UPPER, !UPPER    <tr><td>00.2 <td>JMB <td>20230725<td>Extensive refactoring. Move Bytes.cls, Runes.cls and Text.cls to Unicode.cls.                                         <br>Implement OPTIONS CONVERSIONS for some ops and BIFs    <tr><td>00.2a<td>JMB <td>20230727<td>Add format=("","U+","NAMES") for C2U.                                         <br>CODEPOINTS now checks for correct UTF-8.                                         <br>Change RUNES to CODEPOINTS, and ALLRUNES to C2U    <tr><td>00.3 <td>JMB <td>TBA     <td>Move utf-8 and -16 code to the "encodings" subdir, implement general interface to encodings.                                         <br>Remove code for OPTIONS CONVERSIONS.                                         <br>Add C2U("UTF32") option                                         <br>Implement !STREAM and !LINEIN                                         <br>Rename P2U to C2U.                                         <br>ADD U2C to BYTES (and, by extension, to CODEPOINTS and TEXT)                                         <br>DATATYPE BIM extended to accept "C" (for "uniCode") strings (the contents of a "U" string).                                         <br>Implement !CHARIN                                         <br>Move STREAM !BIFs to Stream.cls  </table>
+                                            <br /><br />
+                                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
+                                            <b>version</b>: 1.0 <br />
+                                    </div>
+                                </div>
+
+
+
+                                <br /><span class="keyword">USE ARG</span> , option
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Bytes"></a>
+                        <div class="panel-heading">
+                            <h4>Class: Bytes</h4>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div>
+                                    <span class="label label-info class-info">Sub-Class: String</span>
+                            </div>
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h3>The <code>BYTES</code> class</h3>  <p>     The <code>BYTES</code> class is fundamentally equivalent to the ooRexx built-in          <code>STRING</code> class. <code>"Y"</code> strings and unpostfixed strings (when     <code>OPTIONS DEFAULTSTRING BYTES</code> is in effect) will be of this class.     Having an explicit class (a subclass of <code>STRING</code>) allows us to define fine-grained      rules about BIF or operation results for mixed-type classes.
+                                    </div>
+                                </div>
+
+                            <div>
+                                <h4>Attributes</h4>
+                                    <i>No Attributes</i>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Methods</h4>
+                                    <a id="C2U"></a>
+                                    <ul>
+                                        <li><b>C2U</b>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>C2U: character to Unicode codepoints</h4> <p>This method assumes that the target string contains well-formed UTF-8. If this is not the case, it will raise a Syntax condition. <p>Please note that <code>CODEPOINTS</code> and <code>BYTES</code> strings are always well-formed. <p><code>C2U</code> returns a <code>BYTES</code> string such that if a <code>U</code> were appended to it and it was inserted as a literal in a Rexx source program it would have the same string value as the target string. <ul>   <li>     <code>string~c2u</code> will return a sequence of blank-separated codepoints,     (without the <code>"U+"</code> prefix). Codepoints smaller than U+1000 will be     padded on the left with zeros (<code>"0"</code>) until they are four bytes     long. Codepoints larger that U+FFFF will have any leading zeroes removed.     So, for example <code>"Sí"~C2U = "0053 00ED"</code>, and <code>"0053 00ED"U =     "53 C3AD"X = "Sí"</code>, since UTF-8 for <code>"í"</code> is precisely     <code>"C3AD"X</code>.   <li><code>string~c2u("U+")</code> returns      a list of blank-separated codepoints, with the <code>"U+"</code> prefix.      For example, <code>"Sí"~C2U("U+") = "U+0053 U+00ED"</code>.   <li><code>string~c2u("NAMES")</code> (abbreviable to "NA") returns a blank-separated      list of the Unicode "Name" ("Na") property for each character in the target string.      For example, <code>"Sí"~C2U("U+") = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"</code>.   <li><code>string~c2u("UTF32")</code> returns a UTF-32 representation of the target string, for example <code>"Sí"~C2U("UTF32") = "00000053 000000ED"X</code>. </ul>
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> format=&quot;&quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="C2X"></a>
+                                    <ul>
+                                        <li><b>C2X</b>
+
+
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Center"></a>
+                                    <ul>
+                                        <li><b>Center</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> n, pad = &quot; &quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Centre"></a>
+                                    <ul>
+                                        <li><b>Centre</b>
+
+
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Copies"></a>
+                                    <ul>
+                                        <li><b>Copies</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> n
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Datatype"></a>
+                                    <ul>
+                                        <li><b>Datatype</b>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>DATATYPE</h4> <p>The standard <code>DATATYPE</code> BIM is extended to accept a new value, "C", from "uniCode". <code>String~datatype("C")</code> returns <code>1</code> if and only if <code>string</code> follows the Unicode format, namely, if it consists of a blank-separated series of: <ul>   <li>Valid hexadecimal Unicode codepoints, like <code>61</code>, or <code>200D</code>, or <code>1F514</code>.   <li>Valid hexadecimal Unicode codepoints prefixed with "U+" or "u+", like <code>u+61</code>, or <code>U+200D</code>, or <code>u+1F514</code>.   <li>Names, alias or labels that designate a Unicode codepoint, enclosed between parentheses, like <code>(Latin small letter A)</code>,      <code>(ZWJ)</code>, <code>(Bell)</code>, or <code>(&lt;Control-001d&gt;)</code>. </ul>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Left"></a>
+                                    <ul>
+                                        <li><b>Left</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> length, pad = &quot; &quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Lower"></a>
+                                    <ul>
+                                        <li><b>Lower</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> n = 1, length = (Max(self~length - n + 1,0))
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Pos"></a>
+                                    <ul>
+                                        <li><b>Pos</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> needle, start = 1, length = (self~length - start + 1)
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Reverse"></a>
+                                    <ul>
+                                        <li><b>Reverse</b>
+
+
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Right"></a>
+                                    <ul>
+                                        <li><b>Right</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> length, pad = &quot; &quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="SubStr"></a>
+                                    <ul>
+                                        <li><b>SubStr</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> n, length = (self~length - n + 1), pad = &quot; &quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="U2C"></a>
+                                    <ul>
+                                        <li><b>U2C</b>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>U2C: Unicode codepoints to Character</h4>  <p>   This method inspects the target string for validity (see below). If valid,   it translated the corresponding codepoints to UTF8, and returns the UTF8 string.   If not valid, a Syntax condition is raised. <p>   You can use the <code>DATATYPE(string, "C")</code> BIF (for "uniCode") or the   DATATYPE("C") method to verify whether a string is a proper Unicode codepoints string.
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> code
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Upper"></a>
+                                    <ul>
+                                        <li><b>Upper</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> n = 1, length = (Max(self~length - n + 1,0))
+
+
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Constants</h4>
+                                    <i>No Constants</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Codepoints"></a>
+                        <div class="panel-heading">
+                            <h4>Class: Codepoints</h4>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div>
+                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Unicode.cls.html#Bytes">Bytes</a></span>
+                            </div>
+
+
+
+                            <div>
+                                <h4>Attributes</h4>
+                                    <i>No Attributes</i>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Methods</h4>
+                                    <a id="init"></a>
+                                    <ul>
+                                        <li><b>init</b>
+
+
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="%5B%5D-1"></a>
+                                    <ul>
+                                        <li><b>[]</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> n, length = 1
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Length"></a>
+                                    <ul>
+                                        <li><b>Length</b>
+
+
+
+
+
+
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Constants</h4>
+                                    <i>No Constants</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Text"></a>
+                        <div class="panel-heading">
+                            <h4>Class: Text</h4>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div>
+                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Unicode.cls.html#Codepoints">Codepoints</a></span>
+                            </div>
+
+
+
+                            <div>
+                                <h4>Attributes</h4>
+                                    <i>No Attributes</i>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Methods</h4>
+                                    <a id="%5B%5D-2"></a>
+                                    <ul>
+                                        <li><b>[]</b>
+
+
+
+
+                                                <br /><span class="keyword">USE ARG</span> n, length = 1
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Length-1"></a>
+                                    <ul>
+                                        <li><b>Length</b>
+
+
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="init-1"></a>
+                                    <ul>
+                                        <li><b>init</b>
+
+
+
+
+
+
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Constants</h4>
+                                    <i>No Constants</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>Requires</h2>
+                        </div>
+                        <div class="panel-body">
+                                <a href="../packages/Stream.cls.html">Stream.cls</a> <br />
+                                properties/Properties.cls <br />
+                                <a href="../packages/Encoding.cls.html">Encoding.cls</a> <br />
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+        </div>
+    </div>
+    <br />
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/typeahead-bootstrap.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/search-data.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span> Back to Top</div>');
+            $(window).scroll(function () {
+                if ($(this).scrollTop() != 0) {
+                    $('#toTop').fadeIn();
+                } else {
+                    $('#toTop').fadeOut();
+                }
+            });
+            $('#toTop').click(function(){
+                $("html, body").animate({ scrollTop: 0 }, 200);
+                return false;
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#search').typeahead({
+                source: searchData,
+                displayText: function(item) {
+                    if(item.info !== null) {
+                        return item.type + ":" + item.name + " (" + item.info + ")";
+                    }
+
+                    return item.type + ":" + item.name;
+                },
+                matcher: function(item) {
+                    return item.name.toLowerCase().indexOf(this.query.toLowerCase()) != -1
+                },
+                afterSelect: function(item) {
+                    window.location.href = item.href;
+                    $("#search").val(item.name)
+                },
+                items: 20
+            });
+        })
+    </script>
+</body>
+</html>

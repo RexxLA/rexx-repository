@@ -1,0 +1,62 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  The UNICODE Tools for ooRexx                                             */
+/*  ============================                                             */
+/*                                                                           */
+/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
+/*                                                                           */
+/*  See https://github.com/RexxLA, rexx-repository,                          */
+/*      path ARB/standards/work-in-progress/unicode/UnicodeTools             */
+/*                                                                           */
+/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
+/*                                                                           */
+/*                                                                           */
+/*  The substr.rxu program                                                   */
+/*  ======================                                                   */
+/*                                                                           */
+/*  Testing some features of the SUBSTR BIF.                                 */
+/*                                                                           */
+/*  Version history                                                          */
+/*  ===============                                                          */
+/*                                                                           */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.2  JMB 20230727 Initial version                                       */
+/*                                                                           */
+/*****************************************************************************/
+
+Say "How does SUBSTR work when we have three types of strings."
+Say "---------------------------------------------------------"
+Say
+Say "Let's create a Codepoints string containing three codepoints:"
+Say
+Say 'codepoints = Codepoints("(Man) (Zero Width Joiner) (Woman)"U)'
+codepoints = Codepoints("(Man) (Zero Width Joiner) (Woman)"U)
+Say 'Say codepoints              -- "'codepoints'"'
+Say 'Say Length(codepoints)      -- 'Length(codepoints)
+Say 'Say SubStr(codepoints,1,1)  -- "'SubStr(codepoints,1,1)'" (''(Man)''U)'
+Say 'Say SubStr(codepoints,2)    -- "'SubStr(codepoints,2)'" (''(ZWJ) (Woman)''U)'
+Say
+Say "Press ENTER to continue"
+Parse pull
+Say 
+Say "Let's now transform the 'codepoints' variable into a Text string:"
+Say
+Say "text = Text(codepoints)"
+text = Text(codepoints)
+Say 'Say text                    -- "'text'"'
+Say 'Say Length(text)            -- 'Length(text) "   (It is a single grapheme cluster)"
+Say 'Say SubStr(text,1,1)        -- "'SubStr(text,1,1)'"'
+Say 'Say SubStr(text,2)          -- "'SubStr(text,2)'"'
+Say
+Say "Press ENTER to continue"
+Parse pull
+Say 
+Say "We will finally transform the 'text' variable into a Bytes string:"
+Say
+Say "bytes = Bytes(text)"
+bytes = Bytes(text)
+Say 'Say bytes                   -- "'bytes'"'
+Say 'Say Length(bytes)           -- 'Length(bytes)
+Say 'Say SubStr(bytes,1,1)       -- "'SubStr(bytes,1,1)'"   (Non printable, first byte an UTF-8 value)'
+Say 'Say SubStr(bytes,2)         -- "'SubStr(bytes,2)'"   (A part is non printable and another part is printable)'

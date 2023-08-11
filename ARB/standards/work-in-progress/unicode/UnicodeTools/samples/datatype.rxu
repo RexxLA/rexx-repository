@@ -1,0 +1,43 @@
+/**
+ * <h4><code>lineout.rxu</code></h4>
+ *
+ * <p>This program tests the extended features of the DATATYPE BIF.
+ */
+
+Say "Testing the DATATYPE BIF:"
+Say "-------------------------"
+Say
+Say "Testing old behaviour"
+Say
+-- Have to resort to ! because of Interpret
+Call Test "!DataType('1234')", "NUM"
+Call Test "!DataType('ABCD')", "CHAR"
+Call Test "!DataType('01BC','X')", 1
+Say 
+Say "Testing new behaviour"
+Call Test "!DataType('1234','C')",1, "Simple codepoint" 
+Call Test "!DataType('D834','C')",0, "A surrogate" 
+Call Test "!DataType('10FFFF','C')",1, "Maximum codepoint" 
+Call Test "!DataType('110000','C')",0, "Not a scalar" 
+Call Test "!DataType('U+1234','C')",1, "U+ codepoint" 
+Call Test "!DataType('U+','C')",0, "U+ alone" 
+Call Test "!DataType('(Bell','C')",0, "Missing parenthesis"
+Call Test "!DataType('(Bell)','C')",1, "A name that exists"
+Call Test "!DataType('(Potato)','C')",1, "Unicode has potato..."
+Call Test "!DataType('(Potatoes)','C')",0, "..but no potatoes"
+Call Test "!DataType('61 U+301 (POTATO)','C')",1, "Combinations of the above, no error"
+Call Test "!DataType('61 U+K301 (POTATO)','C')",0, "Combinations of the above, with an error"
+
+Exit 0
+
+Test: Procedure
+  Parse arg expression, expected, comment
+  If comment \== "" Then comment = "--" comment
+  Interpret "res =" expression
+  If res == expected Then
+    Say "PASSED:" Left(ChangeStr("!",expression,"") "==" expected,40) comment
+  Else Do
+    Say "FAILED:" expression "==" res "(expected:" expected")" comment
+    Exit 1
+  End
+Return  

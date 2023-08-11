@@ -1,0 +1,97 @@
+
+
+tmpfile = SysTempFileName("????.file")
+
+If tmpFile == "" Then Do
+  Say "Cannot create temporary file."
+  Exit 1
+End
+
+Say "Testing the CHARS BIF..."
+Say 
+Say "We will first test standard behaviour."
+
+Call LineOut tmpFile, "abcdef" -- Write some chars
+Call LineOut tmpFile          -- Close the file
+chars = Chars(tmpFile)
+If chars \== 8 Then Do
+  Say "FAILED! CHARS returned "chars", expected 7."
+  Call Exit 1
+End
+Say "PASSED!"
+Say
+
+Call Stream tmpfile,"C","CLOSE"
+Say "Let's try CODEPOINTS CHARS for a fixed-length encoding (UTF-32) now:"
+
+Call Stream tmpFile,"Command", "Open Write ENCODING UTF-32 CODEPOINTS"
+chars = Chars(tmpFile)
+If chars \== 2 Then Do
+  Say "FAILED! CHARS returned "chars", expected 2."
+  Call Exit 1
+End
+Say "PASSED!"
+Say 
+
+Call Stream tmpfile,"C","CLOSE"
+Say "Let's try TEXT CHARS for a fixed-length encoding (UTF-32) now:"
+
+Call Stream tmpFile,"Command", "Open Write ENCODING UTF-32 TEXT"
+chars = Chars(tmpFile)
+If chars \== 1 Then Do
+  Say "FAILED! CHARS returned "chars", expected 1."
+  Call Exit 1
+End
+
+Say "PASSED!"
+
+Call Exit 0
+
+Test: Procedure
+  Parse Arg fn, start, length, expected, syntax
+  
+  Call CharOut , "Testing 'Call CharIn """fn"""," start"," length"'... "
+  
+  Signal On Syntax 
+  If length == "" Then Length = 1
+  If Arg(2,"o") Then Call CharIn fn,      , length
+  Else               Call CharIn fn, start, length
+  If syntax Then Do
+    Say "FAILED!"
+    Say "Expected Syntax error."
+    Call Exit 1
+  End
+  If result == expected Then Do
+    Say "PASSED!"
+    Return
+  End
+  Say "FAILED!"
+  Call Exit 1
+  
+Syntax:
+  If \syntax Then Do
+    Say "FAILED!"
+    Say Condition("O")~TraceBack~makeArray
+    Say "Unexpected Syntax error:" rc"."Condition("E") "on" Condition("O")~program":" Condition("O")~ErrorText
+    Say Condition("O")~Message
+    Call Exit 1
+  End
+  Say "PASSED!"
+  Return
+ 
+Exit:
+  Call Stream tmpfile,"C","CLOSE"
+  Call SysFileDelete tmpfile
+  Exit Arg(1)
+
+
+CreateFile: Procedure Expose tmpFile
+  Call Stream tmpFile,"C","Open Write Replace"
+  Use Strict Arg lines, eol
+  Do counter c line Over lines
+    Call CharOut tmpFile, line
+    -- No line-end after last line    
+    If c < lines~items Then Call CharOut tmpFile, eol
+  End
+  Call Stream tmpFile,"C","CLOSE"
+Return  

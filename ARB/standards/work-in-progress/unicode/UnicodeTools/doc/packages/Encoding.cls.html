@@ -1,0 +1,832 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+
+    <title>ooRexxDoc - The Unicode Tools for Rexx - Encoding.cls</title>
+
+    <style type="text/css">
+        body { padding-top: 70px; }
+
+        #toTop{
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+            display: none;
+        }
+
+        pre {
+            overflow-x: auto;
+        }
+        pre code {
+            overflow-wrap: normal;
+            white-space: pre;
+        }
+
+        .keyword {
+            color: #ff5f00;
+        }
+
+        #search {
+            margin-left: 10px;
+        }
+
+        :target {
+            display: block;
+            position: relative;
+            top: -50px;
+            visibility: hidden;
+        }
+
+        .class-info {
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ooRexxDoc</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="../oorexxdoc.html">Home</a></li>
+                <li class="active"><a href="Encoding.cls.html">Encoding.cls</a></li>
+            </ul>
+            <form class="navbar-form">
+                <div class="form-group">
+                    <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
+                </div>
+                <span class="navbar-right">
+                        <span class="label label-info">Run-Date: 11 ago 2023 12:28:04</span>
+                </span>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Packages</div>
+                <div class="panel-body" style="max-height: 420px;overflow-y: scroll;">
+                        <a href="cp850.cls.html">cp850.cls</a>
+                        <hr width="99%"/>
+                        <a href="Encoding.cls.html">Encoding.cls</a>
+                        <hr width="99%"/>
+                        <a href="ibm1047.cls.html">ibm1047.cls</a>
+                        <hr width="99%"/>
+                        <a href="rxu.rex.html">rxu.rex</a>
+                        <hr width="99%"/>
+                        <a href="Stream.cls.html">Stream.cls</a>
+                        <hr width="99%"/>
+                        <a href="Unicode.cls.html">Unicode.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf16.cls.html">utf16.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf32.cls.html">utf32.cls</a>
+                        <hr width="99%"/>
+                        <a href="utf8.cls.html">utf8.cls</a>
+                        <hr width="99%"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Encoding.cls Overview</div>
+                <div class="panel-body">
+                    <ul>
+                            <li>Classes
+                                <ul>
+                                        <li><a href="Encoding.cls.html#Encoding">Encoding</a>
+                                                <ul>
+                                                    <li>Attributes:
+                                                            <a href="Encoding.cls.html#aliases-4">aliases</a>
+                                                            <a href="Encoding.cls.html#bytesPerChar-4">bytesPerChar</a>
+                                                            <a href="Encoding.cls.html#endOfLine-4">endOfLine</a>
+                                                            <a href="Encoding.cls.html#isFixedLength-4">isFixedLength</a>
+                                                            <a href="Encoding.cls.html#maxBytesPerChar-4">maxBytesPerChar</a>
+                                                            <a href="Encoding.cls.html#name-4">name</a>
+                                                    </li>
+                                                </ul>
+                                                <ul>
+                                                    <li>Methods:
+                                                            <a href="Encoding.cls.html#%5B%5D">[]</a>
+                                                            <a href="Encoding.cls.html#activate-1">activate</a>
+                                                            <a href="Encoding.cls.html#bytesNeededForChar-2">bytesNeededForChar</a>
+                                                            <a href="Encoding.cls.html#checkCode">checkCode</a>
+                                                            <a href="Encoding.cls.html#checkDecodeOptions">checkDecodeOptions</a>
+                                                            <a href="Encoding.cls.html#decode-4">decode</a>
+                                                            <a href="Encoding.cls.html#encode-4">encode</a>
+                                                            <a href="Encoding.cls.html#isCodeOK">isCodeOK</a>
+                                                            <a href="Encoding.cls.html#prepareEncode">prepareEncode</a>
+                                                            <a href="Encoding.cls.html#register">register</a>
+                                                            <a href="Encoding.cls.html#transcode">transcode</a>
+                                                            <a href="Encoding.cls.html#UTF8-1">UTF8</a>
+                                                    </li>
+                                                </ul>
+                                        </li>
+                                </ul>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+            <div class="container-fluid" id="content-main">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="container-fluid">
+            <h1>Encoding.cls</h1>
+
+                <br /><br />
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>The <code>Encoding</code> class</h3>
+    
+  <p>
+    This classfile is part of 
+    <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>. 
+  </p>
+    
+  <p>See 
+    <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">
+    https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/
+    </a>
+    for more information.
+  </p>
+    
+  <p>
+    License: Apache License 2.0 
+    [<a href="https://www.apache.org/licenses/LICENSE-2.0">
+    https://www.apache.org/licenses/LICENSE-2.0
+    </a>]
+  </p>
+    
+  <h4>Description</h4>
+    
+  <p>
+    The <code>Encoding</code> class is the base class for all encodings, and all encoding classes should subclass <code>Encoding</code>. 
+  </p>
+  
+  <p>   
+    The <code>Encoding</code> class implements a series of common services (like the encoding registry),
+    and defines a set of common interfaces (a contract) that all subclassing encodings have to follow.                            
+  </p>
+  
+  <h4>The <code>Encoding</code> registry and contract</h4>
+  
+  <p>
+    The <code>Encoding</code> class and its subclasses operate under the following contract. All subclasses must adhere to this contract to work properly.
+  </p>
+  
+  <ul>
+    <li>Subclasses of <code>Encoding</code> must reside each in a separate <code>.cls</code> file, 
+        and these files must be located in the same directory where <code>Encoding.cls</code> is located.
+    <li>At initialization time, the <code>Encoding</code> class will register in the <code>.local</code> directory by using <code>.local~encoding = .Encoding</code>. 
+        This allows encoding subclasses to subclass <code>Encoding</code> without having to use the <code>::Requires</code> directive.
+    <li><code>Encoding</code> will call all the <code>.cls</code> files that reside in its own directory, except itself. This will give all subclasses an opportunity 
+        to register with the <code>Encoding</code> class.
+    <li>Each subclass <code>myEncoding</code> must use its prolog to register with the <code>Encoding</code> class, by issuing the following method call: <code>.Encoding~register(.myEncoding)</code>.
+    <li><code>Encoding</code> will then inspect the <code>name</code> and <code>aliases</code> constants of the <code>myEncoding</code> class, check that there are no duplicates, and, 
+        if no errors are found, it will register these names appropriately.
+    <li>From then on, the new <code>myEncoding</code> encoding will be accesible as the value of the <code>.Encoding[name]</code> method call (note the square brackets), 
+        where <code>name</code> is the (case-insensitive) value of <code>myEncoding</code>'s <code>name</code>, or of any of its <code>aliases</code>.
+  </ul>
+
+  <h4>Version history</h4>
+  
+  <table>
+    <tr><td><b>1.0 20230801</b><td>&nbsp;Initial release.
+  </table>
+                            <br /><br />
+                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
+                            <b>version</b>: 1.0 <br />
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="Encoding"></a>
+                        <div class="panel-heading">
+                            <h4>Class: Encoding</h4>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div>
+                            </div>
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h3>The <code>Encoding</code> class</h3>
+    
+  <p>
+    This classfile is part of 
+    <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>. 
+  </p>
+    
+  <p>See 
+    <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">
+    https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/
+    </a>
+    for more information.
+  </p>
+    
+  <p>
+    License: Apache License 2.0 
+    [<a href="https://www.apache.org/licenses/LICENSE-2.0">
+    https://www.apache.org/licenses/LICENSE-2.0
+    </a>]
+  </p>
+    
+  <h4>Description</h4>
+    
+  <p>
+    The <code>Encoding</code> class is the base class for all encodings, and all encoding classes should subclass <code>Encoding</code>. 
+  </p>
+  
+  <p>   
+    The <code>Encoding</code> class implements a series of common services (like the encoding registry),
+    and defines a set of common interfaces (a contract) that all subclassing encodings have to follow.                            
+  </p>
+  
+  <h4>The <code>Encoding</code> registry and contract</h4>
+  
+  <p>
+    The <code>Encoding</code> class and its subclasses operate under the following contract. All subclasses must adhere to this contract to work properly.
+  </p>
+  
+  <ul>
+    <li>Subclasses of <code>Encoding</code> must reside each in a separate <code>.cls</code> file, 
+        and these files must be located in the same directory where <code>Encoding.cls</code> is located.
+    <li>At initialization time, the <code>Encoding</code> class will register in the <code>.local</code> directory by using <code>.local~encoding = .Encoding</code>. 
+        This allows encoding subclasses to subclass <code>Encoding</code> without having to use the <code>::Requires</code> directive.
+    <li><code>Encoding</code> will call all the <code>.cls</code> files that reside in its own directory, except itself. This will give all subclasses an opportunity 
+        to register with the <code>Encoding</code> class.
+    <li>Each subclass <code>myEncoding</code> must use its prolog to register with the <code>Encoding</code> class, by issuing the following method call: <code>.Encoding~register(.myEncoding)</code>.
+    <li><code>Encoding</code> will then inspect the <code>name</code> and <code>aliases</code> constants of the <code>myEncoding</code> class, check that there are no duplicates, and, 
+        if no errors are found, it will register these names appropriately.
+    <li>From then on, the new <code>myEncoding</code> encoding will be accesible as the value of the <code>.Encoding[name]</code> method call (note the square brackets), 
+        where <code>name</code> is the (case-insensitive) value of <code>myEncoding</code>'s <code>name</code>, or of any of its <code>aliases</code>.
+  </ul>
+
+  <h4>Version history</h4>
+  
+  <table>
+    <tr><td><b>1.0 20230801</b><td>&nbsp;Initial release.
+  </table>
+                                            <br /><br />
+                                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
+                                            <b>version</b>: 1.0 <br />
+                                    </div>
+                                </div>
+
+                            <div>
+                                <h4>Attributes</h4>
+                                    <a id="aliases-4"></a>
+                                    <ul>
+                                        <li><b>aliases</b>
+                                                <span class="label label-info">GETTER</span>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>aliases</code> constant</h4>  <p>In addition to a <code>name</code>, an encoding may also have a set of case-insensitive <code>aliases</code>.   The encoding can be uniquely identified by its name, or by any of its aliases. The <code>Encoding</code> class keeps a registry  of all the names and aliases of all encodings, takes care that there are no duplicates, and resolves  names to their corresponding classes.  <p>Aliases can specified either as a one-dimensional array of strings,  or as a blank separated string of words.
+                                                    </div>
+                                                </div>
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="bytesPerChar-4"></a>
+                                    <ul>
+                                        <li><b>bytesPerChar</b>
+                                                <span class="label label-info">GETTER</span>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>bytesPerChar</code> constant</h4>   <p>For fixed-length encodings, this is the length in bytes of one character.     For variable-length encodings, this is the minimum length in bytes of a character.
+                                                    </div>
+                                                </div>
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="endOfLine-4"></a>
+                                    <ul>
+                                        <li><b>endOfLine</b>
+                                                <span class="label label-info">GETTER</span>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>endOfLine</code> constant</h4>  <p>Each encoding can define its own end-of-line sequence, or sequences.  If there are more than one, vector notation should be employed.  These sequences will be recognized and used in line-oriented stream i/o operations.
+                                                    </div>
+                                                </div>
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="isFixedLength-4"></a>
+                                    <ul>
+                                        <li><b>isFixedLength</b>
+                                                <span class="label label-info">GETTER</span>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>isFixedLength</code> constant</h4>   <p>An encoding can be fixed- or variable length. For example, cp850 is (1-byte)  fixed length, as is UTF-32 (4-byte), but UTF-8 is variable-length (1 to 4 bytes).  <p>The fact that an encoding is variable-length can have notable influence  on the behaviour and performance of certain stream BIFs. In particular, some of these behaviours  can become extremely expensive, and others may be entirely disallowed by the implementation.
+                                                    </div>
+                                                </div>
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="maxBytesPerChar-4"></a>
+                                    <ul>
+                                        <li><b>maxBytesPerChar</b>
+                                                <span class="label label-info">GETTER</span>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>maxBytesPerChar</code> constant</h4>   <p>For fixed-length encodings, this is the length in bytes of one character. For variable-length  encodings, this is the maximum length in bytes of a character.
+                                                    </div>
+                                                </div>
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="name-4"></a>
+                                    <ul>
+                                        <li><b>name</b>
+                                                <span class="label label-info">GETTER</span>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>name</code> constant</h4>  An encoding has an official <code>name</code>, a case-insensitive label   by which it may be uniquely identified.
+                                                    </div>
+                                                </div>
+
+
+
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Methods</h4>
+                                    <a id="%5B%5D"></a>
+                                    <ul>
+                                        <li><b>[]</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~"[]"</code> method</h4>  <p>    <code>Encoding[name]</code> returns the encoding class object uniquely identified by <code>name</code>.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>name</code>, the encoding name or alias to resolve. <br />
+                                                            <b>param</b>: <code>option = "Syntax"</code> (optional), what to do when the encoding is not found (<code>"Syntax"</code>: raise a Syntax condition, "": return <code>.nil</code>). <br />
+                                                            <b>return</b>: <code>.nil</code>, when the name is not found, or the corresponding encoding class object otherwise. <br />
+                                                            <b>see</b>: <a href="#register"><code>register</code></a> <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Invalid option '<em>option</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Encoding '<em>name</em>' not found. <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> name, option = &quot;Syntax&quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="activate-1"></a>
+                                    <ul>
+                                        <li><b>activate</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~activate</code> method</h4>  <p>The <code>activate</code> class method builds the TRANSLATE tables, <code>tablei</code> and <code>tableo</code>, that will be exposed to    the <code>UTF8</code> method and thus drive the state machine.  <p>We build on the table quoted on the <code>decode</code> method description and transform it to be suitable for    a Finite State Machine:  <ul>    <li>The range 00..FF is mapped to "A" (for "A"SCII).    <li>The range 80..BF is mapped to "C" (for "C"ontinuation characters). Some few bytes will require manual checking.    <li>The values CO, C1 and F5..FF are always illegal in a UTF-8 string. We add rows for these ranges, and we map the corresponding codes to "I" (for "I"llegal).    <li>The range C2..DF is mapped to "20"X (the "2" in "20" reminds us that we will find a 2-bytes group, if the string is well-formed).    <li>The range E0..EF is mapped to the "3x"X values, "3a", "3b" and "3c". The "3" reminds us that we will find a 3-bytes groups, if the string is well-formed;        the final "a", "b" and "c" allow us to differentiate the cases, and perform the corresponding tests.    <li>Similarly, the F0..F4 range is mapped to "4a"X, "4b"X and "4c"X, as described below.  </ul>  <br>  <table class="table table-bordered bordered">   <caption><b>Table 3-7 (modified)</b>.  <tr><th>Bytes       <th style="text-align:right">Mapping  <tr><td>00..7F      <td style="text-align:right">"A"      <tr><td>80..BF      <td style="text-align:right">"C"      <tr><td>C0..C1      <td style="text-align:right">"I"      <tr><td>C2..DF      <td style="text-align:right">"20"X  <tr><td>E0          <td style="text-align:right">"3a"X  <tr><td>E1..EC      <td style="text-align:right">"3b"X  <tr><td>ED          <td style="text-align:right">"3c"X  <tr><td>EE..EF      <td style="text-align:right">"3b"X  <tr><td>F0          <td style="text-align:right">"4a"X  <tr><td>F1..F3      <td style="text-align:right">"4b"X  <tr><td>F4          <td style="text-align:right">"4c"X  <tr><td>F5..FF      <td style="text-align:right">"I"      </table>
+                                                            <br /><br />
+                                                            <b>param</b>: <em>(none)</em> Gets called automatically by ooRexx at class build time. <br />
+                                                            <b>see</b>: <code>decode</code> <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> from, to, value
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="bytesNeededForChar-2"></a>
+                                    <ul>
+                                        <li><b>bytesNeededForChar</b>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~bytesNeededForChar</code> method</h4>  <p>^Returns 0 if the character is complets, or the number of remaining bytes needed    to complete a character. For example, if the encoding is UTF-16 and the argument     string is a lone high surrogate, it will return 2.  <p>Please note that the fact that a character is complete does not imply that it is well-formed or valid.
+                                                    </div>
+                                                </div>
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="checkCode"></a>
+                                    <ul>
+                                        <li><b>checkCode</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~checkCode</code> utility method</h4>  <p>The <code>checkCode</code> method checks to see if its its argument, <code>code</code>,  is a valid hexadecimal Unicode codepoint, and raises a syntax condition of it is not.   Surrogate codepoints are only accepted when the <code>allowSurrogates</code> constant   is set to <code>.true</code> for this particular class.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>code</code> The hexadecimal codepoint to check. <br />
+                                                            <b>returns</b>: Nothing. If <code>code</code> is not well-formed, and exception is raised. <br />
+                                                            <b>condition</b>: <code>Syntax 23.900</code>: Invalid unicode codepoint '<em>code</em>'X. <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> code
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="checkDecodeOptions"></a>
+                                    <ul>
+                                        <li><b>checkDecodeOptions</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~checkDecodeOptions</code> private utility method </h4>  <p>This is a small utility method to sanitize the values supplied as arguments  for the <code>errorHandling</code> and <code>format</code> arguments to the <code>decode</code>  method. If the supplied values are invalid, it raises a Syntax condition.  <p>When the values are valid, the method returns a string composed of three  blank-separated values.  <p>The first value indicates the form of desired error handling. It will be one of "NULL",    to indicate that a null string should be returned when a decoding error is encountered,    "SYNTAX", when a Syntax condition should be raised, or "REPLACE", when ill-formed    character sequences should be replaced by the Unicode Replacement Character <code>U+FFFD</code>.  <p>The second value is a boolean indicating that a UTF-8 version of the supplied string value  is requested.  <p>The third value is a boolean indicating that a UTF-32 version of the supplied string value  is requested.
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> format, errorHandling
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="decode-4"></a>
+                                    <ul>
+                                        <li><b>decode</b>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~decode</code> method </h4>  <p>This is an abstract method, that any subclass will have to implement.  <p>This method takes a string <code>string</code> as an argument.   The string is assumed to be encoded using the encoding implemented by the current class.  A decoding operation is attempted. If the decoding operation is successful,  a choice of Unicode versions of the string is returned, as determined by the  optional third argument, <code>format</code>. By default, a UTF-8 version of  the argument string is returned.  <p>When <code>format</code> is the null string, <code>"UTF-8"</code>, <code>"UTF8"</code>  or is not specified, a UTF-8 version of the argument string is returned.  <p>When <code>format</code> is "UTF-32" or "UTF32", a UTF-32 version of the argument  string is returned.  <p>The <code>format</code> can also contain a blank-separated set of encodings. When both  UTF-8 and UTF-32 are requested, they are returned in an array, containing the UTF-8  version of the string in the first element, and the UTF-32 version of the string  in the second element.  <p>For some encodings, the decoding operation may be unsuccessful; for example,  an ill-formed UTF-8 string decoding can be attempted. The behaviour of the <code>method</code>  is determined by the value of the second, optional, <code>option</code> argument.  <p>When <code>option = ""</code> (the default), a null string is returned whenever  a decoding error is encountered. Please note that this specification does not introduce  any ambiguity, since the fact that the decoding of a null string is always a null string  is known in advance and may be checked separately (when an array is expected as the   return value, a separate check for the null string is needed).  <p>When <code>option</code> has the (case-insensitive) value of <code>"Syntax"</code>,  a Syntax condition is raised.  <p>Please note that the <code>decode</code> method of the encoding class that corresponds   to the source file encoding will be automatically invoked by the <code>encode</code> method   when it receives a non-Unicode, non-null, string as its argument.  This is done as a way to sanitize the BYTES string to ensure that the decoding operation makes sense   (currently, only UTF-8 source files are supported, so that the <a href="utf8.cls.html"><code>UTF8</code></a>   class will be used).
+                                                            <br /><br />
+                                                            <b>param</b>: <code>string</code> The string to decode. <br />
+                                                            <b>param</b>: <code>option = ""</code> [Optional]. Defines the behavior of the method when an error is encountered. <br />
+                                                            <b>param</b>: <code>format = "UTF8"</code> Format may be the null string, "UTF8" or "UTF-8", in which case a UTF-8 version of the argument string is returned;                                       it can be "UTF-32" or "UTF-32", in which case a UTF-32 version of the string is returned; or it can be any combination                                      of blank-separated values (repetitions are allowed). If both UTF-8 and                                      UTF-32 versions are requested, the returned value is an array containing the UTF-8 and the                                      UTF-32 versions of the argument string (in this order). <br />
+                                                            <b>returns</b>: The decoded value of <code>string</code>, or the null string if an error was encountered and additionally <code>option = ""</code>. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code>: Invalid option '<em>option</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Invalid format '<em>format</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 23.900</code>: Invalid <em>encoding-name</em> sequence in position <em>n</em> of string: '<em>hex-value</em>'X (only raised if <code>option = "Syntax"</code>). <br />
+                                                    </div>
+                                                </div>
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="encode-4"></a>
+                                    <ul>
+                                        <li><b>encode</b>
+                                                <span class="label label-info">CLASS</span>
+                                                <span class="label label-info">ABSTRACT</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~encode</code> method </h4>  <p>This is an abstract method, that any subclass will have to implement.  <p>This method takes a string <code>string</code> as an argument. The string can be an Unicode  string, in which case an encoding operation is immediately attempted, or it can be  a non-unicode string (e.g., a BYTES string), in which case a normalization  pass is attempted first. Normalizing consists of transforming the  non-Unicode string into a Unicode string by promoting it to the CODEPOINTS class.  <p>Both operations may fail. The promotion, because <em>string</em> argument contains   ill-formed UTF-8, and the encoding, because the Unicode string cannot  be encoded to this particular encoding.  <p>The behaviour of the <code>encode</code> method depends on the value of   <code>option</code>, a second, optional, argument.   <p>When <code>option</code> is the null string (the default), <code>encode</code>   returns the null string when it encounters an error (note that there is no ambiguity   in this specification because the case where the <code>string</code> argument is itself   the null string can be handled separately).  <p>When <code>option</code> has a (case-insensitive) value of <code>"Syntax"</code>,  a Syntax condition is raised. No other value for <code>option</code> is currently  defined.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>string</code> The string to encode. <br />
+                                                            <b>param</b>: <code>option = ""</code> [Optional]. Defines the behavior of the method when an error is encountered. <br />
+                                                            <b>returns</b>: The encoded value of <code>string</code>, or the null string if an error was encountered and additionally <code>option = ""</code>. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code>: Invalid option '<em>option</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 23.900</code>: Invalid <em>encoding-name</em> sequence in position <em>n</em> of string: '<em>hex-value</em>'X (only raised if <code>option = "Syntax"</code>). <br />
+                                                    </div>
+                                                </div>
+
+
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="isCodeOK"></a>
+                                    <ul>
+                                        <li><b>isCodeOK</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~isCodeOK</code> utility method</h4>  <p>The <code>isCodeOk</code> checks that its hex argument, <code>code</code>,  is in the Unicode scalar space. Surrogates are allowed only if <code>allowSurrogates</code> is 1  for the current (sub-)class.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>code</code> The hexadecimal codepoint to check. <br />
+                                                            <b>returns</b>: A boolean value, indicating the fact that <code>code</code> represents           a valid Unicode codepoint (including surrogates if <code>allowSurrogates</code> is 1). <br />
+                                                            <b>condition</b>: None. <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> code
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="prepareEncode"></a>
+                                    <ul>
+                                        <li><b>prepareEncode</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~prepareEncode</code> private utility method</h4>   <p>This is a small private utility method that checks arguments passed  to the <code>encode</code> method; <code>option</code> is checked  for validity, and <code>string</code> is transformed into a UTF-32  byte sequence. If the string is a CODEPOINTS or a TEXT, then the   C2U("UTF32") method of the string is used; in other cases, the  <code>decode</code> method of the UTF8 encoding is used, with  the UTF32 <code>format</code> option.  <p>The case of the null string is not handled here, since it is conceivable  that an encoding could encode the null string to a non-null string  (for example, by prepending a BOM or somesuch).
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> string, option = &quot;&quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="register"></a>
+                                    <ul>
+                                        <li><b>register</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~register</code> method</h4>   <p><code>Register</code> is one of the two methods that define the interface to the encoding registry.  <p>The register itself is implemented and stored in a stem called <code>Names.</code>, which  is <code>expose</code>d between the <code>register</code> and <code><a href="#%5B%5D-1">[]</a></code> methods.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>handler</code> The class to register. <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> handler
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="transcode"></a>
+                                    <ul>
+                                        <li><b>transcode</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The <code>.Encoding~transcode</code> method </h4>  <p><b>Note:</b> This method should be considered <em>final</em>, in the Java sense.  It is not intended to be overriden by subclasses.  <p>This method <em>transcodes</em> its first argument, <code>string</code>, from  the encoding idenfitied by the second argument, <code>source</code>, to the  encoding identified by the third argument, <code>target</code>.  <p>The <code>string</code> argument is supposed to be encoded using the <code>source</code>  encoding. It will be decoded first, and then re-encoded with the <code>target</code> encoding.  <p>Both operations may fail. The behaviour of the method when an error is encountered  is determined by the value of the fourth, optional, argument, <code>option</code>.  <p>When an error is encountered and <code>option</code> is not specified or is the null string  (the default), a null string is returned.  <p>When an error is encountered and <code>option</code> has the value <code>"Syntax"</code>,  a Syntax condition is raised.  <p>When no error is encountered, a new string is returned. It is guaranteed to be encoded  using the <code>target</code> encoding.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>string</code> The string to be transcoded. <br />
+                                                            <b>param</b>: <code>source</code> The source encoding, i.e., the encoding of <code>string</code>. <br />
+                                                            <b>param</b>: <code>target</code> The target encoding, i.e., the desired encoding of the result. <br />
+                                                            <b>param</b>: <code>option = ""</code> Determines the behaviour of the method when an error is encountered. <br />
+                                                            <b>returns</b>: The value of the transcoded string. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code>: Invalid option '<em>option</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code>: Invalid source encoding '<em>source</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code>: Invalid target encoding '<em>target</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 23.900</code>: Invalid <em>encoding-name</em> sequence in position <em>n</em> of string: '<em>hex-value</em>'X (only raised if <code>option = "Syntax"</code>). <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> string, source, target, option=&quot;&quot;
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="UTF8-1"></a>
+                                    <ul>
+                                        <li><b>UTF8</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4>The .Encoding~UTF8 method</h4>    <p><b>Note:</b> These conversions should really reside in the UTF8 encoding class, but they are so frequently used   that they are better placed here.  <p>You can use the <code>UTF8</code> method as a format validator, as a conversion tool.  <p><code>UTF8(string)</code> returns 1 iff <code>string</code> is a well-formed UTF-8 string.  <p><code>UTF8(string, "Syntax")</code> returns 1 when <code>string</code> is a well-formed UTF-8 string,  and raises a Syntax condition otherwise.  <p><code>UTF8(string,,"UTF32")</code> returns a UTF-32 version of the argument string, if that  string was a well-formed UTF-8 string, and a null string otherwise.  <p><code>UTF8(string,"Syntax","UTF32")</code> returns a UTF-32 version of the argument string, if that  string was a well-formed UTF-8 string, raises a Syntax condition otherwise.  <p>You can also use <p><code>UTF8(string,,"UTF8")</code> (it returns a makeString version of the argument string, if that  string was a well-formed UTF-8 string, and a null string otherwise), and  <p><code>UTF8(string,,"UTF8 UTF32")</code>   (it returns an array containing a makeString version of the argument string and a UTF-32 version of the argument string, if that  string was a well-formed UTF-8 string, and a null string otherwise), and the corresponding versions that  raise a Syntax error.
+   <p>[Start quote]  <p>See <a href="https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf">The Unicode® Standard.  Version 15.0 – Core Specification</a>, p. 125.  <table class="table table-bordered">   <caption><b>Table 3-7</b>. Well-Formed UTF-8 Byte Sequences</caption>  <tr><th>Code Points       <th>First Byte<th>Second Byte<th>Third Byte<th>Fourth Byte  <tr><td>U+0000..U+007F    <td>00..7F    <td>           <td>          <td>  <tr><td>U+0080..U+07FF    <td>C2..DF    <td>80..BF     <td>          <td>  <tr><td>U+0800..U+0FFF    <td>E0        <td><b><i>A0</i></b>..BF     <td>80..BF    <td>  <tr><td>U+1000..U+CFFF    <td>E1..EC    <td>80..BF     <td>80..BF    <td>  <tr><td>U+D000..U+D7FF    <td>ED        <td>80..<b><i>9F</i></b>    <td>80..BF    <td>  <tr><td>U+E000..U+FFFF    <td>EE..EF    <td>80..BF     <td>80..BF    <td>  <tr><td>U+10000..U+3FFFF  <td>F0        <td><b><i>90</i></b>..BF     <td>80..BF    <td>80..BF  <tr><td>U+40000..U+FFFFF  <td>F1..F3    <td>80..BF     <td>80..BF    <td>80..BF  <tr><td>U+100000..U+10FFFF<td>F4        <td>80..<b><i>8F</i></b>     <td>80..BF    <td>80..BF    </table>    <p>In Table 3-7, cases where a trailing byte range is not 80..BF are shown in bold italic to draw    attention to them. These exceptions to the general pattern occur only in the second byte of    a sequence.  <p>[End quote]  <p>Based on this table, the <code>activate</code> method will build a Finite State Machine. States will be coded into two  TRANSLATE tables, <code>tablei</code> and <code>tableo</code>.
+                                                            <br /><br />
+                                                            <b>param</b>: <code>string</code> The string to validate/convert. <br />
+                                                            <b>param</b>: <code>option = ""</code> What to do if we find an encoding error. <code>"Syntax"</code> produces a syntax error, and <code>""</code> (the default) returns the null string. <br />
+                                                            <b>param</b>: <code>format = "UTF8"</code> Format may be the null string, "UTF8" or "UTF-8", in which case a UTF-8 version of the argument string is returned;                                       it can be "UTF-32" or "UTF-32", in which case a UTF-32 version of the string is returned; or it can be any combination                                      of blank-separated values (repetitions are allowed). If both UTF-8 and                                      UTF-32 versions are requested, the returned value is an array containing the UTF-8 and the                                      UTF-32 versions of the argument string (in this order). <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Invalid option '<em>option</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 93.900</code> Invalid format '<em>format</em>'. <br />
+                                                            <b>condition</b>: <code>Syntax 23.900</code> Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X. <br />
+                                                            <b>see</b>: <code>activate</code> <br />
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> string, format = &quot;&quot;, errorHandling = &quot;&quot;
+
+
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Constants</h4>
+                                        <a id="allowSurrogates"></a>
+                                        <ul>
+                                            <li><b>allowSurrogates</b>
+                                                Value: 0
+
+                                                    <br /><br />
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body">
+                                                            <h4>The <code>allowSurrogates</code> constant</h4>  <p>This is a boolean constant that determines if surrogates are allowed as Unicode values when decoding a string.  <p>The default is 0 (<code>.false</code>). A class may set this constant to 1 (<code>.true</code>) when it needs to manage ill-formed UTF-16 sequences,   containing isolated or out-of-sequence surrogates. Such ill-formed strings are encountered in certain contexts, for example as Windows file names.  <p>WTF-8 and WTF-16 are encodings that need to set <code>allowSurrogates</code> to true.
+                                                        </div>
+                                                    </div>
+                                            </li>
+                                        </ul>
+                                        <a id="alternateEndOfLine-4"></a>
+                                        <ul>
+                                            <li><b>alternateEndOfLine</b>
+                                                Value: ""
+
+                                                    <br /><br />
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body">
+                                                            <h4>The <code>alternateEndOfLine</code> constant</h4>  <p>Some encodings and some implementations allow more than one  form of end-of-line character. For example, ooRexx recognizes both  Windows end of line (CR LF) and Linux end of line (LF) sequences.  The null string means that no alternate end of line sequence exists  for this encoding. If an alternate end of line sequence is specified,  it has to verify that <code>alternateEndOfLine~endsWith(endOfLine) = 1</code>.
+                                                        </div>
+                                                    </div>
+                                            </li>
+                                        </ul>
+                                        <a id="endOfLineAlignment-4"></a>
+                                        <ul>
+                                            <li><b>endOfLineAlignment</b>
+                                                Value: 1
+
+                                                    <br /><br />
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body">
+                                                            <h4>The <code>endOfLineAlignment</code> constant</h4>  <p>If <code>endOfLineAlignment</code> is &gt; 1, <code>endOfLine</code>  and <code>alternateEndOfLine</code> sequences will only be recognized  when they are aligned to <code>endOfLineAlignment</code> bytes.
+                                                        </div>
+                                                    </div>
+                                            </li>
+                                        </ul>
+                                        <a id="useAlternateEndOfLine-4"></a>
+                                        <ul>
+                                            <li><b>useAlternateEndOfLine</b>
+                                                Value: 0
+
+                                                    <br /><br />
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body">
+                                                            <h4>The <code>useAlternateEndOfLineOnOutput</code> constant</h4>   <p>For encodings where <code>alternateEndOfLine \== ""</code>, determines  whether <code>endOfLine</code> or <code>alternateEndOfLine</code> is used  when writing a line to a stream.
+                                                        </div>
+                                                    </div>
+                                            </li>
+                                        </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+        </div>
+    </div>
+    <br />
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/typeahead-bootstrap.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/search-data.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span> Back to Top</div>');
+            $(window).scroll(function () {
+                if ($(this).scrollTop() != 0) {
+                    $('#toTop').fadeIn();
+                } else {
+                    $('#toTop').fadeOut();
+                }
+            });
+            $('#toTop').click(function(){
+                $("html, body").animate({ scrollTop: 0 }, 200);
+                return false;
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#search').typeahead({
+                source: searchData,
+                displayText: function(item) {
+                    if(item.info !== null) {
+                        return item.type + ":" + item.name + " (" + item.info + ")";
+                    }
+
+                    return item.type + ":" + item.name;
+                },
+                matcher: function(item) {
+                    return item.name.toLowerCase().indexOf(this.query.toLowerCase()) != -1
+                },
+                afterSelect: function(item) {
+                    window.location.href = item.href;
+                    $("#search").val(item.name)
+                },
+                items: 20
+            });
+        })
+    </script>
+</body>
+</html>

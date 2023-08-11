@@ -1,0 +1,86 @@
+/*****************************************************************************/
+/*                                                                           */
+/*  The UNICODE Tools for ooRexx                                             */
+/*  ============================                                             */
+/*                                                                           */
+/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
+/*                                                                           */
+/*  See https://github.com/RexxLA, rexx-repository,                          */
+/*      path ARB/standards/work-in-progress/unicode/UnicodeTools             */
+/*                                                                           */
+/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
+/*                                                                           */
+/*                                                                           */
+/*  The lower.rxu program                                                    */
+/*  =====================                                                    */
+/*                                                                           */
+/*  Testing some features of the LOWER BIF.                                  */
+/*                                                                           */
+/*  Version history                                                          */
+/*  ===============                                                          */
+/*                                                                           */
+/*  Vers. Aut Date     Comments                                              */
+/*  ----- --- -------- ----------------------------------------------------- */
+/*  00.2  JMB 20230725 Initial release                                       */
+/*                                                                           */
+/*****************************************************************************/
+
+Options Conversions Promote
+
+Say "Testing the LOWER BIF:"
+Say "----------------------"
+
+Call NextTest "Testing the lowercasing of many european characters"
+
+Call Test "ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÜÂÊÎÔÛÑÃÕÇ"T
+
+Call NextTest "Testing non-final and final sigma:"
+
+Say "Uppercase sigma ('Σ') gets lowercased to 'σ' or to 'ς'"
+Say "depending on whether 'Σ' was a medial or final letter." 
+Say 
+
+Call Test "ὈΔΥΣΣΕΎΣ"P
+
+Call NextTest "Testing non one-to-one casing for CODEPOINTS:"
+
+Test = CODEPOINTS("41 130"U)
+Call Test test
+
+Say "Length('"test"') =" Length(test)
+Say "Length(Lower('"test"')) =" Length(Lower(test))
+
+Call NextTest "Testing non one-to-one casing for TEXT:"
+
+Test = Text("41 130"U)
+Call Test test
+
+Say "Length('"test"') =" Length(test)
+Say "Length(Lower('"test"')) =" Length(Lower(test))
+
+Call NextTest "More peculiarities of LOWER:"
+
+Test = Text("The.ΛÓΓΟΣ.word")
+Do length = 1 To 8
+  Say "Lower('"test"',5,"length") = '"Lower(test,5,length)"'"
+End
+Say
+Say "Done!"
+
+Exit
+
+Test:
+  Use Arg string
+  Say "Lower('"string"') = '"Lower(string)"'"
+Return  
+
+NextTest:
+  Use Arg title
+  Say
+  Say "(press ENTER to continue)"
+  Say 
+  Parse Pull
+  Say title
+  Say Copies("-",Length(title))
+  Say 
+Return  

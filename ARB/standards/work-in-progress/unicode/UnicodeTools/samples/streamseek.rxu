@@ -1,0 +1,75 @@
+/**
+ * <h4><code>lines.rxu</code></h4>
+ *
+ * <p>This program tests the modifications to STREAM COMMAND SEEK and POSITION.
+ */
+tmpfile = SysTempFileName("????.file")
+
+If tmpFile == "" Then Do
+  Say "Cannot create temporary file."
+  Exit 1
+End
+
+Say "Testing STREAM COMMAND SEEK"
+Say "---------------------------"
+Say
+Say "When the program appears to stop, please press ENTER to continue"
+Say
+Parse pull
+Call CharOut ,"Testing the functionality of the BIF when no ENCODING has been specified... "
+
+Call LineOut tmpFile,"One line"
+Call LineOut tmpFile,"Two lines"
+Call LineOut tmpFile,"Three lines"
+Call LineOut tmpFile               -- Close the file
+
+Call Stream  tmpFile,"C","Seek 5"
+lineIn = LineIn(tmpFile)
+If lineIn \== "line" Then Do
+  Say "FAILED! LINEIN returned '"lineIn"', expected 'line'."
+  Call Exit 1
+End
+Call LineOut tmpFile               -- Close the file again, SEEK C and SEEK L can interfere (BUG!)
+Call Stream  tmpFile,"C","Seek 2 LINE"
+lineIn = LineIn(tmpFile)
+If lineIn \== "Two lines" Then Do
+  Say "FAILED! LINEIN returned '"lineIn"', expected 'Two lines'."
+  Call Exit 1
+End
+Say "PASSED!"
+Say
+Call CharOut ,"Testing the functionality of the BIF with a variable-length ENCODING... "
+Call Stream  tmpFile,"C","Open Read ENCODING UTF-8"
+
+Signal On Syntax NAME UTF8CHAR
+Call Stream  tmpFile,"C","Seek 5" -- Syntax error
+Say "FAILED! Expected Syntax error"
+Call Exit 1
+
+UTF8CHAR:
+Signal On Syntax NAME UTF8LINE
+Call Stream  tmpFile,"C","Seek 2 LINE" -- Syntax error
+Say "FAILED! Expected Syntax error"
+Call Exit 1
+
+UTF8LINE:
+Say "PASSED!"
+Say
+Call CharOut ,"Testing the functionality of the BIF with the IBM1047 encoding... "
+Call Stream  tmpFile,"C","Open Read ENCODING IBM1047 CODEPOINTS"
+Call Stream  tmpFile,"C","Seek 5"
+
+Signal On Syntax NAME IBM1047LINE
+Call Stream  tmpFile,"C","Seek 2 LINE" -- Syntax error
+Say "FAILED! Expected Syntax error"
+Call Exit 1
+
+IBM1047LINE:
+Say "PASSED!"
+Say
+Call Exit 0
+
+Exit:
+  Call Stream tmpfile,"C","CLOSE"
+  Call SysFileDelete tmpfile
+  Exit Arg(1)

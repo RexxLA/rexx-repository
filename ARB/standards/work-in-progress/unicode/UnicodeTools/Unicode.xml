@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OoRexxDocXml>
     <parser>
-        <output>.</output>
-        <input>../encodings/Encoding.cls</input>
-        <input>../encodings/cp850.cls</input>
-        <input>../encodings/utf8.cls</input>
-        <input>../encodings/utf16.cls</input>
+        <output>./doc</output>
+        <input>./encodings/Encoding.cls</input>
+        <input>./encodings/cp850.cls</input>
+        <input>./encodings/utf8.cls</input>
+        <input>./encodings/utf16.cls</input>
+        <input>./encodings/utf32.cls</input>
+        <input>./encodings/ibm1047.cls</input>
+        <input>./rxu.rex</input>
+        <input>./Unicode.cls</input>
+        <input>./Stream.cls</input>
     </parser>
     <title>The Unicode Tools for Rexx</title>
     <header>

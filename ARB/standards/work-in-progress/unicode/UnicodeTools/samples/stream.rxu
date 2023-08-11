@@ -1,0 +1,55 @@
+/**
+ * Test the enhanced STREAM BIF.
+ */
+ 
+fn = "stream.rxu"
+ 
+Say "Testing existing behaviour"
+Say
+Call Test fn,"c","Open read",1
+Call Test "not.exist.ing.file","C", "q e",1
+
+Say
+Say "Testing extended functionality"
+Say
+
+
+Call Test fn,"c","Open Read Encoding",0
+Call Test fn,"c","Open Read Encoding Notaname",0
+Call Test fn,"c","Open Read Encoding UTF8",1
+Call Test fn,"c","Open Read Encoding UTF8 Encoding",0
+Call Test fn,"c","Open Read Encoding UTF8 Text",1 -- TEXT
+Call Test fn,"c","Open Read Encoding UTF8 CODEP",1 -- TEXT
+Call Test fn,"c","Open Read Encoding UTF8 Text Cod",0 -- TEXT CODEPOINTS
+Call Test fn,"c","Open Read Encoding UTF8 SYNTAX",1 -- SYNTAX
+Call Test fn,"c","Open Read Encoding UTF8 SUBST",1 -- SYNTAX
+Call Test fn,"c","Open Read Encoding UTF8 SYNTAX SUBST",0 -- SYNTAX
+Call Test fn,"c","Open Read Encoding UTF8 SUBST BINARY",0 -- No encoding for BINARY
+Call Test fn,"c","query encoding",1
+Call Test fn,"c","query encoding NAME",1
+Call Test fn,"c","query encoding TARGET",1
+Call Test fn,"c","query encoding ERROR",1
+Call Test fn,"c","query encoding LASTERROR",1
+
+Exit 0
+
+
+Test:
+  Signal On Syntax
+  Say "Testing: Call Stream '"Arg(1)"','"Arg(2)"','"Arg(3)"'"
+  Call Stream Arg(1),Arg(2),Arg(3)
+  If Arg(4) Then Do
+    Say "==> PASSED (result='"result"')."
+    Return
+  End
+  Say "!!! FAILED, Syntax error expected."
+  Exit 1
+  
+Syntax:
+  If Arg(4) Then Do
+    Say "!!! FAILED. Unexpected Syntax error ("rc"."Condition("E") "):" Condition("A")
+    Exit 1
+    End
+  Else 
+    Say "==> Syntax error ("rc"."Condition("E") "):" Condition("A")
+return
