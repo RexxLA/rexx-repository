@@ -27,7 +27,7 @@
 /*  Classes with "Unicode" in their name accept four new, experimental,      */
 /*  types of string:                                                         */
 /*                                                                           */
-/*    "string"C, Bytes strings (i.e., Classic Rexx strings)                  */
+/*    "string"Y, Bytes strings (i.e., Classic Rexx strings)                  */
 /*    "string"P, Codepoints strings (checked for UTF8 correctness at         */
 /*               parse time)                                                 */
 /*    "string"T, Text strings (checked for UTF8 correctness at parse time)   */
@@ -47,7 +47,7 @@
 /*  00.2  JMB 20230725 Add support for "C" (Classic Rexx) strings            */
 /*  00.2a JMB 20230727 Change RUNES to CODEPOINTS                            */
 /*  00.2b JMB 20230729 Fix subtle bug when / at start of multi-line comment  */
-/*        JMB 20230803 Change "C" suffix to "Y", as per Rony's suggestion    */
+/*  00.3  JMB 20230811 Change "C" suffix to "Y", as per Rony's suggestion    */
 /*                                                                           */
 /*****************************************************************************/
 

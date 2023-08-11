@@ -85,7 +85,7 @@
  *    <tr><td>00.2a<td>JMB <td>20230727<td>Add format=("","U+","NAMES") for C2U.
  *                                         <br>CODEPOINTS now checks for correct UTF-8.
  *                                         <br>Change RUNES to CODEPOINTS, and ALLRUNES to C2U
- *    <tr><td>00.3 <td>JMB <td>TBA     <td>Move utf-8 and -16 code to the "encodings" subdir, implement general interface to encodings.
+ *    <tr><td>00.3 <td>JMB <td>20230811<td>Move utf-8 and -16 code to the "encodings" subdir, implement general interface to encodings.
  *                                         <br>Remove code for OPTIONS CONVERSIONS.
  *                                         <br>Add C2U("UTF32") option
  *                                         <br>Implement !STREAM and !LINEIN

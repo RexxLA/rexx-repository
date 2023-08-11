@@ -2,6 +2,8 @@
  *
  * Tests for the new DECODE BIF.
  *
+ *
+ * First released with the 0.3 version of the Tools, 20230811.
  */
 
 

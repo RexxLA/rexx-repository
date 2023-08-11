@@ -1,5 +1,7 @@
 /**
  * Test the enhanced STREAM BIF.
+ *
+ * First released with the 0.3 version of the Tools, 20230811.
  */
  
 fn = "stream.rxu"

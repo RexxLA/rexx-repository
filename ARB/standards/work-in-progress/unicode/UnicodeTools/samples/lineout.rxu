@@ -2,6 +2,8 @@
  * <h4><code>lineout.rxu</code></h4>
  *
  * <p>This program tests the extended features of the LINEOUT BIF.
+ *
+ * First released with the 0.3 version of the Tools, 20230811.
  */
 tmpfile = SysTempFileName("????.file")
 

@@ -54,7 +54,7 @@
   <h4>Version history</h4>
   
   <table>
-    <tr><td><b>1.0 20230801</b><td>&nbsp;Initial release.
+    <tr><td><b>1.0 20230811</b><td>&nbsp;Initial release.
   </table>
 
   @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  

@@ -1,4 +1,7 @@
-
+/*
+ *
+ * First released with the 0.3 version of the Tools, 20230811.
+ */
 
 tmpfile = SysTempFileName("????.file")
 

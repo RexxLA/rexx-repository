@@ -182,6 +182,7 @@
  *   <tr><td>      <td>    <td>         <td>Implement LINEIN
  *   <tr><td>      <td>    <td>         <td>Implement DATATYPE(string, "C")
  *   <tr><td>      <td>    <td>         <td>Implement CHARIN, CHAROUT, CHARS, LINES
+ *   <tr><td>00.3  <td>JMB <td>20230811 <td>0.3 release
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  

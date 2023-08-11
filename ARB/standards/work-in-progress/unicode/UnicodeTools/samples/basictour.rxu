@@ -23,7 +23,7 @@
 /*  ----- --- -------- ----------------------------------------------------- */
 /*  00.2  JMB 20230725 Initial release                                       */
 /*  00.2a JMB 20230727 U strings are now CODEPOINTS, not TEXT.               */
-/*  00.3  JMB 20230803 "C" suffix changes to "Y", as per Rony's suggestion   */
+/*  00.3  JMB 20230811 "C" suffix changes to "Y", as per Rony's suggestion   */
 /*                                                                           */
 /*****************************************************************************/
 
