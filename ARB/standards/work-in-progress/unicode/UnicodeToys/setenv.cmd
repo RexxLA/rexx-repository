@@ -1,3 +1,0 @@
-@Echo Off
-Echo Adding "%CD%" and "%CD%\properties" to the PATH environment variable...
-Set path=%cd%;%cd%\properties;%path%
