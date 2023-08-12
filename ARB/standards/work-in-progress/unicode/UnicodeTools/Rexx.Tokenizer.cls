@@ -1,69 +1,123 @@
-/*****************************************************************************/
-/*                                                                           */
-/*  Rexx.Tokenizer.cls                                                       */
-/*  ==================                                                       */
-/*                                                                           */
-/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
-/*                                                                           */
-/*  See https://github.com/RexxLA, rexx-repository,                          */
-/*      path ARB/standards/work-in-progress/unicode/UnicodeTools             */
-/*                                                                           */
-/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
-/*                                                                           */
-/*                                                                           */
-/*  This .cls file implements a set of ooRexx classes. The main class is     */
-/*  Rexx.Tokenizer. It implements a basic Rexx tokenizer. The getToken       */
-/*  method returns basic Rexx tokens and non-tokens. [Nested] classic        */
-/*  comments and strings are handled.                                        */
-/*                                                                           */
-/*  The exact syntax accepted by the tokenizer depends on the subclass.      */
-/*  Subclasses starting with "Regina" accept the Regina Rexx syntax;         */
-/*  subclasses starting with "ANSI.Rexx" accept only the ANSI Rexx syntax    */
-/*  (for example, comments starting with "--" are accepted by Regina but     */
-/*  not by ANSI); subclasses starting with "ooRexx" accept ooRexx syntax;    */
-/*  for example, "[", "]" and "~" are valid characters for ooRexx subclasses */
-/*  but not for Regina or ANSI subclasses.                                   */
-/*                                                                           */
-/*  Classes with "Unicode" in their name accept four new, experimental,      */
-/*  types of string:                                                         */
-/*                                                                           */
-/*    "string"Y, Bytes strings (i.e., Classic Rexx strings)                  */
-/*    "string"P, Codepoints strings (checked for UTF8 correctness at         */
-/*               parse time)                                                 */
-/*    "string"T, Text strings (checked for UTF8 correctness at parse time)   */
-/*    "string"U, Unicode codepoint strings. Codepoints can be specified      */
-/*               using hexadecimal notation (61, 0061, 0000), or as a name,  */
-/*               alias or label enclosed in parenthesis ("(cr)","(CR) (LF)", */
-/*               "(Woman) (zwj) (Man)"). Codepoints, names, alias and labels */
-/*               are checked for correctness at parse time.                  */
-/*                                                                           */
-/*  Version history                                                          */
-/*  ===============                                                          */
-/*                                                                           */
-/*  Vers. Aut Date     Comments                                              */
-/*  ----- --- -------- ----------------------------------------------------- */
-/*  00.1d JMB 20230719 Initial public release                                */
-/*  00.1e JMB 20230720 Support U+hhhh in U strings                           */
-/*  00.2  JMB 20230725 Add support for "C" (Classic Rexx) strings            */
-/*  00.2a JMB 20230727 Change RUNES to CODEPOINTS                            */
-/*  00.2b JMB 20230729 Fix subtle bug when / at start of multi-line comment  */
-/*  00.3  JMB 20230811 Change "C" suffix to "Y", as per Rony's suggestion    */
-/*                                                                           */
-/*****************************************************************************/
+/**
+ *                                                                           
+ *  <h2><code>Rexx.Tokenizer.cls</code></h2>
+ *                        
+ *<pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR). 
+ *   See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
+ *   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
+ *   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
+ *                                                                           
+ *  <p>
+ *    This <code>.cls</code> file implements a set of ooRexx classes. The main class is     
+ *    <code>Rexx.Tokenizer</code>. It implements a basic Rexx tokenizer. The <code>getToken</code>
+ *    method returns basic Rexx tokens and non-tokens. [Nested] classic        
+ *    comments and strings are handled.                                        
+ *                                                                           
+ *  <p>
+ *    The exact syntax accepted by the tokenizer depends on the subclass.      
+ *    Subclasses starting with <code>"Regina"</code> accept the Regina Rexx syntax;         
+ *    subclasses starting with <code>"ANSI.Rexx"</code> accept only the ANSI Rexx syntax    
+ *    (for example, comments starting with <code>"--"</code> are accepted by Regina but     
+ *    not by ANSI); subclasses starting with <code>"ooRexx"</code> accept ooRexx syntax;    
+ *    for example, <code>"["</code>, <code>"]"</code> and <code>"~"</code> are valid characters 
+ *    for ooRexx subclasses but not for Regina or ANSI subclasses.                                   
+ *                                                                           
+ *  <p>
+ *    Classes with "Unicode" in their name accept four new, experimental, types of string:                                                         
+ *
+ *<pre><code>
+ *    <b>"string"Y</b>,  Bytes strings (i.e., Classic Rexx strings)                  
+ *    <b>"string"P</b>,  Codepoints strings (checked for UTF8 correctness at parse time)                                                 
+ *    <b>"string"T</b>,  Text strings (checked for UTF8 correctness at parse time)   
+ *    <b>"string"U</b>,  Unicode codepoint strings. Codepoints can be specified using hexadecimal notation (61, 0061, 0000), or as a name,  
+ *                alias or label enclosed in parenthesis ("(cr)","(CR) (LF)", "(Woman) (zwj) (Man)"). Codepoints, names, alias and labels 
+ *                are checked for correctness at parse time.                  
+ *</code></pre>
+ *
+ *  <h4>Version history</h4>
+ *  
+ *  <table class="table">
+ *    <tr><th>Ver.  <th>Aut.<th>Date    <th>Description
+ *    <tr><td>00.1d <td>JMB <td>20230716<td>Initial public release
+ *    <tr><td>00.1e <td>JMB <td>20230720<td>Support U+hhhh in U strings
+ *    <tr><td>00.2  <td>JMB <td>20230725<td>Add support for "C" (Classic Rexx) strings
+ *    <tr><td>00.2a <td>JMB <td>20230727<td>Change RUNES to CODEPOINTS
+ *    <tr><td>00.2b <td>JMB <td>20230729<td>Fix subtle bug when / at start of multi-line comment
+ *    <tr><td>00.3  <td>JMB <td>20230811<td>Change "C" suffix to "Y", as per Rony's suggestion
+ *  </table>
+ *                                                                           
+ */
+
+/**
+ * <h3>The <code>ooRexx.Tokenizer</code> class</h3>
+ *
+ * <p>
+ *   Instances of this class implement a ooRexx tokenizer.
+ */
 
 ::Class ooRexx.Tokenizer            Subclass Rexx.Tokenizer      Public
 
+/**
+ * <h3>The <code>ooRexx.Unicode.Tokenizer</code> class</h3>
+ *
+ * <p>
+ *   Instances of this class implement a ooRexx tokenizer with Unicode extensions.
+ */
+ 
 ::Class ooRexx.Unicode.Tokenizer    Subclass ooRexx.Tokenizer    Public
+
+/**
+ * <h3>The <code>Regina.Tokenizer</code> class</h3>
+ *
+ * <p>
+ *   Instances of this class implement a Regina Rexx tokenizer.
+ */
 
 ::Class Regina.Tokenizer            Subclass Rexx.Tokenizer      Public
 
+/**
+ * <h3>The <code>Regina.Unicode.Tokenizer</code> class</h3>
+ *
+ * <p>
+ *   Instances of this class implement a Regina Rexx tokenizer with Unicode
+ *   extensions.
+ */
+
 ::Class Regina.Unicode.Tokenizer    Subclass Regina.Tokenizer    Public
+
+/**
+ * <h3>The <code>ANSI.Rexx.Tokenizer</code> class</h3>
+ *
+ * <p>
+ *   Instances of this class implement a ANSI Rexx tokenizer.
+ */
 
 ::Class ANSI.Rexx.Tokenizer         Subclass Rexx.Tokenizer      Public
 
+/**
+ * <h3>The <code>ANSI.Rexx.Unicode.Tokenizer</code> class</h3>
+ *
+ * <p>
+ *   Instances of this class implement a ANSI Rexx tokenizer with Unicode extenstions.
+ */
+
 ::Class ANSI.Rexx.Unicode.Tokenizer Subclass ANSI.Rexx.Tokenizer Public
 
+/**
+ * <h3>The <code>Rexx.Tokenizer</code> class</h3>
+ *
+ * <p>
+ *   This is the main Rexx Tokenizer class.
+ */
+
 ::Class Rexx.Tokenizer                                           Public
+
+/**
+ * <h4>The <code>.Rexx.Tokenizer~init</code> method</h4>
+ *
+ * @param <code>source</code> An array of strings containing the source of the program
+ *   we want to tokenize.
+ */
 
 ::Method init
   Use local pkglocal
@@ -92,11 +146,44 @@
   
   UnicodeLoaded = 0
   
+/**
+ *
+ * <h4>The <code>.Rexx.Tokenizer~tokenCount</code> attribute</h4>
+ *
+ * <p>
+ *   A tokenizer instance keeps track of the number of tokens it has
+ *   examined and returned. You can get this number by using this attribute.
+ */ 
+  
 ::Attribute tokenCount get
+
+/**
+ *
+ * <h4>The <code>.Rexx.Tokenizer~sourceLine</code> method</h4>
+ *
+ * @param <code>n</code> The line number of the line you want to retrieve.
+ */ 
 
 ::Method sourceLine
   Expose source
   Return source[Arg(1)]
+
+/**
+ *
+ * <h4>The <code>InitializeCharacterCategories</code> private method</h4>
+ *
+ * <p>
+ *   Each character in the "00"X.."FF"X range is assigned a <em>characte category</em>:
+ *   digits ("0".."9") are assigned the category "digit" ("d"), letters ("a".."z" and "A".."Z",
+ *   plus "_", "?", "!" and some other implementation-dependent characters) are assigned
+ *   the "general_letter" ("l") category, and so on.
+ *
+ * <p>
+ *   When we are about to tokenize a line <em>L</em>, we will use the <code>TRANSLATE</code> BIF to obtain
+ *   a new string containing the character categories of each individual character in <em>L</em>.
+ *   This allows a very efficient determination of the token boundaries. For example, a run of "d" will
+ *   identify a simple number, a run of "d" or "l" will identify a simple symbol, and so on.
+ */ 
 
 ::Method InitializeCharacterCategories Private
   Expose characters categories blank_character digit general_letter simple_symbol var_symbol_char
@@ -666,20 +753,39 @@ Token:
 
 Syntax.Error: Raise propagate
 
+/**
+ *
+ * <h4>The <code>Syntax</code> helper routine</h4>
+ *
+ * <p><code>SYNTAX</code> is a helper routine that raises the <code>USER SYNTAX.ERROR</code> condition.
+ *
+ * @param <code>code</code> The Rexx error Syntax code, in the <code><em>major</em>.<em>minor</em></code> format.
+ * @param <code>line</code> The line number where the error was found.
+ * @param <code>...</code> The remaining arguments will be collected in an array.
+ * @condition <code>USER SYNTAX.ERROR</code>. The condition is passed an array as an argument. The first component is the error <code>code</code>;
+ *   the second argument is the <code>line</code>, and the third argument is an array formed by the remaining arguments passed to the
+ *   <code>Syntax</code> routine.
+ *
+ */
+
 ::Routine Syntax Public
   Raise User Syntax.Error Array(Arg(1), Arg(2), Arg(3,"A"))
 
+/**
+ * <h4>The <code>errorMessage</code> helper routine</h4>
+ *
+ * @param <code>code</code> The Rexx error Syntax code, in the <code><em>major</em>.<em>minor</em></code> format. 
+ * @param <code>substArray</code> An array of substition instances.
+ * @returns An array containing the major and the minor error messages for the specified <code>code</code>, with all the instances in <code>substArray</code>
+ *   substituted in the message.
+ */
+
 ::Routine errorMessage Public
---
--- Arguments
---
---  error code: major"."minor
---  substArray: an array of substitution instances
---
 -- List of error messages, with substitutions
 --
--- When the messages for ooRexx and Regina are different, there is
--- an extra compound variable starting with "Regina.".
+-- When the messages for ooRexx and Regina are new or different, there is
+-- an extra compound variable starting with "Regina.". The same is
+-- true for the "Unicode" variants of the classes.
   Parse arg major"."minor
   
   errMsg.3       = "Failure during initialization."

@@ -1,30 +1,16 @@
 /**
  *
- * <h3>The RXU Rexx Preprocessor for Unicode</h3>
+ * <h3>The <code>RXU</code> Rexx Preprocessor for Unicode</h3>
  *
- * <p>
- *   This classfile is part of 
- *   <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>. 
- * </p>
- *   
- * <p>See 
- *   <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">
- *   https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/
- *   </a>
- *   for more information.
- * </p>
- *   
- * <p>
- *   License: Apache License 2.0 
- *   [<a href="https://www.apache.org/licenses/LICENSE-2.0">
- *   https://www.apache.org/licenses/LICENSE-2.0
- *   </a>]
- * </p>
+ *<pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR). 
+ *   See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
+ *   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
+ *   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
  *   
  * <h4>Description</h4>
  *
  * <p>
- *   The <b>RXU Rexx Preprocessor for Unicode</b> is implemented as a Rexx program, <code>rxu.rex</code>.
+ *   The <b><code>RXU</code> Rexx Preprocessor for Unicode</b> is implemented as a Rexx program, <code>rxu.rex</code>.
  *   RXU reads a <code>.rxu</code> program and attempts to translate it to 
  *   standard <code>.rex</code> code (assuming that the Unicode library,
  *   <code>Unicode.cls</code>, has been loaded). If no errors are found in 

@@ -51,7 +51,6 @@ Do file Over .File~new(myDir)~listFiles
   Call (filename)
 End
 
-
 ::Options Digits 16
 
 ::Class Unicode.Property Public

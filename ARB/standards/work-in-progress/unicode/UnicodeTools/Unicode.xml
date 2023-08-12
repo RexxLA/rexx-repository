@@ -11,6 +11,7 @@
         <input>./rxu.rex</input>
         <input>./Unicode.cls</input>
         <input>./Stream.cls</input>
+        <input>./Rexx.Tokenizer.cls</input>
     </parser>
     <title>The Unicode Tools for Rexx</title>
     <header>
