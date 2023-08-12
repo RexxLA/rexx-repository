@@ -14,11 +14,13 @@ Say "Testing the CHARS BIF..."
 Say 
 Say "We will first test standard behaviour."
 
-Call LineOut tmpFile, "abcdef" -- Write some chars
-Call LineOut tmpFile          -- Close the file
+Call Stream tmpfile,"C","CLOSE"
+Call SysFileDelete tmpfile
+Call CharOut tmpFile, "abcdefgh" -- Write some chars
+Call CharOut tmpFile          -- Close the file
 chars = Chars(tmpFile)
 If chars \== 8 Then Do
-  Say "FAILED! CHARS returned "chars", expected 7."
+  Say "FAILED! CHARS returned "chars", expected 8."
   Call Exit 1
 End
 Say "PASSED!"

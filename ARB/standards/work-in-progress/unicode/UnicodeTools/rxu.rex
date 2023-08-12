@@ -40,6 +40,12 @@
  *
  * <h4>The RXU command</h4>
  *
+ * <p>
+ *   <code>RXU filename</code> converts a file named <code>filename</code> 
+ *   (default extension: <code>.rxu</code>) into a <code>.rex</code> file, 
+ *   and then interprets this <code>.rex</code> file.
+ * </p>
+ * 
  * <code><pre> Format:                                                                  
  *                                                                           
  *    [rexx] rxu [options] filename [arguments]                              
@@ -53,11 +59,6 @@
  *    /nowarnbif : don't warn when using unsupported BIFs (the default)
  *  </pre></code>
  * 
- * <p>
- *   <code>RXU filename</code> converts a file named <code>filename</code> 
- *   (default extension: <code>.rxu</code>) into a <code>.rex</code> file, 
- *   and then interprets this <code>.rex</code> file.
- * </p>
  *
  * <h4>Language implemented by the RXU Preprocessor for Rexx</h4>
  *
@@ -66,7 +67,7 @@
  *   new syntactical constructs:                                                          
  *
  *  <code><pre>
- *    "string"C, a Classic Rexx string, composed of bytes.                   
+ *    "string"Y, a Classic Rexx string, composed of bytes.                   
  *    "string"P, a Codepoints string (checked for UTF8 correctness at parse time)                                              
  *    "string"T, a Text string (checked for UTF8 correctness at parse time)  
  *    "string"U, a Unicode codepoint string. Codepoints can be specified using hexadecimal notation (like 61, 0061, or 0000), 
@@ -90,8 +91,7 @@
  *     
  * <p> 
  *   No checks are done to see if there are internal routines with the same    
- *   names as these BIFs, or to see if the BIFs are called with a CALL        
- *   statement instead of a function call.                                    
+ *   names as these BIFs.                                    
  * </p>
  *
  * <p>A number of new BIMs, BIFs and classes are defined and available. Please refer
@@ -149,12 +149,7 @@
  *
  * <h4>Version history</h4>
  *
- *  <style>
- *    .borderless tr, .borderless td, .borderless th {
- *     border: none !important;
- *    }
- *  </style>
- * <table class="table table-borderless borderless" style="font-size:smaller">
+ * <table class="table table-borderless" style="font-size:smaller">
  *   <thead>
  *      <tr>
  *        <th class="col-xs-1">Vers.</th>
