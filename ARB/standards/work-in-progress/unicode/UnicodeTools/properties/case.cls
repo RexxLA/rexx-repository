@@ -29,6 +29,8 @@
 /*                                                                           */
 /*****************************************************************************/
 
+.local~Unicode.Case = .Unicode.Case
+
 ::Class Unicode.Case Public SubClass Unicode.Property
 
 ::Constant BinaryFile                           "Case.bin"  

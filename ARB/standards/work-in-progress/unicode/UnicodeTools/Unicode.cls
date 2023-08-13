@@ -133,10 +133,92 @@ Properties:
     Otherwise Raise Syntax 88.900 Additional("Invalid property '"Arg(3)"'")
   End
 
+/**
+ *
+ * <h4><code>N2P</code> (Name to codePoint)</h4>
+ *
+ * <code><pre>
+ *
+ * <b>N2P(</b> <em>name</em> <b>)</b>
+ * </pre></code> 
+ *
+ * <p>
+ *   Returns the hexadecimal Unicode codepoint corresponding to <em>name</em>, or the null string if <em>name</em>
+ *   does not correspond to a Unicode codepoint. 
+ *
+ * <p>
+ *   <code>N2P</code> accepts <em>names</em>, as defined in the second 
+ *   column of <code>UnicodeData.txt</code> (that is, the Unicode "Name" ("Na") property), like 
+ *   <code>"LATIN CAPITAL LETTER F"</code> or <code>"BELL"</code>; <em>aliases</em>, as defined in 
+ *   <code>NameAliases.txt</code>, like <code>"LF"</code> or <code>"FORM FEED"</code>, and <em>labels</em> 
+ *   identifying codepoints that have no names, like <code>"&lt;Control-0001&gt;"</code> or <code>"&lt;Private Use-E000&gt;"</code>.
+ *
+ * <p>
+ *   When specifying a name, case is ignored, as are certain characters: spaces, medial dashes
+ *   (except for the "HANGUL JUNGSEONG O-E" codepoint) and underscores that replace dashes. Hence, <code>"BELL"</code>,
+ *   <code>"bell"</code> and <code>"Bell"</code> are all equivalent, as are <code>"LATIN CAPITAL LETTER F"</code>,
+ *   <code>"Latin capital letter F"</code> and <code>"latin_capital_letter_f"</code>.
+ *
+ * <p>
+ *   Returned codepoints will have a minimum length of four digits, and will never start with a zero if they have
+ *   more than four digits.
+ *
+ * <p><b>Examples:</b>
+ *
+ * <code><pre>
+ * N2P("LATIN CAPITAL LETTER F") =  "0046"       -- Padded to four digits
+ * N2P("BELL")                   = "1F514"       -- Not "01F514"
+ * N2P("Potato")                 = "1F954"       -- Unicode has "Potato" (a vegetable emoticon)..
+ * N2P("Potatoes")               = ""            -- ..but no "Potatoes".</pre></code>
+ *
+ */
+
 ::Routine N2P Public
   Use Strict Arg name
   If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
   Return .Unicode.Name~n2p( name )
+
+/**
+ *
+ * <h4><code>P2N</code> (codePoint to Name)</h4>
+ *
+ * <code><pre>
+ *
+ * <b>N2P(</b> <em>codepoint</em> <b>)</b>
+ * </pre></code> 
+ *
+ * <p>
+ *   Returns the name or label corresponding to the hexadecimal Unicode <em>codepoint</em> argument, or the null string if the
+ *   <em>codepoint</em> has no name or label.
+ *
+ * <p>
+ *   The argument <em>codepoint</em> is first <em>verified</em> for validity. If it is not a valid hexadecimal number or it is
+ *   out-of-range, a null string is returned. If the codepoint is found to be valid, it is then <em>normalized</em>: 
+ *   if it has less than four digits, zeros are added to the left, until the codepoint has exactly four digits; 
+ *   and if the codepoint has more than four digits, leading zeros are removed, until no more zeros are found or
+ *   the codepoint has exactly four characters.
+ *
+ * <p>
+ *   Once the codepoint has been validated and normalized, it is uppercased, and the Unicode Character Database 
+ *   is then searched for the "Name" ("Na") property. If the codepoint has a name, that name is returned. 
+ *   If the codepoint does not have a name but it has a label, like <code>"&lt;control-0010&gt;"</code>, the label is returned. 
+ *   In all other cases, the null string is returned.
+ *
+ * <p>
+ *   <b>Note.</b> Labels are always enclosed between "&lt;" and "&gt;" signs. This allows to quickly distinguish them from names.
+ *
+ * <p><b>Examples:</b>
+ *
+ * <code><pre>
+ * P2N("46")      =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
+ * P2N("0046")    =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
+ * P2N("0000046") =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
+ * P2N("1F342")   =  "FALLEN LEAF"               -- An emoji
+ * P2N("0012")    =  "&lt;control-0012&gt;"            -- A label, not a name
+ * P2N("XXX")     =  ""                          -- Invalid codepoint
+ * P2N("110000")  =  ""                          -- Out-of-range</pre></code>
+ *   
+ */
 
 ::Routine P2N Public
 Use Strict Arg code

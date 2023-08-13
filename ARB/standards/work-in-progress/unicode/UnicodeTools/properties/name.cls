@@ -57,13 +57,29 @@
 -- “Unicode Character Database.”
 -------------------------------------------------------------------------------
 
+.local~Unicode.Name = .Unicode.Name
+
 ::Class Unicode.Name SubClass Unicode.Property Public
 
 ::Method "[]" Class
   Expose c2n.
   Use Strict Arg code
+  
+  If \DataType(code,"X") Then Return ""
+    
+  -- Normalize "code" first
+  If Length(code) < 4 Then code = Right(code,4,0)
+  Do While code[1] == "0", Length(code) > 4
+    code = SubStr(code,2)
+  End
+  
+  code = Upper(code)
+  
+  -- Try code-to-name stem first
   name = c2n.code
   If name \== "" Then Return name
+  
+  -- Not found? See if it's algorithmic
   name = .Unicode.General_Category~Algorithmic_Name(code)
   Return name
 

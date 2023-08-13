@@ -74,7 +74,7 @@
                     <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
                 </div>
                 <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 12 ago 2023 12:57:56</span>
+                        <span class="label label-info">Run-Date: 13 ago 2023 12:31:04</span>
                 </span>
             </form>
         </div>
@@ -661,12 +661,18 @@
     ( BINARY        , "B" ), -
     ( HEXADECIMAL   , "X" ), -
     ( CHARACTER     , "C" ), -  
-    ( BYTES         , "Y" ), -  -- With an explicit Y suffix
+    ( BYTES         , "Y" ), -  -- Unicode only. With an explicit Y suffix
     ( CODEPOINTS    , "P" ), -  -- Unicode only
     ( TEXT          , "T" ), -  -- Unicode only
     ( UNOTATION     , "U" )  -  -- Unicode only
 )
 
+                                                    <br /><br />
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body">
+                                                            <h4>The <code>tokenClasses</code> constant</h4> <p>   This constant is indeed a vector of constants. The suggested way to use it is to   use code similar to the following.<code><pre>  Do tc over tokenizer~tokenClasses   Call Value tc[1], tc[2]  End</pre></code>
+                                                        </div>
+                                                    </div>
                                             </li>
                                         </ul>
                             </div>

@@ -52,6 +52,7 @@
 -- when that property is algorithmically computable.                          --
 --                                                                            --
 --------------------------------------------------------------------------------
+.local~Unicode.General_Category = .Unicode.General_Category
 
 ::Class Unicode.General_Category Public SubClass Unicode.Property
 
@@ -157,6 +158,7 @@
       n = X2D( code )
       If n >= 64976, n <= 65007         Then -- code in U+FDD0..U+FDEF 
                                              Return "<noncharacter-"code">"
+      If n > 1114111                    Then Return "" -- Out of range
       Return "<reserved-"code">"
     End
     When Cs                             Then Return "<surrogate-"code">"
