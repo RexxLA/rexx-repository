@@ -3,11 +3,7 @@
     <parser>
         <output>./doc</output>
         <input>./encodings/Encoding.cls</input>
-        <input>./encodings/cp850.cls</input>
-        <input>./encodings/utf8.cls</input>
-        <input>./encodings/utf16.cls</input>
-        <input>./encodings/utf32.cls</input>
-        <input>./encodings/ibm1047.cls</input>
+        <input>./properties/Properties.cls</input>
         <input>./rxu.rex</input>
         <input>./Unicode.cls</input>
         <input>./Stream.cls</input>

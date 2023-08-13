@@ -12,14 +12,14 @@
  *   the basic Unicode Tools Of Rexx architecture. Some of these routines are:
  *
  * <pre><code>
- *   BYTES(string)      -- Creates a new string composed of bytes
- *   CODEPOINTS(string) -- Creates a new string composed of Unicode codepoints
- *   TEXT(string)       -- Creates a new string composed of grapheme clusters
+ *   BYTES(string)         -- Creates a new string composed of bytes
+ *   CODEPOINTS(string)    -- Creates a new string composed of Unicode codepoints
+ *   TEXT(string)          -- Creates a new string composed of grapheme clusters
  *   UNICODE(code,"Property",propertyName)                                  
  *     The swiss-knife Unicode BIF. It allows to map codepoints to Unicode properties.
- *   C2U(string)       -- Returns the set of codepoints that compose the string in a series of formats
- *   P2N(code)         -- codePoints To Name: returns the Unicode Name property
- *   N2P(name)         -- Name To codePoints: transforms a Unicode name or alias into a normalized codepoint
+ *   C2U(string[,format]) -- Returns the set of codepoints that compose the string in a series of formats
+ *   P2N(code)            -- codePoints To Name: returns the Unicode Name property
+ *   N2P(name)            -- Name To codePoints: transforms a Unicode name or alias into a normalized codepoint
  * </code></pre>
  *
  * <p>
@@ -288,7 +288,7 @@ Use Strict Arg code
  */
 
 
-::Routine Bytes Public
+::Routine BYTES Public
   Use Strict Arg string
   return .Bytes~new(string)
 
@@ -343,9 +343,46 @@ Use Strict Arg code
   Use Strict Arg string
   Return .Text~new(string)
     
+/**
+ *
+ * <h4><code>C2U</code> (Character to Unicode codepoint)</h4>
+ * <code><pre>
+ *
+ * <b>C2U(</b> <em>string</em> ┬────────────┬─> <b>)</b>
+ *             └─ <b>,</b> <em>format</em> ─┘</pre></code>
+ *
+ * <p>
+ *   Returns a string, in character format, that represents <em>string</em> converted to Unicode codepoints.
+ *   By default, <code>C2U</code> returns a list of blank-separated hexadecimal representations of the
+ *   codepoints. The <em>format</em> argument allows to select different formats for the returned string.
+ *
+ * <ul>
+ *  <li>When <em>format</em> is the null string or <code>"Codes"</code> (the default), <code>C2U</code>
+ *    returns a list of blank-separated hexadecimal codepoints. Codepoints larger than "FFFF"X will have their
+ *    leading zeros removed, if any. Codepoints smaller than "10000"X will always have four digits (by adding
+ *    zeros to the left if necessary).
+ *  <li>When <em>format</em> is <code>"U+"</code>, a list of hexadecimal codepoints is returned. Each codepoint is
+ *    prefixed with the characters <code>"U+"</code>.
+ *  <li>When <em>format</em> is <code>"Names"</code>, each codepoint is substituted by its corresponding
+ *    name or label, between parenthesis. For example, C2U("S") == "(LATIN CAPITAL LETTER S)", and
+ *    C2U("0A"X) = "(&lt;control-000A&gt;)".
+ *  <li>When <em>format</em> is <code>"UTF-32"</code>, a UTF-32 representation of the string is returned.
+ * </ul>
+ *
+ * <p><b>Examples</b> (assuming an ambient encoding of UTF-8):
+ *
+ * <code><pre>
+ * C2U("Sí")       = "0053 00ED"       -- And "0053 00ED"U == "53 C3AD"X == "Sí".
+ * C2U("Sí","U+")  = "U+0053 U+00ED"   -- Again, "U+0053 U+00ED"U == "53 C3AD"X == "Sí".
+ * C2U("Sí","Na")  = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"
+ *                                     -- And "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"U == "Sí"
+ * C2U("Sí","UTF-32") = "0000 0053 0000 00ED"X
+ * </pre></code>
+ */   
+    
 ::Routine C2U Public  
-  Use Strict Arg object, format=""
-  Return object~C2U(format) 
+  Use Strict Arg string, format=""
+  Return string~C2U(format) 
   
 /**
  *
@@ -508,7 +545,7 @@ Return string~upper(n, length)
  *
  * <ul>
  *   <li>
- *     <code>string~c2u</code> will return a sequence of blank-separated codepoints,
+ *     <code>string~c2u</code> or <code>string~c2u("Codes")</code> (the default) will return a sequence of blank-separated codepoints,
  *     (without the <code>"U+"</code> prefix). Codepoints smaller than U+1000 will be
  *     padded on the left with zeros (<code>"0"</code>) until they are four bytes
  *     long. Codepoints larger that U+FFFF will have any leading zeroes removed.
@@ -520,8 +557,9 @@ Return string~upper(n, length)
  *      For example, <code>"Sí"~C2U("U+") = "U+0053 U+00ED"</code>.
  *   <li><code>string~c2u("NAMES")</code> (abbreviable to "NA") returns a blank-separated
  *      list of the Unicode "Name" ("Na") property for each character in the target string.
- *      For example, <code>"Sí"~C2U("U+") = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"</code>.
- *   <li><code>string~c2u("UTF32")</code> returns a UTF-32 representation of the target string, for example <code>"Sí"~C2U("UTF32") = "00000053 000000ED"X</code>.
+ *      For example, <code>"Sí"~C2U("Na") = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"</code>.
+ *   <li><code>string~c2u("UTF32")</code> returns a UTF-32 representation of the target string, 
+ *      for example <code>"Sí"~C2U("UTF32") = "00000053 000000ED"X</code>.
  * </ul>
  */
 ::Method C2U
@@ -556,7 +594,7 @@ Names:
   Return Strip(res,"L")
 
 /**
- * <h4>U2C: Unicode codepoints to Character</h4>
+ * <h4><code>U2C</code> Unicode codepoints to Character</h4>
  * 
  * <p>
  *   This method inspects the target string for validity (see below). If valid,
@@ -565,11 +603,12 @@ Names:
  *
  * <p>
  *   You can use the <code>DATATYPE(string, "C")</code> BIF (for "uniCode") or the
- *   DATATYPE("C") method to verify whether a string is a proper Unicode codepoints string.
+ *   <code>DATATYPE("C")</code> method to verify whether a string is a proper Unicode codepoints string.
  *
  */
  
-::Method U2C 
+::Method U2C
+  -- We want to operate on bytes
   contents = self~makeString
   res = ""
   Do While contents \= " "
@@ -578,15 +617,15 @@ Names:
       Parse var contents "("name")"extra
       If extra == "" Then If \contents~endsWith(")") Then Signal BadParenthesis
       contents = Strip(extra)
-      code = N2P(name)
-      If code = "" Then Signal BadName
+      word = N2P(name)
+      If word = "" Then Signal BadName
     End
     Else Do
       Parse Var contents word contents
       If Upper(word) == "U+"         Then Signal BadCodepoint
       If Upper(Left(word,2)) == "U+" Then word = SubStr(word,3)
       If \DataType(word,"X")         Then Signal BadCodepoint
-      If X2D(word) > X2D(10FFFF)     Then Signal BadCodepoint
+      If X2D(word) >  X2D(10FFFF)    Then Signal BadCodepoint
       If X2D(word) >= X2D(D800),,
          X2D(word) <= X2D(DFFF)      Then Signal BadCodepoint
     End

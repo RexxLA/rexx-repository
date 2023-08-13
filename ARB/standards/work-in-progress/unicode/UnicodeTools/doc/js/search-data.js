@@ -1,20 +1,5 @@
 var searchData = [
         {
-        id: "cp850.cls", type: "Package", name: "cp850.cls", info: null,  href: "cp850.cls.html"
-    },
-        {
-        id: "CP850", type: "Class", name: "CP850", info: "cp850.cls", href: "cp850.cls.html#CP850"
-        },
-            {
-            id: "Activate", type: "Method", name: "Activate", info: "Class CP850", href: "cp850.cls.html#Activate"
-            },
-            {
-            id: "decode-5", type: "Method", name: "decode", info: "Class CP850", href: "cp850.cls.html#decode-5"
-            },
-            {
-            id: "encode-5", type: "Method", name: "encode", info: "Class CP850", href: "cp850.cls.html#encode-5"
-            },
-    {
         id: "Encoding.cls", type: "Package", name: "Encoding.cls", info: null,  href: "Encoding.cls.html"
     },
         {
@@ -24,10 +9,10 @@ var searchData = [
             id: "%5B%5D", type: "Method", name: "[]", info: "Class Encoding", href: "Encoding.cls.html#%5B%5D"
             },
             {
-            id: "activate-1", type: "Method", name: "activate", info: "Class Encoding", href: "Encoding.cls.html#activate-1"
+            id: "activate", type: "Method", name: "activate", info: "Class Encoding", href: "Encoding.cls.html#activate"
             },
             {
-            id: "bytesNeededForChar-2", type: "Method", name: "bytesNeededForChar", info: "Class Encoding", href: "Encoding.cls.html#bytesNeededForChar-2"
+            id: "bytesNeededForChar", type: "Method", name: "bytesNeededForChar", info: "Class Encoding", href: "Encoding.cls.html#bytesNeededForChar"
             },
             {
             id: "checkCode", type: "Method", name: "checkCode", info: "Class Encoding", href: "Encoding.cls.html#checkCode"
@@ -36,10 +21,10 @@ var searchData = [
             id: "checkDecodeOptions", type: "Method", name: "checkDecodeOptions", info: "Class Encoding", href: "Encoding.cls.html#checkDecodeOptions"
             },
             {
-            id: "decode-4", type: "Method", name: "decode", info: "Class Encoding", href: "Encoding.cls.html#decode-4"
+            id: "decode", type: "Method", name: "decode", info: "Class Encoding", href: "Encoding.cls.html#decode"
             },
             {
-            id: "encode-4", type: "Method", name: "encode", info: "Class Encoding", href: "Encoding.cls.html#encode-4"
+            id: "encode", type: "Method", name: "encode", info: "Class Encoding", href: "Encoding.cls.html#encode"
             },
             {
             id: "isCodeOK", type: "Method", name: "isCodeOK", info: "Class Encoding", href: "Encoding.cls.html#isCodeOK"
@@ -54,40 +39,106 @@ var searchData = [
             id: "transcode", type: "Method", name: "transcode", info: "Class Encoding", href: "Encoding.cls.html#transcode"
             },
             {
-            id: "UTF8-1", type: "Method", name: "UTF8", info: "Class Encoding", href: "Encoding.cls.html#UTF8-1"
+            id: "UTF8", type: "Method", name: "UTF8", info: "Class Encoding", href: "Encoding.cls.html#UTF8"
             },
             {
-            id: "aliases-4", type: "Attribute", name: "aliases", info: "Class Encoding", href: "Encoding.cls.html#aliases-4"
+            id: "aliases", type: "Attribute", name: "aliases", info: "Class Encoding", href: "Encoding.cls.html#aliases"
             },
             {
-            id: "bytesPerChar-4", type: "Attribute", name: "bytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#bytesPerChar-4"
+            id: "bytesPerChar", type: "Attribute", name: "bytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#bytesPerChar"
             },
             {
-            id: "endOfLine-4", type: "Attribute", name: "endOfLine", info: "Class Encoding", href: "Encoding.cls.html#endOfLine-4"
+            id: "endOfLine", type: "Attribute", name: "endOfLine", info: "Class Encoding", href: "Encoding.cls.html#endOfLine"
             },
             {
-            id: "isFixedLength-4", type: "Attribute", name: "isFixedLength", info: "Class Encoding", href: "Encoding.cls.html#isFixedLength-4"
+            id: "isFixedLength", type: "Attribute", name: "isFixedLength", info: "Class Encoding", href: "Encoding.cls.html#isFixedLength"
             },
             {
-            id: "maxBytesPerChar-4", type: "Attribute", name: "maxBytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#maxBytesPerChar-4"
+            id: "maxBytesPerChar", type: "Attribute", name: "maxBytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#maxBytesPerChar"
             },
             {
-            id: "name-4", type: "Attribute", name: "name", info: "Class Encoding", href: "Encoding.cls.html#name-4"
+            id: "name", type: "Attribute", name: "name", info: "Class Encoding", href: "Encoding.cls.html#name"
             },
     {
-        id: "ibm1047.cls", type: "Package", name: "ibm1047.cls", info: null,  href: "ibm1047.cls.html"
+        id: "Properties.cls", type: "Package", name: "Properties.cls", info: null,  href: "Properties.cls.html"
     },
         {
-        id: "IBM1047", type: "Class", name: "IBM1047", info: "ibm1047.cls", href: "ibm1047.cls.html#IBM1047"
+        id: "PersistentStringTable", type: "Class", name: "PersistentStringTable", info: "Properties.cls", href: "Properties.cls.html#PersistentStringTable"
         },
             {
-            id: "activate", type: "Method", name: "activate", info: "Class IBM1047", href: "ibm1047.cls.html#activate"
+            id: "Load", type: "Method", name: "Load", info: "Class PersistentStringTable", href: "Properties.cls.html#Load"
             },
             {
-            id: "decode-2", type: "Method", name: "decode", info: "Class IBM1047", href: "ibm1047.cls.html#decode-2"
+            id: "Save", type: "Method", name: "Save", info: "Class PersistentStringTable", href: "Properties.cls.html#Save"
+            },
+        {
+        id: "Unicode.Property", type: "Class", name: "Unicode.Property", info: "Properties.cls", href: "Properties.cls.html#Unicode.Property"
+        },
+            {
+            id: "%5B%5D-1", type: "Method", name: "[]", info: "Class Unicode.Property", href: "Properties.cls.html#%5B%5D-1"
             },
             {
-            id: "encode-2", type: "Method", name: "encode", info: "Class IBM1047", href: "ibm1047.cls.html#encode-2"
+            id: "Activate", type: "Method", name: "Activate", info: "Class Unicode.Property", href: "Properties.cls.html#Activate"
+            },
+            {
+            id: "BinaryFile", type: "Method", name: "BinaryFile", info: "Class Unicode.Property", href: "Properties.cls.html#BinaryFile"
+            },
+            {
+            id: "BinFile.Qualify", type: "Method", name: "BinFile.Qualify", info: "Class Unicode.Property", href: "Properties.cls.html#BinFile.Qualify"
+            },
+            {
+            id: "CheckCode", type: "Method", name: "CheckCode", info: "Class Unicode.Property", href: "Properties.cls.html#CheckCode"
+            },
+            {
+            id: "getPersistent", type: "Method", name: "getPersistent", info: "Class Unicode.Property", href: "Properties.cls.html#getPersistent"
+            },
+            {
+            id: "loadPersistent", type: "Method", name: "loadPersistent", info: "Class Unicode.Property", href: "Properties.cls.html#loadPersistent"
+            },
+            {
+            id: "RegisterFunctions", type: "Method", name: "RegisterFunctions", info: "Class Unicode.Property", href: "Properties.cls.html#RegisterFunctions"
+            },
+            {
+            id: "RegisterProperties", type: "Method", name: "RegisterProperties", info: "Class Unicode.Property", href: "Properties.cls.html#RegisterProperties"
+            },
+            {
+            id: "savePersistent", type: "Method", name: "savePersistent", info: "Class Unicode.Property", href: "Properties.cls.html#savePersistent"
+            },
+            {
+            id: "setPersistent", type: "Method", name: "setPersistent", info: "Class Unicode.Property", href: "Properties.cls.html#setPersistent"
+            },
+            {
+            id: "SyntaxError", type: "Method", name: "SyntaxError", info: "Class Unicode.Property", href: "Properties.cls.html#SyntaxError"
+            },
+            {
+            id: "ThreeStageTable.get32BitsFromCodeAt", type: "Method", name: "ThreeStageTable.get32BitsFromCodeAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.get32BitsFromCodeAt"
+            },
+            {
+            id: "ThreeStageTable.get32BitsFromIntAt", type: "Method", name: "ThreeStageTable.get32BitsFromIntAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.get32BitsFromIntAt"
+            },
+            {
+            id: "ThreeStageTable.testMaskFromCodeAt", type: "Method", name: "ThreeStageTable.testMaskFromCodeAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.testMaskFromCodeAt"
+            },
+            {
+            id: "ThreeStageTable.testMaskFromIntAt", type: "Method", name: "ThreeStageTable.testMaskFromIntAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.testMaskFromIntAt"
+            },
+            {
+            id: "TwoStageTable.Compress", type: "Method", name: "TwoStageTable.Compress", info: "Class Unicode.Property", href: "Properties.cls.html#TwoStageTable.Compress"
+            },
+            {
+            id: "TwoStageTable.getByteFromCodeAt", type: "Method", name: "TwoStageTable.getByteFromCodeAt", info: "Class Unicode.Property", href: "Properties.cls.html#TwoStageTable.getByteFromCodeAt"
+            },
+            {
+            id: "TwoStageTable.getByteFromIntAt", type: "Method", name: "TwoStageTable.getByteFromIntAt", info: "Class Unicode.Property", href: "Properties.cls.html#TwoStageTable.getByteFromIntAt"
+            },
+            {
+            id: "UCDFile.Qualify", type: "Method", name: "UCDFile.Qualify", info: "Class Unicode.Property", href: "Properties.cls.html#UCDFile.Qualify"
+            },
+            {
+            id: "Variables", type: "Method", name: "Variables", info: "Class Unicode.Property", href: "Properties.cls.html#Variables"
+            },
+            {
+            id: "NameOf", type: "Attribute", name: "NameOf", info: "Class Unicode.Property", href: "Properties.cls.html#NameOf"
             },
     {
         id: "Rexx.Tokenizer.cls", type: "Package", name: "Rexx.Tokenizer.cls", info: null,  href: "Rexx.Tokenizer.cls.html"
@@ -228,7 +279,7 @@ var searchData = [
             id: "init", type: "Method", name: "init", info: "Class Codepoints", href: "Unicode.cls.html#init"
             },
             {
-            id: "%5B%5D-1", type: "Method", name: "[]", info: "Class Codepoints", href: "Unicode.cls.html#%5B%5D-1"
+            id: "%5B%5D-2", type: "Method", name: "[]", info: "Class Codepoints", href: "Unicode.cls.html#%5B%5D-2"
             },
             {
             id: "Length", type: "Method", name: "Length", info: "Class Codepoints", href: "Unicode.cls.html#Length"
@@ -240,7 +291,7 @@ var searchData = [
             id: "init-1", type: "Method", name: "init", info: "Class Text", href: "Unicode.cls.html#init-1"
             },
             {
-            id: "%5B%5D-2", type: "Method", name: "[]", info: "Class Text", href: "Unicode.cls.html#%5B%5D-2"
+            id: "%5B%5D-3", type: "Method", name: "[]", info: "Class Text", href: "Unicode.cls.html#%5B%5D-3"
             },
             {
             id: "Length-1", type: "Method", name: "Length", info: "Class Text", href: "Unicode.cls.html#Length-1"
@@ -285,7 +336,7 @@ var searchData = [
         id: "%21UPPER", type: "Routine", name: "!UPPER", info: "Unicode.cls",  href: "Unicode.cls.html#%21UPPER"
         },
         {
-        id: "Bytes-1", type: "Routine", name: "Bytes", info: "Unicode.cls",  href: "Unicode.cls.html#Bytes-1"
+        id: "BYTES", type: "Routine", name: "BYTES", info: "Unicode.cls",  href: "Unicode.cls.html#BYTES"
         },
         {
         id: "C2U-1", type: "Routine", name: "C2U", info: "Unicode.cls",  href: "Unicode.cls.html#C2U-1"
@@ -311,46 +362,4 @@ var searchData = [
         {
         id: "Unicode", type: "Routine", name: "Unicode", info: "Unicode.cls",  href: "Unicode.cls.html#Unicode"
         },
-    {
-        id: "utf16.cls", type: "Package", name: "utf16.cls", info: null,  href: "utf16.cls.html"
-    },
-        {
-        id: "UTF16", type: "Class", name: "UTF16", info: "utf16.cls", href: "utf16.cls.html#UTF16"
-        },
-            {
-            id: "bytesNeededForChar-1", type: "Method", name: "bytesNeededForChar", info: "Class UTF16", href: "utf16.cls.html#bytesNeededForChar-1"
-            },
-            {
-            id: "decode-3", type: "Method", name: "decode", info: "Class UTF16", href: "utf16.cls.html#decode-3"
-            },
-            {
-            id: "encode-3", type: "Method", name: "encode", info: "Class UTF16", href: "utf16.cls.html#encode-3"
-            },
-    {
-        id: "utf32.cls", type: "Package", name: "utf32.cls", info: null,  href: "utf32.cls.html"
-    },
-        {
-        id: "UTF32", type: "Class", name: "UTF32", info: "utf32.cls", href: "utf32.cls.html#UTF32"
-        },
-            {
-            id: "decode", type: "Method", name: "decode", info: "Class UTF32", href: "utf32.cls.html#decode"
-            },
-            {
-            id: "encode", type: "Method", name: "encode", info: "Class UTF32", href: "utf32.cls.html#encode"
-            },
-    {
-        id: "utf8.cls", type: "Package", name: "utf8.cls", info: null,  href: "utf8.cls.html"
-    },
-        {
-        id: "UTF8", type: "Class", name: "UTF8", info: "utf8.cls", href: "utf8.cls.html#UTF8"
-        },
-            {
-            id: "bytesNeededForChar", type: "Method", name: "bytesNeededForChar", info: "Class UTF8", href: "utf8.cls.html#bytesNeededForChar"
-            },
-            {
-            id: "decode-1", type: "Method", name: "decode", info: "Class UTF8", href: "utf8.cls.html#decode-1"
-            },
-            {
-            id: "encode-1", type: "Method", name: "encode", info: "Class UTF8", href: "utf8.cls.html#encode-1"
-            },
 ];
