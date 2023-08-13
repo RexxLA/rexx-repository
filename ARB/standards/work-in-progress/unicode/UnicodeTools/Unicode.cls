@@ -225,7 +225,34 @@ Use Strict Arg code
   If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
   Return .Unicode.Name[ code ]
 
-::Routine stringType Public
+/**
+ *
+ * <h4><code>STRINGTYPE</code></h4> 
+ *
+ * <code><pre>
+ *
+ * <b>STRINGTYPE(</b> <em>string</em>  >─┬────────┬─> <b>)</b>
+ *                       └─ <em>type</em> ─┘</pre></code>
+ *
+ * <p>
+ *   If you specify only <em>string</em>, it returns <b>TEXT</b> when <em>string</em> is a <code>TEXT</code> string,
+ *   <b>CODEPOINTS</b> when <em>string</em> is a <code>CODEPOINTS</code> string, and <b>BYTES</b> when <em>string</em>
+ *   is a <code>BYTES</code> string.
+ *
+ * <p>
+ *   If you specify <em>type</em>, it returns <b>1</b> if the string matches the type. Otherwise, it returns <b>0</b>.
+ *   The following are valid types. (Only the capitalized letter is needed; all
+ *   characters following it are ignored.)
+ *
+ * <dl>
+ *   <dt>Bytes<dd>Returns <b>1</b> if the string is a <code>BYTES</code> string.
+ *   <dt>Codepoints<dd>Returns <b>1</b> if the string is a <code>CODEPOINTS</code> string.
+ *   <dt>Text<dd>Returns <b>1</b> if the string is a <code>TEXT</code> string. 
+ * </dl>
+ *
+ */
+
+::Routine STRINGTYPE Public
   Use Strict Arg string, option = ""
   .Validate~classType( "option" , option , .String )
   option = Upper(option)
@@ -244,15 +271,75 @@ Use Strict Arg code
     Otherwise                         Return "NONE"
   End
 
+/**
+ *
+ * <h4><code>BYTES</code> (Convert a string to a <code>BYTES</code> string)</code></h4> 
+ *
+ * <code><pre>
+ *
+ * <b>BYTES(</b> <em>string</em> <b>)</b></pre></code>
+ *
+ * <p>
+ *   Converts <em>string</em> to a <code>BYTES</code> string and returns it. <code>BYTES</code> strings are
+ *   composed of 8-bit bytes, and every character in the string can be an arbitrary 8-bit value, including
+ *   binary data. Rexx built-in-functions operate at the byte level, and no Unicode features are available
+ *   (for example, <code>LOWER</code> operates only on the ranges "A".."Z" and "a".."z").
+ *
+ */
+
+
 ::Routine Bytes Public
   Use Strict Arg string
   return .Bytes~new(string)
 
-::Routine Codepoints Public
+/**
+ *
+ * <h4><code>CODEPOINTS</code> (Convert a string to a <code>CODEPOINTS</code> string)</code></h4> 
+ *
+ * <code><pre>
+ *
+ * <b>CODEPOINTS(</b> <em>string</em> <b>)</b></pre></code>
+ *
+ * <p>
+ *   Converts <em>string</em> to a <code>CODEPOINTS</code> string and returns it. <code>CODEPOINTS</code> strings
+ *   are composed of Unicode codepoints, and every character in the string can be an arbitrary Unicode codepoint.
+ *   The argument <em>string</em> has to contain well-formed UTF-8, or a Syntax error is raised. Built-in functions
+ *   operate at the codepoint level, and can produce much richer results than when operating on <code>BYTES</code>
+ *   strings.
+ * 
+ * <p>
+ *   Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are guaranteed to contain 
+ *   well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the 
+ *   <code>DECODE(string,"UTF-8")</code> function call.
+ *
+ */
+
+::Routine CODEPOINTS Public
   Use Strict Arg string
   Return .Codepoints~new(string)
 
-::Routine Text Public
+/**
+ *
+ * <h4><code>TEXT</code> (Convert a string to a <code>TEXT</code> string)</code></h4> 
+ *
+ * <code><pre>
+ *
+ * <b>TEXT(</b> <em>string</em> <b>)</b></pre></code>
+ *
+ * <p>
+ *   Converts <em>string</em> to a <code>TEXT</code> string and returns it. <code>TEXT</code> strings are composed
+ *   of extended grapheme clusters, and every character in the string can be an arbitrary extended grapheme cluster.
+ *   The argument <em>string</em> has to contain well-formed UTF-8, or a Syntax error is raised. Built-in functions
+ *   operate at the extended grapheme cluster level, and can produce much richer results than when operating in
+ *   <code>BYTES</code> or <code>CODEPOINTS</code> strings.
+ *
+ * <p>
+ *   Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are guaranteed to contain well-formed UTF-8 sequences.
+ *   To test if a string contains well-formed UTF-8, you can use the <code>DECODE(string,"UTF-8")</code> function call.
+ *
+ */
+
+::Routine TEXT Public
   Use Strict Arg string
   Return .Text~new(string)
     
@@ -330,15 +417,15 @@ Use Strict Arg code
   Use Strict Arg string
 Return string~c2x
 
-::Routine !Center Public
+::Routine !CENTER Public
   Use Strict Arg string, length, pad = " "
 Return string~center(length, pad)  
 
-::Routine !Centre Public
+::Routine !CENTRE Public
   Use Strict Arg string, length, pad = " "
 Return string~centre(length, pad)  
 
-::Routine !Copies Public
+::Routine !COPIES Public
   Use Strict Arg string, n
 Return string~copies(n)
 
@@ -350,7 +437,7 @@ Return string~copies(n)
  *  <p>Please refer to the documentation for the <code>DATATYPE</code> method of the <code>BYTES</code> class.
  */
 
-::Routine !DataType Public
+::Routine !DATATYPE Public
   If Arg() > 2       Then Raise Syntax 40.4 Array("DATATYPE", 2)
   If Arg(1,"O") == 1 Then Raise Syntax 40.5 Array("DATATYPE", 1)
   If Arg(2,"O")      Then Return DataType(Arg(1))
@@ -359,35 +446,35 @@ Return string~copies(n)
   If \string~isA(.Bytes) Then string = .Bytes~new(string)
 Return string~dataType("C")
 
-::Routine !Left Public
+::Routine !LEFT Public
   Use Strict Arg string, length, pad = " "
 Return string~left(length, pad)
 
-::Routine !Length Public
+::Routine !LENGTH Public
   Use Strict Arg string
 Return string~length
 
-::Routine !Lower Public
+::Routine !LOWER Public
   Use Strict Arg string, n = 1, length = (Max(!Length(string) - n + 1,0))
 Return string~lower(n, length)
 
-::Routine !Pos Public
+::Routine !POS Public
   Use Strict Arg needle, haystack, start = 1, length = ( Max(!Length(haystack)-start+1,0) )
 Return haystack~Pos(needle, start, length)  
 
-::Routine !Reverse Public
+::Routine !REVERSE Public
   Use Strict Arg string
 Return string~reverse
 
-::Routine !Right Public
+::Routine !RIGHT Public
   Use Strict Arg string, length, pad = " "
 Return string~right(length, pad)
 
-::Routine !Substr Public
+::Routine !SUBSTR Public
   Use Strict Arg string, n, length = (Max(!Length(string)-n+1,0)), pad = " "
 Return string~substr(n, length, pad)
 
-::Routine !Upper Public
+::Routine !UPPER Public
   Use Strict Arg string, n = 1, length = (Max(!Length(string) - n + 1,0))
 Return string~upper(n, length)
     
@@ -407,18 +494,17 @@ Return string~upper(n, length)
 
 ::Class "Bytes" SubClass String Public
 
-
 /**
  * <h4>C2U: character to Unicode codepoints</h4>
  *
  * <p>This method assumes that the target string contains well-formed UTF-8. If this
- * is not the case, it will raise a Syntax condition.
+ *   is not the case, it will raise a Syntax condition.
  *
  * <p>Please note that <code>CODEPOINTS</code> and <code>BYTES</code> strings are always well-formed.
  *
  * <p><code>C2U</code> returns a <code>BYTES</code> string such that if a <code>U</code> were appended to it
- * and it was inserted as a literal in a Rexx source program it would have
- * the same string value as the target string.
+ *   and it was inserted as a literal in a Rexx source program it would have
+ *   the same string value as the target string.
  *
  * <ul>
  *   <li>
@@ -817,7 +903,6 @@ Return 1
  *  </table>
  *                                                                           
  */
-
 
 ::Class "Text" SubClass Codepoints Public
   

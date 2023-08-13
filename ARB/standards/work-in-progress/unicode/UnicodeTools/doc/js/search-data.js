@@ -57,22 +57,22 @@ var searchData = [
             id: "UTF8-1", type: "Method", name: "UTF8", info: "Class Encoding", href: "Encoding.cls.html#UTF8-1"
             },
             {
-            id: "aliases-5", type: "Attribute", name: "aliases", info: "Class Encoding", href: "Encoding.cls.html#aliases-5"
+            id: "aliases-4", type: "Attribute", name: "aliases", info: "Class Encoding", href: "Encoding.cls.html#aliases-4"
             },
             {
-            id: "bytesPerChar-5", type: "Attribute", name: "bytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#bytesPerChar-5"
+            id: "bytesPerChar-4", type: "Attribute", name: "bytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#bytesPerChar-4"
             },
             {
-            id: "endOfLine-5", type: "Attribute", name: "endOfLine", info: "Class Encoding", href: "Encoding.cls.html#endOfLine-5"
+            id: "endOfLine-4", type: "Attribute", name: "endOfLine", info: "Class Encoding", href: "Encoding.cls.html#endOfLine-4"
             },
             {
-            id: "isFixedLength-5", type: "Attribute", name: "isFixedLength", info: "Class Encoding", href: "Encoding.cls.html#isFixedLength-5"
+            id: "isFixedLength-4", type: "Attribute", name: "isFixedLength", info: "Class Encoding", href: "Encoding.cls.html#isFixedLength-4"
             },
             {
-            id: "maxBytesPerChar-5", type: "Attribute", name: "maxBytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#maxBytesPerChar-5"
+            id: "maxBytesPerChar-4", type: "Attribute", name: "maxBytesPerChar", info: "Class Encoding", href: "Encoding.cls.html#maxBytesPerChar-4"
             },
             {
-            id: "name-5", type: "Attribute", name: "name", info: "Class Encoding", href: "Encoding.cls.html#name-5"
+            id: "name-4", type: "Attribute", name: "name", info: "Class Encoding", href: "Encoding.cls.html#name-4"
             },
     {
         id: "ibm1047.cls", type: "Package", name: "ibm1047.cls", info: null,  href: "ibm1047.cls.html"
@@ -249,40 +249,40 @@ var searchData = [
         id: "%21C2X", type: "Routine", name: "!C2X", info: "Unicode.cls",  href: "Unicode.cls.html#%21C2X"
         },
         {
-        id: "%21Center", type: "Routine", name: "!Center", info: "Unicode.cls",  href: "Unicode.cls.html#%21Center"
+        id: "%21CENTER", type: "Routine", name: "!CENTER", info: "Unicode.cls",  href: "Unicode.cls.html#%21CENTER"
         },
         {
-        id: "%21Centre", type: "Routine", name: "!Centre", info: "Unicode.cls",  href: "Unicode.cls.html#%21Centre"
+        id: "%21CENTRE", type: "Routine", name: "!CENTRE", info: "Unicode.cls",  href: "Unicode.cls.html#%21CENTRE"
         },
         {
-        id: "%21Copies", type: "Routine", name: "!Copies", info: "Unicode.cls",  href: "Unicode.cls.html#%21Copies"
+        id: "%21COPIES", type: "Routine", name: "!COPIES", info: "Unicode.cls",  href: "Unicode.cls.html#%21COPIES"
         },
         {
-        id: "%21DataType", type: "Routine", name: "!DataType", info: "Unicode.cls",  href: "Unicode.cls.html#%21DataType"
+        id: "%21DATATYPE", type: "Routine", name: "!DATATYPE", info: "Unicode.cls",  href: "Unicode.cls.html#%21DATATYPE"
         },
         {
-        id: "%21Left", type: "Routine", name: "!Left", info: "Unicode.cls",  href: "Unicode.cls.html#%21Left"
+        id: "%21LEFT", type: "Routine", name: "!LEFT", info: "Unicode.cls",  href: "Unicode.cls.html#%21LEFT"
         },
         {
-        id: "%21Length", type: "Routine", name: "!Length", info: "Unicode.cls",  href: "Unicode.cls.html#%21Length"
+        id: "%21LENGTH", type: "Routine", name: "!LENGTH", info: "Unicode.cls",  href: "Unicode.cls.html#%21LENGTH"
         },
         {
-        id: "%21Lower", type: "Routine", name: "!Lower", info: "Unicode.cls",  href: "Unicode.cls.html#%21Lower"
+        id: "%21LOWER", type: "Routine", name: "!LOWER", info: "Unicode.cls",  href: "Unicode.cls.html#%21LOWER"
         },
         {
-        id: "%21Pos", type: "Routine", name: "!Pos", info: "Unicode.cls",  href: "Unicode.cls.html#%21Pos"
+        id: "%21POS", type: "Routine", name: "!POS", info: "Unicode.cls",  href: "Unicode.cls.html#%21POS"
         },
         {
-        id: "%21Reverse", type: "Routine", name: "!Reverse", info: "Unicode.cls",  href: "Unicode.cls.html#%21Reverse"
+        id: "%21REVERSE", type: "Routine", name: "!REVERSE", info: "Unicode.cls",  href: "Unicode.cls.html#%21REVERSE"
         },
         {
-        id: "%21Right", type: "Routine", name: "!Right", info: "Unicode.cls",  href: "Unicode.cls.html#%21Right"
+        id: "%21RIGHT", type: "Routine", name: "!RIGHT", info: "Unicode.cls",  href: "Unicode.cls.html#%21RIGHT"
         },
         {
-        id: "%21Substr", type: "Routine", name: "!Substr", info: "Unicode.cls",  href: "Unicode.cls.html#%21Substr"
+        id: "%21SUBSTR", type: "Routine", name: "!SUBSTR", info: "Unicode.cls",  href: "Unicode.cls.html#%21SUBSTR"
         },
         {
-        id: "%21Upper", type: "Routine", name: "!Upper", info: "Unicode.cls",  href: "Unicode.cls.html#%21Upper"
+        id: "%21UPPER", type: "Routine", name: "!UPPER", info: "Unicode.cls",  href: "Unicode.cls.html#%21UPPER"
         },
         {
         id: "Bytes-1", type: "Routine", name: "Bytes", info: "Unicode.cls",  href: "Unicode.cls.html#Bytes-1"
@@ -291,7 +291,7 @@ var searchData = [
         id: "C2U-1", type: "Routine", name: "C2U", info: "Unicode.cls",  href: "Unicode.cls.html#C2U-1"
         },
         {
-        id: "Codepoints-1", type: "Routine", name: "Codepoints", info: "Unicode.cls",  href: "Unicode.cls.html#Codepoints-1"
+        id: "CODEPOINTS", type: "Routine", name: "CODEPOINTS", info: "Unicode.cls",  href: "Unicode.cls.html#CODEPOINTS"
         },
         {
         id: "DECODE", type: "Routine", name: "DECODE", info: "Unicode.cls",  href: "Unicode.cls.html#DECODE"
@@ -303,10 +303,10 @@ var searchData = [
         id: "P2N", type: "Routine", name: "P2N", info: "Unicode.cls",  href: "Unicode.cls.html#P2N"
         },
         {
-        id: "stringType", type: "Routine", name: "stringType", info: "Unicode.cls",  href: "Unicode.cls.html#stringType"
+        id: "STRINGTYPE", type: "Routine", name: "STRINGTYPE", info: "Unicode.cls",  href: "Unicode.cls.html#STRINGTYPE"
         },
         {
-        id: "Text-1", type: "Routine", name: "Text", info: "Unicode.cls",  href: "Unicode.cls.html#Text-1"
+        id: "TEXT", type: "Routine", name: "TEXT", info: "Unicode.cls",  href: "Unicode.cls.html#TEXT"
         },
         {
         id: "Unicode", type: "Routine", name: "Unicode", info: "Unicode.cls",  href: "Unicode.cls.html#Unicode"
