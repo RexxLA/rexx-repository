@@ -261,6 +261,22 @@ AssignCharacterCategory:
   categories ||= Copies(Arg(1),Length(Arg(2)))
 Return
 
+/**
+ *
+ * <h4>The <code>tokenClasses</code> constant</h4>
+ *
+ * <p>
+ *   This constant is indeed a vector of constants. The suggested way to use it is to
+ *   use code similar to the following.
+ *
+ *<code><pre>
+ *  Do tc over tokenizer~tokenClasses
+ *   Call Value tc[1], tc[2]
+ *  End
+ *</pre></code>
+ *
+ */
+
 ::Constant tokenClasses (   -
   ( END_OF_SOURCE   , "F" ), -
   ( END_OF_LINE     , "L" ), -  
@@ -285,7 +301,7 @@ Return
     ( BINARY        , "B" ), -
     ( HEXADECIMAL   , "X" ), -
     ( CHARACTER     , "C" ), -  
-    ( BYTES         , "Y" ), -  -- With an explicit Y suffix
+    ( BYTES         , "Y" ), -  -- Unicode only. With an explicit Y suffix
     ( CODEPOINTS    , "P" ), -  -- Unicode only
     ( TEXT          , "T" ), -  -- Unicode only
     ( UNOTATION     , "U" )  -  -- Unicode only
