@@ -27,6 +27,8 @@
 /*  00.2  JMB 20230725 Moved from properties/gc.cls                          */
 /*                                                                           */
 /*****************************************************************************/
+ 
+  Call "Unicode.cls"
 
   self = .Unicode.General_Category
   
@@ -97,5 +99,3 @@
   
   Say count "codepoints checked in" elapsed "seconds."
   Say "This is" (count/elapsed) "codepoints/second."
-  
-::Requires "gc.cls"

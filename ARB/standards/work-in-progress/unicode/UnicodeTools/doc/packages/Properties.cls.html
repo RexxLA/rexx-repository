@@ -74,7 +74,7 @@
                     <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
                 </div>
                 <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 13 ago 2023 19:24:19</span>
+                        <span class="label label-info">Run-Date: 14 ago 2023 14:32:11</span>
                 </span>
             </form>
         </div>
@@ -109,6 +109,15 @@
                     <ul>
                             <li>Classes
                                 <ul>
+                                        <li><a href="Properties.cls.html#MultiStageTable">MultiStageTable</a>
+                                                <ul>
+                                                    <li>Methods:
+                                                            <a href="Properties.cls.html#init">init</a>
+                                                            <a href="Properties.cls.html#%5B%5D-2">[]</a>
+                                                            <a href="Properties.cls.html#Compress">Compress</a>
+                                                    </li>
+                                                </ul>
+                                        </li>
                                         <li><a href="Properties.cls.html#PersistentStringTable">PersistentStringTable</a>
                                                 <ul>
                                                     <li>Methods:
@@ -137,13 +146,6 @@
                                                             <a href="Properties.cls.html#savePersistent">savePersistent</a>
                                                             <a href="Properties.cls.html#setPersistent">setPersistent</a>
                                                             <a href="Properties.cls.html#SyntaxError">SyntaxError</a>
-                                                            <a href="Properties.cls.html#ThreeStageTable.get32BitsFromCodeAt">ThreeStageTable.get32BitsFromCodeAt</a>
-                                                            <a href="Properties.cls.html#ThreeStageTable.get32BitsFromIntAt">ThreeStageTable.get32BitsFromIntAt</a>
-                                                            <a href="Properties.cls.html#ThreeStageTable.testMaskFromCodeAt">ThreeStageTable.testMaskFromCodeAt</a>
-                                                            <a href="Properties.cls.html#ThreeStageTable.testMaskFromIntAt">ThreeStageTable.testMaskFromIntAt</a>
-                                                            <a href="Properties.cls.html#TwoStageTable.Compress">TwoStageTable.Compress</a>
-                                                            <a href="Properties.cls.html#TwoStageTable.getByteFromCodeAt">TwoStageTable.getByteFromCodeAt</a>
-                                                            <a href="Properties.cls.html#TwoStageTable.getByteFromIntAt">TwoStageTable.getByteFromIntAt</a>
                                                             <a href="Properties.cls.html#UCDFile.Qualify">UCDFile.Qualify</a>
                                                             <a href="Properties.cls.html#Variables">Variables</a>
                                                     </li>
@@ -175,6 +177,101 @@
 
 
 
+                <div class="row">
+                    <div class="panel panel-default">
+                        <a id="MultiStageTable"></a>
+                        <div class="panel-heading">
+                            <h4>Class: MultiStageTable</h4>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div>
+                            </div>
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h4>The <code>MultiStageTable</code> class</h4> <p>   This class specializes in producing <em>two-stage tables</em>, <em>three-stage tables</em>,   or, in general <em>multi-stage tables</em>.  <p>   Multi-stage tables are recommended in The Unicode Standard 15.0   (<a href="https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf">https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf</a>),   section 5.1, <em>Data Structures for Character Conversion</em>, "Multistage Tables", pp. 196&ndash;7. <p>   This is not a general implementation of multi-stage tables, but a custom, tailored one, specific   to Unicode and the BMP and SMP planes. <p>   The indexes for these tables run from 0 to 131071. Negative values will raise a Syntax error, and   indexes greater than 131071 will return "00"X.
+                                    </div>
+                                </div>
+
+                            <div>
+                                <h4>Attributes</h4>
+                                    <i>No Attributes</i>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Methods</h4>
+                                    <a id="init"></a>
+                                    <ul>
+                                        <li><b>init</b>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4><code>Compress</code></h4> <code><pre> <b>.MultiStageTable~new(</b> <em>offset</em> <b>,</b> <em>chunks</em> , >─┬───────────────────────┬─> <b>)</b>                                           └─ <b>,</b> <em>width</em> <b>,</b> <em>bigvalues</em> ─┘   </pre></code>
+ <p>   Creates a new multi-stage table. The <em>offset</em> and <em>chunks</em> tables should have been   created by the <code>Compress</code> class method. <em>Width</em> and <em>bigvalues</em> are optional.   When specified, <em>width</em> should be a positive number greater than 1, and <em>bigvalues</em>   should be a string of <em>width</em>-byte values. In that case, the 1-byte value obtained from <em>offset</em> and <em>chunks</em>   is multiplied by <em>width</em> and used as an index into <em>bigvalues</em>.
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> offset, chunks, width = 1, bigvalues = .Nil
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="%5B%5D-2"></a>
+                                    <ul>
+                                        <li><b>[]</b>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4><code>[]</code></h4> <code><pre> <b>[</b> <em>n</em> <b>]</b></pre></code>  <p>   Returns the <em>n</em>-th element of the multi-stage table, when 0 &lt; <em>n</em> &lt;= 131071,    or a string containing <em>width</em> copies of <b>"00"X</b>, when <em>n</em> &gt; 131071.    Negative or non-numeric values of <em>n</em> will raise a Syntax error.
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> n
+
+
+                                        </li>
+                                    </ul>
+                                    <a id="Compress"></a>
+                                    <ul>
+                                        <li><b>Compress</b>
+                                                <span class="label label-info">CLASS</span>
+
+
+                                                <br /><br />
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <h4><code>Compress</code> (Class method) </h4> <code><pre> <b>Compress(</b> <em>buffer</em> <b>)</b></pre></code>  <p>   The <code>Compress</code> method compresses a <em>buffer</em> and returns two smaller,    compressed, tables.  <p>   <em>Buffer</em> is a 128K-byte string (131072 bytes) representing an array of 1-byte elements.   Elements 1-65536 correspond to the Unicode Basic Multilingual Plane (BMP), and elements   65537-131072 correspond to the Unicode Supplementary Multilingual Plane (SMP). <p>   The compression technique works as follows: the source array-string is supposed   to be compressible, i.e., is supposed to contain different segments which are identical.   The array will be broken in a series of fixed-size sub-arrays, and, instead of storing   the sub-array itself, we will store <em>a reference</em> to the sub-array. Thus, when   two identical sub-arrays (segments) of the argument array are found, only the first copy is   stored, and a repeated reference. But a reference is supposed to be much smaller than the   subarray itself. <p>   The current implementation uses several hardcoded constants. This can be changed in the future:   <ul>     <li>The argument <em>buffer</em> is supposed have a length of exactly 2**17 bytes.     <li>Sub-arrays will be of 256 bytes.     <li>To allow for maximum compression, we are supposing that the quantity of different       sub-arrays does not exceed 256. This allows to store the references to the sub-arrays       in one byte.   </ul>
+                                                    </div>
+                                                </div>
+
+
+                                                <br /><span class="keyword">USE ARG</span> buffer
+
+
+                                        </li>
+                                    </ul>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <h4>Constants</h4>
+                                    <i>No Constants</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="panel panel-default">
                         <a id="PersistentStringTable"></a>
@@ -420,97 +517,6 @@
 
 
                                                 <br /><span class="keyword">USE ARG</span> message
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="ThreeStageTable.get32BitsFromCodeAt"></a>
-                                    <ul>
-                                        <li><b>ThreeStageTable.get32BitsFromCodeAt</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> keyPrefix, code
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="ThreeStageTable.get32BitsFromIntAt"></a>
-                                    <ul>
-                                        <li><b>ThreeStageTable.get32BitsFromIntAt</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> keyPrefix, n
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="ThreeStageTable.testMaskFromCodeAt"></a>
-                                    <ul>
-                                        <li><b>ThreeStageTable.testMaskFromCodeAt</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> keyPrefix, code, mask
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="ThreeStageTable.testMaskFromIntAt"></a>
-                                    <ul>
-                                        <li><b>ThreeStageTable.testMaskFromIntAt</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> keyPrefix, n, mask
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="TwoStageTable.Compress"></a>
-                                    <ul>
-                                        <li><b>TwoStageTable.Compress</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> buffer
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="TwoStageTable.getByteFromCodeAt"></a>
-                                    <ul>
-                                        <li><b>TwoStageTable.getByteFromCodeAt</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> keyPrefix, code
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="TwoStageTable.getByteFromIntAt"></a>
-                                    <ul>
-                                        <li><b>TwoStageTable.getByteFromIntAt</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> keyPrefix, n
 
 
                                         </li>

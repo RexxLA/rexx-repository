@@ -28,6 +28,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
+  Call "Unicode.cls"
 
   self = .Unicode.Name
 
@@ -53,5 +54,3 @@
   
   Say count "codepoints checked in" elapsed "seconds."
   Say "This is" (count/elapsed) "codepoints/second."
-
-::Requires "name.cls"

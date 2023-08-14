@@ -95,14 +95,13 @@
 ::Constant BinaryFile                "Grapheme_Cluster_Break.bin"  
   
 ::Method hexValueOfPropertyAt Class
-  Expose Control Extend Other
+  Expose Control Extend Other table
     
   Use Strict Arg code
 
   n = X2D( code )
   
-  If n <= 131071 Then -- Planes 0 & 1
-    Return self~TwoStageTable.getByteFromIntAt("GraphemeBreakProperty.gcb",n)
+  If n <= 131071 Then Return table[n]-- Planes 0 & 1
   
   Select Case Length(code)
     When 5 Then Do
@@ -120,7 +119,7 @@
   Return Other
 
 ::Method Activate Class
-  Use Local char variable nameOf.
+  Use Local char variable nameOf. offset chunks
   
   self~activate:super
   
@@ -133,8 +132,12 @@
     
   self~NameOf = nameOf.
 
-  If .Unicode.Buildtime \== 1 Then 
+  If .Unicode.Buildtime \== 1 Then Do
     self~loadPersistent( self~BinFile.Qualify( self~binaryFile ) ) 
+    offset = self~getPersistent("GraphemeBreakProperty.gcb.Table1")
+    chunks = self~getPersistent("GraphemeBreakProperty.gcb.Table2")
+    table = .MultiStageTable~new(offset, chunks)
+  End
   
   -- A modified version of
   -- https://www.unicode.org/Public/15.0.0/ucd/auxiliary/GraphemeBreakTest.html#table

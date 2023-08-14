@@ -89,7 +89,7 @@
 --
  
 ::Method Activate Class
-  Expose mask. SpecialUpper.
+  Expose mask. SpecialUpper. upperCase lowercase caseproperties
       
   self~activate:super
   
@@ -110,6 +110,19 @@
       
   If .Unicode.Buildtime \== 1 Then Do
     self~loadPersistent( self~BinFile.Qualify( self~binaryFile ) ) 
+    
+    offset    = self~getPersistent("Uppercase.Table1")
+    chunks    = self~getPersistent("Uppercase.Table2")
+    uppercase      = .MultiStageTable~new(offset, chunks)
+
+    offset    = self~getPersistent("Lowercase.Table1")
+    chunks    = self~getPersistent("Lowercase.Table2")
+    lowercase      = .MultiStageTable~new(offset, chunks)
+
+    offset    = self~getPersistent("CaseAndCaseMappingBitProperties.Table1")
+    chunks    = self~getPersistent("CaseAndCaseMappingBitProperties.Table2")
+    bigvalues = self~getPersistent("CaseAndCaseMappingBitProperties.Table3")
+    caseproperties = .MultiStageTable~new(offset, chunks, 4, bigvalues)
   
     string = self~getPersistent("SpecialUpper")
     
@@ -121,40 +134,40 @@
   End
 
 ::Method Math Class
-  Expose mask.
-  Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Math)
+  Expose mask. caseproperties
+  Use Strict Arg code  
+  Return BITAND(caseproperties[X2D(code)], mask.Math) == mask.Math
 
 ::Method Alphabetic Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   If X2D(code) <= 131071 Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Alphabetic)
+    Return BITAND(caseproperties[X2D(code)], mask.Alphabetic) == mask.Alphabetic
   value    =  .Unicode.General_Category~hexValueOfPropertyAt(code)
   If value == .Unicode.General_Category~Lo_CJK_Compatibility_Ideograph Then Return 1
   If value == .Unicode.General_Category~Lo_CJK_Unified_Ideograph       Then Return 1
   Return 0
 
 ::Method Lowercase Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Lowercase)
+  Return BITAND(caseproperties[X2D(code)], mask.Lowercase) == mask.Lowercase
   
 ::Method Uppercase Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Uppercase)
+  Return BITAND(caseproperties[X2D(code)], mask.Uppercase) == mask.Uppercase
   
 ::Method Cased Class  
-  Expose Mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Cased)
+  Return BITAND(caseproperties[X2D(code)], mask.Cased) == mask.Cased
   
 ::Method Case_Ignorable Class  
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   If X2D(code) <= 131071 Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Case_Ignorable)
+    Return BITAND(caseproperties[X2D(code)], mask.Case_Ignorable) == mask.Case_Ignorable
   n = X2D(code)
   If n <  X2D(E0001) Then Return 0
   If n == X2D(E0001) Then Return 1
@@ -163,36 +176,36 @@
   Return 0
   
 ::Method Changes_When_Lowercased Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Changes_When_Lowercased)
+  Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Lowercased) == mask.Changes_When_Lowercased
   
 ::Method Changes_When_Uppercased Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Changes_When_Uppercased)
+  Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Uppercased) == mask.Changes_When_Uppercased
 
 ::Method Changes_When_Titlecased Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Changes_When_Titlecased)
+  Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Titlecased) == mask.Changes_When_Titlecased
 
 ::Method Changes_When_Casefolded Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Changes_When_Casefolded)
+  Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Casefolded) == mask.Changes_When_Casefolded
 
 ::Method Changes_When_Casemapped Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Changes_When_Casemapped)
+  Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Casemapped) == mask.Changes_When_Casemapped
 
 ::Method Full_Composition_Exclusion Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   n = X2D(code)
   If n <  X2d("20000") Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Full_Composition_Exclusion)
+    Return BITAND(caseproperties[X2D(code)], mask.Full_Composition_Exclusion) == mask.Full_Composition_Exclusion
   If n <  X2D("2F800") Then Return 0
   If n <= X2D("2FA1D") Then Return 1
   Return 0
@@ -203,11 +216,11 @@
   Return "Y"
 
 ::Method NFD_QC_N Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   n = X2D(code)
   If n <  X2d("20000") Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.NFD_QC_N)
+    Return BITAND(caseproperties[X2D(code)], mask.NFD_QC_N) == mask.NFD_QC_N
   If n <  X2D("2F800") Then Return 0
   If n <= X2D("2FA1D") Then Return 1
   Return 0
@@ -219,19 +232,19 @@
   Return "Y"
 
 ::Method NFC_QC_N Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   n = X2D(code)
   If n <  X2d("20000") Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.NFC_QC_N)
+    Return BITAND(caseproperties[X2D(code)], mask.NFC_QC_N) == mask.NFC_QC_N
   If n <  X2D("2F800") Then Return 0
   If n <= X2D("2FA1D") Then Return 1
   Return 0
 
 ::Method NFC_QC_M Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.NFC_QC_M)
+  Return BITAND(caseproperties[X2D(code)], mask.NFC_QC_M) == mask.NFC_QC_M
 
 ::Method NFKD_Quick_Check Class
   Use Strict Arg code
@@ -239,11 +252,11 @@
   Return "Y"
 
 ::Method NFKD_QC_N Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   n = X2D(code)
   If n <  X2d("20000") Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.NFKD_QC_N)
+    Return BITAND(caseproperties[X2D(code)], mask.NFKD_QC_N) == mask.NFKD_QC_N
   If n <  X2D("2F800") Then Return 0
   If n <= X2D("2FA1D") Then Return 1
   Return 0
@@ -255,26 +268,26 @@
   Return "Y"
 
 ::Method NFKC_QC_N Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   n = X2D(code)
   If n <  X2d("20000") Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.NFKC_QC_N)
+    Return BITAND(caseproperties[X2D(code)], mask.NFKC_QC_N) == mask.NFKC_QC_N
   If n <  X2D("2F800") Then Return 0
   If n <= X2D("2FA1D") Then Return 1
   Return 0
   
 ::Method NFKC_QC_M Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.NFKC_QC_M)
+  Return BITAND(caseproperties[X2D(code)], mask.NFKC_QC_M) == mask.NFKC_QC_M
 
 ::Method Changes_When_NFKC_Casefolded Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
   n = X2D(code)
   If n <  X2d("20000") Then
-    Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Changes_When_NFKC_Casefolded)
+    Return BITAND(caseproperties[X2D(code)], mask.Changes_When_NFKC_Casefolded) == mask.Changes_When_NFKC_Casefolded
   If n <  X2D("2F800") Then Return 0
   If n <= X2D("2FA1D") Then Return 1
   If n <  X2D("E0000") Then Return 0
@@ -282,39 +295,41 @@
   Return 0
 
 ::Method Other_Alphabetic Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Other_Alphabetic)
+  Return BITAND(caseproperties[X2D(code)], mask.Other_Alphabetic) == mask.Other_Alphabetic
 
 ::Method Other_Lowercase Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Other_Lowercase)
+  Return BITAND(caseproperties[X2D(code)], mask.Other_Lowercase) == mask.Other_Lowercase
 
 ::Method Other_Uppercase Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Other_Uppercase)
+  Return BITAND(caseproperties[X2D(code)], mask.Other_Uppercase) == mask.Other_Uppercase
 
 ::Method Soft_Dotted Class
-  Expose mask.
+  Expose mask. caseproperties
   Use Strict Arg code
-  Return self~ThreeStageTable.testMaskFromCodeAt("CaseAndCaseMappingBitProperties", code, mask.Soft_Dotted)
+  Return BITAND(caseproperties[X2D(code)], mask.Soft_Dotted) == mask.Soft_Dotted
 
 ::Method Simple_Uppercase_Mapping Class
+  Expose uppercase
   Use Strict Arg code
   
   n        = X2D(code)
-  index    = X2D(C2X(self~TwoStageTable.getByteFromIntAt("Uppercase",n)))
+  index    = X2D(C2X(uppercase[n]))
   If index == 0 Then Return code
   upper    = D2X( n + X2D(C2X(self~getPersistent("Uppercase.Differences")[index*4-3,4]),8) )
   If Length(upper) < 4 Then Return Right(upper, 4, 0)
   Return upper
 
 ::Method Simple_Lowercase_Mapping Class
+  Expose lowercase
   Use Strict Arg code
   n        = X2D(code)
-  index    = X2D(C2X(self~TwoStageTable.getByteFromIntAt("Lowercase",n)))
+  index    = X2D(C2X(lowercase[n]))
   If index == 0 Then Return code
   lower    = D2X( n + X2D(C2X(self~getPersistent("Lowercase.Differences")[index*4-3,4]),8) )
   If Length(lower) < 4 Then Return Right(lower, 4, 0)

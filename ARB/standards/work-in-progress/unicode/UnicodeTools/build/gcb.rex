@@ -34,7 +34,7 @@
 
   -- Call instead of ::Requires allows us to set the above variable first.
 
-  Call "gcb.cls"
+  Call "Unicode.cls"
 
   self = .Unicode.Grapheme_Cluster_Break
 
@@ -148,7 +148,7 @@
   
   Call Stream inFile, "C", "Close"
   
-  array = self~TwoStageTable.Compress(buffer)  
+  array = .MultiStageTable~compress(buffer)
   
   self~setPersistent("GraphemeBreakProperty.gcb.Table1", array[1])
   self~setPersistent("GraphemeBreakProperty.gcb.Table2", array[2])

@@ -49,7 +49,7 @@
 
   -- Call instead of ::Requires allows us to set the above variable first.
   
-  Call "gc.cls"
+  Call "Unicode.cls"
   
   self = .Unicode.General_Category
   
@@ -161,7 +161,7 @@
     Else buffer[ n + 1 ] = Var2Char.thisGC    -- "+ 1" to avoid referring to gc[0]
   End
 
-  array = self~TwoStageTable.Compress(buffer)
+  array = .MultiStageTable~Compress(buffer)
   
   self~setPersistent("UnicodeData.gc.Table1", array[1])
   self~setPersistent("UnicodeData.gc.Table2", array[2])

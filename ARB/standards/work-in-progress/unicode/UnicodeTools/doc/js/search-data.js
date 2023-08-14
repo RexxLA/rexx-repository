@@ -63,6 +63,18 @@ var searchData = [
         id: "Properties.cls", type: "Package", name: "Properties.cls", info: null,  href: "Properties.cls.html"
     },
         {
+        id: "MultiStageTable", type: "Class", name: "MultiStageTable", info: "Properties.cls", href: "Properties.cls.html#MultiStageTable"
+        },
+            {
+            id: "init", type: "Method", name: "init", info: "Class MultiStageTable", href: "Properties.cls.html#init"
+            },
+            {
+            id: "%5B%5D-2", type: "Method", name: "[]", info: "Class MultiStageTable", href: "Properties.cls.html#%5B%5D-2"
+            },
+            {
+            id: "Compress", type: "Method", name: "Compress", info: "Class MultiStageTable", href: "Properties.cls.html#Compress"
+            },
+        {
         id: "PersistentStringTable", type: "Class", name: "PersistentStringTable", info: "Properties.cls", href: "Properties.cls.html#PersistentStringTable"
         },
             {
@@ -111,27 +123,6 @@ var searchData = [
             id: "SyntaxError", type: "Method", name: "SyntaxError", info: "Class Unicode.Property", href: "Properties.cls.html#SyntaxError"
             },
             {
-            id: "ThreeStageTable.get32BitsFromCodeAt", type: "Method", name: "ThreeStageTable.get32BitsFromCodeAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.get32BitsFromCodeAt"
-            },
-            {
-            id: "ThreeStageTable.get32BitsFromIntAt", type: "Method", name: "ThreeStageTable.get32BitsFromIntAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.get32BitsFromIntAt"
-            },
-            {
-            id: "ThreeStageTable.testMaskFromCodeAt", type: "Method", name: "ThreeStageTable.testMaskFromCodeAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.testMaskFromCodeAt"
-            },
-            {
-            id: "ThreeStageTable.testMaskFromIntAt", type: "Method", name: "ThreeStageTable.testMaskFromIntAt", info: "Class Unicode.Property", href: "Properties.cls.html#ThreeStageTable.testMaskFromIntAt"
-            },
-            {
-            id: "TwoStageTable.Compress", type: "Method", name: "TwoStageTable.Compress", info: "Class Unicode.Property", href: "Properties.cls.html#TwoStageTable.Compress"
-            },
-            {
-            id: "TwoStageTable.getByteFromCodeAt", type: "Method", name: "TwoStageTable.getByteFromCodeAt", info: "Class Unicode.Property", href: "Properties.cls.html#TwoStageTable.getByteFromCodeAt"
-            },
-            {
-            id: "TwoStageTable.getByteFromIntAt", type: "Method", name: "TwoStageTable.getByteFromIntAt", info: "Class Unicode.Property", href: "Properties.cls.html#TwoStageTable.getByteFromIntAt"
-            },
-            {
             id: "UCDFile.Qualify", type: "Method", name: "UCDFile.Qualify", info: "Class Unicode.Property", href: "Properties.cls.html#UCDFile.Qualify"
             },
             {
@@ -165,7 +156,7 @@ var searchData = [
         id: "Rexx.Tokenizer", type: "Class", name: "Rexx.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#Rexx.Tokenizer"
         },
             {
-            id: "init-2", type: "Method", name: "init", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#init-2"
+            id: "init-3", type: "Method", name: "init", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#init-3"
             },
             {
             id: "getToken", type: "Method", name: "getToken", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#getToken"
@@ -276,10 +267,10 @@ var searchData = [
         id: "Codepoints", type: "Class", name: "Codepoints", info: "Unicode.cls", href: "Unicode.cls.html#Codepoints"
         },
             {
-            id: "init", type: "Method", name: "init", info: "Class Codepoints", href: "Unicode.cls.html#init"
+            id: "init-1", type: "Method", name: "init", info: "Class Codepoints", href: "Unicode.cls.html#init-1"
             },
             {
-            id: "%5B%5D-2", type: "Method", name: "[]", info: "Class Codepoints", href: "Unicode.cls.html#%5B%5D-2"
+            id: "%5B%5D-3", type: "Method", name: "[]", info: "Class Codepoints", href: "Unicode.cls.html#%5B%5D-3"
             },
             {
             id: "Length", type: "Method", name: "Length", info: "Class Codepoints", href: "Unicode.cls.html#Length"
@@ -288,10 +279,10 @@ var searchData = [
         id: "Text", type: "Class", name: "Text", info: "Unicode.cls", href: "Unicode.cls.html#Text"
         },
             {
-            id: "init-1", type: "Method", name: "init", info: "Class Text", href: "Unicode.cls.html#init-1"
+            id: "init-2", type: "Method", name: "init", info: "Class Text", href: "Unicode.cls.html#init-2"
             },
             {
-            id: "%5B%5D-3", type: "Method", name: "[]", info: "Class Text", href: "Unicode.cls.html#%5B%5D-3"
+            id: "%5B%5D-4", type: "Method", name: "[]", info: "Class Text", href: "Unicode.cls.html#%5B%5D-4"
             },
             {
             id: "Length-1", type: "Method", name: "Length", info: "Class Text", href: "Unicode.cls.html#Length-1"

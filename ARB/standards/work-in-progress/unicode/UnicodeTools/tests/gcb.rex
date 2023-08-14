@@ -28,6 +28,8 @@
 /*                                                                           */
 /*****************************************************************************/
 
+  Call "Unicode.cls"
+
   self = .Unicode.Grapheme_Cluster_Break
       
   Call Time "R"
@@ -174,5 +176,3 @@
   Say "This is" (count/elapsed) "codepoints/second."
   Say extpic "'Extended_Pictographic' values were checked twice."
   Say ccc.~items "values changed from 'Extend' to 'Extend_ExtCccZwj'."
-
-::Requires "gcb.cls"

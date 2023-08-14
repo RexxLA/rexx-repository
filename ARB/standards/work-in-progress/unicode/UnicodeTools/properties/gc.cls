@@ -71,8 +71,7 @@
   n = code~x2d
   
   -- Fast path: Planes 0 & 1
-  If n <= 131071 Then
-    Return self~TwoStageTable.getByteFromIntAt("UnicodeData.gc",n)
+  If n <= 131071 Then Return table[n]
   
   Select Case Length(code)
     When 5 Then Do
@@ -119,7 +118,7 @@
 -- 
  
 ::Method Activate Class
-  Use Local c char variable
+  Use Local c char variable offset chunks
   -- Should be "Expose (variables) etc.", but the variables are not constructed yet.
     
   self~activate:super
@@ -136,8 +135,12 @@
   
   self~nameOf = nameOf.
   
-  If .Unicode.Buildtime \== 1 Then 
+  If .Unicode.Buildtime \== 1 Then Do
     self~loadPersistent( self~BinFile.Qualify( self~binaryFile ) ) 
+    offset = self~getPersistent("UnicodeData.gc.Table1")
+    chunks = self~getPersistent("UnicodeData.gc.Table2")
+    table = .MultiStageTable~new(offset, chunks)
+  End
     
 ::Method Algorithmic_Name Class
   Use Local -- Should be "Expose (variables)", but it is too slow

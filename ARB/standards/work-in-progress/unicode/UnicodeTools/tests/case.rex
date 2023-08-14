@@ -37,6 +37,8 @@
 --
 --
  
+  Call "Unicode.cls"
+ 
   self = .Unicode.Case
 
   Call Time "R"    
@@ -165,5 +167,3 @@ CheckAFile:
   End
   
 Return  
-  
-::Requires "case.cls"

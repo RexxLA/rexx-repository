@@ -34,7 +34,7 @@
 
   -- Call instead of ::Requires allows us to set the above variable first.
 
-  Call "case.cls"
+  Call "Unicode.cls"
 
   self = .Unicode.Case
 
@@ -83,7 +83,7 @@
   End
   
   Call Stream inFile, "c", "Close"
-  array = self~TwoStageTable.Compress(buffer)
+  array = .MultiStageTable~Compress(buffer)
   
   self~setPersistent("Lowercase.Table1",       array[1])
   self~setPersistent("Lowercase.Table2",       array[2])
@@ -113,7 +113,7 @@
   
   Call Stream inFile, "c", "Close"
     
-  array = self~TwoStageTable.Compress(buffer)
+  array = .MultiStageTable~Compress(buffer)
   
   self~setPersistent("Uppercase.Table1",       array[1])
   self~setPersistent("Uppercase.Table2",       array[2])
@@ -264,7 +264,7 @@
   End
   Say "Found a total of" count "different bit masks."
 
-  array = self~TwoStageTable.Compress(smallBuffer)
+  array = .MultiStageTable~Compress(smallBuffer)
   
   self~setPersistent("CaseAndCaseMappingBitProperties.Table1", array[1])
   self~setPersistent("CaseAndCaseMappingBitProperties.Table2", array[2])

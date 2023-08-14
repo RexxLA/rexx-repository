@@ -36,6 +36,7 @@
 /*****************************************************************************/
 
 .local~Unicode.Property = .Unicode.Property
+.local~MultiStageTable  = .MultiStageTable
 
 -- Extract our own directory, and do a directory listing.
 -- Then call all the *.cls files in turn (except ourselves) to give them
@@ -204,71 +205,149 @@ End
     
   If X2d( code ) > X2D( 10FFFF ) Then
     self~SyntaxError("Codepoints should not be bigger than 10FFFF, found '"code"'")
-    
-::Method TwoStageTable.Compress Class
+
+/**
+ * <h4>The <code>MultiStageTable</code> class</h4>
+ *
+ * <p>
+ *   This class specializes in producing <em>two-stage tables</em>, <em>three-stage tables</em>,
+ *   or, in general <em>multi-stage tables</em>. 
+ *
+ * <p>
+ *   Multi-stage tables are recommended in The Unicode Standard 15.0 
+ *  (<a href="https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf">https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf</a>),
+ *   section 5.1, <em>Data Structures for Character Conversion</em>, "Multistage Tables", pp. 196&ndash;7.
+ *
+ * <p>
+ *   This is not a general implementation of multi-stage tables, but a custom, tailored one, specific
+ *   to Unicode and the BMP and SMP planes.
+ *
+ * <p>
+ *   The indexes for these tables run from 0 to 131071. Negative values will raise a Syntax error, and
+ *   indexes greater than 131071 will return "00"X.
+ *
+ */
+
+::Class MultiStageTable Public
+
+/**
+ *
+ * <h4><code>Compress</code></h4>
+ *
+ * <code><pre>
+ * <b>.MultiStageTable~new(</b> <em>offset</em> <b>,</b> <em>chunks</em> , >─┬───────────────────────┬─> <b>)</b>
+ *                                           └─ <b>,</b> <em>width</em> <b>,</b> <em>bigvalues</em> ─┘  
+ * </pre></code>
+
+ * <p>
+ *   Creates a new multi-stage table. The <em>offset</em> and <em>chunks</em> tables should have been
+ *   created by the <code>Compress</code> class method. <em>Width</em> and <em>bigvalues</em> are optional.
+ *   When specified, <em>width</em> should be a positive number greater than 1, and <em>bigvalues</em>
+ *   should be a string of <em>width</em>-byte values. In that case, the 1-byte value obtained from <em>offset</em> and <em>chunks</em>
+ *   is multiplied by <em>width</em> and used as an index into <em>bigvalues</em>.
+ *
+ */ 
+::Method init 
+  Expose offset chunks width bigvalues
+  
+  Use Strict Arg offset, chunks, width = 1, bigvalues = .Nil
+
+/**
+ *
+ * <h4><code>[]</code></h4>
+ *
+ * <code><pre>
+ * <b>[</b> <em>n</em> <b>]</b></pre></code> 
+ *
+ * <p>
+ *   Returns the <em>n</em>-th element of the multi-stage table, when 0 &lt; <em>n</em> &lt;= 131071, 
+ *   or a string containing <em>width</em> copies of <b>"00"X</b>, when <em>n</em> &gt; 131071. 
+ *   Negative or non-numeric values of <em>n</em> will raise a Syntax error.
+ *
+ */ 
+
+::Method "[]"
+  Expose offset chunks width bigvalues
+  
+  Use Strict Arg n
+  
+  .Validate~nonNegativeNumber("n",n)
+  
+  If n > 131071 Then Return Copies("00"X,width)
+  
+  
+  highIndex  = n  % 256
+  highOffset = offset[ 1 + highIndex ]~c2x~x2d
+  lowOffset  = n // 256
+  byte       = chunks[ 1 + highOffset*256 + lowOffset ]
+  
+  -- width == 1 is the two-stage case
+  If width == 1 Then Return byte
+  
+  Return       bigvalues[ 1 + (byte~c2x~x2d - 1) * width, width]
+
+/**
+ *
+ * <h4><code>Compress</code> (Class method) </h4>
+ *
+ * <code><pre>
+ * <b>Compress(</b> <em>buffer</em> <b>)</b></pre></code> 
+ *
+ * <p>
+ *   The <code>Compress</code> method compresses a <em>buffer</em> and returns two smaller, 
+ *   compressed, tables. 
+ *
+ * <p>
+ *   <em>Buffer</em> is a 128K-byte string (131072 bytes) representing an array of 1-byte elements.
+ *   Elements 1-65536 correspond to the Unicode Basic Multilingual Plane (BMP), and elements
+ *   65537-131072 correspond to the Unicode Supplementary Multilingual Plane (SMP).
+ *
+ * <p>
+ *   The compression technique works as follows: the source array-string is supposed
+ *   to be compressible, i.e., is supposed to contain different segments which are identical.
+ *   The array will be broken in a series of fixed-size sub-arrays, and, instead of storing
+ *   the sub-array itself, we will store <em>a reference</em> to the sub-array. Thus, when
+ *   two identical sub-arrays (segments) of the argument array are found, only the first copy is
+ *   stored, and a repeated reference. But a reference is supposed to be much smaller than the
+ *   subarray itself.
+ *
+ * <p>
+ *   The current implementation uses several hardcoded constants. This can be changed in the future:
+ *
+ *   <ul>
+ *     <li>The argument <em>buffer</em> is supposed have a length of exactly 2**17 bytes.
+ *     <li>Sub-arrays will be of 256 bytes.
+ *     <li>To allow for maximum compression, we are supposing that the quantity of different
+ *       sub-arrays does not exceed 256. This allows to store the references to the sub-arrays
+ *       in one byte.
+ *   </ul>
+ *
+ */
+
+::Method Compress Class
   Use Strict Arg buffer
   
-  k      = -1       -- Offset of a chunk
-  seen.  = 0        -- Marks a chunk as seen
-  step   = 256      -- Size of the chunks
-  offset = ""       -- Will store the (512) 1-byte offsets
-  chunks = ""       -- Will store the deduplicated chunks
+  k       = -1       -- Offset of a chunk
+  offset. = 0        -- Stores the offset of a chunk. 0 when the chunk was never seen.
+  step    = 256      -- Size of the chunks
+  offset  = ""       -- Will store the (512 = 128K/256) 1-byte offsets
+  chunks  = ""       -- Will store the deduplicated chunks
 
-  Do i = 1 To 1FFFF~x2d + 1 By step
-    chunk = buffer[i,step]
-    If seen.chunk > 0 Then Do
-      offset ||= Right( d2x(seen.chunk), 2, 0 )~x2c
+  Do i = 0 + 1 To 1FFFF~x2d + 1 By step  -- U+0000..U+1FFFF
+    chunk = buffer[i,step]               -- Pick a chunk of "step" bytes     
+    If offset.chunk > 0 Then Do          -- Already seen? offset.chunk will store the offset
+      offset ||= Right(D2X(offset.chunk),2,0)~x2c
       Iterate
     End
-    k += 1
-    seen.chunk = k
-    offset ||= Right( d2x(k) , 2, 0)~x2c
-    chunks ||= chunk
+    k += 1                               -- Never seen: we need a new offset for that
+    offset.chunk = k
+    offset ||= Right( d2x(k) , 2, 0)~x2c 
+    chunks ||= chunk                     -- Store the new chunk
   End
   If k > 255 Then Say "Warning!" k "chunks when compressing file!"
   Else Say "Compressing two-stage table into" k "256-byte fragments, total =" (Length(offset)+Length(chunks)) "bytes ."
   
 Return offset, chunks
-
-::Method ThreeStageTable.get32BitsFromCodeAt Class
-  Use Strict Arg keyPrefix, code
-  Return self~ThreeStageTable.get32BitsFromIntAt(keyPrefix, X2D(code))
-
-::Method ThreeStageTable.get32BitsFromIntAt Class
-  Use Strict Arg keyPrefix, n
-  If n > 131071 Then Return "00"X
-  highIndex  = n % 256
-  highOffset = self~getPersistent(keyPrefix".Table1")[ 1 + highIndex ]~c2x~x2d
-  lowOffset  = n // 256
-  wordOffset = self~getPersistent(keyPrefix".Table2")[ 1 + highOffset*256 + lowOffset ]~c2x~x2d
-  Return       self~getPersistent(keyPrefix".Table3")[ 1 + ( wordOffset-1 )*4, 4 ]
-
-::Method ThreeStageTable.testMaskFromCodeAt Class
-  Use Strict Arg keyPrefix, code, mask
-  Return self~ThreeStageTable.testMaskFromIntAt(keyPrefix, X2D(code), mask)
-
-::Method ThreeStageTable.testMaskFromIntAt Class
-  Use Strict Arg keyPrefix, n, mask
-  If n > 131071 Then Return 0
-  highIndex  = n % 256
-  highOffset = self~getPersistent(keyPrefix".Table1")[ 1 + highIndex ]~c2x~x2d
-  lowOffset  = n // 256
-  wordOffset = self~getPersistent(keyPrefix".Table2")[ 1 + highOffset*256 + lowOffset ]~c2x~x2d
-  Return       BITAND( self~getPersistent(keyPrefix".Table3")[ 1 + ( wordOffset-1 )*4, mask~length ], mask) == mask
-  --Return       self~getPersistent(keyPrefix".Table3")[ 1 + ( wordOffset-1 )*4, 4 ]
-  
-::Method TwoStageTable.getByteFromCodeAt Class
-  Use Strict Arg keyPrefix, code
-  Return self~TwoStageTable.getByteFromIntAt(keyPrefix, X2D(code))
-
-::Method TwoStageTable.getByteFromIntAt Class
-  Use Strict Arg keyPrefix, n
-  If n > 131071 Then Return "00"X
-  highIndex  = n % 256
-  highOffset = self~getPersistent(keyPrefix".Table1")[ 1 + highIndex ]~c2x~x2d
-  lowOffset  = n // 256
-  Return       self~getPersistent(keyPrefix".Table2")[ 1 + highOffset*256 + lowOffset ]
-
 
 /*******************************************************************************
  *                                                                             *
