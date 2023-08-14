@@ -1,8 +1,19 @@
 /* Rexx */
+/*
+  How to generate the .rxu file for TUTOR:
+  
+    cpp -DTUTOR -E -C -P -Ihelpers expected_results.rex > generated/tutor_expected_results.rxu
+    
+*/
 #ifdef CREXX
 options levelb
 namespace expected_results expose ok ko
 import rxfnsb
+#endif
+
+#ifdef TUTOR
+Options DefaultString Text
+Numeric Digits 16
 #endif
 
 #include "do_not_edit.txt"
@@ -18,6 +29,7 @@ To preprocess with the right variable defined:
     -DOOREXX
     -DREGINA
     -DEXECUTOR
+    -DTUTOR
 */
 #endif
 
@@ -476,20 +488,20 @@ say
 /* pos */
 /******************************************************************************/
 
-say 'pos("'s1'", "é")'
-actual = pos(s1, "é")
+say 'pos("é","',s1'")'
+actual = pos("é", s1)
 expected = 4
 say my_compare(actual, expected)
 say
 
-say 'pos("'s2'", "é")'
-actual = pos(s2, "é")
+say 'pos("é","'s2'")'
+actual = pos("é",s2)
 expected = 4
 say my_compare(actual, expected)
 say
 
-say 'pos("'s3'", "é")'
-actual = pos(s2, "é")
+say 'pos("é","'s3'")'
+actual = pos("é",s3)
 expected = 4               /* implies normalization when comparing */
 say my_compare(actual, expected)
 say
