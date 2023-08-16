@@ -32,8 +32,11 @@
  *    
  *  <h4>Version history</h4>
  *  
+ *  <h4>Version history</h4>
+ *  
  *  <table>
- *    <tr><td><b>1.0 20230811</b><td>Initial release.
+ *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
+ *    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
  *  </table>
  * 
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
