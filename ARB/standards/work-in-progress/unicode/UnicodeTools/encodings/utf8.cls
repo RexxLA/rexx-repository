@@ -118,7 +118,7 @@
   If string~isA(.Codepoints) Then Signal MakeString
   
   -- Attempt to decode the string first. This will check for well-formedness.
-  string = self~decode(string, option)
+  string = self~decode(string, "UTF-8", option)
   
   -- If we found an error and we got here, option = "". We should return a null string.
   If string == "" Then Return ""

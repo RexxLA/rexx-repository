@@ -29,7 +29,8 @@
  *  <h4>Version history</h4>
  *  
  *  <table>
- *    <tr><td><b>1.0 20230811</b><td>Initial release.
+ *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
+ *    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
  *  </table>
  * 
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -86,7 +87,7 @@
   
   syntax = Upper(option) = "SYNTAX"
    
-  res = "" -- Will hold the result
+  res = .MutableBuffer~new -- Will hold the result
   Do i = 1 To Length(utf32) By 4
     code = Strip(utf32[i,4],"L","00"X)
     If code == "" Then enc = "00"X -- "00"X --> "00"X
@@ -96,10 +97,10 @@
       If Syntax Then
         Raise Syntax 23.900 Additional("Cannot encode Unicode codepoint U+"code" to IBM1047")
       Else Return ""
-    res ||= enc
+    res~append( enc )
   End
   
-  Return res
+  Return res~string
 
 /**
  * IBM1047 decoding always succeeds (i.e., there is no such thing as a badly
@@ -117,10 +118,10 @@
   If string == "" Then Signal StringIsEmpty
   
   -- Will hold the utf8 value, if needed
-  utf8  = ""
+  utf8  = .MutableBuffer~new
   
   -- Will hold the utf32 value, if needed
-  utf32 = ""  
+  utf32 = .MutableBuffer~new 
   
   -- Validation only
   If \returnUTF8, \returnUTF32 Then Return 1
@@ -130,21 +131,21 @@
   Do i = 1 To Length(string)
     code = translated[i]
     If returnUTF8  Then Do
-      If code <= "7F"X Then utf8 ||= code
+      If code <= "7F"X Then utf8~append( code )
       Else Do
         b = X2B("00"C2X(code))
-        utf8 ||= X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6)))
+        utf8~append( X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6))) )
       End
     End
-    If returnUTF32 Then utf32 ||= "000000"x || code
+    If returnUTF32 Then utf32~append( "000000"x || code )
   End
   Signal StringIsGood
 
 StringIsGood:
   If returnUTF8 Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32   Then Return utf32  
+    If returnUTF32 Then Return utf8~string, utf32~string -- An array
+    Else                Return utf8~string
+  If returnUTF32   Then Return utf32~string
   -- Validate only
   Return 1
   

@@ -37,11 +37,6 @@
 /*                                                                           */
 /*****************************************************************************/
 
---
--- Running this file (or ::requiring it) will generate the binary
--- file if not present.
---
-
 --------------------------------------------------------------------------------
 --                                                                            --
 -- CLASS UNICODE.General_Category                                             --

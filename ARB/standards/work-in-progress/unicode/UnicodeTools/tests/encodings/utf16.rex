@@ -44,21 +44,21 @@ Say Time("E") "UTF-16 Encoding tests. U+0000..U+D7ff should all PASS (before sur
 
 Do i = 0 To X2D("D7FF")
   c32 = X2C(Right(D2X(i),8,0)) -- UTF-32
-  c8  = utf32~decode(c32,,"UTF-8")
+  c8  = utf32~decode(c32,"UTF-8")
   Call TestEncode c32, c8, Right(c32,2)
 End
 
 Say Time("E") "UTF-16 Encoding tests. U+D800..U+DFff should all FAIL (surrogates)"
 Do i = X2D("D800") To X2D("DFFF")
   c32 = X2C(Right(D2X(i),8,0)) -- UTF-32
-  c8  = utf32~decode(c32,,"UTF-8")
+  c8  = utf32~decode(c32,"UTF-8")
   Call TestEncode c32, c8, ""
 End
 
 Say Time("E") "UTF-16 Encoding tests. U+E000..U+FFFF should all PASS (16-bit, after surrogates)"
 Do i = X2D("E000") To X2D("FFFF")
   c32 = X2C(Right(D2X(i),8,0)) -- UTF-32
-  c8  = utf32~decode(c32,,"UTF-8")
+  c8  = utf32~decode(c32,"UTF-8")
   Call TestEncode c32, c8, Right(c32,2)
 End
 
@@ -71,22 +71,10 @@ Do i = X2D("10000") To X2D("10FFFF")
   x    = SubStr(b,9)
   w    = Right(X2B(D2X( X2D(B2X(u))-1 )), 4)
   c32  = X2C("00"code)
-  c8   = utf32~decode(c32,,"UTF-8")
+  c8   = utf32~decode(c32,"UTF-8")
   Call TestEncode c32, c8, X2C(B2X("110110"w||Left(x,6)"110111"Right(x,10)))
 End
 
-
-
-/*
-
-
-Exit
-
-Do i = X2D("110000") To X2D("110000")
-  code = Right(D2X(i),6,0)
-  Call TestEncode code, FAIL
-End
-*/
 -- Decoding tests
 
 Say Time("E") "UTF16 decoding tests."
@@ -127,7 +115,6 @@ Do i = X2D("D800") To X2D("DBFF")
     u = X2B(D2X(X2D(B2X(SubStr(X2B(D2X(i)), 7, 4))) + 1))
     c = X2C(Right(D2X(i),4,0))X2C(Right(D2X(j),4,0))
     Call TestDecode c,  PASS  -- High surrogate + low surrogate
-    --Call TestDecode i~d2x~x2c||j~d2x~x2c, PASS, Strip(B2X(u||x),"L",0)
   End
 End
 

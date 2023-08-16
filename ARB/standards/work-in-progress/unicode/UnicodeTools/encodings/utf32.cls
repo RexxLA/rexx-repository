@@ -72,10 +72,10 @@
   If string == "" Then Signal StringIsEmpty
   
   -- Will hold the utf8 value,  when needed
-  utf8  = ""
+  utf8  = .MutableBuffer~new
   
   -- Will hold the utf32 value, when needed
-  utf32 = ""  
+  utf32 = .MutableBuffer~new
   
   repl   = errorHandling == "REPLACE"
   syntax = errorHandling == "SYNTAX"
@@ -117,13 +117,13 @@
           b = X2B(code)
           If b~length == 20 Then b = "0000"||b
           Select
-            When n <= 127   Then utf8 ||= X2C(code[3,2])
-            When n <= 2047  Then utf8 ||= X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6)))
-            When n <= 65535 Then utf8 ||= X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
-            Otherwise            utf8 ||= X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6)))
+            When n <= 127   Then utf8~append( X2C(code[3,2]) )
+            When n <= 2047  Then utf8~append( X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6))) )
+            When n <= 65535 Then utf8~append( X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6))) )
+            Otherwise            utf8~append( X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6))) )
           End 
         End
-        If returnUTF32 Then utf32 ||= string[i,4]
+        If returnUTF32 Then utf32~append( string[i,4] )
     End
   End
   
@@ -136,15 +136,15 @@ StringIsEmpty:
     
 StringIsGood:
   If returnUTF8 Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32   Then Return utf32  
+    If returnUTF32 Then Return utf8 ~string, utf32~string -- An array
+    Else                Return utf8 ~string
+  If returnUTF32   Then Return utf32~string  
   -- Validate only
   Return 1
   
 ReplaceCharacter:
-  utf8  ||= "efbfbd"X
-  utf32 ||= "0000FFFD"X
+  utf8 ~append(   "efbfbd"X )
+  utf32~append( "0000FFFD"X )
 Return    
   
 Syntax:
@@ -152,9 +152,8 @@ Syntax:
   If syntax Then
     Raise Syntax 23.900 Additional("Invalid UTF-32 sequence in position" i "of string: '"code"'X")  
   If returnUTF8 Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32   Then Return utf32  
+    If returnUTF32 Then Return utf8 ~string, utf32~string -- An array
+    Else                Return utf8 ~string
+  If returnUTF32   Then Return utf32~string  
   -- Validation only
   Return 0
-  

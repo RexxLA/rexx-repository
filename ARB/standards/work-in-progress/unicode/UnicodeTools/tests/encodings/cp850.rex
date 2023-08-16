@@ -25,7 +25,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
-cp850 = .Encoding["850"]
+cp850 = .Encoding["cp850"]
 utf16 = .Encoding["utf16"]
 
 count  = 0 
@@ -56,7 +56,7 @@ End
 Say Time("E") "CP-850 Decoding. Values."
 Do i = X2D("80") To X2D("FF")
   c = X2C(D2X(i))
-  Call TestDecode c, utf16~decode(X2C(Decode.c),,"UTF8")
+  Call TestDecode c, utf16~decode(X2C(Decode.c),"UTF8")
 End
 
 Say Time("E") "CP-850 Encoding tests."
@@ -129,7 +129,7 @@ TestDecode:
     failed += 1
   End
   Else Do
-    If cp850~decode(Arg(1),,"UTF-8") == Arg(2) Then Return
+    If cp850~decode(Arg(1),"UTF-8") == Arg(2) Then Return
     Say "'"C2X(Arg(1))"' failed."
     failed += 1
   End

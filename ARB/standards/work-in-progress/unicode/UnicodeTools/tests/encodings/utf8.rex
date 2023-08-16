@@ -12,7 +12,7 @@ Say "Testing the encoding functionality of the UTF-8 encoder/decoder..."
 
 Do i = 0 To 127
   c = X2C(D2X(i))
-  If FAIL == utf8~encode(c) Then Call Failed
+  If c \== utf8~encode(c) Then Call Failed
   count += 1
 End
 
@@ -20,8 +20,10 @@ Say count "tests in" Time("E") "seconds."
 
 Do i = X2D("C2") To X2D("DF")
   Do j = X2D("80") To X2D("BF")
-    c = X2C(D2X(i))X2C(D2X(j))
-    If FAIL == utf8~decode(c) Then Call Failed
+    ix = D2X(i)
+    jx = D2X(j)
+    c = X2C(ix)X2C(jx)
+    If c \== utf8~encode(c) Then Call Failed
     count += 1
   End
 End
@@ -32,7 +34,7 @@ Do i = X2D("E0") To X2D("E0")
   Do j = X2D("A0") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
-      If FAIL == utf8~decode(c) Then Call Failed
+      If c \== utf8~encode(c) Then Call Failed
       count += 1
     End  
   End
@@ -44,7 +46,7 @@ Do i = X2D("E1") To X2D("EC")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
-      If FAIL == utf8~decode(c) Then Call Failed
+      If c \== utf8~encode(c) Then Call Failed
       count += 1
     End  
   End
@@ -56,7 +58,7 @@ Do i = X2D("ED") To X2D("ED")
   Do j = X2D("80") To X2D("9F")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
-      If FAIL == utf8~decode(c) Then Call Failed
+      If c \ == utf8~encode(c) Then Call Failed
       count += 1
     End  
   End
@@ -68,7 +70,7 @@ Do i = X2D("EE") To X2D("EF")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
-      If FAIL == utf8~decode(c) Then Call Failed
+      If c \== utf8~encode(c) Then Call Failed
       count += 1
     End  
   End
@@ -81,7 +83,7 @@ Do i = X2D("F0") To X2D("F0")
     Do k = X2D("80") To X2D("BF")
       Do l = X2D("80") To X2D("BF")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
-        If FAIL == utf8~decode(c) Then Call Failed
+        If c \== utf8~encode(c) Then Call Failed
         count += 1
       End
     End  
@@ -95,7 +97,7 @@ Do i = X2D("F1") To X2D("F3")
     Do k = X2D("80") To X2D("BF")
       Do l = X2D("80") To X2D("BF")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
-        If FAIL == utf8~decode(c) Then Call Failed
+        If c \== utf8~encode(c) Then Call Failed
         count += 1
       End
     End  
@@ -109,7 +111,7 @@ Do i = X2D("F4") To X2D("F4")
     Do k = X2D("80") To X2D("BF")
       Do l = X2D("80") To X2D("BF")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
-        If FAIL == utf8~decode(c) Then Call Failed
+        If c \== utf8~encode(c) Then Call Failed
         count += 1
       End
     End  
@@ -447,7 +449,7 @@ Exit failed \== 0
 
 Failed:
   failed += 1 
-  Say "Failed:" c C2X(c)
+  Say "Failed:" C2X(c) c
 Return
 
 ::Requires Unicode.cls

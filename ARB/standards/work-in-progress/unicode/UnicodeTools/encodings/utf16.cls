@@ -65,23 +65,23 @@
 
   If string == "" Then Return ""
   
-  res = "" -- Will hold the result
+  res = .MutableBuffer~new -- Will hold the result
   Do i = 1 To Length(utf32) by 4
     code = Strip(C2X(utf32[i,4]),"L",0)
     If Length(code) < 4 Then code = Right(code,4,0)
     cLength = Length(code)
-    If cLength < 5 Then res ||= X2C(code)
+    If cLength < 5 Then res~append( X2C(code) )
     Else Do
       If cLength == 5 Then code = "0"code
       bCode = X2B(code)
       u = SubStr(bcode,4,5)
       x = Right(bcode,16)
       w = X2B(D2X( X2D(B2X(u)) - 1 ))
-      res ||= X2C( B2X( "110110"||w||Left(x,6)"110111"Right(x,10) ) )
+      res~append( X2C( B2X( "110110"||w||Left(x,6)"110111"Right(x,10) ) ) )
     End
   End
 
-  Return res
+  Return res~string
   
 -- See https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf, table 3.5, p. 124
 -- See https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt
@@ -95,10 +95,10 @@
   If string == "" Then Signal StringIsEmpty
   
   -- Will hold the utf8 value, if needed
-  utf8  = ""
+  utf8  = .MutableBuffer~new
   
   -- Will hold the utf32 value, if needed
-  utf32 = ""  
+  utf32 = .MutableBuffer~new
   
   repl   = errorHandling == "REPLACE"
   syntax = errorHandling == "SYNTAX"
@@ -153,8 +153,8 @@
   Signal StringIsGood
   
 ReplaceCharacter:
-  utf8  ||= "efbfbd"X
-  utf32 ||= "0000FFFD"X
+  utf8 ~append(   "efbfbd"X )
+  utf32~append( "0000FFFD"X )
 Return  
   
 -- See <a href="https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf">The Unicode® Standard.
@@ -163,15 +163,15 @@ Return
 Decode2:
   If \returnUTF8, \returnUTF32 Then Return
   cc = string[i,2]
-  If returnUTF32 Then utf32 ||= "0000"x || cc
+  If returnUTF32 Then utf32~append( "0000"x || cc )
   If returnUTF8  Then Do
     code = C2X(cc)
     n = X2D(code)
     b = X2B(code)
     Select
-      When n <= 127   Then utf8 ||= X2C(code[3,2])
-      When n <= 2047  Then utf8 ||= X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6)))
-      Otherwise            utf8 ||= X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
+      When n <= 127   Then utf8~append( X2C(code[3,2]) )
+      When n <= 2047  Then utf8~append( X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6))) )
+      Otherwise            utf8~append( X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6))) )
     End
   End
 Return  
@@ -189,9 +189,9 @@ Decode4:
   code = u || x1 || x2
   If Length(code) == 20 Then code = "0000"code
   If returnUTF32 Then 
-    utf32 ||= "00"X || X2C(B2X(code))
+    utf32~append( "00"X || X2C(B2X(code)) )
   If returnUTF8  Then
-    utf8 ||= X2C(B2X("11110"SubStr(code,4,3) "10"SubStr(code,7,6) "10"SubStr(code,13,6) "10"Right(code,6)))
+    utf8~append( X2C(B2X("11110"SubStr(code,4,3) "10"SubStr(code,7,6) "10"SubStr(code,13,6) "10"Right(code,6))) )
   i += 2
 Return  
   
@@ -203,9 +203,9 @@ StringIsEmpty:
   
 StringIsGood:
   If returnUTF8 Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32   Then Return utf32  
+    If returnUTF32 Then Return utf8 ~string, utf32~string -- An array
+    Else                Return utf8 ~string
+  If returnUTF32   Then Return utf32~string
   -- Validation only
   Return 1
   
@@ -214,8 +214,8 @@ Syntax:
   If syntax Then
     Raise Syntax 23.900 Additional("Invalid UTF-16 sequence in position" i "of string: '"C2X(errorSequence)"'X")  
   If returnUTF8 Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32   Then Return utf32  
+    If returnUTF32 Then Return utf8 ~string, utf32~string -- An array
+    Else                Return utf8 ~string
+  If returnUTF32   Then Return utf32~string  
   -- Validation only
   Return 0

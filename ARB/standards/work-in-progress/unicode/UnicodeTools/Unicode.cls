@@ -95,6 +95,7 @@
  *                                         <br>DATATYPE BIM extended to accept "C" (for "uniCode") strings (the contents of a "U" string).
  *                                         <br>Implement !CHARIN
  *                                         <br>Move STREAM !BIFs to <a href="Stream.cls.html">Stream.cls</a>
+ *    <tr><td>00.3a<td>JMB <td>20230815<td>New DECODE(string[, errorhandling]) BIF
  *  </table>
  *
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -114,9 +115,21 @@
   End
     
 Properties:
-  Use Strict Arg code, optjon , property
-  .Unicode.property~checkCode( code )
-  code     = Upper( code )
+  Use Strict Arg code, option , property
+  
+  code = Upper( code )
+  If \DataType(code,"X") | Length(code) > 6 Then
+    Raise Syntax 40.900 Additional("Invalid code '"code"'")
+  n = X2D(code)
+  If n > 1114111 Then 
+    Raise Syntax 40.900 Additional("Invalid code '"code"'")
+  If Length(code) < 4 Then code = Right(code,4,0)
+  Else If Length(code) > 4 Then
+    Do While code[1] == "0"
+      code = SubStr(code,2)
+      If Length(code) == 4 Then Leave
+    End
+    
   property = Space( Translate( Upper( property ),"  ","-_"), 0)
   
   Select Case property
@@ -436,6 +449,39 @@ Use Strict Arg code
   Use Strict Arg string, encoding, format="", errorHandling=""
   Return .Encoding[encoding]~decode(string, format, errorHandling)  
   
+/**
+ *
+ * <h4><code>ENCODE</code> (new BIF)</h4>
+ *
+ * <code><pre>
+ *
+ * <b>ENCODE(</b> <em>string</em> , <em>encoding</em> , >─┬───────────────────┬─> <b>)</b>
+ *                               └─ , <em>errorHandling</em> ─┘
+ * </pre></code>
+ * <p><code>ENCODE</code> first attempts to normalize the <em>string</em>, if necessary.
+ *   Once the string is normalized, an encoding is attempted using the specified <em>encoding</em>. 
+ *   <code>ENCODE</code> returns the encoded string, or a null string if any of normalization or encoding failed. 
+ *   You can influence the behaviour of the function when an error is encountered by specifying the optional 
+ *   <em>errorHandling</em> argument.
+ *
+ * <ul>
+ *   <li>When <em>errorHandling</em> is not specified, is <code>""</code> or is <code>"NULL"</code> (the default),
+ *     a null string is returned if an error is encountered.
+ *   <li>When <em>errorHandling</em> has the value <code>"SYNTAX"</code>, a Syntax error is raised if an error
+ *      is encountered.
+ * </ul>
+ *
+ * <p><b>Examples:</b>
+ *
+ * <code><pre> 
+ * ENCODE(string, "IBM1047")                          -- The encoded string, or "" if <em>string</em> can not be encoded to IBM1047.
+ * ENCODE(string, "IBM1047","SYNTAX")                 -- The encoded string. If the encoding fails, a Syntax error is raised.
+ * </pre></code>
+ */ 
+
+::Routine ENCODE Public  
+  Use Strict Arg string, encoding, errorHandling=""
+  Return .Encoding[encoding]~encode(string, errorHandling)  
   
 /**
  *                                                                           

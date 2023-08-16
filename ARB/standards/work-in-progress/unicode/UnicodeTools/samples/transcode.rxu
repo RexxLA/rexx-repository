@@ -1,0 +1,20 @@
+-- Modify the encodings below to suit your needs
+--
+
+inEnc  = "UTF-8"
+outEnc = "IBM-1047"
+
+Parse Arg inFile outFile
+
+-- SYNTAX: stop if something goes wrong.
+
+Call Stream inFile, "Command", "Open Read  Encoding" inEnc  "SYNTAX"
+Call Stream outFile,"Command", "Open Write Encoding" outEnc "SYNTAX"
+
+Do While Lines(inFile) > 0
+  line = LineIn(inFile)
+  Call LineOut outFile,line
+End
+
+Call Stream inFile, "Command","Close"
+Call Stream outFile,"Command","Close"

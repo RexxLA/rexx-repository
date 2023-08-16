@@ -29,7 +29,8 @@
  *  <h4>Version history</h4>
  *  
  *  <table>
- *    <tr><td><b>1.0 20230811</b><td>Initial release.
+ *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
+ *    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
  *  </table>
  * 
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -70,7 +71,7 @@
   
   syntax = Upper(option) = "SYNTAX"
    
-  res = "" -- Will hold the result
+  res = .MutableBuffer~new -- Will hold the result
   Do i = 1 To Length(utf32) By 4
     code = Strip(C2X(utf32[i,4]),"L",0)
     If Length(code) < 4 Then code = Right(code,4,0)
@@ -79,10 +80,10 @@
       If Syntax Then
         Raise Syntax 23.900 Additional("Cannot encode Unicode codepoint U+"code" to CP850")
       Else Return ""
-    res ||= enc
+    res~append( enc )
   End
   
-  Return res
+  Return res~string
 
 /**
  * CP850 decoding always succeeds (i.e., there is no such thing as a badly
@@ -100,10 +101,10 @@
   If string == "" Then Signal StringIsEmpty
   
   -- Will hold the utf8 value, if needed
-  utf8  = ""
+  utf8  = .MutableBuffer~new
   
   -- Will hold the utf32 value, if needed
-  utf32 = ""  
+  utf32 = .MutableBuffer~new  
   
   -- cp850 decoding always succeeds (i.e., there is no such thing as a badly
   -- encoded cp850 sequence).  
@@ -118,19 +119,19 @@
       n = X2D(code)
       b = X2B(code)
       Select
-        When n <= 127   Then utf8 ||= X2C(code[3,2])
-        When n <= 2047  Then utf8 ||= X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6)))
-        Otherwise            utf8 ||= X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
+        When n <= 127   Then utf8~append( X2C(code[3,2]) )
+        When n <= 2047  Then utf8~append( X2C(B2X("110"SubStr(b,6,5)"10"Right(b,6))) )
+        Otherwise            utf8~append( X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6))) )
       End
     End
-    If returnUTF32 Then utf32 ||= Right(X2C(code),4,"00"X)
+    If returnUTF32 Then utf32~append( Right(X2C(code),4,"00"X) )
   End
 
 StringIsGood:
   If returnUTF8 Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32   Then Return utf32  
+    If returnUTF32 Then Return utf8~string, utf32~string -- An array
+    Else                Return utf8~string
+  If returnUTF32   Then Return utf32~string
   -- Validate only
   Return 1
   
@@ -160,7 +161,7 @@ StringIsEmpty:
     encode.[Right(i~d2x,4,0)] = i~d2x~x2c
   End
   
- decode.['80'X ] = '00C7'; encode.['00C7'] = '80'X
+  decode.['80'X ] = '00C7'; encode.['00C7'] = '80'X
   decode.['81'X ] = '00FC'; encode.['00FC'] = '81'X
   decode.['82'X ] = '00E9'; encode.['00E9'] = '82'X
   decode.['83'X ] = '00E2'; encode.['00E2'] = '83'X

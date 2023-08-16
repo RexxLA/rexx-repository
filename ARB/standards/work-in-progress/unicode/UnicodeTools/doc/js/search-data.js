@@ -99,9 +99,6 @@ var searchData = [
             id: "BinFile.Qualify", type: "Method", name: "BinFile.Qualify", info: "Class Unicode.Property", href: "Properties.cls.html#BinFile.Qualify"
             },
             {
-            id: "CheckCode", type: "Method", name: "CheckCode", info: "Class Unicode.Property", href: "Properties.cls.html#CheckCode"
-            },
-            {
             id: "getPersistent", type: "Method", name: "getPersistent", info: "Class Unicode.Property", href: "Properties.cls.html#getPersistent"
             },
             {
@@ -337,6 +334,9 @@ var searchData = [
         },
         {
         id: "DECODE", type: "Routine", name: "DECODE", info: "Unicode.cls",  href: "Unicode.cls.html#DECODE"
+        },
+        {
+        id: "ENCODE", type: "Routine", name: "ENCODE", info: "Unicode.cls",  href: "Unicode.cls.html#ENCODE"
         },
         {
         id: "N2P", type: "Routine", name: "N2P", info: "Unicode.cls",  href: "Unicode.cls.html#N2P"

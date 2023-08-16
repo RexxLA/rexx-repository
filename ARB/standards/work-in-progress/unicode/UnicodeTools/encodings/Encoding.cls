@@ -250,8 +250,9 @@ End
  *    <code>Encoding[name]</code> returns the encoding class object uniquely identified by <code>name</code>.
  *
  *  @param <code>name</code>, the encoding name or alias to resolve.
- *  @param <code>option = "Syntax"</code> (optional), what to do when the encoding is not found (<code>"Syntax"</code>: raise a Syntax condition, "": return <code>.nil</code>).
- *  @return <code>.nil</code>, when the name is not found, or the corresponding encoding class object otherwise.
+ *  @param <code>option = "SYNTAX"</code> (optional), what to do when the encoding is not found 
+ *    (<code>"SYNTAX"</code>: raise a Syntax condition, "" or "NULL": return <code>""</code>).
+ *  @return <code>""</code>, when the name is not found, or the corresponding encoding class object otherwise.
  *  @see <a href="#register"><code>register</code></a>
  *  @condition <code>Syntax 93.900</code> Invalid option '<em>option</em>'. 
  *  @condition <code>Syntax 93.900</code> Encoding '<em>name</em>' not found. 
@@ -263,6 +264,7 @@ End
   option = Upper(option)
   Select
     When option == "SYNTAX" Then syntax = 1
+    When option == "NULL"   Then syntax = 0
     When option == ""       Then syntax = 0
     Otherwise
       Raise Syntax 93.900 Additional("Invalid option '"Arg(2)"'")
@@ -358,6 +360,7 @@ End
  *  <p>The behaviour of the <code>encode</code> method depends on the value of 
  *  <code>option</code>, a second, optional, argument. 
  *
+ *  <p>When <code>option</code> is the null string (the default), <code>encode</code> 
  *  <p>When <code>option</code> is the null string (the default), <code>encode</code> 
  *  returns the null string when it encounters an error (note that there is no ambiguity 
  *  in this specification because the case where the <code>string</code> argument is itself 
@@ -731,7 +734,7 @@ Return
  
 ::Method UTF8 Class 
   Expose tablei tableo ASCII  -- Built by the "activate" method
-  
+   
   Use Strict Arg string, format = "", errorHandling = ""
   
   -- Check that the supplied arguments are OK, and raise a Syntax condition if not
@@ -746,10 +749,10 @@ Return
   states = Translate(string, tableo, tablei)
   
   -- Will hold the utf8 value, if needed
-  utf8  = ""
+  utf8  = .MutableBuffer~new
     
   -- Will hold the utf32 value, if needed
-  utf32 = ""
+  utf32 = .MutableBuffer~new
 
   repl     = errorHandling == "REPLACE"
   syntax   = errorHandling == "SYNTAX"
@@ -771,16 +774,16 @@ continueScan:
   If OnlyASCIIsLeft() Then Do
     -- Copy all ASCIIs left
     Do i = i to length
-      If returnUTF32 Then utf32 ||= "000000"x || string[i]
-      If returnUTF8  Then utf8  ||=              string[i]
+      If returnUTF32 Then utf32~append( "000000"x || string[i] )
+      If returnUTF8  Then utf8 ~append(              string[i] )
     End
     Signal StringIsGood
   End
    
   -- Copy all ASCIIs, up to i-1
   Do j = save to i - 1
-    If returnUTF32 Then utf32 ||= "000000"x || string[j]
-    If returnUTF8  Then utf8  ||=              string[j]
+    If returnUTF32 Then utf32~append( "000000"x || string[j] )
+    If returnUTF8  Then utf8 ~append(              string[j] )
   End 
   
   -- Not an ASCII character.
@@ -803,6 +806,8 @@ continueScan:
 "20"X:
   -- We need a two-byte sequence. 
   If states[i+1] \== "C" Then Do
+    If validate Then Return 0
+    If null     Then Return ""
     errorSequence = string[i,2]
     If syntax Then Signal Syntax
     Call ReplaceCharacter
@@ -811,9 +816,9 @@ continueScan:
     If returnUTF32 Then Do
       y = Right(X2B(C2X(string[i  ])), 5)
       x = Right(X2B(C2X(string[i+1])), 6)
-      utf32 ||= "0000"X || X2C(B2X("00000"||y||x))
+      utf32~append( "0000"X || X2C(B2X("00000"||y||x)) )
     End
-    If returnUTF8  Then utf8 ||=  string[i,2]
+    If returnUTF8  Then utf8~append(string[i,2])
   End
   i += 1
   Signal continueScan
@@ -845,13 +850,15 @@ continueScan:
     z = Right(X2B(C2X(string[i  ])), 4)
     y = Right(X2B(C2X(string[i+1])), 6)
     x = Right(X2B(C2X(string[i+2])), 6)
-    utf32 ||= "0000"X || X2C(B2X(z||y||x))
+    utf32~append( "0000"X || X2C(B2X(z||y||x)) )
   End
-  If returnUTF8  Then utf8 ||=  string[i,3]
+  If returnUTF8  Then utf8~append(string[i,3])
 3End:  
   i = i + 2
   Signal continueScan
 3Error:  
+  If validate Then Return 0
+  If null     Then Return ""
   If syntax Then Signal Syntax
   Call ReplaceCharacter
   Signal 3End
@@ -885,20 +892,22 @@ continueScan:
     z = Right(X2B(C2X(string[i+1])), 6)
     y = Right(X2B(C2X(string[i+2])), 6)
     x = Right(X2B(C2X(string[i+3])), 6)
-    utf32 ||= "00"X || X2C(B2X(Right(u||z||y||x,24,0)))
+    utf32~append( "00"X || X2C(B2X(Right(u||z||y||x,24,0))) )
   End
-  If returnUTF8  Then utf8 ||=  string[i,4]
+  If returnUTF8  Then utf8~append(string[i,4])
 4End:  
   i = i + 3  
   Signal continueScan
 4Error:  
+  If validate Then Return 0
+  If null     Then Return ""
   If syntax Then Signal Syntax
   Call ReplaceCharacter
   Signal 4End
   
 ReplaceCharacter:
-  If returnUTF8  Then utf8  ||= "efbfbd"X
-  If returnUTF32 Then utf32 ||= "0000FFFD"X
+  If returnUTF8  Then utf8 ~append(   "efbfbd"X )
+  If returnUTF32 Then utf32~append( "0000FFFD"X )
 Return    
   
 OnlyASCIIsLeft:
@@ -915,9 +924,9 @@ StringIsEmpty:
     
 StringIsGood:
   If returnUTF8  Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32 Then   Return utf32
+    If returnUTF32 Then Return utf8~string, utf32~string -- An array
+    Else                Return utf8~string
+  If returnUTF32 Then   Return utf32~string
   -- No target formats? Validate only
   Return 1 
   
@@ -925,9 +934,8 @@ Syntax:
   If syntax Then
     Raise Syntax 23.900 Additional("Invalid UTF-8 sequence in position" i "of string: '"C2X(errorSequence)"'X") 
   If returnUTF8 Then
-    If returnUTF32 Then Return utf8, utf32 -- An array
-    Else                Return utf8
-  If returnUTF32   Then Return utf32  
+    If returnUTF32 Then Return utf8~string, utf32~string -- An array
+    Else                Return utf8~string
+  If returnUTF32   Then Return utf32~string  
   -- Validation only
   Return 0
-

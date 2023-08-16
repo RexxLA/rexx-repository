@@ -183,29 +183,6 @@ End
   Use Strict Arg message
   Raise Syntax 98.900 Additional(message)  
 
---
--- A codepoint has to be:
---
--- * Either 4 hex digits, or
--- * 5 or 6 hex digits, but the first one can not be zero.
---
-
-::Method CheckCode Class
-  Use Strict Arg code
-  
-  bad = Verify(code,"0123456789ABCDEFabcdef")
-  If bad > 0 Then 
-    self~SyntaxError("Codepoints should be composed only of hexadecimal digits, found '"code[bad]"'")
-    
-  If Length(code) < 4 | Length(code) > 6 Then
-    self~SyntaxError("Codepoint length should be 4, 5 or 6 hexadecimal digits, found '"code"'")
-    
-  If Length(code) \== 4, code[1] == "0" Then
-    self~SyntaxError("Codepoints longer than four characters cannot start with zero, found '"code"'")
-    
-  If X2d( code ) > X2D( 10FFFF ) Then
-    self~SyntaxError("Codepoints should not be bigger than 10FFFF, found '"code"'")
-
 /**
  * <h4>The <code>MultiStageTable</code> class</h4>
  *
@@ -349,19 +326,47 @@ End
   
 Return offset, chunks
 
-/*******************************************************************************
- *                                                                             *
- * Class PersistentStringTable                                                 *
- * ===========================                                                 *
- *                                                                             *
- * A StringTable that can be quickly saved and restored to/from a binary file. *
- *                                                                             *
- * o  Keys must all be < 256 characters in length.                             *
- * o  Values must all be strings.                                              *
- * o  Total size of the file (i.e., keys + values + overhead) must not         *
- *    exceed 2**32.                                                            *
- *                                                                             *
- ******************************************************************************/
+/**
+ * <h4>The <code>PersistentStringTable</code> class</h4>
+ *
+ * <p>
+ *   <code>PersistentStringTable</code> is a subclass of <code>StringTable</code>
+ *   that can be quickly saved and restored to a file.
+ *
+ * <p>
+ *   The present implementation has the following limitations:
+ *
+ * <ul>
+ *   <li>Keys must all be &lt; 256 characters in length.
+ *   <li>Values must all be strings, or have a string value and be apt to
+ *     be saved as strins.
+ *   <li>The total size of the resulting file (that is, keys + values + overhead)
+ *     must not exceed 2**32 bytes.
+ * </ul>
+ *
+ * <p><b>Format of the binary file:</b>
+ *
+ * <code><pre>
+ *              0         1         2         3         4
+ *              ┌─────────┬─────────┬─────────┬─────────┐
+ *   0          │       number of items <em>(32 bits)</em>       │   4
+ *              ├─────────┼─────────┼─────────┼─────────┤
+ *   4          │  len1   │  5                              len1 = Len(key1)
+ *              ├─────────┼─────────┼         ┼─────────┤
+ *   5          │  key1 . . . . . . . . /// . . . . . . │   5 + len1
+ *              ├─────────┼─────────┼─────────┼─────────┤
+ *   5 + len1   │      offset of value 1 <em>(32 bits)</em>      │   5 + len1 + 4  ─────────────────┐       
+ *              ├─────────┼─────────┼─────────┼─────────┤                                  │
+ *   9 + len1   │      length of value 1 <em>(32 bits)</em>      │   5 + len1 + 4 + 4               │
+ *              ├─────────┼─────────┼─────────┼─────────┤                                  │ This points here 
+ *  13 + len1      <em>(structure repeats for key2..keyn)</em>                                      │
+ *              ├─────────┼─────────┼         ┼─────────┤                                  │
+ *   offset1    │  value1 . . . . . . . /// . . . . . . │   offset1 + Len(val1)  <─────────┘           
+ *              ├─────────┼─────────┼         ┼─────────┤
+ *
+ *              <em>(structure is repeated for value2..valuen)</em></pre></code>
+ *
+ */
 
 ::Class PersistentStringTable SubClass StringTable Private
 ::Method Save
@@ -370,25 +375,6 @@ Return offset, chunks
   Do With Index index Item item over self
     If \item~isA(.String)  Then Raise Syntax 93.900 Additional("PersistentStringTable value cannot be saved because item at index '"index"' is not a string.")
     If Length(index) > 255 Then Raise Syntax 93.900 Additional("PersistentStringTable value cannot be saved because index '"index"' is longer that 255 characters.")
-    --
-    --              +---------+---------+---------+---------+
-    --   0          | number of items                       |   4
-    --              +---------+---------+---------+---------+
-    --   4          | len1    |  5   (Length of key1)
-    --              +---------+---------+         +---------+
-    --   5          | key1                  ///             |   5 + len1
-    --              +---------+---------+---------+---------+
-    --   5 + len1   | offset of value 1                     |   5 + len1 + 4  --------------+       
-    --              +---------+---------+---------+---------+                               |
-    --   9 + len1   | length of value 1                     |   5 + len1 + 4 +8             |
-    --              +---------+---------+---------+---------+                               | This points here 
-    --   13 + len1  (structure is repeated for key2..leyn)                                  |
-    --              +---------+---------+         +---------+                               |
-    --   offset1    | value1                ///             |   offset1 + lenval1  <--------+           
-    --              +---------+---------+         +---------+
-    --              (structure is repeated for value2..valuen)
-    --
-    --
     size += 1 + Length(index) + 4 + 4 + Length(item)
   End
   If size > 3**32-1 Then Raise Syntax 93.900 Additional("Stringtable too big.")

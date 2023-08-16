@@ -74,7 +74,7 @@
                     <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
                 </div>
                 <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 14 ago 2023 14:32:11</span>
+                        <span class="label label-info">Run-Date: 15 ago 2023 15:18:36</span>
                 </span>
             </form>
         </div>
@@ -138,7 +138,6 @@
                                                             <a href="Properties.cls.html#Activate">Activate</a>
                                                             <a href="Properties.cls.html#BinaryFile">BinaryFile</a>
                                                             <a href="Properties.cls.html#BinFile.Qualify">BinFile.Qualify</a>
-                                                            <a href="Properties.cls.html#CheckCode">CheckCode</a>
                                                             <a href="Properties.cls.html#getPersistent">getPersistent</a>
                                                             <a href="Properties.cls.html#loadPersistent">loadPersistent</a>
                                                             <a href="Properties.cls.html#RegisterFunctions">RegisterFunctions</a>
@@ -286,6 +285,11 @@
                             </div>
 
 
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h4>The <code>PersistentStringTable</code> class</h4> <p>   <code>PersistentStringTable</code> is a subclass of <code>StringTable</code>   that can be quickly saved and restored to a file. <p>   The present implementation has the following limitations: <ul>   <li>Keys must all be &lt; 256 characters in length.   <li>Values must all be strings, or have a string value and be apt to     be saved as strins.   <li>The total size of the resulting file (that is, keys + values + overhead)     must not exceed 2**32 bytes. </ul> <p><b>Format of the binary file:</b> <code><pre>              0         1         2         3         4              ┌─────────┬─────────┬─────────┬─────────┐   0          │       number of items <em>(32 bits)</em>       │   4              ├─────────┼─────────┼─────────┼─────────┤   4          │  len1   │  5                              len1 = Len(key1)              ├─────────┼─────────┼         ┼─────────┤   5          │  key1 . . . . . . . . /// . . . . . . │   5 + len1              ├─────────┼─────────┼─────────┼─────────┤   5 + len1   │      offset of value 1 <em>(32 bits)</em>      │   5 + len1 + 4  ─────────────────┐                     ├─────────┼─────────┼─────────┼─────────┤                                  │   9 + len1   │      length of value 1 <em>(32 bits)</em>      │   5 + len1 + 4 + 4               │              ├─────────┼─────────┼─────────┼─────────┤                                  │ This points here   13 + len1      <em>(structure repeats for key2..keyn)</em>                                      │              ├─────────┼─────────┼         ┼─────────┤                                  │   offset1    │  value1 . . . . . . . /// . . . . . . │   offset1 + Len(val1)  <─────────┘                         ├─────────┼─────────┼         ┼─────────┤              <em>(structure is repeated for value2..valuen)</em></pre></code>
+                                    </div>
+                                </div>
 
                             <div>
                                 <h4>Attributes</h4>
@@ -413,19 +417,6 @@
 
 
                                                 <br /><span class="keyword">USE ARG</span> fileName
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="CheckCode"></a>
-                                    <ul>
-                                        <li><b>CheckCode</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> code
 
 
                                         </li>

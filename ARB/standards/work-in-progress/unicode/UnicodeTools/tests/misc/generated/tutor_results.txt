@@ -1,0 +1,118 @@
+c2x("café")
+actual  : '636166C3A9'
+expected: '<TBD>'
+Ko *****
+
+c2x("𝖼𝖺𝖿é")
+actual  : 'F09D96BCF09D96BAF09D96BFC3A9'
+expected: '<TBD>'
+Ko *****
+
+c2x("café")
+actual  : '63616665CC81'
+expected: '<TBD>'
+Ko *****
+
+c2x("noël👩‍👨‍👩‍👧🎅")
+actual  : '6E6FC3AB6CF09F91A9E2808DF09F91A8E2808DF09F91A9E2808DF09F91A7F09F8E85'
+expected: '<TBD>'
+Ko *****
+
+c2x("äöü äöü x̂ ϔ ﷺ baﬄe")
+actual  : 'C3A4C3B6C3BC2061CC886FCC8875CC882078CC8220CF9420EFB7BA206261EFAC8465'
+expected: '<TBD>'
+Ko *****
+
+c2d("ë")
+actual  : '50091'
+expected: '<TBD>'
+Ko *****
+
+c2d("🎅")
+actual  : '4036988549'
+expected: '<TBD>'
+Ko *****
+
+center("noël👩‍👨‍👩‍👧🎅", 10)
+actual  : '  noël👩‍👨‍👩‍👧🎅  '
+expected: '  noël👩‍👨‍👩‍👧🎅  '
+Ok
+
+center("noël👩‍👨‍👩‍👧🎅", 5)
+actual  : 'noël👩‍👨‍👩‍👧'
+expected: 'noël👩‍👨‍👩‍👧'
+Ok
+
+center("noël👩‍👨‍👩‍👧🎅", 3)
+actual  : 'oël'
+expected: 'oël'
+Ok
+
+center("noël👩‍👨‍👩‍👧🎅", 10, "═")
+actual  : '══noël👩‍👨‍👩‍👧🎅══'
+expected: '══noël👩‍👨‍👩‍👧🎅══'
+Ok
+
+copies("́cafe", 4)
+actual  : '́cafécafécafécafe'
+expected: '́cafécafécafécafe'
+Ok
+
+length("café")
+actual  : '4'
+expected: '4'
+Ok
+
+length("𝖼𝖺𝖿é")
+actual  : '4'
+expected: '4'
+Ok
+
+length("café")
+actual  : '4'
+expected: '4'
+Ok
+
+length("noël👩‍👨‍👩‍👧🎅")
+actual  : '6'
+expected: '6'
+Ok
+
+length("äöü äöü x̂ ϔ ﷺ baﬄe")
+actual  : '18'
+expected: '18'
+Ok
+
+pos("é","
+café")
+actual  : '4'
+expected: '4'
+Ok
+
+pos("é","𝖼𝖺𝖿é")
+actual  : '4'
+expected: '4'
+Ok
+
+pos("é","café")
+actual  : '0'
+expected: '4'
+Ko *****
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 3)
+actual  : 'ël👩‍👨‍👩‍👧'
+expected: 'ël👩‍👨‍👩‍👧'
+Ok
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 6)
+actual  : 'ël👩‍👨‍👩‍👧🎅  '
+expected: 'ël👩‍👨‍👩‍👧🎅  '
+Ok
+
+substr("noël👩‍👨‍👩‍👧🎅", 3, 6, "▷")
+actual  : 'ël👩‍👨‍👩‍👧🎅▷▷'
+expected: 'ël👩‍👨‍👩‍👧🎅▷▷'
+Ok
+
+Ok = 15
+Ko = 8
