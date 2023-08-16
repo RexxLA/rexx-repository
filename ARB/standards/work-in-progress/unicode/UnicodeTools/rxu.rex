@@ -302,6 +302,7 @@ End
 -- nextToken allows us one token of lookahead
 
 nextToken        = .nil
+prevToken        = .Stem~new
 token.           = ""
 noDefaultLine.   = 0
 callContext      = 1
@@ -400,10 +401,10 @@ If token.Class == END_OF_SOURCE Then Leave
         End
         Else Do -- Check for built-ins
           BIFPos = WordPos(UValue,BIFs)
-          If BIFPos > 0, NextToken()["VALUE"] = "(" Then 
+          If BIFPos > 0, NextToken()["VALUE"] = "(", prevToken["VALUE"] \== "~" Then 
             Call CharOut outFile, "!"token.value
           Else Do
-            If warnBIF, WordPos(UValue,Unsupported) > 0, NextToken()["VALUE"] = "(" Then Do
+            If warnBIF, WordPos(UValue,Unsupported) > 0, NextToken()["VALUE"] = "(", prevToken["VALUE"] \== "~" Then Do
               If UnsupportedWarningIssued.[UValue] == 0 Then Do
                 UnsupportedWarningIssued.[UValue] = 1
                 Say "WARNING: Unsupported BIF '"token.value"' used in program '"filename"'."
@@ -464,6 +465,7 @@ If \keepOutputFile Then .File~new(outFile)~delete
 Exit saveRC
 
 GetAToken:
+  prevToken = token.
   -- Did we pick the next token before? Then this is our token now
   If \nextToken~isNil Then Do
     token. = nextToken
