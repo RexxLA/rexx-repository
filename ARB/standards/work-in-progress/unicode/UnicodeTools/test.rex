@@ -1,9 +1,13 @@
+  --Say "--- "~copies(5)--Say "--- "~copies(5)
+  
+  Options  DefaultString  NONE
+  
+  Call  Test  '01100001'B
+  Say  result
+  Exit
+  
+  Test:
+  Use  Strict  Arg  a  =  'b'
+  Return  Arg(1)
 
-t = .test~new
-t~patata(abc) = 12
-
-
-::Class Test
-::Method "Patata="
-  Arg assigned, index
-  Say "Assigning" assigned "to patata("index")"
+::Requires 'Unicode.cls'

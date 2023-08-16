@@ -74,7 +74,7 @@
                     <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
                 </div>
                 <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 15 ago 2023 15:18:36</span>
+                        <span class="label label-info">Run-Date: 16 ago 2023 17:34:13</span>
                 </span>
             </form>
         </div>
@@ -211,9 +211,10 @@
   </ul>
 
   <h4>Version history</h4>
-  
+   
   <table>
-    <tr><td><b>1.0 20230811</b><td>&nbsp;Initial release.
+    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
+    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
   </table>
                             <br /><br />
                             <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
@@ -296,9 +297,10 @@
   </ul>
 
   <h4>Version history</h4>
-  
+   
   <table>
-    <tr><td><b>1.0 20230811</b><td>&nbsp;Initial release.
+    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
+    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
   </table>
                                             <br /><br />
                                             <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
@@ -574,7 +576,7 @@
                                                 <br /><br />
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
-                                                        <h4>The <code>.Encoding~encode</code> method </h4>  <p>This is an abstract method, that any subclass will have to implement.  <p>This method takes a string <code>string</code> as an argument. The string can be an Unicode  string, in which case an encoding operation is immediately attempted, or it can be  a non-unicode string (e.g., a BYTES string), in which case a normalization  pass is attempted first. Normalizing consists of transforming the  non-Unicode string into a Unicode string by promoting it to the CODEPOINTS class.  <p>Both operations may fail. The promotion, because <em>string</em> argument contains   ill-formed UTF-8, and the encoding, because the Unicode string cannot  be encoded to this particular encoding.  <p>The behaviour of the <code>encode</code> method depends on the value of   <code>option</code>, a second, optional, argument.   <p>When <code>option</code> is the null string (the default), <code>encode</code>   returns the null string when it encounters an error (note that there is no ambiguity   in this specification because the case where the <code>string</code> argument is itself   the null string can be handled separately).  <p>When <code>option</code> has a (case-insensitive) value of <code>"Syntax"</code>,  a Syntax condition is raised. No other value for <code>option</code> is currently  defined.
+                                                        <h4>The <code>.Encoding~encode</code> method </h4>  <p>This is an abstract method, that any subclass will have to implement.  <p>This method takes a string <code>string</code> as an argument. The string can be an Unicode  string, in which case an encoding operation is immediately attempted, or it can be  a non-unicode string (e.g., a BYTES string), in which case a normalization  pass is attempted first. Normalizing consists of transforming the  non-Unicode string into a Unicode string by promoting it to the CODEPOINTS class.  <p>Both operations may fail. The promotion, because <em>string</em> argument contains   ill-formed UTF-8, and the encoding, because the Unicode string cannot  be encoded to this particular encoding.  <p>The behaviour of the <code>encode</code> method depends on the value of   <code>option</code>, a second, optional, argument.   <p>When <code>option</code> is the null string (the default), <code>encode</code>   <p>When <code>option</code> is the null string (the default), <code>encode</code>   returns the null string when it encounters an error (note that there is no ambiguity   in this specification because the case where the <code>string</code> argument is itself   the null string can be handled separately).  <p>When <code>option</code> has a (case-insensitive) value of <code>"Syntax"</code>,  a Syntax condition is raised. No other value for <code>option</code> is currently  defined.
                                                             <br /><br />
                                                             <b>param</b>: <code>string</code> The string to encode. <br />
                                                             <b>param</b>: <code>option = ""</code> [Optional]. Defines the behavior of the method when an error is encountered. <br />

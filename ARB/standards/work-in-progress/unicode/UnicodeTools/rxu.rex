@@ -106,11 +106,40 @@
  * <code><pre>
  *   Recognized OPTIONS:
  *
- *   DEFAULTSTRING &lt;stringType&gt;
- *       Determines the interpretation of an unsuffixed string, i.e., "string", when no "B", "X", "C", "P", "T" or "U" suffix
- *       is specified. Possible values for &lt;stringType&gt; are BYTES, CODEPOINTS or TEXT. The preprocessor encloses unsuffixed
- *       strings with a call to the corresponding conversion BIF, e.g., if DEFAULTSTRING TEXT is in effect, then "string" 
- *       will be equivalent to TEXT("string").
+ *   DEFAULTSTRING <em>stringType</em>
+ *       Determines the interpretation of an unsuffixed string, i.e., "string", 
+ *       when no "B", "X", "C", "P", "T" or "U" suffix is specified. 
+ *
+ *       Possible values for &lt;stringType&gt; are BYTES (the default), CODEPOINTS, TEXT or NONE. 
+ *       The preprocessor encloses unsuffixed strings with a call to the corresponding conversion BIF, 
+ *       unless the option is NONE, when ths string is left as-is. For example, if DEFAULTSTRING TEXT 
+ *       is in effect, then "string", will be equivalent to TEXT("string").
+ *
+ *       <b><u>Important note about the way RXU implements these OPTIONS:</u></b> 
+ *
+ *       The preprocessor depends on a very low-level tokenizer, that will blindly substitute
+ *       "string" by <em>stringtype</em>("string") if so requested, irrespective of whether this
+ *       substitution creates an invalid program or not. In some cases, this can cause perfectly
+ *       valid programs to start failing. Consider, for example:
+ *
+ *           Use Strict Arg argument = "value"
+ *
+ *       This will be translated, say, to 
+ *
+ *           Use Strict Arg argument = BYTES("value")
+ *
+ *       which will produce a Syntax error. In this case, as a workaround, you can write
+ *
+ *           Use Strict Arg argument = ("value")
+ *
+ *       instead, with will be translated to 
+ *
+ *           Use Strict Arg argument = (BYTES("value"))
+ *
+ *       which is correct, but in other cases there will be no workaround, unless, in the
+ *       future, a more sophisticated parser will be used. Our suggestion is to use OPTIONS DEFAULTSTRING NONE
+ *       if you encounter such problems.
+ *
  * </pre></code>
  *
  * <h4>Note</h4>
@@ -164,6 +193,7 @@
  *   <tr><td>      <td>    <td>         <td>Implement DATATYPE(string, "C")
  *   <tr><td>      <td>    <td>         <td>Implement CHARIN, CHAROUT, CHARS, LINES
  *   <tr><td>00.3  <td>JMB <td>20230811 <td>0.3 release
+ *   <tr><td>      <td>JMB <td>20230816 <td>Implement OPTIONS DEFAULTSTRING NONE
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -388,8 +418,14 @@ If token.Class == END_OF_SOURCE Then Leave
     When STRING UNOTATION Then
       Call CharOut outFile, "Bytes('"C2X(token.value)"'X)"
     When STRING HEXADECIMAL Then
+      If defaultString == "NONE" Then
+      Call CharOut outFile, "'"C2X(token.value)"'X"
+      Else
       Call CharOut outFile, defaultString"('"C2X(token.value)"'X)"
     When STRING BINARY Then
+      If defaultString == "NONE" Then
+      Call CharOut outFile, "'"X2B(C2X(token.value))"'B"
+      Else
       Call CharOut outFile, defaultString"('"X2B(C2X(token.value))"'B)"
     When STRING TEXT Then
       Call CharOut outFile, "Text('"ChangeStr("'",token.value,"''")"')"
@@ -398,7 +434,7 @@ If token.Class == END_OF_SOURCE Then Leave
     When STRING BYTES Then
       Call CharOut outFile, "Bytes('"ChangeStr("'",token.value,"''")"')"
     When STRING CHARACTER Then
-      If noDefaultLine.[token.Location~word(1)] Then 
+      If noDefaultLine.[token.Location~word(1)] | defaultString == "NONE" Then 
         Call CharOut outFile, "'"ChangeStr("'",token.value,"''")"'"
       Else 
         Call CharOut outFile, defaultString"('"ChangeStr("'",token.value,"''")"')"
@@ -451,6 +487,7 @@ Options:
       When (option option2) == "DEFAULTSTRING BYTES"      Then Do; i += 1; defaultString = "Bytes";      End
       When (option option2) == "DEFAULTSTRING CODEPOINTS" Then Do; i += 1; defaultString = "Codepoints"; End
       When (option option2) == "DEFAULTSTRING TEXT"       Then Do; i += 1; defaultString = "Text";       End
+      When (option option2) == "DEFAULTSTRING NONE"       Then Do; i += 1; defaultString = "NONE";       End
       Otherwise Nop
     End
   End
