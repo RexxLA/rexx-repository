@@ -1,10 +1,4 @@
 /* Rexx */
-/*
-  How to generate the .rxu file for TUTOR:
-  
-    cpp -DTUTOR -E -C -P -Ihelpers expected_results.rex > generated/tutor_expected_results.rxu
-    
-*/
 #ifdef CREXX
 options levelb
 namespace expected_results expose ok ko
@@ -488,7 +482,7 @@ say
 /* pos */
 /******************************************************************************/
 
-say 'pos("é","',s1'")'
+say 'pos("é","'s1'")'
 actual = pos("é", s1)
 expected = 4
 say my_compare(actual, expected)
@@ -573,7 +567,7 @@ say my_compare(actual, expected)
 say
 #endif
 
-#if defined REGINA || defined OOREXX || defined EXECUTOR
+#if defined REGINA || defined OOREXX || defined EXECUTOR || defined TUTOR
 /* interpreter using byte encoding internally */
 /* bytes for UTF-8 encoding */
 say 'x2c("F09F8E85")'
@@ -600,7 +594,7 @@ method my_compare(actual, expected) static
 #elif defined CREXX
 my_compare: procedure = .string
     arg actual = .string, expected = .string
-#elif defined OOREXX || defined EXECUTOR
+#elif defined OOREXX || defined EXECUTOR || defined TUTOR
 my_compare: procedure expose ok ko
     use strict arg actual, expected
 #else

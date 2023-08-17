@@ -12,8 +12,8 @@ No makefile for Windows (yet).
 
 Note: if you have the error `Signal Received - aborting` then re-execute the make command.
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/crexx_expected_results.rexx)  
-[Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/crexx_results.txt)
+[Generated script](generated/crexx_expected_results.rexx)  
+[Results](generated/results/crexx_results.txt)
 
 Commands executed by the Makefile:
 
@@ -27,12 +27,12 @@ Commands executed by the Makefile:
 
     make netrexx_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/netrexx_expected_results.nrx)  
-[Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/netrexx_results.txt)
+[Generated script](generated/netrexx_expected_results.nrx)  
+[Results](generated/results/netrexx_results.txt)
 
 Commands executed by the Makefile:
 
-    cpp -DNETREXX -E -C -P -Ihelpers expected_results.rex > generated/netrexx_expected_results.rexx
+    cpp -DNETREXX -E -C -P -Ihelpers expected_results.rex > generated/netrexx_expected_results.nrx
     cd generated
     nrc netrexx_expected_results.nrx
     java netrexx_expected_results > results/netrexx_results.txt
@@ -41,12 +41,12 @@ Commands executed by the Makefile:
 
     make oorexx_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/oorexx_expected_results.rex)  
-[Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/oorexx_results.txt)
+[Generated script](generated/oorexx_expected_results.rex)  
+[Results](generated/results/oorexx_results.txt)
 
 Commands executed by the Makefile:
 
-    cpp -DOOREXX -E -C -P -Ihelpers expected_results.rex > generated/oorexx_expected_results.rexx
+    cpp -DOOREXX -E -C -P -Ihelpers expected_results.rex > generated/oorexx_expected_results.rex
     cd generated
     rexx oorexx_expected_results.rex > results/oorexx_results.txt
 
@@ -54,12 +54,12 @@ Commands executed by the Makefile:
 
     make regina_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/regina_expected_results.rex)  
-[Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/regina_results.txt)
+[Generated script](generated/regina_expected_results.rex)  
+[Results](generated/results/regina_results.txt)
 
 Commands executed by the Makefile:
 
-    cpp -DREGINA -E -C -P -Ihelpers expected_results.rex > generated/regina_expected_results.rexx
+    cpp -DREGINA -E -C -P -Ihelpers expected_results.rex > generated/regina_expected_results.rex
     cd generated
     rexx regina_expected_results.rex > results/regina_results.txt
 
@@ -67,11 +67,24 @@ Commands executed by the Makefile:
 
     make executor_results
 
-[Generated script](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/executor_expected_results.rex)  
-[Results](https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/code/expected_results/generated/results/executor_results.txt)
+[Generated script](generated/executor_expected_results.rex)  
+[Results](generated/results/executor_results.txt)
 
 Commands executed by the Makefile:
 
-    cpp -DEXECUTOR -E -C -P -Ihelpers expected_results.rex > generated/executor_expected_results.rexx
+    cpp -DEXECUTOR -E -C -P -Ihelpers expected_results.rex > generated/executor_expected_results.rex
     cd generated
     rexx executor_expected_results.rex > results/executor_results.txt
+
+## Tutor
+
+    make tutor_results
+
+[Generated script](generated/tutor_expected_results.rxu)  
+[Results](generated/results/tutor_results.txt)
+
+Commands executed by the Makefile:
+
+    cpp -DTUTOR -E -C -P -Ihelpers expected_results.rex > generated/executor_expected_results.rxu
+    cd generated
+    rexx rxu tutor_expected_results.rxu > results/tutor_results.txt

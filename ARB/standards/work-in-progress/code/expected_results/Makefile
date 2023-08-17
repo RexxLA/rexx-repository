@@ -12,12 +12,14 @@ help:
 	@echo make oorexx_results
 	@echo make regina_results
 	@echo make executor_results
+	@echo make tutor_results
 	@echo make clean
 	@echo make clean_crexx
 	@echo make clean_netrexx
 	@echo make clean_oorexx
 	@echo make clean_regina
 	@echo make clean_executor
+	@echo make clean_tutor
 
 scripts: \
         generated \
@@ -25,7 +27,8 @@ scripts: \
         generated/netrexx_expected_results.nrx \
         generated/oorexx_expected_results.rex \
         generated/regina_expected_results.rex \
-        generated/executor_expected_results.rex
+        generated/executor_expected_results.rex \
+        generated/tutor_expected_results.rxu
 
 
 #########
@@ -179,6 +182,35 @@ clean_executor:
 	rm -f generated/executor_expected_results.rex
 	rm -f generated/results/executor_results.tmp.txt
 	rm -f generated/results/executor_results.txt
+
+
+#########
+# TUTOR #
+#########
+
+generated/tutor_expected_results.rxu: \
+        expected_results.rex \
+        helpers/do_not_edit.txt \
+        helpers/check_interpreter.rex
+	cpp -DTUTOR $(CPP_OPTIONS) expected_results.rex > generated/tutor_expected_results.rxu
+
+tutor_results: \
+        generated/results \
+        generated/results/tutor_results.txt
+
+generated/results/tutor_results.txt: \
+        generated/tutor_expected_results.rxu
+	cd generated && \
+	rm -f results/tutor_results.txt && \
+	rexx rxu tutor_expected_results.rxu > results/tutor_results.tmp.txt && \
+	mv -f results/tutor_results.tmp.txt results/tutor_results.txt
+
+clean:: clean_tutor
+
+clean_tutor:
+	rm -f generated/tutor_expected_results.rxu
+	rm -f generated/results/tutor_results.tmp.txt
+	rm -f generated/results/tutor_results.txt
 
 
 ###############

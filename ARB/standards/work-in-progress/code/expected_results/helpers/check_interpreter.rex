@@ -63,4 +63,15 @@ if pos("REXX-ooRexx_4.3.0", v) == 0 then do
     exit 1
 end
 
+#elif defined TUTOR
+parse version v
+if \.bytes~isa(.class) | \.codepoints~isa(.class) | \.text~isa(.class) then do
+    error = "You are not using the Tutor interpreter"
+    call lineout "stdout", error
+    call lineout "stdout", v
+    call lineout "stderr", error
+    call lineout "stderr", v
+    exit 1
+end
+
 #endif
