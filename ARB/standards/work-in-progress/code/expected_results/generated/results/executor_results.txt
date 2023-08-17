@@ -83,17 +83,17 @@ actual  : '18'
 expected: '18'
 Ok
 
-pos("café", "é")
+pos("é","café")
 actual  : 'Not yet implemented'
 expected: '4'
 Ko *****
 
-pos("𝖼𝖺𝖿é", "é")
+pos("é","𝖼𝖺𝖿é")
 actual  : 'Not yet implemented'
 expected: '4'
 Ko *****
 
-pos("café", "é")
+pos("é","café")
 actual  : 'Not yet implemented'
 expected: '4'
 Ko *****

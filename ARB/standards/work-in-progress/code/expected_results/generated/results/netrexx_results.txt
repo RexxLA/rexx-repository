@@ -83,17 +83,17 @@ actual  : '22'
 expected: '18'
 Ko *****
 
-pos("café", "é")
-actual  : '0'
+pos("é","café")
+actual  : '4'
+expected: '4'
+Ok
+
+pos("é","𝖼𝖺𝖿é")
+actual  : '7'
 expected: '4'
 Ko *****
 
-pos("𝖼𝖺𝖿é", "é")
-actual  : '0'
-expected: '4'
-Ko *****
-
-pos("café", "é")
+pos("é","café")
 actual  : '0'
 expected: '4'
 Ko *****
@@ -118,5 +118,5 @@ actual  : '🎅'
 expected: '🎅'
 Ok
 
-Ok = 3
-Ko = 21
+Ok = 4
+Ko = 20

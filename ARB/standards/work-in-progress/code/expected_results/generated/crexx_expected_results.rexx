@@ -6,6 +6,8 @@ import rxfnsb
 
 
 
+
+
 /******************************************************************************/
 /*                                                                            */
 /*                        THIS FILE HAS BEEN GENERATED                        */
@@ -462,20 +464,20 @@ say
 /* pos */
 /******************************************************************************/
 
-say 'pos("'s1'", "é")'
-actual = pos(s1, "é")
+say 'pos("é","'s1'")'
+actual = pos("é", s1)
 expected = 4
 say my_compare(actual, expected)
 say
 
-say 'pos("'s2'", "é")'
-actual = pos(s2, "é")
+say 'pos("é","'s2'")'
+actual = pos("é",s2)
 expected = 4
 say my_compare(actual, expected)
 say
 
-say 'pos("'s3'", "é")'
-actual = pos(s2, "é")
+say 'pos("é","'s3'")'
+actual = pos("é",s3)
 expected = 4               /* implies normalization when comparing */
 say my_compare(actual, expected)
 say

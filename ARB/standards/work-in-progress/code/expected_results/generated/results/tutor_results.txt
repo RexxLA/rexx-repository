@@ -83,8 +83,7 @@ actual  : '18'
 expected: '18'
 Ok
 
-pos("é","
-café")
+pos("é","café")
 actual  : '4'
 expected: '4'
 Ok
@@ -114,5 +113,10 @@ actual  : 'ël👩‍👨‍👩‍👧🎅▷▷'
 expected: 'ël👩‍👨‍👩‍👧🎅▷▷'
 Ok
 
-Ok = 15
+x2c("F09F8E85")
+actual  : '🎅'
+expected: '🎅'
+Ok
+
+Ok = 16
 Ko = 8
