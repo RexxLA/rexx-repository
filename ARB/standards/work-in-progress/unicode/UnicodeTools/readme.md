@@ -26,7 +26,7 @@ This release includes some [documentation](https://htmlpreview.github.io/?https:
 * Four new encodings, contributed by Rony G. Flatscher (thanks!): ISO-8859-1 (alias: ISO8859-1), CP-437 (alias: CP437), CP-1252 (alias: CP1252), IBM-1047 (alias: IBM1047).
 * A lot of new documentation. Documentation, though, is still a work-in-progress.
 * A new ENCODE BIF.
-* A new OPTIONS DEFAULTSTRING NONE. Use it when other forms of OPTIONS DEFAULTSTRING causes problems (see [the documentation for the RXU preprocessor](https://htmlpreview.github.io/?https://raw.githubusercontent.com/RexxLA/rexx-repository/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/packages/rxu.rex.html) for details.
+* A new OPTIONS DEFAULTSTRING NONE. Use it when other forms of OPTIONS DEFAULTSTRING causes problems (see [the documentation for the RXU preprocessor](https://htmlpreview.github.io/?https://raw.githubusercontent.com/RexxLA/rexx-repository/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/packages/rxu.rex.html) for details).
 * A lot of bug fixes and small improvements.
 
 ---
