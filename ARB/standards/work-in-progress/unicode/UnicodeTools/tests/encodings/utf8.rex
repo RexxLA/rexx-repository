@@ -1,14 +1,44 @@
+/**
+ * 
+ *  <h2>The <code>UTF-8</code> test</h2>
+ *                                                                           
+ *<pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR). 
+ *   See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
+ *   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
+ *   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
+ *                                                                           
+ *  <p>Tough tests. Will take some few minutes.
+ *                                                                           
+ *  <h4>Version history</h4>
+ *  
+ *  <table>
+ *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
+ *  </table>
+ * 
+ *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
+ *  @version 1.0
+ */
 
-utf8 = .Encoding[utf8]
+myName = "UTF-8"
+
+utf8 = .Encoding[myName]
 
 Call Time "R"
 
 count  = 0
-failed = 0
 PASS   = 1
 FAIL   = 0
 
-Say "Testing the encoding functionality of the UTF-8 encoder/decoder..."
+Call Tick "Encoder/decoder"
+Call Tick "==============="
+Call Tick ""
+Call Tick "Running all tests for" myname"..."
+Call Tick ""
+Call Tick "Encoding tests"
+Call Tick "--------------"
+Call Tick ""
+
+Call Tick "Encoding tests, 00..FF"
 
 Do i = 0 To 127
   c = X2C(D2X(i))
@@ -16,7 +46,7 @@ Do i = 0 To 127
   count += 1
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, C2..DF, 80..BF"
 
 Do i = X2D("C2") To X2D("DF")
   Do j = X2D("80") To X2D("BF")
@@ -28,7 +58,7 @@ Do i = X2D("C2") To X2D("DF")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, E0..E0, A0..BF, 80..BF"
 
 Do i = X2D("E0") To X2D("E0")
   Do j = X2D("A0") To X2D("BF")
@@ -40,7 +70,7 @@ Do i = X2D("E0") To X2D("E0")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, E1..EC, 80..BF, 80..BF"
 
 Do i = X2D("E1") To X2D("EC")
   Do j = X2D("80") To X2D("BF")
@@ -52,7 +82,7 @@ Do i = X2D("E1") To X2D("EC")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, ED..ED, 80..9F, 80..BF"
 
 Do i = X2D("ED") To X2D("ED")
   Do j = X2D("80") To X2D("9F")
@@ -64,7 +94,7 @@ Do i = X2D("ED") To X2D("ED")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, EE..EF, 80..BF, 80..BF"
 
 Do i = X2D("EE") To X2D("EF")
   Do j = X2D("80") To X2D("BF")
@@ -76,7 +106,7 @@ Do i = X2D("EE") To X2D("EF")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, F0..F0, 90..BF, 80..BF, 80..BF"
 
 Do i = X2D("F0") To X2D("F0")
   Do j = X2D("90") To X2D("BF")
@@ -90,7 +120,7 @@ Do i = X2D("F0") To X2D("F0")
   End
 End  
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, F1..F3, 80..BF, 80..BF, 80..BF"
 
 Do i = X2D("F1") To X2D("F3")
   Do j = X2D("80") To X2D("BF")
@@ -104,7 +134,7 @@ Do i = X2D("F1") To X2D("F3")
   End
 End 
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests, F0..F0, 90..8F, 80..BF, 80..BF"
 
 Do i = X2D("F4") To X2D("F4")
   Do j = X2D("80") To X2D("8F")
@@ -118,9 +148,14 @@ Do i = X2D("F4") To X2D("F4")
   End
 End  
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Encoding tests finished"
+Call Tick ""
+Call Tick "Decoding tests"
+Call Tick "--------------"
+Call Tick ""
 
-Say "Testing the decoding functionality of the UTF-8 encoder/decoder..."
+
+Call Tick "Decoding tests, 00..7F (assert: PASS)"
 
 Do i = 0 To 127
   c = X2C(D2X(i))
@@ -128,7 +163,7 @@ Do i = 0 To 127
   count += 1
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, 80..FF (assert: FAIL)"
 
 Do i = X2D("80") To X2D("FF")
   c = X2C(D2X(i))
@@ -136,7 +171,7 @@ Do i = X2D("80") To X2D("FF")
   count += 1
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, C2..DF, 00..7F (assert: FAIL)"
 
 Do i = X2D("C2") To X2D("DF")
   Do j = X2D("00") To X2D("7F")
@@ -144,24 +179,39 @@ Do i = X2D("C2") To X2D("DF")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
+End
+
+Call Tick "Decoding tests, C2..DF, 80..BF (assert: PASS)"
+
+Do i = X2D("C2") To X2D("DF")
   Do j = X2D("80") To X2D("BF")
     c = X2C(D2X(i))X2C(D2X(j))
     If FAIL == utf8~decode(c) Then Call Failed
     count += 1
   End
+End
+
+Call Tick "Decoding tests, C2..DF, 80..BF + extra continuation (assert: FAIL)"
+
+Do i = X2D("C2") To X2D("DF")
   Do j = X2D("80") To X2D("BF")
     c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(j))
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
-  Do j = X2D("E0") To X2D("FF")
+End
+
+Call Tick "Decoding tests, C2..DF, C0..FF (assert: FAIL)"
+
+Do i = X2D("C2") To X2D("DF")
+  Do j = X2D("C0") To X2D("FF")
     c = X2C(D2X(i))X2C(D2X(j))
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, E0..E0, 00..9F (assert: FAIL)"
 
 Do i = X2D("E0") To X2D("E0")
   Do j = X2D("00") To X2D("9F")
@@ -169,6 +219,11 @@ Do i = X2D("E0") To X2D("E0")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
+End
+
+Call Tick "Decoding tests, E0..E0, A0..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("E0") To X2D("E0")
   Do j = X2D("A0") To X2D("BF")
     Do k = X2D("00") To X2D("7F")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -176,6 +231,11 @@ Do i = X2D("E0") To X2D("E0")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, E0..E0, A0..BF, 80..BF (assert: PASS)"
+
+Do i = X2D("E0") To X2D("E0")
   Do j = X2D("A0") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -183,6 +243,11 @@ Do i = X2D("E0") To X2D("E0")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, E0..E0, A0..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("E0") To X2D("E0")
   Do j = X2D("A0") To X2D("BF")
     Do k = X2D("C0") To X2D("FF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -190,6 +255,9 @@ Do i = X2D("E0") To X2D("E0")
       count += 1
     End  
   End
+End
+
+Do i = X2D("E0") To X2D("E0")
   Do j = X2D("C0") To X2D("FF")
     c = X2C(D2X(i))X2C(D2X(j))
     If PASS == utf8~decode(c) Then Call Failed
@@ -197,7 +265,7 @@ Do i = X2D("E0") To X2D("E0")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, E1..EC, 00..7F (assert: FAIL)"
 
 Do i = X2D("E1") To X2D("EC")
   Do j = X2D("00") To X2D("7F")
@@ -205,6 +273,11 @@ Do i = X2D("E1") To X2D("EC")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
+End
+
+Call Tick "Decoding tests, E1..EC, 80..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("E1") To X2D("EC")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("00") To X2D("7F")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -212,6 +285,11 @@ Do i = X2D("E1") To X2D("EC")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, E1..EC, 80..BF, 80..BF (assert: PASS)"
+
+Do i = X2D("E1") To X2D("EC")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -219,6 +297,11 @@ Do i = X2D("E1") To X2D("EC")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, E1..EC, 80..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("E1") To X2D("EC")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("C0") To X2D("FF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -226,6 +309,11 @@ Do i = X2D("E1") To X2D("EC")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, E1..EC, C0..FF (assert: FAIL)"
+
+Do i = X2D("E1") To X2D("EC")
   Do j = X2D("C0") To X2D("FF")
     c = X2C(D2X(i))X2C(D2X(j))
     If PASS == utf8~decode(c) Then Call Failed
@@ -233,7 +321,7 @@ Do i = X2D("E1") To X2D("EC")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, ED..ED, 00..7F (assert: FAIL)"
 
 Do i = X2D("ED") To X2D("ED")
   Do j = X2D("00") To X2D("7F")
@@ -241,6 +329,11 @@ Do i = X2D("ED") To X2D("ED")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
+End
+
+Call Tick "Decoding tests, ED..ED, 80..9F, 00..7F (assert: FAIL)"
+
+Do i = X2D("ED") To X2D("ED")
   Do j = X2D("80") To X2D("9F")
     Do k = X2D("00") To X2D("7F")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -248,6 +341,11 @@ Do i = X2D("ED") To X2D("ED")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, ED..ED, 80..9F, 80..BF (assert: PASS)"
+
+Do i = X2D("ED") To X2D("ED")
   Do j = X2D("80") To X2D("9F")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -255,6 +353,11 @@ Do i = X2D("ED") To X2D("ED")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, ED..ED, 80..9F, C0..FF (assert: FAIL)"
+
+Do i = X2D("ED") To X2D("ED")
   Do j = X2D("80") To X2D("9F")
     Do k = X2D("C0") To X2D("FF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -262,6 +365,11 @@ Do i = X2D("ED") To X2D("ED")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, ED..ED, A0..FF (assert: FAIL)"
+
+Do i = X2D("ED") To X2D("ED")
   Do j = X2D("A0") To X2D("FF")
     c = X2C(D2X(i))X2C(D2X(j))
     If PASS == utf8~decode(c) Then Call Failed
@@ -269,7 +377,7 @@ Do i = X2D("ED") To X2D("ED")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, EE..EE, 00..7F (assert: FAIL)"
 
 Do i = X2D("EE") To X2D("EF")
   Do j = X2D("00") To X2D("7F")
@@ -277,6 +385,11 @@ Do i = X2D("EE") To X2D("EF")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
+End
+
+Call Tick "Decoding tests, EE..EE, 80..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("EE") To X2D("EF")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("00") To X2D("7F")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -284,6 +397,11 @@ Do i = X2D("EE") To X2D("EF")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, EE..EE, 80..BF, 80..BF (assert: PASS)"
+
+Do i = X2D("EE") To X2D("EF")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -291,6 +409,11 @@ Do i = X2D("EE") To X2D("EF")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, EE..EE, 80..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("EE") To X2D("EF")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("C0") To X2D("FF")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
@@ -298,6 +421,11 @@ Do i = X2D("EE") To X2D("EF")
       count += 1
     End  
   End
+End
+
+Call Tick "Decoding tests, EE..EE, C0..FF (assert: FAIL)"
+
+Do i = X2D("EE") To X2D("EF")
   Do j = X2D("C0") To X2D("FF")
     c = X2C(D2X(i))X2C(D2X(j))
     If PASS == utf8~decode(c) Then Call Failed
@@ -305,7 +433,7 @@ Do i = X2D("EE") To X2D("EF")
   End
 End
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, F0..F0, 00..8F (assert: FAIL)"
 
 Do i = X2D("F0") To X2D("F0")
   Do j = X2D("00") To X2D("8F")
@@ -313,43 +441,85 @@ Do i = X2D("F0") To X2D("F0")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
-  Do j = X2D("C0") To X2D("FF")
-    c = X2C(D2X(i))X2C(D2X(j))
-    If PASS == utf8~decode(c) Then Call Failed
-    count += 1
-  End
+End
+
+Call Tick "Decoding tests, F0..F0, 90..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("F0") To X2D("F0")
   Do j = X2D("90") To X2D("BF")
     Do k = X2D("00") To X2D("7F")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
       If PASS == utf8~decode(c) Then Call Failed
       count += 1
     End  
-    Do k = X2D("C0") To X2D("FF")
-      c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
-      If PASS == utf8~decode(c) Then Call Failed
-      count += 1
-    End  
+  End
+End
+
+Call Tick "Decoding tests, F0..F0, 90..BF, 80..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("F0") To X2D("F0")
+  Do j = X2D("90") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       Do l = X2D("00") To X2D("7F")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
         If PASS == utf8~decode(c) Then Call Failed
         count += 1
-      End
-      Do l = X2D("C0") To X2D("FF")
-        c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
-        If PASS == utf8~decode(c) Then Call Failed
-        count += 1
-      End
+      End    
+    End
+  End
+End
+
+Call Tick "Decoding tests, F0..F0, 90..BF, 80..BF, 80..BF (assert: PASS)"
+
+Do i = X2D("F0") To X2D("F0")
+  Do j = X2D("90") To X2D("BF")
+    Do k = X2D("80") To X2D("BF")
       Do l = X2D("80") To X2D("BF")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
         If FAIL == utf8~decode(c) Then Call Failed
+        count += 1
+      End    
+    End
+  End
+End
+
+Call Tick "Decoding tests, F0..F0, 90..BF, 80..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("F0") To X2D("F0")
+  Do j = X2D("90") To X2D("BF")
+    Do k = X2D("80") To X2D("BF")
+      Do l = X2D("C0") To X2D("FF")
+        c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
+        If PASS == utf8~decode(c) Then Call Failed
         count += 1
       End
     End  
   End
 End  
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, F0..F0, 90..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("F0") To X2D("F0")
+  Do j = X2D("90") To X2D("BF")
+    Do k = X2D("C0") To X2D("FF")
+      c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
+      If PASS == utf8~decode(c) Then Call Failed
+      count += 1
+    End  
+  End
+End
+
+Call Tick "Decoding tests, F0..F0, C0..FF (assert: FAIL)"
+
+Do i = X2D("F0") To X2D("F0")
+  Do j = X2D("C0") To X2D("FF")
+    c = X2C(D2X(i))X2C(D2X(j))
+    If PASS == utf8~decode(c) Then Call Failed
+    count += 1
+  End
+End
+
+Call Tick "Decoding tests, F1..F3, 00..7F (assert: FAIL)"
 
 Do i = X2D("F1") To X2D("F3")
   Do j = X2D("00") To X2D("7F")
@@ -357,33 +527,39 @@ Do i = X2D("F1") To X2D("F3")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
-  Do j = X2D("C0") To X2D("FF")
-    c = X2C(D2X(i))X2C(D2X(j))
-    If PASS == utf8~decode(c) Then Call Failed
-    count += 1
-  End
+End
+
+Call Tick "Decoding tests, F1..F3, 80..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("F1") To X2D("F3")
   Do j = X2D("80") To X2D("BF")
     Do k = X2D("00") To X2D("7F")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
       If PASS == utf8~decode(c) Then Call Failed
       count += 1
     End  
-    Do k = X2D("C0") To X2D("FF")
-      c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
-      If PASS == utf8~decode(c) Then Call Failed
-      count += 1
-    End  
+  End
+End  
+
+Call Tick "Decoding tests, F1..F3, 80..BF, 80..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("F1") To X2D("F3")
+  Do j = X2D("80") To X2D("BF")
     Do k = X2D("80") To X2D("BF")
       Do l = X2D("00") To X2D("7F")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
         If PASS == utf8~decode(c) Then Call Failed
         count += 1
       End
-      Do l = X2D("C0") To X2D("FF")
-        c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
-        If PASS == utf8~decode(c) Then Call Failed
-        count += 1
-      End
+    End
+  End
+End
+
+Call Tick "Decoding tests, F1..F3, 80..BF, 80..BF, 80..BF (assert: PASS)"
+
+Do i = X2D("F1") To X2D("F3")
+  Do j = X2D("80") To X2D("BF")
+    Do k = X2D("80") To X2D("BF")
       Do l = X2D("80") To X2D("BF")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
         If FAIL == utf8~decode(c) Then Call Failed
@@ -393,7 +569,43 @@ Do i = X2D("F1") To X2D("F3")
   End
 End 
 
-Say count "tests in" Time("E") "seconds."
+Call Tick "Decoding tests, F1..F3, 80..BF, 80..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("F1") To X2D("F3")
+  Do j = X2D("80") To X2D("BF")
+    Do k = X2D("80") To X2D("BF")
+      Do l = X2D("C0") To X2D("FF")
+        c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
+        If PASS == utf8~decode(c) Then Call Failed
+        count += 1
+      End
+    End
+  End
+End
+
+Call Tick "Decoding tests, F1..F3, 80..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("F1") To X2D("F3")
+  Do j = X2D("80") To X2D("BF")
+    Do k = X2D("C0") To X2D("FF")
+      c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
+      If PASS == utf8~decode(c) Then Call Failed
+      count += 1
+    End  
+  End
+End  
+
+Call Tick "Decoding tests, F1..F3, C0..FF (assert: FAIL)"
+
+Do i = X2D("F1") To X2D("F3")
+  Do j = X2D("C0") To X2D("FF")
+    c = X2C(D2X(i))X2C(D2X(j))
+    If PASS == utf8~decode(c) Then Call Failed
+    count += 1
+  End
+End
+
+Call Tick "Decoding tests, F4..F4, 00..7F (assert: FAIL)"
 
 Do i = X2D("F4") To X2D("F4")
   Do j = X2D("00") To X2D("7F")
@@ -401,33 +613,39 @@ Do i = X2D("F4") To X2D("F4")
     If PASS == utf8~decode(c) Then Call Failed
     count += 1
   End
-  Do j = X2D("90") To X2D("FF")
-    c = X2C(D2X(i))X2C(D2X(j))
-    If PASS == utf8~decode(c) Then Call Failed
-    count += 1
-  End
+End
+
+Call Tick "Decoding tests, F4..F4, 80..8F, 00..7F (assert: FAIL)"
+
+Do i = X2D("F4") To X2D("F4")
   Do j = X2D("80") To X2D("8F")
     Do k = X2D("00") To X2D("7F")
       c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
       If PASS == utf8~decode(c) Then Call Failed
       count += 1
     End  
-    Do k = X2D("C0") To X2D("FF")
-      c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
-      If PASS == utf8~decode(c) Then Call Failed
-      count += 1
-    End  
+  End
+End
+
+Call Tick "Decoding tests, F4..F4, 80..8F, 80..BF, 00..7F (assert: FAIL)"
+
+Do i = X2D("F4") To X2D("F4")
+  Do j = X2D("80") To X2D("8F")
     Do k = X2D("80") To X2D("BF")
       Do l = X2D("00") To X2D("7F")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
         If PASS == utf8~decode(c) Then Call Failed
         count += 1
       End
-      Do l = X2D("C0") To X2D("FF")
-        c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
-        If PASS == utf8~decode(c) Then Call Failed
-        count += 1
-      End
+    End
+  End
+End
+
+Call Tick "Decoding tests, F4..F4, 80..8F, 80..BF, 80..BF (assert: PASS)"
+
+Do i = X2D("F4") To X2D("F4")
+  Do j = X2D("80") To X2D("8F")
+    Do k = X2D("80") To X2D("BF")
       Do l = X2D("80") To X2D("BF")
         c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
         If FAIL == utf8~decode(c) Then Call Failed
@@ -437,19 +655,57 @@ Do i = X2D("F4") To X2D("F4")
   End
 End  
 
-Select case failed
-  When 0 Then testsFailed = "no tests failed"
-  When 1 Then testsFailed = "1 test failed"
-  Otherwise   testsFailed = failed "tests failed"
+Call Tick "Decoding tests, F4..F4, 80..8F, 80..BF, C0..FF (assert: FAIL)"
+
+Do i = X2D("F4") To X2D("F4")
+  Do j = X2D("80") To X2D("8F")
+    Do k = X2D("80") To X2D("BF")
+      Do l = X2D("C0") To X2D("FF")
+        c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))X2C(D2X(l))
+        If PASS == utf8~decode(c) Then Call Failed
+        count += 1
+      End
+    End
+  End
 End
 
-Say count "Tests completed ("testsFailed") in" Time("E") "seconds. That's" (count/Time("E")) "tests/sec."
+Call Tick "Decoding tests, F4..F4, 80..8F, C0..FF (assert: FAIL)"
 
-Exit failed \== 0
+Do i = X2D("F4") To X2D("F4")
+  Do j = X2D("80") To X2D("8F")
+    Do k = X2D("C0") To X2D("FF")
+      c = X2C(D2X(i))X2C(D2X(j))X2C(D2X(k))
+      If PASS == utf8~decode(c) Then Call Failed
+      count += 1
+    End  
+  End
+End
+
+Call Tick "Decoding tests, F4..F4, 90..FF (assert: FAIL)"
+
+Do i = X2D("F4") To X2D("F4")
+  Do j = X2D("90") To X2D("FF")
+    c = X2C(D2X(i))X2C(D2X(j))
+    If PASS == utf8~decode(c) Then Call Failed
+    count += 1
+  End
+End
+
+Call Tick "All" count "tests PASSED!"
+Say ""
+
+Exit 0
+
+Tick:
+  Parse Value Time("E") WIth l"."r
+  If r == "" Then t = "0.000"  
+  Else            t = l"."Left(r,3)
+  Say Right(t,10) myName Arg(1)
+Return  
 
 Failed:
-  failed += 1 
   Say "Failed:" C2X(c) c
+  Exit 1
 Return
 
 ::Requires Unicode.cls

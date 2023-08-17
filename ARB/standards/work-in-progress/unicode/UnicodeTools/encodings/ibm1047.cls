@@ -44,8 +44,8 @@
 .Encoding~register(.IBM1047) -- Honor the contract with the .Encoding superclass
 
 ::Class IBM1047 Subclass Encoding Public
-::Constant name                  "IBM1047"
-::Constant aliases               "IBM-1047"
+::Constant name                  "IBM-1047"
+::Constant aliases               "IBM1047"
 ::Constant isFixedLength         1
 ::Constant bytesPerChar          1
 ::Constant maxBytesPerChar       1

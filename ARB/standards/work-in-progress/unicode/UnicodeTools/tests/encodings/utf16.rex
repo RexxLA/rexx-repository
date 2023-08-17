@@ -1,34 +1,27 @@
-/*****************************************************************************/
-/*                                                                           */
-/*  The UNICODE Tools for ooRexx                                             */
-/*  ============================                                             */
-/*                                                                           */
-/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
-/*                                                                           */
-/*  See https://github.com/RexxLA, rexx-repository,                          */
-/*      path ARB/standards/work-in-progress/unicode/UnicodeTools             */
-/*                                                                           */
-/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
-/*                                                                           */
-/*                                                                           */
-/*  The UTF-16 encoder/decoder test                                          */
-/*  ===============================                                          */
-/*                                                                           */
-/*  Can take some time to complete                                           */     
-/*                                                                           *
+/**
+ * 
+ *  <h2>The <code>UTF-16</code> test</h2>
+ *                                                                           
+ *<pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR). 
+ *   See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
+ *   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
+ *   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
+ *                                                                           
+ *  <p>Tough tests. Will take a some few minutes.
+ *                                                                           
  *  <h4>Version history</h4>
  *  
  *  <table>
  *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
- *    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
  *  </table>
  * 
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
  *  @version 1.0
-/*****************************************************************************/
+ */
 
+myName = "UTF-16"
 
-utf16 = .Encoding["utf-16"]
+utf16 = .Encoding[myName]
 utf32 = .Encoding["utf-32"]
 
 count  = 0 
@@ -38,11 +31,16 @@ PASS   = 1
 
 Call Time "R"
 
--- Encoding tests
-Say Time("E") "UTF16 encoding tests."
+Call Tick "Encoder/decoder"
+Call Tick "==============="
+Call Tick ""
+Call Tick "Running all tests for" myname"..."
+Call Tick ""
+Call Tick "Encoding tests"
+Call Tick "--------------"
+Call Tick ""
 
-
-Say Time("E") "UTF-16 Encoding tests. U+0000..U+D7ff should all PASS (before surrogates)."
+Call Tick "Encoding tests. U+0000..U+D7ff should all PASS (before surrogates)."
 
 Do i = 0 To X2D("D7FF")
   c32 = X2C(Right(D2X(i),8,0)) -- UTF-32
@@ -50,21 +48,23 @@ Do i = 0 To X2D("D7FF")
   Call TestEncode c32, c8, Right(c32,2)
 End
 
-Say Time("E") "UTF-16 Encoding tests. U+D800..U+DFff should all FAIL (surrogates)"
+Call Tick "Encoding tests. U+D800..U+DFff should all FAIL (surrogates)"
+
 Do i = X2D("D800") To X2D("DFFF")
   c32 = X2C(Right(D2X(i),8,0)) -- UTF-32
   c8  = utf32~decode(c32,"UTF-8")
   Call TestEncode c32, c8, ""
 End
 
-Say Time("E") "UTF-16 Encoding tests. U+E000..U+FFFF should all PASS (16-bit, after surrogates)"
+Call Tick "Encoding tests. U+E000..U+FFFF should all PASS (16-bit, after surrogates)"
+
 Do i = X2D("E000") To X2D("FFFF")
   c32 = X2C(Right(D2X(i),8,0)) -- UTF-32
   c8  = utf32~decode(c32,"UTF-8")
   Call TestEncode c32, c8, Right(c32,2)
 End
 
-Say Time("E") "UTF-16 Encoding tests. U+10000..U+10FFFF should all PASS (32-bit)"
+Call Tick "Encoding tests. U+10000..U+10FFFF should all PASS (32-bit)"
 
 Do i = X2D("10000") To X2D("10FFFF")
   code = Right(D2X(i),6,0)
@@ -77,19 +77,21 @@ Do i = X2D("10000") To X2D("10FFFF")
   Call TestEncode c32, c8, X2C(B2X("110110"w||Left(x,6)"110111"Right(x,10)))
 End
 
--- Decoding tests
+Call Tick ""
+Call Tick "Decoding tests"
+Call Tick "--------------"
+Call Tick ""
 
-Say Time("E") "UTF16 decoding tests."
+Call Tick "Validation. Before surrogates."
 
--- Before surrogates
-Say Time("E") "UTF16 validation. Before surrogates."
 Do i = X2D("0000") To X2D("D7FF")
   c = X2C(Right(D2X(i),4,0))
   Call TestDecode c,    PASS  -- Well-formed
   Call TestDecode c"*", FAIL  -- Ill-formed, 3 bytes
 End
 
-Say Time("E") "UTF16 validation. Out-of-sequence low surrogates."
+Call Tick "Validation. Out-of-sequence low surrogates."
+
 -- Low surrogate alone, or followed by something else
 Do i = X2D("DC00") To X2D("DFFF")
   c = X2C(Right(D2X(i),4,0))
@@ -98,7 +100,8 @@ Do i = X2D("DC00") To X2D("DFFF")
   Call TestDecode c"**",FAIL  -- Low surrogate alone + "**"
 End
 
-Say Time("E") "UTF16 validation. Lone high surrogates, or not followed by low surrogate."
+Call Tick "Validation. Lone high surrogates, or not followed by low surrogate."
+
 -- High surrogate alone, or followed by something else (not a low surrogate)
 Do i = X2D("D800") To X2D("DBFF")
   c = X2C(Right(D2X(i),4,0))
@@ -107,8 +110,8 @@ Do i = X2D("D800") To X2D("DBFF")
   Call TestDecode c"**",FAIL  -- High surrogate alone + "**" (i.e., not a low surrogate)
 End
 
+Call Tick "Validation. High surrogate followed by low surrogate."
 
-Say Time("E") "UTF16 validation. High surrogate followed by low surrogate."
 -- High surrogate alone, followed by a low surrogate
 Do i = X2D("D800") To X2D("DBFF")
   Do j = X2D("DC00") To X2D("DFFF")
@@ -120,7 +123,7 @@ Do i = X2D("D800") To X2D("DBFF")
   End
 End
 
-Say Time("E") "UTF16 validation. After surrogates."
+Call Tick "Validation. After surrogates."
 
 -- After surrogates
 Do i = X2D("E000") To X2D("FFFF")
@@ -129,13 +132,25 @@ Do i = X2D("E000") To X2D("FFFF")
   Call TestDecode c"*", FAIL  -- Ill-formed, 3 bytes
 End
 
-If failed == 0 Then Say "All" count "tests PASSED, t=" Time("E")
+Call Tick ""
+
+If failed == 0 Then Do
+  Call Tick "All" count "tests PASSED!"
+  Say ""
+End  
 Else Do
-  Say failed "of the" count "tests FAILED, t=" Time("E")
+  Call Tick failed "of the" count "tests FAILED"
   Exit 1
 End  
 
 Exit 0
+
+Tick:
+  Parse Value Time("E") WIth l"."r
+  If r == "" Then t = "0.000"  
+  Else            t = l"."Left(r,3)
+  Say Right(t,10) myName Arg(1)
+Return  
 
 TestEncode:
   count += 1
@@ -150,9 +165,5 @@ TestDecode:
   Say "Decoding of '"C2X(Arg(1))"' failed."
   failed += 1
 Return  
-
-
-
-
 
 ::Requires "Unicode.cls"

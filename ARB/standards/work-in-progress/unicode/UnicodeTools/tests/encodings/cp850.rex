@@ -1,21 +1,15 @@
-/*****************************************************************************/
-/*                                                                           */
-/*  The UNICODE Tools for ooRexx                                             */
-/*  ============================                                             */
-/*                                                                           */
-/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
-/*                                                                           */
-/*  See https://github.com/RexxLA, rexx-repository,                          */
-/*      path ARB/standards/work-in-progress/unicode/UnicodeTools             */
-/*                                                                           */
-/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
-/*                                                                           */
-/*                                                                           */
-/*  The UTF-16_ALL test                                                      */
-/*  ===================                                                      */
-/*                                                                           */
-/*  Can take some time to complete                                           */     
-/*                                                                           *
+/**
+ * 
+ *  <h2>The <code>CP850</code> test</h2>
+ *                                                                           
+ *<pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR). 
+ *   See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
+ *   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
+ *   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
+ *                                                                           
+ *  <p>This test will take a few seconds. Only the BMP is tested, since the encoding is confined to
+ *    this plane.
+ *                                                                           
  *  <h4>Version history</h4>
  *  
  *  <table>
@@ -25,10 +19,11 @@
  * 
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
  *  @version 1.0
-/*                                                                           */
-/*****************************************************************************/
+ */
 
-cp850 = .Encoding["cp850"]
+myName = "CP-850"
+
+cp850 = .Encoding[myName]
 utf16 = .Encoding["utf16"]
 
 count  = 0 
@@ -40,40 +35,53 @@ Call Init
 
 Call Time "R"
 
-Say Time("E") "CP-850 Decoding tests."
+Call Tick "Encoder/decoder"
+Call Tick "==============="
+Call Tick ""
+Call Tick "Running all tests for" myname"..."
+Call Tick ""
+Call Tick "Decoding tests"
+Call Tick "--------------"
+Call Tick ""
 
 -- Decoding tests
 
-Say Time("E") "CP-850 Decoding. Validation."
+Call Tick "Decoding. Validation"
+
 Do i = 0 To X2D("FF")
   c = X2C(D2X(i))
   Call TestDecode c
 End
 
-Say Time("E") "CP-850 Decoding. Values."
+Call Tick "Decoding. Values 00..7F"
+
 Do i = 0 To X2D("7F")
   c = X2C(D2X(i))
   Call TestDecode c, c
 End
 
-Say Time("E") "CP-850 Decoding. Values."
+Call Tick "Decoding. Values 80..FF"
+
 Do i = X2D("80") To X2D("FF")
   c = X2C(D2X(i))
   Call TestDecode c, utf16~decode(X2C(Decode.c),"UTF8")
 End
 
-Say Time("E") "CP-850 Encoding tests."
+Call Tick ""
+Call Tick "Encoding tests"
+Call Tick "--------------"
+Call Tick ""
 
 -- Encoding tests
 
-Say Time("E") "CP-850 Encoding tests. U+00..U+7F"
+Call Tick "Encoding tests, 00..7F"
 
 Do i = 0 To X2D("7F")
   c = X2C(D2X(i))
   Call TestEncode c, c
 End
 
-Say Time("E") "CP-850 Encoding tests. U+80..U+7FF"
+Call Tick "Encoding tests, 80..7FF"
 
 Do i = X2D("80") To X2D("7FF")
   c = Right(D2X(i),4,0)
@@ -84,7 +92,7 @@ Do i = X2D("80") To X2D("7FF")
   Call TestEncode utf8, Encode.c
 End
 
-Say Time("E") "CP-850 Encoding tests. U+800..U+FFFF"
+Call Tick "Encoding tests, 800..FFFF"
 
 Do i = X2D("800") To X2D("FFFF")
   c = Right(D2X(i),4,0)
@@ -96,22 +104,14 @@ Do i = X2D("800") To X2D("FFFF")
   Call TestEncode utf8, Encode.c
 End
 
-Say Time("E") "CP-850 Encoding tests. U+10000..U+110000"
+Call Tick ""
 
-Do i = X2D("10000") To X2D("110000")
-  c = Right(D2X(i),6,0)
-  b = X2B(c)
-  u = SubStr(b,4,3)
-  z = SubStr(b,7,6)
-  y = SubStr(b,13,6)
-  x = Right(b,6)
-  utf8 = X2C(B2X("11110"u"10"z"10"y"10"||x))
-  Call TestEncode utf8, Encode.c
-End
-
-If failed == 0 Then Say "All" count "tests PASSED, t=" Time("E")
+If failed == 0 Then Do
+  Call Tick "All" count "tests PASSED!"
+  Say ""
+End  
 Else Do
-  Say failed "of the" count "tests FAILED, t=" Time("E")
+  Call Tick failed "of the" count "tests FAILED"
   Exit 1
 End  
 
@@ -136,6 +136,13 @@ TestDecode:
     Say "'"C2X(Arg(1))"' failed."
     failed += 1
   End
+Return  
+
+Tick:
+  Parse Value Time("E") WIth l"."r
+  If r == "" Then t = "0.000"  
+  Else            t = l"."Left(r,3)
+  Say Right(t,10) myName Arg(1)
 Return  
 
 Init:
