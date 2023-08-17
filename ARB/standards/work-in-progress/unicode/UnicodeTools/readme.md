@@ -19,7 +19,7 @@ You can then navigate to the ``samples`` directory and try the samples by using 
 
 ## Documentation
 
-This release includes some [documentation](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/oorexxdoc.html). 
+This release includes some new [documentation](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/oorexxdoc.html). 
 
 ## Release notes for version 0.3b
 
