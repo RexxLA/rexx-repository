@@ -27,15 +27,30 @@ Temporary declarations to have BIFs forwarding to RexxText.
 
 /* A global routine with the same name as a builtin function overrides this function. */
 .globalRoutines["C2X"] = .routines~c2x
+.globalRoutines["CASELESSCOMPARE"] = .routines~caselessCompare      -- ooRexx BIM only, no BIF
+.globalRoutines["CASELESSCOMPARETO"] = .routines~caselessCompareTo  -- ooRexx BIM only, no BIF
+.globalRoutines["CASELESSENDSWITH"] = .routines~caselessEndsWith    -- ooRexx BIM only, no BIF
+.globalRoutines["CASELESSEQUALS"] = .routines~caselessEquals        -- ooRexx BIM only, no BIF
+.globalRoutines["CASELESSLASTPOS"] = .routines~caselessLastPos      -- ooRexx BIM only, no BIF
+.globalRoutines["CASELESSMATCH"] = .routines~caselessMatch          -- ooRexx BIM only, no BIF
+.globalRoutines["CASELESSMATCHCHAR"] = .routines~caselessMatchChar  -- ooRexx BIM only, no BIF
+.globalRoutines["CASELESSPOS"] = .routines~caselessPos              -- ooRexx BIM only, no BIF
 .globalRoutines["CENTER"] = .routines~center
 .globalRoutines["CENTRE"] = .routines~centre
+.globalRoutines["COMPARE"] = .routines~compare
+.globalRoutines["COMPARETO"] = .routines~compareTo                  -- ooRexx BIM only, no BIF
 .globalRoutines["COPIES"] = .routines~copies
+.globalRoutines["EQUALS"] = .routines~equals                        -- ooRexx BIM only, no BIF
+.globalRoutines["ENDSWITH"] = .routines~endsWith                    -- ooRexx BIM only, no BIF
 .globalRoutines["LENGTH"] = .routines~length
 .globalRoutines["LEFT"] = .routines~left
 .globalRoutines["LOWER"] = .routines~lower
+.globalRoutines["MATCH"] = .routines~match                          -- ooRexx BIM only, no BIF
+.globalRoutines["MATCHCHAR"] = .routines~matchChar                  -- ooRexx BIM only, no BIF
 .globalRoutines["POS"] = .routines~pos
 .globalRoutines["REVERSE"] = .routines~reverse
 .globalRoutines["RIGHT"] = .routines~right
+.globalRoutines["SUBCHAR"] = .routines~subChar
 .globalRoutines["SUBSTR"] = .routines~substr
 .globalRoutines["UPPER"] = .routines~upper
 
@@ -43,6 +58,7 @@ Temporary declarations to have BIFs forwarding to RexxText.
 No added value, Executor directly forward to String
 
 .globalRoutines["C2D"] = .routines~c2d
+.globalRoutines["HASHCODE"] = .routines~hashCode
 .globalRoutines["X2B"] = .routines~x2b
 .globalRoutines["X2C"] = .routines~x2c
 .globalRoutines["X2D"] = .routines~x2d
@@ -610,26 +626,52 @@ Temporary implementations to have BIFs forwarding to RexxText.
 
 ::requires "extension/extensions.cls"
 
-::routine C2X;      return "C2X"~doWith(arg(1)~text, .context~args~section(2))
-::routine CENTER;   return "CENTER"~doWith(arg(1)~text, .context~args~section(2))
-::routine CENTRE;   return "CENTRE"~doWith(arg(1)~text, .context~args~section(2))
-::routine COPIES;   return "COPIES"~doWith(arg(1)~text, .context~args~section(2))
-::routine LENGTH;   return "LENGTH"~doWith(arg(1)~text, .context~args~section(2))
-::routine LEFT;     return "LEFT"~doWith(arg(1)~text, .context~args~section(2))
-::routine LOWER;    return "LOWER"~doWith(arg(1)~text, .context~args~section(2))
-::routine POS;      return "Not yet implemented"
-::routine REVERSE;  return "REVERSE"~doWith(arg(1)~text, .context~args~section(2))
-::routine RIGHT;    return "RIGHT"~doWith(arg(1)~text, .context~args~section(2))
-::routine SUBSTR;   return "SUBSTR"~doWith(arg(1)~text, .context~args~section(2))
-::routine UPPER;    return "UPPER"~doWith(arg(1)~text, .context~args~section(2))
+::routine C2X;               return "C2X"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSCOMPARE;   return "CASELESSCOMPARE"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSCOMPARETO; return "CASELESSCOMPARETO"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSENDSWITH;  return "CASELESSENDSWITH"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSEQUALS;    return "CASELESSEQUALS"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSLASTPOS;   return "CASELESSLASTPOS"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSMATCH;     return "CASELESSMATCH"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSMATCHCHAR; return "CASELESSMATCHCHAR"~doWith(arg(1)~text, .context~args~section(2))
+::routine CASELESSPOS;       return "CASELESSPOS"~doWith(arg(1)~text, .context~args~section(2))
+::routine CENTER;            return "CENTER"~doWith(arg(1)~text, .context~args~section(2))
+::routine CENTRE;            return "CENTRE"~doWith(arg(1)~text, .context~args~section(2))
+::routine COMPARE;           return "COMPARE"~doWith(arg(1)~text, .context~args~section(2))
+::routine COMPARETO;         return "COMPARETO"~doWith(arg(1)~text, .context~args~section(2))
+::routine COPIES;            return "COPIES"~doWith(arg(1)~text, .context~args~section(2))
+::routine EQUALS;            return "EQUALS"~doWith(arg(1)~text, .context~args~section(2))
+::routine ENDSWITH;          return "ENDSWITH"~doWith(arg(1)~text, .context~args~section(2))
+::routine LENGTH;            return "LENGTH"~doWith(arg(1)~text, .context~args~section(2))
+::routine LEFT;              return "LEFT"~doWith(arg(1)~text, .context~args~section(2))
+::routine LOWER;             return "LOWER"~doWith(arg(1)~text, .context~args~section(2))
+::routine MATCH;             return "MATCH"~doWith(arg(1)~text, .context~args~section(2))
+::routine MATCHCHAR;         return "MATCHCHAR"~doWith(arg(1)~text, .context~args~section(2))
+::routine POS;               args = .context~args; args[2] = args[1]; return "POS"~doWith(arg(2)~text, args~section(2))
+::routine REVERSE;           return "REVERSE"~doWith(arg(1)~text, .context~args~section(2))
+::routine RIGHT;             return "RIGHT"~doWith(arg(1)~text, .context~args~section(2))
+::routine SUBCHAR;           return "SUBCHAR"~doWith(arg(1)~text, .context~args~section(2))
+::routine SUBSTR;            return "SUBSTR"~doWith(arg(1)~text, .context~args~section(2))
+::routine UPPER;             return "UPPER"~doWith(arg(1)~text, .context~args~section(2))
 
 /*
 No added value, Executor directly forward to String
 
-::routine C2D;      return "C2D"~doWith(arg(1)~text, .context~args~section(2))
-::routine X2B;      return "X2B"~doWith(arg(1)~text, .context~args~section(2))
-::routine X2C;      return "X2C"~doWith(arg(1)~text, .context~args~section(2))
-::routine X2D;      return "X2D"~doWith(arg(1)~text, .context~args~section(2))
+::routine C2D;               return "C2D"~doWith(arg(1)~text, .context~args~section(2))
+::routine HASHCODE;          return "HASHCODE"~doWith(arg(1)~text, .context~args~section(2))
+::routine X2B;               return "X2B"~doWith(arg(1)~text, .context~args~section(2))
+::routine X2C;               return "X2C"~doWith(arg(1)~text, .context~args~section(2))
+::routine X2D;               return "X2D"~doWith(arg(1)~text, .context~args~section(2))
+*/
+
+
+/*
+Remember: the BIF where self is the 2nd arg, not the 1st.
+changeStr
+countStr
+lastPos
+pos
+wordPos
 */
 
 

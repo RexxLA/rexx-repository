@@ -84,19 +84,19 @@ expected: '18'
 Ok
 
 pos("é","café")
-actual  : 'Not yet implemented'
+actual  : '4'
 expected: '4'
-Ko *****
+Ok
 
 pos("é","𝖼𝖺𝖿é")
-actual  : 'Not yet implemented'
+actual  : '4'
 expected: '4'
-Ko *****
+Ok
 
 pos("é","café")
-actual  : 'Not yet implemented'
+actual  : '4'
 expected: '4'
-Ko *****
+Ok
 
 substr("noël👩‍👨‍👩‍👧🎅", 3, 3)
 actual  : 'ël👩‍👨‍👩‍👧'
@@ -118,5 +118,5 @@ actual  : '🎅'
 expected: '🎅'
 Ok
 
-Ok = 14
-Ko = 10
+Ok = 17
+Ko = 7
