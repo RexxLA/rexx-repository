@@ -92,7 +92,7 @@
   
 ::Constant Variables   "Other Control CR Extend Extend_ExtCccZwj Extended_Pictographic L LF LV LVT Prepend Regional_Indicator SpacingMark T V ZWJ"
 --                      01    02      03 04     05               06                   07 08 09 0A  0B      0C                 0D         0E 10 11
-::Constant BinaryFile                "Grapheme_Cluster_Break.bin"  
+::Constant BinaryFile "gcb.bin"  
   
 ::Method hexValueOfPropertyAt Class
   Expose Control Extend Other table

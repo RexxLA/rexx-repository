@@ -96,9 +96,11 @@
   -- <noncharacter>                   <=> gc == "Cn" & ( code in U+FDD0..U+FDEF | Right(code,4) in {FFFE, FFFF} )
   -- <reserved>                       <=> gc == "Cn" & code is not a noncharacter
   -- <surrogate>                      <=> gc == "Cs" [& code in U+D800..U+DFFF]
-  -- TANGUT IDEOGRAPH-code            <=> gc == "Lo" & code in U+17000..U+187F7 UNION 18d00..18D08
+  -- HANGUL SYLLABE syllabe           <=> gc == "Lo" & code in  U+AC00.. U+D7A3
+  -- TANGUT IDEOGRAPH-code            <=> gc == "Lo" & code in U+17000..U+187F7 UNION 18D00..18D08
   -- TANGUT COMPONENT-n               <=> gc == "Lo" & n = X2d(code) - 100343 & code in U+18800..U+18AFF
   -- KHITAN SMALL SCRIPT-code         <=> gc == "Lo" & code in U+18B00..U+18CD5
+  -- NUSHU CHARACTER-code             <=> gc == "Lo" & code in U+1B170..U+1B2FB
   -- CJK COMPATIBILITY IDEOGRAPH-code <=> gc == "Lo" & code in  U+F900.. U+FAD9 UNION U+2F800..U+2FA1D
   -- CJK UNIFIED IDEOGRAPH-code       <=> gc == "Lo" & code in  U+3400.. U+4DBF 
   --                                                     UNION  U+4E00.. U+9FFF 
@@ -109,7 +111,6 @@
   --                                                     UNION U+2CEB0..U+2EBE0
   --                                                     UNION U+30000..U+3134A
   --                                                     UNION U+31350..U+323AF
-  -- HANGUL SYLLABE syllabe           <=> gc == "Lo" & code in  U+AC00.. U+D7A3
   --
   -- "Twelve of the CJK ideographs in the starred range in Table 4-8, in the CJK Compatibility
   -- Ideographs block, are actually CJK unified ideographs. Nonetheless, their names are constructed 
@@ -147,6 +148,7 @@
         When name~startsWith("<Hangul Syllable")               Then thisGC = "LO_HANGUL_SYLLABE"
         When name~startsWith("<Tangut Ideograph")              Then thisGC = "LO_TANGUT_IDEOGRAPH"
         When name~startsWith("TANGUT COMPONENT-")              Then thisGC = "LO_TANGUT_COMPONENT"
+        When name~startsWith("NUSHU CHARACTER-")               Then thisGC = "LO_NUSHU_CHARACTER"
         When name~startsWith("KHITAN SMALL SCRIPT CHARACTER-") Then thisGC = "LO_KHITAN_SMALL_SCRIPT"
         Otherwise Nop
       End

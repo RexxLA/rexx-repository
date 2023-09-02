@@ -27,8 +27,8 @@
 /*  00.2  JMB 20230725 Moved from properties/name.cls                        */
 /*                                                                           */
 /*****************************************************************************/
-
-  Call "Unicode.cls"
+  
+  Call Unicode.cls
 
   self = .Unicode.Name
 
@@ -41,9 +41,10 @@
   Do i = 0 To X2D(10FFFF)
     code = d2x(i)
     If i // 100000 = 0 Then Say i "codepoints checked..."
-    If Length(code) < 4 Then code = Right(code,4,0)
+    If Length(code) < 4    Then code = Right(code,4,0)
     Else If code[1] == "0" Then code = Strip(code, "L",0)
-    If code == N2P(P2N(code)) Then Iterate
+    name = P2N(code)
+    If name \== "", code == N2P(name) Then Iterate
     Say "Consistency check failed at:" code
     Parse pull
   End
@@ -54,3 +55,5 @@
   
   Say count "codepoints checked in" elapsed "seconds."
   Say "This is" (count/elapsed) "codepoints/second."
+  
+--::Requires "Unicode.cls"  

@@ -96,15 +96,55 @@
  *                                         <br>Implement !CHARIN
  *                                         <br>Move STREAM !BIFs to <a href="Stream.cls.html">Stream.cls</a>
  *    <tr><td>00.3a<td>JMB <td>20230815<td>New DECODE(string[, errorhandling]) BIF
+ *    <tr><td>00.4 <td>JMB <td>20230901<td>General support for OPTIONS instruction via !Options routine
  *  </table>
  *
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
  *  @version 1.0
  */
 
-.local~bytes          = .Bytes       -- Make sure .Bytes is known everywhere
-.local~codepoints     = .Codepoints  -- Make sure .Codepoints is known everywhere
-.local~text           = .Text        -- Make sure .Text is known everywhere
+.local~bytes                 = .Bytes       -- Make sure .Bytes is known everywhere
+.local~codepoints            = .Codepoints  -- Make sure .Codepoints is known everywhere
+.local~text                  = .Text        -- Make sure .Text is known everywhere
+
+--------------------------------------------------------------------------------
+-- Support for the OPTIONS instruction                                        --
+--------------------------------------------------------------------------------
+
+::Routine !Options Public
+  Arg string
+  
+  Do i = 1 To Words(string) - 1
+    Select Case Space( SubWord(string,i,2) )
+      When "DEFAULTSTRING BYTES"      Then .local~Unicode.DefaultString = "Bytes"
+      When "DEFAULTSTRING CODEPOINTS" Then .local~Unicode.DefaultString = "Codepoints"
+      When "DEFAULTSTRING TEXT"       Then .local~Unicode.DefaultString = "Text"
+      When "DEFAULTSTRING NONE"       Then .local~Unicode.DefaultString = ""
+      Otherwise Nop
+    End
+  End
+
+--------------------------------------------------------------------------------
+-- Support for OPTIONS DEFAULTSTRING                                          --
+--------------------------------------------------------------------------------
+
+-- When nothing is specified, default is "Bytes".
+.local~Unicode.DefaultString = "Bytes"
+
+-- An unsuffixed "string" will be translated to "(!!DS(string))" by the preprocessor.
+::Routine !!DS Public
+  Use Strict Arg string
+  Select Case Upper(.Unicode.DefaultString)
+    When "BYTES"      Then Return Bytes(string)
+    When "CODEPOINTS" Then Return Codepoints(string)
+    When "TEXT"       Then Return Text(string)
+    When "NONE",""    Then Return String
+    Otherwise              Return String -- Should not happen
+  End
+
+--------------------------------------------------------------------------------
+-- End of support for OPTIONS DEFAULTSTRING                                   --
+--------------------------------------------------------------------------------
 
 ::Routine Unicode Public
   Use Arg, option

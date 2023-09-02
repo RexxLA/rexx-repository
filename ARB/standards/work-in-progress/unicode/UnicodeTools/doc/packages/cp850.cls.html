@@ -1,381 +1,0 @@
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-
-    <title>ooRexxDoc - The Unicode Tools for Rexx - cp850.cls</title>
-
-    <style type="text/css">
-        body { padding-top: 70px; }
-
-        #toTop{
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            cursor: pointer;
-            display: none;
-        }
-
-        pre {
-            overflow-x: auto;
-        }
-        pre code {
-            overflow-wrap: normal;
-            white-space: pre;
-        }
-
-        .keyword {
-            color: #ff5f00;
-        }
-
-        #search {
-            margin-left: 10px;
-        }
-
-        :target {
-            display: block;
-            position: relative;
-            top: -50px;
-            visibility: hidden;
-        }
-
-        .class-info {
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-    </style>
-</head>
-
-<body>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">ooRexxDoc</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="../oorexxdoc.html">Home</a></li>
-                <li class="active"><a href="cp850.cls.html">cp850.cls</a></li>
-            </ul>
-            <form class="navbar-form">
-                <div class="form-group">
-                    <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
-                </div>
-                <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 13 ago 2023 17:38:29</span>
-                </span>
-            </form>
-        </div>
-    </div>
-</nav>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Packages</div>
-                <div class="panel-body" style="max-height: 420px;overflow-y: scroll;">
-                        <a href="cp850.cls.html">cp850.cls</a>
-                        <hr width="99%"/>
-                        <a href="Encoding.cls.html">Encoding.cls</a>
-                        <hr width="99%"/>
-                        <a href="ibm1047.cls.html">ibm1047.cls</a>
-                        <hr width="99%"/>
-                        <a href="Rexx.Tokenizer.cls.html">Rexx.Tokenizer.cls</a>
-                        <hr width="99%"/>
-                        <a href="rxu.rex.html">rxu.rex</a>
-                        <hr width="99%"/>
-                        <a href="Stream.cls.html">Stream.cls</a>
-                        <hr width="99%"/>
-                        <a href="Unicode.cls.html">Unicode.cls</a>
-                        <hr width="99%"/>
-                        <a href="utf16.cls.html">utf16.cls</a>
-                        <hr width="99%"/>
-                        <a href="utf32.cls.html">utf32.cls</a>
-                        <hr width="99%"/>
-                        <a href="utf8.cls.html">utf8.cls</a>
-                        <hr width="99%"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">cp850.cls Overview</div>
-                <div class="panel-body">
-                    <ul>
-                            <li>Classes
-                                <ul>
-                                        <li><a href="cp850.cls.html#CP850">CP850</a>
-                                                <ul>
-                                                    <li>Methods:
-                                                            <a href="cp850.cls.html#Activate">Activate</a>
-                                                            <a href="cp850.cls.html#decode-4">decode</a>
-                                                            <a href="cp850.cls.html#encode-4">encode</a>
-                                                    </li>
-                                                </ul>
-                                        </li>
-                                </ul>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-9">
-            <div class="container-fluid" id="content-main">
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="container-fluid">
-            <h1>cp850.cls</h1>
-
-                <br /><br />
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h3>The <code>UTF-16</code> encoding class</h3>     <p>    This classfile is part of     <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>.       <p>See     <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">    https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/    </a>    for more information.      <p>    License: Apache License 2.0     [<a href="https://www.apache.org/licenses/LICENSE-2.0">    https://www.apache.org/licenses/LICENSE-2.0    </a>]      <h4>Description</h4>    <p>    The <code>CP850</code> class implements encoding/decoding from/to the CP850    format.     <p>This is a subclass of <a href="Encoding.cls.html">the Encoding class</a>.     Please refer to the documentation for <a href="Encoding.cls.html">that class</a>    for additional details.      <h4>Version history</h4>    <table>    <tr><td><b>1.0 20230811</b><td>Initial release.  </table>
-                            <br /><br />
-                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
-                            <b>version</b>: 1.0 <br />
-                            <b>see</b>: Encoding.cls <br />
-                            <b>see</b>: https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/CP850.TXT <br />
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="CP850"></a>
-                        <div class="panel-heading">
-                            <h4>Class: CP850</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: Encoding</span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>UTF-16</code> encoding class</h3>     <p>    This classfile is part of     <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>.       <p>See     <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">    https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/    </a>    for more information.      <p>    License: Apache License 2.0     [<a href="https://www.apache.org/licenses/LICENSE-2.0">    https://www.apache.org/licenses/LICENSE-2.0    </a>]      <h4>Description</h4>    <p>    The <code>CP850</code> class implements encoding/decoding from/to the CP850    format.     <p>This is a subclass of <a href="Encoding.cls.html">the Encoding class</a>.     Please refer to the documentation for <a href="Encoding.cls.html">that class</a>    for additional details.      <h4>Version history</h4>    <table>    <tr><td><b>1.0 20230811</b><td>Initial release.  </table>
-                                            <br /><br />
-                                            <b>author</b>: &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt; <br />
-                                            <b>version</b>: 1.0 <br />
-                                            <b>see</b>: Encoding.cls <br />
-                                            <b>see</b>: https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/CP850.TXT <br />
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <a id="Activate"></a>
-                                    <ul>
-                                        <li><b>Activate</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <p>The <code>activate</code> class method is automatically called at the end  of the class construction. It creates two stems, <code>encode.</code> and   <code>decode.</code>, that will be used by the <code>encode</code> and  <code>decode</code> methods.  <p>See https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/CP850.TXT  for details.
-                                                    </div>
-                                                </div>
-
-
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="decode-4"></a>
-                                    <ul>
-                                        <li><b>decode</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        CP850 decoding always succeeds (i.e., there is no such thing as a badly encoded cp850 sequence).
-                                                    </div>
-                                                </div>
-
-
-                                                <br /><span class="keyword">USE ARG</span> string, format = &quot;&quot;, errorHandling = &quot;&quot;
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="encode-4"></a>
-                                    <ul>
-                                        <li><b>encode</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        CP850 encoding will fail, unless the argument string contains only characters that can be represented in CP850.
-                                                    </div>
-                                                </div>
-
-
-                                                <br /><span class="keyword">USE ARG</span> string, option = &quot;&quot;
-
-
-                                        </li>
-                                    </ul>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                        <a id="aliases-4"></a>
-                                        <ul>
-                                            <li><b>aliases</b>
-                                                Value: "CP-850 IBM850 IBM-850 OEM850 OEM-850"
-
-                                            </li>
-                                        </ul>
-                                        <a id="alternateEndOfLine-4"></a>
-                                        <ul>
-                                            <li><b>alternateEndOfLine</b>
-                                                Value: "0D 0A"X
-
-                                            </li>
-                                        </ul>
-                                        <a id="bytesPerChar-4"></a>
-                                        <ul>
-                                            <li><b>bytesPerChar</b>
-                                                Value: 1
-
-                                            </li>
-                                        </ul>
-                                        <a id="endOfLine-4"></a>
-                                        <ul>
-                                            <li><b>endOfLine</b>
-                                                Value: "0A"X
-
-                                            </li>
-                                        </ul>
-                                        <a id="endOfLineAlignment-4"></a>
-                                        <ul>
-                                            <li><b>endOfLineAlignment</b>
-                                                Value: 1
-
-                                            </li>
-                                        </ul>
-                                        <a id="isFixedLength-4"></a>
-                                        <ul>
-                                            <li><b>isFixedLength</b>
-                                                Value: 1
-
-                                            </li>
-                                        </ul>
-                                        <a id="maxBytesPerChar-4"></a>
-                                        <ul>
-                                            <li><b>maxBytesPerChar</b>
-                                                Value: 1
-
-                                            </li>
-                                        </ul>
-                                        <a id="name-4"></a>
-                                        <ul>
-                                            <li><b>name</b>
-                                                Value: "CP850"
-
-                                            </li>
-                                        </ul>
-                                        <a id="useAlternateEndOfLine-4"></a>
-                                        <ul>
-                                            <li><b>useAlternateEndOfLine</b>
-                                                Value: ( .endOfLine == "0D0A"X )
-
-                                            </li>
-                                        </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-        </div>
-    </div>
-    <br />
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/typeahead-bootstrap.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/search-data.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span> Back to Top</div>');
-            $(window).scroll(function () {
-                if ($(this).scrollTop() != 0) {
-                    $('#toTop').fadeIn();
-                } else {
-                    $('#toTop').fadeOut();
-                }
-            });
-            $('#toTop').click(function(){
-                $("html, body").animate({ scrollTop: 0 }, 200);
-                return false;
-            });
-        });
-
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#search').typeahead({
-                source: searchData,
-                displayText: function(item) {
-                    if(item.info !== null) {
-                        return item.type + ":" + item.name + " (" + item.info + ")";
-                    }
-
-                    return item.type + ":" + item.name;
-                },
-                matcher: function(item) {
-                    return item.name.toLowerCase().indexOf(this.query.toLowerCase()) != -1
-                },
-                afterSelect: function(item) {
-                    window.location.href = item.href;
-                    $("#search").val(item.name)
-                },
-                items: 20
-            });
-        })
-    </script>
-</body>
-</html>

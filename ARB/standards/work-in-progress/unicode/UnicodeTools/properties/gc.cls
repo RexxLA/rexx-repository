@@ -51,8 +51,8 @@
 
 ::Class Unicode.General_Category Public SubClass Unicode.Property
 
-::Constant Variables   "Lu Ll Lt Lm Lo Lo_CJK_Compatibility_Ideograph Lo_CJK_Unified_Ideograph Lo_Hangul_Syllabe Lo_Khitan_Small_Script Lo_Tangut_Component Lo_Tangut_Ideograph Mn Mc Me Nd Nl No Pc Pd Ps Pe Pi Pf Po Sm Sc Sk So Zs Zl Zp Cc Cf Cs Co Cn"
-::Constant BinaryFile  "General_Category.bin"  
+::Constant Variables   "Lu Ll Lt Lm Lo Lo_CJK_Compatibility_Ideograph Lo_CJK_Unified_Ideograph Lo_Hangul_Syllabe Lo_Khitan_Small_Script Lo_Nushu_Character Lo_Tangut_Component Lo_Tangut_Ideograph Mn Mc Me Nd Nl No Pc Pd Ps Pe Pi Pf Po Sm Sc Sk So Zs Zl Zp Cc Cf Cs Co Cn"
+::Constant BinaryFile  "gc.bin"  
 
 ::Attribute Lo_CJK_Compatibility_Ideograph Class Get
 ::Attribute Lo_CJK_Unified_Ideograph       Class Get
@@ -146,6 +146,7 @@
     When Lo_CJK_Unified_Ideograph       Then Return "CJK UNIFIED IDEOGRAPH-"code
     When Lo_Hangul_Syllabe              Then Return "HANGUL SYLLABE" Hangul_Syllabe_Name(code)
     When Lo_Khitan_Small_Script         Then Return "KHITAN SMALL SCRIPT CHARACTER-"code
+    When Lo_Nushu_Character             Then Return "NUSHU CHARACTER-"code
     When Lo_Tangut_Component            Then Return "TANGUT COMPONENT-"Right(X2D(code) - X2D(18800)+1,3,0)
     When Lo_Tangut_Ideograph            Then Return "TANGUT IDEOGRAPH-"code
     When Cc                             Then Return "<control-"code">"
@@ -189,7 +190,9 @@ Hangul_Syllabe_Name: Procedure
   If name == "HANGULJUNGSEONGO-E" Then Return "1180" -- Special case
   If name[1] == "<" Then Signal Label                -- This is a label, not a name
   
-  Do word Over "CJKCOMPATIBILITYIDEOGRAPH CJKUNIFIEDIDEOGRAPH KHITANSMALLSCRIPTCHARACTER TANGUTIDEOGRAPH"~makeArray(" ")
+  -- TODO Check that code corresponds to the range
+  
+  Do word Over "CJKCOMPATIBILITYIDEOGRAPH CJKUNIFIEDIDEOGRAPH KHITANSMALLSCRIPTCHARACTER NUSHUCHARACTER TANGUTIDEOGRAPH"~makeArray(" ")
     If name~startsWith(word) Then Do
       code = SubStr(name,length(word)+1)
       Return CheckValid(code)

@@ -2,13 +2,9 @@
 <OoRexxDocXml>
     <parser>
         <output>./doc</output>
-        <input>./encodings/Encoding.cls</input>
-        <input>./properties/Properties.cls</input>
-        <input>./rxu.rex</input>
-        <input>./Unicode.cls</input>
-        <input>./Stream.cls</input>
+        <input>./Rexx.Tokenizer.cls</input>
     </parser>
-    <title>The Unicode Tools for Rexx</title>
+    <title>The Rexx Tokenizer</title>
     <header>
         <property>
             <key>Run-Date</key>

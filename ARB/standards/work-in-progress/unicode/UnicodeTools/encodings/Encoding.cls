@@ -53,7 +53,7 @@
 
   <h4>Version history</h4>
    
-  <table>
+  <table class="table table-bordered">
     <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
     <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
   </table>

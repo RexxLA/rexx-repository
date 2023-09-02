@@ -5,7 +5,7 @@
  */
  
 fn = "stream.rxu"
- 
+
 Say "Testing existing behaviour"
 Say
 Call Test fn,"c","Open read",1
@@ -15,18 +15,17 @@ Say
 Say "Testing extended functionality"
 Say
 
-
 Call Test fn,"c","Open Read Encoding",0
 Call Test fn,"c","Open Read Encoding Notaname",0
 Call Test fn,"c","Open Read Encoding UTF8",1
 Call Test fn,"c","Open Read Encoding UTF8 Encoding",0
 Call Test fn,"c","Open Read Encoding UTF8 Text",1 -- TEXT
-Call Test fn,"c","Open Read Encoding UTF8 CODEP",1 -- TEXT
-Call Test fn,"c","Open Read Encoding UTF8 Text Cod",0 -- TEXT CODEPOINTS
+Call Test fn,"c","Open Read Encoding UTF8 CODEPOINTS",1 -- CODEPOINTS
+Call Test fn,"c","Open Read Encoding UTF8 Text CODEPOINTS",0 -- TEXT CODEPOINTS
 Call Test fn,"c","Open Read Encoding UTF8 SYNTAX",1 -- SYNTAX
-Call Test fn,"c","Open Read Encoding UTF8 SUBST",1 -- SYNTAX
-Call Test fn,"c","Open Read Encoding UTF8 SYNTAX SUBST",0 -- SYNTAX
-Call Test fn,"c","Open Read Encoding UTF8 SUBST BINARY",0 -- No encoding for BINARY
+Call Test fn,"c","Open Read Encoding UTF8 REPLACE",1 -- SYNTAX
+Call Test fn,"c","Open Read Encoding UTF8 SYNTAX REPLACE",0 -- SYNTAX
+Call Test fn,"c","Open Read Encoding UTF8 REPLACE BINARY",0 -- No encoding for BINARY
 Call Test fn,"c","query encoding",1
 Call Test fn,"c","query encoding NAME",1
 Call Test fn,"c","query encoding TARGET",1
@@ -49,9 +48,9 @@ Test:
   
 Syntax:
   If Arg(4) Then Do
-    Say "!!! FAILED. Unexpected Syntax error ("rc"."Condition("E") "):" Condition("A")
+    Say "!!! FAILED. Unexpected Syntax error ("Condition("O")~code"):" Condition("A")
     Exit 1
     End
   Else 
-    Say "==> Syntax error ("rc"."Condition("E") "):" Condition("A")
+    Say "==> Syntax error ("Condition("O")~code"):" Condition("A")
 return

@@ -1,0 +1,47 @@
+-- Run with -k to compare with the generated .rex file
+
+-- Different types of string
+
+s = "Default"                             -- Default string
+s = "Bytes"Y                              -- Bytes
+s = "Codepoints"P                    -- Codepoints
+s = "Text"T                                -- Text
+s = "(Father Christmas)"U                                 -- Unicode string
+
+-- Change BIF names in context
+
+l = Length(x)                                    -- Changed
+l = x~Length()                                    -- Unchanged
+l = 2 + length                                    -- Unchanged
+Call Length x                                    -- Changed
+Call "Length" x                                   -- Unchanged
+Call "LENGTH" x                                  -- Changed
+
+-- Labels
+
+"Text"T:       ;
+"Codepoints"P: ;
+"Bytes"Y:      ;
+"(Man)"U:         ;
+"12"X:        ;
+"0100"B:      ;
+
+-- Instructions
+
+Arg a "(man)"u c ("d")                        -- Unchanged, changed
+Address "Command"T "Instruction"           -- Unchanged, changed
+Call "Test"T a,"B"Y                        -- Unchanged, changed
+Call On Any Name "Tururu"T                         -- Left alone
+Parse Var a "B" ("C") d                   -- Unchanged, changed
+-- Changed, changed, unchanged, changed
+Parse Value "A"T ("B"P) With "A"Y ("B")
+Pull a "b" c ("d")                        -- Unchanged, changed
+Signal "(Man)"U                                       -- Translated, but left alone
+Signal On Any Name "Tururu"P                       -- Left alone
+Trace "All"                                       -- Left alone
+Trace ("All")                             -- Changed
+
+-- Directives
+
+::Constant "pipi"   3.14                          -- Unchanged
+::Constant "pipipi" "AH!"                 -- Unchanged, changed

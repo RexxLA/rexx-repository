@@ -10,10 +10,10 @@
  * <h4>Description</h4>
  *
  * <p>
- *   The <b><code>RXU</code> Rexx Preprocessor for Unicode</b> is implemented as a Rexx program, <code>rxu.rex</code>.
- *   RXU reads a <code>.rxu</code> program and attempts to translate it to 
- *   standard <code>.rex</code> code (assuming that the Unicode library,
- *   <code>Unicode.cls</code>, has been loaded). If no errors are found in 
+ *   The <b><code>RXU</code> Rexx Preprocessor for Unicode</b> is implemented as a Rexx program, 
+ *   <code>rxu.rex</code>. <code>RXU</code> reads a <code>.rxu</code> program and attempts 
+ *   to translate it to standard <code>.rex</code> code (assuming that the Unicode library,
+ *   <code>Unicode.cls</code>, is available and has been loaded). If no errors are found in 
  *   the translation pass, the resulting <code>.rex</code> program is then
  *   executed, after which the <code>.rex</code> program is deleted.
  *   <code>RXU</code> programs can be written using an extended Rexx
@@ -23,6 +23,49 @@
  *   in Classic Rexx, and at the same time take advantage of the power
  *   and novelties of the Unicode world.
  * </p>
+ *
+ * <h4>What we do and what we don't do</h4>
+ *
+ * <p>
+ *   <u><code>RXU</code> is a work-in-progress, not a finished product</u>. Some parts of Rexx have been made
+ *   to appear as "Unicode-ready", and some others have not. This can produce all kind of unexpected results.
+ *   Use at your own risk!
+ *
+ * <p>
+ *   The major focus of the translator is to
+ *   implement Unicode-aware Classic Rexx: in this sense, priority is given, for example, to the implementation
+ *   of Built-in Functions (BIFs) over Built-in Methods (BIMs). For example, currently you will find
+ *   a Unicode-aware implementation of several stream i/o BIFs, but no reimplementation of the
+ *   Stream I/O classes.
+ *
+ * <p>
+ *   Here is a list of what is currently implemented.
+ *
+ * <ul>
+ *   <li><b>Four new types of string</b>:
+ *     <ul>
+ *       <li>"string"Y, a Classic Rexx string, composed of bytes.                   
+ *       <li>"string"P, a Codepoints string (checked for UTF8 correctness at parse time)                                              
+ *       <li>"string"T, a Text string (checked for UTF8 correctness at parse time)  
+ *       <li>"string"U, a Unicode codepoint string. Codepoints can be specified using 
+ *          hexadecimal notation (like 61, 0061, or 0000), Unicode standard U+ notation 
+ *         (like U+0061 or U+0000), or as a name, alias or label enclosed in parenthesis 
+ *         (like "(cr)", "(CR) (LF)", "(Woman) (zwj) (Man)"). A "U" string is always a BYTES string.
+ *     </ul>
+ *   <li><b>Built-in functions</b>: C2X, CHARIN, CHAROUT, CHARS, CENTER, CENTRE, COPIES, DATATYPE, LEFT,
+ *     LENGTH, LINEIN, LINEOUT, LINES, LOWER, POS, REVERSE, RIGHT, STREAM, SUBSTR, UPPER. Please refer
+ *     to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
+ *   <li><b>New OPTIONS</b>:
+ *     <ul>
+ *       <li>OPTIONS DEFAULTSTRING <em>default</em>, where default can be one of BYTES, CODEPOINTS, TEXT OR
+ *         NONE. This affects the semantics of unsuffixed strings, i.e., "string", without an explicit
+ *         B, X, Y, P; T or U suffix. If <em>default</em> is NONE, strings are left alone (i.e., they are
+ *         handled as default Rexx strings. In other cases, strings are transformed to the corresponding
+ *         type. For example, a T string, "string"T, will automatically be a TEXT string, composed of
+ *         extended grapheme clusters. <b>Implementation restriction:</b> This is currently a global option.
+ *         You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
+ *     </ul>
+ * </ul>
  *
  * <h4>The RXU command</h4>
  *
@@ -38,130 +81,13 @@
  *                                                                           
  *  Options:                                                                 
  *                                                                           
- *    /help, /h  : display help for the RXU command                          
- *    /keep, /k  : do not delete the generated .rex file                     
- *    /nokeep    : delete the generated .rex file (the default)              
- *    /warnbif   : warn when using unsupported BIFs                          
- *    /nowarnbif : don't warn when using unsupported BIFs (the default)
+ *    -help, -h  : display help for the RXU command                          
+ *    -keep, -k  : do not delete the generated .rex file                     
+ *    -nokeep    : delete the generated .rex file (the default)              
+ *    -warnbif   : warn when using not-yet-migrated to Unicode BIFs
+ *    -nowarnbif : don't warn when using not-yet-migrated to Unicode BIFs (the default)
  *  </pre></code>
  * 
- *
- * <h4>Language implemented by the RXU Preprocessor for Rexx</h4>
- *
- * <p>
- *   A <code>.rxu</code> can use an extended ooRexx syntax with the following            
- *   new syntactical constructs:                                                          
- *
- *  <code><pre>
- *    "string"Y, a Classic Rexx string, composed of bytes.                   
- *    "string"P, a Codepoints string (checked for UTF8 correctness at parse time)                                              
- *    "string"T, a Text string (checked for UTF8 correctness at parse time)  
- *    "string"U, a Unicode codepoint string. Codepoints can be specified using hexadecimal notation (like 61, 0061, or 0000), 
- *               Unicode standard U+ notation (like U+0061 or U+0000), or as a name, alias or label enclosed in parenthesis 
- *               (like "(cr)", "(CR) (LF)", "(Woman) (zwj) (Man)"). A "U" string is always CODEPOINTS string.
- * </pre></code>
- *
- * <p>
- *   Calls to a number of BIFs are substituted by equivalent calls to         
- *   a function with a name formed by an exclamation mark (<code>"!"</code>) concatenated  
- *   to the BIF name. For example, <code>Length(var)</code> will be substituted by       
- *   <code>|Length(var)</code>. These !-functions have been defined in <code>Unicode.cls</code>       
- *   and are re-routed to the corresponding BIMs for the <code>Bytes</code> (String),      
- *   <code>Codepoints</code> and <code>Text</code> classes.                                             
- * </p>
- *     
- * <p> 
- *   The list of supported BIFs changes ofter. It is listed in the <code>BIFs</code> 
- *   variable at the start of the present code.                                                       
- * </p>
- *     
- * <p> 
- *   No checks are done to see if there are internal routines with the same    
- *   names as these BIFs.                                    
- * </p>
- *
- * <p>A number of new BIMs, BIFs and classes are defined and available. Please refer
- *   to the documentation for the <code>Unicode.cls</code> class for details.
- *
- * <h4>Implementation of the <code>OPTIONS</code> instruction</h4>
- *
- * <p>
- *   The <code>OPTIONS</code> instruction will only be recognized correctly by 
- *   the RXU preprocessor when
- * </p>
- *
- * <ol>
- *   <li>It appears by itself on a single line. 
- *   <li>It starts the line, maybe after some optional blanks (i.e., no previous comments.
- *   <li>It does not expand for more than one line.
- *   <li>It is composed exclusively of symbols taken as constants (i.e., no expressions are allowed).
- * </ol>  
- *
- * <p>
- *   Furthermore, the <code>OPTIONS</code> instruction should not appear inside a conditional 
- *   or repetitive instruction, or inside a procedure. If it does, results can
- *   be unpredictable.
- * </p>
- *
- * <code><pre>
- *   Recognized OPTIONS:
- *
- *   DEFAULTSTRING <em>stringType</em>
- *       Determines the interpretation of an unsuffixed string, i.e., "string", 
- *       when no "B", "X", "C", "P", "T" or "U" suffix is specified. 
- *
- *       Possible values for &lt;stringType&gt; are BYTES (the default), CODEPOINTS, TEXT or NONE. 
- *       The preprocessor encloses unsuffixed strings with a call to the corresponding conversion BIF, 
- *       unless the option is NONE, when ths string is left as-is. For example, if DEFAULTSTRING TEXT 
- *       is in effect, then "string", will be equivalent to TEXT("string").
- *
- *       <b><u>Important note about the way RXU implements these OPTIONS:</u></b> 
- *
- *       The preprocessor depends on a very low-level tokenizer, that will blindly substitute
- *       "string" by <em>stringtype</em>("string") if so requested, irrespective of whether this
- *       substitution creates an invalid program or not. In some cases, this can cause perfectly
- *       valid programs to start failing. Consider, for example:
- *
- *           Use Strict Arg argument = "value"
- *
- *       This will be translated, say, to 
- *
- *           Use Strict Arg argument = BYTES("value")
- *
- *       which will produce a Syntax error. In this case, as a workaround, you can write
- *
- *           Use Strict Arg argument = ("value")
- *
- *       instead, with will be translated to 
- *
- *           Use Strict Arg argument = (BYTES("value"))
- *
- *       which is correct, but in other cases there will be no workaround, unless, in the
- *       future, a more sophisticated parser will be used. Our suggestion is to use OPTIONS DEFAULTSTRING NONE
- *       if you encounter such problems.
- *
- * </pre></code>
- *
- * <h4>Note</h4>
- *
- * <p>
- *   Please note that <code>rxu.rex</code> depends heavily on <code>Rexx.Tokenizer</code>, which is a 
- *   simple tokenizer, not a full parser. This imposes some restrictions on
- *   the source programs it can succesfully process.
- * </p>
- *
- * <p>In particular,
- *
- * <ul>
- *   <li>Please ensure that directives start at the beginning of the line,
- *     without intervening comments, and that they are not followed in the
- *     same line by an instruction (i.e., ensure that any possible instruction
- *     starts on one of the following lines).
- *
- *   <li>
- *     Please read carefully the above section about the OPTIONS instruction.
- * </ul>
- *
  * <h4>Version history</h4>
  *
  * <table class="table table-borderless" style="font-size:smaller">
@@ -194,31 +120,14 @@
  *   <tr><td>      <td>    <td>         <td>Implement CHARIN, CHAROUT, CHARS, LINES
  *   <tr><td>00.3  <td>JMB <td>20230811 <td>0.3 release
  *   <tr><td>      <td>JMB <td>20230816 <td>Implement OPTIONS DEFAULTSTRING NONE
+ *   <tr><td>00.4  <td>JMB <td>20230901 <td>Complete rewrite, use the full tokenizer
+ *   <tr><td>      <td>    <td>         <td>Change /options to -options
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
- * @version 0.3
+ * @version 0.4
  */
 
--- Implemented BIFs
-BIFs   = "C2X CHARIN CHAROUT CHARS CENTER CENTRE COPIES DATATYPE LEFT LENGTH "
-BIFs ||= "LINEIN LINEOUT LINES LOWER POS REVERSE RIGHT STREAM SUBSTR UPPER "
--- The following list is taken from rexxref, ooRexx 5.0
-Unsupported   = "ABBREV ABS ADDRESS ARG B2X BEEP BITAND BITOR BITXOR C2D "
-Unsupported ||= "CHANGESTR COMPARE CONDITION "
-Unsupported ||= "COUNTSTR D2C D2X DATE DELSTR DELWORD DIGITS "
-Unsupported ||= "DIRECTORY ENDLOCAL ERRORTEXT FILESPEC FORM FORMAT FUZZ "
-Unsupported ||= "INSERT LASTPOS MAX MIN OVERLAY QUALIFY "
-Unsupported ||= "QUEUED RANDOM RXFUNCADD RXFUNCDROP RXFUNCQUERY RXQUEUE "
-Unsupported ||= "SETLOCAL SIGN SOURCELINE SPACE STRIP SUBWORD SYMBOL "
-Unsupported ||= "TIME TRACE TRANSLATE TRUNC USERID VALUE VAR VERIFY WORD "
-Unsupported ||= "WORDINDEX WORDLENGTH WORDPOS WORDS X2B X2C X2D XRANGE"
-
-UnsupportedWarningIssued. = 0
-
-keepOutputFile = 0
-
-Signal On User Syntax.Error -- Rexx.Tokekiner and subclasses raise Syntax.Error
 
 Parse Arg arguments
 
@@ -227,12 +136,13 @@ If arguments = "" Then Do
   Exit 
 End
 
--- Process options first
+-- Process command options first
 
-warnbif = 0
+warnbif        = 0
+keepOutputFile = 0
 
-Do While Word(arguments,1)[1] == "/"
-  Parse Var arguments "/"option arguments
+Do While Word(arguments,1)[1] == "-"
+  Parse Var arguments "-"option arguments
   Select Case Upper(option)
     When "H", "HELP" Then Do
       Say .resources~help
@@ -248,9 +158,19 @@ Do While Word(arguments,1)[1] == "/"
   End
 End
 
--- We don't handle filenames with blanks at the moment
+-- Parse filename
 
-Parse Var arguments filename arguments
+arguments = Strip(arguments)
+
+quote? = arguments[1] 
+If Pos(quote?,"""'") > 0 Then
+  Parse Value arguments With (quote?)filename(quote?)arguments
+Else
+  Parse Var arguments filename arguments
+  
+arguments = Strip(arguments)
+
+-- Construct input and output file names
 
 If Pos(".",filename) == 0 Then Do
   inFile  = filename".rxu"
@@ -265,6 +185,8 @@ Else Do
   outFile = filename".rex"
 End
 
+-- Check that the input file exists and is not a directory
+
 If Stream(inFile,"c","query exists") == "" Then Do
   Call LineOut .StdOut, "File '"inFile"' does not exist."
   Exit   
@@ -275,178 +197,11 @@ If .File~new(inFile)~isDirectory Then Do
   Exit   
 End
 
-options = Upper(LineIn(infile))
-Call Stream inFile,"C", "CLOSE"
+Call Stream outFile,"c","close"
+Call Stream outFile,"c","open write replace"
 
---
--- Process options
---
-
-defaultString = "Bytes"
-
-size = Stream(inFile,"c","query size")
-array = CharIn(inFile,1,size)~makeArray
-Call Stream outFile, "C", "Open Write Replace"
-
--- Create a new tokenizer. The "Unicode" portion in the classname
--- will activate Unicode support on the tokenizer.
-
-tokenizer = .ooRexx.Unicode.Tokenizer~new(array)
-
--- This will create a convenient set of symbolic constants
-
-Do tc over tokenizer~tokenClasses
-  Call Value tc[1], tc[2]
-End
-
--- nextToken allows us one token of lookahead
-
-nextToken        = .nil
-prevToken        = .Stem~new
-token.           = ""
-noDefaultLine.   = 0
-callContext      = 1
-
-
--- Number of significant token: we discount blanks and comments
-tokenNo          = -1
-
-Do Forever
-
-  Call GetAToken
-  
-  tokenNo += 1
-    
-  --
-  -- Special processing:
-  --
-  --   OPTIONS instructions
-  --   CALL instructions 
-  --   Directives
-  --
-  
-  If token.Location~word(2) == "1" Then Do
-    line = token.Location~word(1)
-    upperFirst = Upper(Word(array[line],1))
-    Select
-      When upperFirst == "OPTIONS" Then Call Options
-      When Space(array[line],0)[1,2] == "::" Then noDefaultLine.line = 1
-      Otherwise Nop
-    End
-  End
-    
-If token.Class == END_OF_SOURCE Then Leave
-
-  If token.class == END_OF_LINE Then Do
-    Call LineOut outFile, ""
-    tokenNo     = 0
-    callContext = 0
-    Iterate
-    -- Reset tokenNo. Simplification: we don't handle continuation characters
-  End
-  
-  -- Classic comments, line comments and blanks do not contribute to the token count.
-  -- Subtract one, so that it compensates with the +1 at the start of the loop.
-  If token.class == CLASSIC_COMMENT Then Do
-    Parse var token.location start startPos end endPos
-    tokenNo    -= 1
-    callContext = 0
-    If start == end Then Do
-      Call CharOut outFile, SubStr(array[start],startPos,endPos-startPos)
-      Iterate
-    End
-    Do i = start To End
-      Select Case i
-        When start Then Call LineOut outFile, SubStr(array[start],startPos)
-        When end   Then Call CharOut outFile, Left(array[end],endPos-1)
-        Otherwise       Call LineOut outFile, array[i]
-      End
-    End
-    Iterate
-  End
-  
-  If (token.class == LINE_COMMENT) | (token.class == BLANK) Then Do
-    tokenNo    -= 1
-    Call CharOut outFile, token.value
-  End
-  
-  needExplicitConcat = 0
-  If token.class == VAR_SYMBOL | token.class == NUMBER | token.class == CONST_SYMBOL Then Do
-    -- Insert "||" when abuttal, because strings will be enclosed in conversion bifs.
-    If NextToken()["CLASS"] == STRING Then -- Abbuttal, insert explicit "||"
-      needExplicitConcat = 1
-  End
-  
-  Select Case token.class token.subClass
-    -- Only check for BIFs when simple symbols. Stems and compounds cannot be BIFs
-    When VAR_SYMBOL SIMPLE Then Do
-      UValue = Upper(token.value)
-      If WordPos(UValue,"THEN ELSE") > 0 Then tokenNo = 0
-      If tokenNo == 1 Then Do
-        If UValue == "CALL" Then callContext = 1
-        Else callContext = 0
-      End
-      If tokenNo == 2, callContext, WordPos(UValue,BIFs) > 0 Then Do
-        Call CharOut outFile, "!"token.value
-        If warnBIF, WordPos(UValue,Unsupported) > 0 Then Do
-          If UnsupportedWarningIssued.[UValue] == 0 Then Do
-            UnsupportedWarningIssued.[UValue] = 1
-            Say "WARNING: Unsupported BIF '"token.value"' used in program '"filename"'."
-          End
-        End
-      End
-      Else Do
-        If NextToken()["CLASS"] == STRING Then Do -- Abbuttal, will have "||" inserted below
-          Call CharOut outFile, token.value
-        End
-        Else Do -- Check for built-ins
-          BIFPos = WordPos(UValue,BIFs)
-          If BIFPos > 0, NextToken()["VALUE"] = "(", prevToken["VALUE"] \== "~" Then 
-            Call CharOut outFile, "!"token.value
-          Else Do
-            If warnBIF, WordPos(UValue,Unsupported) > 0, NextToken()["VALUE"] = "(", prevToken["VALUE"] \== "~" Then Do
-              If UnsupportedWarningIssued.[UValue] == 0 Then Do
-                UnsupportedWarningIssued.[UValue] = 1
-                Say "WARNING: Unsupported BIF '"token.value"' used in program '"filename"'."
-              End
-            End
-            -- Prepare for THEN CALL or ELSE CALL. Won't handle THEN THEN CALL & similar properly.
-            Call CharOut outFile, token.value
-          End
-        End
-      End
-    End
-    When STRING UNOTATION Then
-      Call CharOut outFile, "Bytes('"C2X(token.value)"'X)"
-    When STRING HEXADECIMAL Then
-      If defaultString == "NONE" Then
-      Call CharOut outFile, "'"C2X(token.value)"'X"
-      Else
-      Call CharOut outFile, defaultString"('"C2X(token.value)"'X)"
-    When STRING BINARY Then
-      If defaultString == "NONE" Then
-      Call CharOut outFile, "'"X2B(C2X(token.value))"'B"
-      Else
-      Call CharOut outFile, defaultString"('"X2B(C2X(token.value))"'B)"
-    When STRING TEXT Then
-      Call CharOut outFile, "Text('"ChangeStr("'",token.value,"''")"')"
-    When STRING CODEPOINTS Then
-      Call CharOut outFile, "Codepoints('"ChangeStr("'",token.value,"''")"')"
-    When STRING BYTES Then
-      Call CharOut outFile, "Bytes('"ChangeStr("'",token.value,"''")"')"
-    When STRING CHARACTER Then
-      If noDefaultLine.[token.Location~word(1)] | defaultString == "NONE" Then 
-        Call CharOut outFile, "'"ChangeStr("'",token.value,"''")"'"
-      Else 
-        Call CharOut outFile, defaultString"('"ChangeStr("'",token.value,"''")"')"
-    Otherwise 
-      If token.class == SPECIAL, token.value == ";" Then
-        tokenNo = -1
-      Call CharOut outFile, token.value
-  End
-  If needExplicitConcat Then Call CharOut outFile, "||"
-  
-End
+Call Transform inFile, outFile
+saveRC = result
 
 Call LineOut outFile, ""
 Call LineOut outFile, "::Requires 'Unicode.cls'" -- Duplicates don't do any harm
@@ -454,7 +209,9 @@ Call LineOut outFile, "::Requires 'Unicode.cls'" -- Duplicates don't do any harm
 Call Stream inFile,  "C", "Close"
 Call Stream outFile, "C", "Close"
 
--- Now run the .rex file!
+If saveRC \== 0 Then Exit saveRC
+
+-- Now run the .rex file
 
 Address COMMAND "rexx" outFile arguments
 
@@ -464,51 +221,265 @@ If \keepOutputFile Then .File~new(outFile)~delete
 
 Exit saveRC
 
+--------------------------------------------------------------------------------
+
+Transform: Procedure Expose filename warnBIF
+  Use Arg inFile, outFile
+  
+  -- Implemented BIFs
+  BIFs   = "C2X CHARIN CHAROUT CHARS CENTER CENTRE COPIES DATATYPE LEFT LENGTH "
+  BIFs ||= "LINEIN LINEOUT LINES LOWER POS REVERSE RIGHT STREAM SUBSTR UPPER "
+  
+  -- The following list is taken from rexxref, ooRexx 5.0
+  Unsupported   = "ABBREV ABS ADDRESS ARG B2X BEEP BITAND BITOR BITXOR C2D "
+  Unsupported ||= "CHANGESTR COMPARE CONDITION "
+  Unsupported ||= "tokenNumberSTR D2C D2X DATE DELSTR DELWORD DIGITS "
+  Unsupported ||= "DIRECTORY ENDLOCAL ERRORTEXT FILESPEC FORM FORMAT FUZZ "
+  Unsupported ||= "INSERT LASTPOS MAX MIN OVERLAY QUALIFY "
+  Unsupported ||= "QUEUED RANDOM RXFUNCADD RXFUNCDROP RXFUNCQUERY RXQUEUE "
+  Unsupported ||= "SETLOCAL SIGN SOURCELINE SPACE STRIP SUBWORD SYMBOL "
+  Unsupported ||= "TIME TRACE TRANSLATE TRUNC USERID VALUE VAR VERIFY WORD "
+  Unsupported ||= "WORDINDEX WORDLENGTH WORDPOS WORDS X2B X2C X2D XRANGE"
+  
+  inFile = Qualify(infile)
+  
+  eol = .endOfLine
+
+  size  = Stream(infile,"c","q size") -- This
+  array = CharIn(inFile,,size)~makeArray
+
+  t = .ooRexx.Unicode.Tokenizer~new(array,1)
+  
+  Do tc over t~tokenClasses
+   Call Value tc[1], tc[2]
+  End
+  
+  tokenNumber            = 0         -- (full) token no. in clause
+  context          = "00"X     -- No context
+  parseContext     = 0         -- Boolean: we are parsing a "parse" instruction
+  parseWithPending = 0         -- Boolean: we are parsing a "parse value" instruction, didn't see "with" yet
+  prevToken        = .Stem~new -- Look-back. Avoids tests for .Nil
+  x                = .Stem~new -- Look-back. Avoids tests for .Nil
+  nextToken        = .nil      -- Look-ahead
+
+  lastLine         = 1         -- 
+  
+  optionsContext   = 0
+  
+  Do i = 1 By 1
+  
+    Call GetAToken -- GetAToken returns "x" as a (full) token
+
+    xClass = x[class]
+    
+    Select Case xClass
+    
+  When END_OF_SOURCE, SYNTAX_ERROR Then Leave
+
+      -- Keep track of context and token number at the start of each (non-null) clause
+      When LABEL, DIRECTIVE, KEYWORD_INSTRUCTION, ASSIGNMENT_INSTRUCTION, COMMAND_OR_MESSAGE_INSTRUCTION Then Do
+        context      = xClass
+        parseContext = 0
+        subContext   = x[subClass]
+        tokenNumber  = 1
+      End
+      
+      Otherwise tokenNumber += 1
+    End
+    
+    Select Case xClass
+      -- Keep also track of expression nesting, but only when parsing a "parse" instruction
+      When LPAREN   Then If parseContext Then openParens   += 1
+      When RPAREN   Then If parseContext Then openParens   -= 1
+      When LBRACKET Then If parseContext Then openBrackets += 1
+      When RBRACKET Then If parseContext Then openBrackets -= 1
+      When END_OF_CLAUSE Then Do
+        If optionsContext Then
+          Call CharOut outFile, "; Call !Options !Options; Options !Options; End"
+        optionsContext = 0
+      End
+      Otherwise Nop
+    End
+
+    -- "Parse" and similar instructions are special, in that some strings are part of patters,
+    -- and some other strings are part of expressions.
+    If (,
+         ( subcontext == PARSE_INSTRUCTION ) |,
+         ( subcontext == ARG_INSTRUCTION   ) |, 
+         ( subcontext == PULL_INSTRUCTION  ),
+       ), tokenNumber == 1 Then Do
+      parseContext      = 1
+      openParens        = 0
+      openBrackets      = 0
+      parseWithPending  = 0
+    End
+
+    -- Is this a "Parse Value" instruction? Then there is a pending "With" 
+    If parseContext, subcontext == PARSE_INSTRUCTION, tokenNumber == 2, Upper( x[value] ) == "VALUE" Then 
+      parseWithPending = 1
+    
+    -- Here is our "With". Resume normal "Parse" context
+    If parseContext, parseWithPending, xClass = VAR_SYMBOL, Upper( x[VALUE] ) == "WITH" Then parseWithPending = 0
+
+    -- Explore all the sub-tokens, if any
+    If x~hasIndex(absorbed) Then y = x[absorbed]
+    Else                         y = .array~of(x)
+    
+    Do z over y
+    
+      -- "Transformed" will be .nil if we leave the token as-is, or the new token otherwise
+      transformed = .nil
+      
+      Parse Value z[location] With line1 col1 line2 col2
+      
+      -- Handling of strings
+      If z[class] == STRING Then Do
+        Select Case context
+          -- Don't touch labels (other than eliminating new suffixes and translating U strings)
+          When LABEL Then Call StringAsIs
+          -- The only context where we have an expression inside a directive is a
+          -- ::Constant. The constant name itself has to be left alone.
+          When DIRECTIVE Then
+            If (subContext \== CONSTANT_DIRECTIVE) | (tokenNumber == 2) Then Call StringAsIs
+          When KEYWORD_INSTRUCTION Then
+            Select Case subContext
+              -- Don't touch strings in CALL ON or SIGNAL ON
+              When CALL_ON_INSTRUCTION, SIGNAL_ON_INSTRUCTION Then Call StringAsIs
+              -- The environment name, routine name or label name have to be left alone.
+              -- Other strings have to be processed.
+              When ADDRESS_INSTRUCTION, SIGNAL_INSTRUCTION, TRACE_INSTRUCTION Then
+                If tokenNumber == 2 Then Call StringAsIs
+              -- Parse and parse-like instructions and contexts
+              -- Strings are only processed when they are part of an exprssion (i.e., when
+              -- nesting is not zero).
+              When ARG_INSTRUCTION, PARSE_INSTRUCTION, PULL_INSTRUCTION Then
+                If \parseWithPending, openParens == 0, openBrackets == 0 Then Call StringAsIs
+              -- In all other cases, process the strings
+              Otherwise Nop
+            End
+          Otherwise Nop
+        End
+        -- No explicit transformation? Process the new, suffixed strings, and the
+        -- default, unprefixed, strings.
+        If transformed == .nil Then Call TypedString
+      End
+      -- Handling of identifiers
+      Else If z[class] == VAR_SYMBOL, z[subClass] == SIMPLE Then Do
+        -- We don't change symbols that are method names
+        If prevToken[class] == OPERATOR, prevToken[value][1] == "~" Then Nop
+        -- No method call, function or subroutine call context...
+        Else If ( nextToken()[class] == LPAREN ) |,             -- Function
+           (subcontext == CALL_INSTRUCTION & tokenNumber == 2), -- Subroutine
+           Then Do
+          val = Upper( z[value] )
+          If WordPos(val, BIFs) > 1 Then transformed = '!'z[value]
+          Else If WordPos(val, Unsupported) > 1 Then Do
+            If warnBIF Then 
+              Say "WARNING: Unsupported BIF '"val"' used in program '"filename"', line" Word(z[location],1)
+          End
+        End
+      End
+      Else If z[class] == KEYWORD_INSTRUCTION, z[subClass] == OPTIONS_INSTRUCTION Then Do
+        transformed = "Do; !Options ="
+        optionsContext = 1
+      End
+      Do i = lastLine To line1-1
+        Call CharOut outFile, eol -- Sources are created in Windows
+      End
+      If line1 == line2 Then Do
+        If transformed \== .Nil Then
+          Call CharOut outFile, transformed
+        Else
+          Call CharOut outFile, array[line1][col1,col2-col1]
+        lastLine = line1
+      End
+      Else Do line = line1 To line2
+        Select Case line
+          When line1 Then Call CharOut outFile, SubStr(array[line1],col1)eol
+          When line2 Then Call CharOut outFile, Left(array[line2],col2-1)
+          Otherwise       Call CharOut outFile, array[line]eol
+        End
+        lastLine = line2
+      End
+    End
+  End
+  -- Final EOL
+  Call CharOut outFile, eol -- Sources are created in Windows
+  
+  --Call Stream outFile,"c","Close"
+  Call Stream inFile ,"c","Close"
+  
+  If x[class] == SYNTAX_ERROR Then Do
+    line = x[line]
+    Parse Value x["NUMBER"] With major"."minor
+    
+    Say
+    Say Right(line,6) "*-*" array[line]
+    Say "Error" major "running" inFile "line" line":" x[message]
+    Say "Error" major"."minor": " x[secondaryMessage]
+    
+    Return -major
+    
+  End
+  
+Return 0
+
+StringAsIs:
+  Select Case z[subClass]
+    -- When "U"           Then transformed = '"'C2X(z[value])'"X'
+    When "U"           Then transformed = '"'ChangeStr('"',z[value],'""')'"'
+    When "P", "T", "Y" Then transformed = array[line1][col1,col2-col1-1]
+    Otherwise               transformed = array[line1][col1,col2-col1]  -- Identity
+  End
+Return
+
+TypedString:
+  -- We don't change strings that are method names
+  If prevToken[class] == OPERATOR, prevToken[value][1] == "~" Then Signal StringAsIs
+  -- A function or subroutine call? Maybe it is a BIF...
+  If (nextToken()[class] == LPAREN) |,                    -- Function
+     (subcontext = CALL_INSTRUCTION & tokenNumber == 2),  -- Subroutine
+    Then Do
+    val = x[value]
+    If WordPos(val, BIFs) > 1 Then transformed = '"!'val'"'
+    Else If WordPos(val, Unsupported) > 1 Then Do
+      If warnBIF Then 
+        Say "WARNING: Unsupported BIF '"val"' used in program '"filename"', line" Word(x[location],1)
+      transformed = '"'val'"'
+    End
+    Else Signal StringAsIs
+    Return
+  End
+  If Pos(prevToken[class],VAR_SYMBOL||CONST_SYMBOL||NUMBER||STRING) > 0 Then concat = "||"
+  Else                                                                       concat = ""
+  Select Case z[subClass]
+    When "U" Then transformed =      concat'(Bytes("'ChangeStr('"',z[value],'""')'"))'
+    When "P" Then transformed = concat'(Codepoints('array[line1][col1,col2-col1-1]'))'
+    When "T" Then transformed =       concat'(Text('array[line1][col1,col2-col1-1]'))'
+    When "Y" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1-1]'))'
+    Otherwise     transformed =       concat'(!!DS('array[line1][col1,col2-col1  ]'))'
+  End
+Return
+
+-- Implements one token of look-ahead (nextToken) and one token of look-back (prevYoken)
 GetAToken:
-  prevToken = token.
+  prevToken = x
   -- Did we pick the next token before? Then this is our token now
   If \nextToken~isNil Then Do
-    token. = nextToken
+    x = nextToken
     nextToken = .nil
   End
   -- No next token? Pick a new one then
-  Else token. = tokenizer~getToken
+  Else x = t~getFullToken
 Return
 
 -- Implements lookahead
 NextToken:
-  If nextToken~isNil Then nextToken = tokenizer~getToken
+  If nextToken~isNil Then nextToken = t~getFullToken
 Return nextToken  
 
-Options:
-  options = Upper(array[line])
-  Do i = 2 To Words(options)
-    option  = Word(options, i)
-    option2 = Word(options, i + 1)
-    Select
-      When (option option2) == "DEFAULTSTRING BYTES"      Then Do; i += 1; defaultString = "Bytes";      End
-      When (option option2) == "DEFAULTSTRING CODEPOINTS" Then Do; i += 1; defaultString = "Codepoints"; End
-      When (option option2) == "DEFAULTSTRING TEXT"       Then Do; i += 1; defaultString = "Text";       End
-      When (option option2) == "DEFAULTSTRING NONE"       Then Do; i += 1; defaultString = "NONE";       End
-      Otherwise Nop
-    End
-  End
-Return  
-
-Syntax.Error:
-  additional = Condition("A")
-  errNumber  = additional[1]
-  lineNumber = additional[2]
-  arguments  = additional[3]
-  Parse Var errNumber errMajor"."
-  errLines   = errorMessage(errNumber, arguments)
-  Say "Error" errMajor "running" Qualify(inFile)" line" linenumber": " errLines[1]
-  Say "Error" errNumber": " errLines[2]
-  errLines   = errorMessage(errNumber, arguments)
-Exit - errMajor
-
 ::Resource Help
-rxu: A simple Unicode preprocessor for Rexx
+rxu: A Rexx Preprocessor for Unicode
 
 Syntax:
   rxu [options] filename [arguments]
@@ -518,10 +489,12 @@ will be created, replacing an existing one, if any.
 
 Options (case insensitive):
 
-  /h, /help: Displays this information.
-  /keep, /k: do not delete the generated .rex file                       
-  /nokeep  : delete the generated .rex file (the default)
+  -help, -h  : display help for the RXU command                          
+  -keep, -k  : do not delete the generated .rex file                     
+  -nokeep    : delete the generated .rex file (the default)              
+  -warnbif   : warn when using not-yet-migrated to Unicode BIFs
+  -nowarnbif : don't warn when using not-yet-migrated to Unicode BIFs (the default)
   
 ::END
 
-::Requires "Rexx.Tokenizer.cls"
+::Requires "parser/Rexx.Tokenizer.cls"

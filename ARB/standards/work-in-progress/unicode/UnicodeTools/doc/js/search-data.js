@@ -129,60 +129,6 @@ var searchData = [
             id: "NameOf", type: "Attribute", name: "NameOf", info: "Class Unicode.Property", href: "Properties.cls.html#NameOf"
             },
     {
-        id: "Rexx.Tokenizer.cls", type: "Package", name: "Rexx.Tokenizer.cls", info: null,  href: "Rexx.Tokenizer.cls.html"
-    },
-        {
-        id: "ANSI.Rexx.Tokenizer", type: "Class", name: "ANSI.Rexx.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#ANSI.Rexx.Tokenizer"
-        },
-        {
-        id: "ANSI.Rexx.Unicode.Tokenizer", type: "Class", name: "ANSI.Rexx.Unicode.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#ANSI.Rexx.Unicode.Tokenizer"
-        },
-        {
-        id: "ooRexx.Tokenizer", type: "Class", name: "ooRexx.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#ooRexx.Tokenizer"
-        },
-        {
-        id: "ooRexx.Unicode.Tokenizer", type: "Class", name: "ooRexx.Unicode.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#ooRexx.Unicode.Tokenizer"
-        },
-        {
-        id: "Regina.Tokenizer", type: "Class", name: "Regina.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#Regina.Tokenizer"
-        },
-        {
-        id: "Regina.Unicode.Tokenizer", type: "Class", name: "Regina.Unicode.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#Regina.Unicode.Tokenizer"
-        },
-        {
-        id: "Rexx.Tokenizer", type: "Class", name: "Rexx.Tokenizer", info: "Rexx.Tokenizer.cls", href: "Rexx.Tokenizer.cls.html#Rexx.Tokenizer"
-        },
-            {
-            id: "init-3", type: "Method", name: "init", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#init-3"
-            },
-            {
-            id: "getToken", type: "Method", name: "getToken", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#getToken"
-            },
-            {
-            id: "InitializeCharacterCategories", type: "Method", name: "InitializeCharacterCategories", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#InitializeCharacterCategories"
-            },
-            {
-            id: "InitializeTokenizer", type: "Method", name: "InitializeTokenizer", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#InitializeTokenizer"
-            },
-            {
-            id: "Prettify", type: "Method", name: "Prettify", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#Prettify"
-            },
-            {
-            id: "sourceLine", type: "Method", name: "sourceLine", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#sourceLine"
-            },
-            {
-            id: "lastToken", type: "Attribute", name: "lastToken", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#lastToken"
-            },
-            {
-            id: "tokenCount", type: "Attribute", name: "tokenCount", info: "Class Rexx.Tokenizer", href: "Rexx.Tokenizer.cls.html#tokenCount"
-            },
-        {
-        id: "errorMessage", type: "Routine", name: "errorMessage", info: "Rexx.Tokenizer.cls",  href: "Rexx.Tokenizer.cls.html#errorMessage"
-        },
-        {
-        id: "Syntax", type: "Routine", name: "Syntax", info: "Rexx.Tokenizer.cls",  href: "Rexx.Tokenizer.cls.html#Syntax"
-        },
-    {
         id: "rxu.rex", type: "Package", name: "rxu.rex", info: null,  href: "rxu.rex.html"
     },
     {
@@ -285,6 +231,9 @@ var searchData = [
             id: "Length-1", type: "Method", name: "Length", info: "Class Text", href: "Unicode.cls.html#Length-1"
             },
         {
+        id: "%21%21DS", type: "Routine", name: "!!DS", info: "Unicode.cls",  href: "Unicode.cls.html#%21%21DS"
+        },
+        {
         id: "%21C2X", type: "Routine", name: "!C2X", info: "Unicode.cls",  href: "Unicode.cls.html#%21C2X"
         },
         {
@@ -307,6 +256,9 @@ var searchData = [
         },
         {
         id: "%21LOWER", type: "Routine", name: "!LOWER", info: "Unicode.cls",  href: "Unicode.cls.html#%21LOWER"
+        },
+        {
+        id: "%21Options", type: "Routine", name: "!Options", info: "Unicode.cls",  href: "Unicode.cls.html#%21Options"
         },
         {
         id: "%21POS", type: "Routine", name: "!POS", info: "Unicode.cls",  href: "Unicode.cls.html#%21POS"

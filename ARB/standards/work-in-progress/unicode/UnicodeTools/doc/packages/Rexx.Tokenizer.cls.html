@@ -1,726 +1,0 @@
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-
-    <title>ooRexxDoc - The Unicode Tools for Rexx - Rexx.Tokenizer.cls</title>
-
-    <style type="text/css">
-        body { padding-top: 70px; }
-
-        #toTop{
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            cursor: pointer;
-            display: none;
-        }
-
-        pre {
-            overflow-x: auto;
-        }
-        pre code {
-            overflow-wrap: normal;
-            white-space: pre;
-        }
-
-        .keyword {
-            color: #ff5f00;
-        }
-
-        #search {
-            margin-left: 10px;
-        }
-
-        :target {
-            display: block;
-            position: relative;
-            top: -50px;
-            visibility: hidden;
-        }
-
-        .class-info {
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-    </style>
-</head>
-
-<body>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">ooRexxDoc</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="../oorexxdoc.html">Home</a></li>
-                <li class="active"><a href="Rexx.Tokenizer.cls.html">Rexx.Tokenizer.cls</a></li>
-            </ul>
-            <form class="navbar-form">
-                <div class="form-group">
-                    <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
-                </div>
-                <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 16 ago 2023 17:34:13</span>
-                </span>
-            </form>
-        </div>
-    </div>
-</nav>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Packages</div>
-                <div class="panel-body" style="max-height: 420px;overflow-y: scroll;">
-                        <a href="Encoding.cls.html">Encoding.cls</a>
-                        <hr width="99%"/>
-                        <a href="Properties.cls.html">Properties.cls</a>
-                        <hr width="99%"/>
-                        <a href="Rexx.Tokenizer.cls.html">Rexx.Tokenizer.cls</a>
-                        <hr width="99%"/>
-                        <a href="rxu.rex.html">rxu.rex</a>
-                        <hr width="99%"/>
-                        <a href="Stream.cls.html">Stream.cls</a>
-                        <hr width="99%"/>
-                        <a href="Unicode.cls.html">Unicode.cls</a>
-                        <hr width="99%"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">Rexx.Tokenizer.cls Overview</div>
-                <div class="panel-body">
-                    <ul>
-                            <li>Routines
-                                    <a href="Rexx.Tokenizer.cls.html#errorMessage">errorMessage</a>
-                                    <a href="Rexx.Tokenizer.cls.html#Syntax">Syntax</a>
-                            </li>
-                            <li>Classes
-                                <ul>
-                                        <li><a href="Rexx.Tokenizer.cls.html#ANSI.Rexx.Tokenizer">ANSI.Rexx.Tokenizer</a>
-                                        </li>
-                                        <li><a href="Rexx.Tokenizer.cls.html#ANSI.Rexx.Unicode.Tokenizer">ANSI.Rexx.Unicode.Tokenizer</a>
-                                        </li>
-                                        <li><a href="Rexx.Tokenizer.cls.html#ooRexx.Tokenizer">ooRexx.Tokenizer</a>
-                                        </li>
-                                        <li><a href="Rexx.Tokenizer.cls.html#ooRexx.Unicode.Tokenizer">ooRexx.Unicode.Tokenizer</a>
-                                        </li>
-                                        <li><a href="Rexx.Tokenizer.cls.html#Regina.Tokenizer">Regina.Tokenizer</a>
-                                        </li>
-                                        <li><a href="Rexx.Tokenizer.cls.html#Regina.Unicode.Tokenizer">Regina.Unicode.Tokenizer</a>
-                                        </li>
-                                        <li><a href="Rexx.Tokenizer.cls.html#Rexx.Tokenizer">Rexx.Tokenizer</a>
-                                                <ul>
-                                                    <li>Attributes:
-                                                            <a href="Rexx.Tokenizer.cls.html#lastToken">lastToken</a>
-                                                            <a href="Rexx.Tokenizer.cls.html#tokenCount">tokenCount</a>
-                                                    </li>
-                                                </ul>
-                                                <ul>
-                                                    <li>Methods:
-                                                            <a href="Rexx.Tokenizer.cls.html#init-3">init</a>
-                                                            <a href="Rexx.Tokenizer.cls.html#getToken">getToken</a>
-                                                            <a href="Rexx.Tokenizer.cls.html#InitializeCharacterCategories">InitializeCharacterCategories</a>
-                                                            <a href="Rexx.Tokenizer.cls.html#InitializeTokenizer">InitializeTokenizer</a>
-                                                            <a href="Rexx.Tokenizer.cls.html#Prettify">Prettify</a>
-                                                            <a href="Rexx.Tokenizer.cls.html#sourceLine">sourceLine</a>
-                                                    </li>
-                                                </ul>
-                                        </li>
-                                </ul>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-9">
-            <div class="container-fluid" id="content-main">
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="container-fluid">
-            <h1>Rexx.Tokenizer.cls</h1>
-
-                <br /><br />
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h2><code>Rexx.Tokenizer.cls</code></h2>                        <pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR).    See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>                                                                             <p>    This <code>.cls</code> file implements a set of ooRexx classes. The main class is         <code>Rexx.Tokenizer</code>. It implements a basic Rexx tokenizer. The <code>getToken</code>    method returns basic Rexx tokens and non-tokens. [Nested] classic            comments and strings are handled.                                                                                                                     <p>    The exact syntax accepted by the tokenizer depends on the subclass.          Subclasses starting with <code>"Regina"</code> accept the Regina Rexx syntax;             subclasses starting with <code>"ANSI.Rexx"</code> accept only the ANSI Rexx syntax        (for example, comments starting with <code>"--"</code> are accepted by Regina but         not by ANSI); subclasses starting with <code>"ooRexx"</code> accept ooRexx syntax;        for example, <code>"["</code>, <code>"]"</code> and <code>"~"</code> are valid characters     for ooRexx subclasses but not for Regina or ANSI subclasses.                                                                                                                <p>    Classes with "Unicode" in their name accept four new, experimental, types of string:                                                         <pre><code>    <b>"string"Y</b>,  Bytes strings (i.e., Classic Rexx strings)                      <b>"string"P</b>,  Codepoints strings (checked for UTF8 correctness at parse time)                                                     <b>"string"T</b>,  Text strings (checked for UTF8 correctness at parse time)       <b>"string"U</b>,  Unicode codepoint strings. Codepoints can be specified using hexadecimal notation (61, 0061, 0000), or as a name,                  alias or label enclosed in parenthesis ("(cr)","(CR) (LF)", "(Woman) (zwj) (Man)"). Codepoints, names, alias and labels                 are checked for correctness at parse time.                  </code></pre>  <h4>Version history</h4>    <table class="table">    <tr><th>Ver.  <th>Aut.<th>Date    <th>Description    <tr><td>00.1d <td>JMB <td>20230716<td>Initial public release    <tr><td>00.1e <td>JMB <td>20230720<td>Support U+hhhh in U strings    <tr><td>00.2  <td>JMB <td>20230725<td>Add support for "C" (Classic Rexx) strings    <tr><td>00.2a <td>JMB <td>20230727<td>Change RUNES to CODEPOINTS    <tr><td>00.2b <td>JMB <td>20230729<td>Fix subtle bug when / at start of multi-line comment    <tr><td>00.3  <td>JMB <td>20230811<td>Change "C" suffix to "Y", as per Rony's suggestion  </table>
-                    </div>
-                </div>
-
-
-
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="errorMessage"></a>
-                        <div class="panel-heading">
-                            <h4>Routine: errorMessage</h4>
-                        </div>
-                        <div class="panel-body">
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h4>The <code>errorMessage</code> helper routine</h4>
-                                            <br /><br />
-                                            <b>param</b>: <code>code</code> The Rexx error Syntax code, in the <code><em>major</em>.<em>minor</em></code> format. <br />
-                                            <b>param</b>: <code>substArray</code> An array of substition instances. <br />
-                                            <b>returns</b>: An array containing the major and the minor error messages for the specified <code>code</code>, with all the instances in <code>substArray</code>   substituted in the message. <br />
-                                    </div>
-                                </div>
-
-
-
-
-                                <br /><span class="keyword">PARSE ARG</span> major"."minor
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="Syntax"></a>
-                        <div class="panel-heading">
-                            <h4>Routine: Syntax</h4>
-                        </div>
-                        <div class="panel-body">
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h4>The <code>Syntax</code> helper routine</h4> <p><code>SYNTAX</code> is a helper routine that raises the <code>USER SYNTAX.ERROR</code> condition.
-                                            <br /><br />
-                                            <b>param</b>: <code>code</code> The Rexx error Syntax code, in the <code><em>major</em>.<em>minor</em></code> format. <br />
-                                            <b>param</b>: <code>line</code> The line number where the error was found. <br />
-                                            <b>param</b>: <code>...</code> The remaining arguments will be collected in an array. <br />
-                                            <b>condition</b>: <code>USER SYNTAX.ERROR</code>. The condition is passed an array as an argument. The first component is the error <code>code</code>;   the second argument is the <code>line</code>, and the third argument is an array formed by the remaining arguments passed to the   <code>Syntax</code> routine. <br />
-                                    </div>
-                                </div>
-
-
-
-
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="ANSI.Rexx.Tokenizer"></a>
-                        <div class="panel-heading">
-                            <h4>Class: ANSI.Rexx.Tokenizer</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Rexx.Tokenizer.cls.html#Rexx.Tokenizer">Rexx.Tokenizer</a></span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>ANSI.Rexx.Tokenizer</code> class</h3> <p>   Instances of this class implement a ANSI Rexx tokenizer.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <i>No Methods</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="ANSI.Rexx.Unicode.Tokenizer"></a>
-                        <div class="panel-heading">
-                            <h4>Class: ANSI.Rexx.Unicode.Tokenizer</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Rexx.Tokenizer.cls.html#ANSI.Rexx.Tokenizer">ANSI.Rexx.Tokenizer</a></span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>ANSI.Rexx.Unicode.Tokenizer</code> class</h3> <p>   Instances of this class implement a ANSI Rexx tokenizer with Unicode extenstions.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <i>No Methods</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="ooRexx.Tokenizer"></a>
-                        <div class="panel-heading">
-                            <h4>Class: ooRexx.Tokenizer</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Rexx.Tokenizer.cls.html#Rexx.Tokenizer">Rexx.Tokenizer</a></span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>ooRexx.Tokenizer</code> class</h3> <p>   Instances of this class implement a ooRexx tokenizer.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <i>No Methods</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="ooRexx.Unicode.Tokenizer"></a>
-                        <div class="panel-heading">
-                            <h4>Class: ooRexx.Unicode.Tokenizer</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Rexx.Tokenizer.cls.html#ooRexx.Tokenizer">ooRexx.Tokenizer</a></span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>ooRexx.Unicode.Tokenizer</code> class</h3> <p>   Instances of this class implement a ooRexx tokenizer with Unicode extensions.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <i>No Methods</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="Regina.Tokenizer"></a>
-                        <div class="panel-heading">
-                            <h4>Class: Regina.Tokenizer</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Rexx.Tokenizer.cls.html#Rexx.Tokenizer">Rexx.Tokenizer</a></span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>Regina.Tokenizer</code> class</h3> <p>   Instances of this class implement a Regina Rexx tokenizer.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <i>No Methods</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="Regina.Unicode.Tokenizer"></a>
-                        <div class="panel-heading">
-                            <h4>Class: Regina.Unicode.Tokenizer</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: <a href="../packages/Rexx.Tokenizer.cls.html#Regina.Tokenizer">Regina.Tokenizer</a></span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>Regina.Unicode.Tokenizer</code> class</h3> <p>   Instances of this class implement a Regina Rexx tokenizer with Unicode   extensions.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <i>No Methods</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="Rexx.Tokenizer"></a>
-                        <div class="panel-heading">
-                            <h4>Class: Rexx.Tokenizer</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h3>The <code>Rexx.Tokenizer</code> class</h3> <p>   This is the main Rexx Tokenizer class.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <a id="lastToken"></a>
-                                    <ul>
-                                        <li><b>lastToken</b>
-                                                <span class="label label-info">GETTER</span>
-
-
-
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="tokenCount"></a>
-                                    <ul>
-                                        <li><b>tokenCount</b>
-                                                <span class="label label-info">GETTER</span>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <h4>The <code>.Rexx.Tokenizer~tokenCount</code> attribute</h4> <p>   A tokenizer instance keeps track of the number of tokens it has   examined and returned. You can get this number by using this attribute.
-                                                    </div>
-                                                </div>
-
-
-
-                                        </li>
-                                    </ul>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <a id="init-3"></a>
-                                    <ul>
-                                        <li><b>init</b>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <h4>The <code>.Rexx.Tokenizer~init</code> method</h4>
-                                                            <br /><br />
-                                                            <b>param</b>: <code>source</code> An array of strings containing the source of the program   we want to tokenize. <br />
-                                                    </div>
-                                                </div>
-
-
-                                                <br /><span class="keyword">USE ARG</span> source
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="getToken"></a>
-                                    <ul>
-                                        <li><b>getToken</b>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> code
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="InitializeCharacterCategories"></a>
-                                    <ul>
-                                        <li><b>InitializeCharacterCategories</b>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <h4>The <code>InitializeCharacterCategories</code> private method</h4> <p>   Each character in the "00"X.."FF"X range is assigned a <em>characte category</em>:   digits ("0".."9") are assigned the category "digit" ("d"), letters ("a".."z" and "A".."Z",   plus "_", "?", "!" and some other implementation-dependent characters) are assigned   the "general_letter" ("l") category, and so on. <p>   When we are about to tokenize a line <em>L</em>, we will use the <code>TRANSLATE</code> BIF to obtain   a new string containing the character categories of each individual character in <em>L</em>.   This allows a very efficient determination of the token boundaries. For example, a run of "d" will   identify a simple number, a run of "d" or "l" will identify a simple symbol, and so on.
-                                                    </div>
-                                                </div>
-
-
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="InitializeTokenizer"></a>
-                                    <ul>
-                                        <li><b>InitializeTokenizer</b>
-
-
-
-
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="Prettify"></a>
-                                    <ul>
-                                        <li><b>Prettify</b>
-
-
-
-
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="sourceLine"></a>
-                                    <ul>
-                                        <li><b>sourceLine</b>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <h4>The <code>.Rexx.Tokenizer~sourceLine</code> method</h4>
-                                                            <br /><br />
-                                                            <b>param</b>: <code>n</code> The line number of the line you want to retrieve. <br />
-                                                    </div>
-                                                </div>
-
-
-
-
-                                        </li>
-                                    </ul>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                        <a id="tokenClasses"></a>
-                                        <ul>
-                                            <li><b>tokenClasses</b>
-                                                Value: (   -
-  ( END_OF_SOURCE   , "F" ), -
-  ( END_OF_LINE     , "L" ), -  
-  ( CLASSIC_COMMENT , "c" ), -
-  ( LINE_COMMENT    , "l" ), -
-  ( BLANK           , "b" ), -
-  ( SPECIAL         , "s" ), -
-  ( OPERATOR        , "o" ), -
-  ( VAR_SYMBOL      , "V" ), -
-    ( SIMPLE        , "1" ), -
-    ( STEM          , "2" ), -
-    ( COMPOUND      , "3" ), -
-  ( NUMBER          , "N" ), -
-    ( INTEGER       , "4" ), -
-    ( FRACTIONAL    , "5" ), -
-    ( EXPONENTIAL   , "6" ), -
-  ( CONST_SYMBOL    , "C" ), -
-    ( PERIOD        , "7" ), -
-    ( LITERAL       , "8" ), -
-    ( ENVIRONMENT   , "9" ), -
-  ( STRING          , "S" ), -
-    ( BINARY        , "B" ), -
-    ( HEXADECIMAL   , "X" ), -
-    ( CHARACTER     , "C" ), -  
-    ( BYTES         , "Y" ), -  -- Unicode only. With an explicit Y suffix
-    ( CODEPOINTS    , "P" ), -  -- Unicode only
-    ( TEXT          , "T" ), -  -- Unicode only
-    ( UNOTATION     , "U" )  -  -- Unicode only
-)
-
-                                                    <br /><br />
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-body">
-                                                            <h4>The <code>tokenClasses</code> constant</h4> <p>   This constant is indeed a vector of constants. The suggested way to use it is to   use code similar to the following.<code><pre>  Do tc over tokenizer~tokenClasses   Call Value tc[1], tc[2]  End</pre></code>
-                                                        </div>
-                                                    </div>
-                                            </li>
-                                        </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-        </div>
-    </div>
-    <br />
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/typeahead-bootstrap.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/search-data.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span> Back to Top</div>');
-            $(window).scroll(function () {
-                if ($(this).scrollTop() != 0) {
-                    $('#toTop').fadeIn();
-                } else {
-                    $('#toTop').fadeOut();
-                }
-            });
-            $('#toTop').click(function(){
-                $("html, body").animate({ scrollTop: 0 }, 200);
-                return false;
-            });
-        });
-
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#search').typeahead({
-                source: searchData,
-                displayText: function(item) {
-                    if(item.info !== null) {
-                        return item.type + ":" + item.name + " (" + item.info + ")";
-                    }
-
-                    return item.type + ":" + item.name;
-                },
-                matcher: function(item) {
-                    return item.name.toLowerCase().indexOf(this.query.toLowerCase()) != -1
-                },
-                afterSelect: function(item) {
-                    window.location.href = item.href;
-                    $("#search").val(item.name)
-                },
-                items: 20
-            });
-        })
-    </script>
-</body>
-</html>

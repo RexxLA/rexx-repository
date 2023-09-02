@@ -36,6 +36,7 @@
 /*                     Fix control character labels for name property        */
 /*                     Fix some bugs, add consistency check                  */
 /*  00.2  JMB 20230725 Rename classfile to 'name.cls'                        */
+/*        JMB          Add NUSHU CHARACTER-                                  */
 /*                                                                           */
 /*****************************************************************************/
 
@@ -128,7 +129,11 @@
       Parse Value LineIn(Infile) With code2";"
       Iterate
     End
-    If name~startsWith("CJK COMPATIBILITY IDEOGRAPH-") Then Iterate
+    If name~startsWith("NUSHU CHARACTER-")               Then Iterate
+    If name~startsWith("TANGUT IDEOGRAPH-")              Then Iterate
+    If name~startsWith("KHITAN SMALL SCRIPT CHARACTER-") Then Iterate
+    If name~startsWith("CJK COMPATIBILITY IDEOGRAPH-")   Then Iterate
+    If name~startsWith("CJK UNIFIED IDEOGRAPH-")         Then Iterate
     If name = "HANGUL JUNGSEONG O-E" Then key = "HANGULJUNGSEONGO-E"
     Else key = Compress(name)
     n2p.key = code

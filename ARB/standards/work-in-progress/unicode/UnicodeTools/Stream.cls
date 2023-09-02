@@ -954,7 +954,7 @@ StandardCall: Return LINES(name, option)
  */
 ::Routine !Stream Public
   Use Arg , option="S"
-  
+    
   c = Left(option,1)
   uc = Upper(c)
   
@@ -1117,3 +1117,4 @@ StandardCall: Return LINES(name, option)
   
   newCommand = "SEEK" prefix (offset * bytesPerChar) rest
   Return Stream(name,"Command", newCommand)
+  

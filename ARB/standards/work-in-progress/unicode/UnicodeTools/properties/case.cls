@@ -33,7 +33,7 @@
 
 ::Class Unicode.Case Public SubClass Unicode.Property
 
-::Constant BinaryFile                           "Case.bin"  
+::Constant BinaryFile                           "case.bin"  
 
 ::Constant UnicodeData.Properties               "Simple_Lowercase_Mapping Simple_Uppercase_Mapping"
 ::Constant UnicodeData.Aliases                  "slc                      suc"
