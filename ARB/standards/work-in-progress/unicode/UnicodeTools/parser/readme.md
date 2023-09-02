@@ -56,7 +56,7 @@ Here is the output of the program, prettyprinted and commented for your convenie
  8   [1 7 1 8]: '+' (o o)  -- A plus sign, denoting addition
  9   [1 8 1 9]: ' ' (b b)  -- Still one more blank
 10  [1 9 1 10]: '1' (N 4)  -- A number (the smallest positive integer)
-11 [1 10 1 10]: ''  (; L)  -- An END_OF_LINE indicator (implied semicolon)
+11 [1 10 1 10]: ''  (; L)  -- An END_OF_LINE indicator (which works as an implied semicolon)
 ```
 * The first column is a _counter_.
 * The second column is an aggregate, the _location_ of the token. We have written if between \[brackets\].
@@ -90,7 +90,33 @@ Now you know practically everything there is to know about simple tokens (indeed
 to know, if you limit yourself to simple tokenizing: _error tokens_, and _end-of-file conditions_; we will get
 to both of these shortly).
 
-### Structure of full tokens
+### Structure of full tokens (undetailed)
 
-(TBD)
+What happens now if we want _full_ tokens, instead of _simple_ ones? Well, we have a corresponding
+``inspectFull.rex`` utility program. Let us have a look at its output. Some tokens are the same as
+before, but others have changed. Let's focus on those:
+
+    1   [1 1 1 1]: ''  (; B)
+    2   [1 1 1 2]: 'i' (O 1)
+    3   [1 2 1 5]: '=' (o c) -- "=" has grown to include the blanks before and after
+    4   [1 5 1 6]: 'i' (V 1)
+    5   [1 6 1 9]: '+' (o a) -- "+" has grown to include the blanks before and after
+    6  [1 9 1 10]: '1' (N 4)
+    7 [1 10 1 10]: ''  (; L)
+
+What has changed, exactly? Well, both the "=" operator and the "+" operator seem to have "grown".
+Indeed, they have "eaten" the corresponding blanks. This strictly follows the rules of Rexx:
+blanks before and after operator characters are ignored. The tokenizer ignores the blanks, but
+at the same time does not want to lose information, so that it "expands" the absorbing tokens
+by making them wider, so that they can (so to speak) "accomodate" the ignored blanks: the "="
+on line 3 runs now from (1 2 1 3) \[where the previous blank is located\] to (1 4 1 5) \[where
+the next blank is located\].
+
+There are some other, subtle, changes in the returned results. The _class_ of "i" has changed,
+it is no longer "V" (VAR_SYMBOL), but "O" (ASSIGNMENT_INSTRUCTION). The full tokenizer "knows"
+that ``i = i + 1`` is an assignment instructions, and it passes this knowledge to us.
+Similarly, the _subclass_ of "=" has changed. Previously, it was "o", for OPERATOR: all the
+tokenizer knew was that "=" was an operator character. Now it is "c", COMPARISON_OPERATOR,
+which is more informative. Similarly, "+" has now a subclass of "a", ADDITIVE_OPERATOR.
+
 
