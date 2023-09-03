@@ -13,7 +13,7 @@ keyword instructions include the first blank after the keyword, if any, and so o
 The tokenizer intent is to support all the syntactical constructs of Open Object Rexx (ooRexx), Regina Rexx and ANSI Rexx. 
 You can select the desired syntax subset at instance creation time by selecting the appropriate class. 
 
-```
+```rexx
 Rexx.Tokenizer        -- The main class
 ooRexx.Tokenizer      -- Tokenizes programs written in ooRexx
 Regina.Tokenizer      -- Tokenizes programs written in Regina Rexx
@@ -28,7 +28,7 @@ The tokenizer supports classic comments (including nested comments), line commen
 
 When a Unicode class is used (see below), Y-, P-, T- and U-suffixed strings are recognized, translated (in the case of U strings) and supported.
 
-```
+```rexx
 ooRexx.Unicode.Tokenizer      -- Tokenizes programs written in ooRexx, with experimental Unicode extensions
 Regina.Unicode.Tokenizer      -- Tokenizes programs written in Regina Rexx, with experimental Unicode extensions
 ANSI.Rexx.Unicode.Tokenizer   -- Tokenizes programs written in ANSI Rexx, with experimental Unicode extensions
@@ -41,7 +41,7 @@ the kind of variable (simple, stem or compound), etc.
 
 To create a tokenizer instance, you will need to construct a Rexx array containing the source file to tokenize. 
 
-```
+```rexx
 size   = Stream(inFile,"Command","Query Size")
 array  = CharIn(inFile,,size)~makeArray
 tokenizer = .ooRexx.Tokenizer~new(array)           -- Or Regina.Tokenizer, etc.
@@ -50,7 +50,7 @@ tokenizer = .ooRexx.Tokenizer~new(array)           -- Or Regina.Tokenizer, etc.
 You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the ``getSimpleToken`` tokenizer method),
 or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the ``getFullToken tokenizer method).
 
-```
+```rexx
 tokenizer = .ooRexx.Tokenizer~new(array)
 
 Do Forever
@@ -72,7 +72,7 @@ In any case, you will always be able to reconstitute the entirety of your source
 ### Structure of simple tokens
 
 Let us start with a very simple piece of code:
-```
+```rexx
 i = i + 1
 ```
 We will create a test file, say ``test.rex``, and run it through ``inspectSimple.rex``, a sample utility program you will find in the ``parser`` directory. 
@@ -113,7 +113,7 @@ tokenizer instance, and then it runs it, by calling the ``getSimpleToken`` metho
 or a syntax error is encountered. Now, here is the trick: ``getSimpleToken`` _returns tokens... which are Rexx stems!_ 
 (you can already imagine the components of these stems):
 
-```
+```rexx
 -- after
 token. = tokenizerInstance~getSimpleToken
 -- we have (assume that we have just scanned the second "i" of the above program)
@@ -134,13 +134,15 @@ What happens now if we want _full_ tokens, instead of _simple_ ones? Well, we ha
 Let us have a look at its output. Some tokens are the same as before, but some others have experienced some
 modifications. Let us focus on those:
 
-    1   [1 1 1 1]: ''  (; B)
-    2   [1 1 1 2]: 'i' (O 1)
-    3   [1 2 1 5]: '=' (o c) -- "=" has grown to include the blanks before and after
-    4   [1 5 1 6]: 'i' (V 1)
-    5   [1 6 1 9]: '+' (o a) -- "+" has grown to include the blanks before and after
-    6  [1 9 1 10]: '1' (N 4)
-    7 [1 10 1 10]: ''  (; L)
+```
+1   [1 1 1 1]: ''  (; B)
+2   [1 1 1 2]: 'i' (O 1)
+3   [1 2 1 5]: '=' (o c) -- "=" has grown to include the blanks before and after
+4   [1 5 1 6]: 'i' (V 1)
+5   [1 6 1 9]: '+' (o a) -- "+" has grown to include the blanks before and after
+6  [1 9 1 10]: '1' (N 4)
+7 [1 10 1 10]: ''  (; L)
+```
 
 What has changed, exactly? Well, both the "=" operator and the "+" operator seem to have "grown".
 Indeed, they have "eaten" the corresponding blanks. This strictly follows the rules of Rexx:
@@ -162,7 +164,7 @@ which is more informative. Similarly, "+" has now a subclass of "a", ADDITIVE_OP
 As we mentioned above, when using the full tokenizer, you have the option to request a _detailed_ 
 tokenizing. You do so at instance creation time, by specifying the optional, boolean, _detailed_ argument:
 
-```
+```rexx
 detailed = .true
 tokenizer = .ooRexx.Tokenizer~new(array, detailed)
 ```
@@ -203,7 +205,7 @@ A token ``t.`` has a _class_, ``t.class``, and a _subclass_, ``t.subclass``. Cla
 ``tokenClasses`` constant of the ``Rexx.Tokenizer`` class. The ``tokenClasses`` constant itself is an array of constants,
 so that you can use the following code to replicate these constants in your own program:
 
-```
+```rexx
 Do constant over tokenizer~tokenClasses
   Call Value constant[1], constant[2]
 End
@@ -214,7 +216,7 @@ can be changed without notice.
 
 Here is the full value of the ``tokenClasses`` constant:
 
-```
+```rexx
 ::Constant tokenClasses (    -            --
   ( SYNTAX_ERROR                   , "E" ), -  -- Special token returned when a Syntax error is found
   ( OPERATOR                       , "o" ), -
@@ -332,3 +334,43 @@ Here is the full value of the ``tokenClasses`` constant:
 )
 ```
 
+You will notice that many classes and subclasses are marker as "full tokenizer only": they will
+only be returned a values when using the full tokenizer. Some other are marked as Unicode only,
+or Regina only, etc.
+
+## Error handling
+
+When an error is encountered, tokenizing stops, and a special token is returned. Its class
+and subclass will be SYNTAX_ERROR, and a number of special attributes will be included, so that
+the error information is as complete as possible:
+
+```rexx
+token.class            = SYNTAX_ERROR
+token.subclass         = SYNTAX_ERROR
+token.location         = location in the source file where the error was found
+token.value            = main error message
+
+-- Additional attributes, specific to SYNTAX_ERROR
+
+token.number           = the error number, in the format major.minor
+token.message          = the main error message (same as token.value)
+token.secondaryMessage = the secondary error message, with all substitutions applied
+token.line             = line number where the error occurred (first word of .location)
+```
+
+If you want to print error messages that are identical to the ones printed by ooRexx, you can use
+the following code snippet:
+
+```rexx
+If token.class == SYNTAX_ERROR Then Do
+  line = token.line
+  Parse Value token.number With major"."minor
+  
+  Say
+  Say Right(line,6) "*-*" array[line]                              -- "array" contains the source code
+  Say "Error" major "running" inFile "line" line":" token.message  -- "inFile" is the input filename
+  Say "Error" major"."minor": " token.secondaryMessage
+  
+  Return -major                                                    -- Should be returned when Syntax error
+End
+```
