@@ -4,7 +4,7 @@ The initial text is taken from the last known draft of the Extended Standard, wh
 
 # Goals
 
-The goal is to have a new standard for the work on Rexx implementations. The standard should be a publication in the form of a printed book; web, electronic publishing and pdf are definite targets but the form of the standard is that of a traditions printed book and users, implementors and other interested parties should be able to buy a hardcopy book without high cost attached.
+The goal is to have a new standard for the work on Rexx implementations. The standard should be a publication in the form of a printed book; web, electronic publishing and pdf are definite targets but the form of the standard is that of a traditional printed book and users, implementors and other interested parties should be able to buy a hardcopy book without high cost attached.
 
 # Production
 
