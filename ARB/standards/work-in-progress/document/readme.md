@@ -12,7 +12,7 @@ The goal is to have a new standard for the work on Rexx implementations. The sta
 We aim to have all source text in Markdown. This has great advantages of being readable even with markup in it, well integrated with the version management system at github, and suitable for conversion to more probable typograpical software like TeX. For that reason, the original source text of the (Extended) standard is converted to markdown and readable (and, important, editable) from the github repository.
 
 ### Conversion to TeX
-Markdown, when converted (using pandoc) to Latex source is almost suitable for producing the publication to the pdf book source, but not quite. For this reason the conversion script, [build.rexx](ARB/standards/work-in-progress/document/tex/standard/build.rexx) produces two intermediate formats, both using the comment syntax native to markdown and TeX. This enables us to add some essential ingredients of the publication:
+Markdown, when converted (using pandoc) to Latex source is almost suitable for producing the publication to the pdf book source, but not quite. For this reason the conversion script, [build.rexx](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/document/tex/standard/build.rexx) produces two intermediate formats, both using the comment syntax native to markdown and TeX. This enables us to add some essential ingredients of the publication:
 
 - an index (use <!--index--> right before the word to index in the markdown source, this should be invisible in the markdown but shows when editing
 - a bibliography for the referenced publications
