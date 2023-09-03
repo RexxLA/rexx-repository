@@ -11,7 +11,15 @@ not ignorable but that have been included ("absorbed") for your convenience: for
 keyword instructions include the first blank after the keyword, if any, and so on.
 
 The tokenizer intent is to support all the syntactical constructs of Open Object Rexx (ooRexx), Regina Rexx and ANSI Rexx. 
-You can select the desired syntax subset at instance creation time by selecting the appropriate class (see below). 
+You can select the desired syntax subset at instance creation time by selecting the appropriate class. 
+
+```
+Rexx.Tokenizer        -- The main class
+ooRexx.Tokenizer      -- Tokenizes programs written in ooRexx
+Regina.Tokenizer      -- Tokenizes programs written in Regina Rexx
+ANSI.Rexx.Tokenizer   -- Tokenizes programs written in ANSI Rexx
+```
+
 Subclasses starting with "Regina" accept the Regina Rexx syntax; subclasses starting with "ANSI.Rexx" accept only the ANSI Rexx syntax 
 (for example, comments starting with "--" are accepted by Regina but not by ANSI); subclasses starting with "ooRexx" accept ooRexx syntax; 
 for example, "\[", "\]" and "~" are valid characters for ooRexx subclasses but not for Regina or ANSI subclasses.
@@ -20,15 +28,39 @@ The tokenizer supports classic comments (including nested comments), line commen
 
 When a Unicode class is used (see below), Y-, P-, T- and U-suffixed strings are recognized, translated (in the case of U strings) and supported.
 
+```
+ooRexx.Unicode.Tokenizer      -- Tokenizes programs written in ooRexx, with experimental Unicode extensions
+Regina.Unicode.Tokenizer      -- Tokenizes programs written in Regina Rexx, with experimental Unicode extensions
+ANSI.Rexx.Unicode.Tokenizer   -- Tokenizes programs written in ANSI Rexx, with experimental Unicode extensions
+```
+
 The full tokenizer is not a full AST parser, but it returns a lof of useful semantical information, like the instruction type, the directive type,
 the kind of variable (simple, stem or compound), etc.
 
 ## Creating a tokenizer instance
 
-To create a tokenizer instance, you will need a Rexx array containing the source file to tokenize. You will also have to decide
-whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the ``getSimpleToken`` tokenizer method),
+To create a tokenizer instance, you will need to construct a Rexx array containing the source file to tokenize. 
+
+```
+size   = Stream(inFile,"Command","Query Size")
+array  = CharIn(inFile,,size)~makeArray
+tokenizer = .ooRexx.Tokenizer~new(array)           -- Or Regina.Tokenizer, etc.
+```
+
+You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the ``getSimpleToken`` tokenizer method),
 or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the ``getFullToken tokenizer method).
-Both kind of tokens are describen below. In case you have opted for the full tokenizer, you will also be able to select _detailed_ or
+
+```
+tokenizer = .ooRexx.Tokenizer~new(array)
+
+Do Forever
+  token. = tokenizer~getSimpleToken                                        -- Or tokenizer~getFullToken
+If token.class == END_OF_SOURCE | token.class == SYNTAX_ERROR Then Leave   -- Constants are defined below
+  -- Do things with the token.
+End
+```
+
+Both kind of tokens are described below. In case you have opted for the full tokenizer, you will also be able to select _detailed_ or
 _undetailed_ tokenizing. _Detailed_ tokenizing returns all the simple tokens that constitute a full token as a property of the
 full token. _Undetailed_ tokenizing returns only the full tokens, and discards the elementary, simple tokens, once the full
 token has been constructed.
@@ -40,10 +72,13 @@ In any case, you will always be able to reconstitute the entirety of your source
 ### Structure of simple tokens
 
 Let us start with a very simple piece of code:
-```rexx
+```
 i = i + 1
 ```
-We will create a test file, and run it through ``inspectSimple.rex``, a sample program you will find in the ``parser`` directory. 
+We will create a test file, say ``test.rex``, and run it through ``inspectSimple.rex``, a sample utility program you will find in the ``parser`` directory. 
+```
+inspectSimple test.rex
+```
 Here is the output of the program, prettyprinted and commented for your convenience.
 ```
  1   [1 1 1 1]: ''  (; B)  -- Automatically generated BEGIN_OF_SOURCE marker.
@@ -67,24 +102,26 @@ Here is the output of the program, prettyprinted and commented for your convenie
   this is the token itself, but in some cases (classic comments, resources) only an indicator is returned
   (you can always reconstitute the original comment or resource by referring to the _location_ attribute
   of the token). In some other cases, the _value_ contains an elaboration of the original token: for example,
-  an U string will be interpreted, so that its value can be substituted in the source file ("(man)"U will
-  generate a value of "👨").
+  an X, B or U string will be interpreted, so that their value can be substituted in the source file ("(man)"U,
+  for instance, will generate a value of "👨").
 * The fourth column contains two values, grouped by parenthesis. These are the _class_ and the _subclass_ of the token.
   They give a lot of information about the nature of the token (e.g., this is a NUMBER \[class\], subclass INTEGER; or
   this is a VAR_SYMBOL \[class\], subclass SIMPLE \[i.e., not a stem or a compound variable\]) and will be described below
 
 How does the ``inspectSimple.rex`` program work? Well, essentially what it does is the following: it instantiates a
-tokenizer instance, and they it runs it, by calling the ``getSimpleToken`` method, until the end of file is
-reached (there is a special token for END_OF_FILE, but we have not shown it here). Now, here is the trick:
-_``getSimpleToken`` returns tokens... which are Rexx stems!_ (you can already imagine the components of these stems):
+tokenizer instance, and then it runs it, by calling the ``getSimpleToken`` method, until either the end of file is reached
+or a syntax error is encountered. Now, here is the trick: ``getSimpleToken`` _returns tokens... which are Rexx stems!_ 
+(you can already imagine the components of these stems):
 
-    -- after
-    token. = tokenizerInstance~getSimpleToken
-    -- we have (assume that we have just scanned the second "i" of the above program)
-    token.class    -- The CLASS of the token, i.e., V (stands for VAR_SYMBOL)
-    token.subClass -- The SUBCLASS of the token, i.e., 1 (stands for SIMPLE)
-    token.location -- The LOCATION of the token, i.e., "1 5 1 6"
-    token.value    -- The VALUE of the token, i.e., "1".
+```
+-- after
+token. = tokenizerInstance~getSimpleToken
+-- we have (assume that we have just scanned the second "i" of the above program)
+token.class    -- The CLASS of the token, i.e., V (stands for VAR_SYMBOL)
+token.subClass -- The SUBCLASS of the token, i.e., 1 (stands for SIMPLE)
+token.location -- The LOCATION of the token, i.e., "1 5 1 6"
+token.value    -- The VALUE of the token, i.e., "1".
+```
 
 Now you know practically everything there is to know about simple tokens (indeed, there are only two things more
 to know, if you limit yourself to simple tokenizing: _error tokens_, and _end-of-file conditions_; we will get
@@ -94,8 +131,8 @@ to both of these shortly).
 
 What happens now if we want _full_ tokens, instead of _simple_ ones? Well, we have a corresponding
 ``inspectFull.rex`` utility program: it calls ``getFullToken`` instead of ``getSimpleToken``. 
-Let us have a look at its output. Some tokens are the same as before, but some others have changed. 
-Let us focus on those:
+Let us have a look at its output. Some tokens are the same as before, but some others have experienced some
+modifications. Let us focus on those:
 
     1   [1 1 1 1]: ''  (; B)
     2   [1 1 1 2]: 'i' (O 1)
@@ -120,4 +157,43 @@ Similarly, the _subclass_ of "=" has changed. Previously, it was "o", for OPERAT
 tokenizer knew was that "=" was an operator character. Now it is "c", COMPARISON_OPERATOR,
 which is more informative. Similarly, "+" has now a subclass of "a", ADDITIVE_OPERATOR.
 
+### Structure of full tokens (detailed)
+
+As we mentioned above, when using the full tokenizer, you have the option to request a _detailed_ 
+tokenizing. You do so at instance creation time, by specifying the optional, boolean, _detailed_ argument:
+
+```
+detailed = .true
+tokenizer = .ooRexx.Tokenizer~new(array, detailed)
+```
+There is a corresponding ``inspectFullDetailed.rex`` utility program to test this feature. Let us try it,
+once more, on our test program. We will get something similar to the following (we have added comments
+and some prettyprinting):
+
+```
+1   [1 1 1 1]: ''  (; B)
+2   [1 1 1 2]: 'i' (O 1)
+3   [1 2 1 5]: '=' (o c)              -- If this token is the stem "token." ...
+       ---> Absorbed:
+       1 [1 2 1 3] (b b): ' '        -- ...then these subtokens are in token.absorbed[1], ...
+       2 [1 3 1 4] (o o): '=' <==    -- ...token.absorbed[2], and...
+       3 [1 4 1 5] (b b): ' '        -- ...token.absorbed[3].
+4   [1 5 1 6]: 'i' (V 1)
+5   [1 6 1 9]: '+' (o a)
+       ---> Absorbed:
+       1 [1 6 1 7] (b b): ' '
+       2 [1 7 1 8] (o o): '+' <==    -- The "original" main token is indexed by token.cloneIndex, so that...
+       3 [1 8 1 9] (b b): ' '        -- ...token.absorbed[token.cloneIndex] is that token.
+6  [1 9 1 10]: '1' (N 4)
+7 [1 10 1 10]: ''  (; L)
+```
+
+The non-indented lines are identical to the previous listing. The indented ones show us some new components
+of a full token, when a detailed tokenizing is requested:
+
+* ``token.absorbed`` is an array of "absorbed" tokens. If there are no absorbed tokens, ``token.~hasIndex(absorbed)`` is
+  false.
+* ``token.cloneIndex`` is the index in ``token.absorbed`` of the "original" token. For example, when a "=" operator
+  absorbs two blanks, these blanks are ignorable, but the "=" operator is the "original", main, non-ignorable token.
+  In that case, ``token.cloneIndex`` will be the index of the "=" operator in the ``absorbed`` array.
 
