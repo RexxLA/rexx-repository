@@ -1,4 +1,4 @@
-CPP_OPTIONS = -E -C -P -Ihelpers
+CPP_OPTIONS = -E -C -P -Ihelpers --traditional
 # -C    Do not discard comments
 # -E    Only run the preprocessor
 # -P    Inhibit generation of linemarkers in the output from the preprocessor
@@ -22,7 +22,6 @@ help:
 	@echo make clean_tutor
 
 scripts: \
-        generated \
         generated/crexx_expected_results.rexx \
         generated/netrexx_expected_results.nrx \
         generated/oorexx_expected_results.rex \
@@ -36,16 +35,17 @@ scripts: \
 #########
 
 generated/crexx_expected_results.rexx: \
+        generated \
         expected_results.rex \
         helpers/do_not_edit.txt \
         helpers/check_interpreter.rex
 	cpp -DCREXX $(CPP_OPTIONS) expected_results.rex > generated/crexx_expected_results.rexx
 
 crexx_results: \
-        generated/results \
         generated/results/crexx_results.txt
 
 generated/results/crexx_results.txt: \
+        generated/results \
         generated/crexx_expected_results.rexx
 	cd generated && \
 	rxc crexx_expected_results && \
@@ -69,16 +69,17 @@ clean_crexx:
 ###########
 
 generated/netrexx_expected_results.nrx: \
+        generated \
         expected_results.rex \
         helpers/do_not_edit.txt \
         helpers/check_interpreter.rex
 	cpp -DNETREXX $(CPP_OPTIONS) expected_results.rex > generated/netrexx_expected_results.nrx
 
 netrexx_results: \
-        generated/results \
         generated/results/netrexx_results.txt
 
 generated/results/netrexx_results.txt: \
+        generated/results \
         generated/netrexx_expected_results.nrx
 	cd generated && \
 	nrc netrexx_expected_results.nrx && \
@@ -100,16 +101,17 @@ clean_netrexx:
 ##########
 
 generated/oorexx_expected_results.rex: \
+        generated \
         expected_results.rex \
         helpers/do_not_edit.txt \
         helpers/check_interpreter.rex
 	cpp -DOOREXX $(CPP_OPTIONS) expected_results.rex > generated/oorexx_expected_results.rex
 
 oorexx_results: \
-        generated/results \
         generated/results/oorexx_results.txt
 
 generated/results/oorexx_results.txt: \
+        generated/results \
         generated/oorexx_expected_results.rex
 	cd generated && \
 	rm -f results/oorexx_results.txt && \
@@ -129,16 +131,17 @@ clean_oorexx:
 ##########
 
 generated/regina_expected_results.rex: \
+        generated \
         expected_results.rex \
         helpers/do_not_edit.txt \
         helpers/check_interpreter.rex
 	cpp -DREGINA $(CPP_OPTIONS) expected_results.rex > generated/regina_expected_results.rex
 
 regina_results: \
-        generated/results \
         generated/results/regina_results.txt
 
 generated/results/regina_results.txt: \
+        generated/results \
         generated/regina_expected_results.rex
 	cd generated && \
 	rm -f results/regina_results.txt && \
@@ -158,6 +161,7 @@ clean_regina:
 ############
 
 generated/executor_expected_results.rex: \
+        generated \
         expected_results.rex \
         helpers/do_not_edit.txt \
         helpers/check_interpreter.rex \
@@ -166,10 +170,10 @@ generated/executor_expected_results.rex: \
 	cpp -DEXECUTOR $(CPP_OPTIONS) expected_results.rex > generated/executor_expected_results.rex
 
 executor_results: \
-        generated/results \
         generated/results/executor_results.txt
 
 generated/results/executor_results.txt: \
+        generated/results \
         generated/executor_expected_results.rex
 	cd generated && \
 	rm -f results/executor_results.txt && \
@@ -189,16 +193,17 @@ clean_executor:
 #########
 
 generated/tutor_expected_results.rxu: \
+        generated \
         expected_results.rex \
         helpers/do_not_edit.txt \
         helpers/check_interpreter.rex
 	cpp -DTUTOR $(CPP_OPTIONS) expected_results.rex > generated/tutor_expected_results.rxu
 
 tutor_results: \
-        generated/results \
         generated/results/tutor_results.txt
 
 generated/results/tutor_results.txt: \
+        generated/results \
         generated/tutor_expected_results.rxu
 	cd generated && \
 	rm -f results/tutor_results.txt && \
@@ -220,6 +225,7 @@ clean_tutor:
 generated:
 	mkdir generated
 
-generated/results:
+generated/results: \
+        generated
 	cd generated && \
 	mkdir results
