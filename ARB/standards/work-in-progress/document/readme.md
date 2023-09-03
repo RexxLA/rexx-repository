@@ -1,6 +1,6 @@
 # How the standard is produced
 
-The initial text is taken from the last known draft of the Extended Standard, which was a work in progress that was never completed. The reasons for this are not important for this readme.md
+The initial text is taken from the last known draft of the Extended Standard, which was a work in progress that was never completed. The reasons for this are not important for this readme.md. Do note that the current standard is also very much a work in progress and even simple things like formatting are not done yet.
 
 # Goals
 
