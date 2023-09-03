@@ -209,7 +209,7 @@ Do constant over tokenizer~tokenClasses
 End
 ```
 
-You should always use this construction, instead of relying in the internal values of the constants: these values
+You should always use this construction, instead of relying on the internal values of the constants: these values
 can be changed without notice.
 
 Here is the full value of the ``tokenClasses`` constant:
