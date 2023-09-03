@@ -93,8 +93,9 @@ to both of these shortly).
 ### Structure of full tokens (undetailed)
 
 What happens now if we want _full_ tokens, instead of _simple_ ones? Well, we have a corresponding
-``inspectFull.rex`` utility program. Let us have a look at its output. Some tokens are the same as
-before, but others have changed. Let's focus on those:
+``inspectFull.rex`` utility program: it calls ``getFullToken`` instead of ``getSimpleToken``. 
+Let us have a look at its output. Some tokens are the same as before, but some others have changed. 
+Let us focus on those:
 
     1   [1 1 1 1]: ''  (; B)
     2   [1 1 1 2]: 'i' (O 1)
