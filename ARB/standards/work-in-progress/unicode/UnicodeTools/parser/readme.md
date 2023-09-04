@@ -2,16 +2,16 @@
 
 ## Introduction
 
-The ``Rexx.Tokenizer.cls`` classfile includes a set of ooRexx classes. The main class is ``Rexx.Tokenizer``. 
-It implements both a _basic_ and a _full_ Rexx tokenizer (see below for definitions of _basic_ and _full_ tokenizing). 
-The ``getSimpleToken`` method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace, 
-while the ``getFullToken`` method returns full tokens, after discarding null clauses, ignorable blanks and comments. 
+The ``Rexx.Tokenizer.cls`` classfile includes a set of ooRexx classes. The main class is ``Rexx.Tokenizer``.
+It implements both a _basic_ and a _full_ Rexx tokenizer (see below for definitions of _basic_ and _full_ tokenizing).
+The ``getSimpleToken`` method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
+while the ``getFullToken`` method returns full tokens, after discarding null clauses, ignorable blanks and comments.
 When requesting full tokens, an optional mechanism allows access to the ignored simple tokens and some other tokens that are
 not ignorable but that have been included ("absorbed") for your convenience: for example, labels include their own colon,
 keyword instructions include the first blank after the keyword, if any, and so on.
 
-The tokenizer intent is to support all the syntactical constructs of Open Object Rexx (ooRexx), Regina Rexx and ANSI Rexx. 
-You can select the desired syntax subset at instance creation time by selecting the appropriate class. 
+The tokenizer intent is to support all the syntactical constructs of Open Object Rexx (ooRexx), Regina Rexx and ANSI Rexx.
+You can select the desired syntax subset at instance creation time by selecting the appropriate class.
 
 ```rexx
 Rexx.Tokenizer        -- The main class
@@ -20,11 +20,11 @@ Regina.Tokenizer      -- Tokenizes programs written in Regina Rexx
 ANSI.Rexx.Tokenizer   -- Tokenizes programs written in ANSI Rexx
 ```
 
-Subclasses starting with "Regina" accept the Regina Rexx syntax; subclasses starting with "ANSI.Rexx" accept only the ANSI Rexx syntax 
-(for example, comments starting with "--" are accepted by Regina but not by ANSI); subclasses starting with "ooRexx" accept ooRexx syntax; 
+Subclasses starting with "Regina" accept the Regina Rexx syntax; subclasses starting with "ANSI.Rexx" accept only the ANSI Rexx syntax
+(for example, comments starting with "--" are accepted by Regina but not by ANSI); subclasses starting with "ooRexx" accept ooRexx syntax;
 for example, "\[", "\]" and "~" are valid characters for ooRexx subclasses but not for Regina or ANSI subclasses.
 
-The tokenizer supports classic comments (including nested comments), line comments and strings. ooRexx ::Resources are also handled. 
+The tokenizer supports classic comments (including nested comments), line comments and strings. ooRexx ::Resources are also handled.
 
 When a Unicode class is used (see below), Y-, P-, T- and U-suffixed strings are recognized, translated (in the case of U strings) and supported.
 
@@ -39,7 +39,7 @@ the kind of variable (simple, stem or compound), etc.
 
 ## Creating a tokenizer instance
 
-To create a tokenizer instance, you will need to construct a Rexx array containing the source file to tokenize. 
+To create a tokenizer instance, you will need to construct a Rexx array containing the source file to tokenize.
 
 ```rexx
 size   = Stream(inFile,"Command","Query Size")
@@ -67,7 +67,7 @@ token has been constructed.
 
 In any case, you will always be able to reconstitute the entirety of your source file by following the location attributes of the returned tokens.
 
-## An example: simple and full tokens, 
+## An example: simple and full tokens,
 
 ### Structure of simple tokens
 
@@ -75,7 +75,7 @@ Let us start with a very simple piece of code:
 ```rexx
 i = i + 1
 ```
-We will create a test file, say ``test.rex``, and run it through ``inspectSimple.rex``, a sample utility program you will find in the ``parser`` directory. 
+We will create a test file, say ``test.rex``, and run it through ``inspectSimple.rex``, a sample utility program you will find in the ``parser`` directory.
 ```
 inspectSimple test.rex
 ```
@@ -94,7 +94,7 @@ Here is the output of the program, prettyprinted and commented for your convenie
 11 [1 10 1 10]: ''  (; L)  -- An END_OF_LINE indicator (which works as an implied semicolon)
 ```
 * The first column is a _counter_.
-* The second column is an aggregate, the _location_ of the token. We have written if between \[brackets\].
+* The second column is an aggregate, the _location_ of the token. We have written it between \[brackets\].
   It is of the form _starting-position_ _ending-position_, where each _position_ is a _line-column_ sequence.
   The ending position if the first character _after_ the returned token. For example, the first "i" in the line
   runs from position (1,1) to position (1,2).
@@ -110,7 +110,7 @@ Here is the output of the program, prettyprinted and commented for your convenie
 
 How does the ``inspectSimple.rex`` program work? Well, essentially what it does is the following: it instantiates a
 tokenizer instance, and then it runs it, by calling the ``getSimpleToken`` method, until either the end of file is reached
-or a syntax error is encountered. Now, here is the trick: ``getSimpleToken`` _returns tokens... which are Rexx stems!_ 
+or a syntax error is encountered. Now, here is the trick: ``getSimpleToken`` _returns tokens... which are Rexx stems!_
 (you can already imagine the components of these stems):
 
 ```rexx
@@ -130,7 +130,7 @@ to both of these shortly).
 ### Structure of full tokens (undetailed)
 
 What happens now if we want _full_ tokens, instead of _simple_ ones? Well, we have a corresponding
-``inspectFull.rex`` utility program: it calls ``getFullToken`` instead of ``getSimpleToken``. 
+``inspectFull.rex`` utility program: it calls ``getFullToken`` instead of ``getSimpleToken``.
 Let us have a look at its output. Some tokens are the same as before, but some others have experienced some
 modifications. Let us focus on those:
 
@@ -161,7 +161,7 @@ which is more informative. Similarly, "+" has now a subclass of "a", ADDITIVE_OP
 
 ### Structure of full tokens (detailed)
 
-As we mentioned above, when using the full tokenizer, you have the option to request a _detailed_ 
+As we mentioned above, when using the full tokenizer, you have the option to request a _detailed_
 tokenizing. You do so at instance creation time, by specifying the optional, boolean, _detailed_ argument:
 
 ```rexx
@@ -221,15 +221,15 @@ Here is the full value of the ``tokenClasses`` constant:
   ( SYNTAX_ERROR                   , "E" ), -  -- Special token returned when a Syntax error is found
   ( OPERATOR                       , "o" ), -
                                             -  -- +--- All subclasses of OPERATOR are full tokenizer only
-    ( ADDITIVE_OPERATOR            , "a" ), -  -- | "+", "-" 
-    ( COMPARISON_OPERATOR          , "c" ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
+    ( ADDITIVE_OPERATOR            , "a" ), -  -- | "+", "-"
+    ( COMPARISON_OPERATOR          , "c" ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>"
                                             -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
-    ( CONCATENATION_OPERATOR       , "k" ), -  -- | "||" 
-    ( LOGICAL_OPERATOR             , "l" ), -  -- | "&", "|", "&&" 
-    ( MESSAGE_OPERATOR             , "s" ), -  -- | "~", "~~" 
-    ( MULTIPLICATIVE_OPERATOR      , "m" ), -  -- | "*", "/", "//", "%" 
-    ( POWER_OPERATOR               , "p" ), -  -- | "**" 
-    ( EXTENDED_ASSIGNMENT          , "x" ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
+    ( CONCATENATION_OPERATOR       , "k" ), -  -- | "||"
+    ( LOGICAL_OPERATOR             , "l" ), -  -- | "&", "|", "&&"
+    ( MESSAGE_OPERATOR             , "s" ), -  -- | "~", "~~"
+    ( MULTIPLICATIVE_OPERATOR      , "m" ), -  -- | "*", "/", "//", "%"
+    ( POWER_OPERATOR               , "p" ), -  -- | "**"
+    ( EXTENDED_ASSIGNMENT          , "x" ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**="
                                             -  -- +--- All subclasses of OPERATOR are full tokenizer only
   ( SPECIAL                        , "s" ), -
   ( COLON                          , ":" ), -
@@ -255,64 +255,64 @@ Here is the full value of the ``tokenClasses`` constant:
                                             -  -- ==============
   ( LABEL                          , "W" ), -  -- Includes and absorbs the COLON
                                             -  -- All DIRECTIVEs include and absorb the :: marker
-  ( DIRECTIVE                      , "w" ), -  -- 
-    ( ANNOTATE_DIRECTIVE           , "1" ), -  -- 
-    ( ATTRIBUTE_DIRECTIVE          , "2" ), -  -- 
-    ( CLASS_DIRECTIVE              , "3" ), -  -- 
-    ( CONSTANT_DIRECTIVE           , "4" ), -  -- 
-    ( METHOD_DIRECTIVE             , "5" ), -  -- 
-    ( OPTIONS_DIRECTIVE            , "6" ), -  -- 
-    ( REQUIRES_DIRECTIVE           , "7" ), -  -- 
-    ( RESOURCE_DIRECTIVE           , "8" ), -  -- 
-    ( ROUTINE_DIRECTIVE            , "9" ), -  -- 
+  ( DIRECTIVE                      , "w" ), -  --
+    ( ANNOTATE_DIRECTIVE           , "1" ), -  --
+    ( ATTRIBUTE_DIRECTIVE          , "2" ), -  --
+    ( CLASS_DIRECTIVE              , "3" ), -  --
+    ( CONSTANT_DIRECTIVE           , "4" ), -  --
+    ( METHOD_DIRECTIVE             , "5" ), -  --
+    ( OPTIONS_DIRECTIVE            , "6" ), -  --
+    ( REQUIRES_DIRECTIVE           , "7" ), -  --
+    ( RESOURCE_DIRECTIVE           , "8" ), -  --
+    ( ROUTINE_DIRECTIVE            , "9" ), -  --
                                             -  --
-  ( KEYWORD_INSTRUCTION            , "K" ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present 
-    (ADDRESS_INSTRUCTION           , "a" ), -  --     
-    (ARG_INSTRUCTION               , "b" ), -  -- 
-    (CALL_INSTRUCTION              , "c" ), -  -- 
+  ( KEYWORD_INSTRUCTION            , "K" ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present
+    (ADDRESS_INSTRUCTION           , "a" ), -  --
+    (ARG_INSTRUCTION               , "b" ), -  --
+    (CALL_INSTRUCTION              , "c" ), -  --
     (CALL_ON_INSTRUCTION           , "K" ), -  -- Includes CALL ON
     (CALL_OFF_INSTRUCTION          , "L" ), -  -- Includes CALL OFF
-    (DO_INSTRUCTION                , "d" ), -  -- 
-    (DROP_INSTRUCTION              , "e" ), -  -- 
+    (DO_INSTRUCTION                , "d" ), -  --
+    (DROP_INSTRUCTION              , "e" ), -  --
     (ELSE_INSTRUCTION              , "f" ), -  -- Inserts a ";" after
-    (END_INSTRUCTION               , "g" ), -  -- 
-    (EXIT_INSTRUCTION              , "h" ), -  -- 
-    (EXPOSE_INSTRUCTION            , "i" ), -  -- 
-    (FORWARD_INSTRUCTION           , "j" ), -  -- 
-    (GUARD_INSTRUCTION             , "k" ), -  -- 
-    (IF_INSTRUCTION                , "l" ), -  -- 
-    (INTERPRET_INSTRUCTION         , "m" ), -  -- 
-    (ITERATE_INSTRUCTION           , "n" ), -  -- 
-    (LEAVE_INSTRUCTION             , "o" ), -  -- 
-    (LOOP_INSTRUCTION              , "p" ), -  -- 
-    (NOP_INSTRUCTION               , "q" ), -  -- 
-    (NUMERIC_INSTRUCTION           , "r" ), -  -- 
-    (OPTIONS_INSTRUCTION           , "s" ), -  -- 
+    (END_INSTRUCTION               , "g" ), -  --
+    (EXIT_INSTRUCTION              , "h" ), -  --
+    (EXPOSE_INSTRUCTION            , "i" ), -  --
+    (FORWARD_INSTRUCTION           , "j" ), -  --
+    (GUARD_INSTRUCTION             , "k" ), -  --
+    (IF_INSTRUCTION                , "l" ), -  --
+    (INTERPRET_INSTRUCTION         , "m" ), -  --
+    (ITERATE_INSTRUCTION           , "n" ), -  --
+    (LEAVE_INSTRUCTION             , "o" ), -  --
+    (LOOP_INSTRUCTION              , "p" ), -  --
+    (NOP_INSTRUCTION               , "q" ), -  --
+    (NUMERIC_INSTRUCTION           , "r" ), -  --
+    (OPTIONS_INSTRUCTION           , "s" ), -  --
     (OTHERWISE_INSTRUCTION         , "t" ), -  -- Inserts a ";" after
     (PARSE_INSTRUCTION             , "u" ), -  -- Includes UPPER, LOWER and CASELESS (as attributes too)
-    (PROCEDURE_INSTRUCTION         , "v" ), -  -- 
-    (PUSH_INSTRUCTION              , "w" ), -  -- 
-    (PULL_INSTRUCTION              , "x" ), -  -- 
-    (QUEUE_INSTRUCTION             , "y" ), -  -- 
-    (RAISE_INSTRUCTION             , "z" ), -  -- 
-    (REPLY_INSTRUCTION             , "A" ), -  -- 
-    (RETURN_INSTRUCTION            , "B" ), -  -- 
-    (SAY_INSTRUCTION               , "C" ), -  -- 
-    (SELECT_INSTRUCTION            , "D" ), -  -- 
-    (SIGNAL_INSTRUCTION            , "E" ), -  -- 
+    (PROCEDURE_INSTRUCTION         , "v" ), -  --
+    (PUSH_INSTRUCTION              , "w" ), -  --
+    (PULL_INSTRUCTION              , "x" ), -  --
+    (QUEUE_INSTRUCTION             , "y" ), -  --
+    (RAISE_INSTRUCTION             , "z" ), -  --
+    (REPLY_INSTRUCTION             , "A" ), -  --
+    (RETURN_INSTRUCTION            , "B" ), -  --
+    (SAY_INSTRUCTION               , "C" ), -  --
+    (SELECT_INSTRUCTION            , "D" ), -  --
+    (SIGNAL_INSTRUCTION            , "E" ), -  --
     (SIGNAL_ON_INSTRUCTION         , "M" ), -  -- Includes SIGNAL ON
     (SIGNAL_OFF_INSTRUCTION        , "N" ), -  -- Includes SIGNAL OFF
     (THEN_INSTRUCTION              , "F" ), -  -- Inserts a ";" before and after
-    (TRACE_INSTRUCTION             , "G" ), -  -- 
+    (TRACE_INSTRUCTION             , "G" ), -  --
     (UPPER_INSTRUCTION             , "H" ), -  -- Regina only, no ANSI
-    (USE_INSTRUCTION               , "I" ), -  -- 
-    (WHEN_INSTRUCTION              , "J" ), -  -- 
-  ( ASSIGNMENT_INSTRUCTION         , "O" ), -  -- Variable assignments, not message assignments        
-  ( COMMAND_OR_MESSAGE_INSTRUCTION , "P" ), -  -- Cannot determine without arbitrarily large context    
+    (USE_INSTRUCTION               , "I" ), -  --
+    (WHEN_INSTRUCTION              , "J" ), -  --
+  ( ASSIGNMENT_INSTRUCTION         , "O" ), -  -- Variable assignments, not message assignments
+  ( COMMAND_OR_MESSAGE_INSTRUCTION , "P" ), -  -- Cannot determine without arbitrarily large context
                                             -  -- End of CLAUSE SUPPORT
                                             -  -- =====================
-  ( VAR_SYMBOL                     , "V" ), -  
-    ( SIMPLE                       , "1" ), -  
+  ( VAR_SYMBOL                     , "V" ), -
+    ( SIMPLE                       , "1" ), -
     ( STEM                         , "2" ), -
     ( COMPOUND                     , "3" ), -
   ( NUMBER                         , "N" ), -
@@ -326,7 +326,7 @@ Here is the full value of the ``tokenClasses`` constant:
   ( STRING                         , "S" ), -
     ( BINARY                       , "B" ), -
     ( HEXADECIMAL                  , "X" ), -
-    ( CHARACTER                    , "C" ), -  
+    ( CHARACTER                    , "C" ), -
     ( BYTES                        , "Y" ), -  -- Unicode only. Y suffix
     ( CODEPOINTS                   , "P" ), -  -- Unicode only. P suffix
     ( TEXT                         , "T" ), -  -- Unicode only. T suffix
@@ -334,8 +334,8 @@ Here is the full value of the ``tokenClasses`` constant:
 )
 ```
 
-You will notice that many classes and subclasses are marker as "full tokenizer only": they will
-only be returned a values when using the full tokenizer. Some other are marked as Unicode only,
+You will notice that many classes and subclasses are marked as "full tokenizer only": they will
+only be returned as values when using the full tokenizer. Some other are marked as Unicode only,
 or Regina only, etc.
 
 ## Error handling
@@ -365,12 +365,12 @@ the following code snippet:
 If token.class == SYNTAX_ERROR Then Do
   line = token.line
   Parse Value token.number With major"."minor
-  
+
   Say
   Say Right(line,6) "*-*" array[line]                              -- "array" contains the source code
   Say "Error" major "running" inFile "line" line":" token.message  -- "inFile" is the input filename
   Say "Error" major"."minor": " token.secondaryMessage
-  
+
   Return -major                                                    -- Should be returned when Syntax error
 End
 ```
