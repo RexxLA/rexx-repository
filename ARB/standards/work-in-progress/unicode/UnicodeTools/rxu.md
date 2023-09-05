@@ -67,7 +67,27 @@ Please refer to the documentation for Unicode.cls and Stream.cls for a detailed 
   Once the _string_ is normalized, encoding is attempted using the specified _encoding_. _ENCODE_ returns the encoded string,
   or a null string if any of normalization or encoding failed. You can influence the behaviour of the function when an error is encountered by specifying the optional _errorHandling_ argument.
   When _errorHandling_ is not specified, is ``""`` or is ``"NULL"`` (the default), a null string is returned if an error is encountered.
-  When _errorHandling_ has the value ``"SYNTAX"``, a Syntax error is raised if an error is encountered.   
+  When _errorHandling_ has the value ``"SYNTAX"``, a Syntax error is raised if an error is encountered.
+* ``N2P( name )`` (Name to codePoint). Returns the hexadecimal Unicode codepoint corresponding to _name_, or the null string if _name_ does not correspond to a Unicode codepoint.
+  ``N2P`` accepts _names_, as defined in the second column of ``UnicodeData.txt`` (that is, the Unicode "Name" \["Na"\] property), like ``"LATIN CAPITAL LETTER F"`` or ``"BELL"``;
+  aliases, as defined in ``NameAliases.txt``, like ``"LF"`` or ``"FORM FEED"``, and labels identifying codepoints that have no names, like ``"<Control-0001>"`` or ``"<Private Use-E000>"``.
+  When specifying a _name_, case is ignored, as are certain characters: spaces, medial dashes (except for the ``"HANGUL JUNGSEONG O-E"`` codepoint) and underscores that replace dashes.
+  Hence, ``"BELL"``, ``"bell"`` and ``"Bell"`` are all equivalent, as are ``"LATIN CAPITAL LETTER F"``, ``"Latin capital letter F"`` and ``"latin_capital_letter_f"``.
+  Returned codepoints will have a minimum length of four digits, and will never start with a zero if they have more than four digits.
+* ``P2N( codepoint )`` (codePoint to Name). Returns the name or label corresponding to the hexadecimal Unicode _codepoint_ argument, or the null string if the codepoint has no name or label.
+  The argument _codepoint_ is first verified for validity. If it is not a valid hexadecimal number or it is out-of-range, a null string is returned.
+  If the _codepoint_ is found to be valid, it is then normalized: if it has less than four digits, zeros are added to the left,
+  until the _codepoint_ has exactly four digits; and if the _codepoint_ has more than four digits, leading zeros are removed, until no more zeros are found or the _codepoint_ has exactly four characters.
+  Once the _codepoint_ has been validated and normalized, it is uppercased, and the Unicode Character Database is then searched for the "Name" ("Na") property.
+  If the _codepoint_ has a name, that name is returned.
+  If the codepoint does not have a name but it has a label, like ``"<control-0010>"``, that label is returned. In all other cases, the null string is returned.
+  __Note__. Labels are always enclosed between ``"<"`` and ``">"`` signs. This allows to quickly distinguish them from names.
+* ``STRINGTYPE( string [, type] )``.  If you specify only _string_, it returns ``TEXT`` when _string_ is a TEXT string,
+  ``CODEPOINTS`` when _string_ is a CODEPOINTS string, and ``BYTES`` when _string_ is a BYTES string. If you specify _type_, it returns __1__ when
+  _string_ matches the _type_. Otherwise, it returns __0__. The following are valid types: 
+    * ``BYTES``. Returns __1__ if the string is a BYTES string.
+    * ``CODEPOINTS``. Returns __1__ if the string is a CODEPOINTS string.
+    * ``TEXT``. Returns __1__ if the string is a TEXT string.
 * ``TEXT(string)`` converts a string to the TEXT format, i.e., to a format where the basic components of a string are extended grapheme clusters.
   The _string_ is expected to contain valid UTF-8; a Syntax error will be raised if _string_ contains ill-formed characters.
 
