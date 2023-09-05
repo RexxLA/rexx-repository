@@ -1,6 +1,6 @@
-# The Unicode Tools for Rexx
+# The Unicode Tools Of Rexx
 
-Version 0.3a, 20230817.
+Version 0.4, 20230901.
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────────┐  
@@ -19,9 +19,18 @@ You can then navigate to the ``samples`` directory and try the samples by using 
 
 ## Documentation
 
-This release includes some new [documentation](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/oorexxdoc.html). 
+* [For The Unicode Tools Of Rexx](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/oorexxdoc.html).
+* [For the Rexx Tokenizer](https://htmlpreview.github.io/?https://raw.githubusercontent.com/RexxLA/rexx-repository/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/doc/packages/Rexx.Tokenizer.cls.html).
 
-## Release notes for version 0.3b
+## Release notes for version 0.4, 20230901.
+
+The main changes in the 0.4 release are (a) a big upgrade to the Rexx tokenizer, and (b) a complete rewrite of ``rxu.rex``, the Rexx Preprocessor for Unicode, to take advantage of the improvements in the tokenizer.
+
+To know more about the upgraded tokenizer, please refer (to its readme file)[parser/readme.md]. Changes to the Rexx Preprocessor for Unicode are internal, and should not affect its functionality. If at all, you should find that the new version is more smooth and stable.
+
+---
+
+## Release notes for version 0.3b, 20230817.
 
 Highlights:
 
