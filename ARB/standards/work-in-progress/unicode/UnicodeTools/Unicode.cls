@@ -708,7 +708,7 @@ Names:
     End
     Else Do
       Parse Var contents word contents
-      If f(word) == "U+"         Then Signal BadCodepoint
+      If Upper(word) == "U+"         Then Signal BadCodepoint
       If Upper(Left(word,2)) == "U+" Then word = SubStr(word,3)
       If \DataType(word,"X")         Then Signal BadCodepoint
       If X2D(word) >  X2D(10FFFF)    Then Signal BadCodepoint

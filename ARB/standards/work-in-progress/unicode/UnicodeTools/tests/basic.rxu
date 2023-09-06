@@ -1,0 +1,37 @@
+-- Run a number of basic tests to check that the RXU translation level and BIFs are working
+
+Say "Running basic tests..."
+
+Options DefaultString Text
+
+str = "string"
+
+If StringType(str) \== "TEXT" Then Call Fail "Expected STRINGTYPE = TEXT, found '"StringType(str)"'."
+
+Options DefaultString Codepoints
+
+str = "string"
+
+If StringType(str) \== "CODEPOINTS" Then Call Fail "Expected STRINGTYPE = CODEPOINTS, found '"StringType(str)"'."
+
+Options DefaultString BYTES
+
+str = "string"
+
+If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
+
+Options DefaultString NONE
+
+str = "string"
+
+If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
+
+Say "All basic tests PASSED!"
+
+Exit 0
+
+
+Fail: save = sigl
+  Say "Test FAILED at line" save":"
+  Say Arg(1)
+Exit 1  
