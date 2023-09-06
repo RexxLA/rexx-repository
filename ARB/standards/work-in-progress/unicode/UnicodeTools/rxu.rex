@@ -324,8 +324,8 @@ Transform: Procedure Expose filename warnBIF
     -- Explore all the sub-tokens, if any
     If x~hasIndex(absorbed) Then y = x[absorbed]
     Else                         y = .array~of(x)
-    
-    Do z over y
+            
+    Do counter count z over y      
     
       -- "Transformed" will be .nil if we leave the token as-is, or the new token otherwise
       transformed = .nil
@@ -379,10 +379,12 @@ Transform: Procedure Expose filename warnBIF
           End
         End
       End
-      Else If z[class] == KEYWORD_INSTRUCTION, z[subClass] == OPTIONS_INSTRUCTION Then Do
+           
+      If x[class] == KEYWORD_INSTRUCTION, x[subClass] == OPTIONS_INSTRUCTION, x[cloneIndex] == count Then Do
         transformed = "Do; !Options ="
         optionsContext = 1
       End
+      
       Do i = lastLine To line1-1
         Call CharOut outFile, eol -- Sources are created in Windows
       End
