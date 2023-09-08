@@ -213,8 +213,8 @@ Properties:
  *   <code>"Latin capital letter F"</code> and <code>"latin_capital_letter_f"</code>.
  *
  * <p>
- *   Returned codepoints will have a minimum length of four digits, and will never start with a zero if they have
- *   more than four digits.
+ *   Returned codepoints will always be <em>normalized</em>: they will have a minimum length of four digits, 
+ *   and they will never start with a zero if they have more than four digits.
  *
  * <p><b>Examples:</b>
  *
@@ -463,7 +463,7 @@ Use Strict Arg code
  *   set of tokens. Each token can have one of the following values: <code>"UTF8"</code>, <code>"UTF-8"</code>, <code>"UTF32"</code>, or
  *   <code>"UTF-32"</code> (duplicates are allowed and ignored). When <code>"UTF8"</code> or <code>"UTF-8"</code> have been specified,
  *   a UTF-8 representation of the decoded string is returned. When <code>"UTF32"</code> or <code>"UTF-32"</code> have been specified,
- *   UTF-32 representation of the decoded string is returned. When both have been specified, an two-items array is returned. The first item
+ *   UTF-32 representation of the decoded string is returned. When both have been specified, a two-items array is returned. The first item
  *   of the array is the UTF-8 representation of the decoded string, and the second item of the array contains the UTF-32 representation
  *   of the decoded string.
  *
@@ -498,8 +498,8 @@ Use Strict Arg code
  * <b>ENCODE(</b> <em>string</em> , <em>encoding</em> , >─┬───────────────────┬─> <b>)</b>
  *                               └─ , <em>errorHandling</em> ─┘
  * </pre></code>
- * <p><code>ENCODE</code> first attempts to normalize the <em>string</em>, if necessary.
- *   Once the string is normalized, an encoding is attempted using the specified <em>encoding</em>. 
+ * <p><code>ENCODE</code> first validates that the <em>string</em> contains valid unicode.
+ *   Once the string is validated, an encoding is attempted using the specified <em>encoding</em>. 
  *   <code>ENCODE</code> returns the encoded string, or a null string if any of normalization or encoding failed. 
  *   You can influence the behaviour of the function when an error is encountered by specifying the optional 
  *   <em>errorHandling</em> argument.
@@ -623,7 +623,7 @@ Return string~upper(n, length)
  * <p>This method assumes that the target string contains well-formed UTF-8. If this
  *   is not the case, it will raise a Syntax condition.
  *
- * <p>Please note that <code>CODEPOINTS</code> and <code>BYTES</code> strings are always well-formed.
+ * <p>Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are always well-formed.
  *
  * <p><code>C2U</code> returns a <code>BYTES</code> string such that if a <code>U</code> were appended to it
  *   and it was inserted as a literal in a Rexx source program it would have
@@ -684,7 +684,7 @@ Names:
  * 
  * <p>
  *   This method inspects the target string for validity (see below). If valid,
- *   it translated the corresponding codepoints to UTF8, and returns the UTF8 string.
+ *   it translates the corresponding codepoints to UTF8, and returns the UTF8 string.
  *   If not valid, a Syntax condition is raised.
  *
  * <p>
@@ -765,7 +765,7 @@ UTF8: Procedure
     extra = n - size
     left  = (extra) % 2
     right = (extra) % 2 + (extra // 2 = 1)
-    Return self~class~new(Copies(pad,left) || self~makeString || Copies(pad, right))
+    Return self~class~new( Copies(pad,left) || self~makeString || Copies(pad, right) )
   End
   left = (size - n + 1) % 2
   Return self~subStr(left, n)

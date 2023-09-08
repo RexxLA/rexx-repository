@@ -75,8 +75,10 @@
       If Length(xCode) < 4 Then xCode = Right(xCode, 4, 0)
       count += 1
       If ccc.xCode, value == "Extend", self[xCode] == "Extend_ExtCccZwj" Then Nop
-      Else If self[xCode] \== Value Then 
+      Else If self[xCode] \== Value Then Do
         Say "Consistency check failed at codepoint 'U+"xCode"', got '"self[xCode]"', expected '"value"'."
+        Exit 1
+      End
     End
   End
   
@@ -91,8 +93,10 @@
       ExtPic.i = 1
       ExtPics += 1
     End
-    Else If self[xCode] \== "Other" Then 
+    Else If self[xCode] \== "Other" Then Do
       Say "Consistency check failed at codepoint 'U+"xCode"', got '"self[xCode]"', expected 'Other'."
+      Exit 1
+    End
   End
 
   Call Stream inFile,"C","Close"
@@ -122,10 +126,14 @@
         xCode = D2X(i)
         If Length(xCode) < 4 Then xCode = Right(xCode, 4, 0)
         Say "Consistency check failed at codepoint 'U+"xCode"', marked as 'Extended_Pictographic' in '"inFile"' but not on binary file"
+        Exit 1
       End
     End
   End
-  If ExtPics \== 0 Then Say "Consistency check failed:" ExtPics "'Extended_Pictographic' items remaining"  
+  If ExtPics \== 0 Then Do
+    Say "Consistency check failed:" ExtPics "'Extended_Pictographic' items remaining"  
+    Exit 1
+  End
 
   Call Stream inFile,"C","Close"
 
@@ -176,3 +184,6 @@
   Say "This is" (count/elapsed) "codepoints/second."
   Say extpic "'Extended_Pictographic' values were checked twice."
   Say ccc.~items "values changed from 'Extend' to 'Extend_ExtCccZwj'."
+  Say 
+  
+  Exit bad

@@ -1,35 +1,82 @@
 -- Run a number of basic tests to check that the RXU translation level and BIFs are working
 
 Say "Running basic tests..."
+Say
+
+Say "--> Testing OPTIONS DEFAULTSTRING, Y, P and T literals, and STRINGTYPE..."
 
 Options DefaultString Text
-
 str = "string"
-
 If StringType(str) \== "TEXT" Then Call Fail "Expected STRINGTYPE = TEXT, found '"StringType(str)"'."
+str = "string"T
+If StringType(str) \== "TEXT" Then Call Fail "Expected STRINGTYPE = TEXT, found '"StringType(str)"'."
+str = "string"P
+If StringType(str) \== "CODEPOINTS" Then Call Fail "Expected STRINGTYPE = CODEPOINTS, found '"StringType(str)"'."
+str = "string"Y
+If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
 
 Options DefaultString Codepoints
-
 str = "string"
-
 If StringType(str) \== "CODEPOINTS" Then Call Fail "Expected STRINGTYPE = CODEPOINTS, found '"StringType(str)"'."
+str = "string"T
+If StringType(str) \== "TEXT" Then Call Fail "Expected STRINGTYPE = TEXT, found '"StringType(str)"'."
+str = "string"P
+If StringType(str) \== "CODEPOINTS" Then Call Fail "Expected STRINGTYPE = CODEPOINTS, found '"StringType(str)"'."
+str = "string"Y
+If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
 
 Options DefaultString BYTES
-
 str = "string"
-
+If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
+str = "string"T
+If StringType(str) \== "TEXT" Then Call Fail "Expected STRINGTYPE = TEXT, found '"StringType(str)"'."
+str = "string"P
+If StringType(str) \== "CODEPOINTS" Then Call Fail "Expected STRINGTYPE = CODEPOINTS, found '"StringType(str)"'."
+str = "string"Y
 If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
 
 Options DefaultString NONE
-
 str = "string"
-
 If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
 
+-----------------------------------------------------------------------------------------------------
+
+Say "--> Testing U literals, BYTES, CODEPOINTS, TEXT and LENGTH..."
+
+str = "(man)(zwj)(woman)"U
+If StringType(str) \== "BYTES" Then Call Fail "Expected STRINGTYPE = BYTES, found '"StringType(str)"'."
+If Length(str) \== 11 Then Call Fail "Expected LENGTH=11, found" Length(str)"."
+
+str = Codepoints(str)
+If StringType(str) \== "CODEPOINTS" Then Call Fail "Expected STRINGTYPE = CODEPOINTS, found '"StringType(str)"'."
+If Length(str) \== 3 Then Call Fail "Expected LENGTH=11, found" Length(str)"."
+
+str = Text(str)
+If StringType(str) \== "TEXT" Then Call Fail "Expected STRINGTYPE = TEXT, found '"StringType(str)"'."
+If Length(str) \== 1 Then Call Fail "Expected LENGTH=11, found" Length(str)"."
+
+-----------------------------------------------------------------------------------------------------
+
+Say "--> Testing CENTER..."
+
+str = "(man)(zwj)(woman)"U
+If Center(str,20,"*") \== "****"str"*****" Then Call Fail "Unexpected CENTER(str) = '"Center(str,20,"*")"'."
+str = Codepoints(str)
+girl = "(girl)"U
+If Center(str,6,"(girl)"U) \== (girl || str || girl || girl) Then Call Fail "Unexpected CENTER(str) = '"Center(str,6,"(girl)"U)"'."
+str = Text(str)
+fam = "(woman)(zwj)(man)"U
+If Center(str,4,fam) \== (fam || str || fam || fam) Then Call Fail "Unexpected CENTER(str) = '"Center(str,4,fam)"'."
+
+-----------------------------------------------------------------------------------------------------
+
+Say
 Say "All basic tests PASSED!"
+Say 
 
 Exit 0
 
+--------------------------------------------------------------------------------
 
 Fail: save = sigl
   Say "Test FAILED at line" save":"

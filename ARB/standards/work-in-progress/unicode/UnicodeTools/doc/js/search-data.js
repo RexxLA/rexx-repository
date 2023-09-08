@@ -6,7 +6,7 @@ var searchData = [
         id: "Encoding", type: "Class", name: "Encoding", info: "Encoding.cls", href: "Encoding.cls.html#Encoding"
         },
             {
-            id: "%5B%5D", type: "Method", name: "[]", info: "Class Encoding", href: "Encoding.cls.html#%5B%5D"
+            id: "%5B%5D-1", type: "Method", name: "[]", info: "Class Encoding", href: "Encoding.cls.html#%5B%5D-1"
             },
             {
             id: "activate", type: "Method", name: "activate", info: "Class Encoding", href: "Encoding.cls.html#activate"
@@ -87,7 +87,7 @@ var searchData = [
         id: "Unicode.Property", type: "Class", name: "Unicode.Property", info: "Properties.cls", href: "Properties.cls.html#Unicode.Property"
         },
             {
-            id: "%5B%5D-1", type: "Method", name: "[]", info: "Class Unicode.Property", href: "Properties.cls.html#%5B%5D-1"
+            id: "%5B%5D", type: "Method", name: "[]", info: "Class Unicode.Property", href: "Properties.cls.html#%5B%5D"
             },
             {
             id: "Activate", type: "Method", name: "Activate", info: "Class Unicode.Property", href: "Properties.cls.html#Activate"

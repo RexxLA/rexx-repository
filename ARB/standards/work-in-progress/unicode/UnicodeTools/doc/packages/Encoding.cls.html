@@ -74,7 +74,7 @@
                     <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
                 </div>
                 <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 2 sept 2023 14:08:47</span>
+                        <span class="label label-info">Run-Date: 8 sept 2023 11:15:00</span>
                 </span>
             </form>
         </div>
@@ -120,7 +120,7 @@
                                                 </ul>
                                                 <ul>
                                                     <li>Methods:
-                                                            <a href="Encoding.cls.html#%5B%5D">[]</a>
+                                                            <a href="Encoding.cls.html#%5B%5D-1">[]</a>
                                                             <a href="Encoding.cls.html#activate">activate</a>
                                                             <a href="Encoding.cls.html#bytesNeededForChar">bytesNeededForChar</a>
                                                             <a href="Encoding.cls.html#checkCode">checkCode</a>
@@ -357,7 +357,7 @@
                                                 <br /><br />
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
-                                                        <h4>The <code>endOfLine</code> constant</h4>  <p>Each encoding can define its own end-of-line sequence, or sequences.  If there are more than one, vector notation should be employed.  These sequences will be recognized and used in line-oriented stream i/o operations.
+                                                        <h4>The <code>endOfLine</code> constant</h4>  <p>Each encoding can define its own end-of-line sequence.
                                                     </div>
                                                 </div>
 
@@ -428,7 +428,7 @@
 
                             <div>
                                 <h4>Methods</h4>
-                                    <a id="%5B%5D"></a>
+                                    <a id="%5B%5D-1"></a>
                                     <ul>
                                         <li><b>[]</b>
                                                 <span class="label label-info">CLASS</span>
@@ -463,7 +463,7 @@
                                                 <br /><br />
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
-                                                        <h4>The <code>.Encoding~activate</code> method</h4>  <p>The <code>activate</code> class method builds the TRANSLATE tables, <code>tablei</code> and <code>tableo</code>, that will be exposed to    the <code>UTF8</code> method and thus drive the state machine.  <p>We build on the table quoted on the <code>decode</code> method description and transform it to be suitable for    a Finite State Machine:  <ul>    <li>The range 00..FF is mapped to "A" (for "A"SCII).    <li>The range 80..BF is mapped to "C" (for "C"ontinuation characters). Some few bytes will require manual checking.    <li>The values CO, C1 and F5..FF are always illegal in a UTF-8 string. We add rows for these ranges, and we map the corresponding codes to "I" (for "I"llegal).    <li>The range C2..DF is mapped to "20"X (the "2" in "20" reminds us that we will find a 2-bytes group, if the string is well-formed).    <li>The range E0..EF is mapped to the "3x"X values, "3a", "3b" and "3c". The "3" reminds us that we will find a 3-bytes groups, if the string is well-formed;        the final "a", "b" and "c" allow us to differentiate the cases, and perform the corresponding tests.    <li>Similarly, the F0..F4 range is mapped to "4a"X, "4b"X and "4c"X, as described below.  </ul>  <br>  <table class="table table-bordered bordered">   <caption><b>Table 3-7 (modified)</b>.  <tr><th>Bytes       <th style="text-align:right">Mapping  <tr><td>00..7F      <td style="text-align:right">"A"      <tr><td>80..BF      <td style="text-align:right">"C"      <tr><td>C0..C1      <td style="text-align:right">"I"      <tr><td>C2..DF      <td style="text-align:right">"20"X  <tr><td>E0          <td style="text-align:right">"3a"X  <tr><td>E1..EC      <td style="text-align:right">"3b"X  <tr><td>ED          <td style="text-align:right">"3c"X  <tr><td>EE..EF      <td style="text-align:right">"3b"X  <tr><td>F0          <td style="text-align:right">"4a"X  <tr><td>F1..F3      <td style="text-align:right">"4b"X  <tr><td>F4          <td style="text-align:right">"4c"X  <tr><td>F5..FF      <td style="text-align:right">"I"      </table>
+                                                        <h4>The <code>.Encoding~activate</code> method</h4>  <p>The <code>activate</code> class method builds the TRANSLATE tables, <code>tablei</code> and <code>tableo</code>, that will be exposed to    the <code>UTF8</code> method and thus drive the state machine.  <p>We build on the table quoted on the <code>decode</code> method description and transform it to be suitable for    a Finite State Machine:  <ul>    <li>The range 00..7F is mapped to "A" (for "A"SCII).    <li>The range 80..BF is mapped to "C" (for "C"ontinuation characters). Some few bytes will require manual checking.    <li>The values CO, C1 and F5..FF are always illegal in a UTF-8 string. We add rows for these ranges, and we map the corresponding codes to "I" (for "I"llegal).    <li>The range C2..DF is mapped to "20"X (the "2" in "20" reminds us that we will find a 2-bytes group, if the string is well-formed).    <li>The range E0..EF is mapped to the "3x"X values, "3a", "3b" and "3c". The "3" reminds us that we will find a 3-bytes groups, if the string is well-formed;        the final "a", "b" and "c" allow us to differentiate the cases, and perform the corresponding tests.    <li>Similarly, the F0..F4 range is mapped to "4a"X, "4b"X and "4c"X, as described below.  </ul>  <br>  <table class="table table-bordered bordered">   <caption><b>Table 3-7 (modified)</b>.  <tr><th>Bytes       <th style="text-align:right">Mapping  <tr><td>00..7F      <td style="text-align:right">"A"      <tr><td>80..BF      <td style="text-align:right">"C"      <tr><td>C0..C1      <td style="text-align:right">"I"      <tr><td>C2..DF      <td style="text-align:right">"20"X  <tr><td>E0          <td style="text-align:right">"3a"X  <tr><td>E1..EC      <td style="text-align:right">"3b"X  <tr><td>ED          <td style="text-align:right">"3c"X  <tr><td>EE..EF      <td style="text-align:right">"3b"X  <tr><td>F0          <td style="text-align:right">"4a"X  <tr><td>F1..F3      <td style="text-align:right">"4b"X  <tr><td>F4          <td style="text-align:right">"4c"X  <tr><td>F5..FF      <td style="text-align:right">"I"      </table>
                                                             <br /><br />
                                                             <b>param</b>: <em>(none)</em> Gets called automatically by ooRexx at class build time. <br />
                                                             <b>see</b>: <code>decode</code> <br />
@@ -486,7 +486,7 @@
                                                 <br /><br />
                                                 <div class="panel panel-default">
                                                     <div class="panel-body">
-                                                        <h4>The <code>.Encoding~bytesNeededForChar</code> method</h4>  <p>^Returns 0 if the character is complets, or the number of remaining bytes needed    to complete a character. For example, if the encoding is UTF-16 and the argument     string is a lone high surrogate, it will return 2.  <p>Please note that the fact that a character is complete does not imply that it is well-formed or valid.
+                                                        <h4>The <code>.Encoding~bytesNeededForChar</code> method</h4>  <p>^Returns 0 if the character is complete, or the number of remaining bytes needed    to complete a character. For example, if the encoding is UTF-16 and the argument     string is a lone high surrogate, it will return 2.  <p>Please note that the fact that a character is complete does not imply that it is well-formed or valid.
                                                     </div>
                                                 </div>
 

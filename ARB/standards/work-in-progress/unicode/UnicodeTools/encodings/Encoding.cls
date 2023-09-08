@@ -110,9 +110,7 @@ End
 /**
  *  <h4>The <code>endOfLine</code> constant</h4>
  *
- *  <p>Each encoding can define its own end-of-line sequence, or sequences.
- *  If there are more than one, vector notation should be employed.
- *  These sequences will be recognized and used in line-oriented stream i/o operations.
+ *  <p>Each encoding can define its own end-of-line sequence.
  *
  */
 
@@ -191,7 +189,7 @@ End
 /**
  *  <h4>The <code>.Encoding~bytesNeededForChar</code> method</h4>
  *
- *  <p>^Returns 0 if the character is complets, or the number of remaining bytes needed
+ *  <p>^Returns 0 if the character is complete, or the number of remaining bytes needed
  *    to complete a character. For example, if the encoding is UTF-16 and the argument 
  *    string is a lone high surrogate, it will return 2.
  *
@@ -605,7 +603,7 @@ Return errorHandling returnUTF8 returnUTF32
  *    a Finite State Machine:
  *
  *  <ul>
- *    <li>The range 00..FF is mapped to "A" (for "A"SCII).
+ *    <li>The range 00..7F is mapped to "A" (for "A"SCII).
  *    <li>The range 80..BF is mapped to "C" (for "C"ontinuation characters). Some few bytes will require manual checking.
  *    <li>The values CO, C1 and F5..FF are always illegal in a UTF-8 string. We add rows for these ranges, and we map the corresponding codes to "I" (for "I"llegal).
  *    <li>The range C2..DF is mapped to "20"X (the "2" in "20" reminds us that we will find a 2-bytes group, if the string is well-formed).

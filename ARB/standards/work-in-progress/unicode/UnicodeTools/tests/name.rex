@@ -46,7 +46,7 @@
     name = P2N(code)
     If name \== "", code == N2P(name) Then Iterate
     Say "Consistency check failed at:" code
-    Parse pull
+    Exit 1
   End
 
   count = i - 1
@@ -55,5 +55,6 @@
   
   Say count "codepoints checked in" elapsed "seconds."
   Say "This is" (count/elapsed) "codepoints/second."
+  Say 
   
---::Requires "Unicode.cls"  
+Exit 0
