@@ -36,6 +36,8 @@ For instance, currently you will find a Unicode-aware implementation of several 
 C2X, CHARIN, CHAROUT, CHARS, CENTER, CENTRE, COPIES, DATATYPE, LEFT, LENGTH, LINEIN, LINEOUT, LINES, LOWER, POS, REVERSE, RIGHT, STREAM, SUBSTR, UPPER. 
 Please refer to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
 
+See [a presentation of the Unicode-enabled stream functions](doc/stream.md).
+
 ### [New built-in functions](doc/new-functions.md)
 
 ### New classes
