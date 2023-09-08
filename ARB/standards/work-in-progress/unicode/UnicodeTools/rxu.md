@@ -38,7 +38,7 @@ Please refer to the documentation for Unicode.cls and Stream.cls for a detailed 
 
 ### New built-in functions
 
-* ``BYTES(string)`` converts a string to the BYTES format, i.e., to a format where the basic components of a string are bytes. This is equivalent to Classic Rexx strings, but with some enhancements desceibed below.
+* ``BYTES(string)`` converts a string to the BYTES format, i.e., to a format where the basic components of a string are bytes. This is equivalent to Classic Rexx strings, but with some enhancements described below.
 * ``CODEPOINTS(string)`` converts a string to the CODEPOINTS format, i.e., to a format where the basic component of a string is the Unicode codepoint.
   The _string_ is expected to contain valid UTF-8; a Syntax error will be raised if _string_ contains ill-formed characters.
 * ``C2U(string[, format])`` (Character to Unicode): Returns a string, in character format, that represents string converted to Unicode codepoints.
