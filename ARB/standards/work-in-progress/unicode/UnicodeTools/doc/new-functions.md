@@ -49,7 +49,15 @@ By default, C2U returns a list of blank-separated hexadecimal representations of
 
 ## Decode
 
-``DECODE(string, encoding, [format], [errorHandling])``. ``DECODE`` tests whether a _string_ is encoded according to a certain _encoding_, and optionally decodes it to a certain _format_.
+```
+   ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮                                            ╭───╮
+▸▸─┤ DECODE( ├──┤ string ├──┤ , ├──┤ encoding ├──┤ , ├─┬────────────┬─┬─────────────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌───────────────┐ │ ╰───╯
+                                                       └─┤ format ├─┘ └─┤ , ├─┤ errorHandling ├─┘
+                                                         └────────┘     ╰───╯ └───────────────┘
+```
+
+Tests whether a _string_ is encoded according to a certain _encoding_, and optionally decodes it to a certain _format_.
 
 * ``DECODE`` works as an _encoding_ validator when _format_ is omitted, and as a decoder when _format_ is specified. It is an error to omit _format_ and to specify a value for _errorHandling_ at the same time (that is, if _format_ was omitted, then _errorHandling_ should be omitted too).
 * When ``DECODE`` is used as validator, it returns a boolean value, indicating if the string is well-formed according to the specified encoding.
@@ -61,14 +69,22 @@ By default, C2U returns a list of blank-separated hexadecimal representations of
   When both have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of the decoded string,
   and the second item of the array contains the UTF-32 representation of the decoded string.
 * The optional _errorHandling_ argument determines the behaviour of the function when the format argument has been specified.
-  If if has the value ``""`` (the default) or ``"NULL"``, a null string is returned when there a decoding error is encountered.
+  If it has the value ``""`` (the default) or ``"NULL"``, a null string is returned when there a decoding error is encountered.
   If it has the value ``"REPLACE"``, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
   If it has the value ``"SYNTAX"``, a Syntax condition will be raised when a decoding error is encountered.
 
 ## Encode
-  
-``ENCODE(string, encoding [, errorHandling])``.  ``ENCODE`` first attempts to normalize the _string_, if necessary.
-Once the _string_ is normalized, encoding is attempted using the specified _encoding_. _ENCODE_ returns the encoded string,
+
+```
+   ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐                              ╭───╮
+▸▸─┤ ENCODE( ├──┤ string ├──┤ , ├──┤ encoding ├──┬─────────────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯  └──────────┘  │ ╭───╮ ┌───────────────┐ │ ╰───╯
+                                                 └─┤ , ├─┤ errorHandling ├─┘
+                                                   ╰───╯ └───────────────┘
+```
+
+``ENCODE`` first validates that the string contains well-formed UTF-8.
+Once the _string_ is validated, encoding is attempted using the specified _encoding_. _ENCODE_ returns the encoded string,
 or a null string if any of normalization or encoding failed. You can influence the behaviour of the function when an error is encountered by specifying the optional _errorHandling_ argument.
 When _errorHandling_ is not specified, is ``""`` or is ``"NULL"`` (the default), a null string is returned if an error is encountered.
 When _errorHandling_ has the value ``"SYNTAX"``, a Syntax error is raised if an error is encountered.
