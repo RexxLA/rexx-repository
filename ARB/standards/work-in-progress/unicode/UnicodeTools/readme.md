@@ -26,7 +26,7 @@ You can then navigate to the ``samples`` directory and try the samples by using 
 
 The main changes in the 0.4 release are (a) a big upgrade to the Rexx tokenizer, and (b) a complete rewrite of ``rxu.rex``, the Rexx Preprocessor for Unicode, to take advantage of the improvements in the tokenizer.
 
-To know more about the upgraded tokenizer, please refer (to its readme file)[parser/readme.md]. Changes to the Rexx Preprocessor for Unicode are internal, and should not affect its functionality. If at all, you should find that the new version is more smooth and stable.
+To know more about the upgraded tokenizer, please refer [to its readme file](parser/readme.md). Changes to the Rexx Preprocessor for Unicode are internal, and should not affect its functionality. If at all, you should find that the new version is more smooth and stable.
 
 ---
 
