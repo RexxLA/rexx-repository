@@ -20,16 +20,7 @@ For instance, currently you will find a Unicode-aware implementation of several 
 
 ## Here is a list of what is currently implemented
 
-### Four new types of string
-
-* ``"string"Y``, a Classic Rexx string, composed of BYTES.
-* ``"string"P``, a CODEPOINTS string (checked for UTF8 correctness at parse time)
-* ``"string"T``, a TEXT string (checked for UTF8 correctness at parse time)
-* ``"string"U``, a Unicode codepoint string. Codepoints can be specified using
-    * Hexadecimal notation (like 61, 0061, or 0000),
-    * Unicode standard U+ notation (like U+0061 or U+0000),
-    * or as a name, alias or label enclosed in parenthesis (like "(cr)", "(CR) (LF)", "(Woman) (zwj) (Man)").
-  A "U" string is always a BYTES string.
+### [Four new types of string](doc/string-types.md)
 
 ### Revised built-in functions
 
