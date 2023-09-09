@@ -154,7 +154,7 @@ it may be useful when you have to manage streams that are not normalized or (by 
 like Windows file names, that may contain UTF-16 sequences with ill-formed surrogates (WTF-16). 
 TEXT strings, for example, can be normalized at string creation time, while CODEPOINTS strings will never be automatically normalized; and so on.
 
-### Excursus: A note about the implementation strategy 
+## _Excursus:_ A note about the implementation strategy 
 
 There has been some discussion about whether it is a good idea or not to have two different Unicode string types in Rexx. 
 Similarly, there has been some discussion about whether special names (i.e., TEXT and CODEPOINTS) should be assigned to these different types,
@@ -170,6 +170,11 @@ about a future Unicode-aware implementation of Rexx, not that future implementat
 (like BYTES, TEXT or CODEPOINTS) to the entities we have to manage (i.e., Classic RExx strings, codepoint-based strings, and grapheme based strings) 
 is a way to fix ideas, to create a collective vocabulary for the Architecture Review Board to share and use, and to disseminate a collective imaginary, that
 is, to create the conditions for the collective decisions that have to be taken.
+
+Does this mean that the real implementations of Unicode-enabled Rexx will have to support both CODEPOINTS and TEXT, or that these names, CODEPOINTS and TEXT, will
+be mandatory? Not at all. BYTES, CODEPOINTS and TEXT are _temporary names_, or, if you prefer, _temporary concepts_ for a collective researcg. 
+Once we decide that this research is finished, we will be able to decide whether we prefer to keep both concepts or we chose to keep only one. 
+And, regarding the names, they can be changed on-the-fly, if needs arise: we have already changed from RUNES to CODEPOINTS, for example.
 
 --- TBD ---
 
