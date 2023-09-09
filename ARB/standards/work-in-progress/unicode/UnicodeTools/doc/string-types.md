@@ -10,10 +10,10 @@ Classic Rexx defines three different syntactical constructions to denote string 
 
 In this document, we will explore the use of new constructions to denote Unicode strings.
 
-### String equivalence
+### A note about string equivalence
 
 Please note that character, hexadecimal and binary strings are all _different notations for the same class of strings_, namely, they are all equivalent and interchangeable between them.
-For example, if we assume an ASCII encoding, ``"a"``, ``"61"X`` and ``"0110 0001"B`` are _the same string_: they are different ways to denote a single value.
+For example, if we assume an ASCII encoding, then ``"a"``, ``"61"X`` and ``"0110 0001"B`` are _the same string_: they are different ways to denote a single value.
 
 Assume that you have a label ``"a"``:
 
@@ -22,36 +22,38 @@ Assume that you have a label ``"a"``:
 ```
 
 You can then use that label (with a function call, a ``CALL`` or ``SIGNAL`` statement, etc.) by referring to it as ``"61"X``, or
-``"0110 0001"B``:
+as ``"0110 0001"B``:
 
 ```rexx
 Call "61"X            -- Identical to 'Call "a"'
 Signal "0110 0001"B   -- Identical to 'Signal "a"'
 ```
 
-Similarly, ``"a" = "61"X`` will always be true, as will ``"61"X = "0110 0001"B``, and so on. Let's keep this aspect of Rexx in mind later, when we address the new kinds of Unicode literals.
+Similarly, ``"a" == "61"X`` will always be true, as will ``"61"X == "0110 0001"B``. Let's keep this aspect of Rexx in mind later, when we address the new kinds of Unicode literals.
 
 ### Purpose of this document
 
-In this document, we will explore the impact that an Unicode-aware implementation of Rexx will have on the universe of Rexx strings.
+In this document, we will explore the impact that an Unicode-aware implementation of Rexx will have on the universe of Rexx strings, 
+as exemplified by the prototype implementation of RXU, the Rexx Preprocessor for Unicode.
+
 New nomenclature will have to be introduced, and a small set of new built-in functions will be defined. The main purpose of the document
 will be to provide a _rationale_ for the proposed extensions, as a basis for further discussion and comment.
 
 ## What is a Rexx Unicode string?
 
-A Rexx Unicode string should implement all the (implementable) built-in functions of Rexx, only that applied to the Unicode universe.
-For example, Classic Rexx UPPER modifies only the ``A-Z`` and ``a-z`` ranges, but one would expect Unicode UPPER to uppercase
-the full range of cased Unicode codepoints, (or even the full range of cased Unicode grapheme clusters, depending on the
-meaning of "character" that is finally chosen).
+One would expect that a Rexx Unicode string should implement all the (implementable) built-in functions of Classic Rexx, 
+only that applied to the Unicode universe. For example, the Classic Rexx UPPER built-in function uppercases only characters that are in the ``A-Z`` and ``a-z`` ranges, 
+but one would expect that an Unicode UPPER BIF would uppercase the full range of cased Unicode codepoints 
+(or even the full range of cased Unicode grapheme clusters, depending on the meaning of "character" that is chosen by the implementation).
 
-Similarly, POS operates on characters when used against a classic Rexx string, but it should operate on Unicode scalars
-when used against a Unicode string (or even against grapheme clusters, depending on the meaning of "character" that is
-finally chosen).
+Similarly, the POS BIF operates on characters when its argument is a classic Rexx string, but it should operate on Unicode scalars
+when its argument was a Unicode string (or even against grapheme clusters, depending on the meaning of "character" that is
+chosen by the implementation).
 
 ## Necessity of at least two string types
 
 We need to keep classic rexx strings ("classic strings" for short) into the language, for compatibility reasons; at the same time, we want to be
-able to fully manage Unicode strings. As we have seen, the behaviour of built-in functions has to be _different_ when operating with
+able to fully manage Unicode strings. As we have seen, the behaviour of the built-in functions has to be _different_ when operating with
 classic strings and when operating with Unicode strings. Under ooRexx, this difference can be implemented using ooRexx classes;
 but it would be very convenient if we could define Rexx extensions that could be implemented by Classic Rexx interpreters, i.e, by
 interpreters that do not include object-oriented features: this would define a possible way for implementing Unicode in these Classic Rexx
