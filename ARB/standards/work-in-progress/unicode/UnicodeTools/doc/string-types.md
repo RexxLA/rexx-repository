@@ -4,7 +4,7 @@
 
 Classic Rexx defines three different syntactical constructions to denote string literals:
 
-* ``"Character"`` strings, enclosed between single ro double quotes.
+* ``"Character"`` strings, enclosed between single or double quotes.
 * ``"Hexadecimal"X`` strings, with a ``X`` suffix. They are composed of hexadecimal digits and optional blank characters.
 * ``"Binary"B`` strings, with a ``B`` suffix. They are composed of binary digits and optional blank characters.
 
@@ -54,18 +54,18 @@ We need to keep classic rexx strings ("classic strings" for short) into the lang
 able to fully manage Unicode strings. As we have seen, the behaviour of built-in functions has to be _different_ when operating with
 classic strings and when operating with Unicode strings. Under ooRexx, this difference can be implemented using ooRexx classes;
 but it would be very convenient if we could define Rexx extensions that could be implemented by Classic Rexx interpreters, i.e, by
-interpreters that do not include object-oriented features: this would provide an avenue for implementing Unicode in these Classic Rexx
+interpreters that do not include object-oriented features: this would define a possible way for implementing Unicode in these Classic Rexx
 interpreters. 
 
 We should, then, be able to differentiate both types of string, both at parse time (differently typed string literals) and
 at run time (the value of a parameter, for example, may be a classic Rexx string, or a Unicode string).
 
-Please note that this type difference is _not_ assimilable as the "types" returned by the DATATYPE built-in function. 
+Please note that this type difference is _not_ assimilable to the "types" returned by the DATATYPE built-in function. 
 DATATYPE should have been (more aptly) named DATACONTENT: it allows one to check whether _the contents_ of a string is suitable, for
-example, to form an hexadecimal number, but the _nature_s of the underlying string never changes: it is always the same,
+example, to form an hexadecimal number, but the _nature_ of the underlying string never changes: it is always the same,
 a classic Rexx string.
 
-When Unicode-enabled Rexx needs is a new string system, in which there are strings of different types. 
+What Unicode-enabled Rexx needs is a new string system, in which there are strings of different types. 
 Of types that are real types, as the types in Pascal: of types that alter the nature and influence the semantics of the typed
 variable. The fact that a string is of a type or of another type will modify the results of the various built-in
 functions: each string will have its own type and, if these types are different, they will behave in ways that are also
@@ -78,17 +78,17 @@ This need for several string types will lead us to a number of quandaries, quest
 
 ## The first quandary: how to introduce types in an untyped language?
 
-If we restrict ourselves to Classic Rexx, we are supposed to be working with a _typeless_, or _untyped_, language: "everything
+If we restrict ourselves to Classic Rexx, we are supposed to be working with a _typeless_, or _untyped_, language, since "everything
 is a string". Then speaking of different types of string would, at first glance, look like a contradiction: we would have not one,
-but several types (of string). 
+but several types (of strings). 
 
 On further reflection, though, we can see that this quandary is imaginary; that "everything is a string", indeed, does _not_ strictly mean 
-that there are no types. What "there are no types" means is "there are no declarations", that is, both (a) that "you don't have to specify 
+that there are no types. What is meant when one says that in (classic) Rexx "there are no types" is that "there are no declarations", i.e., both (a) that "you don't have to specify 
 beforehand the type of a variable" and (b) that "a variable can change types dynamically at run-time". But Rexx variables _do have_ types. 
-For example, arithmetic types: you can multiply two variables if and only if they are both numbers (i.e., if they are both of the arithmetic type);
+For example, arithmetic types: you can multiply two variables if and only if they are both numbers (i.e., if they are both of the same, _arithmetic_, type);
 otherwise, you get a Syntax error, i.e., the _type system_ complains (at run-time).
 
-In this sense, adapting the nomenclature to include two or more types of strings should not be too difficult. It reduces to
+In this sense, adapting the nomenclature to include two or more types of strings should not be too difficult. It will reduce to
 a _documentation problem_.
 
 ## The second quandary: Unicode-first vs. compatibility
@@ -123,35 +123,35 @@ literals in a compatibility program; and (2) a way to distinguish, at run-time, 
 
 To satisfy (1), we will be introducing new suffixes, to specify the _type_ of a string. They will allow us to specify that
 a string is classic in a Unicode-first program, and that a string is Unicode in a compatibility program. The exact form
-of these suffixes will be discussed below, when a further question about Unicode is addressed.
+of these suffixes will be discussed below, when some further questions about Unicode will have been addressed.
 
 To satisfy (2), we will be introducing a new BIF called STRINGTYPE. ``STRINGTYPE(string)`` will return different values depending
 on the type of the string; these values will be specified later.
 
 ## Scalars and grapheme clusters: CODEPOINTS and TEXT
 
-Unicode strings will extend the built-in functions of Classic Rexx to the Unicode world. Unicode characters will no
+Unicode strings will extend the built-in functions of Classic Rexx to take advantage of the Unicode world. Unicode characters will no
 longer be limited to one byte; indeed, the very same definition of "character" will be under discussion.
 
 The Unicode standard defines _Unicode scalars_, integer numbers that represent _Unicode codepoints_, and _(Extended)
-Grapheme Clusters_, collections of scalars that constitute a "user-perceived character". Some languages (e.g., Java)
-define their characters to be Unicode scalars; some other languages (e.g., Swift) define their characters to be
+Grapheme Clusters_, collections of scalars that constitute "user-perceived characters". Some languages (e.g., Java)
+define their characters to be Unicode scalars, while some other languages (e.g., Swift) define their characters to be
 Extended Grapheme Clusters.
 
-What definition should Rexx adopt? There are good reasons to adopt either: if characters are scalars (i.e., codepoints), 
+What definition should Rexx adopt? There are good reasons to adopt either of the two: if characters are scalars (i.e., codepoints), 
 you can have speed-efficient representations (UTF-32), space efficient representations (UTF-8), and an in-between
 that might be useful if your application is generally limited to the Basic Multilingual Plane (UTF-16); if characters
 are Extended Grapheme Clusters, you may lose some efficiency, but you will gain a better conformance with the standard,
-and (it is hoped) a better experience for the end-users.
+more expressive power, and (it is hoped) a better experience, both for the programmers and for the end-users.
 
 The RXU Rexx Preprocessor for Unicode implements both definitions, i.e., it has a data type for unicode scalars,
 called CODEPOINTS, and another data type for Extended Grapheme Clusters, called TEXT. 
 
-This may seem redundant, but it has its benefits. TEXT is supposed to be the default string type for Unicode-enabled Rexx programs, 
-and, in this sense, CODEPOINTS would always be a secondary, technical type. But a CODEPOINTS string offers compatibility
-with Java (and with all the other languages that have opted to implement characters as scalars, instead of graphemes), and
-it may be useful when you have to manage streams that are not normalized or (by using an additional, special, switch) contains ill-formed sequences,
-like Windows file names, that may contain UTF-16 sequences with ill-formed surrogates (WTF-16). 
+This may seem somewhat redundant, but it has its benefits. TEXT is supposed to be the default string type for Unicode-enabled Rexx programs, 
+and, in this sense, CODEPOINTS would always be a secondary, technically-oriented, type. But CODEPOINTS strings offers compatibility
+with Java (and with all the other languages that have opted to implement characters as scalars, instead of graphemes, which at the moment
+of this writing is the absolute majority of languages), and they may be useful when you have to manage streams that are not normalized, 
+or (by using an additional, special, switch) contains ill-formed sequences, like Windows file names, that may contain UTF-16 sequences with ill-formed surrogates (WTF-16). 
 TEXT strings, for example, can be normalized at string creation time, while CODEPOINTS strings will never be automatically normalized; and so on.
 
 ## _Excursus:_ A note about the implementation strategy 
@@ -159,39 +159,135 @@ TEXT strings, for example, can be normalized at string creation time, while CODE
 There has been some discussion about whether it is a good idea or not to have two different Unicode string types in Rexx. 
 Similarly, there has been some discussion about whether special names (i.e., TEXT and CODEPOINTS) should be assigned to these different types,
 or it would be more convenient to subsume all the names in a single specialized BIF, say STRING. The RXU approach is to allow all possibilities
-to coexist at once, and to allow all the different names to have maximum visibility. 
+to coexist at once, and to allow all the different names to be first-class citizens, to have maximum visibility. 
 
 The reasons for such an approach are mainly _psychological_ and _sociological_. It is much easier to thing of two types of string and finally to renounce one, 
 than to think of only one type: renouncement is then built-in, so to speak, inside the very same linguistic repertoire you have decided to use, 
 and then it is very easy to end up by introducing biases, while thinking that they are unavoidable conditions of your previous choices. 
 
-On a similar vein, we cannot forget that RXU, and the whole Unicode Tools Of Rexx, are a _prototype_ to foster discussion and interchange
-about a future Unicode-aware implementation of Rexx, not that future implementation itself: in this sense, giving names 
+On a similar vein, we cannot forget that RXU, and the whole Unicode Tools Of Rexx, are _prototypes_ to foster discussion and interchange
+about a future Unicode-aware implementation of Rexx, and not that future implementation itself: in this sense, giving names 
 (like BYTES, TEXT or CODEPOINTS) to the entities we have to manage (i.e., Classic RExx strings, codepoint-based strings, and grapheme based strings) 
 is a way to fix ideas, to create a collective vocabulary for the Architecture Review Board to share and use, and to disseminate a collective imaginary, that
 is, to create the conditions for the collective decisions that have to be taken.
 
-Does this mean that the real implementations of Unicode-enabled Rexx will have to support both CODEPOINTS and TEXT, or that these names, CODEPOINTS and TEXT, will
-be mandatory? Not at all. BYTES, CODEPOINTS and TEXT are _temporary names_, or, if you prefer, _temporary concepts_ for a collective researcg. 
+Does this mean that the real, final, implementations of Unicode-enabled Rexx will have to support both CODEPOINTS and TEXT, or that these names, CODEPOINTS and TEXT, will
+be mandatory? Not at all. BYTES, CODEPOINTS and TEXT are _temporary names_, or, if you prefer, _temporary concepts_ for a collective research. 
 Once we decide that this research is finished, we will be able to decide whether we prefer to keep both concepts or we chose to keep only one. 
 And, regarding the names, they can be changed on-the-fly, if needs arise: we have already changed from RUNES to CODEPOINTS, for example.
 
---- TBD ---
-
-## T- and, P- and Y- strings; default string type
+## T and, P and Y strings
 
 Coming back to our main subject: we need a notation to specify that a literal string is a TEXT or a CODEPOINTS string: we have chosen ``"string"T`` for TEXT,
 and ``"string"P`` for CODEPOINTS.
 
-We will also need a _name_ and a _notation_ for Classic Rexx strings. Let's start with the _name_ first: we will say that these strings are BYTES strings: 
-a string will now be either a BYTES string, or a CODEPOINTS string, or a TEXT string, and nothing more. We will also introduce
-a new BIF, called STRINGTYPE, so that ``STRINGTYPE(string)`` will return precisely __BYTES__, __CODEPOINTS__ or __TEXT__, 
+We will also need a _name_ and a _notation_ for to denote Classic Rexx strings, when we are programming in the Unicode dialect. 
+Let's start with the _name_ first: we will say that these strings are BYTES strings: a string will now be either a BYTES string, 
+or a CODEPOINTS string, or a TEXT string, and there are no more possibilities. As we mentioned before, We will also introduce a new BIF, 
+called STRINGTYPE. ``STRINGTYPE(string)`` will return precisely __BYTES__, __CODEPOINTS__ or __TEXT__, 
 depending on the type of _string_.
 
-We also need a _notation_. Per force, we will have programs that have to handle both Classic strings (i.e., BYTES strings) and
-Unicode strings (i.e., TEXT or CODEPOINTS strings, or both) at the same time.
+We also need a _notation_ for BYTES strings. We will use the "Y" suffix for that. "Y" comes from "bYtes": it would be nice to be able
+to use "B", but it was already taken (for "Binary" strings). 
 
-And so we come to the _second basic condition for Unicode-enable Rexx_: Unicode should be the default. What does this mean,
-exactly? Well, for example, it means that ``"string"`` should, by default, be a Unicode string (i.e., a TEXT or a CODEPOINTS string).
-But here we encounter a problem: if strings are Unicode strings by default, this breaks (potentially) all the Classic Rexx programs.
+## BYTES, CODEPOINTS and TEXT as BIFs
 
+The names BYTES, CODEPOINTS and TEXT are also names of built-in functions. These built-in functions promote or demote strings in
+the type hierarchy. A BYTES string can be _promoted_ to CODEPOINTS or to TEXT, if it contains well-formed UTF-8; a CODEPOINTS
+string can be _demoted_ to BYTES, or _promoted_ to TEXT; a TEXT string can be _demoted_ to BYTES or to CODEPOINTS.
+
+Suffix notation, like ``"string"T`` or ``"string"Y``, is appropiate when you are specifying string literals; BIF notation, like
+``BYTES(var)`` or ``TEXT(expression)``, should be used when you want to promote or demote the value of a variable or the
+result of an expression. In general terms, ``TEXT("string")`` is the same as ``"string"T``, ``CODEPOINTS("string")`` is the
+same as ``"string"P``, and ``BYTES("string")`` is the same as ``"string"Y``.
+
+## Default string type
+
+What should an unsuffixed string literal, ``"string"``, refer to? In the Unicode-first dialect, it should refer to an
+Unicode string, but we now have _two_ types of Unicode strings, CODEPOINTS and TEXT; in the compatibility dialect, it should refer to
+a classic rexx string, i.e., to a BYTES string.
+
+The RXU Rexx Preprocessor for Unicode does not force you to choose. It implements an experimental OPTIONS instruction,
+
+```
+OPTIONS DEFAULTSTRING default
+```
+
+where _default_ can be ``BYTES``, ``CODEPOINTS`` or ``TEXT``. The semantics for this instructions should be obvious: ``OPTIONS
+DEFAULTSTRING TEXT``, for example, guarantees that all occurences of unsuffixed strings will be interpreted as TEXT strings.
+
+__Implementation restriction__. Please note that the current implementation of the OPTIONS DEFAULTSTRING instruction
+has the following limitation: the value for the default string type _is stored globally_. This means that you
+can change its value in an internal routine, in an external routine, or in a method. We don't recommend doing that,
+of course, unless you know exactly what you are doing.
+
+## U strings
+
+There has been some discussion about whether Rexx should implement escape sequences in strings, that is, special
+combinations of characters that are translated to other characters, like ``"\r"`` for the carriage return character, ``"0D"X``,
+or ``"\n"`` for the line feed character, ``"0A"X``. Many languages implement these escape sequences, including NetRexx, and it
+would probably be a good idea that Rexx implemented them too. The problem is, again, compatibility with existing
+programs: classic Rexx, as it is well known, does not implement escape sequences; if you want
+special characters, you have to resort to hexadecimal (or binary) strings.
+
+If we were to implement escape sequences in Rexx strings, we would need either (a) two set of suffixes, as
+Python does, for escaped and unescaped strings, or (b) to introduce an asymmetry between unsuffixed strings
+in Classic Rexx and the rest of strings. I.e., to preserve compatibility with old programs, unsuffixed
+strings could not contain escape sequences in the compatibility dialect, but these same escape sequences
+would be allowed in other types of string.
+
+Since all this is quite controversial and there is no clear consensus about this problem,
+the RXU Rexx Preprocessor for Unicode has opted for a conservative approach. It does not allow the use of escape sequences, 
+but it defines a new type of low-level string, the _Unicode string_, similar to hexadecimal and
+binary strings. Unicode strings are terminated by a "U" character. They can contain blank-separated Unicode codepoints (with or without
+the "U+" prefix that many languages use), and Unicode codepoint names, alias or labels, written between parentheses, 
+as defined by the Unicode standard.
+
+__Examples:__
+
+```rexx
+"(LATIN CAPITAL LETTER A)"U == "A"  -- "LATIN CAPITAL LETTER A" is the value of the "Name" property for "A"
+"41"U == "41"X == "A"               -- ASCII "A" is "41"X
+"0041"U == "A"                      -- Leading zeros are optional
+"U+0041"U == "A"                    -- The "U+" prefix is also optional
+"(Latin capital letter A)"U == "A"  -- Casing is irrelevant
+"(LatincapitalletterA)"U == "A"     -- Spacing is also irrelevant
+"(End of line)"U == "0A"X           -- "END OF LINE" is an abbreviation, defined in the UCD, file NameAliases.txt
+"(<control-000A>)" == "0A"X         -- This is a label, not a name
+"(man)"U = "👨"                     -- A emoticon
+"(Man)(Bell)"U  -- "👨🔔"          -- Two emoticons
+"1F514"U == "🔔"                    -- A emoticon
+"0001F514"U == "🔔"                 -- Leading zeros are irrelevant
+"U+1F514"U == "🔔"                  -- The "U+" prefix is not mandatory
+```
+
+U strings are low-level constructions, equivalent to X and B strings, and therefore they are BYTES strings. 
+You can always promote them, if you so please, using the CODEPOINTS or the TEXT built-in functions.
+
+Please note that U strings are first-class strings: ``"(Bell)"U`` and ``"0001F514"U`` are equivalent to ``"🔔"``, and ``"🔔"``, in turn,
+is equivalent to ``"F0 9F 94 94"X``, its UTF-8 representation. All of them can be used, interchangeably, as labels and as targets
+of the CALL and SIGNAL instructions. The following code, for example, is perfectly legitimate:
+
+```rexx
+Call "F0 9F 94 94"X
+...
+"🔔": -- Do something
+...
+If condition Then Signal "(Bell)"U  
+
+```
+
+## In summary...
+
+The RXU Rexx Preprocessor for Unicode implements, in addition to the classical Rexx strings,  the following additional types of strings:
+
+* ``"string"Y`` strings, composed of bytes (octets). A character is one byte. They are suitable to store binary data.
+* ``"string"P`` strings, composed of Unicode codepoints. A character is a single Unicode codepoint. The ``"string"`` should
+  contain well-formed UTF-8 data.
+* ``"string"T`` strings, composed of Unicode Extended Grapheme clusters. A character is a single Extended Grapheme Cluster. The ``"string"`` should
+  contain well-formed UTF-8 data.
+* ``"string"U`` strings, composed of Unicode codepoints, specified using their hexadecimal representation, preceded or not by "U+", or as names,
+  alias or labels between parentheses, as defined in the Unicode Character Database. U strings are BYTES strings.
+
+Additionally, RXU also implements four new built-in functions: STRINGTYPE (returns __BYTES__, __CODEPOINTS__ or __TEXT__, depending on the string type),
+BYTES (transforms to the BYTES type), CODEPOINTS (transforms to the CODEPOINTS type) and TEXT (transforms to the TEXT type).
