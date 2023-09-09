@@ -4,40 +4,115 @@
 
 Classic Rexx defines three different syntactical constructions to denote string literals:
 
-* ``"character"`` strings, enclosed between single ro double quotes.
-* ``"hexadecimal"X`` strings, with a ``X`` suffix. They are composed of hexadecimal digits and optional blank characters.
-* ``"binary"B`` strings, with a ``B`` suffix. They are composed of binary digits and optional blank characters.
+* ``"Character"`` strings, enclosed between single ro double quotes.
+* ``"Hexadecimal"X`` strings, with a ``X`` suffix. They are composed of hexadecimal digits and optional blank characters.
+* ``"Binary"B`` strings, with a ``B`` suffix. They are composed of binary digits and optional blank characters.
 
 ### String equivalence
 
-Please note that character, hexadecimal and binary strings are all forms of the same strings, and they are equivalent between them.
-For example, if we assume an ASCII encoding, ``"a"``, ``"61"X`` and ``"0110 0001"B`` are _the same string_, i.e.,
-they are different ways to denote the same value.
+Please note that character, hexadecimal and binary strings are all _different notations for the same class of strings_, namely, they are all equivalent and interchangeable between them.
+For example, if we assume an ASCII encoding, ``"a"``, ``"61"X`` and ``"0110 0001"B`` are _the same string_: they are different ways to denote a single value.
 
-In this sense, you can have a label of ``"a"``,
+Assume that you have a label ``"a"``:
 
+```rexx
+"a": /* do something */
 ```
-"a": Procedure
-```
 
-and then use that label (with a function call, a ``CALL`` or ``SIGNAL`` statement, etc.) by referring to it as ``"61"X``, or
+You can then use that label (with a function call, a ``CALL`` or ``SIGNAL`` statement, etc.) by referring to it as ``"61"X``, or
 ``"0110 0001"B``:
 
-```
+```rexx
 Call "61"X            -- Identical to 'Call "a"'
 Signal "0110 0001"B   -- Identical to 'Signal "a"'
 ```
 
+Similarly, ``"a" = "61"X`` will be true, and so on. Let's keep this aspect of Rexx in mind later, when we address the new kinds of Unicode literals.
+
+### Purpose of this document
+
+In this document, we will explore the impact that an Unicode-aware implementation of Rexx will have on the universe of Rexx strings.
+New nomenclature will be introduced, and a small set of new built-in functions will be defined. The main purpose of the document
+will be to provide a _rationale_ for the proposed extensions, as a basis for further discussion and comment.
+
+## What is a Rexx Unicode string?
+
+A Rexx Unicode string should implement all the (implementable) built-in functions of Rexx, but applied to the Unicode universe.
+For example, Classic Rexx UPPER modifies only the ``A-Z`` and ``a-z`` ranges, but one would expect Unicode UPPER to uppercase
+the full range of cased Unicode codepoints, (or even the full range of cased Unicode grapheme clusters, depending on the
+meaning of "character" that is finally chosen).
+
+Similarly, POS operates on characters when used against a classic Rexx string, but it should operate on Unicode scalars
+when used against a Unicode string (or even against grapheme clusters, depending on the meaning of "character" that is
+finally chosen).
+
+## Necessity of at least two string types
+
+One needs to keep classic rexx strings ("classic strings" for short) into the language, for compatibility reasons; at the same time, one wants to be
+able to fully manage Unicode strings. As we have seen, the behaviour of built-in functions has to be _different_ when operating with
+classic strings and when operating with Unicode strings. Under ooRexx, this difference can be implemented using ooRexx classes;
+but it would be very nice if we could define Rexx extensions that could be implemented by Classic Rexx interpreters, i.e, by
+interpreters that do not include object-oriented features. We should, then, be able to differentiate both types of
+string _at run time_, e.g., the value of a parameter may a classic rexx string, or a Unicode string.
+
+Please note that this is _not_ the same as the "types" returned by the DATATYPE built-in function. DATATYPE should have
+been (more aptly) named DATACONTENT: it allows one to check whether _the contents_ of a string is suitable, for
+example, to form an hexadecimal number, but the nature of the underlying string never changes: it is always
+a classic Rexx string.
+
+When we are proposing --and what is indeed needed-- is a new string system, in which there are strings
+of different types. Of real types, as the types in Pascal, of types that influence the semantics of the typed
+variable. The fact that a string is of a type or of another type will influence the results of the various built-in
+functions: each string has its own type and, if these types are different, they will behave in different ways.
+
+As an example, the character ``"á"``, "Latin small letter a with acute", has a UTF-8 representation of ``"C3A1"X``; 
+assuming a UTF-8 encoding, ``LEFT("á",1)`` will be ``"C3"X`` when operating on classic strings, and ``"C3A1"X`` when operating on Unicode characters.
+
+This need for several string types will lead us to a number of quandaries, questions and problems, which we will be addressing below.
+
+## The first quandary: how to introduce types in an untyped language?
+
+If we restrict ourselves to Classic Rexx, we are supposed to be working with a _typeless_, or _untyped_, language: everything
+is a string. Then speaking of different types of string would, at first glance, look like a contradiction. But "everything
+is a string", indeed, does _not_ strictly mean that there are no types. What "there are no types" means is "there are no declarations",
+that is, both (a) that "you don't have to specify beforehand the type of a variable" and (b) that "a variable can change types dynamically
+at run-time". But Rexx variables _do have_ types. For example, arithmetic types: you can multiply two variables if and only if they
+are both numbers (i.e., if they are both of the arithmetic type).
+
+In this sense, adapting the nomenclature to include two or more types of strings should not be too difficult.
+
+## The second quandary: Unicode-first vs. compatibility
+
+Let's introduce some nomenclature. An implementation of Unicode-aware Rexx will be _Unicode-first_, 
+if unsuffixed strings are, by default, Unicode strings; otherwise, we will say that the implementation is _Classic-strings first_. 
+
+Similarly, we will say that an implementation of Unicode-aware Rexx is _compatible_ if existing, non-Unicode, programs can be run unchanged in this
+implementation; otherwise, we will say that the implementation is _incompatible_, or _non-compatible_.
+
+Ideally, we would like an implementation of Unicode-aware Rexx to be both _Unicode-first_ and _compatible_ at the same time. 
+But this is clearly impossible: if the implementation is Unicode-first, unsuffixed strings will have Unicode semantics, 
+and then some of the existing programs will break. And, conversely, if an implementation is compatible,
+unsuffixed strings have to behave as classic strings, not as Unicode strings, and then the implementation cannot be Unicode-first.
+
+One way out of this dilemma is to allow two dialects of Rexx: a _compatibility dialect_, in which unsuffixed strings would be classic strings, and
+a _Unicode dialect_, in which unsuffixed strings would be Unicode strings. The compatibility dialect would not be Unicode-first, but it would
+be perfectly compatible; the Unicode dialect would be Unicode-first, but it would not be compatible.
+
+Some mechanism should be introduced to specify which dialect is in use. This could be an ``OPTIONS`` instruction, an ``::OPTIONS`` directive
+(for ooRexx), or some other mechanism, like a language processor switch. A question remains: how should programs written in different dialects
+interoperate?
+
 ## New strings for Unicode: a rationale
 
-The _first basic condition for Unicode-enabled Rexx_ is to preserve compatibility for old programs. This means that Unicode-enabled
-Rexx programs will have to handle at least two different types of strings. Let's introduce some nomenclature:
+In any case, and regardless of the dialect, it is perfectly conceivable that the programmer needs to use strings
+of the "other" dialect in her program. For example, if she was using the compatibility dialect, where strings are classic by default,
+she could want to manage some strings that were Unicode strings; and, conversely, if she was using the Unicode dialect,
+she could want to manage some strings that were classic strings.
 
-* _Classic strings_, or _Classic Rexx strings_, are strings composed of bytes (octets). 
-* _Unicode strings_ are the new strings implemented by Unicode-enabled Rexx.
+This introduces the need for (1) a way to specify (1a) classic string literals in a Unicode-first program, (1b) and Unicode string
+literals in a compatibility program; and (2) a way to distinguish, at run-time, whether a string is a classic string, or a Unicode string.
 
-Classic strings will be used (a) for compatibility with old programs, and (b) when one wants to manage the constituent
-bytes of the string, for example, to store binary values packed with D2X and X2C.
+--- TBC ---
 
 Unicode strings will extend the built-in functions of Classic Rexx to the Unicode world. Unicode characters will no
 longer be limited to one byte; indeed, the very same definition of "character" will be under discussion.
