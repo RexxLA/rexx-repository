@@ -128,9 +128,48 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## LINEOUT
 
+```
+   ╭─────────╮              ╭───╮                                   ╭───╮
+▸▸─┤ LINEIN( ├─┬──────────┬─┤ , ├─┬────────────┬─┬────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯ │ ┌──────┐ │ ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌──────┐ │ ╰───╯
+               └─┤ name ├─┘       └─┤ string ├─┘ └─┤ , ├─┤ line ├─┘
+                 └──────┘           └────────┘     ╰───╯ └──────┘
+```
+
+The LINEOUT BIF is enhanced by supporting the _encoding_ options specified in the STREAM OPEN command.
+* When an _encoding_ has not been specified for stream _name_, the standard BIF is called.
+* When an _encoding_ has been specified for stream _name_, the _string_ is decoded to that _encoding_; additionally, the _encoding_ end-of-line sequence is used.
+  
+__Implementation restriction__. When line > 1, line positioning is not implemented in the following cases:
+* When the _encoding_ is a variable-length encoding.
+* When the length of the _encoding_ end-of-line character is greater than 1.
+* When the end-of-line character is not ``"0A"``.
+
+Some or all of these restrictions may be eliminated in a future release.  
+
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
 ## LINES
+
+```
+   ╭────────╮                                      ╭───╮
+▸▸─┤ LINES( ├─┬──────────┬──┬────────────────────┬─┤ ) ├─▸◂
+   ╰────────╯ │ ┌──────┐ │  │ ╭───╮ ┌──────────┐ │ ╰───╯
+              └─┤ name ├─┘  ├─┤ , ├─┤ "Normal" ├─┤ 
+                └──────┘    │ ╰───╯ └──────────┘ │
+                            │ ╭───╮ ┌─────────┐  │
+                            └─┤ , ├─┤ "Count" ├──┘
+                              ╰───╯ └─────────┘
+```
+
+The LINES BIF is modified to support the _encoding_ options specified in the STREAM OPEN command.
+
+__Implementation restriction__. ``LINES(name,"Count")`` will fail with a Syntax error when:
+* The _encoding_ is not fixed-length.
+* The length of the _encoding_ is greater than 1.
+* The _encoding_ end-of-line character is different from "0A"X.
+  
+Some or all of these restrictions may be eliminated in a future release.  
 
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
