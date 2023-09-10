@@ -1,5 +1,7 @@
 # Rexx built-in functions for Unicode: enhancements and modifications
 
+Please refer to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
+
 ## C2X (Character to heXadecimal)
 
 ## CHARIN 
@@ -235,5 +237,3 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 ## SUBSTR
 
 ## UPPER
-
-Please refer to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
