@@ -57,6 +57,21 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## CHARS 
 
+```
+   ╭────────╮  ┌──────┐  ╭───╮
+▸▸─┤ CHARS( ├──┤ name ├──┤ ) ├─▸◂
+   ╰────────╯  └──────┘  ╰───╯
+```
+
+The CHARS BIF is modified to support the _encoding_ options specified in the STREAM OPEN command.
+
+* When an _encoding_ has not been specified for stream _name_, the standard BIF is called.
+* When an _encoding_ has been specified for stream _name_, the behaviour of CHARS depends on the stream _encoding_ options.
+    * When the _encoding_ is variable-length or the _target_ type is __TEXT__, the CHARS function returns __1__ to indicate that data is present in the stream, or __0__ if no data is present.
+    * When the _encoding_ is fixed length and the _target_ type is __CODEPOINTS__, the standard BIF is called to obtain the number of remaining bytes.
+      If this number is an exact multiple of the _encoding_ length, the result of dividing the number of bytes left by the number of bytes per character of the _encoding_ is returned.
+    * In all other cases, 1 is returned.
+
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
 ## CENTER
@@ -72,6 +87,42 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 ## LENGTH
 
 ## LINEIN 
+
+```
+   ╭─────────╮              ╭───╮                                  ╭───╮
+▸▸─┤ LINEIN( ├─┬──────────┬─┤ , ├─┬──────────┬─┬─────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯ │ ┌──────┐ │ ╰───╯ │ ┌──────┐ │ │ ╭───╮ ┌───────┐ │ ╰───╯
+               └─┤ name ├─┘       └─┤ line ├─┘ └─┤ , ├─┤ count ├─┘
+                 └──────┘           └──────┘     ╰───╯ └───────┘
+```
+
+The LINEIN BIF is enhanced by supporting the _encoding_ options specified in the STREAM OPEN command.
+
+* When an _encoding_ has not been specified for stream _name_, the standard BIF is called.
+* When an _encoding_ has been specified, a line is read, taking into account the end-of-line conventions defined by the _encoding_. The line is then decoded to UTF8, and returned as a TEXT string (the default), or as a 
+  CODEPOINTS string, if __CODEPOINTS__ has been specified as an _encoding_ option of the STREAM OPEN command.
+* If an error is found in the decoding process, the behaviour of the LINEIN BIF is determined by the _error_handling_ method specified as an _encoding_ option of the STREAM OPEN command.
+    * When __SYNTAX__ has been specified, a Syntax error is raised.
+    * When __REPLACE_ has been specified, any character that cannot be decoded will be replaced with the Unicode Replacement character (``U+FFFD``).
+ 
+### Line-end handling
+
+_Preliminary note_. Rexx honors Windows line-end sequences (``"0D0A"X``) and Unix-like line-end characters (``"0A"X``), and it does so both in Windows and in Unix-like systems. 
+You can try it for yourself by creating a file that contains ``"31610d0a32610d33610a34610a0d3563"X`` and reading it line-by line both on Windows and on Linux.
+
+What happens when we are using a multi-byte encoding like UTF-16 or UTF-32? On the one hand, we will be getting false positives: ``"000A"X`` is a line end, 
+but ``"0Ahh"X`` is not, irrespective of the value of ``hh``. On the other hand, we will be getting lost sequences: a ``"000D"X`` that immediately preceeds a 
+``"000A"X`` should be removed by Rexx, but the current versions do not remove it.
+
+All these details have to be taken into account by this routine.
+
+__Implementation restriction__. Line positioning when line > 1 is not implemented when:
+
+* The end-of-line character is not ``"0A"X``.
+* The _encoding_ number of bytes per char is greater than 1.
+* The _encoding_ is not fixed-length.
+
+Some or all of these restrictions may be eliminated in a future release.
 
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
