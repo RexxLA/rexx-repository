@@ -91,19 +91,29 @@ When _errorHandling_ has the value ``"SYNTAX"``, a Syntax error is raised if an 
 ## N2P (Name to codePoint)
 
 ```
-   ╭──────╮  ┌────────┐  ╭───╮
-▸▸─┤ N2P( ├──┤ string ├──┤ ) ├─▸◂
-   ╰──────╯  └────────┘  ╰───╯
+   ╭──────╮  ┌──────┐  ╭───╮
+▸▸─┤ N2P( ├──┤ name ├──┤ ) ├─▸◂
+   ╰──────╯  └──────┘  ╰───╯
 ```
 
 Returns the hexadecimal Unicode codepoint corresponding to _name_, or the null string if _name_ does not correspond to a Unicode codepoint.
 
 ``N2P`` accepts _names_, as defined in the second column of ``UnicodeData.txt`` (that is, the Unicode "Name" \["Na"\] property), like ``"LATIN CAPITAL LETTER F"`` or ``"BELL"``;
 aliases, as defined in ``NameAliases.txt``, like ``"LF"`` or ``"FORM FEED"``, and labels identifying codepoints that have no names, like ``"<Control-0001>"`` or ``"<Private Use-E000>"``.
+
 When specifying a _name_, case is ignored, as are certain characters: spaces, medial dashes (except for the ``"HANGUL JUNGSEONG O-E"`` codepoint) and underscores that replace dashes.
 Hence, ``"BELL"``, ``"bell"`` and ``"Bell"`` are all equivalent, as are ``"LATIN CAPITAL LETTER F"``, ``"Latin capital letter F"`` and ``"latin_capital_letter_f"``.
 
 Returned codepoints will be _normalized_, i.e., they will have a minimum length of four digits, and they will never start with a zero if they have more than four digits.
+
+__Examples:__
+
+```
+N2P("LATIN CAPITAL LETTER F") =  "0046"       -- Padded to four digits
+N2P("BELL")                   = "1F514"       -- Not "01F514"
+N2P("Potato")                 = "1F954"       -- Unicode has "Potato" (a vegetable emoticon)..
+N2P("Potatoes")               = ""            -- ..but no "Potatoes".
+```
 
 ## P2N (codePoint to Name)
 
