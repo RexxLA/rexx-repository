@@ -152,22 +152,34 @@ N2P("Potatoes")               = ""            -- ..but no "Potatoes".
 
 ```
    ╭──────╮  ┌───────────┐  ╭───╮
-▸▸─┤ N2P( ├──┤ codepoint ├──┤ ) ├─▸◂
+▸▸─┤ P2N( ├──┤ codepoint ├──┤ ) ├─▸◂
    ╰──────╯  └───────────┘  ╰───╯
 ```
 
 Returns the name or label corresponding to the hexadecimal Unicode _codepoint_ argument, or the null string if the codepoint has no name or label.
 
-The argument _codepoint_ is first verified for validity. If it is not a valid hexadecimal number or it is out-of-range, a null string is returned.
+The argument _codepoint_ is first _verified_ for validity. If it is not a valid hexadecimal number or it is out-of-range, a null string is returned.
 If the _codepoint_ is found to be valid, it is then _normalized_: if it has less than four digits, zeros are added to the left,
 until the _codepoint_ has exactly four digits; and if the _codepoint_ has more than four digits, leading zeros are removed, until no more zeros are found or the _codepoint_ has exactly four characters.
 
 Once the _codepoint_ has been validated and normalized, it is uppercased, and the Unicode Character Database is then searched for the "Name" ("Na") property.
 
 If the _codepoint_ has a name, that name is returned.
-If the codepoint does not have a name but it has a label, like ``"<control-0010>"``, that label is returned. In all other cases, the null string is returned.
+If the _codepoint_ does not have a name but it has a label, like ``"<control-0010>"``, then that label is returned. In all other cases, the null string is returned.
 
 __Note__. Labels are always enclosed between ``"<"`` and ``">"`` signs. This allows to quickly distinguish them from names.
+
+__Examples:__
+
+```
+P2N("46")      =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
+P2N("0046")    =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
+P2N("0000046") =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
+P2N("1F342")   =  "FALLEN LEAF"               -- An emoji
+P2N("0012")    =  "<control-0012>"            -- A label, not a name
+P2N("XXX")     =  ""                          -- Invalid codepoint
+P2N("110000")  =  ""                          -- Out-of-range
+```
 
 ## Stringtype
 
