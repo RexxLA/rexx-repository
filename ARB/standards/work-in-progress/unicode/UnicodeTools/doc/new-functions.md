@@ -102,18 +102,24 @@ var = DECODE(string, "UTF-16", "UTF-8", "SYNTAX")  -- Decodes string to the UTF-
 ## Encode
 
 ```
-   ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐                              ╭───╮
-▸▸─┤ ENCODE( ├──┤ string ├──┤ , ├──┤ encoding ├──┬─────────────────────────┬─┤ ) ├─▸◂
-   ╰─────────╯  └────────┘  ╰───╯  └──────────┘  │ ╭───╮ ┌───────────────┐ │ ╰───╯
-                                                 └─┤ , ├─┤ errorHandling ├─┘
-                                                   ╰───╯ └───────────────┘
+   ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐                               ╭───╮
+▸▸─┤ ENCODE( ├──┤ string ├──┤ , ├──┤ encoding ├──┬──────────────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯  └──────────┘  │ ╭───╮ ┌────────────────┐ │ ╰───╯
+                                                 └─┤ , ├─┤ error_handling ├─┘
+                                                   ╰───╯ └────────────────┘
 ```
 
-``ENCODE`` first validates that the string contains well-formed UTF-8.
-Once the _string_ is validated, encoding is attempted using the specified _encoding_. _ENCODE_ returns the encoded string,
-or a null string if any of normalization or encoding failed. You can influence the behaviour of the function when an error is encountered by specifying the optional _errorHandling_ argument.
-When _errorHandling_ is not specified, is ``""`` or is ``"NULL"`` (the default), a null string is returned if an error is encountered.
-When _errorHandling_ has the value ``"SYNTAX"``, a Syntax error is raised if an error is encountered.
+ENCODE first validates that _string_ contains well-formed UTF-8. Once the _string_ is validated, encoding is attempted using the specified _encoding_. ENCODE returns the encoded string,
+  or a null string if validation or encoding failed. You can influence the behaviour of the function when an error is encountered by specifying the optional _error_handling_ argument.
+* When _error_handling_ is not specified, is __""__ or is __NULL__ (the default), a null string is returned if an error is encountered.
+* When _error_handling_ has the value __SYNTAX__, a Syntax error is raised if an error is encountered.
+
+__Examples:__
+
+```
+ENCODE(string, "IBM1047")                          -- The encoded string, or "" if string can not be encoded to IBM1047.
+ENCODE(string, "IBM1047","SYNTAX")                 -- The encoded string. If the encoding fails, a Syntax error is raised.
+```
 
 ## N2P (Name to codePoint)
 
