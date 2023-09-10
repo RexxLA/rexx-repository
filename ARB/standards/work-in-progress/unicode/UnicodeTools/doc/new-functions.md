@@ -22,9 +22,11 @@ This is equivalent to Classic Rexx strings, but with some enhancements. See the 
    ╰─────────────╯  └────────┘  ╰───╯
 ```
 
+Converts _string_ to a CODEPOINTS string and returns it. CODEPOINTS strings are composed of Unicode codepoints, and every character in the string can be an arbitrary Unicode codepoint. 
+The argument _string_ has to contain well-formed UTF-8, or a Syntax error will be raised. When working with CODEPOINTS strings, Rexx built-in functions operate at the codepoint level, 
+and can produce much richer results than when operating on BYTES strings.
 
-Returns the _string_ converted to the CODEPOINTS format, i.e., to a format where the basic component of a string is the Unicode codepoint.
-The _string_ is expected to contain valid UTF-8; a Syntax error will be raised if _string_ contains ill-formed characters.
+Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` function call.
 
 ## C2U (Character to Unicode)
 
