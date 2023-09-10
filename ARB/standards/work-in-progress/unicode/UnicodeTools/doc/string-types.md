@@ -187,7 +187,7 @@ We will also need a _name_ and a _notation_ for to denote Classic Rexx strings, 
 Let's start with the _name_ first: we will say that these strings are BYTES strings: a string will now be either a BYTES string, 
 or a CODEPOINTS string, or a TEXT string, and there are no more possibilities. As we mentioned before, We will also introduce a new BIF, 
 called STRINGTYPE. ``STRINGTYPE(string)`` will return precisely __BYTES__, __CODEPOINTS__ or __TEXT__, 
-depending on the type of _string_.
+depending on the type of _string_ (please refer to [_New built-in functions_](new-functions.md) for more details about the STRINGTYPE BIF).
 
 We also need a _notation_ for BYTES strings. We will use the "Y" suffix for that. "Y" comes from "bYtes": it would be nice to be able
 to use "B", but it was already taken (for "Binary" strings). 
@@ -196,7 +196,8 @@ to use "B", but it was already taken (for "Binary" strings).
 
 The names BYTES, CODEPOINTS and TEXT are also names of built-in functions. These built-in functions promote or demote strings in
 the type hierarchy. A BYTES string can be _promoted_ to CODEPOINTS or to TEXT, if it contains well-formed UTF-8; a CODEPOINTS
-string can be _demoted_ to BYTES, or _promoted_ to TEXT; a TEXT string can be _demoted_ to BYTES or to CODEPOINTS.
+string can be _demoted_ to BYTES, or _promoted_ to TEXT; a TEXT string can be _demoted_ to BYTES or to CODEPOINTS (please
+refer to [_New built-in functions_](new-functions.md) for more details abouy these functions).
 
 Suffix notation, like ``"string"T`` or ``"string"Y``, is appropiate when you are specifying string literals; BIF notation, like
 ``BYTES(var)`` or ``TEXT(expression)``, should be used when you want to promote or demote the value of a variable or the
@@ -293,3 +294,5 @@ The RXU Rexx Preprocessor for Unicode implements, in addition to the classical R
 
 Additionally, RXU also implements four new built-in functions: STRINGTYPE (returns __BYTES__, __CODEPOINTS__ or __TEXT__, depending on the string type),
 BYTES (transforms to the BYTES type), CODEPOINTS (transforms to the CODEPOINTS type) and TEXT (transforms to the TEXT type).
+
+For more details about these built-in functions, please refer to the accompanying document, [_New built-in functions_](new-functions.md).
