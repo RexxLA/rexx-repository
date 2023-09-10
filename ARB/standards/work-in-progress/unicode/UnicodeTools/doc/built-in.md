@@ -183,11 +183,57 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## STREAM
 
+The STREAM BIF is enhanced by adding _encoding_ options to the OPEN and QUERY commands. 
+In this version, ENCODING should be the last option specified, and it can not be used with BINARY streams.
+
+### New options for the OPEN command
+
+```
+▸▸─ STREAM( name , "Command" , "Open" options "ENCODING" encoding >─┬────────────────┬──┬─────────────┬─> ) ─▸◂
+                                                                    ├  "TEXT"        ┤  ├  "REPLACE"  ┤
+                                                                    └─ "CODEPOINTS" ─┘  └─ "SYNTAX"  ─┘
+```
+The encoding options are as follows:
+
+* __ENCODING__ _encoding_ specifies that the file is encoded (for reading) or is to be encoded (for writing) using the _encoding_ encoding.
+* __ENCODING__ _encoding_ can be followed by any of __SYNTAX__, __REPLACE__, __TEXT__ or __CODEPOINTS__, in any order.
+* Only one of __TEXT__ or __CODEPOINTS__ can be specified; __TEXT__ is the default. This option determines the type of the strings (STRINGTYPE) that will be returned by the CHARIN and LINEIN BIFs.
+* Only one of __SYNTAX__ or __REPLACE__ can be specified; __REPLACE__ is the default. When __REPLACE__ is specified, ill-formed byte sequences
+  are replaced by the Unicode Replacement Character (``U+FFFD``); when __SYNTAX__ is specified, any ill-formed byte sequence raises a Syntax condition.
+
+### New QUERY commands
+
+* __QUERY ENCODING__ returns a string consisting of three words, or a null string if no _encoding_ was specified.
+  If the returned string is not empty, it will contain the official _encoding_ name, the _encoding_ target (that is, __TEXT__ or __CODEPOINTS__), and the encoding _error_handling_ (that is, __SYNTAX__ or __REPLACE__).
+* __QUERY ENCODING NAME__ returns the stream _encoding_ official name, or a null string if no _encoding_ was specified.
+* __QUERY ENCODING TARGET__ returns __TEXT__ or __CODEPOINTS__, or a null string if no _encoding_ was specified.
+* __QUERY ENCODING ERROR__ returns __SYNTAX__ or __REPLACE__, or a null string if no _encoding_ was specified.
+* __QUERY ENCODING LASTERROR__ returns the value of the characters that could not be encoded or decoded by the last stream operation. __QUERY ENCODING LASTERROR__ will return a null string if no encoding or decoding 
+  errors have been produced in the stream _name_, or when the last operation was successful; if there was an error in the last stream operation, the offending line will be returned.
+
+### Modifications and restrictions to the SEEK and POSITION STREAM commands
+
+__Implementation restrictions__. SEEK and POSITION will raise a Syntax error in the following cases:
+
+For character positioning,
+* When the _encoding_ is variable-length.
+* When __TEXT__ has been selected as the encoding _target_ type.
+
+Positioning the stream at the start of the stream with an offset of "=1" will unconditionally succeed.
+
+For line positioning, all the restrictions listed for character positioning apply, and, additionally:
+* When the _encoding_ specifies a line-end different from ``"0A"X``.
+
+Some or all of these restrictions may be eliminated in a future release.  
+
+__Note.__ The source code for the enhanced stream operations can be found in the file Stream.cls.
+
+Please refer to the stream.rxu program in the samples subdirectory for examples.
+
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
 ## SUBSTR
 
 ## UPPER
-
 
 Please refer to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
