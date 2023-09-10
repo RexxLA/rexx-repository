@@ -22,12 +22,7 @@ For instance, currently you will find a Unicode-aware implementation of several 
 
 ### [Four new types of string](doc/string-types.md)
 
-### Revised built-in functions
-
-C2X, CHARIN, CHAROUT, CHARS, CENTER, CENTRE, COPIES, DATATYPE, LEFT, LENGTH, LINEIN, LINEOUT, LINES, LOWER, POS, REVERSE, RIGHT, STREAM, SUBSTR, UPPER. 
-Please refer to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
-
-See [a presentation of the Unicode-enabled stream functions](doc/stream.md).
+### [Revised built-in functions](doc/built-in.md)
 
 ### [New built-in functions](doc/new-functions.md)
 
