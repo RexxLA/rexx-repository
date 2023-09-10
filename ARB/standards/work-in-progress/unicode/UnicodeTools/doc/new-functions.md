@@ -207,5 +207,7 @@ _string_ matches the _type_. Otherwise, it returns __0__. The following are vali
    ╰───────╯  └────────┘  ╰───╯
 ```
 
-Returns _string_, converted to the TEXT format, i.e., to a format where the basic components of a string are extended grapheme clusters.
-The _string_ is expected to contain valid UTF-8; a Syntax error will be raised if _string_ contains ill-formed UTF-8 sequences.
+Converts _string_ to a TEXT string and returns it. TEXT strings are composed of extended grapheme clusters, and every character in a TEXT string can be an arbitrary extended grapheme cluster. 
+The argument _string_ has to contain well-formed UTF-8, or a Syntax error is raised. When working with TEXT strings, Rexx built-in functions operate at the extended grapheme cluster level, and can produce much richer results than when operating with BYTES or CODEPOINTS strings.
+
+Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` function call.
