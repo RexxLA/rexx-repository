@@ -62,28 +62,42 @@ __Examples__ (assuming an ambient encoding of UTF-8):
 ## Decode
 
 ```
-   ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮                                            ╭───╮
-▸▸─┤ DECODE( ├──┤ string ├──┤ , ├──┤ encoding ├──┤ , ├─┬────────────┬─┬─────────────────────────┬─┤ ) ├─▸◂
-   ╰─────────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌───────────────┐ │ ╰───╯
-                                                       └─┤ format ├─┘ └─┤ , ├─┤ errorHandling ├─┘
-                                                         └────────┘     ╰───╯ └───────────────┘
+   ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮                                             ╭───╮
+▸▸─┤ DECODE( ├──┤ string ├──┤ , ├──┤ encoding ├──┤ , ├─┬────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
+                                                       └─┤ format ├─┘ └─┤ , ├─┤ error_handling ├─┘
+                                                         └────────┘     ╰───╯ └────────────────┘
 ```
 
 Tests whether a _string_ is encoded according to a certain _encoding_, and optionally decodes it to a certain _format_.
 
-* ``DECODE`` works as an _encoding_ validator when _format_ is omitted, and as a decoder when _format_ is specified. It is an error to omit _format_ and to specify a value for _errorHandling_ at the same time (that is, if _format_ was omitted, then _errorHandling_ should be omitted too).
-* When ``DECODE`` is used as validator, it returns a boolean value, indicating if the string is well-formed according to the specified encoding.
-  For example, ``DECODE(string,"UTF-8")`` returns __1__ when string contains well-formed UTF-8, and __0__ if it contains ill-formed UTF-8.
-* To use DECODE as a decoder, you have to specify a _format_. This argument accepts a blank-separated set of tokens.
-  Each token can have one of the following values: "UTF8", "UTF-8", "UTF32", or "UTF-32" (duplicates are allowed and ignored).
-  When "UTF8" or "UTF-8" have been specified, a UTF-8 representation of the decoded string is returned.
-  When "UTF32" or "UTF-32" have been specified, UTF-32 representation of the decoded string is returned.
-  When both have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of the decoded string,
-  and the second item of the array contains the UTF-32 representation of the decoded string.
-* The optional _errorHandling_ argument determines the behaviour of the function when the format argument has been specified.
-  If it has the value ``""`` (the default) or ``"NULL"``, a null string is returned when there a decoding error is encountered.
-  If it has the value ``"REPLACE"``, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
-  If it has the value ``"SYNTAX"``, a Syntax condition will be raised when a decoding error is encountered.
+DECODE works as an _encoding_ validator when _format_ is omitted, and as a decoder when _format_ is specified. It is an error to omit _format_ and to specify a value for _error_handling_ at the same time (that is, if _format_ was omitted, then _error_handling_ should be omitted too).
+
+When DECODE is used as validator, it returns a boolean value, indicating if the string is well-formed according to the specified encoding.
+For example, ``DECODE(string,"UTF-8")`` returns __1__ when string contains well-formed UTF-8, and __0__ if it contains ill-formed UTF-8.
+
+To use DECODE as a decoder, you have to specify a _format_. This argument accepts a blank-separated set of tokens.
+Each token can have one of the following values: __UTF8__, __UTF-8__, __UTF32__, or __UTF-32__ (duplicates are allowed and ignored).
+When __UTF8__ or __UTF-8__ have been specified, a UTF-8 representation of the decoded _string_ is returned.
+When __UTF32__ or __UTF-32__ have been specified, UTF-32 representation of the decoded _string_ is returned.
+When both have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of the decoded _string_,
+and the second item of the array contains the UTF-32 representation of the decoded _string_.
+
+The optional _error_handling_ argument determines the behaviour of the function when the _format_ argument has been specified.
+If it has the value __""__ (the default) or __NULL__, a null string is returned when there a decoding error is encountered.
+If it has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
+If it has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
+
+__Examples:__
+
+```
+DECODE(string, "UTF-16")                           -- Returns 1 if string contains proper UTF-8, and 0 otherwise
+var = DECODE(string, "UTF-16", "UTF-8")            -- Decodes string to the UTF-8 format. A null string is returned if string contains ill-formed UTF-16.
+DECODE(string, "UTF-16",,"SYNTAX")                 -- The fourth argument is checked for validity and then ignored.
+DECODE(string, "UTF-16",,"POTATO")                 -- Syntax error (Invalid option 'POTATO').
+var = DECODE(string, "UTF-16", "UTF-8", "REPLACE") -- Decodes string to the UTF-8 format. Ill-formed character sequences are replaced by U+FFFD.
+var = DECODE(string, "UTF-16", "UTF-8", "SYNTAX")  -- Decodes string to the UTF-8 format. Any ill-formed character sequence will raise a Syntax error.
+```
 
 ## Encode
 
