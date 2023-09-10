@@ -10,7 +10,8 @@ The Rexx Preprocessor for Unicode implements a series of new built-in functions.
    ╰────────╯  └────────┘  ╰───╯
 ```
 
-Returns the _string_ converted to the BYTES format, i.e., to a format where the basic components of a string are bytes. 
+Returns the _string_ converted to the BYTES format.  BYTES strings are composed of 8-bit bytes, and every character in the string can be an arbitrary 8-bit value, including binary data. 
+Rexx built-in-functions operate at the byte level, and no Unicode features are available (for example, LOWER operates only on the ranges ``"A".."Z"`` and ``"a".."z"``).
 This is equivalent to Classic Rexx strings, but with some enhancements. See the description of the BYTES class for details.
 
 ## Codepoints
@@ -39,12 +40,22 @@ Returns a string, in character format, that represents _string_ converted to Uni
 
 By default, C2U returns a list of blank-separated hexadecimal representations of the codepoints. The _format_ argument allows to select different formats for the returned string:
 
-* When _format_ is the null string or ``"CODES"`` (the default), C2U returns a list of blank-separated hexadecimal codepoints.
+* When _format_ is the null string or __CODES__ (the default), C2U returns a list of blank-separated hexadecimal codepoints.
   Codepoints larger than ``"FFFF"X`` will have their leading zeros removed, if any. Codepoints smaller than ``"10000"X`` will always have four digits (by adding zeros to the left if necessary).
-* When _format_ is ``"U+"``, a list of hexadecimal codepoints is returned. Each codepoint is prefixed with the characters ``"U+"``.
-* When _format_ is ``"NAMES"``, each codepoint is substituted by its corresponding name or label, between parenthesis.
+* When _format_ is __U+__, a list of hexadecimal codepoints is returned. Each codepoint is prefixed with the characters ``"U+"``.
+* When _format_ is __NAMES__, each codepoint is substituted by its corresponding name or label, between parentheses.
   For example, ``C2U("S") == "(LATIN CAPITAL LETTER S)"``, and ``C2U("0A"X) = "(<control-000A>)"``.
-* When _format_ is ``"UTF-32"``, a UTF-32 representation of the string is returned.
+* When _format_ is __UTF-32__, a UTF-32 representation of _string_ is returned.
+
+__Examples__ (assuming an ambient encoding of UTF-8):
+
+```
+ C2U("Sí")       = "0053 00ED"       -- And "0053 00ED"U == "53 C3AD"X == "Sí".
+ C2U("Sí","U+")  = "U+0053 U+00ED"   -- Again, "U+0053 U+00ED"U == "53 C3AD"X == "Sí".
+ C2U("Sí","Na")  = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"
+                                     -- And "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"U == "Sí"
+ C2U("Sí","UTF-32") = "0000 0053 0000 00ED"X
+```
 
 ## Decode
 
