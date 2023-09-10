@@ -751,7 +751,7 @@ UTF8: Procedure
     
 ::Method C2X
   Use Strict Arg
-  Return self~makeString~c2x
+  Return .Bytes~new(self~makeString~c2x)
   
 ::Method Center
   Use Strict Arg n, pad = " "

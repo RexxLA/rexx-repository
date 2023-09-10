@@ -2,6 +2,8 @@
  *
  * <h2>The <code>Stream.cls</code> classfile</h2>
  *
+ * <p>Please refer to doc/built-in.md for a description of the built-in functions implemented here</p>
+ *
  * <p>
  *   <code>Stream.cls</code> is loaded (via <code>::Requires</code>) by the main <code>Unicode.cls</code> classfile. 
  *   It contains a set of helper routines to implement <b>Unicode-enabled streams</b>. To enable Unicode-enabled streams
@@ -128,39 +130,6 @@
 ::Routine NormalizedStreamName Private
   If .File~separator = "/" Then Return Arg(1)
   Return Upper(Arg(1))
-
-/**
- *  <h3>Helper routine for the <code>CHARIN</code> BIF</h3>
- * <code><pre>
- *
- * <b>CHARIN(</b> >──┬─────────┬─> <b>,</b> >─┬──────────┬───┬─────────────┬──> <b>)</b>
- *            └─ <em>name</em>  ─┘       └─ <em>start</em>  ─┘   └─ <b>,</b> <em>length</em>  ─┘
- * </pre></code> 
- *
- *  <p>The <code>CHARIN</code> BIF is enhanced by supporting the <em>encoding</em> options specified in the <code>STREAM</code> <code>OPEN</code> command.
- *  
- *  <ul>
- *    <li>When an <em>encoding</em> is not specified for a file, the standard BIF is called.
- *    <li>When there is a specified <em>encoding</em>, the action taken depends on the encoding <em>target</em>. If the encoding target is <code>"TEXT"</code> (the default),
- *      a <code>TEXT</code> string, composed of grapheme clusters, is returned. When the encoding target is <code>"CODEPOINTS"</code>, the appropiate
- *      number of Unicode codepoints is read and returned in a string.
- *    <li>The handling of ill-formed Unicode sequences depends on the value of the encoding error handling. When error handling is set to <code>"REPLACE"</code>
- *      (the default), any ill-formed character will be replaced by the Unicode Replacement Character (<code>U+FFFD</code>); when error handling is set
- *      to <code>"SYNTAX"</code>, a Syntax condition will be raised.
- *  </ul>
- *
- *  <p>
- *    Character positioning is preacutionarily disabled in some circumstances:
- *
- *  <ul>
- *    <li>When the encoding is a variable-length encoding.
- *    <li>When the encoding is a fixed-length encoding, but a target of <code>TEXT</code> has been requested.
- *  </ul>
- *
- *  <p>
- *    Character positioning at the start of the stream (that is, when <em>start</em> is 1) will work unconditionally.
- *
- */
 
 ::Routine !CharIn Public
   If Arg() > 3 Then Raise Syntax 40.4 Array("CHARIN",3)
@@ -305,37 +274,6 @@ SyntaxError:
   fileInfo~lastError = c
   Raise Syntax 23.001 Array(c,C2X(c))
 
-/**
- *  <h3>Helper routine for the <code>CHAROUT</code> BIF</h3>
- * <code><pre>
- *
- * <b>CHAROUT(</b> >──┬─────────┬─> <b>,</b> >─┬───────────┬───┬────────────┬──> <b>)</b>
- *             └─ <em>name</em>  ─┘       └─ <em>string</em>  ─┘   └─ <b>,</b> <em>start</em>  ─┘
- * </pre></code> 
- *
- *  <p>The <code>CHAROUT</code> BIF is enhanced by supporting the <code>ENCODING</code> options specified in the <code>STREAM</code> <code>OPEN</code> command.
- *  
- *  <ul>
- *    <li>When an <em>encoding</em> is not specified for a file, the standard BIF is called.
- *    <li>If the <em>string</em> type is <code>TEXT</code> or <code>CODEPOINTS</code>, the string <em>presentation</em> is well-formed UTF-8 and will be used as-is.
- *      If the <em>string</em> type is <code>BYTES</code>, it will be checked for UTF-8 well-formedness and transformed into a well-formed UTF-8 string. In both
- *      cases, the resulting string is then encoded to the stream <em>encoding</em>. If <code>SYNTAX</code> was specified as the stream error handling option, a
- *      Syntax error is raised if an encoding error is found (or if the argument <em>string</em> contains ill-formed UTF-8); if <code>REPLACE</code> was specified
- *      as the stream error handling option, ill-formed characters will be replaced by the Unicode Replacement Character (<code>U+FFFD</code>).
- *  </ul>
- *
- *  <p>
- *    Character positioning is preacutionarily disabled in some circumstances:
- *
- *  <ul>
- *    <li>When the encoding is a variable-length encoding.
- *    <li>When the encoding is a fixed-length encoding, but a target of <code>TEXT</code> has been requested.
- *  </ul>
- *
- *  <p>
- *    Character positioning at the start of the stream (that is, when <em>start</em> is 1) will work unconditionally.
- */
-
 ::Routine !CharOut Public
   If Arg() > 3 Then Raise Syntax 40.4 Array("CHAROUT",3)
     
@@ -403,27 +341,6 @@ StandardCall:
   if Arg(3,"O") Then Return CharOut(name,Arg(2))
   Return CharOut(name, Arg(2), Arg(3))
 
-/**
- *  <h3>Helper routine for the <code>CHARS</code> BIF</h3>
- * <code><pre>
- *
- * <b>CHARS(</b> >──┬─────────┬─> <b>)</b>
- *           └─ <em>name</em>  ─┘ 
- * </pre></code> 
- *
- *  <p>The <code>CHARS</code> BIF is modified to support the <code>ENCODING</code> options specified in the <code>STREAM</code> <code>OPEN</code> command.
- *
- *  <ul>
- *    <li>When an <em>encoding</em> is not specified for a file, the standard BIF is called.
- *    <li>When an <em>encoding</em> is specified for a file, the behaviour of <code>CHARS</code> depends on the stream <code>ENCODING</code> options.
- *    <li>If the encoding is variable-length or the target type is <code>TEXT</code>, the CHARS function returns <b>1</b> to indicate that
- *      data is present, or <b>0</b> if no data is present.
- *    <li>If the encoding is fixed length and the target type is <code>CODEPOINTS</code>, the standard BIF is called to obtain the number of remaining
- *      bytes. If this number is an exact multiple of the encoding length, the result of dividing the number of bytes left by the number of bytes per
- *      character of the encoding is returned. 
- *    <li>In all other cases, <b>1</b> is returned.
- *  </ul>
- */
 ::Routine !Chars Public
   If Arg() > 1 Then Raise Syntax 40.4 Array("CHARS",1)
   If Arg(1,"O") Then Do
@@ -461,64 +378,6 @@ StandardCall:
   Return Chars(name) > 0
   
 StandardCall: Return CHARS(name)  
-
-/**
- *  <h3>Helper routine for the <code>LINEIN</code> BIF</h3>
- * <code><pre>
- *
- * <b>LINEIN(</b> >──┬─────────┬─> <b>,</b> >─┬─────────┬───┬────────────┬──> <b>)</b>
- *            └─ <em>name</em>  ─┘       └─ <em>line</em>  ─┘   └─ <b>,</b> <em>count</em>  ─┘
- * </pre></code>
- *
- *  <p>The <code>LINEIN</code> BIF is enhanced by supporting the <code>ENCODING</code> options specified in the <code>STREAM OPEN</code> command.
- *  
- *  <ul>
- *    <li>When an <em>encoding</em> is not specified for a file, the standard BIF is called.
- *    <li>When an <em>encoding</em> is specified, a line is read, taking into account the end-of-line conventions defined by the encoding. The <em>line</em>
- *      is then decoded to UTF8, and returned as a <code>TEXT</code> string (the default), or as a <code>CODEPOINTS</code> string, if <code>CODEPOINTS</code>
- *      has been specified as an <code>ENCODING</code> option of the <code>STREAM OPEN</code> command.
- *    <li>If an error is found in the decoding process, the behaviour of the <code>LINEIN</code> BIF is determined by the error handling method specified
- *      as an <code>ENCODING</code> option of the <code>STREAM OPEN</code> command. When <code>"SYNTAX"</code> has been specified, a Syntax error
- *      is raised. When <code>"REPLACE"</code> has been specified, any character that cannot be decoded will be replaced with the Unicode Replacement
- *      character (<code>U+FFFD</code>).
- *  </ul>
- *
- *  <h4>Line-end handling</h4>
- *
- *  <p>
- *    Rexx honors WIndows line-end sequences (<code>"0D0A"X</code>) and Unix-like line-end characters (<code>"0A"X</code>),
- *    and it does so both in Windows and in Unix-like systems. You can try it for yourself by 
- *    creating a file that contains 
- *  </p>
- *
- *  <code><pre>"31610d0a32610d33610a34610a0d3563"X</pre></code>
- *
- *  <p>
- *    and reading it line-by line both on Windows and on Linux.
- *  </p>
- *
- *  <p>
- *    What happens when we are using a multi-byte encoding like UTF-16 or UTF-32? On the one hand,
- *    we will be getting <em>false positives</em>: <code>"000A"X</code> is a line end, but <code>"0Ahh"X</code> is not. On the
- *    other hand, we will be getting <em>lost sequences</em>: a <code>"000D"X</code> that immediately preceeds
- *    a <code>"000A"X</code> should be removed by Rexx, but the current version does not remove it.
- *  </p>
- *
- *  <p>
- *    All these details have to be taken into account by this routine.
- *  </p>
- *
- *  <p><b>Implementation restriction</b>. Line positioning when <code>line &gt; 1</code> is not implemented when:</p>
- *
- *  <ul>
- *    <li>The end-of-line character is not <code>"0A"X</code>.
- *    <li>The encoding number of bytes per char is greater than 1.
- *    <li>The encoding is not fixed-length.
- *  </ul>
- *
- *  <p>These restrictions may be eliminated in a future release.
- *
- */
 
 ::Routine !Linein Public
 
@@ -706,35 +565,6 @@ BigEOL:
   -- End of file
   Signal GotALine
 
-/**
- *  <h3>Helper routine for the <code>LINEOUT</code> BIF</h3>
- * <code><pre>
- *
- * <b>LINEOUT(</b> >──┬─────────┬─> <b>,</b> >─┬───────────┬───┬───────────┬──> <b>)</b>
- *             └─ <em>name</em>  ─┘       └─ <em>string</em>  ─┘   └─ <b>,</b> <em>line</em>  ─┘
- * </pre></code>
- *
- *  <p>The <code>LINEOUT</code> BIF is enhanced by supporting the <code>ENCODING</code> options specified in the <code>STREAM OPEN</code> command.
- *
- *  <ul>
- *    <li>When an <em>encoding</em> is not specified for a file, the standard BIF is called.
- *    <li>When an <em>encoding</em> is specified, the decoded to that encoding; additionally,
- *    the encoding end-of-line sequence is used. 
- *  </ul>
- *
- *  <p><b>Implementation restriction</b>. When <code><em>line</em> &gt; 1</code>, line positioning is not implemented
- *    in the following cases:
- *
- *  <ul>
- *    <li>When the <em>encoding</em> is a variable-length encoding.
- *    <li>When the length of the encoding end-of-line character is greater than 1.
- *    <li>When the end-of-line character is not "0A".
- *  </ul>
- *
- *  <p>These restriction may be eliminated in a future release.
- *
- */
-
 ::Routine !LineOut Public
 
   -- Handle CLOSE first
@@ -814,29 +644,6 @@ StandardCall:
     If string == .Nil Then Return LineOut(name, , line)
     Else                   Return LineOut(name, string, line)
   
-/**
- *  <h3>Helper routine for the <code>LINES</code> BIF</h3>
- * <code><pre>
- *
- * <b>LINES(</b> >──┬─────────┬─> <b>,</b> >─┬─────────────────────┬──> <b>)</b>
- *           └─ <em>name</em>  ─┘       ├─> <b>,</b> >──> <b>"Normal"</b>  ─┤ 
- *                             └─> <b>,</b> >──> <b>"Count"</b>  ──┘ 
- * </pre></code>
- *
- * <p>The <code>LINES</code> BIF is modified to support the <code>ENCODING</code> options specified in the <code>STREAM OPEN</code> command.
- *
- * <p><b>Implementation restriction</b>. <code>LINES(filename,"Count")</code> will fail with a Syntax error when:
- *
- * <ul>
- *   <li>The encoding is not fixed-length.
- *   <li>The length of the encoding is greater than 1.
- *   <li>The encoding end-of-line character is different from <code>"0A"X</code>.
- * </ul>
- *
- * <p>These restrictions may be eliminated in a future release.
- *
- */
-
 ::Routine !Lines Public
   Use Strict Arg name = "stdin", option = "Normal"
 
@@ -871,87 +678,6 @@ StandardCall:
   
 StandardCall: Return LINES(name, option)  
   
-/**
- *  <h3>Helper routine for the <code>STREAM</code> BIF</h3>
- *
- *  <p>The <code>STREAM</code> BIF is enhanced by adding a encoding options to the
- *    <code>OPEN</code> and <code>QUERY</code> commands. In this version, <code>ENCODING</code> should be the last option specified, 
- *    and it can not be used with <code>BINARY</code> streams.
- *  </p>
- *  <br>
- *
- *  <h4>New options for the <code>OPEN</code> command</h4>
- *
- * <code><pre>
- *
- * <b>STREAM(</b> <em>name</em> , <b>"Command"</b> , <b>"Open"</b> <em>options</em> <b>"ENCODING"</b> <em>encoding</em> >─┬────────────────┬──┬─────────────┬─> <b>)</b>
- *                                                                 ├  <b>"TEXT"</b>        ┤  ├  <b>"REPLACE"</b>  ┤
- *                                                                 └─ <b>"CODEPOINTS"</b> ─┘  └─ <b>"SYNTAX"</b>  ─┘
- * </pre></code>
- *
- *
- *  <p>The encoding options are as follows:
- *
- *  <ul>
- *    <li><code>ENCODING <em>encoding</em></code> specifies that the file is encoded (for reading) or is to be encoded
- *      (for writing) using the encoding <code><em>encoding</em></code>.
- *    <li><code>ENCODING <em>encoding</em></code> can be followed by any of <code>SYNTAX</code>, <code>REPLACE</code>,
- *      <code>TEXT</code> or <code>CODEPOINTS</code>, in any order.
- *    <li>Only one of <code>TEXT</code> or <code>CODEPOINTS</code> can be specified; <code>TEXT</code> is
- *      the default. This option determines the type of the strings (<code>STRINGTYPE</code>) that will be returned
- *      by the <code>CHARIN</code> and <code>LINEIN</code> BIFs.
- *    <li>Only one of <code>SYNTAX</code> or <code>REPLACE</code> can be specified; <code>REPLACE</code> is
- *      the default. When <code>REPLACE</code> is specified, ill-formed byte sequences are replaced by
- *      the Unicode Replacement Character (<code>U+FFFD</code>); when <code>SYNTAX</code> is specified, any
- *      ill-formed byte sequence raises a Syntax condition.
- *  </ul>
- *  <br>
- *
- *  <h4>New <code>QUERY</code> commands</h4>
- *
- *  <ul>
- *    <li><code>QUERY ENCODING</code> returns a string consisting of three words, or a null string if no encoding was specified. If the returned string is not
- *      empty, it will contain the official encoding name, the encoding target (that is <code>TEXT</code> or <code>CODEPOINTS</code>), and the encoding
- *      error handling (that is, <code>SYNTAX</code> or <code>REPLACE</code>).
- *    <li><code>QUERY ENCODING NAME</code> returns the stream encoding official name, or a null string if no encoding was specified.
- *    <li><code>QUERY ENCODING TARGET</code> returns <code>TEXT</code> or <code>CODEPOINTS</code>, or a null string if no encoding was specified.
- *    <li><code>QUERY ENCODING ERROR</code> returns <code>SYNTAX</code> or <code>REPLACE</code>, or a null string if no encoding was specified.
- *    <li><code>QUERY ENCODING LASTERROR</code>, which returns the value of the characters that could
- *    not be encoded or decoded by the last stream operation. <code>QUERY ENCODING LASTERROR</code> will return
- *    a null string if no encoding or decoding errors have been produced in the stream,
- *    or when the last operation was successful; if there was an error in the last
- *    stream operation, the offending line will be returned.
- *  </ul>
- *  <br>
- *
- *  <h4>Modifications and restrictions to the <code>SEEK</code> and <code>POSITION</code> <code>STREAM</code> commands</h4>
- *
- *  <p><b>Implementation restrictions</b>. <code>SEEK</code> and <code>POSITION</code> will raise a Syntax error in the following cases:
- *
- *  <p>For character positioning,
- *
- *  <ul>
- *    <li>When the encoding is variable-length.
- *    <li>When <code>TEXT</code> has been selected as the <code>ENCODING</code> target type.
- *    <li>Positioning the stream at the start of the stream with an offset of <code>"=1"</code> will unconditionally succeed.
- *  </ul>
- *
- *  <p>For line positioning, all the restrictions listed for character positioning apply, and additionally:
- *
- *  <ul>
- *    <li>When the encoding specifies a line-end different from "0A"X.
- *  </ul>
- *
- *  <p>Some of these restrictions may be lifted in a future release.
- *
- *  <br>
- *
- *  <h4>Notes</h4>
- *
- *  <p>The source code for the enhanced stream operations can be found in the file <code>Stream.cls</code>.
- *
- *  <p>Please refer to the <code>stream.rxu</code> program in the <code>samples</code> subdirectory for examples.
- */
 ::Routine !Stream Public
   Use Arg , option="S"
     
