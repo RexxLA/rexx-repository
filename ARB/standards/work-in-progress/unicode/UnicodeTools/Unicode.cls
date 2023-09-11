@@ -186,124 +186,15 @@ Properties:
     Otherwise Raise Syntax 88.900 Additional("Invalid property '"Arg(3)"'")
   End
 
-/**
- *
- * <h4><code>N2P</code> (Name to codePoint)</h4>
- *
- * <code><pre>
- *
- * <b>N2P(</b> <em>name</em> <b>)</b>
- * </pre></code> 
- *
- * <p>
- *   Returns the hexadecimal Unicode codepoint corresponding to <em>name</em>, or the null string if <em>name</em>
- *   does not correspond to a Unicode codepoint. 
- *
- * <p>
- *   <code>N2P</code> accepts <em>names</em>, as defined in the second 
- *   column of <code>UnicodeData.txt</code> (that is, the Unicode "Name" ("Na") property), like 
- *   <code>"LATIN CAPITAL LETTER F"</code> or <code>"BELL"</code>; <em>aliases</em>, as defined in 
- *   <code>NameAliases.txt</code>, like <code>"LF"</code> or <code>"FORM FEED"</code>, and <em>labels</em> 
- *   identifying codepoints that have no names, like <code>"&lt;Control-0001&gt;"</code> or <code>"&lt;Private Use-E000&gt;"</code>.
- *
- * <p>
- *   When specifying a name, case is ignored, as are certain characters: spaces, medial dashes
- *   (except for the "HANGUL JUNGSEONG O-E" codepoint) and underscores that replace dashes. Hence, <code>"BELL"</code>,
- *   <code>"bell"</code> and <code>"Bell"</code> are all equivalent, as are <code>"LATIN CAPITAL LETTER F"</code>,
- *   <code>"Latin capital letter F"</code> and <code>"latin_capital_letter_f"</code>.
- *
- * <p>
- *   Returned codepoints will always be <em>normalized</em>: they will have a minimum length of four digits, 
- *   and they will never start with a zero if they have more than four digits.
- *
- * <p><b>Examples:</b>
- *
- * <code><pre>
- * N2P("LATIN CAPITAL LETTER F") =  "0046"       -- Padded to four digits
- * N2P("BELL")                   = "1F514"       -- Not "01F514"
- * N2P("Potato")                 = "1F954"       -- Unicode has "Potato" (a vegetable emoticon)..
- * N2P("Potatoes")               = ""            -- ..but no "Potatoes".</pre></code>
- *
- */
-
 ::Routine N2P Public
   Use Strict Arg name
   If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
   Return .Unicode.Name~n2p( name )
 
-/**
- *
- * <h4><code>P2N</code> (codePoint to Name)</h4>
- *
- * <code><pre>
- *
- * <b>N2P(</b> <em>codepoint</em> <b>)</b>
- * </pre></code> 
- *
- * <p>
- *   Returns the name or label corresponding to the hexadecimal Unicode <em>codepoint</em> argument, or the null string if the
- *   <em>codepoint</em> has no name or label.
- *
- * <p>
- *   The argument <em>codepoint</em> is first <em>verified</em> for validity. If it is not a valid hexadecimal number or it is
- *   out-of-range, a null string is returned. If the codepoint is found to be valid, it is then <em>normalized</em>: 
- *   if it has less than four digits, zeros are added to the left, until the codepoint has exactly four digits; 
- *   and if the codepoint has more than four digits, leading zeros are removed, until no more zeros are found or
- *   the codepoint has exactly four characters.
- *
- * <p>
- *   Once the codepoint has been validated and normalized, it is uppercased, and the Unicode Character Database 
- *   is then searched for the "Name" ("Na") property. If the codepoint has a name, that name is returned. 
- *   If the codepoint does not have a name but it has a label, like <code>"&lt;control-0010&gt;"</code>, the label is returned. 
- *   In all other cases, the null string is returned.
- *
- * <p>
- *   <b>Note.</b> Labels are always enclosed between "&lt;" and "&gt;" signs. This allows to quickly distinguish them from names.
- *
- * <p><b>Examples:</b>
- *
- * <code><pre>
- * P2N("46")      =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
- * P2N("0046")    =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
- * P2N("0000046") =  "LATIN CAPITAL LETTER F"    -- Normalized to "0046"
- * P2N("1F342")   =  "FALLEN LEAF"               -- An emoji
- * P2N("0012")    =  "&lt;control-0012&gt;"            -- A label, not a name
- * P2N("XXX")     =  ""                          -- Invalid codepoint
- * P2N("110000")  =  ""                          -- Out-of-range</pre></code>
- *   
- */
-
 ::Routine P2N Public
 Use Strict Arg code
   If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
   Return .Unicode.Name[ code ]
-
-/**
- *
- * <h4><code>STRINGTYPE</code></h4> 
- *
- * <code><pre>
- *
- * <b>STRINGTYPE(</b> <em>string</em>  >─┬────────┬─> <b>)</b>
- *                       └─ <em>type</em> ─┘</pre></code>
- *
- * <p>
- *   If you specify only <em>string</em>, it returns <b>TEXT</b> when <em>string</em> is a <code>TEXT</code> string,
- *   <b>CODEPOINTS</b> when <em>string</em> is a <code>CODEPOINTS</code> string, and <b>BYTES</b> when <em>string</em>
- *   is a <code>BYTES</code> string.
- *
- * <p>
- *   If you specify <em>type</em>, it returns <b>1</b> if the string matches the type. Otherwise, it returns <b>0</b>.
- *   The following are valid types. (Only the capitalized letter is needed; all
- *   characters following it are ignored.)
- *
- * <dl>
- *   <dt>Bytes<dd>Returns <b>1</b> if the string is a <code>BYTES</code> string.
- *   <dt>Codepoints<dd>Returns <b>1</b> if the string is a <code>CODEPOINTS</code> string.
- *   <dt>Text<dd>Returns <b>1</b> if the string is a <code>TEXT</code> string. 
- * </dl>
- *
- */
 
 ::Routine STRINGTYPE Public
   Use Strict Arg string, option = ""
@@ -324,201 +215,27 @@ Use Strict Arg code
     Otherwise                         Return "NONE"
   End
 
-/**
- *
- * <h4><code>BYTES</code> (Convert a string to a <code>BYTES</code> string)</code></h4> 
- *
- * <code><pre>
- *
- * <b>BYTES(</b> <em>string</em> <b>)</b></pre></code>
- *
- * <p>
- *   Converts <em>string</em> to a <code>BYTES</code> string and returns it. <code>BYTES</code> strings are
- *   composed of 8-bit bytes, and every character in the string can be an arbitrary 8-bit value, including
- *   binary data. Rexx built-in-functions operate at the byte level, and no Unicode features are available
- *   (for example, <code>LOWER</code> operates only on the ranges "A".."Z" and "a".."z").
- *
- */
-
 
 ::Routine BYTES Public
   Use Strict Arg string
   return .Bytes~new(string)
 
-/**
- *
- * <h4><code>CODEPOINTS</code> (Convert a string to a <code>CODEPOINTS</code> string)</code></h4> 
- *
- * <code><pre>
- *
- * <b>CODEPOINTS(</b> <em>string</em> <b>)</b></pre></code>
- *
- * <p>
- *   Converts <em>string</em> to a <code>CODEPOINTS</code> string and returns it. <code>CODEPOINTS</code> strings
- *   are composed of Unicode codepoints, and every character in the string can be an arbitrary Unicode codepoint.
- *   The argument <em>string</em> has to contain well-formed UTF-8, or a Syntax error is raised. Built-in functions
- *   operate at the codepoint level, and can produce much richer results than when operating on <code>BYTES</code>
- *   strings.
- * 
- * <p>
- *   Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are guaranteed to contain 
- *   well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the 
- *   <code>DECODE(string,"UTF-8")</code> function call.
- *
- */
-
 ::Routine CODEPOINTS Public
   Use Strict Arg string
   Return .Codepoints~new(string)
 
-/**
- *
- * <h4><code>TEXT</code> (Convert a string to a <code>TEXT</code> string)</code></h4> 
- *
- * <code><pre>
- *
- * <b>TEXT(</b> <em>string</em> <b>)</b></pre></code>
- *
- * <p>
- *   Converts <em>string</em> to a <code>TEXT</code> string and returns it. <code>TEXT</code> strings are composed
- *   of extended grapheme clusters, and every character in the string can be an arbitrary extended grapheme cluster.
- *   The argument <em>string</em> has to contain well-formed UTF-8, or a Syntax error is raised. Built-in functions
- *   operate at the extended grapheme cluster level, and can produce much richer results than when operating in
- *   <code>BYTES</code> or <code>CODEPOINTS</code> strings.
- *
- * <p>
- *   Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are guaranteed to contain well-formed UTF-8 sequences.
- *   To test if a string contains well-formed UTF-8, you can use the <code>DECODE(string,"UTF-8")</code> function call.
- *
- */
-
 ::Routine TEXT Public
   Use Strict Arg string
   Return .Text~new(string)
-    
-/**
- *
- * <h4><code>C2U</code> (Character to Unicode codepoint)</h4>
- * <code><pre>
- *
- * <b>C2U(</b> <em>string</em> ┬────────────┬─> <b>)</b>
- *             └─ <b>,</b> <em>format</em> ─┘</pre></code>
- *
- * <p>
- *   Returns a string, in character format, that represents <em>string</em> converted to Unicode codepoints.
- *   By default, <code>C2U</code> returns a list of blank-separated hexadecimal representations of the
- *   codepoints. The <em>format</em> argument allows to select different formats for the returned string.
- *
- * <ul>
- *  <li>When <em>format</em> is the null string or <code>"Codes"</code> (the default), <code>C2U</code>
- *    returns a list of blank-separated hexadecimal codepoints. Codepoints larger than "FFFF"X will have their
- *    leading zeros removed, if any. Codepoints smaller than "10000"X will always have four digits (by adding
- *    zeros to the left if necessary).
- *  <li>When <em>format</em> is <code>"U+"</code>, a list of hexadecimal codepoints is returned. Each codepoint is
- *    prefixed with the characters <code>"U+"</code>.
- *  <li>When <em>format</em> is <code>"Names"</code>, each codepoint is substituted by its corresponding
- *    name or label, between parenthesis. For example, C2U("S") == "(LATIN CAPITAL LETTER S)", and
- *    C2U("0A"X) = "(&lt;control-000A&gt;)".
- *  <li>When <em>format</em> is <code>"UTF-32"</code>, a UTF-32 representation of the string is returned.
- * </ul>
- *
- * <p><b>Examples</b> (assuming an ambient encoding of UTF-8):
- *
- * <code><pre>
- * C2U("Sí")       = "0053 00ED"       -- And "0053 00ED"U == "53 C3AD"X == "Sí".
- * C2U("Sí","U+")  = "U+0053 U+00ED"   -- Again, "U+0053 U+00ED"U == "53 C3AD"X == "Sí".
- * C2U("Sí","Na")  = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"
- *                                     -- And "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"U == "Sí"
- * C2U("Sí","UTF-32") = "0000 0053 0000 00ED"X
- * </pre></code>
- */   
-    
+        
 ::Routine C2U Public  
   Use Strict Arg string, format=""
-  Return string~C2U(format) 
-  
-/**
- *
- * <h4><code>DECODE</code> (new BIF)</h4>
- *
- * <code><pre>
- *
- * <b>DECODE(</b> <em>string</em> , <em>encoding</em> , >─┬──────────┬──┬───────────────────┬─> <b>)</b>
- *                               └─ <em>format</em> ─┘  └─ , <em>errorHandling</em> ─┘
- * </pre></code>
- * <p><code>DECODE</code> tests whether a <code>string</code> is encoded according to a certain <code>encoding</code>, 
- *   and optionally decodes it to a certain <code>format</code>.
- *
- * <p><code>DECODE</code> works as an <code>encoding</code> <em>validator</em> when <code>format</code> is omitted, and
- *   as a <em>decoder</em> when <code>format</code> is specified. It is an error to omit <code>format</code> and to specify
- *   a value for <code>errorHandling</code> at the same time (that is, if <code>format</code> was omitted, then
- *   <code>errorHandling</code> should be omitted too).
- *
- * <p>When <code>DECODE</code> is used as <em>validator</em>, it returns a boolean value, indicating
- *   if the <code>string</code> is well-formed according to the specified <code>encoding</code>.
- *   For example, <code>DECODE(string,"UTF-8")</code> returns <code>1</code> when string contains well-formed
- *   UTF-8, and 0 if it contains ill-formed UTF-8.
- *
- * <p>To use <code>DECODE</code> as a <em>decoder</em>, you have to specify a <code>format</code>. This argument accepts a blank-separated
- *   set of tokens. Each token can have one of the following values: <code>"UTF8"</code>, <code>"UTF-8"</code>, <code>"UTF32"</code>, or
- *   <code>"UTF-32"</code> (duplicates are allowed and ignored). When <code>"UTF8"</code> or <code>"UTF-8"</code> have been specified,
- *   a UTF-8 representation of the decoded string is returned. When <code>"UTF32"</code> or <code>"UTF-32"</code> have been specified,
- *   UTF-32 representation of the decoded string is returned. When both have been specified, a two-items array is returned. The first item
- *   of the array is the UTF-8 representation of the decoded string, and the second item of the array contains the UTF-32 representation
- *   of the decoded string.
- *
- * <p>The optional <code>errorHandling</code> argument determines the behaviour of the function when the <code>format</code> argument
- *   has been specified. If if has the value <code>""</code> (the default) or <code>"NULL"</code>, a null string is returned when there
- *   a decoding error is encountered. If it has the value <code>"REPLACE"</code>, any ill-formed character will be replaced by the
- *   Unicode Replacement Character (U+FFFD). If it has the value <code>"SYNTAX"</code>, a Syntax condition will be raised when
- *   a decoding error is encountered.
- *
- * <p><b>Examples:</b>
- *
- * <code><pre> 
- * DECODE(string, "UTF-16")                           -- Returns 1 if <em>string</em> contains proper UTF-8, and 0 otherwise
- * var = DECODE(string, "UTF-16", "UTF-8")            -- Decodes <em>string</em> to the UTF-8 format. A null string is returned if <em>string</em> contains ill-formed UTF-16.
- * DECODE(string, "UTF-16",,"SYNTAX")                 -- The fourth argument is checked for validity and then ignored.
- * DECODE(string, "UTF-16",,"POTATO")                 -- Syntax error (Invalid option 'POTATO').
- * var = DECODE(string, "UTF-16", "UTF-8", "REPLACE") -- Decodes <em>string</em> to the UTF-8 format. Ill-formed character sequences are replaced by U+FFFD.
- * var = DECODE(string, "UTF-16", "UTF-8", "SYNTAX")  -- Decodes <em>string</em> to the UTF-8 format. Any ill-formed character sequence will raise a Syntax error.
- * </pre></code>
- */ 
+  Return string~C2U(format)   
   
 ::Routine DECODE Public  
   Use Strict Arg string, encoding, format="", errorHandling=""
   Return .Encoding[encoding]~decode(string, format, errorHandling)  
   
-/**
- *
- * <h4><code>ENCODE</code> (new BIF)</h4>
- *
- * <code><pre>
- *
- * <b>ENCODE(</b> <em>string</em> , <em>encoding</em> , >─┬───────────────────┬─> <b>)</b>
- *                               └─ , <em>errorHandling</em> ─┘
- * </pre></code>
- * <p><code>ENCODE</code> first validates that the <em>string</em> contains valid unicode.
- *   Once the string is validated, an encoding is attempted using the specified <em>encoding</em>. 
- *   <code>ENCODE</code> returns the encoded string, or a null string if any of normalization or encoding failed. 
- *   You can influence the behaviour of the function when an error is encountered by specifying the optional 
- *   <em>errorHandling</em> argument.
- *
- * <ul>
- *   <li>When <em>errorHandling</em> is not specified, is <code>""</code> or is <code>"NULL"</code> (the default),
- *     a null string is returned if an error is encountered.
- *   <li>When <em>errorHandling</em> has the value <code>"SYNTAX"</code>, a Syntax error is raised if an error
- *      is encountered.
- * </ul>
- *
- * <p><b>Examples:</b>
- *
- * <code><pre> 
- * ENCODE(string, "IBM1047")                          -- The encoded string, or "" if <em>string</em> can not be encoded to IBM1047.
- * ENCODE(string, "IBM1047","SYNTAX")                 -- The encoded string. If the encoding fails, a Syntax error is raised.
- * </pre></code>
- */ 
-
 ::Routine ENCODE Public  
   Use Strict Arg string, encoding, errorHandling=""
   Return .Encoding[encoding]~encode(string, errorHandling)  

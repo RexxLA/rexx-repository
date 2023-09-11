@@ -122,6 +122,7 @@
  *   <tr><td>      <td>JMB <td>20230816 <td>Implement OPTIONS DEFAULTSTRING NONE
  *   <tr><td>00.4  <td>JMB <td>20230901 <td>Complete rewrite, use the full tokenizer
  *   <tr><td>      <td>    <td>         <td>Change /options to -options
+ *   <tr><td>      <td>    <td>20230911 <td>X and B strings are always BYTES
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -459,6 +460,8 @@ TypedString:
     When "P" Then transformed = concat'(Codepoints('array[line1][col1,col2-col1-1]'))'
     When "T" Then transformed =       concat'(Text('array[line1][col1,col2-col1-1]'))'
     When "Y" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1-1]'))'
+    When "X" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))' 
+    When "B" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))'
     Otherwise     transformed =       concat'(!!DS('array[line1][col1,col2-col1  ]'))'
   End
 Return

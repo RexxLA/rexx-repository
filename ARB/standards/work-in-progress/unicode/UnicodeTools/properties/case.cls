@@ -341,7 +341,7 @@
 
 /*****************************************************************************/
 /*  Maps a string to its corresponding Simple_Uppercase_Mapping              */
-/*  as defined un UnicodeData.txt, with a number of exceptions, taken from   */
+/*  as defined in UnicodeData.txt, with a number of exceptions, taken from   */
 /*  SpecialCasing.txt. These exceptions are scanned at build time and        */
 /*  stored in the 'SpecialUpper' persistent variable; then the 'activate'    */
 /*  class method distributes them into the SpecialUpper. stem.               */
@@ -349,7 +349,7 @@
 /*  We also handle the special case of the Iota-subscript, as defined in     */
 /*  SpecialCasing.txt.                                                       */
 /*                                                                           */
-/*  The name "toLowercase" is defined in "Default Case Conversion", rule R1, */
+/*  The name "toUppercase" is defined in "Default Case Conversion", rule R1, */
 /*  same source, p. 154.                                                     */
 /*                                                                           */
 /*****************************************************************************/
