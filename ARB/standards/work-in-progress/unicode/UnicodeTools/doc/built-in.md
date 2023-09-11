@@ -309,7 +309,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 ```
 Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINS or TEXT strings, it implements the ``toLowercase(X)`` definition,
-as defined in rule __R2__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf).
+as defined in rule __R2__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
 
 > Map each character C in X to Lowercase_Mapping(C).
 
@@ -322,7 +322,7 @@ to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial positi
 __Examples.__
 
 ```
-Lower("THIS")                                     -- This
+Lower("THIS")                                     -- "this"
 Lower("MAMÁ"Y)                                    -- "mamÁ", since "MAMÁ"Y is a Classic Rexx string
 Lower("MAMÁ"P)                                    -- "mamá"
 Lower('ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÜÂÊÎÔÛÑÃÕÇ'T)               -- 'áéíóúýàèìòùäëïöüâêîôûñãõç'
@@ -391,3 +391,31 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 ## SUBSTR
 
 ## UPPER
+
+```
+   ╭────────╮  ┌────────┐  ╭───╮                                  ╭───╮
+▸▸─┤ UPPER( ├──┤ string ├──┤ , ├─┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  └────────┘  ╰───╯ │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+                                 └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
+                                   └───┘      ╰───╯  └────────┘
+```
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINS or TEXT strings, it implements the ``toUppercase(X)`` definition,
+as defined in rule __R1__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
+
+> Map each character C in X to Uppercase_Mapping(C).
+
+Broadly speaking, ``Uppercase_Mapping(C)`` implements the ``Simple_Uppercase_Mapping`` property, as defined in the
+``UnicodeData.txt`` file of the Unicode Character Database (UCD), but a number of exceptions, defined in the ``SpecialCasing.txt`` 
+file of the UCD have to be applied. Additionally, the Iota-subscript, ``"0345"X``, receives a special treatment.
+
+__Examples.__
+
+```
+Upper("this")                                     -- "THIS"
+Upper("mamá"Y)                                    -- "MAMá", since "mamá"Y is a Classic Rexx string
+Upper("mamá"P)                                    -- "MAMÁ"
+Upper('áéíóúýàèìòùäëïöïÿâêîôûñãõç')               -- 'ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÏŸÂÊÎÔÛÑÃÕÇ'
+Upper('ᾴ')                                        -- 'ΆΙ' ("03B1 0345 0301"U --> "0391 0301 0399"U)
+Upper('Straße')                                   -- 'STRASSE' (See the uppercasing of the german es-zed)
+```
