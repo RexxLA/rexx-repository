@@ -169,17 +169,17 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 ## CENTER (or CENTRE)
 
 ```
-     ╭─────────╮   ┌────────┐ ╭───╮ ┌────────┐                   ╭───╮
-▸▸─┬─┤ CENTER( ├─┬─┤ string ├─┤ , ├─┤ length ├─┬───────────────┬─┤ ) ├─▸◂
-   │ ╰─────────╯ │ └────────┘ ╰───╯ └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
-   │ ╭─────────╮ │                             └─┤ , ├─┤ pad ├─┘
-   └─┤ CENTRE( ├─┘                               ╰───╯ └─────┘
+     ╭─────────╮   ┌────────┐  ╭───╮  ┌────────┐                   ╭───╮
+▸▸─┬─┤ CENTER( ├─┬─┤ string ├──┤ , ├──┤ length ├─┬───────────────┬─┤ ) ├─▸◂
+   │ ╰─────────╯ │ └────────┘  ╰───╯  └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
+   │ ╭─────────╮ │                               └─┤ , ├─┤ pad ├─┘
+   └─┤ CENTRE( ├─┘                                 ╰───╯ └─────┘
      ╰─────────╯
 ```
 
 Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
-a CODEPOINTS string, or a TEXT string, respectively. In particular, the _pad_ character will be converted to the type of _string_; once converted,
-it will have to be a byte, a codepoint, or a grapheme cluster, accordingly.
+a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
+_pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
 
 __Examples.__
 
@@ -191,9 +191,19 @@ Center("Man"Y,5,"👨")                             -- Syntax error ('CENTER arg
 Center("Man"P,5,"👨")                             -- "👨Man👨"
 Center("Man"P,5,"(Man)(Zwj)(Man)"U)               -- Syntax error ('CENTER argument 3 must be a single character; found "👨‍👨"')
 Center("Man"T,5,"(Man)(Zwj)(Man)"U)               -- "👨‍👨Man👨‍👨"
+Center("Man"T,5,"FF"X)                            -- Syntax error ("Invalid UTF-8 sequence in position 1 of string: 'FF'X")
 ```
 
 ## COPIES
+
+```
+     ╭─────────╮  ┌────────┐  ╭───╮  ┌───┐  ╭───╮
+▸▸───┤ COPIES( ├──┤ string ├──┤ , ├──┤ n ├──┤ ) ├─▸◂
+     ╰─────────╯  └────────┘  ╰───╯  └───┘  ╰───╯
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively.
 
 ## DATATYPE
 
@@ -218,7 +228,7 @@ The LINEIN BIF is enhanced by supporting the _encoding_ options specified in the
   CODEPOINTS string, if __CODEPOINTS__ has been specified as an _encoding_ option of the STREAM OPEN command.
 * If an error is found in the decoding process, the behaviour of the LINEIN BIF is determined by the _error_handling_ method specified as an _encoding_ option of the STREAM OPEN command.
     * When __SYNTAX__ has been specified, a Syntax error is raised.
-    * When __REPLACE_ has been specified, any character that cannot be decoded will be replaced with the Unicode Replacement character (``U+FFFD``).
+    * When __REPLACE__ has been specified, any character that cannot be decoded will be replaced with the Unicode Replacement character (``U+FFFD``).
  
 ### Line-end handling
 
@@ -289,6 +299,37 @@ Some or all of these restrictions may be eliminated in a future release.
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
 ## LOWER
+
+```
+   ╭────────╮  ┌────────┐  ╭───╮                                  ╭───╮
+▸▸─┤ LOWER( ├──┤ string ├──┤ , ├─┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  └────────┘  ╰───╯ │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+                                 └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
+                                   └───┘      ╰───╯  └────────┘
+```
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINS or TEXT strings, it implements the ``toLowercase(X)`` definition,
+as defined in rule __R2__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf).
+
+> Map each character C in X to Lowercase_Mapping(C).
+
+Broadly speaking, ``Lowercase_Mapping(C)`` implements the ``Simple_Lowercase_Mapping`` property, as defined in the
+``UnicodeData.txt`` file of the Unicode Character Database (UCD). Two exceptions to this mapping are defined
+in the ``SpecialCasing.txt`` file of the UCD. One exception not one to one: ``"0130"U``, ``LATIN CAPITAL LETTER I WITH DOT ABOVE``,
+which lowercases to ``"0069 0307"U``. The second exception is for ``"03A3"U``, the final greek sigma, which lowercases
+to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial position).
+
+__Examples.__
+
+```
+Lower("THIS")                                     -- This
+Lower("MAMÁ"Y)                                    -- "mamÁ", since "MAMÁ"Y is a Classic Rexx string
+Lower("MAMÁ"P)                                    -- "mamá"
+Lower('ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÜÂÊÎÔÛÑÃÕÇ'T)               -- 'áéíóúýàèìòùäëïöüâêîôûñãõç'
+Lower('ὈΔΥΣΣΕΎΣ'T)                                -- 'ὀδυσσεύς' (note the difference between medial and final sigmas)
+Lower('Aİ')                                       -- 'ai̇' ("6169CC87"X)
+Length(Lower('Aİ'))                               -- 3
+```
 
 ## POS
 
