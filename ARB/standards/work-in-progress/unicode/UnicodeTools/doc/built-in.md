@@ -1,6 +1,77 @@
 # Rexx built-in functions for Unicode: enhancements and modifications
 
-Please refer to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
+## Introduction: What are the enhanced built-in functions and how are they implemented
+
+### Statement of the problem
+
+The purpose of RXU, the Rexx Preprocessor for Unicode, is to offer a Unicode-enhanced
+Rexx experience that is as seamless and as simple as possible. A Unicode-enhanced Rexx program ("a RXU
+program" for short) is a program written in a language based on standard (oo)Rexx
+and enhanced with a set of Unicode specific additions and modifications.
+
+As an example of _additions_, RXU programs allow for four new types of literal strings.
+These are described in an accompanying document, [_New types of strings_](string-types.md).
+
+_Modifications_ become necessary when the behaviour of already existing mechanisms of Rexx
+has to be altered. In our case, for instance, we will expect that RXU programs know 
+how to manage Unicode strings, and thus bring the rich set of features of Rexx to the Unicode world. 
+But this will mean that _existing_ BIFs will have to operate with _new_ entities (i.e., Unicode strings) 
+and, of course, they will most probably have to produce _new and different_ results when processing these new entities.
+
+We are then confronted to the task of enhancing, and in this sense _redefining_, existing BIFs.
+But this is extremely problematic.
+
+### Ways to substitute BIFs. Necessity of a preprocessor
+
+As is well known, built-in functions (BIFs) are _second_ in the Rexx search order
+
+> Functions are searched in the following sequence: internal routines, built-in functions, external
+functions (_rexxref_, 7.2.1, "Search Order").
+
+As a consequence, when one wants to redefine a BIF, the only possible way is to write an _internal_
+function with the same name:
+
+> If the call or function invocation uses a literal string, then the search for internal label is bypassed. This
+bypass mechanism allows you to extend the capabilities of an existing internal function, for example,
+and call it as a built-in function or external routine under the same name as the existing internal
+function. To call the target built-in or external routine from inside your internal routine, you must use a
+literal string for the function name (_Ibid._).
+
+If, as we stated above, we want to offer an experience that is "as seamless and as simple as possible", the
+only way to achieve that is to implement a _preprocessor_. The alternative would be to define a kind of
+"epilog" that would contain all the redefined functions, and ask the programmers to copy it at the
+bottom of their programs: a maintenance nightmare, and nothing that can be called "seamless" or "simple".
+
+### Ways to substitute BIFs, part II
+
+The preprocessor could add such a prolog to RXU programs in an automated way. But, if we count on
+the idea of a (sufficiently powerful) preprocessor, we can opt for a different strategy. Instead
+of writing an internal routine for each BIF that we want to modify or enhance, we can _substitute_ the name of each BIF
+in every BIF call, and call a different function instead. Now, that different function will have a new name,
+an _external function name_. Clashes with existing BIF names will disappear, and, with them, the need
+to define internal routines. That's a much neater solution. Indeed, if working with ooRexx, all the
+external routines can be grouped in some few packages, and the task of the preprocessor will practically be reduced,
+beyond the substitution of names and the implementation of new string types, to the trivial addition
+of a ``::Requires`` directive or a function call that enables the new external functions.
+
+The RXU preprocessor for Unicode follows this approach. It substitutes calls to a rexx BIF ``F`` with calls to ``!F``,
+i.e., an exclamation mark, "!", is added to the BIF name. For example the preprocessor would translate ``Length(var)``
+to ``!Length(var)``.
+
+### Subtleties of substitution
+
+The _basic idea_ of such a substitution is trivially easy; as it often happens, its concrete realization is nothing
+but trivial. You cannot simply pick every occurence of, say, ``"LENGTH"`` and blindly substitute it with "!LENGTH":
+that would unintendedly transform _method calls_, like in ``n = var~length``, for example. 
+
+Ok, you could say: let's reduce ourselves to the case where a BIF name is followed by a left parentheses. 
+But this leaves out ``CALL`` statements, and there are methods that have arguments anyway...
+
+The RXU Rexx Preprocessor for Unicode handles all these complexities, and many more, except one: if there is an internal routine
+with the same name as a BIF, it substitutes names anyway. It should not, but it's beyond its power, in the current
+version. This limitation will be addressed in a future release.
+
+---
 
 ## C2X (Character to heXadecimal)
 
