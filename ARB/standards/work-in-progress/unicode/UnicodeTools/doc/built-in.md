@@ -209,7 +209,39 @@ a CODEPOINTS string, or a TEXT string, respectively.
 
 ## LEFT
 
+```
+   ╭───────╮  ┌────────┐  ╭───╮  ┌────────┐                    ╭───╮
+▸▸─┤ LEFT( ├──┤ string ├──┤ , ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
+   ╰───────╯  └────────┘  ╰───╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
+                                            └─┤ , ├──┤ pad ├─┘
+                                              ╰───╯  └─────┘
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
+_pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
+
 ## LENGTH
+
+```
+   ╭─────────╮  ┌────────┐  ╭───╮
+▸▸─┤ LENGTH( ├──┤ string ├──┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯
+```
+
+When _string_ is a BYTES string, it returns the number of bytes in _string_. When _string_ is a CODEPOINTS string, it returns the number of
+codepoints in _string_. When _string_ is a TEXT string, it returns the number of extended grapheme clusters in _string_.
+
+__Examples.__
+
+```
+Length("a")                                       -- 1
+Length("á")                                       -- "á" is "C3 A1"X
+Length("á"P)                                      -- "á" is 1 codepoint
+Length("👨‍👩")                                      -- 11 bytes, that was "F09F91A8E2808DF09F91A9"X
+Length("👨‍👩"P)                                     -- 3 codepoints (Man + Zwj + Woman)
+Length("👨‍👩"T)                                     -- 1 grapheme cluster
+```
 
 ## LINEIN 
 
@@ -336,6 +368,18 @@ Length(Lower('Aİ'))                               -- 3
 ## REVERSE
 
 ## RIGHT 
+
+```
+   ╭────────╮  ┌────────┐  ╭───╮  ┌────────┐                    ╭───╮
+▸▸─┤ RIGHT( ├──┤ string ├──┤ , ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  └────────┘  ╰───╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
+                                             └─┤ , ├──┤ pad ├─┘
+                                               ╰───╯  └─────┘
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
+_pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
 
 ## STREAM
 
