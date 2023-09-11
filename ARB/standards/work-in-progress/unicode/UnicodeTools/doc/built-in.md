@@ -1,8 +1,98 @@
 # Rexx built-in functions for Unicode: enhancements and modifications
 
-Please refer to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
+## Introduction: What are the enhanced built-in functions and how are they implemented
+
+### Statement of the problem
+
+The purpose of RXU, the Rexx Preprocessor for Unicode, is to offer a Unicode-enhanced
+Rexx experience that is as seamless and as simple as possible. A Unicode-enhanced Rexx program ("a RXU
+program" for short) is a program written in a language based on standard (oo)Rexx
+and enhanced with a set of Unicode specific additions and modifications.
+
+As an example of _additions_, RXU programs allow for four new types of literal strings.
+These are described in an accompanying document, [_New types of strings_](string-types.md).
+
+_Modifications_ become necessary when the behaviour of already existing mechanisms of Rexx
+has to be altered. In our case, for instance, we will expect that RXU programs know 
+how to manage Unicode strings, and thus bring the rich set of features of Rexx to the Unicode world. 
+But this will mean that _existing_ BIFs will have to operate with _new_ entities (i.e., Unicode strings) 
+and, of course, they will most probably have to produce _new and different_ results when processing these new entities.
+
+We are then confronted to the task of enhancing, and in this sense _redefining_, existing BIFs.
+But this is extremely problematic.
+
+### Ways to substitute BIFs. Necessity of a preprocessor
+
+As is well known, built-in functions (BIFs) are _second_ in the Rexx search order
+
+> Functions are searched in the following sequence: internal routines, built-in functions, external
+functions (_rexxref_, 7.2.1, "Search Order").
+
+As a consequence, when one wants to redefine a BIF, the only possible way is to write an _internal_
+function with the same name:
+
+> If the call or function invocation uses a literal string, then the search for internal label is bypassed. This
+bypass mechanism allows you to extend the capabilities of an existing internal function, for example,
+and call it as a built-in function or external routine under the same name as the existing internal
+function. To call the target built-in or external routine from inside your internal routine, you must use a
+literal string for the function name (_Ibid._).
+
+If, as we stated above, we want to offer an experience that is "as seamless and as simple as possible", the
+only way to achieve that is to implement a _preprocessor_. The alternative would be to define a kind of
+"epilog" that would contain all the redefined functions, and ask the programmers to copy it at the
+bottom of their programs: a maintenance nightmare, and nothing that can be called "seamless" or "simple".
+
+### Ways to substitute BIFs, part II
+
+The preprocessor could add such a prolog to RXU programs in an automated way. But, if we count on
+the idea of a (sufficiently powerful) preprocessor, we can opt for a different strategy. Instead
+of writing an internal routine for each BIF that we want to modify or enhance, we can _substitute_ the name of each BIF
+in every BIF call, and call a different function instead. Now, that different function will have a new name,
+an _external function name_. Clashes with existing BIF names will disappear, and, with them, the need
+to define internal routines. That's a much neater solution. Indeed, if working with ooRexx, all the
+external routines can be grouped in some few packages, and the task of the preprocessor will practically be reduced,
+beyond the substitution of names and the implementation of new string types, to the trivial addition
+of a ``::Requires`` directive or a function call that enables the new external functions.
+
+The RXU preprocessor for Unicode follows this approach. It substitutes calls to a rexx BIF ``F`` with calls to ``!F``,
+i.e., an exclamation mark, "!", is added to the BIF name. For example the preprocessor would translate ``Length(var)``
+to ``!Length(var)``.
+
+### Subtleties of substitution
+
+The _basic idea_ of such a substitution is trivially easy; as it often happens, its concrete realization is nothing
+but trivial. You cannot simply pick every occurence of, say, ``"LENGTH"`` and blindly substitute it with "!LENGTH":
+that would unintendedly transform _method calls_, like in ``n = var~length``, for example. 
+
+Ok, you could say: let's reduce ourselves to the case where a BIF name is followed by a left parentheses. 
+But this leaves out ``CALL`` statements, and there are methods that have arguments anyway...
+
+The RXU Rexx Preprocessor for Unicode handles all these complexities, and many more, except one: if there is an internal routine
+with the same name as a BIF, it substitutes names anyway. It should not, but it's beyond its power, in the current
+version. This limitation will be addressed in a future release.
+
+---
 
 ## C2X (Character to heXadecimal)
+
+```
+   ╭──────╮  ┌────────┐  ╭───╮
+▸▸─┤ C2X( ├──┤ string ├──┤ ) ├─▸◂
+   ╰──────╯  └────────┘  ╰───╯
+```
+
+Returns a BYTES string that represents _string_ converted to hexadecimal.
+
+There has been much debate about C2X. RXU follows a very simple approach to determine what should be returned:
+_always return the C2X of the BYTES value of the argument_.
+
+So, for example, ``Text("(Man)"U) == "👨"T`` is a TEXT string. Its UTF-8 representation, i.e., it's conversion
+to BYTES, is the UTF-8 representation of the codepoint for the "Man" character, that is, "F0 9F 91 A8"X.
+And this will be, unsurprisingly, the value of ``C2X("👨"T)``:
+
+```
+C2X("👨"T) = "F0 9F 91 A8"X
+```
 
 ## CHARIN 
 
@@ -76,17 +166,82 @@ The CHARS BIF is modified to support the _encoding_ options specified in the STR
 
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
-## CENTER
+## CENTER (or CENTRE)
 
-## CENTRE
+```
+     ╭─────────╮   ┌────────┐  ╭───╮  ┌────────┐                   ╭───╮
+▸▸─┬─┤ CENTER( ├─┬─┤ string ├──┤ , ├──┤ length ├─┬───────────────┬─┤ ) ├─▸◂
+   │ ╰─────────╯ │ └────────┘  ╰───╯  └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
+   │ ╭─────────╮ │                               └─┤ , ├─┤ pad ├─┘
+   └─┤ CENTRE( ├─┘                                 ╰───╯ └─────┘
+     ╰─────────╯
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
+_pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
+
+__Examples.__
+
+```
+....+....1....+....2....+....3....+....4....+....5
+Center("Man"Y,5)                                  -- " Man "
+Center("Man"Y,5,"+")                              -- "+Man+"
+Center("Man"Y,5,"👨")                             -- Syntax error ('CENTER argument 3 must be a single character; found "👨"')
+Center("Man"P,5,"👨")                             -- "👨Man👨"
+Center("Man"P,5,"(Man)(Zwj)(Man)"U)               -- Syntax error ('CENTER argument 3 must be a single character; found "👨‍👨"')
+Center("Man"T,5,"(Man)(Zwj)(Man)"U)               -- "👨‍👨Man👨‍👨"
+Center("Man"T,5,"FF"X)                            -- Syntax error ("Invalid UTF-8 sequence in position 1 of string: 'FF'X")
+```
 
 ## COPIES
+
+```
+     ╭─────────╮  ┌────────┐  ╭───╮  ┌───┐  ╭───╮
+▸▸───┤ COPIES( ├──┤ string ├──┤ , ├──┤ n ├──┤ ) ├─▸◂
+     ╰─────────╯  └────────┘  ╰───╯  └───┘  ╰───╯
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively.
 
 ## DATATYPE
 
 ## LEFT
 
+```
+   ╭───────╮  ┌────────┐  ╭───╮  ┌────────┐                    ╭───╮
+▸▸─┤ LEFT( ├──┤ string ├──┤ , ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
+   ╰───────╯  └────────┘  ╰───╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
+                                            └─┤ , ├──┤ pad ├─┘
+                                              ╰───╯  └─────┘
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
+_pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
+
 ## LENGTH
+
+```
+   ╭─────────╮  ┌────────┐  ╭───╮
+▸▸─┤ LENGTH( ├──┤ string ├──┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯
+```
+
+When _string_ is a BYTES string, it returns the number of bytes in _string_. When _string_ is a CODEPOINTS string, it returns the number of
+codepoints in _string_. When _string_ is a TEXT string, it returns the number of extended grapheme clusters in _string_.
+
+__Examples.__
+
+```
+Length("a")                                       -- 1
+Length("á")                                       -- "á" is "C3 A1"X
+Length("á"P)                                      -- "á" is 1 codepoint
+Length("👨‍👩")                                      -- 11 bytes, that was "F09F91A8E2808DF09F91A9"X
+Length("👨‍👩"P)                                     -- 3 codepoints (Man + Zwj + Woman)
+Length("👨‍👩"T)                                     -- 1 grapheme cluster
+```
 
 ## LINEIN 
 
@@ -105,7 +260,7 @@ The LINEIN BIF is enhanced by supporting the _encoding_ options specified in the
   CODEPOINTS string, if __CODEPOINTS__ has been specified as an _encoding_ option of the STREAM OPEN command.
 * If an error is found in the decoding process, the behaviour of the LINEIN BIF is determined by the _error_handling_ method specified as an _encoding_ option of the STREAM OPEN command.
     * When __SYNTAX__ has been specified, a Syntax error is raised.
-    * When __REPLACE_ has been specified, any character that cannot be decoded will be replaced with the Unicode Replacement character (``U+FFFD``).
+    * When __REPLACE__ has been specified, any character that cannot be decoded will be replaced with the Unicode Replacement character (``U+FFFD``).
  
 ### Line-end handling
 
@@ -177,11 +332,54 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## LOWER
 
+```
+   ╭────────╮  ┌────────┐  ╭───╮                                  ╭───╮
+▸▸─┤ LOWER( ├──┤ string ├──┤ , ├─┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  └────────┘  ╰───╯ │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+                                 └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
+                                   └───┘      ╰───╯  └────────┘
+```
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toLowercase(X)`` definition,
+as defined in rule __R2__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
+
+> Map each character C in X to Lowercase_Mapping(C).
+
+Broadly speaking, ``Lowercase_Mapping(C)`` implements the ``Simple_Lowercase_Mapping`` property, as defined in the
+``UnicodeData.txt`` file of the Unicode Character Database (UCD). Two exceptions to this mapping are defined
+in the ``SpecialCasing.txt`` file of the UCD. One exception not one to one: ``"0130"U``, ``LATIN CAPITAL LETTER I WITH DOT ABOVE``,
+which lowercases to ``"0069 0307"U``. The second exception is for ``"03A3"U``, the final greek sigma, which lowercases
+to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial position).
+
+__Examples.__
+
+```
+Lower("THIS")                                     -- "this"
+Lower("MAMÁ"Y)                                    -- "mamÁ", since "MAMÁ"Y is a Classic Rexx string
+Lower("MAMÁ"P)                                    -- "mamá"
+Lower('ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÜÂÊÎÔÛÑÃÕÇ'T)               -- 'áéíóúýàèìòùäëïöüâêîôûñãõç'
+Lower('ὈΔΥΣΣΕΎΣ'T)                                -- 'ὀδυσσεύς' (note the difference between medial and final sigmas)
+Lower('Aİ')                                       -- 'ai̇' ("6169CC87"X)
+Length(Lower('Aİ'))                               -- 3
+```
+
 ## POS
 
 ## REVERSE
 
 ## RIGHT 
+
+```
+   ╭────────╮  ┌────────┐  ╭───╮  ┌────────┐                    ╭───╮
+▸▸─┤ RIGHT( ├──┤ string ├──┤ , ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  └────────┘  ╰───╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
+                                             └─┤ , ├──┤ pad ├─┘
+                                               ╰───╯  └─────┘
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
+_pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
 
 ## STREAM
 
@@ -236,4 +434,44 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## SUBSTR
 
+```
+   ╭─────────╮  ┌────────┐  ╭───╮  ┌───┐  ╭───╮                                    ╭───╮
+▸▸─┤ SUBSTR( ├──┤ string ├──┤ , ├──┤ n ├──┤ , ├─┬────────────┬──┬────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯  └───┘  ╰───╯ │ ┌────────┐ │  │ ╭───╮  ┌─────┐ │ ╰───╯
+                                                └─┤ length ├─┘  └─┤ , ├──┤ pad ├─┘
+                                                  └────────┘      ╰───╯  └─────┘
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
+_pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
+
 ## UPPER
+
+```
+   ╭────────╮  ┌────────┐  ╭───╮                                  ╭───╮
+▸▸─┤ UPPER( ├──┤ string ├──┤ , ├─┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  └────────┘  ╰───╯ │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+                                 └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
+                                   └───┘      ╰───╯  └────────┘
+```
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toUppercase(X)`` definition,
+as defined in rule __R1__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
+
+> Map each character C in X to Uppercase_Mapping(C).
+
+Broadly speaking, ``Uppercase_Mapping(C)`` implements the ``Simple_Uppercase_Mapping`` property, as defined in the
+``UnicodeData.txt`` file of the Unicode Character Database (UCD), but a number of exceptions, defined in the ``SpecialCasing.txt`` 
+file of the UCD have to be applied. Additionally, the Iota-subscript, ``"0345"X``, receives a special treatment.
+
+__Examples.__
+
+```
+Upper("this")                                     -- "THIS"
+Upper("mamá"Y)                                    -- "MAMá", since "mamá"Y is a Classic Rexx string
+Upper("mamá"P)                                    -- "MAMÁ"
+Upper('áéíóúýàèìòùäëïöïÿâêîôûñãõç')               -- 'ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÏŸÂÊÎÔÛÑÃÕÇ'
+Upper('ᾴ')                                        -- 'ΆΙ' ("03B1 0345 0301"U --> "0391 0301 0399"U)
+Upper('Straße')                                   -- 'STRASSE' (See the uppercasing of the german es-zed)
+```
