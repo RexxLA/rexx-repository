@@ -75,6 +75,25 @@ version. This limitation will be addressed in a future release.
 
 ## C2X (Character to heXadecimal)
 
+```
+   ╭──────╮  ┌────────┐  ╭───╮
+▸▸─┤ C2X( ├──┤ string ├──┤ ) ├─▸◂
+   ╰──────╯  └────────┘  ╰───╯
+```
+
+Returns a BYTES string that represents _string_ converted to hexadecimal.
+
+There has been much debate about C2X. RXU follows a very simple approach to determine what should be returned:
+_always return the C2X of the BYTES value of the argument_.
+
+So, for example, ``Text("(Man)"U) == "👨"T`` is a TEXT string. Its UTF-8 representation, i.e., it's conversion
+to BYTES, is the UTF-8 representation of the codepoint for the "Man" character, that is, "F0 9F 91 A8"X.
+And this will be, unsurprisingly, the value of ``C2X("👨"T)``:
+
+```
+C2X("👨"T) = "F0 9F 91 A8"X
+```
+
 ## CHARIN 
 
 ```
@@ -147,9 +166,32 @@ The CHARS BIF is modified to support the _encoding_ options specified in the STR
 
 Please refer to the accompanying document [_Stream functions for Unicode_](stream.md) for a comprehensive vision of the stream functions for Unicode-enabled streams.
 
-## CENTER
+## CENTER (or CENTRE)
 
-## CENTRE
+```
+     ╭─────────╮   ┌────────┐ ╭───╮ ┌────────┐                   ╭───╮
+▸▸─┬─┤ CENTER( ├─┬─┤ string ├─┤ , ├─┤ length ├─┬───────────────┬─┤ ) ├─▸◂
+   │ ╰─────────╯ │ └────────┘ ╰───╯ └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
+   │ ╭─────────╮ │                             └─┤ , ├─┤ pad ├─┘
+   └─┤ CENTRE( ├─┘                               ╰───╯ └─────┘
+     ╰─────────╯
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. In particular, the _pad_ character will be converted to the type of _string_; once converted,
+it will have to be a byte, a codepoint, or a grapheme cluster, accordingly.
+
+__Examples.__
+
+```
+....+....1....+....2....+....3....+....4....+....5
+Center("Man"Y,5)                                  -- " Man "
+Center("Man"Y,5,"+")                              -- "+Man+"
+Center("Man"Y,5,"👨")                             -- Syntax error ('CENTER argument 3 must be a single character; found "👨"')
+Center("Man"P,5,"👨")                             -- "👨Man👨"
+Center("Man"P,5,"(Man)(Zwj)(Man)"U)               -- Syntax error ('CENTER argument 3 must be a single character; found "👨‍👨"')
+Center("Man"T,5,"(Man)(Zwj)(Man)"U)               -- "👨‍👨Man👨‍👨"
+```
 
 ## COPIES
 
