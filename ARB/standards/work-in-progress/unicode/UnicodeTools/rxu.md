@@ -40,13 +40,25 @@ For instance, currently you will find a Unicode-aware implementation of several 
 
 #### OPTIONS DEFAULTSTRING
 
-``OPTIONS DEFAULTSTRING`` _default_, where _default_ can be one of __BYTES__, __CODEPOINTS__, __TEXT__ or __NONE__. 
+``OPTIONS DEFAULTSTRING`` _default_, where _default_ can be one of __BYTES__ (the default), __CODEPOINTS__, __TEXT__ or __NONE__. 
 This affects the semantics of numbers and unsuffixed strings, i.e., ``"string"``, without an explicit B, X, Y, P, T or U suffix. 
 If _default_ is NONE, strings are not converted (i.e., they are handled as default Rexx strings). 
 In the other cases, strings are transformed to the corresponding type. For example, if OPTIONS DEFAULTSTRING TEXT is in effect, ``"string"``, will automatically be a TEXT string,
 as if ``"string"T`` had been specified, i.e., ``"string"`` will be composed of extended grapheme clusters. 
 
+__Note.__ Currently, OPTIONS DEFAULTSTRING does not apply to variable and constant symbols. This will be fixed in a future release.
+
 __Implementation restriction:__ This is currently a global option. You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
+
+__Examples.__
+
+```
+Say Stringtype("string")                          -- BYTES (the default)
+Options Defaultstring CODEPOINTS
+Say Stringtype("string")                          -- CODEPOINTS
+Say Stringtype("12"X)                             -- BYTES: X, B and U strings are always BYTES strings
+Say Stringtype("string"T)                         -- TEXT (Explicit suffix)
+```
 
 #### OPTIONS COERCIONS
 
@@ -55,14 +67,19 @@ the behaviour of the language processor when a binary operation is attempted in 
 when a BYTES string is contatenated to a TEXT string, or when a CODEPOINTS number is added to a BYTES number.
 
 * When _behaviour_ is __NONE__ a Syntax error will be raised.
-* When _behaviour_ is __PROMOTE__, the result of the operation will have the type of the highest operand (i.e., TEXT when at least one of the operands is TEXT, or else CODEPOINTS
+* When _behaviour_ is __PROMOTE__ (the default), the result of the operation will have the type of the highest operand (i.e., TEXT when at least one of the operands is TEXT, or else CODEPOINTS
   when at least one of the operands is CODEPOINTS, or BYTES in all other cases).
 * When _behaviour_ is __DEMOTE__, the result of the operation will have the type of the lowest operand (i.e., BYTES when at least one of the operands is BYTES, or else CODEPOINTS
   when at least one of the operands is CODEPOINTS, or TEXT in all other cases).
 * When _behaviour_ is __LEFT__, the result of the operation will have the type of the left operand.
 * When _behaviour_ is __RIGHT__, the result of the operation will have the type of the right operand.
 
-__Implementation restriction:__ This is currently a global option. You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
+Currently, OPTIONS COERCIONS is implemented for concatenation, arithmentic and logical operators only. 
+
+__Note.__ This variant of the OPTIONS instruction is _highly experimental_. Its only purpose is to allow experimentation with implicit coercions. Once a decision is taken about
+the preferred coercion mechanism, it will be removed.
+
+__Implementation restriction:__ This is a global option. You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
 
 __Examples.__
 
