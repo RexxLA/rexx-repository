@@ -123,6 +123,7 @@
  *   <tr><td>00.4  <td>JMB <td>20230901 <td>Complete rewrite, use the full tokenizer
  *   <tr><td>      <td>    <td>         <td>Change /options to -options
  *   <tr><td>      <td>    <td>20230911 <td>X and B strings are always BYTES
+ *   <tr><td>      <td>    <td>20230912 <td>DEFAULTSTRING should affect numbers too
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -334,7 +335,7 @@ Transform: Procedure Expose filename warnBIF
       Parse Value z[location] With line1 col1 line2 col2
       
       -- Handling of strings
-      If z[class] == STRING Then Do
+      If z[class] == STRING | z[class] == NUMBER Then Do
         Select Case context
           -- Don't touch labels (other than eliminating new suffixes and translating U strings)
           When LABEL Then Call StringAsIs
@@ -360,9 +361,10 @@ Transform: Procedure Expose filename warnBIF
             End
           Otherwise Nop
         End
-        -- No explicit transformation? Process the new, suffixed strings, and the
+        -- No explicit transformation? Process numbers, the new, suffixed strings, and the
         -- default, unprefixed, strings.
-        If transformed == .nil Then Call TypedString
+        -- TODO: VAR_SYMBOLS and CONST_SYMBOLS are missing
+        If transformed == .nil Then Call TypedStringOrNumber
       End
       -- Handling of identifiers
       Else If z[class] == VAR_SYMBOL, z[subClass] == SIMPLE Then Do
@@ -436,7 +438,7 @@ StringAsIs:
   End
 Return
 
-TypedString:
+TypedStringOrNumber:
   -- We don't change strings that are method names
   If prevToken[class] == OPERATOR, prevToken[value][1] == "~" Then Signal StringAsIs
   -- A function or subroutine call? Maybe it is a BIF...
@@ -453,8 +455,8 @@ TypedString:
     Else Signal StringAsIs
     Return
   End
-  If Pos(prevToken[class],VAR_SYMBOL||CONST_SYMBOL||NUMBER||STRING) > 0 Then concat = "||"
-  Else                                                                       concat = ""
+  If Pos(prevToken[class],STRING||VAR_SYMBOL||CONST_SYMBOL||NUMBER||STRING) > 0 Then concat = "||"
+  Else                                                                               concat = ""
   Select Case z[subClass]
     When "U" Then transformed =      concat'(Bytes("'ChangeStr('"',z[value],'""')'"))'
     When "P" Then transformed = concat'(Codepoints('array[line1][col1,col2-col1-1]'))'
@@ -462,7 +464,7 @@ TypedString:
     When "Y" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1-1]'))'
     When "X" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))' 
     When "B" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))'
-    Otherwise     transformed =       concat'(!!DS('array[line1][col1,col2-col1  ]'))'
+    Otherwise     transformed =       concat'(!!DS('array[line1][col1,col2-col1  ]'))' -- Handles NUMBER too
   End
 Return
 

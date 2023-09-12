@@ -97,6 +97,7 @@
  *                                         <br>Move STREAM !BIFs to <a href="Stream.cls.html">Stream.cls</a>
  *    <tr><td>00.3a<td>JMB <td>20230815<td>New DECODE(string[, errorhandling]) BIF
  *    <tr><td>00.4 <td>JMB <td>20230901<td>General support for OPTIONS instruction via !Options routine
+ *    <tr><td>     <td>JMB <td>20230912<td>Re-add OPTIONS COERCIONS support
  *  </table>
  *
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -115,6 +116,13 @@
 .local~Unicode.DefaultString = "Bytes"
 
 --------------------------------------------------------------------------------
+-- Support for OPTIONS COERCIONS                                              --
+--------------------------------------------------------------------------------
+
+-- When nothing is specified, default is "Promote".
+.local~Unicode.Coercions = "Promote"
+
+--------------------------------------------------------------------------------
 -- Support for the OPTIONS instruction                                        --
 --------------------------------------------------------------------------------
 
@@ -127,9 +135,18 @@
       When "DEFAULTSTRING CODEPOINTS" Then .local~Unicode.DefaultString = "Codepoints"
       When "DEFAULTSTRING TEXT"       Then .local~Unicode.DefaultString = "Text"
       When "DEFAULTSTRING NONE"       Then .local~Unicode.DefaultString = ""
+      When "COERCIONS NONE"           Then .local~Unicode.Coercions     = "None"
+      When "COERCIONS LEFT"           Then .local~Unicode.Coercions     = "Left"
+      When "COERCIONS RIGHT"          Then .local~Unicode.Coercions     = "Right"
+      When "COERCIONS DEMOTE"         Then .local~Unicode.Coercions     = "Demote"
+      When "COERCIONS PROMOTE"        Then .local~Unicode.Coercions     = "Promote"
       Otherwise Nop
     End
   End
+
+--------------------------------------------------------------------------------
+-- Support for unsuffixed strings                                             --
+--------------------------------------------------------------------------------
 
 -- An unsuffixed "string" will be translated to "(!!DS(string))" by the preprocessor.
 ::Routine !!DS Public
@@ -142,9 +159,8 @@
     Otherwise              Return String -- Should not happen
   End
 
---------------------------------------------------------------------------------
--- End of support for OPTIONS DEFAULTSTRING                                   --
---------------------------------------------------------------------------------
+-- This routine is a skeleton. It will grow considerably when we'll have
+-- finished the properties infrastructure 
 
 ::Routine Unicode Public
   Use Arg, option
@@ -459,13 +475,114 @@ UTF8: Procedure
     When n <= 65535 Then Return X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
     Otherwise            Return X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6)))
   End 
+
+--------------------------------------------------------------------------------
+-- Implementation of automatic implicit coercions (OPTIONS COERCIONS)         --
+--------------------------------------------------------------------------------
+
+::Method coerceTo Private
+  Use Strict Arg string, label
+  lType = StringType(self  )
+  rType = StringType(string)
+  Select Case Upper(.Unicode.Coercions)
+    When "LEFT"   Then resultType = lType
+    When "RIGHT"  Then resultType = rType
+    When "DEMOTE" Then
+      If      (lType == "BYTES"      | rType == "BYTES")      Then resultType = "BYTES"
+      Else If (lType == "CODEPOINTS" | rType == "CODEPOINTS") Then resultType = "CODEPOINTS"
+      Else                                                         resultType = "TEXT"
+    When "PROMOTE" Then
+      If      (lType == "TEXT"       | rType == "TEXT")       Then resultType = "TEXT"
+      Else If (lType == "CODEPOINTS" | rType == "CODEPOINTS") Then resultType = "CODEPOINTS"
+      Else                                                         resultType = "BYTES"
+    When "NONE" Then
+      If lType \== rType Then 
+         Raise Syntax 88.900 Additional("Cannot combine a" lType "string and a" rType "string in" label "operation")
+      Else resultType = lType
+  End
+  Select
+    When resultType == "TEXT"       Then Return .Text  
+    When resultType == "BYTES"      Then Return .Bytes
+    When resultType == "CODEPOINTS" Then Return .Codepoints
+  End
+
+::Method "||"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a concatenation")
+  Return class~new(self~"||":.String(string))
+
+::Method ""
+  Use Strict Arg string
+  class = self~coerceTo(string,"a concatenation")
+  Return class~new(self~"":.String(string))
   
+::Method " "
+  Use Strict Arg string
+  class = self~coerceTo(string,"a concatenation")
+  Return class~new(self~" ":.String(string))  
+
+::Method "*"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a multiplication")
+  Return class~new(self~"*":.String(string))
+
+::Method "/"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a division")
+  Return class~new(self~"/":.String(string))
+
+::Method "%"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a division")
+  Return class~new(self~"%":.String(string))
+
+::Method "//"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a remainder")
+  Return class~new(self~"//":.String(string))
+
+::Method "**"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a power")
+  Return class~new(self~"**":.String(string))
+
+::Method "+"
+  If Arg() == 0 Then Return self
+  Use Strict Arg string
+  class = self~coerceTo(string,"an addition")
+  Return class~new(self~"+":.String(string))
+  
+::Method "-"
+  If Arg() == 0 Then Return self~class~new(0) - self
+  Use Strict Arg string
+  class = self~coerceTo(string,"a subtraction")
+  Return class~new(self~"-":.String(string))
+
+::Method "&"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a logical AND")
+  Return class~new(self~"&":.String(string))
+
+::Method "|"
+  Use Strict Arg string
+  class = self~coerceTo(string,"an inclusive OR")
+  Return class~new(self~"|":.String(string))
+
+::Method "&&"
+  Use Strict Arg string
+  class = self~coerceTo(string,"an exclusive OR")
+  Return class~new(self~"&&":.String(string))
+
+::Method "\"
+  Use Strict Arg
+  Return self~class~new( (self~makeString == "1")~?("0","1") )
+
 --
 -- Reimplementation of many basic BIFs. Code is common to BYTES, CODEPOINTS and 
 -- TEXT, and will have different effects, depending on the most basic
 -- implementations of LENGTH, SUBSTR and [].
 --
-    
+
 ::Method C2X
   Use Strict Arg
   Return .Bytes~new(self~makeString~c2x)

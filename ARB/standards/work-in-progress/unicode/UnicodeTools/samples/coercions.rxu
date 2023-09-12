@@ -1,0 +1,41 @@
+text       = "text"T        -- This is a grapheme cluster string
+codepoints = "codepoints"P  -- This is a codepoints string
+bytes      = "bytes"Y       -- This is a bytes string
+
+Say "Testing default behaviour"
+Call Test
+
+Say "Testing 'Options coercions Left'"
+Options coercions Left
+Call Test
+
+Say "Testing 'Options coercions Right'"
+Options coercions Right
+Call Test
+
+Say "Testing 'Options coercions Promote'"
+Options coercions Promote
+Call Test
+
+Say "Testing 'Options coercions Demote'"
+Options coercions Demote
+Call Test
+
+Say "Testing 'Options coercions None'"
+Options coercions None
+Call Test
+
+Exit
+
+Test:
+  Say "StringType(bytes      || bytes)      = '"StringType(bytes      || bytes)"'"
+  Say "StringType(bytes      || codepoints) = '"StringType(bytes      || codepoints)"'"
+  Say "StringType(bytes      || text )      = '"StringType(bytes      || text)"'"
+  Say "StringType(codepoints || bytes)      = '"StringType(codepoints || bytes)"'"
+  Say "StringType(codepoints || codepoints) = '"StringType(codepoints || codepoints)"'"
+  Say "StringType(codepoints || text )      = '"StringType(codepoints || text)"'"
+  Say "StringType(text       || bytes)      = '"StringType(text       || bytes)"'"
+  Say "StringType(text       || codepoints) = '"StringType(text       || codepoints)"'"
+  Say "StringType(text       || text )      = '"StringType(text       || text)"'"
+  Say
+Return
