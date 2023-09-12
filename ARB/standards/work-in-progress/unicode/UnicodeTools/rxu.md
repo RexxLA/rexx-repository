@@ -38,13 +38,51 @@ For instance, currently you will find a Unicode-aware implementation of several 
 
 ### New OPTIONS
 
-``OPTIONS DEFAULTSTRING`` _default_, where _default_ can be one of BYTES, CODEPOINTS, TEXT or NONE. 
-This affects the semantics of unsuffixed strings, i.e., ``"string"``, without an explicit B, X, Y, P; T or U suffix. 
+#### OPTIONS DEFAULTSTRING
+
+``OPTIONS DEFAULTSTRING`` _default_, where _default_ can be one of __BYTES__, __CODEPOINTS__, __TEXT__ or __NONE__. 
+This affects the semantics of numbers and unsuffixed strings, i.e., ``"string"``, without an explicit B, X, Y, P, T or U suffix. 
 If _default_ is NONE, strings are not converted (i.e., they are handled as default Rexx strings). 
 In the other cases, strings are transformed to the corresponding type. For example, if OPTIONS DEFAULTSTRING TEXT is in effect, ``"string"``, will automatically be a TEXT string,
 as if ``"string"T`` had been specified, i.e., ``"string"`` will be composed of extended grapheme clusters. 
 
 __Implementation restriction:__ This is currently a global option. You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
+
+#### OPTIONS COERCIONS
+
+``OPTIONS COERCIONS`` _behaviour_, where _behaviour_ can be one of __PROMOTE__, __DEMOTE__, __LEFT__, __RIGHT__ or __NONE__. This instruction determines
+the behaviour of the language processor when a binary operation is attempted in which the operators are of different string types, for example,
+when a BYTES string is contatenated to a TEXT string, or when a CODEPOINTS number is added to a BYTES number.
+
+* When _behaviour_ is __NONE__ a Syntax error will be raised.
+* When _behaviour_ is __PROMOTE__, the result of the operation will have the type of the highest operand (i.e., TEXT when at least one of the operands is TEXT, or else CODEPOINTS
+  when at least one of the operands is CODEPOINTS, or BYTES in all other cases).
+* When _behaviour_ is __DEMOTE__, the result of the operation will have the type of the lowest operand (i.e., BYTES when at least one of the operands is BYTES, or else CODEPOINTS
+  when at least one of the operands is CODEPOINTS, or TEXT in all other cases).
+* When _behaviour_ is __LEFT__, the result of the operation will have the type of the left operand.
+* When _behaviour_ is __RIGHT__, the result of the operation will have the type of the right operand.
+
+__Implementation restriction:__ This is currently a global option. You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
+
+__Examples.__
+
+```
+Options Coercions Promote
+Say Stringtype( "Left"B || "Right"P )             -- CODEPOINTS
+Say Stringtype( "Left"B || "Right"T )             -- TEXT
+Say Stringtype( "Left"P || "Right"T )             -- TEXT
+Options Coercions Demote
+Say Stringtype( "Left"B || "Right"P )             -- BYTES
+Say Stringtype( "Left"B || "Right"T )             -- BYTES
+Say Stringtype( "Left"P || "Right"T )             -- CODEPOINTS
+Options Coercions Right
+Say Stringtype( "Left"B || "Right"P )             -- CODEPOINTS
+Say Stringtype( "Left"B || "Right"T )             -- TEXT
+Say Stringtype( "Left"P || "Right"T )             -- TEXT
+Options Coercions None
+Say Stringtype( "Left"B || "Right"B )             -- BYTES
+Say Stringtype( "Left"B || "Right"P )             -- Syntax error
+```
 
 ## The RXU command
 
