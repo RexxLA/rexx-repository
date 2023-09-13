@@ -122,9 +122,14 @@
 -- When nothing is specified, default is "Promote".
 .local~Unicode.Coercions = "Promote"
 
---------------------------------------------------------------------------------
--- Support for the OPTIONS instruction                                        --
---------------------------------------------------------------------------------
+/**
+ *
+ *  <h4>Support for the OPTIONS instruction</h4>
+ *
+ *  <p>
+ *    Routine <code>!Options</code> provides support for the <code>RXU</code>
+ *    <code>OPTIONS</code> instructions extensions.
+ */
 
 ::Routine !Options Public
   Arg string
@@ -144,11 +149,14 @@
     End
   End
 
---------------------------------------------------------------------------------
--- Support for unsuffixed strings                                             --
---------------------------------------------------------------------------------
-
--- An unsuffixed "string" will be translated to "(!!DS(string))" by the preprocessor.
+/**
+ *
+ *  <h4>Support for unsuffixed strings</h4>
+ *
+ *  <p>
+ *    An unsuffixed "string" will be translated to "(!!DS(string))" by the preprocessor.
+ */
+ 
 ::Routine !!DS Public
   Use Strict Arg string
   Select Case Upper(.Unicode.DefaultString)

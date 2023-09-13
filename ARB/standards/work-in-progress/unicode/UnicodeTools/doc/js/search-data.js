@@ -6,7 +6,7 @@ var searchData = [
         id: "Encoding", type: "Class", name: "Encoding", info: "Encoding.cls", href: "Encoding.cls.html#Encoding"
         },
             {
-            id: "%5B%5D", type: "Method", name: "[]", info: "Class Encoding", href: "Encoding.cls.html#%5B%5D"
+            id: "%5B%5D-1", type: "Method", name: "[]", info: "Class Encoding", href: "Encoding.cls.html#%5B%5D-1"
             },
             {
             id: "activate", type: "Method", name: "activate", info: "Class Encoding", href: "Encoding.cls.html#activate"
@@ -87,7 +87,7 @@ var searchData = [
         id: "Unicode.Property", type: "Class", name: "Unicode.Property", info: "Properties.cls", href: "Properties.cls.html#Unicode.Property"
         },
             {
-            id: "%5B%5D-1", type: "Method", name: "[]", info: "Class Unicode.Property", href: "Properties.cls.html#%5B%5D-1"
+            id: "%5B%5D", type: "Method", name: "[]", info: "Class Unicode.Property", href: "Properties.cls.html#%5B%5D"
             },
             {
             id: "Activate", type: "Method", name: "Activate", info: "Class Unicode.Property", href: "Properties.cls.html#Activate"
@@ -165,6 +165,42 @@ var searchData = [
         id: "Bytes", type: "Class", name: "Bytes", info: "Unicode.cls", href: "Unicode.cls.html#Bytes"
         },
             {
+            id: "", type: "Method", name: "", info: "Class Bytes", href: "Unicode.cls.html#"
+            },
+            {
+            id: "+", type: "Method", name: " ", info: "Class Bytes", href: "Unicode.cls.html#+"
+            },
+            {
+            id: "%25", type: "Method", name: "%", info: "Class Bytes", href: "Unicode.cls.html#%25"
+            },
+            {
+            id: "%26", type: "Method", name: "&", info: "Class Bytes", href: "Unicode.cls.html#%26"
+            },
+            {
+            id: "%26%26", type: "Method", name: "&&", info: "Class Bytes", href: "Unicode.cls.html#%26%26"
+            },
+            {
+            id: "*", type: "Method", name: "*", info: "Class Bytes", href: "Unicode.cls.html#*"
+            },
+            {
+            id: "**", type: "Method", name: "**", info: "Class Bytes", href: "Unicode.cls.html#**"
+            },
+            {
+            id: "%2B", type: "Method", name: "+", info: "Class Bytes", href: "Unicode.cls.html#%2B"
+            },
+            {
+            id: "-", type: "Method", name: "-", info: "Class Bytes", href: "Unicode.cls.html#-"
+            },
+            {
+            id: "%2F", type: "Method", name: "/", info: "Class Bytes", href: "Unicode.cls.html#%2F"
+            },
+            {
+            id: "%2F%2F", type: "Method", name: "//", info: "Class Bytes", href: "Unicode.cls.html#%2F%2F"
+            },
+            {
+            id: "%5C", type: "Method", name: "\\", info: "Class Bytes", href: "Unicode.cls.html#%5C"
+            },
+            {
             id: "C2U", type: "Method", name: "C2U", info: "Class Bytes", href: "Unicode.cls.html#C2U"
             },
             {
@@ -175,6 +211,9 @@ var searchData = [
             },
             {
             id: "Centre", type: "Method", name: "Centre", info: "Class Bytes", href: "Unicode.cls.html#Centre"
+            },
+            {
+            id: "coerceTo", type: "Method", name: "coerceTo", info: "Class Bytes", href: "Unicode.cls.html#coerceTo"
             },
             {
             id: "Copies", type: "Method", name: "Copies", info: "Class Bytes", href: "Unicode.cls.html#Copies"
@@ -205,6 +244,12 @@ var searchData = [
             },
             {
             id: "Upper", type: "Method", name: "Upper", info: "Class Bytes", href: "Unicode.cls.html#Upper"
+            },
+            {
+            id: "%7C", type: "Method", name: "|", info: "Class Bytes", href: "Unicode.cls.html#%7C"
+            },
+            {
+            id: "%7C%7C", type: "Method", name: "||", info: "Class Bytes", href: "Unicode.cls.html#%7C%7C"
             },
         {
         id: "Codepoints", type: "Class", name: "Codepoints", info: "Unicode.cls", href: "Unicode.cls.html#Codepoints"
