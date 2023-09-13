@@ -939,6 +939,9 @@ Return_a_token:
       instruction = keywordInstruction.[ Upper( nextToLastToken[value] ) ]
       -- Handle keyword instructions
       If instruction \== NO_KEYWORD_INSTRUCTION Then Do
+      
+        nextToLastToken[class]    = KEYWORD_INSTRUCTION
+        nextToLastToken[subClass] = instruction            
              
         Select Case instruction
           When IF_INSTRUCTION, WHEN_INSTRUCTION Then Do
@@ -973,8 +976,8 @@ Return_a_token:
            Signal Get_more_tokens
         End
         
-        nextToLastToken[class]    = KEYWORD_INSTRUCTION
-        nextToLastToken[subClass] = instruction        
+--      nextToLastToken[class]    = KEYWORD_INSTRUCTION
+--      nextToLastToken[subClass] = instruction        
         
       End
       -- Return a non-spacing COMMAND_OR_MESSAGE_INSTRUCTION marker 

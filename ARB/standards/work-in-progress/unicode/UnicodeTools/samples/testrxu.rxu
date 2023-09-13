@@ -12,10 +12,15 @@ s = "(Father Christmas)"U                                 -- Unicode string
 
 l = Length(x)                                    -- Changed
 l = x~Length()                                    -- Unchanged
+length = 2
 l = 2 + length                                    -- Unchanged
 Call Length x                                    -- Changed
+Signal On Syntax
 Call "Length" x                                   -- Unchanged
+Syntax: Signal Off Syntax
 Call "LENGTH" x                                  -- Changed
+
+Signal "(Man)"U                                       -- Translated, but left alone
 
 -- Labels
 
@@ -29,19 +34,25 @@ Call "LENGTH" x                                  -- Changed
 -- Instructions
 
 Arg a "(man)"u c ("d")                        -- Unchanged, changed
-Address "Command"T "Instruction"           -- Unchanged, changed
+Signal On Syntax Name Syntax2
+Address "Command"T "Instruction" With Error Stem s. -- Unchanged, changed
+Syntax2: Signal Off Syntax
+Signal On Syntax Name Syntax3
 Call "Test"T a,"B"Y                        -- Unchanged, changed
-Call On Any Name "Tururu"T                         -- Left alone
+Syntax3:
+Call On NotReady Name "Tururu"T                    -- Left alone
 Parse Var a "B" ("C") d                   -- Unchanged, changed
 -- Changed, changed, unchanged, changed
 Parse Value "A"T ("B"P) With "A"Y ("B")
+Queue "abc"
 Pull a "b" c ("d")                        -- Unchanged, changed
-Signal "(Man)"U                                       -- Translated, but left alone
 Signal On Any Name "Tururu"P                       -- Left alone
-Trace "All"                                       -- Left alone
-Trace ("All")                             -- Changed
+Trace "Off"                                       -- Left alone
+Trace ("Off")                             -- Changed
+
+Exit 0
 
 -- Directives
-
+::Class Test
 ::Constant "pipi"   3.14                          -- Unchanged
 ::Constant "pipipi" "AH!"                 -- Unchanged, changed

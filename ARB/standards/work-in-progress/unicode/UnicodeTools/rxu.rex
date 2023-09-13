@@ -343,7 +343,7 @@ Transform: Procedure Expose filename warnBIF
           -- ::Constant. The constant name itself has to be left alone.
           When DIRECTIVE Then
             If (subContext \== CONSTANT_DIRECTIVE) | (tokenNumber == 2) Then Call StringAsIs
-          When KEYWORD_INSTRUCTION Then
+          When KEYWORD_INSTRUCTION Then Do
             Select Case subContext
               -- Don't touch strings in CALL ON or SIGNAL ON
               When CALL_ON_INSTRUCTION, SIGNAL_ON_INSTRUCTION Then Call StringAsIs
@@ -359,6 +359,7 @@ Transform: Procedure Expose filename warnBIF
               -- In all other cases, process the strings
               Otherwise Nop
             End
+          End
           Otherwise Nop
         End
         -- No explicit transformation? Process numbers, the new, suffixed strings, and the
