@@ -7,7 +7,7 @@
 The purpose of RXU, the Rexx Preprocessor for Unicode, is to offer a Unicode-enhanced
 Rexx experience that is as seamless and as simple as possible. A Unicode-enhanced Rexx program ("a RXU
 program" for short) is a program written in a language based on standard (oo)Rexx
-and enhanced with a set of Unicode specific additions and modifications.
+and enhanced with a set of Unicode specific _additions_ and _modifications_.
 
 As an example of _additions_, RXU programs allow for four new types of literal strings.
 These are described in an accompanying document, [_New types of strings_](string-types.md).
