@@ -396,6 +396,18 @@ Length(Lower('Aİ'))                               -- 3
 
 ## POS
 
+```
+   ╭──────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮                                      ╭───╮
+▸▸─┤ POS( ├──┤ needle ├──┤ , ├──┤ haystack ├──┤ , ├─┬───────────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰──────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯ │ ┌───────┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+                                                    └─┤ start ├─┘  └─┤ , ├──┤ length ├─┘
+                                                      └───────┘      ╰───╯  └────────┘
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _haystack_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively. If necessary, _needle_ is converted to the of _haystack_. 
+If this conversion fails, a Syntax error is raised.
+
 ## REVERSE
 
 ## RIGHT 
