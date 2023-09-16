@@ -1,7 +1,14 @@
 Say "Running all tests..."
 Say "--------------------"
 
+Call "rxu.rex" "../samples/linein.rxu auto" 
+If result \== 0 Then Exit result
+
 Call "rxu.rex" "basic.rxu"
+If result \== 0 Then Exit result
+
+Say "Calling textrxu.rxu..."
+Call "rxu.rex" "../samples/testrxu.rxu"
 If result \== 0 Then Exit result
 
 Call "case.rex"

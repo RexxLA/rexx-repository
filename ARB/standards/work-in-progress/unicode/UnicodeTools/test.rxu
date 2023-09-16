@@ -1,0 +1,6 @@
+string = "(man)(zwj)(woman)"u -- Bytes
+Say Length(string) StringType(string) C2X(string)
+string = Codepoints(string)   -- Promote to CODEPOINTS
+Say Length(string) StringType(string) C2X(string)
+string = Text(string)         -- Promote to TEXT
+Say Length(string) StringType(string) C2X(string)

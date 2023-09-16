@@ -1,3 +1,17 @@
+/**
+ *
+ * <p>This program does nothing (visible), and returns nothing (RC = 0).
+ * It should be translated with the -keep option to see how the
+ * preprocesssor works, i.e., when does it change strings,
+ * and how.
+ *
+ * <p>This program is part of the integrated test suite.
+ *    As such, it will be called by tests/all.rex.
+ *
+ * Small doc notice added, 20230916
+ *
+ */
+
 -- Run with -k to compare with the generated .rex file
 
 -- Different types of string

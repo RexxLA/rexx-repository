@@ -3,8 +3,16 @@
  *
  * <p>This program tests the extended features of the LINEIN BIF.
  *
+ * <p>This program is part of the integrated test suite.
+ *    As such, it will be called by tests/all.rex with the "auto" argument.
+ *
  * First released with the 0.3 version of the Tools, 20230811.
+ * Bug fix, 20230916.
  */
+ 
+Arg auto .
+auto = auto == "AUTO"
+ 
 tmpfile = SysTempFileName("????.file")
 
 If tmpFile == "" Then Do
@@ -17,7 +25,7 @@ Say "----------------------"
 Say
 Say "When the program appears to stop, please press ENTER to continue"
 Say
-Parse pull
+If \auto Then Parse pull
 Say "Testing the functionality of the BIF when no ENCODING has been specified"
 Say ""
 
@@ -62,7 +70,7 @@ Call SysFileDelete tmpfile
 
 Say ""
 Say "All tests PASSED!"
-parse pull
+If \auto Then Parse pull
 
 Say "Now testing new functionality."
 Say "=============================="
@@ -86,7 +94,7 @@ Say "Now let's call LINEIN:"
 Say 
 Say "  Call LineIn(tmpfile) -- This raises a syntax error"
 Say 
-Parse pull
+If \auto Then Parse pull
 Call LineIn(tmpfile) -- This raises a syntax error
 Say "Test failed! Should have raised a syntax error for bad encoding."
 Call Exit 1
@@ -107,7 +115,8 @@ End
 Say 
 Say "Test PASSED!"
 Say 
-Parse pull
+If \auto Then Parse pull
+
 Say 
 Say "Testing a non-existent ENCODING (should fail)"
 Say "---------------------------------------------"
@@ -124,7 +133,7 @@ Tralfamadore:
 Say 
 Say "  Raised Syntax condition ("rc"."Condition("E")"): "Condition("A")
 Say
-Parse pull
+If \auto Then Parse pull
 
 Say
 Say "Testing a ENCODING for BINARY streams (should fail)"
@@ -142,7 +151,7 @@ Binary:
 Say 
 Say "  Raised Syntax condition ("rc"."Condition("E")"): "Condition("A")
 Say
-Parse pull
+If \auto Then Parse pull
 
 Say
 Say "Testing ENCODING UTF-32 and unaligned line-ends."
@@ -184,7 +193,7 @@ Say
 
 
 Say "All tests PASSED!"
-parse pull
+If \auto Then Parse pull
 
 Say "Now testing a variant of EBCDIC, IBM1047"
 Say "----------------------------------------"
@@ -222,9 +231,11 @@ Say "  Raised Syntax condition ("rc"."Condition("E")"): "Condition("A")
 Say
 
 Say "All tests PASSED!"
-parse pull
+If \auto Then Parse pull
 
 Call Exit 0
+
+--------------------------------------------------------------------------------
 
 Exit:
   Call Stream tmpfile,"C","CLOSE"
@@ -244,8 +255,8 @@ Test: Procedure Expose line. tmpfile
   Say label": PASSED."
 Return
 
-
 CreateFile: Procedure Expose tmpFile
+  Call Stream tmpFile,"C","Close" -- CLOSE, so that possible ENCODING attributes in a previous OPEN are forgot
   Call Stream tmpFile,"C","Open Write Replace"
   Use Strict Arg lines, eol
   Do counter c line Over lines

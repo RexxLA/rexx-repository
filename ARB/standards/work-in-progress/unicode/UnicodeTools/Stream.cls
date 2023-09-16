@@ -524,15 +524,18 @@ BigEOL:
   endOfLine0A   = Left(endOfLine, Length(endOfLine) - 1)
   If alternateEndOfLine \== "" Then 
     alternateEndOfLine0A   = Left(alternateEndOfLine, Length(alternateEndOfLine) - 1)
-    
+   
   Do While Lines(name) > 0
     res ||= LineIn(name)
-    -- Backtrack two chars, to see what comes before "0A"X
+    
+    -- Backtrack bytesPerChar chars, to see what comes before "0A"X
     Call Stream name, "c", "seek -2 read char"
-    -- Get the next-to last char
+    -- Get the next-to last end char...
     c  = CharIn(name,,1)
+    -- ...and return
     Call CharIn name,,1
-    If c == "0D"X Then Do -- "0D0A"X
+    
+    If c == "0D"X Then Do -- "0D"X (...) "0A"X
       res2 = res"0D"x
       If res2~endsWith(endOfLine0A), (Length(res2)+1) // endOfLineAlignment == 0 Then Do
         res = Left(res2,Length(res2)-Length(endOfLine0A))
@@ -730,16 +733,16 @@ StandardCall: Return LINES(name, option)
         Select
           When next == "TEXT" Then 
             If seenTarget Then Raise Syntax 93.900 Additional("Multiple encoding targets specified")
-            Else Do; target = "TEXT";       seenTarget = 1; End
+            Else Do; target = "TEXT";           seenTarget = 1; End
           When next == "CODEPOINTS" Then 
             If seenTarget Then Raise Syntax 93.900 Additional("Multiple encoding targets specified")
-            Else Do; target = "CODEPOINTS"; seenTarget = 1; End
+            Else Do; target = "CODEPOINTS";     seenTarget = 1; End
           When next == "REPLACE" Then
             If seenError  Then Raise Syntax 93.900 Additional("Multiple encoding error handling options specified")
             Else Do; errorHandling = "REPLACE"; seenError = 1;  End
           When next == "SYNTAX" Then
             If seenError  Then Raise Syntax 93.900 Additional("Multiple encoding error handling options specified")
-            Else Do; errorHandling = "SYNTAX";     seenError = 1;  End
+            Else Do; errorHandling = "SYNTAX";  seenError = 1;  End
           Otherwise Leave
         End
         i += 1
