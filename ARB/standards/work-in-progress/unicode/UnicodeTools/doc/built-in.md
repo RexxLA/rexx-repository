@@ -60,7 +60,7 @@ to ``!Length(var)``.
 
 ### Subtleties of substitution
 
-The _basic idea_ of such a substitution is trivially easy; as it often happens, its concrete realization is nothing
+The _basic idea_ of such a substitution is trivially easy; as it often happens with basic ideas, its concrete realization is nothing
 but trivial. You cannot simply pick every occurence of, say, ``"LENGTH"`` and blindly substitute it with "!LENGTH":
 that would unintendedly transform _method calls_, like in ``n = var~length``, for example. 
 
