@@ -207,6 +207,37 @@ a CODEPOINTS string, or a TEXT string, respectively.
 
 ## DATATYPE
 
+```
+   ╭───────────╮  ┌────────┐                      ╭───╮
+▸▸─┤ DATATYPE( ├──┤ string ├──┬─────────────────┬─┤ ) ├─▸◂
+   ╰───────────╯  └────────┘  │ ╭───╮  ┌──────┐ │ ╰───╯
+                              └─┤ , ├──┤ type ├─┘
+                                ╰───╯  └──────┘
+```
+
+A new _type_ is admitted, __C__, for __uniCode__. 
+``Datatype(string, "C")`` returns __1__ if and only if _string_
+follows the Unicode string format, namely, if it consists of a blank-separated series of:
+ 
+* Valid hexadecimal Unicode codepoints, like __61__, or __200D__, or __1F514__.
+* Valid hexadecimal Unicode codepoints prefixed with __U+__ or __u+__, like __u+61__, or __U+200D__, or __u+1F514__.
+* Names, alias or labels that designate a Unicode codepoint, enclosed between parentheses, like __(Latin small letter A)__,
+  __(ZWJ)__, __(Bell)__, or __(&lt;Control-001d&gt;)__. Items enclosed between parentheses do not need to be separated by blanks.
+ 
+__Examples.__
+
+```
+DATATYPE('string','C')                            -- 0
+DATATYPE('61','C')                                -- 1
+DATATYPE('U61','C')                               -- 0 (it's U+ or U+, not U)
+DATATYPE('U+61','C')                              -- 1
+DATATYPE('10661','C')                             -- 1
+DATATYPE('110000','C')                            -- 0 (max Unicode scalar is 10FFFF)
+DATATYPE('(Man)','C')                             -- 1
+DATATYPE('(Man','C')                              -- 0 (missing parentheses)
+DATATYPE('(Man)(Zwj)(Woman)','C')                 -- 1
+```
+
 ## LEFT
 
 ```
