@@ -44,7 +44,7 @@ bottom of their programs: a maintenance nightmare, and nothing that can be calle
 
 ### Ways to substitute BIFs, part II
 
-The preprocessor could add such a prolog to RXU programs in an automated way. But, if we count on
+The preprocessor could add such an epilog to RXU programs in an automated way. But, if we count on
 the idea of a (sufficiently powerful) preprocessor, we can opt for a different strategy. Instead
 of writing an internal routine for each BIF that we want to modify or enhance, we can _substitute_ the name of each BIF
 in every BIF call, and call a different function instead. Now, that different function will have a new name,
