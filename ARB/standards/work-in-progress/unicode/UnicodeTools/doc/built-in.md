@@ -11,6 +11,7 @@ and enhanced with a set of Unicode specific _additions_ and _modifications_.
 
 As an example of _additions_, RXU programs allow for four new types of literal strings.
 These are described in an accompanying document, [_New types of strings_](string-types.md).
+There is also a set of [new built-in functions](new-functions.md).
 
 _Modifications_ become necessary when the behaviour of already existing mechanisms of Rexx
 has to be altered. In our case, for instance, we will expect that RXU programs know 
