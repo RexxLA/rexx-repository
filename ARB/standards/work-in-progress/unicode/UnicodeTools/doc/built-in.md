@@ -5,7 +5,7 @@
 ### Statement of the problem
 
 The purpose of RXU, the Rexx Preprocessor for Unicode, is to offer a Unicode-enhanced
-Rexx experience that is as seamless and as simple as possible. A Unicode-enhanced Rexx program ("a RXU
+Rexx experience that is as seamless and as simple as possible. A Unicode-enabled Rexx program ("a RXU
 program" for short) is a program written in a language based on standard (oo)Rexx
 and enhanced with a set of Unicode specific _additions_ and _modifications_.
 
