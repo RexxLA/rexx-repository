@@ -10,6 +10,13 @@ If result \== 0 Then Exit result
 Say "Calling textrxu.rxu..."
 Call "rxu.rex" "../samples/testrxu.rxu"
 If result \== 0 Then Exit result
+Say 
+
+Call "rxu.rex" "../samples/datatypec.rxu"
+If result \== 0 Then Exit result
+
+Call "rxu.rex" "../samples/pos.rxu"
+If result \== 0 Then Exit result
 
 Call "case.rex"
 If result \== 0 Then Exit result

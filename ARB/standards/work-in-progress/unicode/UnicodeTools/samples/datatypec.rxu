@@ -1,0 +1,33 @@
+/**
+ *
+ * Small program to test the DATATYPE "C" type
+ *
+ */
+ 
+Say "Testing DATATYPE(string,'c')..."
+Say 
+ 
+Call Test "string",0
+Call Test "61",1
+Call Test "U61",0
+Call Test "U+61",1
+Call Test "10661",1
+Call Test "110000",0
+Call Test "(Man)",1
+Call Test "(Man",0
+Call Test "(Man)(Zwj)(Woman)",1
+
+Say 
+
+Exit 0
+
+Test:
+  Call CharOut ,"Testing that DATATYPE('"Arg(1)"','C') =="  Arg(2)"..."
+  Call DATATYPE Arg(1),"C"
+  If result \== Arg(2) Then Do
+    Say
+    Say "FAILED!"
+    Exit 1
+  End
+  Say "  PASSED!"
+  Return

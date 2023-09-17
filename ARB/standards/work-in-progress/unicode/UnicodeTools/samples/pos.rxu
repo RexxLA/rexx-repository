@@ -1,0 +1,42 @@
+/**
+ *
+ * Small program to test the POS BIF
+ *
+ */
+ 
+Say "Testing the POS BIF..."
+Say 
+ 
+Call Test "s", "string", 1, "Pos('s','string') == 1"
+Call Test "(Man)"U, "(Woman)(Zwj)(Man)"U, 8, "Pos('(Man)'U,'(Woman)(Zwj)(Man)'U) == 8 (Strings are BYTES strings)"
+Call Test CODEPOINTS("(Man)"U), CODEPOINTS("(Woman)(Zwj)(Man)"U), 3, "Pos(Codepoints('(Man)'U),Codepoints('(Woman)(Zwj)(Man)'U)) == 3"
+Call Test TEXT("(Man)"U), TEXT("(Woman)(Zwj)(Man)"U), 0, "Pos(Text('(Man)'U),Text('(Woman)(Zwj)(Man)'U)) == 0"
+
+Call Test "FF"X, TEXT("(Woman)(Zwj)(Man)"U), SYNTAX, "Pos('FF'X,Text('(Woman)(Zwj)(Man)'U)) --> Syntax error"
+ 
+Say 
+
+Exit 0
+
+Test:
+  Call CharOut ,"Testing that" Arg(4)"...  "
+  syntax? = Arg(3)
+  Signal On Syntax  
+  Call POS Arg(1),Arg(2)
+  If result \== Arg(3) Then Do
+    Say
+    Say "FAILED! (result was" result")"
+    Exit 1
+  End
+  Say "  PASSED!"
+  Return
+  
+Syntax:
+  If syntax? \== SYNTAX Then Do
+    Say
+    Say "FAILED! (Unexpected syntax error)"
+    Raise propagate
+  End
+  Say "  PASSED!"
+  Return
+  
