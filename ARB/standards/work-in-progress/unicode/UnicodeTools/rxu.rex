@@ -7,87 +7,9 @@
  *   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
  *   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
  *   
- * <h4>Description</h4>
+ * <p>See https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/rxu.md
+ * for details
  *
- * <p>
- *   The <b><code>RXU</code> Rexx Preprocessor for Unicode</b> is implemented as a Rexx program, 
- *   <code>rxu.rex</code>. <code>RXU</code> reads a <code>.rxu</code> program and attempts 
- *   to translate it to standard <code>.rex</code> code (assuming that the Unicode library,
- *   <code>Unicode.cls</code>, is available and has been loaded). If no errors are found in 
- *   the translation pass, the resulting <code>.rex</code> program is then
- *   executed, after which the <code>.rex</code> program is deleted.
- *   <code>RXU</code> programs can be written using an extended Rexx
- *   syntax, implementing a set of Unicode and non-Unicode literals,
- *   several new BIFs and BIMs, and a system of polymorphic BIFs that
- *   allow the programmer to continue using the same concepts and BIFs that
- *   in Classic Rexx, and at the same time take advantage of the power
- *   and novelties of the Unicode world.
- * </p>
- *
- * <h4>What we do and what we don't do</h4>
- *
- * <p>
- *   <u><code>RXU</code> is a work-in-progress, not a finished product</u>. Some parts of Rexx have been made
- *   to appear as "Unicode-ready", and some others have not. This can produce all kind of unexpected results.
- *   Use at your own risk!
- *
- * <p>
- *   The major focus of the translator is to
- *   implement Unicode-aware Classic Rexx: in this sense, priority is given, for example, to the implementation
- *   of Built-in Functions (BIFs) over Built-in Methods (BIMs). For example, currently you will find
- *   a Unicode-aware implementation of several stream i/o BIFs, but no reimplementation of the
- *   Stream I/O classes.
- *
- * <p>
- *   Here is a list of what is currently implemented.
- *
- * <ul>
- *   <li><b>Four new types of string</b>:
- *     <ul>
- *       <li>"string"Y, a Classic Rexx string, composed of bytes.                   
- *       <li>"string"P, a Codepoints string (checked for UTF8 correctness at parse time)                                              
- *       <li>"string"T, a Text string (checked for UTF8 correctness at parse time)  
- *       <li>"string"U, a Unicode codepoint string. Codepoints can be specified using 
- *          hexadecimal notation (like 61, 0061, or 0000), Unicode standard U+ notation 
- *         (like U+0061 or U+0000), or as a name, alias or label enclosed in parenthesis 
- *         (like "(cr)", "(CR) (LF)", "(Woman) (zwj) (Man)"). A "U" string is always a BYTES string.
- *     </ul>
- *   <li><b>Built-in functions</b>: C2X, CHARIN, CHAROUT, CHARS, CENTER, CENTRE, COPIES, DATATYPE, LEFT,
- *     LENGTH, LINEIN, LINEOUT, LINES, LOWER, POS, REVERSE, RIGHT, STREAM, SUBSTR, UPPER. Please refer
- *     to the documentation for Unicode.cls and Stream.cls for a detailed description of these enhanced BIFs.
- *   <li><b>New OPTIONS</b>:
- *     <ul>
- *       <li>OPTIONS DEFAULTSTRING <em>default</em>, where default can be one of BYTES, CODEPOINTS, TEXT OR
- *         NONE. This affects the semantics of unsuffixed strings, i.e., "string", without an explicit
- *         B, X, Y, P; T or U suffix. If <em>default</em> is NONE, strings are left alone (i.e., they are
- *         handled as default Rexx strings. In other cases, strings are transformed to the corresponding
- *         type. For example, a T string, "string"T, will automatically be a TEXT string, composed of
- *         extended grapheme clusters. <b>Implementation restriction:</b> This is currently a global option.
- *         You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
- *     </ul>
- * </ul>
- *
- * <h4>The RXU command</h4>
- *
- * <p>
- *   <code>RXU filename</code> converts a file named <code>filename</code> 
- *   (default extension: <code>.rxu</code>) into a <code>.rex</code> file, 
- *   and then interprets this <code>.rex</code> file.
- * </p>
- * 
- * <code><pre> Format:                                                                  
- *                                                                           
- *    [rexx] rxu [options] filename [arguments]                              
- *                                                                           
- *  Options:                                                                 
- *                                                                           
- *    -help, -h  : display help for the RXU command                          
- *    -keep, -k  : do not delete the generated .rex file                     
- *    -nokeep    : delete the generated .rex file (the default)              
- *    -warnbif   : warn when using not-yet-migrated to Unicode BIFs
- *    -nowarnbif : don't warn when using not-yet-migrated to Unicode BIFs (the default)
- *  </pre></code>
- * 
  * <h4>Version history</h4>
  *
  * <table class="table table-borderless" style="font-size:smaller">
@@ -124,6 +46,7 @@
  *   <tr><td>      <td>    <td>         <td>Change /options to -options
  *   <tr><td>      <td>    <td>20230911 <td>X and B strings are always BYTES
  *   <tr><td>      <td>    <td>20230912 <td>DEFAULTSTRING should affect numbers too
+ *   <tr><td>      <td>    <td>20230917 <td>Migrate most docs to md (see rxu.md and the /doc subdir)
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  

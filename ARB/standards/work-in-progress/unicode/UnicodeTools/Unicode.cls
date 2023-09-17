@@ -9,18 +9,10 @@
  * <h3><code>Unicode.cls</code>: The main Unicode Tools Of Rexx file</h3>
  *
  * <p>This classfile offers a set of public Unicode routines that implement
- *   the basic Unicode Tools Of Rexx architecture. Some of these routines are:
- *
- * <pre><code>
- *   BYTES(string)         -- Creates a new string composed of bytes
- *   CODEPOINTS(string)    -- Creates a new string composed of Unicode codepoints
- *   TEXT(string)          -- Creates a new string composed of grapheme clusters
- *   UNICODE(code,"Property",propertyName)                                  
- *     The swiss-knife Unicode BIF. It allows to map codepoints to Unicode properties.
- *   C2U(string[,format]) -- Returns the set of codepoints that compose the string in a series of formats
- *   P2N(code)            -- codePoints To Name: returns the Unicode Name property
- *   N2P(name)            -- Name To codePoints: transforms a Unicode name or alias into a normalized codepoint
- * </code></pre>
+ *   the basic Unicode Tools Of Rexx architecture.
+ *   Please refer to https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/built-in.md
+ *   and to https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md
+ *   for documentation and examples.
  *
  * <p>
  *   Although the whole set of Unicode Tools can be used in a purely
@@ -37,40 +29,6 @@
  *   These classes implement the usual built-in methods (BIMs), but adapted
  *   to the elementary constituents of each class.
  *
- * <p>
- *   With some exceptions, which are detailed in the description of each !-BIF
- *   (see below), standard Rexx built-in functions (BIFs) continue to work 
- *   "in the same way" with <code>CODEPOINTS</code> or <code>TEXT</code> strings that they do with Classic 
- *   Rexx strings. "In the same way" means that they implement the same 
- *   logical operations, but applied, in each case, to their ultimate constituents. 
- *   For example, <code>SUBSTR</code>, when applied to a <code>CODEPOINTS</code> string, will operate 
- *   on codepoints; and <code>POS</code>, when applied to a <code>TEXT</code> string, will operate 
- *   at the extended grapheme cluster level.
- *
- * <p>
- *   The Rexx language does not allow any overriding of BIFs except by internal
- *   routines, that is, it is not possible to design a new set of BIFs that
- *   reside in an external file. To overcome this difficulty, Unicode.cls
- *   can be used with <em>the Rexx Preprocessor for Unicode</em>, <code>rxu.rex</code>.
- *   The preprocessor substitutes calls to the Rexx built-in functions by
- *   equivalent calls to functions with a new name, obtained by prefixing an
- *   exclamation mark character (<code>"!"</code>) to the standard BIF name.
- *   For example, the preprocessor replaces function calls like <code>Length(var)</code>
- *   with <code>!Lenght(var)</code>, and <code>CALL</code> instructions like
- * <pre><code>Call Stream filename, "Command", "Query exists"</code></pre>
- * <p>with
- * <pre><code>Call !Stream filename, "Command", "Query exists"</code></pre>
- * <p>
- *   <code>Unicode.cls</code> implements these substitution !-BIFs (as we
- *   could call them), adding new functionality when needed, and rerouting
- *   the calls to the corresponding BIM, depending on the class of the
- *   string. This means, for example, that, when using the new <code>rxu</code>
- *   command one can program in a purely procedural way, handle strings in the
- *   usual, Classic Rexx, way, and when one <em>promotes</em> a string, say,
- *   to <code>TEXT</code>, by using a <code>Text(string)</code> function call, she can
- *   expect the returned value to "magically" function as a normal string
- *   that operates on extended grapheme clusters instead of on characters.
- *              
  *  <h4>Version history</h4>
  *  
  *  <table class="table">
@@ -98,10 +56,10 @@
  *    <tr><td>00.3a<td>JMB <td>20230815<td>New DECODE(string[, errorhandling]) BIF
  *    <tr><td>00.4 <td>JMB <td>20230901<td>General support for OPTIONS instruction via !Options routine
  *    <tr><td>     <td>JMB <td>20230912<td>Re-add OPTIONS COERCIONS support
+ *    <tr><td>     <td>JMB <td>20230917<td>Migrate most of the docs to markdown format (see rxu.md and the /docs subdir)
  *  </table>
  *
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
- *  @version 1.0
  */
 
 .local~bytes                 = .Bytes       -- Make sure .Bytes is known everywhere
@@ -239,7 +197,6 @@ Use Strict Arg code
     Otherwise                         Return "NONE"
   End
 
-
 ::Routine BYTES Public
   Use Strict Arg string
   return .Bytes~new(string)
@@ -264,19 +221,6 @@ Use Strict Arg code
   Use Strict Arg string, encoding, errorHandling=""
   Return .Encoding[encoding]~encode(string, errorHandling)  
   
-/**
- *                                                                           
- * <h4>Implementation of some classic Rexx BIFs</h4>
- *                                                                            
- * <p>
- *   Names are preceded with <code>"!"</code>, like in <code>"!Length"</code>.
- *   An internal routine called <code>Length</code> will be needed that calls <code>!Length</code>,   
- *   or a preprocessor like <code>rxu</code>, the Rexx Preprocessor for Unicode,
- *   that substitutes calls to <code>Length</code> by calls to          
- *   <code>!Length</code>, as there is no other way to override BIFs.
- *                                                                            
- */ 
-
 ::Routine !C2X Public
   Use Strict Arg string
 Return string~c2x
@@ -292,14 +236,6 @@ Return string~centre(length, pad)
 ::Routine !COPIES Public
   Use Strict Arg string, n
 Return string~copies(n)
-
-/**
- *  <h4>Helper routine for the <code>DATATYPE</code> BIF</h4>
- *
- *  <p>The <code>DATATYPE</code> BIF is enhanced by supporting a new <code>"C"</code> option (for "uniCode").
- *
- *  <p>Please refer to the documentation for the <code>DATATYPE</code> method of the <code>BYTES</code> class.
- */
 
 ::Routine !DATATYPE Public
   If Arg() > 2       Then Raise Syntax 40.4 Array("DATATYPE", 2)
@@ -353,7 +289,6 @@ Return string~upper(n, length)
  *    Having an explicit class (a subclass of <code>STRING</code>) allows us to define fine-grained  
  *    rules about BIF or operation results for mixed-type classes.            
  *   
- *                                                                          
  */
 
 ::Class "Bytes" SubClass String Public
