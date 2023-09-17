@@ -427,6 +427,28 @@ Pos('FF'X,haystack)                               -- Syntax error ("FF"X is ill-
 
 ## REVERSE
 
+```
+   ╭──────────╮  ┌────────┐  ╭───╮
+▸▸─┤ REVERSE( ├──┤ string ├──┤ ) ├─▸◂
+   ╰──────────╯  └────────┘  ╰───╯
+```
+
+Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+a CODEPOINTS string, or a TEXT string, respectively.
+
+__Examples:__
+
+```
+string = '(Woman)(Zwj)(Man)'U
+Say string                                        -- ‍‍👩‍👨
+Say string~c2x                                    -- F09F91A9E2808DF09F91A8
+Say REVERSE(string)~c2x                           -- A8919FF08D80E2A9919FF0
+string = CODEPOINTS(string)
+Say REVERSE(string)                               -- 👨‍👩, i.e., '(Man)(Zwj)(Woan)'U
+string = TEXT(string)
+Say string == REVERSE(string)                     -- 1, since LENGTH(string) == 1
+```
+
 ## RIGHT 
 
 ```
