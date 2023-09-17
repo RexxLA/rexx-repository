@@ -15,7 +15,7 @@ The Rexx Preprocessor for Unicode implements a series of new built-in functions.
 Returns a BYTES string composed of up to _length_ bytes read from the character input stream _name_. If you omit _name_,
 characters are read from STDIN, which is the default input stream. The default _length_ is 1.
 
-When an _encoding_ has not been specified for the input stream _name_, BYTEIN is identical to CHARIN.
+When an _encoding_ has not been specified for the input stream _name_, BYTEIN is identical to and has the same effect as CHARIN.
 
 When an _encoding_ has been specified for the input stream _name_, BYTEIN works as CHARIN would work
 if no _encoding_ had been specified. That is, it reads up to _length_ bytes starting at _start_.
@@ -30,10 +30,16 @@ if no _encoding_ had been specified. That is, it reads up to _length_ bytes star
                   └──────┘           └────────┘     ╰───╯ └───────┘
 ```
 
-Returns the count of characters remaining after attempting to write string to the character output
-stream _name_. If you omit _name_, characters in _string_ are written to STDOUT (generally the display), which
-is the default output stream. The _string_ can be a null string, in which case no characters are written to
+Returns the count of bytes remaining after attempting to write _string_ to the character output
+stream _name_. If you omit _name_, bytes in _string_ are written to STDOUT (generally the display), which
+is the default output stream. The _string_ can be a null string, in which case no bytes are written to
 the stream, and 0 is always returned.
+
+When an _encoding_ has not been specified for the output stream _name_, BYTEOUT is identical to and has the same effect as CHAROUT.
+
+When an _encoding_ has been specified for the output stream _name_, BYTEOUT works as CHAROUT would work
+if no _encoding_ had been specified. That is, it returns the count of bytes remaining after attempting to write string to the character output
+stream _name_.
 
 ## BYTES
 
