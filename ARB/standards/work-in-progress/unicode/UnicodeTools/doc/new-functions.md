@@ -2,6 +2,24 @@
 
 The Rexx Preprocessor for Unicode implements a series of new built-in functions.
 
+## BYTEIN 
+
+```
+   ╭─────────╮              ╭───╮                                    ╭───╮
+▸▸─┤ BYTEIN( ├─┬──────────┬─┤ , ├─┬───────────┬─┬──────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯ │ ┌──────┐ │ ╰───╯ │ ┌───────┐ │ │ ╭───╮ ┌────────┐ │ ╰───╯
+               └─┤ name ├─┘       └─┤ start ├─┘ └─┤ , ├─┤ length ├─┘
+                 └──────┘           └───────┘     ╰───╯ └────────┘
+```
+
+Returns a BYTES string composed of up to _length_ bytes read from the character input stream _name_. If you omit _name_,
+characters are read from STDIN, which is the default input stream. The default _length_ is 1.
+
+When an _encoding_ has not been specified for the input stream _name_, BYTEIN is identical to CHARIN.
+
+When an _encoding_ has been specified for the input stream _name_, BYTEIN works as CHARIN would work
+if no _encoding_ had been specified. That is, it reads up to _length_ bytes starting at _start_.
+
 ## Bytes
 
 ```
