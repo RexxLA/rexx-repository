@@ -20,7 +20,22 @@ When an _encoding_ has not been specified for the input stream _name_, BYTEIN is
 When an _encoding_ has been specified for the input stream _name_, BYTEIN works as CHARIN would work
 if no _encoding_ had been specified. That is, it reads up to _length_ bytes starting at _start_.
 
-## Bytes
+## BYTEOUT
+
+```
+   ╭──────────╮              ╭───╮                                    ╭───╮
+▸▸─┤ BYTEOUT( ├─┬──────────┬─┤ , ├─┬────────────┬─┬─────────────────┬─┤ ) ├─▸◂
+   ╰──────────╯ │ ┌──────┐ │ ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌───────┐ │ ╰───╯
+                └─┤ name ├─┘       └─┤ string ├─┘ └─┤ , ├─┤ start ├─┘
+                  └──────┘           └────────┘     ╰───╯ └───────┘
+```
+
+Returns the count of characters remaining after attempting to write string to the character output
+stream _name_. If you omit _name_, characters in _string_ are written to STDOUT (generally the display), which
+is the default output stream. The _string_ can be a null string, in which case no characters are written to
+the stream, and 0 is always returned.
+
+## BYTES
 
 ```
    ╭────────╮  ┌────────┐  ╭───╮
@@ -32,7 +47,7 @@ Returns the _string_ converted to the BYTES format.  BYTES strings are composed 
 Rexx built-in-functions operate at the byte level, and no Unicode features are available (for example, LOWER operates only on the ranges ``"A".."Z"`` and ``"a".."z"``).
 This is equivalent to Classic Rexx strings, but with some enhancements. See the description of the BYTES class for details.
 
-## Codepoints
+## CODEPOINTS
 
 ```
    ╭─────────────╮  ┌────────┐  ╭───╮
@@ -77,7 +92,7 @@ __Examples__ (assuming an ambient encoding of UTF-8):
  C2U("Sí","UTF-32") = "0000 0053 0000 00ED"X
 ```
 
-## Decode
+## DECODE
 
 ```
    ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮                                             ╭───╮
@@ -117,7 +132,7 @@ var = DECODE(string, "UTF-16", "UTF-8", "REPLACE") -- Decodes string to the UTF-
 var = DECODE(string, "UTF-16", "UTF-8", "SYNTAX")  -- Decodes string to the UTF-8 format. Any ill-formed character sequence will raise a Syntax error.
 ```
 
-## Encode
+## ENCODE
 
 ```
    ╭─────────╮  ┌────────┐  ╭───╮  ┌──────────┐                               ╭───╮
@@ -199,7 +214,7 @@ P2N("XXX")     =  ""                          -- Invalid codepoint
 P2N("110000")  =  ""                          -- Out-of-range
 ```
 
-## Stringtype
+## STRINGTYPE
 
 ```
    ╭─────────────╮  ┌────────┐                    ╭───╮
@@ -217,7 +232,7 @@ _string_ matches the _type_. Otherwise, it returns __0__. The following are vali
 * __CODEPOINTS__. Returns __1__ if the string is a CODEPOINTS string.
 * __TEXT__. Returns __1__ if the string is a TEXT string.
 
-## Text
+## TEXT
 
 ```
    ╭───────╮  ┌────────┐  ╭───╮
