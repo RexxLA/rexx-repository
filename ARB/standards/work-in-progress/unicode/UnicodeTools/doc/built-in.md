@@ -406,8 +406,24 @@ Length(Lower('Aİ'))                               -- 3
 ```
 
 Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _haystack_ is a BYTES string,
-a CODEPOINTS string, or a TEXT string, respectively. If necessary, _needle_ is converted to the of _haystack_. 
+a CODEPOINTS string, or a TEXT string, respectively. If necessary, _needle_ is converted to the type of _haystack_. 
 If this conversion fails, a Syntax error is raised.
+
+__Examples:__
+
+```
+Pos('s','string')                                 -- 1
+needle = '👩'                                    -- A BYTES string
+haystack = '(Woman)(Zwj)(Man)'U                   -- Another BYTES string
+Pos(needle,haystack)                              -- 8
+needle   = CODEPOINTS(needle)                     -- 1 codepoint
+haystack = CODEPOINTS(haystack)                   -- 3 codepoints
+Pos(needle,haystack)                              -- 3
+needle   = TEXT(needle)                           -- 1 grapheme cluster
+haystack = TEXT(haystack)                         -- 1 grapheme cluster
+Pos(needle,haystack)                              -- 0 (not found)
+Pos('FF'X,haystack)                               -- Syntax error ("FF"X is ill-formed)
+```
 
 ## REVERSE
 
