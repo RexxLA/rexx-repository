@@ -11,7 +11,7 @@ and enhanced with a set of Unicode specific _additions_ and _modifications_.
 
 As an example of _additions_, RXU programs allow for four new types of literal strings.
 These are described in an accompanying document, [_New types of strings_](string-types.md).
-There is also a set of [new built-in functions](new-functions.md).
+There is also a set of [new built-in functions](new-functions.md), described in another document.
 
 _Modifications_ become necessary when the behaviour of already existing mechanisms of Rexx
 has to be altered. In our case, for instance, we will expect that RXU programs know 
@@ -20,7 +20,7 @@ But this will mean that _existing_ BIFs will have to operate with _new_ entities
 and, of course, they will most probably have to produce _new and different_ results when processing these new entities.
 
 We are then confronted to the task of enhancing, and in this sense _redefining_, existing BIFs.
-But this is extremely problematic.
+But to redefine BIFs in Rexx is quite difficult.
 
 ### Ways to substitute BIFs. Necessity of a preprocessor
 
@@ -45,25 +45,25 @@ bottom of their programs: a maintenance nightmare, and nothing that can be calle
 
 ### Ways to substitute BIFs, part II
 
-The preprocessor could add such an epilog to RXU programs in an automated way. But, if we count on
-the idea of a (sufficiently powerful) preprocessor, we can opt for a different strategy. Instead
-of writing an internal routine for each BIF that we want to modify or enhance, we can _substitute_ the name of each BIF
-in every BIF call, and call a different function instead. Now, that different function will have a new name,
-an _external function name_. Clashes with existing BIF names will disappear, and, with them, the need
+A preprocessor could add such an epilog to RXU programs in an automated way. But, if we counted on
+the idea of a (sufficiently powerful) preprocessor, we could also opt for a different strategy. Instead
+of writing an internal routine for each BIF that we wanted to modify or enhance, we could _substitute_ the name of each BIF
+in every BIF call, and call a different function instead. Now, that different function would have a new name,
+an _external function name_. Clashes with existing BIF names would disappear, and, with them, the need
 to define internal routines. That's a much neater solution. Indeed, if working with ooRexx, all the
 external routines can be grouped in some few packages, and the task of the preprocessor will practically be reduced,
 beyond the substitution of names and the implementation of new string types, to the trivial addition
 of a ``::Requires`` directive or a function call that enables the new external functions.
 
-The RXU preprocessor for Unicode follows this approach. It substitutes calls to a rexx BIF ``F`` with calls to ``!F``,
-i.e., an exclamation mark, "!", is added to the BIF name. For example the preprocessor would translate ``Length(var)``
+The RXU preprocessor for Unicode follows this approach. It substitutes calls to an arbitrary rexx BIF, say ``F``, with calls to ``!F``,
+i.e., an exclamation mark, "!", is prepended to the BIF name. For example the preprocessor would translate ``Length(var)``
 to ``!Length(var)``.
 
 ### Subtleties of substitution
 
-The _basic idea_ of such a substitution is trivially easy; as it often happens with basic ideas, its concrete realization is nothing
-but trivial. You cannot simply pick every occurence of, say, ``"LENGTH"`` and blindly substitute it with "!LENGTH":
-that would unintendedly transform _method calls_, like in ``n = var~length``, for example. 
+The _basic idea_ of such a substitution is very easy to explain, but, as it often happens with basic ideas, its concrete realization is nothing
+but trivial. You cannot simply pick every occurence of, say, ``"LENGTH"`` and blindly substitute it with ``"!LENGTH"``:
+that would unintendedly transform _method calls_, like ``n = var~length``, for example. 
 
 Ok, you could say: let's reduce ourselves to the case where a BIF name is followed by a left parentheses. 
 But this leaves out ``CALL`` statements, and there are methods that have arguments anyway...
@@ -73,6 +73,10 @@ with the same name as a BIF, it substitutes names anyway. It should not, but it'
 version. This limitation will be addressed in a future release.
 
 ---
+
+# Alphabetic list of implemented BIFs
+
+An alphabetic list of Unicode-enabled BIFs follows. This list will be updated when new functions will be enabled for Unicode. In most cases, only the new functionality is described,
 
 ## C2X (Character to heXadecimal)
 
