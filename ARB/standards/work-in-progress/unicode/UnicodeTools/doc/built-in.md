@@ -1,5 +1,8 @@
 # Rexx built-in functions for Unicode: enhancements and modifications
 
+This article concentrates on documenting enhancements and modifications to _existing_ built-in functions (BIFs). If you want to know about _new_ BIFs, please refer
+to the accompanying document [New built-in functions](new-functions.md).
+
 ## Introduction: What are the enhanced built-in functions and how are they implemented
 
 ### Statement of the problem
