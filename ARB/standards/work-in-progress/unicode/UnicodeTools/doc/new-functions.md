@@ -211,3 +211,44 @@ Converts _string_ to a TEXT string and returns it. TEXT strings are composed of 
 The argument _string_ has to contain well-formed UTF-8, or a Syntax error is raised. When working with TEXT strings, Rexx built-in functions operate at the extended grapheme cluster level, and can produce much richer results than when operating with BYTES or CODEPOINTS strings.
 
 Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` function call.
+
+## UTF8
+
+```
+   ╭───────╮  ┌────────┐  ╭───╮                                             ╭───╮
+▸▸─┤ UTF8( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
+   ╰───────╯  └────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
+                                └─┤ format ├─┘ └─┤ , ├─┤ error_handling ├─┘
+                                  └────────┘     ╰───╯ └────────────────┘
+```
+
+Tests whether a _string_ contains well-formed UTF-8, and optionally decodes it to a certain _format_.
+
+UTF8 works as a UTF-8 validator when _format_ is omitted, and as a decoder when _format_ is specified. It is an error to omit _format_ and to specify a value for _error_handling_ at the same time (that is, if _format_ was omitted, then _error_handling_ should be omitted too).
+
+When UTF8 is used as validator, it returns a boolean value, indicating if the string contains well-formed UTF8.
+For example, ``UTF8(string)`` returns __1__ when string contains well-formed UTF-8, and __0__ if it contains ill-formed UTF-8.
+
+To use UTF8 as a decoder, you have to specify a _format_. This argument accepts a blank-separated set of tokens.
+Each token can have one of the following values: __UTF8__, __UTF-8__, __UTF32__, or __UTF-32__ (duplicates are allowed and ignored).
+When __UTF8__ or __UTF-8__ have been specified, a UTF-8 representation of _string_ is returned.
+When __UTF32__ or __UTF-32__ have been specified, a UTF-32 representation of _string_ is returned.
+When both have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of _string_,
+and the second item of the array contains the UTF-32 representation of _string_.
+
+The optional _error_handling_ argument determines the behaviour of the function when the _format_ argument has been specified.
+If it has the value __""__ (the default) or __NULL__, a null string is returned when there a decoding error is encountered.
+If it has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
+If it has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
+
+__Examples:__
+
+```
+UTF8("ascii")                                     -- 1
+UTF8("José")                                      -- 1
+UTF8("FF"X)                                       -- 0
+UTF8("José",UTF32)                                -- "0000004A 0000006F 00000073 0000E9"X ("é" is "E9"U)
+UTF8("FF"X,UTF32)                                 -- ""
+UTF8("FF"X,UTF32,REPLACE)                         -- "�" ("FFFD"X)
+UTF8("FF"X,UTF32,SYNTAX)                          -- Syntax error
+```
