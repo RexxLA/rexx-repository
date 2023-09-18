@@ -249,6 +249,6 @@ UTF8("José")                                      -- 1
 UTF8("FF"X)                                       -- 0
 UTF8("José",UTF32)                                -- "0000004A 0000006F 00000073 0000E9"X ("é" is "E9"U)
 UTF8("FF"X,UTF32)                                 -- ""
-UTF8("FF"X,UTF32,REPLACE)                         -- "�" ("FFFD"X)
-UTF8("FF"X,UTF32,SYNTAX)                          -- Syntax error
+UTF8("FF"X,UTF32,REPLACE)                         -- "�" ("FFFD"X, the replacement character)
+UTF8("FF"X,UTF32,SYNTAX)                          -- Raises a Syntax error
 ```
