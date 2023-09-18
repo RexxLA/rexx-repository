@@ -282,3 +282,29 @@ See [The Unicode® Standard. Version 15.0 – Core Specification](https://www.un
 
 Based on this table, on the first run, UTF8 will build a Finite State Machine. States will be coded into two
 TRANSLATE tables, stored in the .local directory.
+
+* The range 00..7F is mapped to "A" (for "A"SCII).
+* The range 80..BF is mapped to "C" (for "C"ontinuation characters). Some few bytes will require manual checking.
+* The values CO, C1 and F5..FF are always illegal in a UTF-8 string. We add rows for these ranges, and we map the corresponding codes to "I" (for "I"llegal).
+* The range C2..DF is mapped to "20"X (the "2" in "20" reminds us that we will find a 2-byte group, if the string is well-formed).
+* The range E0..EF is mapped to the "3x"X values, "3a", "3b" and "3c". The "3" reminds us that we will find a 3-bytes groups, if the string is well-formed;
+  the final "a", "b" and "c" allow us to differentiate the cases, and perform the corresponding tests.
+* Similarly, the F0..F4 range is mapped to "4a"X, "4b"X and "4c"X, as described below.
+
+#### Table 3-7 (modified)
+
+| Bytes        | Mapping | Description |
+|------------- | --------| ----------- |
+| 00..7F       | "A"     | ASCII byte
+| 80..BF       | "C"     | Continuation byte
+| C0..C1       | "I"     | Illegal byte
+| C2..DF       | "20"X   | Two-bytes sequence
+| E0           | "3a"X   | Three bytes, case (a)
+| E1..EC       | "3b"X   | Three bytes, case (b)
+| ED           | "3c"X   | Three bytes, case (c)
+| EE..EF       | "3b"X   | Three bytes, case (b)
+| F0           | "4a"X   | Four bytes, case (a)
+| F1..F3       | "4b"X   | Four bytes, case (b)
+| F4           | "4c"X   | Four bytes, case (c)
+| F5..FF       | "I"     | Illegal byte
+ 
