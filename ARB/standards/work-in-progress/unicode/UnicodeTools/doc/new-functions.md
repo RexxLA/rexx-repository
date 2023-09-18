@@ -241,6 +241,12 @@ If it has the value __""__ (the default) or __NULL__, a null string is returned 
 If it has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
 If it has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
 
+__Conditions:__
+
+* Syntax 93.900. Invalid option '<em>option</em>'.
+* Syntax 93.900. Invalid format '<em>format</em>'.
+* Syntax 23.900. Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X.
+
 __Examples:__
 
 ```
@@ -252,3 +258,27 @@ UTF8("FF"X,UTF32)                                 -- ""
 UTF8("FF"X,UTF32,REPLACE)                         -- "�" ("FFFD"X, the replacement character)
 UTF8("FF"X,UTF32,SYNTAX)                          -- Raises a Syntax error
 ```
+
+### Implementation notes
+
+See [The Unicode® Standard. Version 15.0 – Core Specification](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf), p. 125:
+
+>#### Table 3-7. Well-Formed UTF-8 Byte Sequences
+>
+>| Code Points        | First Byte | Second Byte  | Third Byte | Fourth Byte |
+>| ------------------ | -----------| ------------ | ---------- | ----------- |
+>| U+0000..U+007F     | 00..7F     |              |            |             | 
+>| U+0080..U+07FF     | C2..DF     | 80..BF       |            |             | 
+>| U+0800..U+0FFF     | E0         | ***A0***..BF | 80..BF     |             | 
+>| U+1000..U+CFFF     | E1..EC     | 80..BF       | 80..BF     |             | 
+>| U+D000..U+D7FF     | ED         | 80..***9F*** | 80..BF     |             | 
+>| U+E000..U+FFFF     | EE..EF     | 80..BF       | 80..BF     |             | 
+>| U+10000..U+3FFFF   | F0         | ***90***..BF | 80..BF     | 80..BF      |
+>| U+40000..U+FFFFF   | F1..F3     | 80..BF       | 80..BF     | 80..BF      |
+>| U+100000..U+10FFFF | F4         | 80..***8F*** | 80..BF     | 80..BF      |
+>
+>_In Table 3-7, cases where a trailing byte range is not 80..BF are shown in bold italic to draw
+>attention to them. These exceptions to the general pattern occur only in the second byte of a sequence_.
+
+Based on this table, on the first run, UTF8 will build a Finite State Machine. States will be coded into two
+TRANSLATE tables, stored in the .local directory.
