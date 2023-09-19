@@ -318,7 +318,7 @@ TRANSLATE tables, stored in the .local directory.
                                    └────────┘     ╰───╯ └────────────────┘
 ```
 
-UTF8Z is a format identical to UTF-8, except that the ``"0000"U`` chatacter is represented by the overlong encoding ``"C080"X`` instead of ``"00"X``. This guarantees that a well-formed UTF8Z string will never contain any null character (``"00"X``), and therefore UTF8Z-formatted strings can be processed using traditional null-terminated string functions. Please refer to the [modified UTF-8](https://en.wikipedia.org/wiki/UTF-8#Modified_UTF-8) section in the ["Wikipedia page about UTF-8"](https://en.wikipedia.org/wiki/UTF-8).
+UTF8Z is a format identical to UTF-8, except that the ``"0000"U`` character is represented by the overlong encoding ``"C080"X`` instead of ``"00"X``. This guarantees that a well-formed UTF8Z string will never contain any null character (``"00"X``), and therefore UTF8Z-formatted strings can be processed using traditional null-terminated string functions. Please refer to the [modified UTF-8](https://en.wikipedia.org/wiki/UTF-8#Modified_UTF-8) section in the [Wikipedia page about UTF-8](https://en.wikipedia.org/wiki/UTF-8).
 
 UTF8Z works in the same way that UTF8. Please refer to the documentation for UTF8 for additional details.
 
@@ -333,7 +333,7 @@ Table 3.7 will have to be adapted for UTF8Z in the following way:
 | 00           | "I"     | Illegal byte
 | 00..7F       | "A"     | ASCII byte
 | 80..BF       | "C"     | Continuation byte
-| C0           | "0"     | "0": "C080"X -> "0000"U, error otherwise
+| C0           | "0"     | "C080"X -> "0000"U, error otherwise
 | C1           | "I"     | Illegal byte
 | C2..DF       | "20"X   | Two-bytes sequence
 | E0           | "3a"X   | Three bytes, case (a)
