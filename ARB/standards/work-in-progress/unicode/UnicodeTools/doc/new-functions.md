@@ -320,7 +320,7 @@ TRANSLATE tables, stored in the .local directory.
 
 UTF8Z is a format identical to UTF-8, except that the ``"0000"U`` character is represented by the overlong encoding ``"C080"X`` instead of ``"00"X``. This guarantees that a well-formed UTF8Z string will never contain any null character (``"00"X``), and therefore UTF8Z-formatted strings can be processed using traditional null-terminated string functions. Please refer to the [modified UTF-8](https://en.wikipedia.org/wiki/UTF-8#Modified_UTF-8) section in the [Wikipedia page about UTF-8](https://en.wikipedia.org/wiki/UTF-8).
 
-UTF8Z works in the same way that UTF8. Please refer to the documentation for UTF8 for additional details.
+The UTF8Z BIF works in the same way that UTF8. Please refer to the documentation for UTF8 for additional details.
 
 __Implementation notes:__
 
@@ -345,3 +345,39 @@ Table 3.7 will have to be adapted for UTF8Z in the following way:
 | F4           | "4c"X   | Four bytes, case (c)
 | F5..FF       | "I"     | Illegal byte
 
+## WTF8
+
+```
+   ╭───────╮  ┌────────┐  ╭───╮                                             ╭───╮
+▸▸─┤ WTF8( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
+   ╰───────╯  └────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
+                                └─┤ format ├─┘ └─┤ , ├─┤ error_handling ├─┘
+                                  └────────┘     ╰───╯ └────────────────┘
+```
+
+WTF-8 is a format identical to UTF-8, except that it encodes surrogates that are not in a pair. Please refer to the [The WTF-8 encoding](https://simonsapin.github.io/wtf-8/#concatenating)) for details.
+
+The WTF8 BIF works in the same way that UTF8. Please refer to the documentation for UTF8 for additional details.
+
+__Implementation notes:__
+
+Table 3.7 will have to be adapted for WTF-8 in the following way:
+
+#### Table 3-7 (modified for WTF-8)
+
+| Bytes        | Mapping | Description |
+|------------- | --------| ----------- |
+| 00           | "I"     | Illegal byte
+| 00..7F       | "A"     | ASCII byte
+| 80..BF       | "C"     | Continuation byte
+| C0           | "0"     | "C080"X -> "0000"U, error otherwise
+| C1           | "I"     | Illegal byte
+| C2..DF       | "20"X   | Two-bytes sequence
+| E0           | "3a"X   | Three bytes, case (a)
+| E1..EC       | "3b"X   | Three bytes, case (b)
+| ED           | "3d"X   | Three bytes, case (d): 2nd byte in 80..9F, normal char; in A0..AF, lead surrogate; in B0..BF, trail surrogate; surrogate pair: error
+| EE..EF       | "3b"X   | Three bytes, case (b)
+| F0           | "4a"X   | Four bytes, case (a)
+| F1..F3       | "4b"X   | Four bytes, case (b)
+| F4           | "4c"X   | Four bytes, case (c)
+| F5..FF       | "I"     | Illegal byte
