@@ -355,7 +355,7 @@ Table 3.7 will have to be adapted for UTF8Z in the following way:
                                   └────────┘     ╰───╯ └────────────────┘
 ```
 
-WTF-8 is a format identical to UTF-8, except that it encodes surrogates that are not in a pair. Please refer to the [The WTF-8 encoding](https://simonsapin.github.io/wtf-8/#concatenating)) for details.
+WTF-8 is a format identical to UTF-8, except that it encodes surrogates that are not in a pair. Please refer to the [The WTF-8 encoding](https://simonsapin.github.io/wtf-8/#concatenating) for details.
 
 The WTF8 BIF works in the same way that UTF8. Please refer to the documentation for UTF8 for additional details.
 
