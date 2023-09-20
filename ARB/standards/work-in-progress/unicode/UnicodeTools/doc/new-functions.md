@@ -215,21 +215,23 @@ Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-form
 ## UTF8
 
 ```
-   ╭───────╮  ┌────────┐  ╭───╮                                             ╭───╮
-▸▸─┤ UTF8( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
-   ╰───────╯  └────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
-                                └─┤ format ├─┘ └─┤ , ├─┤ error_handling ├─┘
-                                  └────────┘     ╰───╯ └────────────────┘
+   ╭───────╮  ┌────────┐  ╭───╮                                                                  ╭───╮
+▸▸─┤ UTF8( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
+   ╰───────╯  └────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
+                                └─┤ format ├─┘ └─┤ , ├─┤ target ├─┘ └─┤ , ├─┤ error_handling ├─┘
+                                  └────────┘     ╰───╯ └────────┘     ╰───╯ └────────────────┘
 ```
 
-Tests whether a _string_ contains well-formed UTF-8, and optionally decodes it to a certain _format_.
+Tests whether a _string_ contains well-formed UTF-8 (this is the default when _format_ has not been specified), or a well-formed string in the _format_ encoding. Optionally, it decodes it to a certain _target_ encoding.
 
-UTF8 works as a UTF-8 validator when _format_ is omitted, and as a decoder when _format_ is specified. It is an error to omit _format_ and to specify a value for _error_handling_ at the same time (that is, if _format_ was omitted, then _error_handling_ should be omitted too).
+UTF8 works as a _format_ encoding validator when _target_ is omitted, and as a decoder when _target_ is specified. It is an error to omit _target_ and to specify a value for _error_handling_ at the same time (that is, if _target_ was omitted, then _error_handling_ should be omitted too).
 
-When UTF8 is used as validator, it returns a boolean value, indicating if the string contains well-formed UTF8.
+When UTF8 is used as validator, it returns a boolean value, indicating if the string is well-formed according to the _format_ encoding.
 For example, ``UTF8(string)`` returns __1__ when string contains well-formed UTF-8, and __0__ if it contains ill-formed UTF-8.
 
-To use UTF8 as a decoder, you have to specify a _format_. This argument accepts a blank-separated set of tokens.
+The _format_ argument can be omitted or the null string, in which case __UTF-8__ is assumed, or in can be one of __UTF-8__ or __UTF-8__, __UTF-8Z__ or __UTF8Z__, __WTF-8__ or __WTF8__, __CESU-8__ or __CESU-8__, and __CESU-8Z__ or __CESU-8Z__.
+
+To use UTF8 as a decoder, you have to specify a _target_ encoding. This argument accepts a blank-separated set of tokens.
 Each token can have one of the following values: __UTF8__, __UTF-8__, __UTF32__, or __UTF-32__ (duplicates are allowed and ignored).
 When __UTF8__ or __UTF-8__ have been specified, a UTF-8 representation of _string_ is returned.
 When __UTF32__ or __UTF-32__ have been specified, a UTF-32 representation of _string_ is returned.
@@ -308,25 +310,9 @@ TRANSLATE tables, stored in the .local directory.
 | F4           | "4c"X   | Four bytes, case (c)
 | F5..FF       | "I"     | Illegal byte
  
-## UTF8Z
-
-```
-   ╭────────╮  ┌────────┐  ╭───╮                                             ╭───╮
-▸▸─┤ UTF8Z( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
-   ╰────────╯  └────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
-                                 └─┤ format ├─┘ └─┤ , ├─┤ error_handling ├─┘
-                                   └────────┘     ╰───╯ └────────────────┘
-```
-
-UTF8Z is a format identical to UTF-8, except that the ``"0000"U`` character is represented by the overlong encoding ``"C080"X`` instead of ``"00"X``. This guarantees that a well-formed UTF8Z string will never contain any null character (``"00"X``), and therefore UTF8Z-formatted strings can be processed using traditional null-terminated string functions. Please refer to the [modified UTF-8](https://en.wikipedia.org/wiki/UTF-8#Modified_UTF-8) section in the [Wikipedia page about UTF-8](https://en.wikipedia.org/wiki/UTF-8).
-
-The UTF8Z BIF works in the same way that UTF8. Please refer to the documentation for UTF8 for additional details.
-
-__Implementation notes:__
-
-Table 3.7 will have to be adapted for UTF8Z in the following way:
-
 #### Table 3-7 (modified for UTF8Z)
+
+For UTF8Z, table 3-7 has to be modified in the following way:
 
 | Bytes        | Mapping | Description |
 |------------- | --------| ----------- |
@@ -345,25 +331,9 @@ Table 3.7 will have to be adapted for UTF8Z in the following way:
 | F4           | "4c"X   | Four bytes, case (c)
 | F5..FF       | "I"     | Illegal byte
 
-## WTF8
-
-```
-   ╭───────╮  ┌────────┐  ╭───╮                                             ╭───╮
-▸▸─┤ WTF8( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
-   ╰───────╯  └────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
-                                └─┤ format ├─┘ └─┤ , ├─┤ error_handling ├─┘
-                                  └────────┘     ╰───╯ └────────────────┘
-```
-
-WTF-8 is a format identical to UTF-8, except that it encodes surrogates that are not in a pair. Please refer to the [The WTF-8 encoding](https://simonsapin.github.io/wtf-8/#concatenating) for details.
-
-The WTF8 BIF works in the same way that UTF8. Please refer to the documentation for UTF8 for additional details.
-
-__Implementation notes:__
-
-Table 3.7 will have to be adapted for WTF-8 in the following way:
-
 #### Table 3-7 (modified for WTF-8)
+
+For WTF-8, table 3-7 has to be modified in the following way:
 
 | Bytes        | Mapping | Description |
 |------------- | --------| ----------- |
@@ -381,3 +351,22 @@ Table 3.7 will have to be adapted for WTF-8 in the following way:
 | F1..F3       | "4b"X   | Four bytes, case (b)
 | F4           | "4c"X   | Four bytes, case (c)
 | F5..FF       | "I"     | Illegal byte
+
+#### Table 3-7 (modified for CESU-8)
+
+See [Unicode Technical Report #26. COMPATIBILITY ENCODING SCHEME FOR UTF-16: 8-BIT (CESU-8)](https://www.unicode.org/reports/tr26/tr26-4.html).
+
+For CESU-8, table 3-7 has to be modified in the following way:
+
+| Bytes        | Mapping | Description |
+|------------- | --------| ----------- |
+| 00..7F       | "A"     | ASCII byte
+| 80..BF       | "C"     | Continuation byte
+| C0..C1       | "I"     | Illegal byte
+| C2..DF       | "20"X   | Two-bytes sequence
+| E0           | "3a"X   | Three bytes, case (a)
+| E1..EC       | "3b"X   | Three bytes, case (b)
+| ED           | "3c"X   | Three bytes, case (c)
+| EE..EF       | "3b"X   | Three bytes, case (b)
+| F0..FF       | "I"     | Illegal byte
+
