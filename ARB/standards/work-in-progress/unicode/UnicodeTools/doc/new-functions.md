@@ -312,6 +312,9 @@ TRANSLATE tables, stored in the .local directory.
  
 #### Table 3-7 (modified for UTF8Z)
 
+UTF-8Z is identical to UTF-8, with only one exception: "00"U is encoded using the overlong encoding "C080"X, so that a well-formed UTF-8Z string cannot contain NULL characters. 
+Thus allows the continued use of old-style string C functions, which expect strings to be terminated by a NULL character.
+
 For UTF8Z, table 3-7 has to be modified in the following way:
 
 | Bytes        | Mapping | Description |
@@ -332,6 +335,8 @@ For UTF8Z, table 3-7 has to be modified in the following way:
 | F5..FF       | "I"     | Illegal byte
 
 #### Table 3-7 (modified for WTF-8)
+
+See (The WTF-8 encoding)[https://simonsapin.github.io/wtf-8/].
 
 For WTF-8, table 3-7 has to be modified in the following way:
 
