@@ -336,7 +336,7 @@ For UTF8Z, table 3-7 has to be modified in the following way:
 
 #### Table 3-7 (modified for WTF-8)
 
-See (The WTF-8 encoding)[https://simonsapin.github.io/wtf-8/].
+See [The WTF-8 encoding](https://simonsapin.github.io/wtf-8/).
 
 For WTF-8, table 3-7 has to be modified in the following way:
 
