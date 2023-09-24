@@ -232,10 +232,9 @@ For example, ``UTF8(string)`` returns __1__ when string contains well-formed UTF
 The _format_ argument can be omitted or the null string, in which case __UTF-8__ is assumed, or in can be one of __UTF-8__ or __UTF-8__, __UTF-8Z__ or __UTF8Z__, __WTF-8__ or __WTF8__, __CESU-8__ or __CESU-8__, and __CESU-8Z__ or __CESU-8Z__.
 
 To use UTF8 as a decoder, you have to specify a _target_ encoding. This argument accepts a blank-separated set of tokens.
-Each token can have one of the following values: __UTF8__, __UTF-8__, __UTF32__, or __UTF-32__ (duplicates are allowed and ignored).
-When __UTF8__ or __UTF-8__ have been specified, a UTF-8 representation of _string_ is returned.
-When __UTF32__ or __UTF-32__ have been specified, a UTF-32 representation of _string_ is returned.
-When both have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of _string_,
+Each token can have one of the following values: __UTF8__ or __UTF-8__, __WTF-8__ or __WTF8__, __UTF16__ or __UTF-16__, __WTF-16__ or __WTF16__, __UTF32__, or __UTF-32__, __WTF-32__ or __WTF32__. Duplicates are allowed and ignored;
+it is an error to specify __UTF-8__ and __WTF-8__ at the same time, or __UTF-16__ and __WTF-16__ at the same time, or __UTF-32__ and __WTF-32__ at the same time.
+When several targets have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of _string_,
 and the second item of the array contains the UTF-32 representation of _string_.
 
 The optional _error_handling_ argument determines the behaviour of the function when the _format_ argument has been specified.
@@ -247,6 +246,7 @@ __Conditions:__
 
 * Syntax 93.900. Invalid option '<em>option</em>'.
 * Syntax 93.900. Invalid format '<em>format</em>'.
+* Syntax 93.900. _target1_ and _target2_ are incompatible targets.
 * Syntax 23.900. Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X.
 
 __Examples:__
