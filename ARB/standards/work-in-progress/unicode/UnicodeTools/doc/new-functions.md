@@ -367,6 +367,27 @@ For CESU-8, table 3-7 has to be modified in the following way:
 |------------- | --------| ----------- |
 | 00..7F       | "A"     | ASCII byte
 | 80..BF       | "C"     | Continuation byte
+| C0..C1       | "I"     | Illegal byte
+| C2..DF       | "20"X   | Two-bytes sequence
+| E0           | "3a"X   | Three bytes, case (a)
+| E1..EC       | "3b"X   | Three bytes, case (b)
+| ED           | "3e"X   | Three bytes, case (e)
+| EE..EF       | "3b"X   | Three bytes, case (b)
+| F0..FF       | "I"     | Illegal byte
+
+#### Table 3-7 (modified for MUTF-8)
+
+MUTF-8 (Modified UTF-8) is identical to CESU-8, except for the encoding of "00"U, which is the overlong sequence "C080"X.
+
+See [the Wikipedia entry about MUTF-8](https://en.wikipedia.org/wiki/UTF-8#Modified_UTF-8).
+
+For MUTF-8, table 3-7 has to be modified in the following way:
+
+| Bytes        | Mapping | Description |
+|------------- | --------| ----------- |
+| 00           | "I"     | Illegal byte
+| 01..7F       | "A"     | ASCII byte
+| 80..BF       | "C"     | Continuation byte
 | C0           | "0"     | "C080"X -> "0000"U, error otherwise
 | C1           | "I"     | Illegal byte
 | C2..DF       | "20"X   | Two-bytes sequence
