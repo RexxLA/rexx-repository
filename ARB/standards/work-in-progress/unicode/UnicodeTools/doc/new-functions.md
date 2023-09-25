@@ -247,17 +247,31 @@ If it has the value __SYNTAX___, a Syntax condition will be raised when a decodi
 
 __Conditions:__
 
-* Syntax 93.900. Invalid option '<em>option</em>'.
-* Syntax 93.900. Invalid format '<em>format</em>'.
+* Syntax 93.900. Invalid option '_option_'.
+* Syntax 93.900. Invalid format '_format_'.
 * Syntax 93.900. _target1_ and _target2_ are incompatible targets.
 * Syntax 93.900. Conflicting targets _target list_.
-* Syntax 23.900. Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X.
+* Syntax 23.900. Invalid _format_ sequence in position _n_ of string: '<em>hex-value</em>'X.
 
+__Validation examples:__
+```
+UTF8("")                                          -- 1  (The null string always validates)
+UTF8("ascii")                                     -- 1  (Equivalent to UTF8("ascii", "UTF-8") )
+UTF8("José")                                      -- 1
+UTF8("FF"X)                                       -- 0  ("FF"X is ill-formed)
+UTF8("00"X)                                       -- 1  (ASCII)
+UTF8("00"X, "UTF-8Z")                             -- 0  (UTF-8Z encodes "00"U differently)
+UTF8("C080"X, "UTF-8Z")                           -- 1  (Would be illegal in UTF-8)
+UTF8("ED A0 80"X)                                 -- 0  (High surrogate)
+UTF8("ED A0 80"X,"WTF-8")                         -- 1  (UTF-8 allows surrogates)
+UTF8("ED A0 80"X,"WTF-8")                         -- 1  (UTF-8 allows surrogates)
+UTF8("F0 9F 94 94"X)                              -- 1  ( "(Bell)"U )
+UTF8("F0 9F 94 94"X,"CESU-8")                     -- 0  ( CESU-8 doesn't allow four-byte sequences... )
+UTF8("ED A0 BD ED B4 94"X,"CESU-8")               -- 0  ( ...it expects two three-byte surrogates instead)
+```
 __Examples:__
 
 ```
-UTF8("ascii")                                     -- 1
-UTF8("José")                                      -- 1
 UTF8("FF"X)                                       -- 0
 UTF8("José",UTF32)                                -- "0000004A 0000006F 00000073 0000E9"X ("é" is "E9"U)
 UTF8("FF"X,UTF32)                                 -- ""
