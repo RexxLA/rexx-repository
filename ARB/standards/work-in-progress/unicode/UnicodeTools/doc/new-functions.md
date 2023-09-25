@@ -247,6 +247,7 @@ __Conditions:__
 * Syntax 93.900. Invalid option '<em>option</em>'.
 * Syntax 93.900. Invalid format '<em>format</em>'.
 * Syntax 93.900. _target1_ and _target2_ are incompatible targets.
+* Syntax 93.900. Conflicting targets _target list_.
 * Syntax 23.900. Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X.
 
 __Examples:__
