@@ -263,7 +263,7 @@ UTF8("00"X, mutf8, utf8)                           -- Syntax error: MUTF-8 allow
 UTF8("00"X, mutf8, wtf8)                           -- "". "00"X is ill-formed MUTF-8
 UTF8("00"X, utf8,  utf8 utf32)                     -- A stem s.: s.utf8 == "00"X, and s.utf32 == "0000 0000"X
 UTF8("00"X, utf8,  wtf8 wtf32)                     -- A stem s.: s.wtf8 == "00"X, and s.wtf32 == "0000 0000"X
-UTF8("00"X, utf8,  utf8 wtf32)                     -- Syntax error: can not specify UTF-8 and WTF-32 at the same time
+UTF8("00"X, utf8,  utf8 wtf32)                     -- Syntax error: cannot specify UTF-8 and WTF-32 at the same time
 ```
 
 __Validation examples:__
@@ -285,6 +285,14 @@ UTF8("F0 9F 94 94"X,"CESU-8")                     -- 0  ( CESU-8 doesn't allow f
 UTF8("ED A0 BD ED B4 94"X,"CESU-8")               -- 1  ( ...it expects two three-byte surrogates instead)
 ```
 
+__Error handling:__
+```
+                                                  -- "C080" is ill-formed utf8                      
+UTF8("C080"X,,utf8)                               -- "" (By default, UTF8 returns the null string when an error is found)
+UTF8("C080"X,,utf8, replace)                      -- "EFBFBD EFBFBD"X ("EFBFBD" is the Unicode Replacement character)
+                                                  -- "C0"X is ill-formed, and then "80"X is ill-formed too --> two replacement characters
+UTF8("C080"X,,utf8, syntax)                       -- Syntax error 23.900: "Invalid UTF-8 sequence in position 1 of string: 'C0'X".
+```
 
 __Examples:__
 
