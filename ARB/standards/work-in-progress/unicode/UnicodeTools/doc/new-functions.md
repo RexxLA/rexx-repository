@@ -235,7 +235,8 @@ To use UTF8 as a decoder, you have to specify a _target_ encoding. This argument
 
 Each token can have one of the following values: __UTF8__ or __UTF-8__, __WTF-8__ or __WTF8__, __UTF32__, or __UTF-32__, __WTF-32__ or __WTF32__. 
 
-Duplicates are allowed and ignored; if one of the specified encodings is a W-encoding, the rest of the encodings should be W-encodings too.
+Duplicates are allowed and ignored. If one of the specified encodings is a W-encoding, the rest of the encodings should be W-encodings too. If _format_ allows lone surrogates (i.e., if it is not __UTF-8__ or __UTF-8Z__),
+then all specified encodings should be W-encodings.
 
 When several targets have been specified, a stem array is returned. The tail is the encoding name (without the dash, if present), and the compound variable value is the decoded string.
 
@@ -253,6 +254,18 @@ __Conditions:__
 * Syntax 93.900. Conflicting targets _target list_.
 * Syntax 23.900. Invalid _format_ sequence in position _n_ of string: '<em>hex-value</em>'X.
 
+__Specifying _format_ and _target_. Combination examples:__
+
+```
+UTF8("00"X, utf8,  utf8)                           -- "00"X. Validate and return UTF-8
+UTF8("00"X, utf8,  wtf8)                           -- "00"X. Validate and return WTF-8
+UTF8("00"X, mutf8, utf8)                           -- Syntax error: MUTF-8 allows lone surrogates, but UTF-8 does not
+UTF8("00"X, mutf8, wtf8)                           -- "". "00"X is ill-formed MUTF-8
+UTF8("00"X, utf8,  utf8 utf32)                     -- A stem s.: s.utf8 == "00"X, and s.utf32 == "0000 0000"X
+UTF8("00"X, utf8,  wtf8 wtf32)                     -- A stem s.: s.wtf8 == "00"X, and s.wtf32 == "0000 0000"X
+UTF8("00"X, utf8,  utf8 wtf32)                     -- Syntax error: can not specify UTF-8 and WTF-32 at the same time
+```
+
 __Validation examples:__
 ```
 UTF8("")                                          -- 1  (The null string always validates)
@@ -261,14 +274,18 @@ UTF8("José")                                      -- 1
 UTF8("FF"X)                                       -- 0  ("FF"X is ill-formed)
 UTF8("00"X)                                       -- 1  (ASCII)
 UTF8("00"X, "UTF-8Z")                             -- 0  (UTF-8Z encodes "00"U differently)
-UTF8("C080"X, "UTF-8Z")                           -- 1  (Would be illegal in UTF-8)
+UTF8("C080"X)                                     -- 1  
+UTF8("C080"X, "UTF-8Z")                           -- 1  
+UTF8("C081"X, "UTF-8Z")                           -- 0  (Only "C080" is well-formed)
 UTF8("ED A0 80"X)                                 -- 0  (High surrogate)
 UTF8("ED A0 80"X,"WTF-8")                         -- 1  (UTF-8 allows surrogates)
 UTF8("ED A0 80"X,"WTF-8")                         -- 1  (UTF-8 allows surrogates)
 UTF8("F0 9F 94 94"X)                              -- 1  ( "(Bell)"U )
 UTF8("F0 9F 94 94"X,"CESU-8")                     -- 0  ( CESU-8 doesn't allow four-byte sequences... )
-UTF8("ED A0 BD ED B4 94"X,"CESU-8")               -- 0  ( ...it expects two three-byte surrogates instead)
+UTF8("ED A0 BD ED B4 94"X,"CESU-8")               -- 1  ( ...it expects two three-byte surrogates instead)
 ```
+
+
 __Examples:__
 
 ```
