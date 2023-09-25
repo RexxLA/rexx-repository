@@ -296,14 +296,13 @@ UTF8("C080"X,,utf8, syntax)                       -- Syntax error 23.900:
                                                   -- "Invalid UTF-8 sequence in position 1 of string: 'C0'X".
 ```
 
-__Examples:__
+__Conversion examples:__
 
 ```
-UTF8("FF"X)                                       -- 0
-UTF8("José",UTF32)                                -- "0000004A 0000006F 00000073 0000E9"X ("é" is "E9"U)
-UTF8("FF"X,UTF32)                                 -- ""
-UTF8("FF"X,UTF32,REPLACE)                         -- "�" ("FFFD"X, the replacement character)
-UTF8("FF"X,UTF32,SYNTAX)                          -- Raises a Syntax error
+UTF8("José",,UTF32)                               -- "0000004A 0000006F 00000073 0000E9"X ("é" is "E9"U)
+UTF8("FF"X,,UTF32)                                -- "" (an error)
+UTF8("FF"X,,UTF32,REPLACE)                        -- "�" ("FFFD"X, the replacement character)
+UTF8("FF"X,,UTF32,SYNTAX)                         -- Raises a Syntax error
 ```
 
 ### Implementation notes
