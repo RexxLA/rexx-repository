@@ -290,8 +290,10 @@ __Error handling:__
                                                   -- "C080" is ill-formed utf8                      
 UTF8("C080"X,,utf8)                               -- "" (By default, UTF8 returns the null string when an error is found)
 UTF8("C080"X,,utf8, replace)                      -- "EFBFBD EFBFBD"X ("EFBFBD" is the Unicode Replacement character)
-                                                  -- "C0"X is ill-formed, and then "80"X is ill-formed too --> two replacement characters
-UTF8("C080"X,,utf8, syntax)                       -- Syntax error 23.900: "Invalid UTF-8 sequence in position 1 of string: 'C0'X".
+                                                  -- "C0"X is ill-formed, and then "80"X is ill-formed too
+                                                  -- That's why we get two replacement characters
+UTF8("C080"X,,utf8, syntax)                       -- Syntax error 23.900:
+                                                  -- "Invalid UTF-8 sequence in position 1 of string: 'C0'X".
 ```
 
 __Examples:__
