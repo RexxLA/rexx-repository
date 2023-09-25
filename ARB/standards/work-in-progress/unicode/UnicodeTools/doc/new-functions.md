@@ -229,30 +229,48 @@ UTF8 works as a _format_ encoding validator when _target_ is omitted, and as a d
 When UTF8 is used as validator, it returns a boolean value, indicating if the string is well-formed according to the _format_ encoding.
 For example, ``UTF8(string)`` returns __1__ when string contains well-formed UTF-8, and __0__ if it contains ill-formed UTF-8.
 
-The _format_ argument can be omitted or the null string, in which case __UTF-8__ is assumed, or in can be one of __UTF-8__ or __UTF-8__, __UTF-8Z__ or __UTF8Z__, __WTF-8__ or __WTF8__, __CESU-8__ or __CESU-8__, and __MUTF-8__ or __MUTF-8__.
+### Valid formats
+
+The _format_ argument can be omitted or specified as the null string, in which case __UTF-8__ is assumed, or in can be one of __UTF8__ (or __UTF-8__), __UTF8Z__ (or __UTF-8Z__), __WTF8__ (or __WTF-8__), __CESU8__ (or __CESU-8__), and __MUTF8__ (or __MUTF-8__).
+
+* The UTF-8 encoding is described in [The Unicode® Standard. Version 15.0 – Core Specification](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf), pp. 124 ss.
+* UTF-8Z is identical to UTF-8, with a single exception: "00"U, in UTF-8Z, is encoded using the overlong sequence "C080"X, while in UTF-8 it is encoded as "00"X.
+* The WTF-8 encoding is described in [The WTF-8 encoding](https://simonsapin.github.io/wtf-8/). It extends UTF-8 by allowing lone surrogate codepoints, encoded as standard three-byte sequences. Surrogate pairs are not allowed: they should be encoded using four-byte sequences.
+* The CESU-8 encoding is described in the [Unicode Technical Report #26](https://www.unicode.org/reports/tr26/tr26-4.html). Supplementary characters (i.e., codepoints greater than "FFFF"U) are first encoded using two surrogates, as in UTF16, and then each surrogate is encoded as in WTF-8, giving a total of six bytes. Four-byte sequences are ill-formed, and lone surrogates are admitted.
+* The MUTF-8 encoding (see [the Wikipedia entry about MUTF-8](https://en.wikipedia.org/wiki/UTF-8#Modified_UTF-8)) is identical to CESU-8, with a single difference: it encodes "00"U in the same way that UTF-8Z.
+
+UTF-8 and UTF-8Z do not allow sequences containing lone surrogates. All the other formats allow lone surrogates.
+
+### Decoding with UTF8
 
 To use UTF8 as a decoder, you have to specify a _target_ encoding. This argument accepts a single encoding, or a blank-separated set of tokens.
 
-Each token can have one of the following values: __UTF8__ or __UTF-8__, __WTF-8__ or __WTF8__, __UTF32__, or __UTF-32__, __WTF-32__ or __WTF32__. 
+Each token can have one of the following values: __UTF8__ (or __UTF-8__), __WTF8__ (or __WTF-8__), __UTF32__ (or __UTF-32__), __WTF32__ (or __WTF-32__). 
 
-Duplicates are allowed and ignored. If one of the specified encodings is a W-encoding, the rest of the encodings should be W-encodings too. If _format_ allows lone surrogates (i.e., if it is not __UTF-8__ or __UTF-8Z__),
-then all specified encodings should be W-encodings.
+The W- forms of the encodings allow lone surrogates, while the U- do not.
 
-When several targets have been specified, a stem array is returned. The tail is the encoding name (without the dash, if present), and the compound variable value is the decoded string.
+Duplicates, when specified, are ignored. If one of the specified encodings is a W-encoding, the rest of the encodings should also be W-encodings. If _format_ allows lone surrogates (i.e., if it is not __UTF-8__ or __UTF-8Z__), then all the specified encodings should be W-encodings.
 
-The optional _error_handling_ argument determines the behaviour of the function when the _format_ argument has been specified.
+When several targets have been specified, a stem is returned. The stem will contain a tail for every specified encoding name (uppercased, and without dashes), and the compound variable value will be the decoded string.
 
-If it has the value __""__ (the default) or __NULL__, a null string is returned when there a decoding error is encountered.
-If it has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
-If it has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
+### Error handling
 
-__Conditions:__
+The optional _error_handling_ argument determines the behaviour of the function when a decoding error is encountered. It is an error to specify _error_handling_ withour specifying _format_ at the same time.
+
+* When _error_handling_ has the value __""__ (the default) or __NULL__, a null string is returned when there a decoding error is encountered.
+* When _error_handling_ has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``"FFFD"U``).
+* When _error_handling_ has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
+
+### Conditions
 
 * Syntax 93.900. Invalid option '_option_'.
 * Syntax 93.900. Invalid format '_format_'.
-* Syntax 93.900. _target1_ and _target2_ are incompatible targets.
-* Syntax 93.900. Conflicting targets _target list_.
+* Syntax 93.900. Invalid target '_target_'.
+* Syntax 93.900. Invalid error handling '_error_handling_'.
+* Syntax 93.900. Conflicting target _target_ and format _format_.
 * Syntax 23.900. Invalid _format_ sequence in position _n_ of string: '<em>hex-value</em>'X.
+
+### Examples
 
 __Specifying _format_ and _target_. Combination examples:__
 
