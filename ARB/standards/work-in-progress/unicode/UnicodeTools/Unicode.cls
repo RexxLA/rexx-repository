@@ -205,14 +205,10 @@ Use Strict Arg code
   Use Strict Arg string
   Return .Codepoints~new(string)
 
-::Routine TEXT Public
-  Use Strict Arg string
-  Return .Text~new(string)
-        
 ::Routine C2U Public  
   Use Strict Arg string, format=""
   Return string~C2U(format)   
-  
+         
 ::Routine DECODE Public  
   Use Strict Arg string, encoding, format="", errorHandling=""
   Return .Encoding[encoding]~decode(string, format, errorHandling)  
@@ -221,6 +217,10 @@ Use Strict Arg code
   Use Strict Arg string, encoding, errorHandling=""
   Return .Encoding[encoding]~encode(string, errorHandling)  
   
+::Routine TEXT Public
+  Use Strict Arg string
+  Return .Text~new(string)
+     
 ::Routine !C2X Public
   Use Strict Arg string
 Return string~c2x
@@ -832,6 +832,7 @@ Return 1
   Return graphemes~items
 
   
+::Requires "utf8.cls"    
 ::Requires "Stream.cls"  
 ::Requires "properties/Properties.cls"
 ::Requires "encodings/Encoding.cls"

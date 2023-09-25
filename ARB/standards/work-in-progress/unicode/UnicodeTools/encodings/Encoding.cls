@@ -590,50 +590,7 @@ Return errorHandling returnUTF8 returnUTF32
   
   If self~isCodeOk(code) Then Return
   
-  Raise Error 23.900 Additional("Invalid Unicode codepoint '"code"'X")
-  
-/**
- *
- *  <h4>The <code>.Encoding~activate</code> method</h4>
- *
- *  <p>The <code>activate</code> class method builds the TRANSLATE tables, <code>tablei</code> and <code>tableo</code>, that will be exposed to
- *    the <code>UTF8</code> method and thus drive the state machine.
- *
- *  <p>We build on the table quoted on the <code>decode</code> method description and transform it to be suitable for
- *    a Finite State Machine:
- *
- *  <ul>
- *    <li>The range 00..7F is mapped to "A" (for "A"SCII).
- *    <li>The range 80..BF is mapped to "C" (for "C"ontinuation characters). Some few bytes will require manual checking.
- *    <li>The values CO, C1 and F5..FF are always illegal in a UTF-8 string. We add rows for these ranges, and we map the corresponding codes to "I" (for "I"llegal).
- *    <li>The range C2..DF is mapped to "20"X (the "2" in "20" reminds us that we will find a 2-bytes group, if the string is well-formed).
- *    <li>The range E0..EF is mapped to the "3x"X values, "3a", "3b" and "3c". The "3" reminds us that we will find a 3-bytes groups, if the string is well-formed;
- *        the final "a", "b" and "c" allow us to differentiate the cases, and perform the corresponding tests.
- *    <li>Similarly, the F0..F4 range is mapped to "4a"X, "4b"X and "4c"X, as described below.
- *  </ul>
- *  <br>
- *  <table class="table table-bordered bordered"> 
- *  <caption><b>Table 3-7 (modified)</b>.
- *  <tr><th>Bytes       <th style="text-align:right">Mapping
- *  <tr><td>00..7F      <td style="text-align:right">"A"    
- *  <tr><td>80..BF      <td style="text-align:right">"C"    
- *  <tr><td>C0..C1      <td style="text-align:right">"I"    
- *  <tr><td>C2..DF      <td style="text-align:right">"20"X
- *  <tr><td>E0          <td style="text-align:right">"3a"X
- *  <tr><td>E1..EC      <td style="text-align:right">"3b"X
- *  <tr><td>ED          <td style="text-align:right">"3c"X
- *  <tr><td>EE..EF      <td style="text-align:right">"3b"X
- *  <tr><td>F0          <td style="text-align:right">"4a"X
- *  <tr><td>F1..F3      <td style="text-align:right">"4b"X
- *  <tr><td>F4          <td style="text-align:right">"4c"X
- *  <tr><td>F5..FF      <td style="text-align:right">"I"    
- *  </table> 
- *
- *  @param <em>(none)</em> Gets called automatically by ooRexx at class build time.
- *  @see <code>decode</code>
- *
- */ 
-  
+  Raise Error 23.900 Additional("Invalid Unicode codepoint '"code"'X")  
   
 ::Method activate Class
   Expose tablei tableo ASCII       -- For TRANSLATE. Will be used by the "decode" method.
