@@ -72,12 +72,12 @@
       Otherwise Raise Syntax 93.900 Additional("Invalid target '"target"'")
     End    
     Select Case target
-      When "UTF-8",  "UTF8", "UTF-32", "UTF32"  Then 
+      When "UTF-8", "UTF8", "UTF-32", "UTF32" Then 
         If loneSurr == -1 Then lonesurr = 0
         Else If loneSurr = 1 Then Raise Syntax 93.900 Additional("Conflicting target '"Space(Upper(Arg(3)))"' and format '"format"'")
-      When "WTF-8",  "WTF8", "WTF-32", "WTF32"  Then 
+      When "WTF-8", "WTF8", "WTF-32", "WTF32" Then 
         If loneSurr == -1 Then lonesurr = 1
-        Else If loneSurr = 0 Then Raise Syntax 93.900 Additional("Conflicting targets '"Space(Upper(Arg(3)))"'")
+        Else If loneSurr = 0 Then Raise Syntax 93.900 Additional("Conflicting target '"Space(Upper(Arg(3)))"' and format '"format"'")
     End    
   End
     
