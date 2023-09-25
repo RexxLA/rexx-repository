@@ -222,22 +222,25 @@ Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-form
                                   └────────┘     ╰───╯ └────────┘     ╰───╯ └────────────────┘
 ```
 
-Tests whether a _string_ contains well-formed UTF-8 (this is the default when _format_ has not been specified), or a well-formed string in the _format_ encoding. Optionally, it decodes it to a certain _target_ encoding.
+Tests whether _string_ contains well-formed UTF-8 (this is the default when _format_ has not been specified), or is a well-formed string in the _format_ encoding. Optionally, it decodes it to a certain set of _target_ encodings.
 
 UTF8 works as a _format_ encoding validator when _target_ is omitted, and as a decoder when _target_ is specified. It is an error to omit _target_ and to specify a value for _error_handling_ at the same time (that is, if _target_ was omitted, then _error_handling_ should be omitted too).
 
 When UTF8 is used as validator, it returns a boolean value, indicating if the string is well-formed according to the _format_ encoding.
 For example, ``UTF8(string)`` returns __1__ when string contains well-formed UTF-8, and __0__ if it contains ill-formed UTF-8.
 
-The _format_ argument can be omitted or the null string, in which case __UTF-8__ is assumed, or in can be one of __UTF-8__ or __UTF-8__, __UTF-8Z__ or __UTF8Z__, __WTF-8__ or __WTF8__, __CESU-8__ or __CESU-8__, and __CESU-8Z__ or __CESU-8Z__.
+The _format_ argument can be omitted or the null string, in which case __UTF-8__ is assumed, or in can be one of __UTF-8__ or __UTF-8__, __UTF-8Z__ or __UTF8Z__, __WTF-8__ or __WTF8__, __CESU-8__ or __CESU-8__, and __MUTF-8__ or __MUTF-8__.
 
-To use UTF8 as a decoder, you have to specify a _target_ encoding. This argument accepts a blank-separated set of tokens.
-Each token can have one of the following values: __UTF8__ or __UTF-8__, __WTF-8__ or __WTF8__, __UTF16__ or __UTF-16__, __WTF-16__ or __WTF16__, __UTF32__, or __UTF-32__, __WTF-32__ or __WTF32__. Duplicates are allowed and ignored;
-it is an error to specify __UTF-8__ and __WTF-8__ at the same time, or __UTF-16__ and __WTF-16__ at the same time, or __UTF-32__ and __WTF-32__ at the same time.
-When several targets have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of _string_,
-and the second item of the array contains the UTF-32 representation of _string_.
+To use UTF8 as a decoder, you have to specify a _target_ encoding. This argument accepts a single encoding, or a blank-separated set of tokens.
+
+Each token can have one of the following values: __UTF8__ or __UTF-8__, __WTF-8__ or __WTF8__, __UTF32__, or __UTF-32__, __WTF-32__ or __WTF32__. 
+
+Duplicates are allowed and ignored; if one of the specified encodings is a W-encoding, the rest of the encodings should be W-encodings too.
+
+When several targets have been specified, a stem array is returned. The tail is the encoding name (without the dash, if present), and the compound variable value is the decoded string.
 
 The optional _error_handling_ argument determines the behaviour of the function when the _format_ argument has been specified.
+
 If it has the value __""__ (the default) or __NULL__, a null string is returned when there a decoding error is encountered.
 If it has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
 If it has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
