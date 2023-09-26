@@ -687,6 +687,20 @@ Say Time() "All tests PASSED!"
 
 --------------------------------------------------------------------------------
 
+Say 
+Say Time() "Testing empty strings"
+
+Call Test 'UTF8("",utf8,utf8)', ""
+Call Test 'UTF8("",utf8,wtf8)', ""
+Call Test 'UTF8("",utf8,utf32)', ""
+Call Test 'UTF8("",utf8,wtf32)', ""
+Call TestStem 'UTF8("",utf8,utf8 utf32)', ( ("UTF8",""), ("UTF32",""))
+Call TestStem 'UTF8("",utf8,wtf8 wtf32)', ( ("WTF8",""), ("WTF32",""))
+Say 
+Say Time() "All tests PASSED!"
+
+--------------------------------------------------------------------------------
+
 
 
 secs = time("E")

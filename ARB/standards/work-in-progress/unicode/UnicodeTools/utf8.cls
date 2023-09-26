@@ -54,9 +54,9 @@
   End
 
   -- Lone surrogates are ill-formed for UTF-8 and UTF-8Z  
-  If format \== "UTF-8", format \== "UTF-8Z" Then loneSurr =  1
+  If format \== "UTF-8", format \== "UTF-8Z" Then allowLoneSurrogates =  1
   -- Wait to see what are the formats
-  Else                                            loneSurr = -1
+  Else                                            allowLoneSurrogates = -1
 
   -- We are in validation mode only when no target format has been specified
   validate = target == ""
@@ -75,11 +75,11 @@
     End    
     Select Case target
       When "UTF-8", "UTF8", "UTF-32", "UTF32" Then 
-        If loneSurr == -1 Then lonesurr = 0
-        Else If loneSurr = 1 Then Raise Syntax 93.900 Additional("Conflicting target '"Space(Upper(Arg(3)))"' and format '"format"'")
+        If allowLoneSurrogates == -1 Then allowLoneSurrogates = 0
+        Else If allowLoneSurrogates = 1 Then Raise Syntax 93.900 Additional("Conflicting target '"Space(Upper(Arg(3)))"' and format '"format"'")
       When "WTF-8", "WTF8", "WTF-32", "WTF32" Then 
-        If loneSurr == -1 Then lonesurr = 1
-        Else If loneSurr = 0 Then Raise Syntax 93.900 Additional("Conflicting target '"Space(Upper(Arg(3)))"' and format '"format"'")
+        If allowLoneSurrogates == -1 Then allowLoneSurrogates = 1
+        Else If allowLoneSurrogates = 0 Then Raise Syntax 93.900 Additional("Conflicting target '"Space(Upper(Arg(3)))"' and format '"format"'")
     End    
   End
     
@@ -193,7 +193,7 @@ ContinueScan:
        string[i+1] >= "A0"X, string[i+1] <= "AF"X, -
        string[i+4] >= "B0"X, string[i+4] <= "BF"X  Then Signal 6Error
     -- Lone surrogates aren't well-formed in some encodings
-    If string[i+1] >= "A0"X, \ loneSurr Then Signal 3Error
+    If string[i+1] >= "A0"X, \ allowLoneSurrogates Then Signal 3Error
   End
   If state == "3e"X Then Signal CESU8
 3OK:
@@ -328,11 +328,11 @@ StringIsEmpty:
   If validate     Then Return 1
   
   -- Only one target? Return a string
-  Return ""
+  If targets == 1 Then Return ""
   
   -- Several targets. Return a stem.
   s. = .Stem~new()
-  If loneSurr Then Do
+  If allowLoneSurrogates Then Do
     s.wtf8  = ""
     s.wtf32 = ""
   End
@@ -352,7 +352,7 @@ StringIsGood:
     
   -- Several targets. Return a stem.
   s. = .Stem~new()
-  If loneSurr Then Do
+  If allowLoneSurrogates Then Do
     s.wtf8  = buffer8  ~string
     s.wtf32 = buffer32 ~string
   End
