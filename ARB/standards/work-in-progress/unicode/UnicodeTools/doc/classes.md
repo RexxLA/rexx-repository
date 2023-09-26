@@ -8,6 +8,24 @@ From a procedural point of view, a string can have one of three _types_: ``BYTES
 
 A BYTES string _string_ can be __promoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to TEXT by using the ``TEXT(string)`` BIF; a CODEPOINTS string _string_ can be __demoted__ to BYTES by using the ``BYTES(string)`` BIF, or __promoted__ to TEXT by using the ``TEXT(string)`` BIF; a ``TEXT`` string _string_ can be __demoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to BYTES by using the ``BYTES(string)`` BIF.
 
+Demotion always succeeds. Promotion from BYTES can fail: ``CODEPOINTS`` and ``TEXT`` require that their argument _string_ contains well-formed UTF-8. You can validate a string _string_ for UTF-8 well-formedness by using the ``UTF8(string)`` BIF.
+
+### Semantics, and a rationale for the three types/classes system
+
+A string is always _the same_, irrespective of its type. Changing the type of a string amounts to _changing our view of the string_.
+
+Namely,
+
+* We view a BYTES string as _a string composed of bytes_ (octets). This is equivalent to Classic Rexx strings, and to the String type of ooRexx. "A character" means the same as "a byte" ("an octet"). BIFs operate on characters = bytes = octets.
+* We view a CODEPOINTS string as _a string composed of Unicode codepoints_. All the usual BIFs will continue working, but new "a character" means "a Unicode codepoint".
+* We view a TEXT string as _a string composed of extended grapheme clusters_. All the usual BIFs will continue working, but new "a character" means "an extended grapheme cluster".
+
+__Examples:__
+
+```
+string = BYTES( "(Man)(Zero Width Joiner)(Woman)"U )        -- "👨‍👩"
+```
+
 ## An object-oriented presentation of the classes
 
 * ``BYTES``. A class similar to Classic Rexx strings. A BYTES string is composed of bytes, and all the BIFs work as in pre-Unicode Rexx. The BYTES class adds a ``C2U`` method (see the description of the ``C2U`` BIF for 
