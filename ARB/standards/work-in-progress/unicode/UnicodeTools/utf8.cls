@@ -129,16 +129,16 @@ ContinueScan:
     -- If the rest of the string is composed only of ASCII characters, then
     -- the string is good. Copy all ASCIIs left, and return.
     Do i = i to length
-      If return8  Then buffer8 ~append(              string[i] )
-      If return32 Then buffer32~append( "000000"x || string[i] )
+      If return8  Then buffer8 ~append(            string[i] )
+      If return32 Then buffer32~append( "000000"x, string[i] )
     End
     Signal StringIsGood
   End
    
   -- Only some (>= 0) chars were ASCII. Copy them.
   Do j = save to i - 1
-    If return8  Then buffer8 ~append(              string[j] )
-    If return32 Then buffer32~append( "000000"x || string[j] )
+    If return8  Then buffer8 ~append(            string[j] )
+    If return32 Then buffer32~append( "000000"x, string[j] )
   End 
 
 --
@@ -165,7 +165,7 @@ ContinueScan:
   If return32 Then Do
     y = Right(X2B(C2X(string[i  ])), 5)
     x = Right(X2B(C2X(string[i+1])), 6)
-    buffer32~append( "0000"X || X2C(B2X("00000"||y||x)) )
+    buffer32~append( "0000"X , X2C(B2X("00000"||y||x)) )
   End
   If return8  Then buffer8~append(string[i,2])
   i += 1
@@ -201,7 +201,7 @@ ContinueScan:
     z = Right(X2B(C2X(string[i  ])), 4)
     y = Right(X2B(C2X(string[i+1])), 6)
     x = Right(X2B(C2X(string[i+2])), 6)
-    If return32 Then buffer32~append( "0000"X || X2C(B2X(z||y||x)) )
+    If return32 Then buffer32~append( "0000"X, X2C(B2X(z||y||x)) )
   End
   If return8  Then buffer8~append(string[i,3])
   i = i + 2
@@ -267,7 +267,7 @@ Signal ContinueScan
     z = Right(X2B(C2X(string[i+1])), 6)
     y = Right(X2B(C2X(string[i+2])), 6)
     x = Right(X2B(C2X(string[i+3])), 6)
-    buffer32~append( "00"X || X2C(B2X(Right(u||z||y||x,24,0))) )
+    buffer32~append( "00"X, X2C(B2X(Right(u||z||y||x,24,0))) )
   End
   If return8  Then buffer8~append(string[i,4])
   i = i + 3  
