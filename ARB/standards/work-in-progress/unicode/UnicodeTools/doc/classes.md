@@ -23,7 +23,13 @@ Namely,
 __Examples:__
 
 ```
-string = BYTES( "(Man)(Zero Width Joiner)(Woman)"U )        -- "👨‍👩"
+string = "(Man)(Zero Width Joiner)(Woman)"U
+Say string                                       -- "👨‍👩" (U strings are always BYTES strings)
+Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9"
+Say Length(string)                               -- 11
+string = Codepoints(string)
+Say C2X(String)                                  -- "F09F91A8E2808DF09F91A9". It's the same string,...
+Say Length(String)                               -- 3 ...but its interpretation (it's "view") has changed.
 ```
 
 ## An object-oriented presentation of the classes
