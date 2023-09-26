@@ -8,6 +8,8 @@
 --
 -- Please refer to docs/new-functions.md for documentation and additional details.
 --
+-- Version 0.4b, 20230925
+--
 -- Notice:
 --
 -- Although this routine is part of TUTOR, The Unicode Tools Of Rexx,
@@ -113,7 +115,7 @@
   i      = 0
   length = Length(string)
   
-continueScan:
+ContinueScan:
   i += 1
   -- Did we scan the whole string without errors? The string is good.
   If i > length Then Signal StringIsGood
@@ -150,8 +152,8 @@ continueScan:
 -- ILLEGAL CHARS
 --  
 
--- An illegal character is an error, 
--- and a lone continuation character is also an error.
+-- An Illegal character is an error, 
+-- and a lone Continuation character is also an error.
 "I": "C": Signal 1Error
   
 --
@@ -167,14 +169,14 @@ continueScan:
   End
   If return8  Then buffer8~append(string[i,2])
   i += 1
-  Signal continueScan
+  Signal ContinueScan
 
 "0": -- UTF8-Z and MUTF-8: C080 --> "0000"U, ill-formed otherwise
   If string[i+1] \== "80"X Then Signal 1Error
   If return8  Then buffer8 ~append(        "00"X )
   If return32 Then buffer32~append( "0000 0000"X )
   i += 1
-  Signal continueScan
+  Signal ContinueScan
   
 --
 -- THREE-BYTE SEQUENCES
@@ -203,7 +205,7 @@ continueScan:
   End
   If return8  Then buffer8~append(string[i,3])
   i = i + 2
-Signal continueScan
+Signal ContinueScan
 
 CESU8:
 -- See https://en.wikipedia.org/wiki/CESU-8:
@@ -243,7 +245,7 @@ CESU8:
     buffer8~append( X2C( B2X("11110"uuu"10"uuzzzz"10"yyyyyy"10"xxxxxx) ) )
   End
   i = i + 5
-Signal continueScan
+Signal ContinueScan
 
 
 --
@@ -269,7 +271,7 @@ Signal continueScan
   End
   If return8  Then buffer8~append(string[i,4])
   i = i + 3  
-Signal continueScan
+Signal ContinueScan
     
 -- 1 character is in error  
 1Error:  
@@ -278,7 +280,7 @@ Signal continueScan
   errorSequence = string[i]
   If syntax Then Signal Syntax
   Call ReplaceCharacter
-Signal continueScan  
+Signal ContinueScan  
 
 -- 2 characters are in error  
 2Error:  
@@ -288,7 +290,7 @@ Signal continueScan
   If syntax Then Signal Syntax
   Call ReplaceCharacter
   i += 1
-Signal continueScan  
+Signal ContinueScan  
 
 -- 3 characters are in error  
 3Error:  
@@ -298,7 +300,7 @@ Signal continueScan
   If syntax   Then Signal Syntax
   Call ReplaceCharacter
   i += 2
-Signal continueScan  
+Signal ContinueScan  
 
 -- 6 characters are in error (WTF-8 surrogate pair sequence)
 6Error:  
@@ -309,7 +311,7 @@ Signal continueScan
   Call ReplaceCharacter
   Call ReplaceCharacter -- Two replacement characters: it was a pair
   i += 5
-Signal continueScan      
+Signal ContinueScan      
     
 ReplaceCharacter:
   If return8  Then buffer8 ~append(   "efbfbd"X )

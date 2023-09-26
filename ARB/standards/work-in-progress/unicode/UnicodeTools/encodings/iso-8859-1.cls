@@ -36,6 +36,8 @@
  *  <table>
  *    <th><td><b>Ver.</b><td><b>Date</b><td>Aut.</td><td>Description
  *    <tr><td><b>1.0</b><td><b>20230817</b><td>RGF</td><td>Initial release.
+ *    <tr><td><b>1.1</b><td><b>20230926</b><td>JMB</td><td>Add alias as per IANA 
+ *                                                         https://www.iana.org/assignments/character-sets/character-sets.xhtml 
  *  </table>
  *
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -47,11 +49,11 @@
  */
 
 
-.Encoding~register(.ISO8859_1) -- Honor the contract with the .Encoding superclass
+.Encoding~register(.ISO_8859_1) -- Honor the contract with the .Encoding superclass
 
-::Class ISO8859_1 Subclass Encoding Public
+::Class ISO_8859_1 Subclass Encoding Public
 ::Constant name                  "ISO-8859-1"
-::Constant aliases               "ISO8859-1"
+::Constant aliases               "ISO_8859-1 latin1 IBM-819 IBM819 CP-819 CP819 819 ISOLatin1"
 ::Constant isFixedLength         1
 ::Constant bytesPerChar          1
 ::Constant maxBytesPerChar       1

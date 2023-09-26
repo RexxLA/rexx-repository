@@ -7,8 +7,7 @@ Suitability for use in MIME text:   NO
 
 Published specification(s):
 IBM1047 (EBCDIC Latin 1/Open Systems) can be found at:
-http://www-1.ibm.com/servers/eserver/iseries/software/globalization/pdf/cp0
-1047z.pdf .
+http://www-1.ibm.com/servers/eserver/iseries/software/globalization/pdf/cp01047z.pdf .
 
 ISO 10646 equivalency table:
    1) For the mapping table from IBM CP 1047 to ISO 10646, refer to the

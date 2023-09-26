@@ -19,8 +19,13 @@
  *  <h4>Description</h4>
  *
  *  <p>
- *    The <code>CP437</code> class implements encoding/decoding from/to the CP437
+ *    The <code>CP1252</code> class implements encoding/decoding from/to the CP1252
  *    format.
+ *
+ *  <p><b>Note:</b> From <a href="https://en.wikipedia.org/wiki/Windows-1252">https://en.wikipedia.org/wiki/Windows-1252</a>:
+ *    "According to the information on Microsoft's and the Unicode Consortium's websites, 
+ *     positions 81, 8D, 8F, 90, and 9D are unused; however, the Windows API MultiByteToWideChar 
+ *     maps these to the corresponding C1 control codes. The 'best fit' mapping documents this behavior, too."
  *
  *  <p>This is a subclass of <a href="Encoding.cls.html">the Encoding class</a>.
  *    Please refer to the documentation for <a href="Encoding.cls.html">that class</a>
@@ -31,22 +36,24 @@
  *  <table>
  *    <th><td><b>Ver.</b><td><b>Date</b><td>Aut.</td><td>Description
  *    <tr><td><b>1.0</b><td><b>20230817</b><td>RGF</td><td>Initial release.
+ *    <tr><td><b>1.1</b><td><b>20230926</b><td>JMB</td><td>Change name to Windows-1252 as per IANA 
+ *                                                         https://www.iana.org/assignments/character-sets/character-sets.xhtml 
  *  </table>
  *
- *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;, 
+ *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
  *    tables by Rony G. Flatscher &lt;rony.flatscher@wu.ac.at&lt;
  *  @version 1.0
  *  @see Encoding.cls
- *  @see https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/CP437.TXT
+ *  @see https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/CP1252.TXT
  *
  */
 
 
-.Encoding~register(.CP437) -- Honor the contract with the .Encoding superclass
+.Encoding~register(.Windows1252) -- Honor the contract with the .Encoding superclass
 
-::Class CP437 Subclass Encoding Public
-::Constant name                  "CP-437"
-::Constant aliases               "CP437"
+::Class Windows1252 Subclass Encoding Public
+::Constant name                  "Windows-1252"
+::Constant aliases               "Windows1252 CP1252 CP-1252 1252"
 ::Constant isFixedLength         1
 ::Constant bytesPerChar          1
 ::Constant maxBytesPerChar       1
@@ -57,8 +64,8 @@
 
 
 /**
- * CP437 encoding will fail, unless the argument string contains
- * only characters that can be represented in CP437.
+ * CP1252 encoding will fail, unless the argument string contains
+ * only characters that can be represented in CP1252.
  */
 
 ::Method encode Class
@@ -79,7 +86,7 @@
     enc = encode.code
     If enc == "" Then
       If Syntax Then
-        Raise Syntax 23.900 Additional("Cannot encode Unicode codepoint U+"code" to CP437")
+        Raise Syntax 23.900 Additional("Cannot encode Unicode codepoint U+"code" to CP1252")
       Else Return ""
     res~append( enc )
   End
@@ -87,8 +94,8 @@
   Return res~string
 
 /**
- * CP437 decoding always succeeds (i.e., there is no such thing as a badly
- * encoded CP437 sequence).
+ * CP1252 decoding always succeeds (i.e., there is no such thing as a badly
+ * encoded CP1252 sequence).
  */
 ::Method decode Class
   Expose decode. -- Built by the "activate" method
@@ -107,8 +114,8 @@
   -- Will hold the utf32 value, if needed
   utf32 = .MutableBuffer~new
 
-  -- CP437 decoding always succeeds (i.e., there is no such thing as a badly
-  -- encoded CP437 sequence).
+  -- CP1252 decoding always succeeds (i.e., there is no such thing as a badly
+  -- encoded CP1252 sequence).
   If \returnUTF8, \returnUTF32 Then Return 1
 
   length = Length(string)
@@ -147,7 +154,7 @@ StringIsEmpty:
  *  <code>decode.</code>, that will be used by the <code>encode</code> and
  *  <code>decode</code> methods.
  *
- *  <p>See https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/CP437.TXT
+ *  <p>See https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/CP1252.TXT
  *  for details.
  *
  */
@@ -157,11 +164,7 @@ StringIsEmpty:
 
   encode. = ""
   decode. = ""
-  Do i = 0 To 127
-    decode.[i~d2x~x2c] = Right(i~d2x,4,0)
-    encode.[Right(i~d2x,4,0)] = i~d2x~x2c
-  End
-decode.['00'X ] = '0000'; encode.['0000'] = '00'X
+  decode.['00'X ] = '0000'; encode.['0000'] = '00'X
   decode.['01'X ] = '0001'; encode.['0001'] = '01'X
   decode.['02'X ] = '0002'; encode.['0002'] = '02'X
   decode.['03'X ] = '0003'; encode.['0003'] = '03'X
@@ -289,131 +292,131 @@ decode.['00'X ] = '0000'; encode.['0000'] = '00'X
   decode.['7D'X ] = '007D'; encode.['007D'] = '7D'X
   decode.['7E'X ] = '007E'; encode.['007E'] = '7E'X
   decode.['7F'X ] = '007F'; encode.['007F'] = '7F'X
-  decode.['80'X ] = '00C7'; encode.['00C7'] = '80'X
-  decode.['81'X ] = '00FC'; encode.['00FC'] = '81'X
-  decode.['82'X ] = '00E9'; encode.['00E9'] = '82'X
-  decode.['83'X ] = '00E2'; encode.['00E2'] = '83'X
-  decode.['84'X ] = '00E4'; encode.['00E4'] = '84'X
-  decode.['85'X ] = '00E0'; encode.['00E0'] = '85'X
-  decode.['86'X ] = '00E5'; encode.['00E5'] = '86'X
-  decode.['87'X ] = '00E7'; encode.['00E7'] = '87'X
-  decode.['88'X ] = '00EA'; encode.['00EA'] = '88'X
-  decode.['89'X ] = '00EB'; encode.['00EB'] = '89'X
-  decode.['8A'X ] = '00E8'; encode.['00E8'] = '8A'X
-  decode.['8B'X ] = '00EF'; encode.['00EF'] = '8B'X
-  decode.['8C'X ] = '00EE'; encode.['00EE'] = '8C'X
-  decode.['8D'X ] = '00EC'; encode.['00EC'] = '8D'X
-  decode.['8E'X ] = '00C4'; encode.['00C4'] = '8E'X
-  decode.['8F'X ] = '00C5'; encode.['00C5'] = '8F'X
-  decode.['90'X ] = '00C9'; encode.['00C9'] = '90'X
-  decode.['91'X ] = '00E6'; encode.['00E6'] = '91'X
-  decode.['92'X ] = '00C6'; encode.['00C6'] = '92'X
-  decode.['93'X ] = '00F4'; encode.['00F4'] = '93'X
-  decode.['94'X ] = '00F6'; encode.['00F6'] = '94'X
-  decode.['95'X ] = '00F2'; encode.['00F2'] = '95'X
-  decode.['96'X ] = '00FB'; encode.['00FB'] = '96'X
-  decode.['97'X ] = '00F9'; encode.['00F9'] = '97'X
-  decode.['98'X ] = '00FF'; encode.['00FF'] = '98'X
-  decode.['99'X ] = '00D6'; encode.['00D6'] = '99'X
-  decode.['9A'X ] = '00DC'; encode.['00DC'] = '9A'X
-  decode.['9B'X ] = '00A2'; encode.['00A2'] = '9B'X
-  decode.['9C'X ] = '00A3'; encode.['00A3'] = '9C'X
-  decode.['9D'X ] = '00A5'; encode.['00A5'] = '9D'X
-  decode.['9E'X ] = '20A7'; encode.['20A7'] = '9E'X
-  decode.['9F'X ] = '0192'; encode.['0192'] = '9F'X
-  decode.['A0'X ] = '00E1'; encode.['00E1'] = 'A0'X
-  decode.['A1'X ] = '00ED'; encode.['00ED'] = 'A1'X
-  decode.['A2'X ] = '00F3'; encode.['00F3'] = 'A2'X
-  decode.['A3'X ] = '00FA'; encode.['00FA'] = 'A3'X
-  decode.['A4'X ] = '00F1'; encode.['00F1'] = 'A4'X
-  decode.['A5'X ] = '00D1'; encode.['00D1'] = 'A5'X
-  decode.['A6'X ] = '00AA'; encode.['00AA'] = 'A6'X
-  decode.['A7'X ] = '00BA'; encode.['00BA'] = 'A7'X
-  decode.['A8'X ] = '00BF'; encode.['00BF'] = 'A8'X
-  decode.['A9'X ] = '2310'; encode.['2310'] = 'A9'X
-  decode.['AA'X ] = '00AC'; encode.['00AC'] = 'AA'X
-  decode.['AB'X ] = '00BD'; encode.['00BD'] = 'AB'X
-  decode.['AC'X ] = '00BC'; encode.['00BC'] = 'AC'X
-  decode.['AD'X ] = '00A1'; encode.['00A1'] = 'AD'X
-  decode.['AE'X ] = '00AB'; encode.['00AB'] = 'AE'X
-  decode.['AF'X ] = '00BB'; encode.['00BB'] = 'AF'X
-  decode.['B0'X ] = '2591'; encode.['2591'] = 'B0'X
-  decode.['B1'X ] = '2592'; encode.['2592'] = 'B1'X
-  decode.['B2'X ] = '2593'; encode.['2593'] = 'B2'X
-  decode.['B3'X ] = '2502'; encode.['2502'] = 'B3'X
-  decode.['B4'X ] = '2524'; encode.['2524'] = 'B4'X
-  decode.['B5'X ] = '2561'; encode.['2561'] = 'B5'X
-  decode.['B6'X ] = '2562'; encode.['2562'] = 'B6'X
-  decode.['B7'X ] = '2556'; encode.['2556'] = 'B7'X
-  decode.['B8'X ] = '2555'; encode.['2555'] = 'B8'X
-  decode.['B9'X ] = '2563'; encode.['2563'] = 'B9'X
-  decode.['BA'X ] = '2551'; encode.['2551'] = 'BA'X
-  decode.['BB'X ] = '2557'; encode.['2557'] = 'BB'X
-  decode.['BC'X ] = '255D'; encode.['255D'] = 'BC'X
-  decode.['BD'X ] = '255C'; encode.['255C'] = 'BD'X
-  decode.['BE'X ] = '255B'; encode.['255B'] = 'BE'X
-  decode.['BF'X ] = '2510'; encode.['2510'] = 'BF'X
-  decode.['C0'X ] = '2514'; encode.['2514'] = 'C0'X
-  decode.['C1'X ] = '2534'; encode.['2534'] = 'C1'X
-  decode.['C2'X ] = '252C'; encode.['252C'] = 'C2'X
-  decode.['C3'X ] = '251C'; encode.['251C'] = 'C3'X
-  decode.['C4'X ] = '2500'; encode.['2500'] = 'C4'X
-  decode.['C5'X ] = '253C'; encode.['253C'] = 'C5'X
-  decode.['C6'X ] = '255E'; encode.['255E'] = 'C6'X
-  decode.['C7'X ] = '255F'; encode.['255F'] = 'C7'X
-  decode.['C8'X ] = '255A'; encode.['255A'] = 'C8'X
-  decode.['C9'X ] = '2554'; encode.['2554'] = 'C9'X
-  decode.['CA'X ] = '2569'; encode.['2569'] = 'CA'X
-  decode.['CB'X ] = '2566'; encode.['2566'] = 'CB'X
-  decode.['CC'X ] = '2560'; encode.['2560'] = 'CC'X
-  decode.['CD'X ] = '2550'; encode.['2550'] = 'CD'X
-  decode.['CE'X ] = '256C'; encode.['256C'] = 'CE'X
-  decode.['CF'X ] = '2567'; encode.['2567'] = 'CF'X
-  decode.['D0'X ] = '2568'; encode.['2568'] = 'D0'X
-  decode.['D1'X ] = '2564'; encode.['2564'] = 'D1'X
-  decode.['D2'X ] = '2565'; encode.['2565'] = 'D2'X
-  decode.['D3'X ] = '2559'; encode.['2559'] = 'D3'X
-  decode.['D4'X ] = '2558'; encode.['2558'] = 'D4'X
-  decode.['D5'X ] = '2552'; encode.['2552'] = 'D5'X
-  decode.['D6'X ] = '2553'; encode.['2553'] = 'D6'X
-  decode.['D7'X ] = '256B'; encode.['256B'] = 'D7'X
-  decode.['D8'X ] = '256A'; encode.['256A'] = 'D8'X
-  decode.['D9'X ] = '2518'; encode.['2518'] = 'D9'X
-  decode.['DA'X ] = '250C'; encode.['250C'] = 'DA'X
-  decode.['DB'X ] = '2588'; encode.['2588'] = 'DB'X
-  decode.['DC'X ] = '2584'; encode.['2584'] = 'DC'X
-  decode.['DD'X ] = '258C'; encode.['258C'] = 'DD'X
-  decode.['DE'X ] = '2590'; encode.['2590'] = 'DE'X
-  decode.['DF'X ] = '2580'; encode.['2580'] = 'DF'X
-  decode.['E0'X ] = '03B1'; encode.['03B1'] = 'E0'X
-  decode.['E1'X ] = '00DF'; encode.['00DF'] = 'E1'X
-  decode.['E2'X ] = '0393'; encode.['0393'] = 'E2'X
-  decode.['E3'X ] = '03C0'; encode.['03C0'] = 'E3'X
-  decode.['E4'X ] = '03A3'; encode.['03A3'] = 'E4'X
-  decode.['E5'X ] = '03C3'; encode.['03C3'] = 'E5'X
-  decode.['E6'X ] = '00B5'; encode.['00B5'] = 'E6'X
-  decode.['E7'X ] = '03C4'; encode.['03C4'] = 'E7'X
-  decode.['E8'X ] = '03A6'; encode.['03A6'] = 'E8'X
-  decode.['E9'X ] = '0398'; encode.['0398'] = 'E9'X
-  decode.['EA'X ] = '03A9'; encode.['03A9'] = 'EA'X
-  decode.['EB'X ] = '03B4'; encode.['03B4'] = 'EB'X
-  decode.['EC'X ] = '221E'; encode.['221E'] = 'EC'X
-  decode.['ED'X ] = '03C6'; encode.['03C6'] = 'ED'X
-  decode.['EE'X ] = '03B5'; encode.['03B5'] = 'EE'X
-  decode.['EF'X ] = '2229'; encode.['2229'] = 'EF'X
-  decode.['F0'X ] = '2261'; encode.['2261'] = 'F0'X
-  decode.['F1'X ] = '00B1'; encode.['00B1'] = 'F1'X
-  decode.['F2'X ] = '2265'; encode.['2265'] = 'F2'X
-  decode.['F3'X ] = '2264'; encode.['2264'] = 'F3'X
-  decode.['F4'X ] = '2320'; encode.['2320'] = 'F4'X
-  decode.['F5'X ] = '2321'; encode.['2321'] = 'F5'X
-  decode.['F6'X ] = '00F7'; encode.['00F7'] = 'F6'X
-  decode.['F7'X ] = '2248'; encode.['2248'] = 'F7'X
-  decode.['F8'X ] = '00B0'; encode.['00B0'] = 'F8'X
-  decode.['F9'X ] = '2219'; encode.['2219'] = 'F9'X
-  decode.['FA'X ] = '00B7'; encode.['00B7'] = 'FA'X
-  decode.['FB'X ] = '221A'; encode.['221A'] = 'FB'X
-  decode.['FC'X ] = '207F'; encode.['207F'] = 'FC'X
-  decode.['FD'X ] = '00B2'; encode.['00B2'] = 'FD'X
-  decode.['FE'X ] = '25A0'; encode.['25A0'] = 'FE'X
-  decode.['FF'X ] = '00A0'; encode.['00A0'] = 'FF'X
+  decode.['80'X ] = '20AC'; encode.['20AC'] = '80'X
+  decode.['81'X ] = '0081'; encode.['0081'] = '81'X
+  decode.['82'X ] = '201A'; encode.['201A'] = '82'X
+  decode.['83'X ] = '0192'; encode.['0192'] = '83'X
+  decode.['84'X ] = '201E'; encode.['201E'] = '84'X
+  decode.['85'X ] = '2026'; encode.['2026'] = '85'X
+  decode.['86'X ] = '2020'; encode.['2020'] = '86'X
+  decode.['87'X ] = '2021'; encode.['2021'] = '87'X
+  decode.['88'X ] = '02C6'; encode.['02C6'] = '88'X
+  decode.['89'X ] = '2030'; encode.['2030'] = '89'X
+  decode.['8A'X ] = '0160'; encode.['0160'] = '8A'X
+  decode.['8B'X ] = '2039'; encode.['2039'] = '8B'X
+  decode.['8C'X ] = '0152'; encode.['0152'] = '8C'X
+  decode.['8D'X ] = '008D'; encode.['008D'] = '8D'X
+  decode.['8E'X ] = '017D'; encode.['017D'] = '8E'X
+  decode.['8F'X ] = '008F'; encode.['008F'] = '8F'X
+  decode.['90'X ] = '0090'; encode.['0090'] = '90'X
+  decode.['91'X ] = '2018'; encode.['2018'] = '91'X
+  decode.['92'X ] = '2019'; encode.['2019'] = '92'X
+  decode.['93'X ] = '201C'; encode.['201C'] = '93'X
+  decode.['94'X ] = '201D'; encode.['201D'] = '94'X
+  decode.['95'X ] = '2022'; encode.['2022'] = '95'X
+  decode.['96'X ] = '2013'; encode.['2013'] = '96'X
+  decode.['97'X ] = '2014'; encode.['2014'] = '97'X
+  decode.['98'X ] = '02DC'; encode.['02DC'] = '98'X
+  decode.['99'X ] = '2122'; encode.['2122'] = '99'X
+  decode.['9A'X ] = '0161'; encode.['0161'] = '9A'X
+  decode.['9B'X ] = '203A'; encode.['203A'] = '9B'X
+  decode.['9C'X ] = '0153'; encode.['0153'] = '9C'X
+  decode.['9D'X ] = '009D'; encode.['009D'] = '9D'X
+  decode.['9E'X ] = '017E'; encode.['017E'] = '9E'X
+  decode.['9F'X ] = '0178'; encode.['0178'] = '9F'X
+  decode.['A0'X ] = '00A0'; encode.['00A0'] = 'A0'X
+  decode.['A1'X ] = '00A1'; encode.['00A1'] = 'A1'X
+  decode.['A2'X ] = '00A2'; encode.['00A2'] = 'A2'X
+  decode.['A3'X ] = '00A3'; encode.['00A3'] = 'A3'X
+  decode.['A4'X ] = '00A4'; encode.['00A4'] = 'A4'X
+  decode.['A5'X ] = '00A5'; encode.['00A5'] = 'A5'X
+  decode.['A6'X ] = '00A6'; encode.['00A6'] = 'A6'X
+  decode.['A7'X ] = '00A7'; encode.['00A7'] = 'A7'X
+  decode.['A8'X ] = '00A8'; encode.['00A8'] = 'A8'X
+  decode.['A9'X ] = '00A9'; encode.['00A9'] = 'A9'X
+  decode.['AA'X ] = '00AA'; encode.['00AA'] = 'AA'X
+  decode.['AB'X ] = '00AB'; encode.['00AB'] = 'AB'X
+  decode.['AC'X ] = '00AC'; encode.['00AC'] = 'AC'X
+  decode.['AD'X ] = '00AD'; encode.['00AD'] = 'AD'X
+  decode.['AE'X ] = '00AE'; encode.['00AE'] = 'AE'X
+  decode.['AF'X ] = '00AF'; encode.['00AF'] = 'AF'X
+  decode.['B0'X ] = '00B0'; encode.['00B0'] = 'B0'X
+  decode.['B1'X ] = '00B1'; encode.['00B1'] = 'B1'X
+  decode.['B2'X ] = '00B2'; encode.['00B2'] = 'B2'X
+  decode.['B3'X ] = '00B3'; encode.['00B3'] = 'B3'X
+  decode.['B4'X ] = '00B4'; encode.['00B4'] = 'B4'X
+  decode.['B5'X ] = '00B5'; encode.['00B5'] = 'B5'X
+  decode.['B6'X ] = '00B6'; encode.['00B6'] = 'B6'X
+  decode.['B7'X ] = '00B7'; encode.['00B7'] = 'B7'X
+  decode.['B8'X ] = '00B8'; encode.['00B8'] = 'B8'X
+  decode.['B9'X ] = '00B9'; encode.['00B9'] = 'B9'X
+  decode.['BA'X ] = '00BA'; encode.['00BA'] = 'BA'X
+  decode.['BB'X ] = '00BB'; encode.['00BB'] = 'BB'X
+  decode.['BC'X ] = '00BC'; encode.['00BC'] = 'BC'X
+  decode.['BD'X ] = '00BD'; encode.['00BD'] = 'BD'X
+  decode.['BE'X ] = '00BE'; encode.['00BE'] = 'BE'X
+  decode.['BF'X ] = '00BF'; encode.['00BF'] = 'BF'X
+  decode.['C0'X ] = '00C0'; encode.['00C0'] = 'C0'X
+  decode.['C1'X ] = '00C1'; encode.['00C1'] = 'C1'X
+  decode.['C2'X ] = '00C2'; encode.['00C2'] = 'C2'X
+  decode.['C3'X ] = '00C3'; encode.['00C3'] = 'C3'X
+  decode.['C4'X ] = '00C4'; encode.['00C4'] = 'C4'X
+  decode.['C5'X ] = '00C5'; encode.['00C5'] = 'C5'X
+  decode.['C6'X ] = '00C6'; encode.['00C6'] = 'C6'X
+  decode.['C7'X ] = '00C7'; encode.['00C7'] = 'C7'X
+  decode.['C8'X ] = '00C8'; encode.['00C8'] = 'C8'X
+  decode.['C9'X ] = '00C9'; encode.['00C9'] = 'C9'X
+  decode.['CA'X ] = '00CA'; encode.['00CA'] = 'CA'X
+  decode.['CB'X ] = '00CB'; encode.['00CB'] = 'CB'X
+  decode.['CC'X ] = '00CC'; encode.['00CC'] = 'CC'X
+  decode.['CD'X ] = '00CD'; encode.['00CD'] = 'CD'X
+  decode.['CE'X ] = '00CE'; encode.['00CE'] = 'CE'X
+  decode.['CF'X ] = '00CF'; encode.['00CF'] = 'CF'X
+  decode.['D0'X ] = '00D0'; encode.['00D0'] = 'D0'X
+  decode.['D1'X ] = '00D1'; encode.['00D1'] = 'D1'X
+  decode.['D2'X ] = '00D2'; encode.['00D2'] = 'D2'X
+  decode.['D3'X ] = '00D3'; encode.['00D3'] = 'D3'X
+  decode.['D4'X ] = '00D4'; encode.['00D4'] = 'D4'X
+  decode.['D5'X ] = '00D5'; encode.['00D5'] = 'D5'X
+  decode.['D6'X ] = '00D6'; encode.['00D6'] = 'D6'X
+  decode.['D7'X ] = '00D7'; encode.['00D7'] = 'D7'X
+  decode.['D8'X ] = '00D8'; encode.['00D8'] = 'D8'X
+  decode.['D9'X ] = '00D9'; encode.['00D9'] = 'D9'X
+  decode.['DA'X ] = '00DA'; encode.['00DA'] = 'DA'X
+  decode.['DB'X ] = '00DB'; encode.['00DB'] = 'DB'X
+  decode.['DC'X ] = '00DC'; encode.['00DC'] = 'DC'X
+  decode.['DD'X ] = '00DD'; encode.['00DD'] = 'DD'X
+  decode.['DE'X ] = '00DE'; encode.['00DE'] = 'DE'X
+  decode.['DF'X ] = '00DF'; encode.['00DF'] = 'DF'X
+  decode.['E0'X ] = '00E0'; encode.['00E0'] = 'E0'X
+  decode.['E1'X ] = '00E1'; encode.['00E1'] = 'E1'X
+  decode.['E2'X ] = '00E2'; encode.['00E2'] = 'E2'X
+  decode.['E3'X ] = '00E3'; encode.['00E3'] = 'E3'X
+  decode.['E4'X ] = '00E4'; encode.['00E4'] = 'E4'X
+  decode.['E5'X ] = '00E5'; encode.['00E5'] = 'E5'X
+  decode.['E6'X ] = '00E6'; encode.['00E6'] = 'E6'X
+  decode.['E7'X ] = '00E7'; encode.['00E7'] = 'E7'X
+  decode.['E8'X ] = '00E8'; encode.['00E8'] = 'E8'X
+  decode.['E9'X ] = '00E9'; encode.['00E9'] = 'E9'X
+  decode.['EA'X ] = '00EA'; encode.['00EA'] = 'EA'X
+  decode.['EB'X ] = '00EB'; encode.['00EB'] = 'EB'X
+  decode.['EC'X ] = '00EC'; encode.['00EC'] = 'EC'X
+  decode.['ED'X ] = '00ED'; encode.['00ED'] = 'ED'X
+  decode.['EE'X ] = '00EE'; encode.['00EE'] = 'EE'X
+  decode.['EF'X ] = '00EF'; encode.['00EF'] = 'EF'X
+  decode.['F0'X ] = '00F0'; encode.['00F0'] = 'F0'X
+  decode.['F1'X ] = '00F1'; encode.['00F1'] = 'F1'X
+  decode.['F2'X ] = '00F2'; encode.['00F2'] = 'F2'X
+  decode.['F3'X ] = '00F3'; encode.['00F3'] = 'F3'X
+  decode.['F4'X ] = '00F4'; encode.['00F4'] = 'F4'X
+  decode.['F5'X ] = '00F5'; encode.['00F5'] = 'F5'X
+  decode.['F6'X ] = '00F6'; encode.['00F6'] = 'F6'X
+  decode.['F7'X ] = '00F7'; encode.['00F7'] = 'F7'X
+  decode.['F8'X ] = '00F8'; encode.['00F8'] = 'F8'X
+  decode.['F9'X ] = '00F9'; encode.['00F9'] = 'F9'X
+  decode.['FA'X ] = '00FA'; encode.['00FA'] = 'FA'X
+  decode.['FB'X ] = '00FB'; encode.['00FB'] = 'FB'X
+  decode.['FC'X ] = '00FC'; encode.['00FC'] = 'FC'X
+  decode.['FD'X ] = '00FD'; encode.['00FD'] = 'FD'X
+  decode.['FE'X ] = '00FE'; encode.['00FE'] = 'FE'X
+  decode.['FF'X ] = '00FF'; encode.['00FF'] = 'FF'X

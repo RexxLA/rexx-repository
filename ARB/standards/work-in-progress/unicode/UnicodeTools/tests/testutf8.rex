@@ -8,6 +8,8 @@
 --
 -- Please refer to docs/new-functions.md for documentation and additional details.
 --
+-- Version 0.4b, 20230925
+--
 -- Notice:
 --
 -- Although this routine is part of TUTOR, The Unicode Tools Of Rexx,
