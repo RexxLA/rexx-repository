@@ -29,32 +29,32 @@ Say
 
 Call Tick "Testing the CP-437 encoding..."
 Call Tick ""
-If "cp437"()     > 0 Then Exit 1
+If "testenc.IBM437.rex"()     > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "Testing the CP-850 encoding..."
 Call Tick ""
-If "cp850"()     > 0 Then Exit 1
+If "testenc.IBM850.rex"()     > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "Testing the CP-1252 encoding..."
 Call Tick ""
-If "cp1252"()    > 0 Then Exit 1
+If "testenc.windows-1252.rex"()    > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "Testing the ISO-8859-1 encoding..."
 Call Tick ""
-If "iso8859-1"() > 0 Then Exit 1
+If "testenc.ISO-8859-1.rex"() > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "Testing the UTF-8 encoding..."
 Call Tick ""
-If "testenc.utf8"()      > 0 Then Exit 1
+If "testenc.UTF-8.rex"()      > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "Testing the UTF-16 encoding..."
 Call Tick ""
-If "testenc.utf16"()     > 0 Then Exit 1
+If "testenc.UTF-16.rex"()     > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "All tests for all encodings PASSED!"
