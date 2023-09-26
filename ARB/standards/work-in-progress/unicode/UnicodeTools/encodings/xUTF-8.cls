@@ -19,8 +19,8 @@
  *  <h4>Description</h4>
  *  
  *  <p>
- *    The <code>UTF8</code> class implements encoding/decoding from/to the UTF8
- *    format. This encoder/decoder is, in a sense, somewhat special: since UTF8 is the
+ *    The <code>UTF8</code> class implements encoding/decoding from/to the UTF-8
+ *    format. This encoder/decoder is, in a sense, somewhat special: since UTF-8 is the
  *    designated interchange format for Unicode Rexx strings (i.e., how the string
  *    <em>presents itself</em>, although not necessarily how it is <em>internally represented</em>), 
  *    the <code>encode</code> method has little to do, apart from ensuring that the result is of the
@@ -37,6 +37,8 @@
  *  <table>
  *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
  *    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
+*    <tr><td><b>1.1</b><td><b>20230926</b><td>JMB</td><td>Change name to UTF-8 as per IANA  
+ *                                                         https://www.iana.org/assignments/character-sets/character-sets.xhtml 
  *  </table>
  * 
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -54,8 +56,8 @@
 
 ::Class UTF8 Subclass Encoding Public
 
-::Constant name                  "UTF8"
-::Constant aliases               "UTF-8"
+::Constant name                  "UTF-8"
+::Constant aliases               "UTF8"
 ::Constant isFixedLength         0
 ::Constant bytesPerChar          1
 ::Constant maxBytesPerChar       4
@@ -153,8 +155,8 @@ MakeString:
  *  @param <code>format = "UTF8"</code> Format may be the null string, "UTF8" or "UTF-8", in which case a UTF-8 version of the argument string is returned; 
  *                                      it can be "UTF-32" or "UTF-32", in which case a UTF-32 version of the string is returned; or it can be any combination
  *                                      of blank-separated values (repetitions are allowed). If both UTF-8 and
- *                                      UTF-32 versions are requested, the returned value is an array containing the UTF-8 and the
- *                                      UTF-32 versions of the argument string (in this order).
+ *                                      UTF-32 versions are requested, the returned value is a stem containing the UTF-8 and the
+ *                                      UTF-32 versions of the argument string.
  *  @condition <code>Syntax 93.900</code> Invalid option '<em>option</em>'.
  *  @condition <code>Syntax 93.900</code> Invalid format '<em>format</em>'.
  *  @condition <code>Syntax 23.900</code> Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X.
@@ -162,6 +164,8 @@ MakeString:
  *
  */
 ::Method decode Class 
-  
   Use Strict Arg string, format = "", errorHandling = ""
-  Return .Encoding~UTF8(string,format, errorHandling)
+  Return UTF8(string, "UTF-8", format, errorHandling)
+  --Return .Encoding~UTF8(string,format, errorHandling)
+  
+::Requires "utf8.cls"  

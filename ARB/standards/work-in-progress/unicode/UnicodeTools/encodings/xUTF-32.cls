@@ -19,7 +19,7 @@
  *  <h4>Description</h4>
  *  
  *  <p>
- *    The <code>UTF32</code> class implements encoding/decoding from/to the UTF32
+ *    The <code>UTF32</code> class implements encoding/decoding from/to the UTF-32
  *    format. 
  *  
  *  <p>This is a subclass of <a href="Encoding.cls.html">the Encoding class</a>. 
@@ -31,6 +31,8 @@
  *  <table>
  *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
  *    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
+ *    <tr><td><b>1.1</b><td><b>20230926</b><td>JMB</td><td>Change name to UTF-32 as per IANA 
+ *                                                         https://www.iana.org/assignments/character-sets/character-sets.xhtml 
  *  </table>
  * 
  *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -43,8 +45,8 @@
 
 ::Class UTF32 Subclass Encoding Public
 
-::Constant name                  "UTF32"
-::Constant aliases               "UTF-32"
+::Constant name                  "UTF-32"
+::Constant aliases               "UTF32"
 ::Constant isFixedLength         1
 ::Constant bytesPerChar          4
 ::Constant maxBytesPerChar       4

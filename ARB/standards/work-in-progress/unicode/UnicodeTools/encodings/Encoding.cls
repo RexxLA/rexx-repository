@@ -56,10 +56,11 @@
   <table class="table table-bordered">
     <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
     <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
+    <tr><td><b>1.1</b><td><b>20230926</b><td>Delete UTF8 class method (now handled by the UTF8 BIF).
   </table>
  
   @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
-  @version 1.0
+  @version 1.1
 
  */
 
@@ -206,14 +207,11 @@ End
  *  <p>The register itself is implemented and stored in a stem called <code>Names.</code>, which
  *  is <code>expose</code>d between the <code>register</code> and <code><a href="#%5B%5D-1">[]</a></code> methods.
  *
- *  
- *
- *
  *  @param <code>handler</code> The class to register.
  *
  */
 
-::Method register          Class
+::Method register           Class
   Expose Names. name aliases
   
   Use Strict Arg handler
@@ -523,7 +521,6 @@ End
     
 Return errorHandling returnUTF8 returnUTF32  
 
-
 /**
  *  <h4>The <code>allowSurrogates</code> constant</h4>
  *
@@ -592,306 +589,5 @@ Return errorHandling returnUTF8 returnUTF32
   
   Raise Error 23.900 Additional("Invalid Unicode codepoint '"code"'X")  
   
-::Method activate Class
-  Expose tablei tableo ASCII       -- For TRANSLATE. Will be used by the "decode" method.
-  
-  ASCII  = "A"
-  tablei = ""
-  tableo = ""
-  
-  Call Assign "00","7F",ASCII      -- ASCII Chars
-  Call Assign "80","BF","C"        -- Continuation character
-  Call Assign "C0","C1","I"        -- Illegal character
-  Call Assign "C2","DF","20"X      -- 2-byte sequences (1 continuation)
-  Call Assign "E0","E0","3a"X      -- 3-byte sequences of subtype "a": 2nd byte in A0..BF. Manual check.
-  Call Assign "E1","EC","3b"X      -- 3-byte sequences of subtype "b". 2 continuations.
-  Call Assign "ED","ED","3c"X      -- 3-byte sequences of subtype "c". 2nd byte in 80..9F. Manual check.
-  Call Assign "EE","EF","3b"X      -- 3-byte sequences of subtype "b". 2 continuations.
-  Call Assign "F0","F0","4a"X      -- 4-byte sequences of subtype "a". 2nd byte in 90..BF. Manual check.
-  Call Assign "F1","F3","4b"X      -- 4-byte sequences of subtype "b". 3 continuations.
-  Call Assign "F4","F4","4c"X      -- 4-byte sequences of subtype "c". 2nd byte in 80..8F. Manual check.
-  Call Assign "F5","FF","I"        -- Illegal character
-Return  
-  
-  
-Assign:
-  use Arg from, to, value
-  input = XRange(X2C(from), X2C(to))
-  tablei ||= input
-  tableo ||= Copies(value,Length(input))
-Return    
-  
-/**
- *
- *  <h4>The .Encoding~UTF8 method</h4>
- *  
- *  <p><b>Note:</b> These conversions should really reside in the UTF8 encoding class, but they are so frequently used 
- *  that they are better placed here.
- *
- *  <p>You can use the <code>UTF8</code> method as a format validator, as a conversion tool.
- *
- *  <p><code>UTF8(string)</code> returns 1 iff <code>string</code> is a well-formed UTF-8 string.
- *
- *  <p><code>UTF8(string, "Syntax")</code> returns 1 when <code>string</code> is a well-formed UTF-8 string,
- *  and raises a Syntax condition otherwise.
- *
- *  <p><code>UTF8(string,,"UTF32")</code> returns a UTF-32 version of the argument string, if that
- *  string was a well-formed UTF-8 string, and a null string otherwise.
- *
- *  <p><code>UTF8(string,"Syntax","UTF32")</code> returns a UTF-32 version of the argument string, if that
- *  string was a well-formed UTF-8 string, raises a Syntax condition otherwise.
- *
- *  <p>You can also use <p><code>UTF8(string,,"UTF8")</code> (it returns a makeString version of the argument string, if that
- *  string was a well-formed UTF-8 string, and a null string otherwise), and  <p><code>UTF8(string,,"UTF8 UTF32")</code> 
- *  (it returns an array containing a makeString version of the argument string and a UTF-32 version of the argument string, if that
- *  string was a well-formed UTF-8 string, and a null string otherwise), and the corresponding versions that
- *  raise a Syntax error.
- 
- *  <p>[Start quote]
- *
- *  <p>See <a href="https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf">The Unicode® Standard.
- *  Version 15.0 – Core Specification</a>, p. 125.
- *
- *  <table class="table table-bordered"> 
- *  <caption><b>Table 3-7</b>. Well-Formed UTF-8 Byte Sequences</caption>
- *  <tr><th>Code Points       <th>First Byte<th>Second Byte<th>Third Byte<th>Fourth Byte
- *  <tr><td>U+0000..U+007F    <td>00..7F    <td>           <td>          <td>
- *  <tr><td>U+0080..U+07FF    <td>C2..DF    <td>80..BF     <td>          <td>
- *  <tr><td>U+0800..U+0FFF    <td>E0        <td><b><i>A0</i></b>..BF     <td>80..BF    <td>
- *  <tr><td>U+1000..U+CFFF    <td>E1..EC    <td>80..BF     <td>80..BF    <td>
- *  <tr><td>U+D000..U+D7FF    <td>ED        <td>80..<b><i>9F</i></b>    <td>80..BF    <td>
- *  <tr><td>U+E000..U+FFFF    <td>EE..EF    <td>80..BF     <td>80..BF    <td>
- *  <tr><td>U+10000..U+3FFFF  <td>F0        <td><b><i>90</i></b>..BF     <td>80..BF    <td>80..BF
- *  <tr><td>U+40000..U+FFFFF  <td>F1..F3    <td>80..BF     <td>80..BF    <td>80..BF
- *  <tr><td>U+100000..U+10FFFF<td>F4        <td>80..<b><i>8F</i></b>     <td>80..BF    <td>80..BF  
- *  </table> 
- * 
- *  <p>In Table 3-7, cases where a trailing byte range is not 80..BF are shown in bold italic to draw
- *    attention to them. These exceptions to the general pattern occur only in the second byte of
- *    a sequence.
- *
- *  <p>[End quote]
- *  <p>Based on this table, the <code>activate</code> method will build a Finite State Machine. States will be coded into two
- *  TRANSLATE tables, <code>tablei</code> and <code>tableo</code>.
- *
- *  @param <code>string</code> The string to validate/convert.
- *  @param <code>option = ""</code> What to do if we find an encoding error. <code>"Syntax"</code> produces a syntax error, and <code>""</code> (the default) returns the null string.
- *  @param <code>format = "UTF8"</code> Format may be the null string, "UTF8" or "UTF-8", in which case a UTF-8 version of the argument string is returned; 
- *                                      it can be "UTF-32" or "UTF-32", in which case a UTF-32 version of the string is returned; or it can be any combination
- *                                      of blank-separated values (repetitions are allowed). If both UTF-8 and
- *                                      UTF-32 versions are requested, the returned value is an array containing the UTF-8 and the
- *                                      UTF-32 versions of the argument string (in this order).
- *  @condition <code>Syntax 93.900</code> Invalid option '<em>option</em>'.
- *  @condition <code>Syntax 93.900</code> Invalid format '<em>format</em>'.
- *  @condition <code>Syntax 23.900</code> Invalid UTF-8 sequence in position <em>n</em> of string: '<em>hex-value</em>'X.
- *  @see <code>activate</code>
- *
- */
- 
-::Method UTF8 Class 
-  Expose tablei tableo ASCII  -- Built by the "activate" method
-   
-  Use Strict Arg string, format = "", errorHandling = ""
-  
-  -- Check that the supplied arguments are OK, and raise a Syntax condition if not
-  Parse Value self~checkDecodeOptions(format, errorHandling) With errorHandling returnUTF8 returnUTF32  
- 
-  -- Null UTF-8 strings decode to the null string.
-  If string == "" Then Signal StringIsEmpty 
-  
-  string = string~makeString -- Demote to pure .String to avoid loops
 
-  -- Build the states line. We will work in parallel with "string" and "states"
-  states = Translate(string, tableo, tablei)
   
-  -- Will hold the utf8 value, if needed
-  utf8  = .MutableBuffer~new
-    
-  -- Will hold the utf32 value, if needed
-  utf32 = .MutableBuffer~new
-
-  repl     = errorHandling == "REPLACE"
-  syntax   = errorHandling == "SYNTAX"
-  null     = errorHandling == "NULL"  
-  validate = 0
-  If \returnUTF8, \returnUTF32 Then validate = 1
-  
-  i      = 0
-  length = Length(string)
-  
-continueScan:
-  i += 1
-  -- Did we scan the whole string without errors? The string is good.
-  If i > length Then Signal StringIsGood
-  
-  -- If the rest of the string is composed only of ASCII characters, then
-  -- the string is good.
-  save = i
-  If OnlyASCIIsLeft() Then Do
-    -- Copy all ASCIIs left
-    Do i = i to length
-      If returnUTF32 Then utf32~append( "000000"x || string[i] )
-      If returnUTF8  Then utf8 ~append(              string[i] )
-    End
-    Signal StringIsGood
-  End
-   
-  -- Copy all ASCIIs, up to i-1
-  Do j = save to i - 1
-    If returnUTF32 Then utf32~append( "000000"x || string[j] )
-    If returnUTF8  Then utf8 ~append(              string[j] )
-  End 
-  
-  -- Not an ASCII character.
-  state = states[i]
-  Signal (state)
-
-  -- An illegal character is illegal, and a lone continuation character
-  -- is also illegal.
-"I": "C": 
-  If validate Then Return 0
-  If null     Then Return ""
-  errorSequence = string[i]
-  If syntax Then Signal Syntax
-  Call ReplaceCharacter
-  Signal continueScan
-  
---
--- TWO-BYTE SEQUENCES
---  
-"20"X:
-  -- We need a two-byte sequence. 
-  If states[i+1] \== "C" Then Do
-    If validate Then Return 0
-    If null     Then Return ""
-    errorSequence = string[i,2]
-    If syntax Then Signal Syntax
-    Call ReplaceCharacter
-  End
-  Else Do
-    If returnUTF32 Then Do
-      y = Right(X2B(C2X(string[i  ])), 5)
-      x = Right(X2B(C2X(string[i+1])), 6)
-      utf32~append( "0000"X || X2C(B2X("00000"||y||x)) )
-    End
-    If returnUTF8  Then utf8~append(string[i,2])
-  End
-  i += 1
-  Signal continueScan
-
---
--- THREE-BYTE SEQUENCES
---    
-"3a"X: "3b"X: "3c"X:      
-  -- We need exactly a three-byte sequence
-  If states[i+1,2] \== "CC"    Then Do
-    errorSequence = string[i,3]
-    Signal 3Error
-  End
-  Select case state
-    When "3b"X Then Signal 3OK
-    When "3a"X Then 
-      If string[i+1] < "A0"X Then Do
-        errorSequence = string[i,3]
-        Signal 3Error
-      End
-    When "3c"X Then 
-      If string[i+1] > "9F"X Then Do
-        errorSequence = string[i,3]
-        Signal 3Error
-      End
-  End
-3OK:
-  If returnUTF32 Then Do
-    z = Right(X2B(C2X(string[i  ])), 4)
-    y = Right(X2B(C2X(string[i+1])), 6)
-    x = Right(X2B(C2X(string[i+2])), 6)
-    utf32~append( "0000"X || X2C(B2X(z||y||x)) )
-  End
-  If returnUTF8  Then utf8~append(string[i,3])
-3End:  
-  i = i + 2
-  Signal continueScan
-3Error:  
-  If validate Then Return 0
-  If null     Then Return ""
-  If syntax Then Signal Syntax
-  Call ReplaceCharacter
-  Signal 3End
-
---
--- FOUR-BYTE SEQUENCES
---      
-"4a"X: "4b"X: "4c"X:     
-  -- We need a four-byte sequence. No continuation, or only one or two
-  -- continuations are errors.
-  If states[i+1,3] \== "CCC"   Then Do
-    errorSequence = string[i,4]
-    Signal 4Error
-  End
-  Select case state
-    When "4b"X Then Signal 4OK
-    When "4a"X Then 
-      If string[i+1] < "90"X Then Do
-        errorSequence = string[i,4]
-        Signal 4Error
-      End
-    When "4c"X Then 
-      If string[i+1] > "8F"X Then Do
-        errorSequence = string[i,4]
-        Signal 4Error        
-      End
-  End
-4OK:
-  If returnUTF32 Then Do
-    u = Right(X2B(C2X(string[i  ])), 3)
-    z = Right(X2B(C2X(string[i+1])), 6)
-    y = Right(X2B(C2X(string[i+2])), 6)
-    x = Right(X2B(C2X(string[i+3])), 6)
-    utf32~append( "00"X || X2C(B2X(Right(u||z||y||x,24,0))) )
-  End
-  If returnUTF8  Then utf8~append(string[i,4])
-4End:  
-  i = i + 3  
-  Signal continueScan
-4Error:  
-  If validate Then Return 0
-  If null     Then Return ""
-  If syntax Then Signal Syntax
-  Call ReplaceCharacter
-  Signal 4End
-  
-ReplaceCharacter:
-  If returnUTF8  Then utf8 ~append(   "efbfbd"X )
-  If returnUTF32 Then utf32~append( "0000FFFD"X )
-Return    
-  
-OnlyASCIIsLeft:
-  pos = Verify(states, ASCII, "N", i)
-  If pos == 0 Then Return 1        -- Only ASCIIs left, string is good.
-  i   = pos                        -- Set the new i
-  Return 0
-  
-StringIsEmpty:  
-  If returnUTF8  Then Return ""
-  If returnUTF32 Then Return ""
-  -- Validate. "" is valid UTF-8
-  Return 1 
-    
-StringIsGood:
-  If returnUTF8  Then
-    If returnUTF32 Then Return utf8~string, utf32~string -- An array
-    Else                Return utf8~string
-  If returnUTF32 Then   Return utf32~string
-  -- No target formats? Validate only
-  Return 1 
-  
-Syntax:
-  If syntax Then
-    Raise Syntax 23.900 Additional("Invalid UTF-8 sequence in position" i "of string: '"C2X(errorSequence)"'X") 
-  If returnUTF8 Then
-    If returnUTF32 Then Return utf8~string, utf32~string -- An array
-    Else                Return utf8~string
-  If returnUTF32   Then Return utf32~string  
-  -- Validation only
-  Return 0

@@ -708,4 +708,5 @@ Failed:
   Exit 1
 Return
 
-::Requires Unicode.cls
+::Requires "utf8.cls"
+::Requires "Unicode.cls"

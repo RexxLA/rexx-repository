@@ -327,7 +327,7 @@ Return string~upper(n, length)
 ::Method C2U
   Use Strict Arg format=""
 
-  utf32 = .Encoding~UTF8(self,"UTF32","Syntax")
+  utf32 = UTF8(self,"UTF-8","UTF32","Syntax")
     
   uFormat = Upper(format)
   If uFormat == "UTF32" Then Return utf32
@@ -348,6 +348,7 @@ Return string~upper(n, length)
     When Abbrev("NAMES",uFormat,2) Then Signal Names
     Otherwise Raise Syntax 88.900 Additional("Invalid format '"format"'")
   End
+  
 Names:  
   res = ""
   Do i = 1 To codes~items
@@ -752,8 +753,8 @@ Return 1
 ::Method init
   Expose utf32
     
-  -- .Encoding~UTF8 will do both the validation and the conversion.
-  utf32 = .Encoding~UTF8(self, "UTF32", "Syntax")
+  -- UTF8 will do both the validation and the conversion.
+  utf32 = UTF8(self, "UTF-8", "UTF32", "Syntax")
 
 ::Method "[]"
   Expose utf32
@@ -831,7 +832,6 @@ Return 1
   Expose graphemes
   Return graphemes~items
 
-  
 ::Requires "utf8.cls"    
 ::Requires "Stream.cls"  
 ::Requires "properties/Properties.cls"

@@ -49,12 +49,12 @@ If "iso8859-1"() > 0 Then Exit 1
 Call Tick ""
 Call Tick "Testing the UTF-8 encoding..."
 Call Tick ""
-If "utf8"()      > 0 Then Exit 1
+If "testenc.utf8"()      > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "Testing the UTF-16 encoding..."
 Call Tick ""
-If "utf16"()     > 0 Then Exit 1
+If "testenc.utf16"()     > 0 Then Exit 1
 
 Call Tick ""
 Call Tick "All tests for all encodings PASSED!"
