@@ -6,8 +6,10 @@ The Rexx Preprocessor for Unicode (RXU) implements a set of Rexx extensions that
 
 RXU is a work-in-progress. Its goal is to produce a proof-of-concept implementation of Unicode-enabled Rexx, limited to what has been informally called "stage 1" Unicode in some circles, namely:
 
-* RXU is _Classic Rexx-first_. This means that its priority is to first define a procedural implementation of Unicode Rexx. This will be done by (a) extending the base string type to support a _polymorphic_ system, in which three different string types are supported, BYTES, CODEPOINTS and TEXT; the study of these three types will be the subject matter of this document. (b) _Extending the semantics_ of the existing built-in functions (BIFs) to work with Unicode string types, and: (c) _Defining new BIFs_, necessary for Unicode. A classic Rexx implementation, like Regina or BRexx, could be extended, if desided, following the RXU definitions, to produce a Unicode-enabled classic Rexx interpreter.
-* RXU is procedural-first in its _definitions_, but object-oriented in its _implementation_. This means that (a) we work in ooRexx, which is object-oriented, but specially that (b) our implementation uses classes to achieve its effects. We want to stress the fact that our definitions are still procedural, i.e., that one could write a new, different, implementation, to produce a Unicode-enabled classic Rexx interpreter.
+* The RXU project is _Classic Rexx-first_. This means that its priority is to first _define a procedural implementation of Unicode Rexx_. This will be achieved by (a) extending the base string type to support a _polymorphic_ system, in which three different types are supported, BYTES, CODEPOINTS and TEXT (the study of these three types will be the subject matter of this document). (b) _Extending the semantics_ of the existing built-in functions (BIFs) to work with Unicode string types, and: (c) _Defining new BIFs_, necessary for Unicode. A classic Rexx implementation, like Regina or BRexx, could be extended, if desided, following the RXU definitions, to produce a Unicode-enabled classic Rexx interpreter.
+* RXU is procedural-first in its _definitions_, but object-oriented in its _implementation_. This means that (a) RXU is implemented in ooRexx, which is object-oriented, but specially that (b) our implementation uses _a set of ooRexx classes_. Regardless of the implementation details, our definitions are still procedural: one could write a new, different, implementation, to produce a Unicode-enabled classic Rexx interpreter implementing the same definitions.
+* Our purpose is to be able to _manage Unicode strings_, i.e., read and write Unicode strings, compare and sort them, test them for (in)equality, break them into smaller components, etc. This is what we call "stage 1" Unicode. Other Unicode extensions, like allowing Unicode identifiers in Rexx programs, are considered "stage 2" (or of a later stage), and are not part of the present effort.
+* The _classes_ used in the _implementation_ of RXU are, by themselves, an implementation of a Unicode-extended object-oriented Rexx (ooRexx), which is a strict superset of the procedurally defined extensions. 
 
 ## A non-object oriented presentation of the classes
 
@@ -64,6 +66,43 @@ With a few exceptions, most BIFs are at the same time _the same_ and _different_
 _Changing the view_ of a string is equivalent to _changing the set of BIFs_ that operate on the string.
 
 ## An object-oriented presentation of the classes
+
+## BYTES
+
+### C2U (Character to Unicode codepoints)
+
+```
+   ╭──────╮                 ╭───╮
+▸▸─┤ C2U( ├──┬────────────┬─┤ ) ├─▸◂
+   ╰──────╯  │ ┌────────┐ │ ╰───╯
+             └─┤ format ├─┘
+               └────────┘
+```
+
+Returns a <code>BYTES</code> string such that if a <code>U</code> were appended to it
+and it was inserted as a literal in a Rexx source program it would have
+the same string value as the target string.
+
+This method assumes that the target string contains well-formed UTF-8. If this is not the case, it will raise a Syntax condition. 
+Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are always well-formed.
+
+* When _format_ is not specified, is specified as the null string, or is __"CODES"__ (the default), C2X will return a sequence of blank-separated codepoints,
+  (without the ``"U+"`` prefix). Codepoints smaller than "1000"U will be padded on the left with zeros until they are four bytes long.
+  Codepoints larger that "FFFF"U will have any leading zeroes removed.
+* When _format_ is __"U+"__, C2X returns a list of blank-separated codepoints, with the <code>"U+"</code> prefix.
+* When _format_ is __NAMES__, C2X returns a blank-separated list of the Unicode "Name" ("Na") property for each codepoint in the target string.
+* When _format_ is __"UTF32"__, C2X returns a UTF-32 representation of the target string, 
+ 
+__Examples:__
+
+```
+"Sí"~C2U                                -- "0053 00ED" (and "0053 00ED"U = "53 C3AD"X = "Sí")
+"Sí"~C2U("U+")                          -- "U+0053 U+00ED"
+"Sí"~C2U("Na")                          -- "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"
+"Sí"~C2U("UTF32")                       -- "00000053 000000ED"X
+```
+
+---
 
 * ``BYTES``. A class similar to Classic Rexx strings. A BYTES string is composed of bytes, and all the BIFs work as in pre-Unicode Rexx. The BYTES class adds a ``C2U`` method (see the description of the ``C2U`` BIF for 
   details), and reimplements a number of ooRexx built-in methods: \[\], C2X, CENTER, CENTRE, DATATYPE (a new option, ``"C"``, is implemented: ``DATATYPE(string,"C")`` will return __1__ when and only when ``"string"U`` 
