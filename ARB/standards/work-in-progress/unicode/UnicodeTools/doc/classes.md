@@ -90,7 +90,7 @@ Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are alway
   (without the ``"U+"`` prefix). Codepoints smaller than "1000"U will be padded on the left with zeros until they are four bytes long.
   Codepoints larger that "FFFF"U will have any leading zeroes removed.
 * When _format_ is __"U+"__, C2X returns a list of blank-separated codepoints, with the <code>"U+"</code> prefix.
-* When _format_ is __NAMES__, C2X returns a blank-separated list of the Unicode "Name" ("Na") property for each codepoint in the target string.
+* When _format_ is __"NAMES"__, C2X returns a blank-separated list of the Unicode "Name" ("Na") property for each codepoint in the target string.
 * When _format_ is __"UTF32"__, C2X returns a UTF-32 representation of the target string, 
  
 __Examples:__
