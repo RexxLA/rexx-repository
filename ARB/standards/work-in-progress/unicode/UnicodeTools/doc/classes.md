@@ -1,5 +1,14 @@
 # New classes
 
+## Introduction
+
+The Rexx Preprocessor for Unicode (RXU) implements a set of Rexx extensions that allow programmers to write Unicode-enabled Rexx programs.
+
+RXU is a work-in-progress. Its goal is to produce a proof-of-concept implementation of Unicode-enabled Rexx, limited to what has been informally called "stage 1" Unicode in some circles, namely:
+
+* RXU is _Classic Rexx-first_. This means that its priority is to first define a procedural implementation of Unicode Rexx. This will be done by (a) extending the base string type to support a _polymorphic_ system, in which three different string types are supported, BYTES, CODEPOINTS and TEXT; the study of these three types will be the subject matter of this document. (b) _Extending the semantics_ of the existing built-in functions (BIFs) to work with Unicode string types, and: (c) _Defining new BIFs_, necessary for Unicode. A classic Rexx implementation, like Regina or BRexx, could be extended, if desided, following the RXU definitions, to produce a Unicode-enabled classic Rexx interpreter.
+* RXU is procedural-first in its _definitions_, but object-oriented in its _implementation_. This means that (a) we work in ooRexx, which is object-oriented, but specially that (b) our implementation uses classes to achieve its effects. We want to stress the fact that our definitions are still procedural, i.e., that one could write a new, different, implementation, to produce a Unicode-enabled classic Rexx interpreter.
+
 ## A non-object oriented presentation of the classes
 
 From a procedural point of view, a string can have one of three __types__: ``BYTES``, ``CODEPOINTS``, or ``TEXT``. You can retrieve the type of a string by using the ``STRINGTYPE(string)`` BIF. 
