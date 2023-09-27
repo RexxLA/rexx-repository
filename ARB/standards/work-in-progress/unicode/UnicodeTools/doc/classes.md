@@ -2,17 +2,17 @@
 
 ## A non-object oriented presentation of the classes
 
-From a procedural point of view, a string can have one of three _types_: ``BYTES``, ``CODEPOINTS``, or ``TEXT``. You get retrieve the type of a string by using the ``STRINGTYPE(string)`` BIF. 
+From a procedural point of view, a string can have one of three __types__: ``BYTES``, ``CODEPOINTS``, or ``TEXT``. You can retrieve the type of a string by using the ``STRINGTYPE(string)`` BIF. 
 
 ### Promotion and demotion BIFs
 
-A BYTES string _string_ can be __promoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to TEXT by using the ``TEXT(string)`` BIF; a CODEPOINTS string _string_ can be __demoted__ to BYTES by using the ``BYTES(string)`` BIF, or __promoted__ to TEXT by using the ``TEXT(string)`` BIF; a ``TEXT`` string _string_ can be __demoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to BYTES by using the ``BYTES(string)`` BIF.
+A BYTES _string_ can be __promoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to TEXT by using the ``TEXT(string)`` BIF; a CODEPOINTS _string_ can be __demoted__ to BYTES by using the ``BYTES(string)`` BIF, or __promoted__ to TEXT by using the ``TEXT(string)`` BIF; a ``TEXT`` _string_ can be __demoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to BYTES by using the ``BYTES(string)`` BIF.
 
-Demotion always succeeds. Promotion from BYTES can fail: ``CODEPOINTS`` and ``TEXT`` require that their argument _string_ contains well-formed UTF-8. You can validate a string _string_ for UTF-8 well-formedness by using the ``UTF8(string)`` BIF.
+Demotion always succeeds. Promotion from BYTES can fail: ``CODEPOINTS`` and ``TEXT`` require that their argument _string_ contains well-formed UTF-8. You can validate a _string_ for UTF-8 well-formedness by using the ``UTF8(string)`` BIF or the more general ``DECODE(string,"UTF-8")`` BIF.
 
 ### Semantics, and a rationale for the three types/classes system
 
-A string is always _the same_, irrespective of its type. Changing the type of a string amounts to _changing our view of the string_.
+A string is always _the same_, irrespective of its type. Changing the type of a string amounts to _changing our_ __view__ _of the string_.
 
 Namely,
 
@@ -39,8 +39,6 @@ Say Length(string)                               -- 1   ...but its interpretatio
 Say string[1]                                    -- "👨‍👩"   The first (and only) grapheme cluster
 ```
 
-This _view_ of a string is implemented by a series of built-in functions (BIFs). As we have seen in our examples, the _same_ BIFs (like LENGTH(string), or string[n], for instance) operate polymorphically on strings of types BYTES, CODEPOINTS or TEXT, and, in every case, they return the values that correspond to their respective types.
-
 When a BIF has more than one string as an argument, there is always an argument which is the "main" string. For example, in POS(_needle_, _haystack_), _haystack_ is the main string. The remaining strings are  promoted or demoted, if needed, to match the type of the main string; in the case of promotions, this operation can raise a Syntax error (i.e., when the source string contains ill-formed UTF-8 sequences).
 
 __Examples:__
@@ -49,6 +47,12 @@ __Examples:__
 Pos("E9"U, "José"T)                               -- 1   Same as Pos( Bytes("E9"U), "José")
 Pos("80"X, "José"T)                               -- Syntax error
 ```
+
+The _view_ of a string is implemented through a set of built-in functions (BIFs), namely, _Classic Rexx BIFs_, the set of functions we are used to (i.e., LENGTH, SUBSTR, POS, etc.) and _new BIFs_, necessary for Unicode.
+
+With a few exceptions, most BIFs are at the same time _the same_ and _different_. They are _the same_ in the sense that they have the _same_ abstract definition, in terms of characters. They are _different_, because the definition of what a character is _changes_ between types, and, therefore, this _same_ definition will have a _different_ meaning. The above example illustrates very clearly these concepts: C2X is one of the few exceptional BIFs, since it always returns a BYTES string, which is _the same_, irrespective of the type of the source string. LENGTH, or the string\[n\] construction, on the other hand, operate _differently_, depending on the type of the string they operate on.
+
+_Changing the view_ of a string is equivalent to _changing the set of BIFs_ that operate on the string.
 
 ## An object-oriented presentation of the classes
 
