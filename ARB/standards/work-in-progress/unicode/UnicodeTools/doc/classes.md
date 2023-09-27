@@ -24,29 +24,30 @@ __Examples:__
 
 ```
 string = "(Man)(Zero Width Joiner)(Woman)"U
-Say string                                       -- "👨‍👩" U strings are always BYTES strings
+Say string                                       -- "👨‍👩"   U strings are always BYTES strings
 Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9"
 Say Length(string)                               -- 11
-Say string[1]                                    -- "�" "F0"X, which is ill-formed UTF-8,
+Say string[1]                                    -- "�"   "F0"X, which is ill-formed UTF-8,
                                                  -- and gets substituted by the Replacement Character
 string = Codepoints(string)                      -- Promote to the CODEPOINTS type
-Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9" It's the same string,...
-Say Length(string)                               -- 3 ...but its interpretation --its "view"-- has changed
-Say string[1]                                    -- "👨" The first codepoints, i.e., "(Man)"U
+Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9"   It's the same string,...
+Say Length(string)                               -- 3   ...but its interpretation --its "view"-- has changed
+Say string[1]                                    -- "👨"   The first codepoints, i.e., "(Man)"U
 string = Text(string)                            -- Promote to the TEXT type
-Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9" Still the same string,...
-Say Length(string)                               -- 1 ...but its interpretation has changed once more
-Say string[1]                                    -- "👨‍👩" The first (and only) grapheme cluster
+Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9"   Still the same string,...
+Say Length(string)                               -- 1   ...but its interpretation has changed once more
+Say string[1]                                    -- "👨‍👩"   The first (and only) grapheme cluster
 ```
 
 This _view_ of a string is implemented by a series of built-in functions (BIFs). As we have seen in our examples, the _same_ BIFs (like LENGTH(string), or string[n], for instance) operate polymorphically on strings of types BYTES, CODEPOINTS or TEXT, and, in every case, they return the values that correspond to their respective types.
 
 When a BIF has more than one string as an argument, there is always an argument which is the "main" string. For example, in POS(_needle_, _haystack_), _haystack_ is the main string. The remaining strings are  promoted or demoted, if needed, to match the type of the main string; in the case of promotions, this operation can raise a Syntax error (i.e., when the source string contains ill-formed UTF-8 sequences).
 
-__Example:__
+__Examples:__
 
 ```
-Pos("E9"U,"José"T)
+Pos("E9"U, "José"T)                               -- 1   Same as Pos( Bytes("E9"U), "José")
+Pos("80"X, "José"T)                               -- Syntax error
 ```
 
 ## An object-oriented presentation of the classes
