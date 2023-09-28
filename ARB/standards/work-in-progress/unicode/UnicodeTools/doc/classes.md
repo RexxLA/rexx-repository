@@ -128,6 +128,25 @@ C2X("👨"B)                              -- "F09F91A8"
 C2X("(Man)"U)                           -- "F09F91A8"
 ```
 
+### center/centre
+
+```
+     ╭─────────╮   ┌────────┐                   ╭───╮
+▸▸─┬─┤ CENTER( ├─┬─┤ length ├─┬───────────────┬─┤ ) ├─▸◂
+   │ ╰─────────╯ │ └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
+   │ ╭─────────╮ │            └─┤ , ├─┤ pad ├─┘
+   └─┤ CENTRE( ├─┘              ╰───╯ └─────┘
+     ╰─────────╯
+```
+
+Returns a string of length _length_ with the receiving string centered in it. The _pad_ characters are added
+as necessary to make up _length_. The _length_ must be a positive whole number or zero. The default
+_pad_ character is blank. If the receiving string is longer than _length_, it is truncated at both ends to fit.
+If an odd number of characters are truncated or added, the right-hand end loses or gains one more
+character than the left-hand end.
+
+This method works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
+
 ### U2C (Unicode codepoints to Character)
 
 ```
