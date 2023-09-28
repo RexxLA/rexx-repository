@@ -73,7 +73,7 @@ _Changing the view_ of a string is equivalent to _changing the set of BIFs_ that
 
 Arithmetic, logical and concatenation methods are reimplemented by the BYTES class to support the ``OPTIONS COERCIONS`` instruction. ``OPTIONS DEFAULTSTRING`` will convert unsuffixed strings to either BYTES, CODEPOINTS or TEXT, and, since CODEPOINTS subclasses BYTES and TEXT subclasses codepoints, all operations will be handled by these reimplemented operator methods.
 
-### C2U (Character to Unicode codepoints)
+### c2u (Character to Unicode codepoints)
 
 ```
    ╭──────╮                 ╭───╮
@@ -106,7 +106,7 @@ __Examples:__
 "Sí"~C2U("UTF32")                       -- "00000053 000000ED"X
 ```
 
-### C2X (Character to Hexadecimal)
+### c2x (Character to Hexadecimal)
 
 ```
    ╭─────╮             
@@ -147,7 +147,50 @@ character than the left-hand end.
 
 This method works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
 
-### U2C (Unicode codepoints to Character)
+### copies
+
+```
+     ╭─────────╮  ┌───┐  ╭───╮
+▸▸───┤ COPIES( ├──┤ n ├──┤ ) ├─▸◂
+     ╰─────────╯  └───┘  ╰───╯
+```
+
+Returns _n_ concatenated copies of the receiving string. The _n_ must be a positive whole number or zero.
+
+This method works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively.
+
+### datatype
+
+```
+   ╭───────────╮               ╭───╮
+▸▸─┤ DATATYPE( ├──┬──────────┬─┤ ) ├─▸◂
+   ╰───────────╯  │ ┌──────┐ │ ╰───╯
+                  └─┤ type ├─┘
+                    └──────┘
+```
+
+A new _type_ is admitted, __C__, for uni__C__ode. ``"String"~datatype("C")`` returns __1__ if and only if ``"String"`` follows the Unicode string format, namely, if it consists of a blank-separated series of:
+
+* Valid hexadecimal Unicode codepoints, like 61, or 200D, or 1F514.
+* Valid hexadecimal Unicode codepoints prefixed with U+ or u+, like u+61, or U+200D, or u+1F514.
+* Names, alias or labels that designate a Unicode codepoint, enclosed between parentheses, like (Latin small letter A), (ZWJ), (Bell), or (<Control-001d>). Items enclosed between parentheses do not need to be separated 
+  by blanks.
+  
+__Examples:__
+
+```
+'string'~datatype('C')                            -- 0
+"61"~datatype('C')                                -- 1
+'U61'~datatype('C')                               -- 0 (it's U+ or U+, not U)
+'U+61'~datatype('C')                              -- 1
+'10661'~datatype('C')                             -- 1
+'110000'~datatype('C')                            -- 0 (max Unicode scalar is 10FFFF)
+'(Man)'~datatype('C')                             -- 1
+'(Man'~datatype('C')                              -- 0 (missing parentheses)
+'(Man)(Zwj)(Woman)'~datatype('C')                 -- 1
+```
+
+### u2c (Unicode codepoints to Character)
 
 ```
    ╭─────╮             
