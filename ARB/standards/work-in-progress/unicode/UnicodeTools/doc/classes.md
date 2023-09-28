@@ -77,7 +77,7 @@ Arithmetic, logical and concatenation methods are reimplemented by the BYTES cla
 
 ```
    ╭──────╮                 ╭───╮
-▸▸─┤ C2U( ├──┬────────────┬─┤ ) ├─▸◂
+▸▸─┤ c2u( ├──┬────────────┬─┤ ) ├─▸◂
    ╰──────╯  │ ┌────────┐ │ ╰───╯
              └─┤ format ├─┘
                └────────┘
@@ -110,7 +110,7 @@ __Examples:__
 
 ```
    ╭─────╮             
-▸▸─┤ C2X ├──▸◂
+▸▸─┤ c2x ├──▸◂
    ╰─────╯  
 ```
 
@@ -132,10 +132,10 @@ C2X("(Man)"U)                           -- "F09F91A8"
 
 ```
      ╭─────────╮   ┌────────┐                   ╭───╮
-▸▸─┬─┤ CENTER( ├─┬─┤ length ├─┬───────────────┬─┤ ) ├─▸◂
+▸▸─┬─┤ center( ├─┬─┤ length ├─┬───────────────┬─┤ ) ├─▸◂
    │ ╰─────────╯ │ └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
    │ ╭─────────╮ │            └─┤ , ├─┤ pad ├─┘
-   └─┤ CENTRE( ├─┘              ╰───╯ └─────┘
+   └─┤ centre( ├─┘              ╰───╯ └─────┘
      ╰─────────╯
 ```
 
@@ -151,7 +151,7 @@ This method works as the standard method does, but it operates on bytes, codepoi
 
 ```
      ╭─────────╮  ┌───┐  ╭───╮
-▸▸───┤ COPIES( ├──┤ n ├──┤ ) ├─▸◂
+▸▸───┤ copies( ├──┤ n ├──┤ ) ├─▸◂
      ╰─────────╯  └───┘  ╰───╯
 ```
 
@@ -163,7 +163,7 @@ This method works as the standard method does, but it operates on bytes, codepoi
 
 ```
    ╭───────────╮               ╭───╮
-▸▸─┤ DATATYPE( ├──┬──────────┬─┤ ) ├─▸◂
+▸▸─┤ datatype( ├──┬──────────┬─┤ ) ├─▸◂
    ╰───────────╯  │ ┌──────┐ │ ╰───╯
                   └─┤ type ├─┘
                     └──────┘
@@ -190,11 +190,173 @@ __Examples:__
 '(Man)(Zwj)(Woman)'~datatype('C')                 -- 1
 ```
 
+### left
+
+```
+   ╭───────╮  ┌────────┐                    ╭───╮
+▸▸─┤ left( ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
+   ╰───────╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
+                         └─┤ , ├──┤ pad ├─┘
+                           ╰───╯  └─────┘
+```
+
+Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
+
+### length
+
+```
+   ╭────────╮             
+▸▸─┤ length ├──▸◂
+   ╰────────╯  
+```
+
+When the receiving string is a BYTES string, it returns the number of bytes in the string. When the receiving string is a CODEPOINTS string, it returns the number of codepoints in the string. When the receiving string is a TEXT string, it returns the number of extended grapheme clusters in the string.
+
+__Examples:__
+
+```
+"a"Y~length                                       -- 1
+"á"Y~length                                       -- 2 ("á" is "C3 A1"X)
+"á"P~length                                       -- 1 ("á" is 1 codepoint)
+"👨‍👩"Y~length                                      -- 11 bytes, that was "F09F91A8E2808DF09F91A9"X
+"👨‍👩"P~length                                      -- 3 codepoints (Man + Zwj + Woman)
+"👨‍👩"T~length                                      -- 1 grapheme cluster
+```
+
+### lower
+
+```
+   ╭────────╮                                   ╭───╮
+▸▸─┤ lower( ├──┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+               └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
+                 └───┘      ╰───╯  └────────┘
+```
+
+Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toLowercase(X)`` definition, as defined in rule R2 of section "Default Case Conversion" of
+_(The Unicode Standard, Version 15.0 – Core Specification)[https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf]_:
+
+> Map each character C in X to Lowercase_Mapping(C).
+
+Broadly speaking, ``Lowercase_Mapping(C)`` implements the ``Simple_Lowercase_Mapping`` property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD). 
+Two exceptions to this mapping are defined in the ``SpecialCasing.txt`` file of the UCD. One exception is not one to one: ``"0130"U``, ``LATIN CAPITAL LETTER I WITH DOT ABOVE``, which lowercases to ``"0069 0307"U``. The second exception is for ``"03A3"U``, the final greek sigma, which lowercases to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial position).
+
+__Examples:__
+
+```
+"THIS"~lower                                      -- "this"
+"MAMÁ"Y~lower                                     -- "mamÁ", since "MAMÁ"Y is a Classic Rexx string
+"MAMÁ"P~lower                                     -- "mamá"
+'ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÜÂÊÎÔÛÑÃÕÇ'T~lower                -- 'áéíóúýàèìòùäëïöüâêîôûñãõç'
+'ὈΔΥΣΣΕΎΣ'T~lower                                 -- 'ὀδυσσεύς' (note the difference between medial and final sigmas)
+'Aİ'P~lower                                       -- 'ai̇' ("6169CC87"X)
+'Aİ'P~lower~length                                -- 3
+```
+
+### pos
+
+   ╭──────╮  ┌────────┐  ╭───╮                                      ╭───╮
+▸▸─┤ pos( ├──┤ needle ├──┤ , ├─┬───────────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰──────╯  └────────┘  ╰───╯ │ ┌───────┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+                               └─┤ start ├─┘  └─┤ , ├──┤ length ├─┘
+                                 └───────┘      ╰───╯  └────────┘
+Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. If necessary, _needle_ is converted to the type of the receiving string. If this conversion fails, a syntax error is raised.
+
+__Examples:__
+
+```
+'string'~pos('s')                                 -- 1
+needle = '👩'                                    -- A BYTES string
+haystack = '(Woman)(Zwj)(Man)'U                   -- Another BYTES string
+haystack~pos(needle)                              -- 8
+needle   = Codepoints(needle)                     -- 1 codepoint
+haystack = Codepoints(haystack)                   -- 3 codepoints
+haystack~pos(needle)                              -- 3
+needle   = Text(needle)                           -- 1 grapheme cluster
+haystack = Text(haystack)                         -- 1 grapheme cluster
+haystack~pos(needle)                              -- 0 (not found)
+haystack~pos('FF'X)                               -- Syntax error ("FF"X is ill-formed UTF-8)
+```
+
+### reverse
+
+```
+   ╭─────────╮             
+▸▸─┤ reverse ├──▸◂
+   ╰─────────╯  
+```
+
+Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively.
+
+__Examples:__
+
+```
+string = '(Woman)(Zwj)(Man)'U
+Say string                                        -- ‍‍👩‍👨
+Say string~c2x                                    -- F09F91A9E2808DF09F91A8
+Say string~reverse~c2x                            -- A8919FF08D80E2A9919FF0
+string = Codepoints(string)
+Say string~reverse                                -- 👨‍👩, i.e., '(Man)(Zwj)(Woan)'U
+string = Text(string)
+Say string == string~reverse                      -- 1, since LENGTH(string) == 1
+```
+
+### right
+
+```
+   ╭────────╮  ┌────────┐                    ╭───╮
+▸▸─┤ right( ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
+                          └─┤ , ├──┤ pad ├─┘
+                            ╰───╯  └─────┘
+```
+
+Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
+
+### substr
+
+```
+   ╭─────────╮  ┌───┐  ╭───╮                                    ╭───╮
+▸▸─┤ SUBSTR( ├──┤ n ├──┤ , ├─┬────────────┬──┬────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └───┘  ╰───╯ │ ┌────────┐ │  │ ╭───╮  ┌─────┐ │ ╰───╯
+                             └─┤ length ├─┘  └─┤ , ├──┤ pad ├─┘
+                               └────────┘      ╰───╯  └─────┘
+```
+
+Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
+
+### upper
+
+```
+   ╭────────╮                                   ╭───╮
+▸▸─┤ upper( ├──┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
+   ╰────────╯  │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
+               └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
+                 └───┘      ╰───╯  └────────┘
+```
+
+Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toUppercase(X)`` definition, as defined in rule R1 of section "Default Case Conversion" of _(The Unicode Standard, Version 15.0 – Core Specification)[https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf]_:
+
+> Map each character C in X to Uppercase_Mapping(C).
+
+Broadly speaking, ``Uppercase_Mapping(C)`` implements the ``Simple_Uppercase_Mapping`` property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD), but a number of exceptions, defined in the ``SpecialCasing.txt`` file of the UCD have to be applied. Additionally, the Iota-subscript, ``"0345"X``, receives a special treatment.
+
+__Examples:__
+
+```
+"this"~upper                                      -- "THIS"
+"mamá"Y~upper                                     -- "MAMá", since "mamá"Y is a Classic Rexx string
+"mamá"P~upper                                     -- "MAMÁ"
+'áéíóúýàèìòùäëïöïÿâêîôûñãõç'~upper                -- 'ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÏŸÂÊÎÔÛÑÃÕÇ'
+'ᾴ'4 upper                                        -- 'ΆΙ' ("03B1 0345 0301"U --> "0391 0301 0399"U)
+'Straße'~upper                                    -- 'STRASSE' (See the uppercasing of the german es-zed)
+```
+
 ### u2c (Unicode codepoints to Character)
 
 ```
    ╭─────╮             
-▸▸─┤ U2C ├──▸◂
+▸▸─┤ u2c ├──▸◂
    ╰─────╯  
 ```
 
