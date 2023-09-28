@@ -102,6 +102,49 @@ __Examples:__
 "Sí"~C2U("UTF32")                       -- "00000053 000000ED"X
 ```
 
+### U2C (Unicode codepoints to Character)
+
+```
+   ╭─────╮             
+▸▸─┤ U2C ├──▸◂
+   ╰─────╯  
+```
+
+This method inspects the target string for validity (see below). If valid,
+it translates the corresponding codepoints to UTF8, and then returns the translated string.
+If not valid, a Syntax condition is raised.
+
+You can use the ``DATATYPE(string, "C")`` BIF  or the ``DATATYPE("C")`` method to verify whether a string is a proper Unicode codepoints string.
+
+The target string is valid when it contains a blank-separated sequence of either:
+
+* Hexadecimal Unicode codepoints, like ``41``, ``E9`` or ``1F514``.
+* Hexadecimal Unicode codepoints preceded with ``U+`` or ``u+``, like ``U+41``, ``u+E9`` or ``U+1F514``.
+* Unicode character names, enclosed between parentheses, like ``(Bell)``, ``(Zero Width Joiner)`` or
+  ``(Latin small letter a with acute)``.
+* Unicode character alias, enclosed between parentheses, like ``(End of line)`` or ``(Del)``.
+* Unicode character labels, enclosed between parentheses, like ``(<Control-0010>)``. Please note that Unicode labels are enclosed themselves between "&lt;" and
+  "&gt;" signs.
+
+When searching for names, aliases and labels, spaces, medial hypens and underscores are ignored (with the exception of ``hangul jungseong o-e``), as are case
+differences. Therefore, ``(Zero Width Joiner)`` is identical to ``(ZERO WIDTH JOINER)``, to ``(ZeroWidthJoiner)``, to ``(Zero_Width_Joiner)`` and
+to ``(Zero-Width Joiner)``: they are all a reference to "200D"U.
+
+A separating space is not necessary after a closing parentheses, or before an opening parentheses.
+
+__Examples:__
+
+```
+"41"~U2C                                -- "A"
+"U+41"~U2C                              -- "A"
+"u+0041"~U2C                            -- "A"
+"(Latin Capital Letter A)"~U2C          -- "A"
+"41 42"~U2C                             -- "AB"
+"1F514"~U2C                             -- "🔔" 
+"(Bell)"~U2C                            -- "🔔"
+"A(Bell)"~U2C                           -- "A🔔"
+```
+
 ---
 
 * ``BYTES``. A class similar to Classic Rexx strings. A BYTES string is composed of bytes, and all the BIFs work as in pre-Unicode Rexx. The BYTES class adds a ``C2U`` method (see the description of the ``C2U`` BIF for 
