@@ -69,6 +69,10 @@ _Changing the view_ of a string is equivalent to _changing the set of BIFs_ that
 
 ## BYTES
 
+### Operator methods
+
+Arithmetic, logical and concatenation methods are reimplemented by the BYTES class to support the ``OPTIONS COERCIONS`` instruction. ``OPTIONS DEFAULTSTRING`` will convert unsuffixed strings to either BYTES, CODEPOINTS or TEXT, and, since CODEPOINTS subclasses BYTES and TEXT subclasses codepoints, all operations will be handled by these reimplemented operator methods.
+
 ### C2U (Character to Unicode codepoints)
 
 ```
@@ -100,6 +104,28 @@ __Examples:__
 "Sí"~C2U("U+")                          -- "U+0053 U+00ED"
 "Sí"~C2U("Na")                          -- "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"
 "Sí"~C2U("UTF32")                       -- "00000053 000000ED"X
+```
+
+### C2X (Character to Hexadecimal)
+
+```
+   ╭─────╮             
+▸▸─┤ C2X ├──▸◂
+   ╰─────╯  
+```
+
+Returns a BYTES string that represents the receiving string converted to hexadecimal.
+
+The C2X method is special, in that its result does not vary when a string changes its class (or type): since a string is _the same_, regardless of its type,
+C2X also returns the same value.
+
+__Examples:__
+
+```
+C2X("👨"T)                              -- "F09F91A8"
+C2X("👨"P)                              -- "F09F91A8"
+C2X("👨"B)                              -- "F09F91A8"
+C2X("(Man)"U)                           -- "F09F91A8"
 ```
 
 ### U2C (Unicode codepoints to Character)
