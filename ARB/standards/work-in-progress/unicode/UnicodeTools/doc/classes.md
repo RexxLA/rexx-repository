@@ -467,4 +467,10 @@ C2X is, therefore, type-invariant.
 ## TEXT
 
 A TEXT string os composed of Unicode extended grapheme clusters. The TEXT class is a subclass of the CODEPOINTS class. The TEXT class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on
-  those, work automatically.
+those, work automatically.
+
+Instances of the class can be created by resorting to the class ``init`` method (``.Text~new("string")``), 
+by using the new built-in function ``TEXT(string)`` (``var = TEXT("string")``), or by using the
+new ``"string"T`` string notation (requires the use of the RXU
+Rexx Preprocessor for Unicode). The strings are checked for UTF-8 well-formedness,
+and a syntax error is raised if they are found to be ill-formed.
