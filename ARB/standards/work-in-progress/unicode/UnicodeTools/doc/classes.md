@@ -6,10 +6,10 @@ The Rexx Preprocessor for Unicode (RXU) implements a set of Rexx extensions that
 
 RXU is a work-in-progress. Its goal is to produce a proof-of-concept implementation of Unicode-enabled Rexx, limited to what has been informally called "stage 1" Unicode in some circles, namely:
 
-* The RXU project is _Classic Rexx-first_. This means that its priority is to first _define a procedural implementation of Unicode Rexx_. This will be achieved by (a) extending the base string type to support a _polymorphic_ system, in which three different types are supported, BYTES, CODEPOINTS and TEXT (the study of these three types will be the subject matter of this document). (b) _Extending the semantics_ of the existing built-in functions (BIFs) to work with Unicode string types, and: (c) _Defining new BIFs_, necessary for Unicode. A classic Rexx implementation, like Regina or BRexx, could be extended, if desided, following the RXU definitions, to produce a Unicode-enabled classic Rexx interpreter.
-* RXU is procedural-first in its _definitions_, but object-oriented in its _implementation_. This means that (a) RXU is implemented in ooRexx, which is object-oriented, but specially that (b) our implementation uses _a set of ooRexx classes_. Regardless of the implementation details, our definitions are still procedural: one could write a new, different, implementation, to produce a Unicode-enabled classic Rexx interpreter implementing the same definitions.
+* The RXU project is _Classic Rexx-first_. This means that its priority is to first _produce a procedural definition of Unicode Rexx_. This will be achieved by (a) extending the base string type to support a _polymorphic_ system, in which three different string types are supported, BYTES, CODEPOINTS and TEXT (the study of these three types will be the subject matter of this document). (b) _Extending the semantics_ of the existing built-in functions (BIFs) to work with the two Unicode string types, namely CODEPOINTS and TEXT; and: (c) _Defining new BIFs_, which will prove necessary for Unicode. A implementation of Classic Rexx, like Regina or BRexx, could be extended, if desided, by following the RXU definitions, to produce a Unicode-enabled Classic Rexx interpreter.
+* RXU is procedural in its _definitions_, but it is object-oriented in its _implementation_. This means that (a) RXU is implemented in ooRexx, which is object-oriented, but specially also that (b) our implementation uses _a set of ooRexx classes_, described below.
 * Our purpose is to be able to _manage Unicode strings_, i.e., read and write Unicode strings, compare and sort them, test them for (in)equality, break them into smaller components, etc. This is what we call "stage 1" Unicode. Other Unicode extensions, like allowing Unicode identifiers in Rexx programs, are considered "stage 2" (or of a later stage), and are not part of the present effort.
-* The _classes_ used in the _implementation_ of RXU are, by themselves, an implementation of a Unicode-extended object-oriented Rexx (ooRexx), which is a strict superset of the procedurally defined extensions. 
+* The _classes_ used in the _implementation_ of RXU are, by themselves, a (partial) implementation of a Unicode-extended object-oriented Rexx (ooRexx), which is a strict superset of the procedurally defined extensions. 
 
 ## A non-object oriented presentation of the classes
 
@@ -17,7 +17,7 @@ From a procedural point of view, a string can have one of three __types__: ``BYT
 
 ### Promotion and demotion BIFs
 
-A BYTES _string_ can be __promoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to TEXT by using the ``TEXT(string)`` BIF; a CODEPOINTS _string_ can be __demoted__ to BYTES by using the ``BYTES(string)`` BIF, or __promoted__ to TEXT by using the ``TEXT(string)`` BIF; a ``TEXT`` _string_ can be __demoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to BYTES by using the ``BYTES(string)`` BIF.
+A BYTES string can be __promoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to TEXT by using the ``TEXT(string)`` BIF; a CODEPOINTS string can be __demoted__ to BYTES by using the ``BYTES(string)`` BIF, or __promoted__ to TEXT by using the ``TEXT(string)`` BIF; a ``TEXT`` string can be __demoted__ to CODEPOINTS by using the ``CODEPOINTS(string)`` BIF, or to BYTES by using the ``BYTES(string)`` BIF.
 
 Demotion always succeeds. Promotion from BYTES can fail: ``CODEPOINTS`` and ``TEXT`` require that their argument _string_ contains well-formed UTF-8. You can validate a _string_ for UTF-8 well-formedness by using the ``UTF8(string)`` BIF or the more general ``DECODE(string,"UTF-8")`` BIF.
 
@@ -27,22 +27,22 @@ A string is always _the same_, irrespective of its type. Changing the type of a 
 
 Namely,
 
-* We _view_ a BYTES string _as a string composed of bytes_ (octets). This is equivalent to Classic Rexx strings, and to the String type of ooRexx. "A character" means the same as "a byte" ("an octet"). BIFs operate on characters = bytes = octets.
-* We _view_ a CODEPOINTS string _as a string composed of Unicode codepoints_. All the usual BIFs will continue working, but new "a character" means "a Unicode codepoint".
-* We _view_ a TEXT string _as a string composed of extended grapheme clusters_. All the usual BIFs will continue working, but new "a character" means "an extended grapheme cluster".
+* We _view_ a BYTES string _as a string made of bytes_ (octets). This is equivalent to Classic Rexx strings, and to the String type of ooRexx. "A character" means the same as "a byte" ("an octet"). BIFs operate on characters = bytes = octets.
+* We _view_ a CODEPOINTS string _as a string made of Unicode codepoints_. All the usual BIFs will continue working, but now "a character" means "a Unicode codepoint".
+* We _view_ a TEXT string _as a string made of extended grapheme clusters_. All the usual BIFs will continue working, but now "a character" means "an extended grapheme cluster".
 
 __Examples:__
 
 ```
 string = "(Man)(Zero Width Joiner)(Woman)"U
-Say string                                       -- "👨‍👩"   U strings are always BYTES strings
+Say string                                       -- "👨‍👩"   (U strings are always BYTES strings)
 Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9"
 Say Length(string)                               -- 11
-Say string[1]                                    -- "�"   "F0"X, which is ill-formed UTF-8,
+Say string[1]                                    -- "�"   string[1] == "F0"X, which is ill-formed UTF-8,
                                                  -- and gets substituted by the Replacement Character
 string = Codepoints(string)                      -- Promote to the CODEPOINTS type
 Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9"   It's the same string,...
-Say Length(string)                               -- 3   ...but its interpretation --its "view"-- has changed
+Say Length(string)                               -- 3   ...but its interpretation (its "view") has changed
 Say string[1]                                    -- "👨"   The first codepoints, i.e., "(Man)"U
 string = Text(string)                            -- Promote to the TEXT type
 Say C2X(string)                                  -- "F09F91A8E2808DF09F91A9"   Still the same string,...
@@ -50,34 +50,34 @@ Say Length(string)                               -- 1   ...but its interpretatio
 Say string[1]                                    -- "👨‍👩"   The first (and only) grapheme cluster
 ```
 
-When a BIF has more than one string as an argument, there is always an argument which is the "main" string. For example, in POS(_needle_, _haystack_), _haystack_ is the main string. The remaining strings are  promoted or demoted, if needed, to match the type of the main string; in the case of promotions, this operation can raise a Syntax error (i.e., when the source string contains ill-formed UTF-8 sequences).
+When a BIF has more than one string as an argument, there is always an argument which is the "main" string. For example, in POS(_needle_, _haystack_), _haystack_ is the main string. The remaining strings are  promoted or demoted, if needed, to match the type of the main string; in the case of promotions, this operation can raise a syntax error (when the string contains ill-formed UTF-8 sequences).
 
 __Examples:__
 
 ```
-Pos("E9"U, "José"T)                               -- 1   Same as Pos( Bytes("E9"U), "José")
+Pos("E9"U, "José"T)                               -- 1   (Same as Pos( Bytes("E9"U), "José") )
 Pos("80"X, "José"T)                               -- Syntax error
 ```
 
 The _view_ of a string is implemented through a set of built-in functions (BIFs), namely, _Classic Rexx BIFs_, the set of functions we are used to (i.e., LENGTH, SUBSTR, POS, etc.) and _new BIFs_, necessary for Unicode.
 
-With a few exceptions, most BIFs are at the same time _the same_ and _different_. They are _the same_ in the sense that they have the _same_ abstract definition, in terms of characters. They are _different_, because the definition of what a character is _changes_ between types, and, therefore, this _same_ definition will have a _different_ meaning. The above example illustrates very clearly these concepts: C2X is one of the few exceptional BIFs, since it always returns a BYTES string, which is _the same_, irrespective of the type of the source string. LENGTH, or the string\[n\] construction, on the other hand, operate _differently_, depending on the type of the string they operate on.
+With a few exceptions, most BIFs are at the same time _the same_ and _different_. They are _the same_ in the sense that they have the _same_ abstract definition, in terms of characters. They are _different_, because the definition of what a character is _changes_ between types, and, therefore, this _same_ definition will have a _different_ meaning. The example above illustrates very clearly these concepts: C2X is one of the few exceptional BIFs, since it always returns a BYTES string, which is _the same_, irrespective of the type of the source string. LENGTH, or the string\[n\] construction, on the other hand, operate _differently_, depending on the type of the string they operate on.
 
 _Changing the view_ of a string is equivalent to _changing the set of BIFs_ that operate on the string.
 
 ## An object-oriented presentation of the classes
 
-The three _types_ of a string, BYTES, CODEPOINTS and TEXT, are implemented with three ooRexx classes, with the corresponding names.
+The three _types_ of a string, BYTES, CODEPOINTS and TEXT, are implemented by defining three ooRexx classes, with the corresponding names.
 
 BYTES is a subclass of STRING. Instances of the BYTES class are composed of bytes (octets). The behaviour of BYTES strings is identical to the behaviour of STRING strings, with a few minor additions and exceptions.
 
-CODEPOINTS is a subclass of BYTES. instances of the CODEPOINTS class are composed of Unicode codepoints. Built-in methods like LENGTH, SUBSTR or POS operate on codepoints.
+CODEPOINTS is a subclass of BYTES. Instances of the CODEPOINTS class are composed of Unicode codepoints. Built-in methods like LENGTH, SUBSTR or POS operate on codepoints.
 
 TEXT is a subclass of CODEPOINTS. Instances of the TEXT class are composed of extended grapheme clusters. Built-in methods like LENGTH, SUBSTR or POS operate on extended grapheme clusters.
 
 ### Implementation details
 
-BYTES redefines most built-in methods (BIMs) in terms of LENGTH and "[]" exclusively. These (re)definitions have the following effect: BYTES becomes completely _character-agnostic_, i.e., it does not make any presupposition about the nature or width of a character. A subclass of BYTES, like CODEPOINTS or TEXT, only has to implement LENGTH and "[]", and it will automatically get all the other BIMs implemented in the terms defined by LENGTH and "[]".
+BYTES redefines most of the built-in methods (BIMs) in terms of LENGTH and "[]" exclusively. These (re)definitions have the following effect: BYTES becomes completely _character-agnostic_, i.e., it does not make any presupposition about the nature or width of a character. A subclass of BYTES, like CODEPOINTS or TEXT, only has to implement LENGTH and "[]", and it will automatically get all the other BIMs implemented in the terms defined by LENGTH and "[]".
 
 For example, CODEPOINTS implements LENGTH as the number of codepoints in a string, and "\[_n_\]" returns the _n_-th codepoint in a string. By implementing these two methods, and only these two methods, all the BIMs redefined by BYTES work for CODEPOINTS strings, and they operate automatically on Unicode codepoints. The same is true if you substitute "CODEPOINTS" for "TEXT" and "Unicode codepoints" for "extended grapheme clusters".
 
@@ -87,7 +87,23 @@ BYTES is the base class of the string hierarchy. It is roughly equivalent to the
 
 ### Operator methods
 
-Arithmetic, logical and concatenation methods are reimplemented by the BYTES class to support the ``OPTIONS COERCIONS`` instruction. ``OPTIONS DEFAULTSTRING`` will convert unsuffixed strings to either BYTES, CODEPOINTS or TEXT, and, since CODEPOINTS subclasses BYTES and TEXT subclasses codepoints, all operations will be handled by these reimplemented operator methods.
+Arithmetic, logical and concatenation methods are reimplemented by the BYTES class to support the ``OPTIONS COERCIONS`` instruction. ``OPTIONS DEFAULTSTRING`` will convert unsuffixed strings to either BYTES, CODEPOINTS or TEXT, and, since CODEPOINTS subclasses BYTES and TEXT subclasses CODEPOINTS, all operations will be handled by these reimplemented operator methods.
+
+#### Implementation details
+
+As an example, here is the code for the multiplication operator method, "*":
+
+```
+::Method "*"
+  Use Strict Arg string
+  class = self~coerceTo(string,"a multiplication")
+  Return class~new(self~"*":.String(string))
+```
+
+"CoerceTo" is a private method of the BYTES class. It compares the class of "self" and the class of "string", and returns the class that should be assigned to the result of the operation,
+according to the ``OPTIONS COERCIONS`` setting (coerceTo raises a syntax error if ``OPTIONS COERCIONS NONE`` is in effect and ``self~class`` and ``string\class`` are different). 
+
+Finally, the "*" method of the .String class is invoked, and the result is coerced to the class returned by coerceTo.
 
 ### c2u (Character to Unicode codepoints)
 
@@ -141,7 +157,7 @@ __Examples:__
 C2X("👨"T)                              -- "F09F91A8"
 C2X("👨"P)                              -- "F09F91A8"
 C2X("👨"B)                              -- "F09F91A8"
-C2X("(Man)"U)                           -- "F09F91A8"
+C2X("(Man)"U)                            -- "F09F91A8"
 ```
 
 ### center/centre
@@ -411,12 +427,38 @@ __Examples:__
 "A(Bell)"~U2C                           -- "A🔔"
 ```
 
----
+## CODEPOINTS
 
-* ``BYTES``. A class similar to Classic Rexx strings. A BYTES string is composed of bytes, and all the BIFs work as in pre-Unicode Rexx. The BYTES class adds a ``C2U`` method (see the description of the ``C2U`` BIF for 
-  details), and reimplements a number of ooRexx built-in methods: \[\], C2X, CENTER, CENTRE, DATATYPE (a new option, ``"C"``, is implemented: ``DATATYPE(string,"C")`` will return __1__ when and only when ``"string"U`` 
-  would be a valid Unicode string), LEFT, LENGTH, LOWER, POS, REVERSE, RIGHT, SUBSTR, U2C (same as ``X2C``, but for ``U`` strings), and UPPER.
-* ``CODEPOINTS``. A CODEPOINTS string is composed of Unicode codepoints. CODEPOINTS is a subclass of BYTES. The CODEPOINTS class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on 
-  those, work automatically.
-* ``TEXT``. A TEXT string os composed of Unicode extended grapheme clusters. TEXT is a subclass of CODEPOINTS. The TEXT class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on
+A CODEPOINTS string is composed of Unicode codepoints. CODEPOINTS is a subclass of BYTES. The CODEPOINTS class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on 
+those, work automatically.
+
+Instances of the CODEPOINTS class _present_ themselves as UTF-8 strings, that is, they
+look as UTF-8 strings, can be compared to raw UTF-8 strings, and so on. We write
+_present_ instead of _represent_ because we are not compromising on
+an (internal) _representation_ of the codepoints, but on a frontier
+interchange _presentation_: when convenient, the strings look as a "normal"
+UTF-8 string, and that's all you need to know.
+
+### Implementation details, and some philosophical comments about the concept of "internal representation"
+
+Indeed, the current implementation of the CODEPOINTS class uses _two_ forms of the same string as its internal state, UTF-8 and UTF-32.
+When you ask for the LENGTH of a CODEPOINTS string, the length of the UTF-32 string is being returned, after dividing it by 4. In other cases,
+the UTF-8 string is used. There is no single entity that can be called "the" internal representation of a CODEPOINTS string, but a set
+of instance variables that, together, constitute the internal state. This is not a novelty brought by RXU, but the way things are
+in the object-oriented world. 
+
+Similar things can be said, _mutatis mutandis_, of the TEXT class.
+
+There is no _internal representation_ of a Unicode string (or, if you prefer, there might be one, but it would be equivalent to
+its internal state, which is complexly structured, can hold many different values, and does not correspond to any basic
+data type or simple memory fragment). There is, however, a clearly defined UTF-8 _presentation_ of a string. The fact
+that the presentation of a string is always UTF-8 allows simple comparisons between strings of different types, and, in general,
+allows to define clear rules for the interoperability of strings of different types.
+
+C2X returns the hexadecimal value of the _presentation_ of a string. Since a string is always _the same_, regardless of its type,
+C2X is, therefore, type-invariant.
+
+## TEXT
+
+A TEXT string os composed of Unicode extended grapheme clusters. TEXT is a subclass of CODEPOINTS. The TEXT class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on
   those, work automatically.
