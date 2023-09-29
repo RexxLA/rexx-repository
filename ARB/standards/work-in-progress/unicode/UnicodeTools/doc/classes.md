@@ -429,8 +429,14 @@ __Examples:__
 
 ## CODEPOINTS
 
-A CODEPOINTS string is composed of Unicode codepoints. CODEPOINTS is a subclass of BYTES. The CODEPOINTS class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on 
+A CODEPOINTS string is composed of Unicode codepoints. The CODEPOINTS class is a subclass of the BYTES class. The CODEPOINTS class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on 
 those, work automatically.
+
+Instances of the class can be created by resorting to the class ``init`` method (``.Codepoints~new("string")``), 
+by using the new built-in function ``CODEPOINTS(string)`` (``var = CodePoints("string")``), or by using the
+new ``"string"P`` string notation (requires the use of the RXU
+Rexx Preprocessor for Unicode). The strings are checked for UTF-8 well-formedness,
+and a syntax error is raised if they are found to be ill-formed.
 
 Instances of the CODEPOINTS class _present_ themselves as UTF-8 strings, that is, they
 look as UTF-8 strings, can be compared to raw UTF-8 strings, and so on. We write
@@ -460,5 +466,5 @@ C2X is, therefore, type-invariant.
 
 ## TEXT
 
-A TEXT string os composed of Unicode extended grapheme clusters. TEXT is a subclass of CODEPOINTS. The TEXT class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on
+A TEXT string os composed of Unicode extended grapheme clusters. The TEXT class is a subclass of the CODEPOINTS class. The TEXT class redefines the most basic BIMs (\[\] and LENGTH), and the other BIMs, being defined on
   those, work automatically.
