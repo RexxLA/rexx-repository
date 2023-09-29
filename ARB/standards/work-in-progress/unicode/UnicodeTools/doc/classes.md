@@ -67,7 +67,23 @@ _Changing the view_ of a string is equivalent to _changing the set of BIFs_ that
 
 ## An object-oriented presentation of the classes
 
+The three _types_ of a string, BYTES, CODEPOINTS and TEXT, are implemented with three ooRexx classes, with the corresponding names.
+
+BYTES is a subclass of STRING. Instances of the BYTES class are composed of bytes (octets). The behaviour of BYTES strings is identical to the behaviour of STRING strings, with a few minor additions and exceptions.
+
+CODEPOINTS is a subclass of BYTES. instances of the CODEPOINTS class are composed of Unicode codepoints. Built-in methods like LENGTH, SUBSTR or POS operate on codepoints.
+
+TEXT is a subclass of CODEPOINTS. Instances of the TEXT class are composed of extended grapheme clusters. Built-in methods like LENGTH, SUBSTR or POS operate on extended grapheme clusters.
+
+### Implementation details
+
+BYTES redefines most built-in methods (BIMs) in terms of LENGTH and "[]" exclusively. These (re)definitions have the following effect: BYTES becomes completely _character-agnostic_, i.e., it does not make any presupposition about the nature or width of a character. A subclass of BYTES, like CODEPOINTS or TEXT, only has to implement LENGTH and "[]", and it will automatically get all the other BIMs implemented in the terms defined by LENGTH and "[]".
+
+For example, CODEPOINTS implements LENGTH as the number of codepoints in a string, and "\[_n_\]" returns the _n_-th codepoint in a string. By implementing these two methods, and only these two methods, all the BIMs redefined by BYTES work for CODEPOINTS strings, and they operate automatically on Unicode codepoints. The same is true if you substitute "CODEPOINTS" for "TEXT" and "Unicode codepoints" for "extended grapheme clusters".
+
 ## BYTES
+
+BYTES is the base class of the string hierarchy. It is roughly equivalent to the ooRexx STRING class, with a few additions. For all BYTES strings, 1 character = 1 byte (1 octet). Most built-in methods (BIMs) behave in exactly the same way as the corresponding method of the STRING class.
 
 ### Operator methods
 
