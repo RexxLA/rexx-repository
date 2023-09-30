@@ -72,7 +72,7 @@ Please note that the fact that a character is complete does not imply that it is
 
 For fixed-length encodings, this is the length in bytes of one character. For variable-length encodings, this is the minimum length in bytes of a character.
 
-### bytesNeededForChar (class method)
+### checkCode (class method)
 
 ```
    ╭────────────╮  ┌──────┐  ╭───╮
@@ -81,6 +81,62 @@ For fixed-length encodings, this is the length in bytes of one character. For va
 ```
 
 This utility method checks to see if its its argument, _code_, is a valid hexadecimal Unicode codepoint, and raises a syntax condition if it is not. Surrogate codepoints are only accepted when the _allowSurrogates_ constant is set to ``.true`` for this particular class.
+
+### checkDecodeOptions (private class method)
+
+```
+   ╭─────────────────────╮  ┌────────┐                               ╭───╮
+▸▸─┤ checkDecodeOptions( ├──┤ format ├─┬───────────────────────────┬─┤ ) ├─▸◂
+   ╰─────────────────────╯  └────────┘ │ ╭───╮  ┌────────────────┐ │ ╰───╯
+                                       └─┤ , ├──┤ error_handling ├─┘
+                                         ╰───╯  └────────────────┘
+```
+
+This is a small utility method to sanitize the values supplied as arguments for the _error_handling_ and _format_ arguments to the _decode_ method. If the supplied values are invalid, it raises a syntax error.
+
+When the values are valid, the method returns a string composed of three blank-separated values.
+
+The first value indicates the form of desired error handling. It will be one of __"NULL"__, to indicate that a null string should be returned when a decoding error is encountered, __"SYNTAX"__, when a Syntax condition should be raised, or __"REPLACE"__, when ill-formed character sequences should be replaced by the Unicode Replacement Character (``"FFFD"U``).
+
+The second value is a boolean indicating whether a UTF-8 version of the supplied string value is being requested or not.
+
+The third value is a boolean indicating whether a UTF-32 version of the supplied string value is being requested or not.
+
+### decode (class method)
+
+   ╭─────────╮  ┌────────┐  ╭───╮                                               ╭───╮
+▸▸─┤ decode( ├──┤ string ├──┤ , ├─┬────────────┬──┬───────────────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯ │ ┌────────┐ │  │ ╭───╮  ┌────────────────┐ │ ╰───╯
+                                  └─┤ format ├─┘  └─┤ , ├──┤ error_handling ├─┘
+                                    └────────┘      ╰───╯  └────────────────┘
+
+This is an abstract method. ALl subclasses of ``.Encoding`` have to implement this method.
+
+This method takes a _string_ as an argument. The string is assumed to be encoded using the encoding implemented by the current class. A decoding operation is attempted. 
+If the decoding operation is successful, a choice of Unicode versions of the string is returned, as determined by the optional second argument, _format_. By default, a UTF-8 version of the argument _string_ is returned.
+
+When _format_ is the null string (__""__), __UTF-8__, __UTF8__ or is not specified, a UTF-8 version of the argument _string_ is returned.
+
+When _format_ is __UTF-32__ or __UTF32__, a UTF-32 version of the argument __string__ is returned.
+
+The format can also contain a blank-separated set of encodings. When both UTF-8 and UTF-32 are requested, they are returned in a stem ``S.``. ``S.UTF8`` will contain the UTF-8 version of the string, and ``S.UTF32`` will contain the UTF-32 version of the string.
+
+For some encodings, the decoding operation may be unsuccessful; for example, an decoding operation can be attempted against an ill-formed UTF-8 sequence. The behaviour of the method is determined by the value of the third, optional, _error_handling_ argument.
+
+When _error_handling_ is __""__ or is not specified (the default), a null string is returned whenever a decoding error is encountered. Please note that this specification does not introduce any ambiguity, since the fact that the decoding of a null string is always a null string is known in advance and may be checked separately (when an array is expected as the return value, a separate check for the null string is needed).
+
+When option has the (case-insensitive) value of "Syntax", a Syntax condition is raised.
+
+Please note that the decode method of the encoding class that corresponds to the source file encoding will be automatically invoked by the encode method when it receives a non-Unicode, non-null, string as its argument. This is done as a way to sanitize the BYTES string to ensure that the decoding operation makes sense (currently, only UTF-8 source files are supported, so that the UTF8 class will be used).
+
+param: string The string to decode.
+param: option = "" [Optional]. Defines the behavior of the method when an error is encountered.
+param: format = "UTF8" Format may be the null string, "UTF8" or "UTF-8", in which case a UTF-8 version of the argument string is returned; it can be "UTF-32" or "UTF-32", in which case a UTF-32 version of the string is returned; or it can be any combination of blank-separated values (repetitions are allowed). If both UTF-8 and UTF-32 versions are requested, the returned value is an array containing the UTF-8 and the UTF-32 versions of the argument string (in this order).
+returns: The decoded value of string, or the null string if an error was encountered and additionally option = "".
+condition: Syntax 93.900: Invalid option 'option'.
+condition: Syntax 93.900 Invalid format 'format'.
+condition: Syntax 23.900: Invalid encoding-name sequence in position n of string: 'hex-value'X (only raised if option = "Syntax").
+
 
 ### endOfLine (abstract getter class method)
 
