@@ -104,11 +104,13 @@ The third value is a boolean indicating whether a UTF-32 version of the supplied
 
 ### decode (class method)
 
+```
    ╭─────────╮  ┌────────┐  ╭───╮                                               ╭───╮
 ▸▸─┤ decode( ├──┤ string ├──┤ , ├─┬────────────┬──┬───────────────────────────┬─┤ ) ├─▸◂
    ╰─────────╯  └────────┘  ╰───╯ │ ┌────────┐ │  │ ╭───╮  ┌────────────────┐ │ ╰───╯
                                   └─┤ format ├─┘  └─┤ , ├──┤ error_handling ├─┘
                                     └────────┘      ╰───╯  └────────────────┘
+```
 
 This is an abstract method. ALl subclasses of ``.Encoding`` have to implement this method.
 
