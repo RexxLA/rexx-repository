@@ -26,6 +26,14 @@ Say Stringtype("12"X)                             -- BYTES: X, B and U strings a
 Say Stringtype("string"T)                         -- TEXT (Explicit suffix)
 ```
 
+__Implementation notes:__
+
+RXU translates an unsuffixed string ``"string"`` to the following expression:
+```
+(!!DS("string"))
+```
+!!DS is a helper routine defined in ``Unicode.cls``; DS stands for Default String. !!DS implements the current OPTIONS DEFAULTSTRING setting.
+
 ## OPTIONS COERCIONS
 
 ``OPTIONS COERCIONS`` _behaviour_, where _behaviour_ can be one of __PROMOTE__, __DEMOTE__, __LEFT__, __RIGHT__ or __NONE__. This instruction determines
