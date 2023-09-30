@@ -47,7 +47,7 @@ By default, RXU works as if OPTIONS COERCIONS PROMOTE had been specified.
 __Note.__ This variant of the OPTIONS instruction is _highly experimental_. Its only purpose is to allow experimentation with implicit coercions. Once a decision is taken about
 the preferred coercion mechanism, it will be removed.
 
-__Implementation restriction:__ This is a global option. You can change it inside a procedure, and it will apply globally, not only to the procedure scope.
+__Implementation restriction:__ This is a global option. You can change it inside a procedure, and it will apply globally, not only to the current scope.
 
 __Examples.__
 
@@ -68,3 +68,15 @@ Options Coercions None
 Say Stringtype( "Left"B || "Right"B )             -- BYTES
 Say Stringtype( "Left"B || "Right"P )             -- Syntax error
 ```
+
+## Implementation notes
+
+The RXU Rexx Preprocessor for Unicode implements the OPTIONS instruction in the following way: when an OPTIONS instruction is encountered, say
+```
+OPTIONS optiona optionb
+```
+the preprocessor transforms it into
+```
+Do; !Options = optiona optionb; Call !Options !Options; Options !Options; End
+```
+``!OPTIONS`` is a routine defined in ``Unicode.cls``.
