@@ -123,9 +123,9 @@ The format can also contain a blank-separated set of encodings. When both UTF-8 
 
 For some encodings, the decoding operation may be unsuccessful; for example, an decoding operation can be attempted against an ill-formed UTF-8 sequence. The behaviour of the method is determined by the value of the third, optional, _error_handling_ argument.
 
-When _error_handling_ is __""__ or is not specified (the default), a null string is returned whenever a decoding error is encountered. Please note that this specification does not introduce any ambiguity, since the fact that the decoding of a null string is always a null string is known in advance and may be checked separately (when an array is expected as the return value, a separate check for the null string is needed).
+When _error_handling_ is __""__ or is not specified (the default), a null string is returned whenever a decoding error is encountered. Please note that this specification does not introduce any ambiguity, since the fact that the decoding of a null string is always a null string is known in advance and may be checked separately.
 
-When option has the (case-insensitive) value of "Syntax", a Syntax condition is raised.
+When _error_handling_ has the (case-insensitive) value of __SYNTAX__, a syntax error is raised.
 
 Please note that the decode method of the encoding class that corresponds to the source file encoding will be automatically invoked by the encode method when it receives a non-Unicode, non-null, string as its argument. This is done as a way to sanitize the BYTES string to ensure that the decoding operation makes sense (currently, only UTF-8 source files are supported, so that the UTF8 class will be used).
 
