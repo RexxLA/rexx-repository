@@ -49,6 +49,36 @@ In addition to a _name_, an encoding may also have a set of case-insensitive _al
 
 Aliases can specified either as a one-dimensional array of strings, or as a blank separated string of words.
 
+
+### allowsurrogates (constant)
+
+```
+   ╭─────────────────╮             
+▸▸─┤ allowsurrogates ├──▸◂
+   ╰─────────────────╯  
+```
+
+This is a boolean constant that determines if surrogates are allowed as Unicode values when decoding a string.
+
+The default is 0 (.false). A class may set this constant to 1 (.true) when it needs to manage ill-formed UTF-16 sequences, 
+containing isolated or out-of-sequence surrogates. Such ill-formed strings are encountered in certain contexts, for example as Windows file names.
+
+WTF-8 and WTF-16 are encodings that need to set allowSurrogates to true.
+
+### alternateEndOfLine (constant)
+
+```
+   ╭────────────────────╮             
+▸▸─┤ alternateEndOfLine ├──▸◂
+   ╰────────────────────╯  
+```
+
+Some encodings and some implementations allow more than one form of end-of-line character. 
+For example, ooRexx recognizes both Windows end of line (CR LF) and Linux end of line (LF) sequences. 
+
+If _alternateEndOfLine_ is the null string, no alternate end of line sequence exists for this encoding. 
+If an alternate end of line sequence is otherwise specified, it has to verify that ``alternateEndOfLine~endsWith(endOfLine) = 1``.
+
 ### bytesNeededForChar (abstract class method)
 
 ```
@@ -112,7 +142,7 @@ The third value is a boolean indicating whether a UTF-32 version of the supplied
                                     └────────┘      ╰───╯  └────────────────┘
 ```
 
-This is an abstract method. ALl subclasses of ``.Encoding`` have to implement this method.
+This is an abstract method. All subclasses of ``.Encoding`` have to implement this method.
 
 This method takes a _string_ as an argument. The string is assumed to be encoded using the encoding implemented by the current class. A decoding operation is attempted. 
 If the decoding operation is successful, a choice of Unicode versions of the string is returned, as determined by the optional second argument, _format_. By default, a UTF-8 version of the argument _string_ is returned.
@@ -129,16 +159,29 @@ When _error_handling_ is __""__ or is not specified (the default), a null string
 
 When _error_handling_ has the (case-insensitive) value of __SYNTAX__, a syntax error is raised.
 
-Please note that the decode method of the encoding class that corresponds to the source file encoding will be automatically invoked by the encode method when it receives a non-Unicode, non-null, string as its argument. This is done as a way to sanitize the BYTES string to ensure that the decoding operation makes sense (currently, only UTF-8 source files are supported, so that the UTF8 class will be used).
+### encode (class method)
 
-param: string The string to decode.
-param: option = "" [Optional]. Defines the behavior of the method when an error is encountered.
-param: format = "UTF8" Format may be the null string, "UTF8" or "UTF-8", in which case a UTF-8 version of the argument string is returned; it can be "UTF-32" or "UTF-32", in which case a UTF-32 version of the string is returned; or it can be any combination of blank-separated values (repetitions are allowed). If both UTF-8 and UTF-32 versions are requested, the returned value is an array containing the UTF-8 and the UTF-32 versions of the argument string (in this order).
-returns: The decoded value of string, or the null string if an error was encountered and additionally option = "".
-condition: Syntax 93.900: Invalid option 'option'.
-condition: Syntax 93.900 Invalid format 'format'.
-condition: Syntax 23.900: Invalid encoding-name sequence in position n of string: 'hex-value'X (only raised if option = "Syntax").
+```
+   ╭─────────╮  ┌────────┐  ╭───╮                        ╭───╮
+▸▸─┤ encode( ├──┤ string ├──┤ , ├─┬────────────────────┬─┤ ) ├─▸◂
+   ╰─────────╯  └────────┘  ╰───╯ │ ┌────────────────┐ │ ╰───╯
+                                  └─┤ error_handling ├─┘
+                                    └────────────────┘
+```
 
+This is an abstract method. All subclasses of ``.Encoding`` have to implement this method.
+
+This method takes a _string_ as an argument. The _string_ can be an Unicode string, in which case an encoding operation is immediately attempted, 
+or it can be a non-unicode string (e.g., a BYTES string), in which case a normalization pass is attempted first. 
+Normalizing consists of transforming the non-Unicode string into a Unicode string by promoting it to the CODEPOINTS class.
+
+Both operations may fail. The promotion, because _string_ contains ill-formed UTF-8, and the encoding, because the Unicode string cannot be encoded to this particular encoding.
+
+The behaviour of the encode method depends on the value of _error_handling_, a second, optional, argument.
+
+When _error_handling_ is the null string (the default), encode returns the null string when it encounters an error (note that there is no ambiguity in this specification because the case where the string argument is itself the null string can be handled separately).
+
+When _error_handling_ has a (case-insensitive) value of __SYNTAX__, a syntax error is raised. No other value for option is currently defined.
 
 ### endOfLine (abstract getter class method)
 
@@ -149,6 +192,26 @@ condition: Syntax 23.900: Invalid encoding-name sequence in position n of string
 ```
 
 Each encoding can define its own end-of-line sequence.
+
+### endOfLineAlignment (abstract getter class method)
+
+```
+   ╭────────────────────╮             
+▸▸─┤ endOfLineAlignment ├──▸◂
+   ╰────────────────────╯  
+```
+
+If endOfLineAlignment is > 1, ``endOfLine`` and ``alternateEndOfLine`` sequences will only be recognized when they are aligned to ``endOfLineAlignment`` bytes.
+
+### isCodeOK (private class method)
+
+```
+   ╭───────────╮  ┌──────┐  ╭───╮
+▸▸─┤ isCodeOK( ├──┤ code ├──┤ ) ├─▸◂
+   ╰───────────╯  └──────┘  ╰───╯
+```
+
+The isCodeOk private utility method checks that its hex argument, _code_, is in the Unicode scalar space. Surrogates are allowed only if allowSurrogates is 1 for the current (sub-)class.
 
 ### isFixedLength (abstract getter class method)
 
@@ -181,3 +244,64 @@ For fixed-length encodings, this is the length in bytes of one character. For va
 ```
 
 An encoding has an official _name_, a case-insensitive label by which it may be uniquely identified.
+
+### prepareEncode (private class method)
+
+```
+   ╭────────────────╮  ┌────────┐  ╭───╮                        ╭───╮
+▸▸─┤ prepareEncode( ├──┤ string ├──┤ , ├─┬────────────────────┬─┤ ) ├─▸◂
+   ╰────────────────╯  └────────┘  ╰───╯ │ ┌────────────────┐ │ ╰───╯
+                                         └─┤ error_handling ├─┘
+                                           └────────────────┘
+```
+
+This is a small private utility method that checks the arguments passed to the encode method; _error_handling_ is checked for validity, and _string_ is transformed into a UTF-32 byte sequence. If _string_ is a CODEPOINTS or a TEXT string, then the C2U("UTF32") method of _string_ is used; in other cases, the decode method of the UTF8 encoding is used, with the UTF32 format option.
+
+The case of the null string is not handled here, since it is conceivable that an encoding could encode the null string to a non-null string (for example, by prepending a BOM or somesuch).
+
+### register (class method)
+
+```
+   ╭───────────╮  ┌─────────┐  ╭───╮
+▸▸─┤ register( ├──┤ handler ├──┤ ) ├─▸◂
+   ╰───────────╯  └─────────┘  ╰───╯
+```
+
+Register is one of the two methods that define the interface to the encoding registry. Its only argument is
+_handler_, the encoding class to register.
+
+The register itself is implemented and stored in a stem called ``Names.``, which is ``exposed`` in the register and "[]" methods.
+
+### transcode (class method)
+
+```
+   ╭────────────╮  ┌────────┐  ╭───╮  ┌────────┐  ╭───╮  ┌────────┐  ╭───╮                        ╭───╮
+▸▸─┤ transcode( ├──┤ string ├──┤ , ├──┤ source ├──┤ , ├──┤ target ├──┤ , ├─┬────────────────────┬─┤ ) ├─▸◂
+   ╰────────────╯  └────────┘  ╰───╯  └────────┘  ╰───╯  └────────┘  ╰───╯ │ ┌────────────────┐ │ ╰───╯
+                                                                           └─┤ error_handling ├─┘
+                                                                             └────────────────┘
+```
+
+__Note:__ This method should be considered final, in the Java sense. It is not intended to be overriden by subclasses.
+
+This method transcodes its first argument, _string_, from the encoding idenfitied by the second argument, _source_, to the encoding identified by the third argument, _target_.
+
+The _string_ argument is supposed to be encoded using the _source_ encoding. It will be decoded first, and then re-encoded with the _target_ encoding.
+
+Both operations may fail. The behaviour of the method when an error is encountered is determined by the value of the fourth, optional, argument, _error_handling_.
+
+When an error is encountered and _error_handling_ is not specified or is the null string (the default), a null string is returned.
+
+When an error is encountered and _error_handling_ has the (case insensitive) value __SYNTAX__, a syntax error is raised.
+
+When no error is encountered, a new string is returned. It is guaranteed to be encoded using the _target_ encoding.
+
+### useAlternateEndOfLine (constant)
+
+```
+   ╭───────────────────────╮             
+▸▸─┤ useAlternateEndOfLine ├──▸◂
+   ╰───────────────────────╯  
+```
+
+For encodings where ``alternateEndOfLine \== ""``, determines whether ``endOfLine`` or ``alternateEndOfLine`` is used when writing a line to a stream.
