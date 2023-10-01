@@ -6,7 +6,7 @@
  *
  * <p>
  *   <code>Stream.cls</code> is loaded (via <code>::Requires</code>) by the main <code>Unicode.cls</code> classfile. 
- *   It contains a set of helper routines to implement <b>Unicode-enabled streams</b>. To enable Unicode-enabled streams
+ *   It contains a set of helper routines to implement <b>Unicode-enabled streams</b>. To use Unicode-enabled streams
  *   you should use the Rexx Preprocessor for Unicode, <code>rxu.rex</code>. This documentation file describes the
  *   encoding/decoding model used by the stream built-in functions, and documents each of the affected built-in functions.
  * </p>

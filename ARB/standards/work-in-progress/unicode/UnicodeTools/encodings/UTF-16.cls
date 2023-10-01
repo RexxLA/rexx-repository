@@ -199,16 +199,25 @@ Decode4:
 Return  
   
 StringIsEmpty:  
-  If returnUTF8    Then Return ""
-  If returnUTF32   Then Return ""
+  If returnUTF8 , returnUTF32  Then Do
+    -- Several targets. Return a stem.
+    s. = .Stem~new()
+    s.["UTF8"]  = ""
+    s.["UTF32"] = ""
+  End
+  If returnUTF8 | returnUTF32  Then Return ""
   -- Validation only
   Return 1
-  
+      
 StringIsGood:
-  If returnUTF8 Then
-    If returnUTF32 Then Return utf8 ~string, utf32~string -- An array
-    Else                Return utf8 ~string
-  If returnUTF32   Then Return utf32~string
+  If returnUTF8 , returnUTF32  Then Do
+    -- Several targets. Return a stem.
+    s. = .Stem~new()
+    s.["UTF8"]  = utf8  ~string
+    s.["UTF32"] = utf328~string
+  End
+  If returnUTF8  Then Return utf8 ~string
+  If returnUTF32 Then Return utf32~string
   -- Validation only
   Return 1
   
@@ -216,9 +225,12 @@ Syntax:
   -- NULL is handled elsewhere
   If syntax Then
     Raise Syntax 23.900 Additional("Invalid UTF-16 sequence in position" i "of string: '"C2X(errorSequence)"'X")  
-  If returnUTF8 Then
-    If returnUTF32 Then Return utf8 ~string, utf32~string -- An array
-    Else                Return utf8 ~string
-  If returnUTF32   Then Return utf32~string  
+  If returnUTF8 , returnUTF32  Then Do
+    -- Several targets. Return a stem.
+    s. = .Stem~new()
+    s.["UTF8"]  = ""
+    s.["UTF32"] = ""
+  End
+  If returnUTF8 | returnUTF32  Then Return ""
   -- Validation only
   Return 0

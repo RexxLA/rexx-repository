@@ -8,26 +8,13 @@
  *
  * <h3><code>Unicode.cls</code>: The main Unicode Tools Of Rexx file</h3>
  *
- * <p>This classfile offers a set of public Unicode routines that implement
- *   the basic Unicode Tools Of Rexx architecture.
- *   Please refer to https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/built-in.md
- *   and to https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md
+ * <p>This classfile offers a set of public routines and classes that implement
+ *   the basic architecture of The Unicode Tools Of Rexx (TUTOR).
+ *   Please refer to 
+ *   <a href="https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/built-in.md">https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/built-in.md</a>
+ *   and to 
+ *   <a href="https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md">https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md</a>
  *   for documentation and examples.
- *
- * <p>
- *   Although the whole set of Unicode Tools can be used in a purely
- *   procedural way, the Tools are implemented by a set of classes, defined
- *   in this file. These are:
- *
- * <pre><code>
- *   .BYTES           -- Similar to .String, it implements a string composed of bytes
- *   .CODEPOINTS      -- Implements a string composed of Unicode codepoints
- *   .TEXT            -- Implements a string composed of extended grapheme clusters
- * </code></pre>
- *
- * <p>
- *   These classes implement the usual built-in methods (BIMs), but adapted
- *   to the elementary constituents of each class.
  *
  *  <h4>Version history</h4>
  *  
@@ -58,8 +45,6 @@
  *    <tr><td>     <td>JMB <td>20230912<td>Re-add OPTIONS COERCIONS support
  *    <tr><td>     <td>JMB <td>20230917<td>Migrate most of the docs to markdown format (see rxu.md and the /docs subdir)
  *  </table>
- *
- *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
  */
 
 .local~bytes                 = .Bytes       -- Make sure .Bytes is known everywhere
@@ -277,53 +262,16 @@ Return string~substr(n, length, pad)
 ::Routine !UPPER Public
   Use Strict Arg string, n = 1, length = (Max(!Length(string) - n + 1,0))
 Return string~upper(n, length)
-    
-/**
- *                                                                          
- *  <h3>The <code>BYTES</code> class</h3>
- *
- *  <p> 
- *    The <code>BYTES</code> class is fundamentally equivalent to the ooRexx built-in      
- *    <code>STRING</code> class. <code>"Y"</code> strings and unpostfixed strings (when 
- *    <code>OPTIONS DEFAULTSTRING BYTES</code> is in effect) will be of this class. 
- *    Having an explicit class (a subclass of <code>STRING</code>) allows us to define fine-grained  
- *    rules about BIF or operation results for mixed-type classes.            
- *   
- */
+
+--------------------------------------------------------------------------------    
+-- The BYTES class                                                            --
+--------------------------------------------------------------------------------    
 
 ::Class "Bytes" SubClass String Public
 
-/**
- * <h4>C2U: character to Unicode codepoints</h4>
- *
- * <p>This method assumes that the target string contains well-formed UTF-8. If this
- *   is not the case, it will raise a Syntax condition.
- *
- * <p>Please note that <code>CODEPOINTS</code> and <code>TEXT</code> strings are always well-formed.
- *
- * <p><code>C2U</code> returns a <code>BYTES</code> string such that if a <code>U</code> were appended to it
- *   and it was inserted as a literal in a Rexx source program it would have
- *   the same string value as the target string.
- *
- * <ul>
- *   <li>
- *     <code>string~c2u</code> or <code>string~c2u("Codes")</code> (the default) will return a sequence of blank-separated codepoints,
- *     (without the <code>"U+"</code> prefix). Codepoints smaller than U+1000 will be
- *     padded on the left with zeros (<code>"0"</code>) until they are four bytes
- *     long. Codepoints larger that U+FFFF will have any leading zeroes removed.
- *     So, for example <code>"Sí"~C2U = "0053 00ED"</code>, and <code>"0053 00ED"U =
- *     "53 C3AD"X = "Sí"</code>, since UTF-8 for <code>"í"</code> is precisely
- *     <code>"C3AD"X</code>.
- *   <li><code>string~c2u("U+")</code> returns
- *      a list of blank-separated codepoints, with the <code>"U+"</code> prefix.
- *      For example, <code>"Sí"~C2U("U+") = "U+0053 U+00ED"</code>.
- *   <li><code>string~c2u("NAMES")</code> (abbreviable to "NA") returns a blank-separated
- *      list of the Unicode "Name" ("Na") property for each character in the target string.
- *      For example, <code>"Sí"~C2U("Na") = "(LATIN CAPITAL LETTER S) (LATIN SMALL LETTER I WITH ACUTE)"</code>.
- *   <li><code>string~c2u("UTF32")</code> returns a UTF-32 representation of the target string, 
- *      for example <code>"Sí"~C2U("UTF32") = "00000053 000000ED"X</code>.
- * </ul>
- */
+-- Please refer to https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/classes.md
+-- for documentation details
+
 ::Method C2U
   Use Strict Arg format=""
 
@@ -355,20 +303,6 @@ Names:
     res ||= " ("P2N(codes[i])")"
   End
   Return Strip(res,"L")
-
-/**
- * <h4><code>U2C</code> Unicode codepoints to Character</h4>
- * 
- * <p>
- *   This method inspects the target string for validity (see below). If valid,
- *   it translates the corresponding codepoints to UTF8, and returns the UTF8 string.
- *   If not valid, a Syntax condition is raised.
- *
- * <p>
- *   You can use the <code>DATATYPE(string, "C")</code> BIF (for "uniCode") or the
- *   <code>DATATYPE("C")</code> method to verify whether a string is a proper Unicode codepoints string.
- *
- */
  
 ::Method U2C
   -- We want to operate on bytes
@@ -557,22 +491,6 @@ UTF8: Procedure
   If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~copies:.String(n))
   Return self~class~new( Copies( self~makeString, n ) )    
 
-/**
- *
- * <h4>DATATYPE</h4>
- *
- * <p>The standard <code>DATATYPE</code> BIM is extended to accept a new value, "C", from "uniCode".
- * <code>String~datatype("C")</code> returns <code>1</code> if and only if <code>string</code>
- * follows the Unicode format, namely, if it consists of a blank-separated series of:
- *
- * <ul>
- *   <li>Valid hexadecimal Unicode codepoints, like <code>61</code>, or <code>200D</code>, or <code>1F514</code>.
- *   <li>Valid hexadecimal Unicode codepoints prefixed with "U+" or "u+", like <code>u+61</code>, or <code>U+200D</code>, or <code>u+1F514</code>.
- *   <li>Names, alias or labels that designate a Unicode codepoint, enclosed between parentheses, like <code>(Latin small letter A)</code>,
- *      <code>(ZWJ)</code>, <code>(Bell)</code>, or <code>(&lt;Control-001d&gt;)</code>.
- * </ul>
- */
-  
 ::Method Datatype
   If Arg() > 1 Then Raise Syntax 93.902 Array(1)
   
@@ -687,66 +605,9 @@ Return 1
   right = self[n+length,self~length] -- ensure we get all the rest
   Return self~class~new(left || center || right)
 
-/**
- *      
- *  <h3>The <code>CODEPOINTS</code> class</h3> 
- *
- *  <p>A .String-like class composed of Unicode codepoints
- *                                                                           
- *  <p>
- *    The <code>CODEPOINTS</code> class implements a new kind of string composed of Unicode
- *    codepoints instead of bytes ("characters"). Individual codepoints can be accessed 
- *    using the ooRexx <code>string[i]</code> notation or the Classic Rexx 
- *    <code>SUBSTR(string,index,1)</code> notation.
- *
- *  <p>
- *    Instances of the class <em>present</em> themselves as UTF-8 strings, that is, they
- *    look as UTF-8 strings, can be compared to raw UTF-8 strings, and so on. We write
- *    <em>present</em> instead of <em>represent</em> because we are not compromising on
- *    an (internal) <em>representation</em> of the codepoints, but on a frontier
- *    interchange <em>presentation</em>: when convenient, the strings look as a "normal"
- *    UTF-8 string, and that's all you need to know.
- *
- *  <p>
- *    Instances of the class can be created by resorting to the class <code>init</code>
- *    method (<code>.Codepoints~new("string")</code>), by using the new built-in function
- *    <code>CODEPOINTS</code> (<code>var = CodePoints("string")</code>), or by using the
- *    new <code>"string"P</code> string notation (requires the use of the <code>rxu</code>
- *    Rexx Preprocessor for Unicode). The strings are checked for UTF-8 well-formedness,
- *    and a Syntax error is raised if they are found to be ill-formed.
- *
- *  <p>
- *    Some of the usual BIFs, in a growing number (e.g., <code>LENGTH</code>, <code>SUBSTR</code>, 
- *    <code>[]</code>, <code>POS</code>, <code>COPIES</code>), are implemented at the codepoint level. 
- *    A new <code>C2U</code> method is provided: it returns a string composed of all the codepoints that        
- *    compose the receiving object, in a blank separated string.               
- *                                                                           
- *  <p>
- *    Codepoints strings can be created by using the <code>CODEPOINTS(string)</code>
- *    built-in function, or using the <code>"string"P</code> notation (requires the use
- *    of the <code>rxu</code> Rexx Preprocessor for Unicode).
- *
- *  <h4>Reimplementation of .String BIMs</h4>
- *
- *  <p>
- *    Only the most basic string manipulation BIMs, like <code>LENGTH</code> and <code>[]</code>, 
- *    are needed, since most of the the rest can be based on those. The majority
- *    of the reimplemented BIMs are thus defined in the <code>Bytes</code> class,
- *    which this class subclasses. They will work equally well with <code>Bytes</code>, 
- *    <code>Codepoints</code> and <code>Text</code> strings.
- *                                                                           
- *  <h4>Version history</h4>
- *            
- *  <table class="table">
- *    <tr><th>Ver.  <th>Aut.<th>Date    <th>Description
- *    <tr><td>00.1  <td>JMB <td>20230716<td>Initial release
- *    <tr><td>00.1c <td>JMB <td>20230718<td>Move property classes to the "property" subdir
- *    <tr><td>00.1d <td>JMB <td>20230719<td>Add support for LEFT, RIGHT and REVERSE
- *    <tr><td>00.1e <td>JMB <td>20230721<td>Add support for LOWER(n,length)
- *    <tr><td>00.1f <td>JMB <td> <td>Add support for UPPER(n,length)
- *    <tr><td>00.1f <td>JMB <td> <td>Make CODEPOINTS a subclass of BYTES, move to Unicode.cls 
- *  </table>
- */
+--------------------------------------------------------------------------------
+-- The CODEPOINTS class                                                       --
+--------------------------------------------------------------------------------
  
 ::Class "Codepoints" SubClass Bytes Public
 
@@ -773,39 +634,10 @@ Return 1
   Expose utf32
   Return Length(utf32) / 4
     
-                
-/**
- *                                                                           
- *  <h3>The <code>TEXT</code> class</h3>
- *                                                                           
- *  <p>
- *    The <code>TEXT</code> class implements a new kind of string composed of Unicode       
- *    grapheme clusters. Some of the usual BIFs, in a growing number, (e.g., <code>LENGTH</code>, 
- *    <code>SUBSTR</code>, <code>[]</code>, <code>POS</code>, <code>COPIES</code>) are implemented 
- *    at the grapheme cluster level. The <code>C2U</code> method of the <code>CODEPOINTS</code>
- *    class is also available, since <code>TEXT</code> is a subclass of <code>CODEPOINTS</code>.  
- *                                                                           
- *  <p>
- *    When a <code>string</code> is a <code>TEXT</code> string, <code>string[i]</code> returns an (extended) grapheme   
- *    cluster, which is itself a <code>TEXT</code> string. You can use the <code>C2U</code> function 
- *    on <code>string[i]</code>, if so desired, to get the individual codepoints that       
- *    compose the i-th grapheme cluster of <code>string</code>.  
- *                                                                           
- *  <p>
- *    <code>TEXT</code> strings can be created by initializing an instance of the <code>TEXT</code>
- *    class (<code>.Text~new("string")</code>), by using the <code>TEXT("string")</code> built-in function,          
- *    or by using the <code>"string"T</code> notation (requires the use of the <code>rxu</code> Rexx Preprocessor for Unicode).        
- *                                                                           
- *  <h4>Version history</h4>
- *                                                                           
- *  <table class="table">
- *    <tr><th>Ver.  <th>Aut.<th>Date    <th>Description
- *    <tr><td>00.1  <td>JMB <td>20230716<td>Initial release
- *    <tr><td>00.1c <td>JMB <td>20230718<td>Move property classes to the "property" subdir
- *    <tr><td>00.2  <td>JMB <td>20230726<td>Merge code with Unicode.cls
- *  </table>
- *                                                                           
- */
+
+--------------------------------------------------------------------------------
+-- The TEXT class                                                             --
+--------------------------------------------------------------------------------
 
 ::Class "Text" SubClass Codepoints Public
   
@@ -813,7 +645,6 @@ Return 1
   Expose graphemes
   self~init:super
   graphemes = .Unicode.Grapheme_Cluster_Break~codepointsToGraphemes( self~C2U, "UTF8" )
-
   
 ::Method "[]"
   Expose graphemes

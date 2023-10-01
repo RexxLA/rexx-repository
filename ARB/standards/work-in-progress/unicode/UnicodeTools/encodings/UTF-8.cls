@@ -37,7 +37,7 @@
  *  <table>
  *    <tr><td><b>1.0</b><td><b>20230811</b><td>Initial release.
  *    <tr><td>          <td><b>20230816</b><td>Change the buffers from strings to mutablebuffer, as per Rony's suggestion
-*    <tr><td><b>1.1</b><td><b>20230926</b><td>JMB</td><td>Change name to UTF-8 as per IANA  
+ *    <tr><td><b>1.1</b><td><b>20230926</b><td>JMB</td><td>Change name to UTF-8 as per IANA  
  *                                                         https://www.iana.org/assignments/character-sets/character-sets.xhtml 
  *  </table>
  * 

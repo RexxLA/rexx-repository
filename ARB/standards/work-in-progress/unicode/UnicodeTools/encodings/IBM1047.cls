@@ -104,7 +104,7 @@
   
   Return res~string
 
-/**
+/*
  * IBM1047 decoding always succeeds (i.e., there is no such thing as a badly
  * encoded IBM1047 sequence).
  */
@@ -144,14 +144,24 @@
   Signal StringIsGood
 
 StringIsGood:
-  If returnUTF8 Then
-    If returnUTF32 Then Return utf8~string, utf32~string -- An array
-    Else                Return utf8~string
-  If returnUTF32   Then Return utf32~string
-  -- Validate only
+  If returnUTF8 , returnUTF32  Then Do
+    -- Several targets. Return a stem.
+    s. = .Stem~new()
+    s.["UTF8"]  = utf8  ~string
+    s.["UTF32"] = utf328~string
+  End
+  If returnUTF8  Then Return utf8 ~string
+  If returnUTF32 Then Return utf32~string
+  -- Validation only
   Return 1
   
-StringIsEmpty:    
-  If returnUTF8  Then Return ""
-  If returnUTF32 Then Return ""
-  Return 1
+StringIsEmpty:  
+  If returnUTF8 , returnUTF32  Then Do
+    -- Several targets. Return a stem.
+    s. = .Stem~new()
+    s.["UTF8"]  = ""
+    s.["UTF32"] = ""
+  End
+  If returnUTF8 | returnUTF32  Then Return ""
+  -- Validation only
+  Return 1  

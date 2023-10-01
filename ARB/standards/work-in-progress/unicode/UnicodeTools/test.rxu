@@ -1,2 +1,0 @@
-string = BYTES( "(Man)(Zero Width Joiner)(Woman)"U )        --
-Say String
