@@ -454,6 +454,31 @@ __Important note__
 
 Using ``getSimpleToken`` and ``getFullToken`` with the same tokenizer instance can lead to impredictable results.
 
+### syntax_error
+
+```
+                                                                            ╭───╮
+                                                                        ┌───┤ , ├───┐
+                                                                        │   ╰───╯   │
+   ╭───────────────╮  ┌──────┐  ╭───╮  ┌───────┐  ╭───╮  ┌─────┐  ╭───╮ │ ┌───────┐ │ ╭───╮
+▸▸─┤ syntax_error( ├──┤ code ├──┤ , ├──┤ start ├──┤ , ├──┤ end ├──┤ , ├─┴─┤ value ├─┴─┤ ) ├─▸◂
+   ╰───────────────╯  └──────┘  ╰───╯  └───────┘  ╰───╯  └─────┘  ╰───╯   └───────┘   ╰───╯
+```
+
+Returns a special type of token, ``SYNTAX_ERROR``, that includes extra information to identify a syntax error. The arguments to _syntax_error_ are:
+
+* The error _code_, in the format ``major.minor``.
+* The _start_ location and the _end_ location. Their format is ``startLine startCol endLine endCol``. The location of the error token will be the start position of the _start_ location followed by the end position of the _end_ location.
+* The following arguments are the substitution instances for the secondary error message.
+
+The tokenizer uses the _syntax_error_ method to return special tokens when a syntax error is encountered. Both the class and the subclass components of the returned stem are ``SYNTAX_ERROR``. Other components of the returned stem ``token.`` are:
+
+* ``value`` is the main error message. Same as ``message``.
+* ``message`` is the main error message. Same as ``value``.
+* ``number`` is the error number, in the ``major.minor`` format, as specified in the first argument to _syntax_error_.
+* ``secondaryMessage`` is the secondary error message, with all substitutions applied.
+* ``line`` is the line number where the error occurred.
+
 ## Implementation notes
 
 ### Private routines
