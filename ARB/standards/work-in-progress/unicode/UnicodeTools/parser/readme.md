@@ -10,11 +10,17 @@ When requesting full tokens, an optional mechanism allows access to the ignored 
 not ignorable but that have been included ("absorbed") for your convenience: for example, labels include their own colon,
 keyword instructions include the first blank after the keyword, if any, and so on.
 
+This help file starts with a high-level description of the tokenizer functionality, and ends with an enumeration
+and description of the tokenizer methods and auxiliary routines.
+
+## Subclasses and Unicode support
+
 The tokenizer intent is to support all the syntactical constructs of Open Object Rexx (ooRexx), Regina Rexx and ANSI Rexx.
 You can select the desired syntax subset at instance creation time by selecting the appropriate class.
 
 ```rexx
-Rexx.Tokenizer        -- The main class
+Rexx.Tokenizer        -- The main class. Choose a subclass
+
 ooRexx.Tokenizer      -- Tokenizes programs written in ooRexx
 Regina.Tokenizer      -- Tokenizes programs written in Regina Rexx
 ANSI.Rexx.Tokenizer   -- Tokenizes programs written in ANSI Rexx
@@ -24,7 +30,7 @@ Subclasses starting with "Regina" accept the Regina Rexx syntax; subclasses star
 (for example, comments starting with "--" are accepted by Regina but not by ANSI); subclasses starting with "ooRexx" accept ooRexx syntax;
 for example, "\[", "\]" and "~" are valid characters for ooRexx subclasses but not for Regina or ANSI subclasses.
 
-The tokenizer supports classic comments (including nested comments), line comments and strings. ooRexx ::Resources are also handled.
+The tokenizer supports classic comments (including nested comments), line comments and strings. The ooRexx ``::ESOURCE`` construct is also accepted.
 
 When a Unicode class is used (see below), Y-, P-, T- and U-suffixed strings are recognized, translated (in the case of U strings) and supported.
 
@@ -39,16 +45,18 @@ the kind of variable (simple, stem or compound), etc.
 
 ## Creating a tokenizer instance
 
-To create a tokenizer instance, you will need to construct a Rexx array containing the source file to tokenize.
+To create a tokenizer instance, you will first need to construct a Rexx array containing the source to tokenize. This array will
+then be passed as an argument to the ``init`` method of the corresponding tokenizer class to produce an instance of the tokenizer
+for this particular source.
 
 ```rexx
-size   = Stream(inFile,"Command","Query Size")
-array  = CharIn(inFile,,size)~makeArray
+size   = Stream(inFile,"Command","Query Size")     -- Source is located in a file
+array  = CharIn(inFile,,size)~makeArray            -- Read the whole file and produce an array
 tokenizer = .ooRexx.Tokenizer~new(array)           -- Or Regina.Tokenizer, etc.
 ```
 
 You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the ``getSimpleToken`` tokenizer method),
-or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the ``getFullToken tokenizer method).
+or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the ``getFullToken`` tokenizer method).
 
 ```rexx
 tokenizer = .ooRexx.Tokenizer~new(array)
@@ -374,3 +382,19 @@ If token.class == SYNTAX_ERROR Then Do
   Return -major                                                    -- Should be returned when Syntax error
 End
 ```
+
+## Public routines
+
+### ErrorMessage
+
+```
+     ╭───────────────╮  ┌────────┐  ╭───╮  ┌─────────────┐  ╭───╮
+▸▸───┤ ErrorMessage( ├──┤ number ├──┤ , ├──┤ subst_array ├──┤ ) ├─▸◂
+     ╰───────────────╯  └────────┘  ╰───╯  └─────────────┘  ╰───╯
+```
+
+Returns an array containing the major and minor error messages (in this order) associated to the specified _code_, which has to take the form _major.minor_ (where _major_
+is the major error code, and _minor_ is the minor error code), with all placeholder instances substituted by the values of the array _subst_array_.
+
+This routine returns different error messages, depending on the tokenizer subclass. For example, error 6.1 is ``'Unmatched comment delimiter ("/*") on line &1'``, with one
+substitucion instance, for ooRexx, but ``'Unmatched comment delimiter (""/*")'`` for Regina Rexx, with no substitution instances.
