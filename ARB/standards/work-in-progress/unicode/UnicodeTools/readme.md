@@ -1,4 +1,4 @@
-# The Unicode Tools Of Rexx
+# The Unicode Tools Of Rexx (TUTOR)
 
 Version 0.4a, 20231002.
 
@@ -29,7 +29,7 @@ You can then navigate to the ``samples`` directory and try the samples by using 
     * [The properties model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/properties/readme.md)
   * [New classes](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/classes.md)
   * [New values for the OPTIONS instruction](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/options.md)
-* [For the Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md).
+* [For the Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md)
 
 ## Release notes for version 0.4a, 20231002
 
@@ -38,6 +38,14 @@ This release, apart from a large number of documentation improvements and bug fi
 * A new UTF8 built-in function has been defined. It contains the main part of the UTF-8 decoder, previously found in the ``encodings/Encoding.cls`` package. The new routine has been geenralized so that it can manage
   strings in UTF-8, UTF-8Z, CESU-8, MUTF-8 and WTF-8 formats. See [the code](utf8.cls) and [the UTF8 section](doc/new-functions.md#utf8) of [this helpfile](doc/new-functions.md) for documentation details.
 * Documentation has been migrated to markdown format. Most classes and routines are fully or partially documented. This includes some internal details, which are generally marked as "implementation notes".
+
+## Components of TUTOR which can be used independently
+
+There are currently two components of TUTOR which can be used independently of TUTOR, since they have no absolute dependencies on other TUTOR components.
+
+* [The Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md) can be used independently of TUTOR, but you will need TUTOR
+  if you need Unicode support (i.e., U, P, T and U strings).
+* [The UTF8](utf8.cls) routine can be used independently of TUTOR. UTF8 detects whether Unicode.cls has been loaded (by looking for a .Bytes class), and returns .Bytes strings or standard ooRexx strings as appropriate.
 
 ---
 
