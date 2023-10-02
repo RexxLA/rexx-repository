@@ -484,3 +484,14 @@ substitucion instance, for ooRexx, but ``'Unmatched comment delimiter (""/*")'``
 
 ``InitializeActionPairs`` implements the ``Action.`` stem, which is the core of the finite state automaton implementing the full tokenizing phase. Simple tokens are examined in a window of two consecutive tokens, and a series of actions is activated by examining the classes of these tokens. For example, a ``BLANK`` adjacent to a ``COLON`` can always be ignored ("absorbed"), and so on.
 
+### InitializeCharacterCategories  
+
+```
+   ╭───────────────────────────────╮
+▸▸─┤ InitializeCharacterCategories ├─▸◂
+   ╰───────────────────────────────╯
+```
+
+Each character in the ``"00"X.."FF"X`` range is assigned a character category, simbolized by a single character: digits (``"0".."9"``) are assigned the category "digit" (``"d"``), letters (``"a".."z"`` and ``"A".."Z"``, plus ``"_"``, ``"?"``, ``"!"`` and some other implementation-dependent characters) are assigned the "general_letter" (``"l"``) category, and so on.
+
+When we are about to tokenize a line ``L``, we will use the ``TRANSLATE`` BIF to obtain a new string containing the character categories of each individual character in ``L``. This allows a very efficient determination of the token boundaries. For example, a run of ``"d"`` will identify a simple number, a run of ``"d"`` or ``"l"`` will identify a simple symbol, and so on.
