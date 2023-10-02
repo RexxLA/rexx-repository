@@ -1,6 +1,6 @@
 # The Unicode Tools Of Rexx
 
-Version 0.4, 20230901.
+Version 0.4a, 20231002.
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────────┐  
@@ -19,8 +19,26 @@ You can then navigate to the ``samples`` directory and try the samples by using 
 
 ## Documentation
 
-* [For The Unicode Tools Of Rexx](https://htmlpreview.github.io/?https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/oorexxdoc.html).
+* [For The Unicode Tools Of Rexx (TUTOR, this file)](https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/readme.md).
+* [For RXU, the Rexx Preprocessor for Unicode](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/rxu.md)
+  * [New types of strings](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/string-types.md)
+  * [Revised built-in functions](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/built-in.md)
+    * [Stream functions for Unicode](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/stream.md)
+    * [The encoding/decoding model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/encodings/readme.md)
+  * [New built-in functions](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md)
+    * [The properties model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/properties/readme.md)
+  * [New classes](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/classes.md)
+  * [[New values for the OPTIONS instruction](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/options.md)
 * [For the Rexx Tokenizer](https://htmlpreview.github.io/?https://raw.githubusercontent.com/RexxLA/rexx-repository/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/doc/packages/Rexx.Tokenizer.cls.html).
+
+## Release notes for version 0.4a, 20231002
+
+This release, apart from a large number of documentation improvements and bug fixes, contains two main improvements:
+
+* A new UTF8 built-in function has been defined. It contains the main part of the UTF-8 decoder, previously found in the ``encodings/Encoding.cls`` package. The new routine has been geenralized so that it can manage
+  strings in UTF-8, UTF-8Z, CESU-8, MUTF-8 and WTF-8 formats. See [the code](utf8.cls) and [the UTF8 section](doc/new-functions.md#utf8) of [this helpfile](doc/new-functions.md) for documentation details.
+
+---
 
 ## Release notes for version 0.4, 20230901.
 
