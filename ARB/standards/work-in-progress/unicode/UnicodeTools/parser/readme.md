@@ -525,3 +525,13 @@ This method creates a stem that will be used to discriminate if a symbol is a va
 ```
 
 The ``InitializeKeywordInstructions`` method creates the ``keywordInstruction.`` stem, which allows us to determine whether a certain ``SIMPLE VAR_SYMBOL`` is a candidate to start a ``KEYWORD_INSTRUCTION`` or not. The stem is customized for the ooRexx, Regina and ANSI cases.
+
+### InitializeOperatorTable
+
+```
+   ╭─────────────────────────╮
+▸▸─┤ InitializeOperatorTable ├─▸◂
+   ╰─────────────────────────╯
+```
+
+The ``InitializeOperatorTable`` method creates the ``operator_subclass.`` stem. This stem allows us to discriminate which operator character combinations constitute valid Rexx operators, and which is its corresponding syntactic category (``ADDITIVE_OPERATOR``, ``LOGICAL_OPERATOR``, etc.) that should be assigned to those operators.
