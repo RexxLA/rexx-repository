@@ -19,7 +19,7 @@ You can then navigate to the ``samples`` directory and try the samples by using 
 
 ## Documentation
 
-* [For The Unicode Tools Of Rexx (TUTOR, this file)](https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/readme.md).
+* [For The Unicode Tools Of Rexx (TUTOR, this file)](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/readme.md).
 * [For RXU, the Rexx Preprocessor for Unicode](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/rxu.md)
   * [New types of strings](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/string-types.md)
   * [Revised built-in functions](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/built-in.md)
@@ -37,6 +37,7 @@ This release, apart from a large number of documentation improvements and bug fi
 
 * A new UTF8 built-in function has been defined. It contains the main part of the UTF-8 decoder, previously found in the ``encodings/Encoding.cls`` package. The new routine has been geenralized so that it can manage
   strings in UTF-8, UTF-8Z, CESU-8, MUTF-8 and WTF-8 formats. See [the code](utf8.cls) and [the UTF8 section](doc/new-functions.md#utf8) of [this helpfile](doc/new-functions.md) for documentation details.
+* Documentation has been migrated to markdown format. Most classes and routines are fully or partially documented. This includes some internal details, which are generally marked as "implementation notes".
 
 ---
 
