@@ -546,4 +546,12 @@ The ``InitializeOperatorTable`` method creates the ``operator_subclass.`` stem. 
 
 The ``InitializeSimpleTokenizer`` method initializes a series of variables that will hold the context when tokenizing a ``::RESOURCE`` directive.
 
+### InitializeTokenizer 
 
+```
+   ╭──────────────────────╮
+▸▸─┤ InitializeTokenizer  ├─▸◂
+   ╰──────────────────────╯
+```
+
+The ``InitializeTokenizer`` method sets a number of variables to track the special context for ``THEN`` clauses, the special token supplied at begin-of-source, and the extra buffer used when we are forced, in the full tokenizer, to insert certain symbols, for example, a semicolon after a label, or a ``THEN``, ``ELSE`` or ``OTHERWISE`` clauses.
