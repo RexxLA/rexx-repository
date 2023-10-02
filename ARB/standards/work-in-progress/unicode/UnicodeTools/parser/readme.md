@@ -14,7 +14,7 @@ License: Apache License 2.0 ([https://www.apache.org/licenses/LICENSE-2.0](https
 
 __Notice:__
 
-Although this routine is part of TUTOR, The Unicode Tools Of Rexx,
+Although this class is part of TUTOR, The Unicode Tools Of Rexx,
 it can also be used separately, as it has no dependencies on the rest
 of components of TUTOR.
 
