@@ -499,9 +499,19 @@ When we are about to tokenize a line ``L``, we will use the ``TRANSLATE`` BIF to
 ### InitializeClasses 
 
 ```
-   ╭────────────────────╮
-▸▸─┤ InitializeClasses  ├─▸◂
-   ╰────────────────────╯
+   ╭───────────────────╮
+▸▸─┤ InitializeClasses ├─▸◂
+   ╰───────────────────╯
 ```
 
 This method scans the ``tokenClasses`` vector and assigns the values of the corresponding constants. It also creates some useful compound values, like ``STRING_OR_SYMBOL``, or ``CLAUSE``.
+
+### InitializeDirectives 
+
+```
+   ╭──────────────────────╮
+▸▸─┤ InitializeDirectives ├─▸◂
+   ╰──────────────────────╯
+```
+
+This method creates a stem that will be used to discriminate if a symbol is a valid directive name or not.
