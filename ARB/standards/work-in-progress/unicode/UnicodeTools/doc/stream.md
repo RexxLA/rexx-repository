@@ -154,3 +154,17 @@ A fourth argument to the ``ENCODE`` BIF determines the way in which ill-formed c
 When the fourth argument is omitted, or is specified as ``""`` or ``"NULL"`` (the default), a null string is returned if any ill-formed sequence is found.
 When the fourth argument is ``"REPLACE"``, any ill-formed character is replaced with the Unicode Replacement Character (U+FFFD). When the fourth
 argument if ``"SYNTAX"``, a Syntax error is raised in the event that an ill-formed sequence is found.
+
+###  Implementation limits, and some reflections
+
+The usual semantics of the stream BIFs can not be directly translated to the Unicode world without a lot of precautions and limitations.
+Some of these limitations are due to the fact that the present implementation is a prototype, a proof-of-concept. Some other limitations
+are of a more serious nature.
+* _Variable-length encodings_. Managing character read/write positions for variable-length encodings, like UTF-8 and UTF-16, can
+  be prohibitive to the point of becoming impractical. The same can be said when the target type is TEXT (a "character", in this case, is 
+  an [extended] grapheme cluster, and, in the limit case, an arbitrarily large cluster could substitute a one-byte, one-letter, ASCII grapheme.
+  Operating systems don't have primitives to insert/delete bytes in the middle of a file, and, although this behaviour can certainly be simulated, it can be
+  so, but at a extremely expensive price. It is highly dubious that such a functionality should be defined in the language, or implemented.
+* _In an encoding where the LF (``"0A"X``) character can be embedded in a normal character, like UTF-16 or UTF-32, ooRexx 
+  line count and line positioning can not be relied upon. This implementation does not go to the lengths of actively simulating line count
+  and positioning, and therefore, it preventively disables such operations.
