@@ -17,11 +17,24 @@ A stream is said to be **Unicode-enabled** when an ``ENCODING`` is specified in 
 ```rexx
    Call Stream filename, "Command", "Open read ENCODING UTF-8"
 ```
-Stream I/O BIFs recognize that the stream is Unicode-enabled, and change their behaviour accordingly:
 
-* The contents of the line is automatically decoded and converted to Unicode (i.e., to a UTF-8 *presentation*).
+When an encoding is specified, STREAM first checks that an encoding with that name is available in the system. 
+The name is looked for both as an official name, and as an alias. 
+If no encoding of that name can be found in the system, a syntax error is raised. 
+If the encoding can be found, the stream is open, in the mode specified by the options in the OPEN command, 
+and the encoding information gets associated with the stream until the stream is closed. 
+The official name of the encoding can be retrieved by using the ``QUERY ENCODING NAME`` command:
+
+```
+Call Stream filename, "Command", "Open Read ENCODING IBM-1047"     -- IBM-1047 is an alias for the encoding
+Say  Stream filename, "Command", "QUERY ENCODING NAME"             -- IBM1047 (maybe): the official name of the encoding is returned
+```
+
+Once a stream is opened with the ENCODING option, stream I/O BIFs recognize that the stream is Unicode-enabled, and change their behaviour accordingly:
+
+* For input BIFs, the contents of the stream is automatically decoded and converted to Unicode (i.e., to a UTF-8 *presentation*).
 * Both ``LINEIN`` and ``CHARIN`` return strings of type ``TEXT``, composed of extended grapheme clusters.
-* When you call ``CHARIN`` and specify the *length* parameter, the appropriate number of characters (grapheme clusters) are read and returned.
+* When you call ``CHARIN`` and specify the *length* parameter, the appropriate number of codepoints (or grapheme clusters) are read and returned.
 * Each encoding can specify its own set of end-of-line characters. For example, the IBM-1047 encoding (a variant of EBCDIC)
   specifies that ``"15"X``, the NL character, is to be used as end-of-line. Both ``LINEIN`` and ``LINEOUT`` honor this requirement, i.e.,
   when reading lines, a line will be ended by ``"15"X``, and when writing lines, they will be ended by ``"15"X`` too, instead of the
@@ -32,9 +45,6 @@ Stream I/O BIFs recognize that the stream is Unicode-enabled, and change their b
 * Similarly, when the Unicode-enabled stream has a string target of ``TEXT`` (the default), some operations can become prohibitive too:
   a ``TEXT`` "character" is, indeed, a grapheme cluster, and a grapheme cluster can have an arbitrary length. Direct-access character
   substitutions become too expensive to implement.
-
-**Note**: *We should start a discussion about what features we are used to, like direct-access character substitution, make sense and should be
-implemented for Unicode-enabled streams*.
 
 ### Error handling
 
