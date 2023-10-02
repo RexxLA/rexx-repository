@@ -4,7 +4,7 @@ This directory contains the main Properties class, ``Properties.cls``, and the i
 
 The Properties class makes use of a number of auxiliary classes, MultiStageTable and PersistentStringTable.
 
-## The MultiStageTable class
+## The MultiStageTable class (internal documentation)
 
 This class specializes in producing two-stage tables, three-stage tables, or, in general multi-stage tables.
 
@@ -60,6 +60,39 @@ The current implementation uses several hardcoded constants. This can be changed
 
 Creates a new multi-stage table. The _offset_ and _chunks_ tables should have been created by the _compress_ class method. _Width_ and _big_values_ are optional. When specified, _width_ should be a positive number greater than 1, and _big_values_ should be a string of _width_-byte values. In that case, the 1-byte value obtained from _offset_ and _chunks_ is multiplied by _width_ and used as an index into _big_values_.
 
+## PersistentStringTable (internal documentation)
+
+PersistentStringTable is a subclass of StringTable that can be quickly saved and restored to a file.
+
+The present implementation has the following limitations:
+
+* Keys must all be < 256 characters in length.
+* Values must all be strings, or have a string value and be apt to be saved as strins.
+* The total size of the resulting file (that is, keys + values + overhead) must not exceed 2**32 bytes.
+  
+Format of the binary file:
+
+```
+              0         1         2         3         4
+              ┌─────────┬─────────┬─────────┬─────────┐
+   0          │       number of items (32 bits)       │   4
+              ├─────────┼─────────┼─────────┼─────────┤
+   4          │  len1   │  5                              len1 = Len(key1)
+              ├─────────┼─────────┼         ┼─────────┤
+   5          │  key1 . . . . . . . . /// . . . . . . │   5 + len1
+              ├─────────┼─────────┼─────────┼─────────┤
+   5 + len1   │      offset of value 1 (32 bits)      │   5 + len1 + 4  ─────────────────┐       
+              ├─────────┼─────────┼─────────┼─────────┤                                  │
+   9 + len1   │      length of value 1 (32 bits)      │   5 + len1 + 4 + 4               │
+              ├─────────┼─────────┼─────────┼─────────┤                                  │ This points here 
+  13 + len1      (structure repeats for key2..keyn)                                      │
+              ├─────────┼─────────┼         ┼─────────┤                                  │
+   offset1    │  value1 . . . . . . . /// . . . . . . │   offset1 + Len(val1)  <─────────┘           
+              ├─────────┼─────────┼         ┼─────────┤
+
+              (structure is repeated for value2..valuen)
+```
+
 ## The Properties class (internal documentation)
 
-
+TBD
