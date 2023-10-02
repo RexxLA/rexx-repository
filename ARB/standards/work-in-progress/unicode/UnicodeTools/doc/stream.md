@@ -1,6 +1,14 @@
 # Stream functions for Unicode
 
-Several of the stream built-in functions have been rewritten to implement a basic level of Unicode support
+Several of the stream built-in functions have been rewritten to implement a basic level of Unicode support.
+
+Unicode support for the built-in functions is implemented by the ``stream.cls`` package. It contains a set of
+helper routines implementing Unicode-enabled streams.
+
+### Backwards compatibility
+
+By default, stream operations continue to be byte-oriented, unless you specifically request otherwise. 
+This allows existing programs to continue to run unchanged.
 
 ### Unicode-enabled streams
 
