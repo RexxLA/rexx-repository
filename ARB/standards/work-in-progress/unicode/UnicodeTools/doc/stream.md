@@ -49,21 +49,21 @@ Once a stream is opened with the ENCODING option, stream I/O BIFs recognize that
 ### Error handling
 
 When using a Unicode-enabled stream, encoding and decoding errors can occur. By default, ill-formed characters are replaced by the Unicode
-Replacement Character (``U+FFFd``). You can explicitly request this behaviour by specifying the ``REPLACE`` option in the ``ENCODING``
+Replacement Character (``U+FFFd``). You can explicitly request this behaviour by specifying the __REPLACE__ option in the ``ENCODING``
 of your stream:
 
 ```rexx
    Call Stream filename, "Command", "Open read ENCODING UTF-8 REPLACE"
 ```
 
-``REPLACE`` is the default option for error handling. You can also specify ``SYNTAX`` as an error handling option,
+__REPLACE__ is the default option for error handling. You can also specify __SYNTAX__ as an error handling option,
 
 ```rexx
    Call Stream filename, "Command", "Open read ENCODING UTF-8 SYNTAX"
 ```
 
-Finding ill-formed characters will then raise a Syntax error. If the Syntax condition is trapped, you will be able to access the
-undecoded or unencoded offending line or character sequence by using the ``"QUERY ENCODING LASTERROR"`` ``STREAM`` command:
+finding ill-formed character sequences will then raise a syntax error. If the syntax condition is trapped, you will be able to access the
+undecoded or unencoded offending line or character sequence by using the __QUERY ENCODING LASTERROR__ ``STREAM`` command:
 
 ```rexx
    Call Stream filename, "Command", "Open read ENCODING UTF-8 SYNTAX"
@@ -78,21 +78,32 @@ undecoded or unencoded offending line or character sequence by using the ``"QUER
       -- Do something with "offendingLine"
    ...
 ```
+
+If the function causing the error was ``LINEIN`` or ``CHARIN``, the result of the __QUERY ENCODING LASTERROR__ command
+will be the original, undecoded, line or character sequence, as it appears in the file. If the function causing the error was ``LINEOUT`` or
+``CHAROUT``, the result of the __QUERY ENCODING LASTERROR__ is the string provided as an argument.
+
 ### Specifying the target type
 
-By default, Unicode-enabled streams return strings of type ``TEXT``, composed of grapheme clusters. In some occasions, you may prefer
-to receive ``CODEPOINTS`` strings. You can specify the target type in the ``ENCODING`` section of your ``STREAM`` ``OPEN`` command:
+By default, Unicode-enabled streams return strings of type TEXT, composed of grapheme clusters. In some occasions, you may prefer
+to manage CODEPOINTS strings. You can specify the target type in the ``ENCODING`` section of your ``STREAM`` ``OPEN`` command:
 
 ```rexx
    Call Stream filename, "Command", "Open read ENCODING UTF-8 TEXT"
 ```
 
-When you specify ``TEXT`` (the default), returned strings are of type ``TEXT``. When you specify ``CODEPOINTS``, returned strings are
-of type ``CODEPOINTS``.
+When you specify __TEXT__ (the default), ``LINEIN`` and ``CHARIN`` will return strings are of type TEXT. When you specify __CODEPOINTS__, returned strings will be
+of type CODEPOINTS.
 
-**Note**: *Some operations that are easy to implement for a ``CODEPOINTS`` target type can become impractical when switching to a ``TEXT`` type.
-For example, UTF-32 is a fixed-length encoding, so that with a ``CODEPOINTS`` target type, direct-access character positioning and
-substitution is trivial to implement. On the other hand, if the target type is ``TEXT``, these operations become very difficult to implement*.
+**Note**: *Some operations that are easy to implement for a CODEPOINTS target type can become impractical when switching to a TEXT type.
+For example, UTF-32 is a fixed-length encoding, so that with a CODEPOINTS target type, direct-access character positioning and
+substitution is trivial to implement. On the other hand, if the target type is TEXT, these operations become very difficult to implement*.
+
+### Options order
+
+You can specify any of __TEXT__, __CODEPOINTS__, __REPLACE__ and __SYNTAX__ in any order, but you can not specify
+contradictory options. For example, __TEXT SYNTAX__ is the same as __SYNTAX TEXT:: (and as __Syntax text__, since case is ignored), 
+but __REPLACE SYNTAX__ will produce a syntax error.
 
 ### STREAM QUERY extensions
 
