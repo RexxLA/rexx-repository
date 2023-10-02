@@ -535,3 +535,15 @@ The ``InitializeKeywordInstructions`` method creates the ``keywordInstruction.``
 ```
 
 The ``InitializeOperatorTable`` method creates the ``operator_subclass.`` stem. This stem allows us to discriminate which operator character combinations constitute valid Rexx operators, and which is its corresponding syntactic category (``ADDITIVE_OPERATOR``, ``LOGICAL_OPERATOR``, etc.) that should be assigned to those operators.
+
+### InitializeSimpleTokenizer 
+
+```
+   ╭───────────────────────────╮
+▸▸─┤ InitializeSimpleTokenizer ├─▸◂
+   ╰───────────────────────────╯
+```
+
+The ``InitializeSimpleTokenizer`` method initializes a series of variables that will hold the context when tokenizing a ``::RESOURCE`` directive.
+
+
