@@ -1,666 +1,0 @@
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-
-    <title>ooRexxDoc - The Unicode Tools for Rexx - Properties.cls</title>
-
-    <style type="text/css">
-        body { padding-top: 70px; }
-
-        #toTop{
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            cursor: pointer;
-            display: none;
-        }
-
-        pre {
-            overflow-x: auto;
-        }
-        pre code {
-            overflow-wrap: normal;
-            white-space: pre;
-        }
-
-        .keyword {
-            color: #ff5f00;
-        }
-
-        #search {
-            margin-left: 10px;
-        }
-
-        :target {
-            display: block;
-            position: relative;
-            top: -50px;
-            visibility: hidden;
-        }
-
-        .class-info {
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-    </style>
-</head>
-
-<body>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">ooRexxDoc</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="../oorexxdoc.html">Home</a></li>
-                <li class="active"><a href="Properties.cls.html">Properties.cls</a></li>
-            </ul>
-            <form class="navbar-form">
-                <div class="form-group">
-                    <input type="text" id="search" class="form-control" placeholder="Search" id="test" data-provide="typeahead" autocomplete=off>
-                </div>
-                <span class="navbar-right">
-                        <span class="label label-info">Run-Date: 2 oct 2023 11:54:21</span>
-                </span>
-            </form>
-        </div>
-    </div>
-</nav>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Packages</div>
-                <div class="panel-body" style="max-height: 420px;overflow-y: scroll;">
-                        <a href="Properties.cls.html">Properties.cls</a>
-                        <hr width="99%"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">Properties.cls Overview</div>
-                <div class="panel-body">
-                    <ul>
-                            <li>Classes
-                                <ul>
-                                        <li><a href="Properties.cls.html#MultiStageTable">MultiStageTable</a>
-                                                <ul>
-                                                    <li>Methods:
-                                                            <a href="Properties.cls.html#init">init</a>
-                                                            <a href="Properties.cls.html#%5B%5D-1">[]</a>
-                                                            <a href="Properties.cls.html#Compress">Compress</a>
-                                                    </li>
-                                                </ul>
-                                        </li>
-                                        <li><a href="Properties.cls.html#PersistentStringTable">PersistentStringTable</a>
-                                                <ul>
-                                                    <li>Methods:
-                                                            <a href="Properties.cls.html#Load">Load</a>
-                                                            <a href="Properties.cls.html#Save">Save</a>
-                                                    </li>
-                                                </ul>
-                                        </li>
-                                        <li><a href="Properties.cls.html#Unicode.Property">Unicode.Property</a>
-                                                <ul>
-                                                    <li>Attributes:
-                                                            <a href="Properties.cls.html#NameOf">NameOf</a>
-                                                    </li>
-                                                </ul>
-                                                <ul>
-                                                    <li>Methods:
-                                                            <a href="Properties.cls.html#%5B%5D">[]</a>
-                                                            <a href="Properties.cls.html#Activate">Activate</a>
-                                                            <a href="Properties.cls.html#BinaryFile">BinaryFile</a>
-                                                            <a href="Properties.cls.html#BinFile.Qualify">BinFile.Qualify</a>
-                                                            <a href="Properties.cls.html#getPersistent">getPersistent</a>
-                                                            <a href="Properties.cls.html#loadPersistent">loadPersistent</a>
-                                                            <a href="Properties.cls.html#RegisterFunctions">RegisterFunctions</a>
-                                                            <a href="Properties.cls.html#RegisterProperties">RegisterProperties</a>
-                                                            <a href="Properties.cls.html#savePersistent">savePersistent</a>
-                                                            <a href="Properties.cls.html#setPersistent">setPersistent</a>
-                                                            <a href="Properties.cls.html#SyntaxError">SyntaxError</a>
-                                                            <a href="Properties.cls.html#UCDFile.Qualify">UCDFile.Qualify</a>
-                                                            <a href="Properties.cls.html#Variables">Variables</a>
-                                                    </li>
-                                                </ul>
-                                        </li>
-                                </ul>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-9">
-            <div class="container-fluid" id="content-main">
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="container-fluid">
-            <h1>Properties.cls</h1>
-
-
-
-
-
-
-
-
-
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="MultiStageTable"></a>
-                        <div class="panel-heading">
-                            <h4>Class: MultiStageTable</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h4>The <code>MultiStageTable</code> class</h4> <p>   This class specializes in producing <em>two-stage tables</em>, <em>three-stage tables</em>,   or, in general <em>multi-stage tables</em>.  <p>   Multi-stage tables are recommended in The Unicode Standard 15.0   (<a href="https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf">https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf</a>),   section 5.1, <em>Data Structures for Character Conversion</em>, "Multistage Tables", pp. 196&ndash;7. <p>   This is not a general implementation of multi-stage tables, but a custom, tailored one, specific   to Unicode and the BMP and SMP planes. <p>   The indexes for these tables run from 0 to 131071. Negative values will raise a Syntax error, and   indexes greater than 131071 will return "00"X.
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <a id="init"></a>
-                                    <ul>
-                                        <li><b>init</b>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <h4><code>Compress</code></h4> <code><pre> <b>.MultiStageTable~new(</b> <em>offset</em> <b>,</b> <em>chunks</em> , >─┬───────────────────────┬─> <b>)</b>                                           └─ <b>,</b> <em>width</em> <b>,</b> <em>bigvalues</em> ─┘   </pre></code>
- <p>   Creates a new multi-stage table. The <em>offset</em> and <em>chunks</em> tables should have been   created by the <code>Compress</code> class method. <em>Width</em> and <em>bigvalues</em> are optional.   When specified, <em>width</em> should be a positive number greater than 1, and <em>bigvalues</em>   should be a string of <em>width</em>-byte values. In that case, the 1-byte value obtained from <em>offset</em> and <em>chunks</em>   is multiplied by <em>width</em> and used as an index into <em>bigvalues</em>.
-                                                    </div>
-                                                </div>
-
-
-                                                <br /><span class="keyword">USE ARG</span> offset, chunks, width = 1, bigvalues = .Nil
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="%5B%5D-1"></a>
-                                    <ul>
-                                        <li><b>[]</b>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <h4><code>[]</code></h4> <code><pre> <b>[</b> <em>n</em> <b>]</b></pre></code>  <p>   Returns the <em>n</em>-th element of the multi-stage table, when 0 &lt; <em>n</em> &lt;= 131071,    or a string containing <em>width</em> copies of <b>"00"X</b>, when <em>n</em> &gt; 131071.    Negative or non-numeric values of <em>n</em> will raise a Syntax error.
-                                                    </div>
-                                                </div>
-
-
-                                                <br /><span class="keyword">USE ARG</span> n
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="Compress"></a>
-                                    <ul>
-                                        <li><b>Compress</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-                                                <br /><br />
-                                                <div class="panel panel-default">
-                                                    <div class="panel-body">
-                                                        <h4><code>Compress</code> (Class method) </h4> <code><pre> <b>Compress(</b> <em>buffer</em> <b>)</b></pre></code>  <p>   The <code>Compress</code> method compresses a <em>buffer</em> and returns two smaller,    compressed, tables.  <p>   <em>Buffer</em> is a 128K-byte string (131072 bytes) representing an array of 1-byte elements.   Elements 1-65536 correspond to the Unicode Basic Multilingual Plane (BMP), and elements   65537-131072 correspond to the Unicode Supplementary Multilingual Plane (SMP). <p>   The compression technique works as follows: the source array-string is supposed   to be compressible, i.e., is supposed to contain different segments which are identical.   The array will be broken in a series of fixed-size sub-arrays, and, instead of storing   the sub-array itself, we will store <em>a reference</em> to the sub-array. Thus, when   two identical sub-arrays (segments) of the argument array are found, only the first copy is   stored, and a repeated reference. But a reference is supposed to be much smaller than the   subarray itself. <p>   The current implementation uses several hardcoded constants. This can be changed in the future:   <ul>     <li>The argument <em>buffer</em> is supposed have a length of exactly 2**17 bytes.     <li>Sub-arrays will be of 256 bytes.     <li>To allow for maximum compression, we are supposing that the quantity of different       sub-arrays does not exceed 256. This allows to store the references to the sub-arrays       in one byte.   </ul>
-                                                    </div>
-                                                </div>
-
-
-                                                <br /><span class="keyword">USE ARG</span> buffer
-
-
-                                        </li>
-                                    </ul>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="PersistentStringTable"></a>
-                        <div class="panel-heading">
-                            <h4>Class: PersistentStringTable</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                                    <span class="label label-info class-info">Sub-Class: StringTable</span>
-                            </div>
-
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <h4>The <code>PersistentStringTable</code> class</h4> <p>   <code>PersistentStringTable</code> is a subclass of <code>StringTable</code>   that can be quickly saved and restored to a file. <p>   The present implementation has the following limitations: <ul>   <li>Keys must all be &lt; 256 characters in length.   <li>Values must all be strings, or have a string value and be apt to     be saved as strins.   <li>The total size of the resulting file (that is, keys + values + overhead)     must not exceed 2**32 bytes. </ul> <p><b>Format of the binary file:</b> <code><pre>              0         1         2         3         4              ┌─────────┬─────────┬─────────┬─────────┐   0          │       number of items <em>(32 bits)</em>       │   4              ├─────────┼─────────┼─────────┼─────────┤   4          │  len1   │  5                              len1 = Len(key1)              ├─────────┼─────────┼         ┼─────────┤   5          │  key1 . . . . . . . . /// . . . . . . │   5 + len1              ├─────────┼─────────┼─────────┼─────────┤   5 + len1   │      offset of value 1 <em>(32 bits)</em>      │   5 + len1 + 4  ─────────────────┐                     ├─────────┼─────────┼─────────┼─────────┤                                  │   9 + len1   │      length of value 1 <em>(32 bits)</em>      │   5 + len1 + 4 + 4               │              ├─────────┼─────────┼─────────┼─────────┤                                  │ This points here   13 + len1      <em>(structure repeats for key2..keyn)</em>                                      │              ├─────────┼─────────┼         ┼─────────┤                                  │   offset1    │  value1 . . . . . . . /// . . . . . . │   offset1 + Len(val1)  <─────────┘                         ├─────────┼─────────┼         ┼─────────┤              <em>(structure is repeated for value2..valuen)</em></pre></code>
-                                    </div>
-                                </div>
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <i>No Attributes</i>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <a id="Load"></a>
-                                    <ul>
-                                        <li><b>Load</b>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> source
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="Save"></a>
-                                    <ul>
-                                        <li><b>Save</b>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> target
-
-
-                                        </li>
-                                    </ul>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                    <i>No Constants</i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="panel panel-default">
-                        <a id="Unicode.Property"></a>
-                        <div class="panel-heading">
-                            <h4>Class: Unicode.Property</h4>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div>
-                            </div>
-
-
-
-                            <div>
-                                <h4>Attributes</h4>
-                                    <a id="NameOf"></a>
-                                    <ul>
-                                        <li><b>NameOf</b>
-                                                <span class="label label-info">GETTER</span>
-                                                <span class="label label-info">SETTER</span>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-
-                                        </li>
-                                    </ul>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Methods</h4>
-                                    <a id="%5B%5D"></a>
-                                    <ul>
-                                        <li><b>[]</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> code
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="Activate"></a>
-                                    <ul>
-                                        <li><b>Activate</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="BinaryFile"></a>
-                                    <ul>
-                                        <li><b>BinaryFile</b>
-                                                <span class="label label-info">CLASS</span>
-                                                <span class="label label-info">ABSTRACT</span>
-
-
-
-
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="BinFile.Qualify"></a>
-                                    <ul>
-                                        <li><b>BinFile.Qualify</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> fileName
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="getPersistent"></a>
-                                    <ul>
-                                        <li><b>getPersistent</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> key
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="loadPersistent"></a>
-                                    <ul>
-                                        <li><b>loadPersistent</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> source
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="RegisterFunctions"></a>
-                                    <ul>
-                                        <li><b>RegisterFunctions</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> functionList, handler
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="RegisterProperties"></a>
-                                    <ul>
-                                        <li><b>RegisterProperties</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> propertyList, propertyAliases, handler
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="savePersistent"></a>
-                                    <ul>
-                                        <li><b>savePersistent</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> target
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="setPersistent"></a>
-                                    <ul>
-                                        <li><b>setPersistent</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> key, value
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="SyntaxError"></a>
-                                    <ul>
-                                        <li><b>SyntaxError</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> message
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="UCDFile.Qualify"></a>
-                                    <ul>
-                                        <li><b>UCDFile.Qualify</b>
-                                                <span class="label label-info">CLASS</span>
-
-
-
-
-                                                <br /><span class="keyword">USE ARG</span> fileName
-
-
-                                        </li>
-                                    </ul>
-                                    <a id="Variables"></a>
-                                    <ul>
-                                        <li><b>Variables</b>
-                                                <span class="label label-info">CLASS</span>
-                                                <span class="label label-info">ABSTRACT</span>
-
-
-
-
-
-
-                                        </li>
-                                    </ul>
-                            </div>
-
-                            <hr />
-
-                            <div>
-                                <h4>Constants</h4>
-                                        <a id="DerivedCoreProperties"></a>
-                                        <ul>
-                                            <li><b>DerivedCoreProperties</b>
-                                                Value: "DerivedCoreProperties-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="DerivedNormalizationProps"></a>
-                                        <ul>
-                                            <li><b>DerivedNormalizationProps</b>
-                                                Value: "DerivedNormalizationProps-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="Emoji_data"></a>
-                                        <ul>
-                                            <li><b>Emoji_data</b>
-                                                Value: "emoji-data-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="GraphemeBreakProperty"></a>
-                                        <ul>
-                                            <li><b>GraphemeBreakProperty</b>
-                                                Value: "GraphemeBreakProperty-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="GraphemeBreakTest"></a>
-                                        <ul>
-                                            <li><b>GraphemeBreakTest</b>
-                                                Value: "GraphemeBreakTest-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="NameAliases"></a>
-                                        <ul>
-                                            <li><b>NameAliases</b>
-                                                Value: "NameAliases-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="PropList"></a>
-                                        <ul>
-                                            <li><b>PropList</b>
-                                                Value: "PropList-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="SpecialCasing"></a>
-                                        <ul>
-                                            <li><b>SpecialCasing</b>
-                                                Value: "SpecialCasing-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                                        <a id="UnicodeData"></a>
-                                        <ul>
-                                            <li><b>UnicodeData</b>
-                                                Value: "UnicodeData-15.0.0.txt"
-
-                                            </li>
-                                        </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h2>Options</h2>
-                        </div>
-                        <div class="panel-body">
-                                Digits: 16 <br />
-                        </div>
-                    </div>
-                </div>
-
-        </div>
-    </div>
-    <br />
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/typeahead-bootstrap.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/search-data.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('body').append('<div id="toTop" class="btn btn-info"><span class="glyphicon glyphicon-chevron-up"></span> Back to Top</div>');
-            $(window).scroll(function () {
-                if ($(this).scrollTop() != 0) {
-                    $('#toTop').fadeIn();
-                } else {
-                    $('#toTop').fadeOut();
-                }
-            });
-            $('#toTop').click(function(){
-                $("html, body").animate({ scrollTop: 0 }, 200);
-                return false;
-            });
-        });
-
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#search').typeahead({
-                source: searchData,
-                displayText: function(item) {
-                    if(item.info !== null) {
-                        return item.type + ":" + item.name + " (" + item.info + ")";
-                    }
-
-                    return item.type + ":" + item.name;
-                },
-                matcher: function(item) {
-                    return item.name.toLowerCase().indexOf(this.query.toLowerCase()) != -1
-                },
-                afterSelect: function(item) {
-                    window.location.href = item.href;
-                    $("#search").val(item.name)
-                },
-                items: 20
-            });
-        })
-    </script>
-</body>
-</html>

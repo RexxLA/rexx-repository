@@ -1,39 +1,30 @@
-/*****************************************************************************/
-/*                                                                           */
-/*  The UNICODE Tools for ooRexx                                             */
-/*  ============================                                             */
-/*                                                                           */
-/*  Copyright (c) 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>     */
-/*                                                                           */
-/*  See https://github.com/RexxLA, rexx-repository,                          */
-/*      path ARB/standards/work-in-progress/unicode/UnicodeTools             */
-/*                                                                           */
-/*  License: Apache License 2.0 https://www.apache.org/licenses/LICENSE-2.0  */
-/*                                                                           */
-/*                                                                           */
-/*  The UNICODE.PROPERTY class                                               */
-/*  ==========================                                               */
-/*                                                                           */
-/*  Classes implementing concrete Unicode properties may want to subclass    */
-/*  this class. It offers a set of common services, including the            */
-/*  generation and loading of compressed two-stage tables to store           */
-/*  property values.                                                         */
-/*                                                                           */
-/*  Version history                                                          */
-/*  ===============                                                          */
-/*                                                                           */
-/*  Vers. Aut Date     Comments                                              */
-/*  ----- --- -------- ----------------------------------------------------- */
-/*  00.1  JMB 20230716 Initial release                                       */
-/*  00.1c JMB 20230718 Move property classes to the "property" subdir        */
-/*                     Move binary files to the "bin" subdir                 */
-/*                     Fix some bugs, add consistency check for names        */
-/*  00.1e JMB 20230721 Add persistence classes and methods                   */
-/*  00.2  JMB 20230725 Rename classfile to 'properties.cls'                  */
-/*                     Start working on property register                    */
-/*                     Centralize list of UCD files                          */
-/*                                                                           */
-/*****************************************************************************/
+/**
+ * <h2>The UNICODE Tools Of Rexx (TUTOR)</h2>
+ *
+ *<pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR). 
+ *   See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
+ *   Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
+ *   License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
+ *
+ *  The UNICODE.PROPERTY class
+ *  ==========================
+ *                                                                           
+ *  Version history                                                          
+ *  ===============                                                          
+ *                                                                           
+ *  Vers. Aut Date     Comments                                              
+ *  ----- --- -------- -----------------------------------------------------  
+ *  00.1  JMB 20230716 Initial release                                       
+ *  00.1c JMB 20230718 Move property classes to the "property" subdir        
+ *                     Move binary files to the "bin" subdir                 
+ *                     Fix some bugs, add consistency check for names        
+ *  00.1e JMB 20230721 Add persistence classes and methods                   
+ *  00.2  JMB 20230725 Rename classfile to 'properties.cls'                  
+ *                     Start working on property register                    
+ *                     Centralize list of UCD files                          
+ *  00.4a JMB 20231002 Move docs to properties/readme.md                     
+ *                                                                           
+ */
 
 .local~Unicode.Property = .Unicode.Property
 .local~MultiStageTable  = .MultiStageTable
@@ -190,65 +181,12 @@ End
 --------------------------------------------------------------------------------
 
 
-/**
- * <h4>The <code>MultiStageTable</code> class</h4>
- *
- * <p>
- *   This class specializes in producing <em>two-stage tables</em>, <em>three-stage tables</em>,
- *   or, in general <em>multi-stage tables</em>. 
- *
- * <p>
- *   Multi-stage tables are recommended in The Unicode Standard 15.0 
- *  (<a href="https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf">https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf</a>),
- *   section 5.1, <em>Data Structures for Character Conversion</em>, "Multistage Tables", pp. 196&ndash;7.
- *
- * <p>
- *   This is not a general implementation of multi-stage tables, but a custom, tailored one, specific
- *   to Unicode and the BMP and SMP planes.
- *
- * <p>
- *   The indexes for these tables run from 0 to 131071. Negative values will raise a Syntax error, and
- *   indexes greater than 131071 will return "00"X.
- *
- */
-
 ::Class MultiStageTable Public
 
-/**
- *
- * <h4><code>Compress</code></h4>
- *
- * <code><pre>
- * <b>.MultiStageTable~new(</b> <em>offset</em> <b>,</b> <em>chunks</em> , >─┬───────────────────────┬─> <b>)</b>
- *                                           └─ <b>,</b> <em>width</em> <b>,</b> <em>bigvalues</em> ─┘  
- * </pre></code>
-
- * <p>
- *   Creates a new multi-stage table. The <em>offset</em> and <em>chunks</em> tables should have been
- *   created by the <code>Compress</code> class method. <em>Width</em> and <em>bigvalues</em> are optional.
- *   When specified, <em>width</em> should be a positive number greater than 1, and <em>bigvalues</em>
- *   should be a string of <em>width</em>-byte values. In that case, the 1-byte value obtained from <em>offset</em> and <em>chunks</em>
- *   is multiplied by <em>width</em> and used as an index into <em>bigvalues</em>.
- *
- */ 
 ::Method init 
   Expose offset chunks width bigvalues
   
   Use Strict Arg offset, chunks, width = 1, bigvalues = .Nil
-
-/**
- *
- * <h4><code>[]</code></h4>
- *
- * <code><pre>
- * <b>[</b> <em>n</em> <b>]</b></pre></code> 
- *
- * <p>
- *   Returns the <em>n</em>-th element of the multi-stage table, when 0 &lt; <em>n</em> &lt;= 131071, 
- *   or a string containing <em>width</em> copies of <b>"00"X</b>, when <em>n</em> &gt; 131071. 
- *   Negative or non-numeric values of <em>n</em> will raise a Syntax error.
- *
- */ 
 
 ::Method "[]"
   Expose offset chunks width bigvalues
@@ -269,44 +207,6 @@ End
   If width == 1 Then Return byte
   
   Return       bigvalues[ 1 + (byte~c2x~x2d - 1) * width, width]
-
-/**
- *
- * <h4><code>Compress</code> (Class method) </h4>
- *
- * <code><pre>
- * <b>Compress(</b> <em>buffer</em> <b>)</b></pre></code> 
- *
- * <p>
- *   The <code>Compress</code> method compresses a <em>buffer</em> and returns two smaller, 
- *   compressed, tables. 
- *
- * <p>
- *   <em>Buffer</em> is a 128K-byte string (131072 bytes) representing an array of 1-byte elements.
- *   Elements 1-65536 correspond to the Unicode Basic Multilingual Plane (BMP), and elements
- *   65537-131072 correspond to the Unicode Supplementary Multilingual Plane (SMP).
- *
- * <p>
- *   The compression technique works as follows: the source array-string is supposed
- *   to be compressible, i.e., is supposed to contain different segments which are identical.
- *   The array will be broken in a series of fixed-size sub-arrays, and, instead of storing
- *   the sub-array itself, we will store <em>a reference</em> to the sub-array. Thus, when
- *   two identical sub-arrays (segments) of the argument array are found, only the first copy is
- *   stored, and a repeated reference. But a reference is supposed to be much smaller than the
- *   subarray itself.
- *
- * <p>
- *   The current implementation uses several hardcoded constants. This can be changed in the future:
- *
- *   <ul>
- *     <li>The argument <em>buffer</em> is supposed have a length of exactly 2**17 bytes.
- *     <li>Sub-arrays will be of 256 bytes.
- *     <li>To allow for maximum compression, we are supposing that the quantity of different
- *       sub-arrays does not exceed 256. This allows to store the references to the sub-arrays
- *       in one byte.
- *   </ul>
- *
- */
 
 ::Method Compress Class
   Use Strict Arg buffer
@@ -338,48 +238,6 @@ Return offset, chunks
 -- The PersistentStringTable class                                            --
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-
-/**
- * <h4>The <code>PersistentStringTable</code> class</h4>
- *
- * <p>
- *   <code>PersistentStringTable</code> is a subclass of <code>StringTable</code>
- *   that can be quickly saved and restored to a file.
- *
- * <p>
- *   The present implementation has the following limitations:
- *
- * <ul>
- *   <li>Keys must all be &lt; 256 characters in length.
- *   <li>Values must all be strings, or have a string value and be apt to
- *     be saved as strins.
- *   <li>The total size of the resulting file (that is, keys + values + overhead)
- *     must not exceed 2**32 bytes.
- * </ul>
- *
- * <p><b>Format of the binary file:</b>
- *
- * <code><pre>
- *              0         1         2         3         4
- *              ┌─────────┬─────────┬─────────┬─────────┐
- *   0          │       number of items <em>(32 bits)</em>       │   4
- *              ├─────────┼─────────┼─────────┼─────────┤
- *   4          │  len1   │  5                              len1 = Len(key1)
- *              ├─────────┼─────────┼         ┼─────────┤
- *   5          │  key1 . . . . . . . . /// . . . . . . │   5 + len1
- *              ├─────────┼─────────┼─────────┼─────────┤
- *   5 + len1   │      offset of value 1 <em>(32 bits)</em>      │   5 + len1 + 4  ─────────────────┐       
- *              ├─────────┼─────────┼─────────┼─────────┤                                  │
- *   9 + len1   │      length of value 1 <em>(32 bits)</em>      │   5 + len1 + 4 + 4               │
- *              ├─────────┼─────────┼─────────┼─────────┤                                  │ This points here 
- *  13 + len1      <em>(structure repeats for key2..keyn)</em>                                      │
- *              ├─────────┼─────────┼         ┼─────────┤                                  │
- *   offset1    │  value1 . . . . . . . /// . . . . . . │   offset1 + Len(val1)  <─────────┘           
- *              ├─────────┼─────────┼         ┼─────────┤
- *
- *              <em>(structure is repeated for value2..valuen)</em></pre></code>
- *
- */
 
 ::Class PersistentStringTable SubClass StringTable Private
 ::Method Save
