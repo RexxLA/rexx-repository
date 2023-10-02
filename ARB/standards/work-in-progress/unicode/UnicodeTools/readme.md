@@ -29,7 +29,7 @@ You can then navigate to the ``samples`` directory and try the samples by using 
     * [The properties model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/properties/readme.md)
   * [New classes](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/classes.md)
   * [New values for the OPTIONS instruction](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/options.md)
-* [For the Rexx Tokenizer](https://htmlpreview.github.io/?https://raw.githubusercontent.com/RexxLA/rexx-repository/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/doc/packages/Rexx.Tokenizer.cls.html).
+* [For the Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md).
 
 ## Release notes for version 0.4a, 20231002
 
