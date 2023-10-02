@@ -68,31 +68,4 @@ var searchData = [
             {
             id: "NameOf", type: "Attribute", name: "NameOf", info: "Class Unicode.Property", href: "Properties.cls.html#NameOf"
             },
-    {
-        id: "Stream.cls", type: "Package", name: "Stream.cls", info: null,  href: "Stream.cls.html"
-    },
-        {
-        id: "%21CharIn", type: "Routine", name: "!CharIn", info: "Stream.cls",  href: "Stream.cls.html#%21CharIn"
-        },
-        {
-        id: "%21CharOut", type: "Routine", name: "!CharOut", info: "Stream.cls",  href: "Stream.cls.html#%21CharOut"
-        },
-        {
-        id: "%21Chars", type: "Routine", name: "!Chars", info: "Stream.cls",  href: "Stream.cls.html#%21Chars"
-        },
-        {
-        id: "%21Linein", type: "Routine", name: "!Linein", info: "Stream.cls",  href: "Stream.cls.html#%21Linein"
-        },
-        {
-        id: "%21LineOut", type: "Routine", name: "!LineOut", info: "Stream.cls",  href: "Stream.cls.html#%21LineOut"
-        },
-        {
-        id: "%21Lines", type: "Routine", name: "!Lines", info: "Stream.cls",  href: "Stream.cls.html#%21Lines"
-        },
-        {
-        id: "%21Stream", type: "Routine", name: "!Stream", info: "Stream.cls",  href: "Stream.cls.html#%21Stream"
-        },
-        {
-        id: "NormalizedStreamName", type: "Routine", name: "NormalizedStreamName", info: "Stream.cls",  href: "Stream.cls.html#NormalizedStreamName"
-        },
 ];

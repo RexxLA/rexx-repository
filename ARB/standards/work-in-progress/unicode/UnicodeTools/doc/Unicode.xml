@@ -3,7 +3,6 @@
     <parser>
         <output>./doc</output>
         <input>./properties/Properties.cls</input>
-        <input>./Stream.cls</input>
     </parser>
     <title>The Unicode Tools for Rexx</title>
     <header>
