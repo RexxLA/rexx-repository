@@ -471,3 +471,16 @@ is the major error code, and _minor_ is the minor error code), with all placehol
 
 This routine returns different error messages, depending on the tokenizer subclass. For example, error 6.1 is ``'Unmatched comment delimiter ("/*") on line &1'``, with one
 substitucion instance, for ooRexx, but ``'Unmatched comment delimiter (""/*")'`` for Regina Rexx, with no substitution instances.
+
+### Private methods
+
+### InitializeActionPairs 
+
+```
+   ╭───────────────────────╮
+▸▸─┤ InitializeActionPairs ├─▸◂
+   ╰───────────────────────╯
+```
+
+``InitializeActionPairs`` implements the ``Action.`` stem, which is the core of the finite state automaton implementing the full tokenizing phase. Simple tokens are examined in a window of two consecutive tokens, and a series of actions is activated by examining the classes of these tokens. For example, a ``BLANK`` adjacent to a ``COLON`` can always be ignored ("absorbed"), and so on.
+
