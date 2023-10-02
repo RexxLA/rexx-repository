@@ -2,6 +2,12 @@
 
 This directory contains the main encoding class, ``Encoding.cls``, and a growing set of particular encoding classes. 
 
+This file contains the documentation for the public Encoding class, contained in ``Encoding.cls``, 
+and some guidelines to implement particular encodings, as subclasses of the Encoding class.
+
+Constants, registry methods and abstract methods will be implemented by the encoding subclasses. Utility methods 
+should be considered private documentation (i.e., not a public API).
+
 ## The Encoding class
 
 The Encoding class is the base class for all encodings, and all encoding classes should subclass Encoding.
