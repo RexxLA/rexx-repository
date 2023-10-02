@@ -398,3 +398,20 @@ is the major error code, and _minor_ is the minor error code), with all placehol
 
 This routine returns different error messages, depending on the tokenizer subclass. For example, error 6.1 is ``'Unmatched comment delimiter ("/*") on line &1'``, with one
 substitucion instance, for ooRexx, but ``'Unmatched comment delimiter (""/*")'`` for Regina Rexx, with no substitution instances.
+
+## Public methods
+
+### new
+
+```
+   ╭──────╮  ┌────────┐                          ╭───╮
+▸▸─┤ new( ├──┤ source ├──┬─────────────────────┬─┤ ) ├─▸◂
+   ╰──────╯  └────────┘  │ ╭───╮  ┌──────────┐ │ ╰───╯
+                         └─┤ , ├──┤ detailed ├─┘
+                           ╰───╯  └──────────┘
+```
+
+Returns a new tokenizer specialized to the _source_ program. _Source_ must be a (non-sparse) array of strings. The optional argument, _detailed_, has no effect when
+the tokenizer is used in "basic" mode. When used in "full" mode, _detailed_ must be a boolean, which determines whether ignored (or "absorbed") tokens will be
+kept as an optional attribute of the returned full tokens. When _detailed_ is __1__ (the default), ignored tokens are kept as an array, which can be accessed
+using "absorbed" as a tail for the returned stem. When _detailed_ is __0__, ignored tokens are discarded.
