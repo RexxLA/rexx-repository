@@ -495,3 +495,13 @@ substitucion instance, for ooRexx, but ``'Unmatched comment delimiter (""/*")'``
 Each character in the ``"00"X.."FF"X`` range is assigned a character category, simbolized by a single character: digits (``"0".."9"``) are assigned the category "digit" (``"d"``), letters (``"a".."z"`` and ``"A".."Z"``, plus ``"_"``, ``"?"``, ``"!"`` and some other implementation-dependent characters) are assigned the "general_letter" (``"l"``) category, and so on.
 
 When we are about to tokenize a line ``L``, we will use the ``TRANSLATE`` BIF to obtain a new string containing the character categories of each individual character in ``L``. This allows a very efficient determination of the token boundaries. For example, a run of ``"d"`` will identify a simple number, a run of ``"d"`` or ``"l"`` will identify a simple symbol, and so on.
+
+### InitializeClasses 
+
+```
+   ╭────────────────────╮
+▸▸─┤ InitializeClasses  ├─▸◂
+   ╰────────────────────╯
+```
+
+This method scans the ``tokenClasses`` vector and assigns the values of the corresponding constants. It also creates some useful compound values, like ``STRING_OR_SYMBOL``, or ``CLAUSE``.
