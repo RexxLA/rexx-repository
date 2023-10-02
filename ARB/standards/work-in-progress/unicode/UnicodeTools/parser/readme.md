@@ -515,3 +515,13 @@ This method scans the ``tokenClasses`` vector and assigns the values of the corr
 ```
 
 This method creates a stem that will be used to discriminate if a symbol is a valid directive name or not.
+
+### InitializeKeywordInstructions 
+
+```
+   ╭───────────────────────────────╮
+▸▸─┤ InitializeKeywordInstructions ├─▸◂
+   ╰───────────────────────────────╯
+```
+
+The ``InitializeKeywordInstructions`` method creates the ``keywordInstruction.`` stem, which allows us to determine whether a certain ``SIMPLE VAR_SYMBOL`` is a candidate to start a ``KEYWORD_INSTRUCTION`` or not. The stem is customized for the ooRexx, Regina and ANSI cases.
