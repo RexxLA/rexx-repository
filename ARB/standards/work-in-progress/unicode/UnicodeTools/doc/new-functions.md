@@ -214,6 +214,8 @@ Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-form
 
 ## UTF8
 
+__Note:__ Although this routine is part of TUTOR, The Unicode Tools Of Rexx, it can also be used separately, as it has no dependencies on the rest of components of TUTOR.
+
 ```
    ╭───────╮  ┌────────┐  ╭───╮                                                                  ╭───╮
 ▸▸─┤ UTF8( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
