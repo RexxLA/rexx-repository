@@ -11,7 +11,7 @@ not ignorable but that have been included ("absorbed") for your convenience: for
 keyword instructions include the first blank after the keyword, if any, and so on.
 
 This help file starts with a high-level description of the tokenizer functionality, and ends with an enumeration
-and description of the tokenizer methods and auxiliary routines.
+and description of the tokenizer methods, and some implementation notes.
 
 ## Subclasses and Unicode support
 
@@ -383,7 +383,55 @@ If token.class == SYNTAX_ERROR Then Do
 End
 ```
 
-## Public routines
+## Public methods
+
+### new (class method)
+
+```
+   ╭──────╮  ┌────────┐                          ╭───╮
+▸▸─┤ new( ├──┤ source ├──┬─────────────────────┬─┤ ) ├─▸◂
+   ╰──────╯  └────────┘  │ ╭───╮  ┌──────────┐ │ ╰───╯
+                         └─┤ , ├──┤ detailed ├─┘
+                           ╰───╯  └──────────┘
+```
+
+Returns a new tokenizer specialized to the _source_ program. _Source_ must be a (non-sparse) array of strings. The optional argument, _detailed_, has no effect when
+the tokenizer is used in "basic" mode. When used in "full" mode, _detailed_ must be a boolean, which determines whether ignored (or "absorbed") tokens will be
+kept as an optional attribute of the returned full tokens. When _detailed_ is __1__ (the default), ignored tokens are kept as an array, which can be accessed
+using "absorbed" as a tail for the returned stem. When _detailed_ is __0__, ignored tokens are discarded.
+
+### getFullToken
+
+```
+   ╭──────────────╮
+▸▸─┤ getFullToken ├─▸◂
+   ╰──────────────╯
+```
+
+The _getFullToken_ method selects the next "full" token in the source file and returns a stem containing the details that describe this token.
+
+"Full" tokens build over "simple" tokens, by applying Rexx rules and ignoring certain elements:
+
+* Classic comments and line comments are ignored.
+* Blanks adjacent to special characters are ignored, except when they can be interpreted as a concatenation operator.
+* Two consecutive end of clause markers (i.e., an explicit semicolon, or an end of line) are reduced to a single end of clause marker (the second one would constitute an ignorable null clause).
+* Blanks at the beginning of a clause are ignored.
+  
+The ignoring process is not a simple discarding. On the one hand, the location of each full token is adjusted, so that the original source can always be reconstructed by examining the locations of the returned tokens. On the other hand, if the _detailed_ parameter is specified as __1__ when creating the tokenizer instance, all the ignored tokens, including the original non-ignored token, can be accessed as an array which is the value of ``token[absorbed]``.
+
+Sequences of special characters are collected to see if they form a multi-character operator, line "\==", an extended assignment token, like "+=", or a directive-start marker, like "::".
+
+#### Error handling
+
+When the tokenizer encounters a syntax error, it returns a special token describing the error. Please note that the full tokenizer detects a series of errors that are not detected by the simple tokenizer. For example, when a directive start sequence, "::", is followed by a symbol that is not the name of a directive, the full tokenizer emits an error and stops, but the simple tokenizer does not detect any error. A higher-level parser making use of the tokenizer may detect errors that are still earlier than the one returned. See the documentation for the _syntax_error_ method for details.
+
+#### Important note
+
+Using ``getSimpleToken`` and ``getFullToken`` with the same tokenizer instance can lead to impredictable results.
+
+## Implementation notes
+
+### Private routines
 
 ### ErrorMessage
 
@@ -398,20 +446,3 @@ is the major error code, and _minor_ is the minor error code), with all placehol
 
 This routine returns different error messages, depending on the tokenizer subclass. For example, error 6.1 is ``'Unmatched comment delimiter ("/*") on line &1'``, with one
 substitucion instance, for ooRexx, but ``'Unmatched comment delimiter (""/*")'`` for Regina Rexx, with no substitution instances.
-
-## Public methods
-
-### new
-
-```
-   ╭──────╮  ┌────────┐                          ╭───╮
-▸▸─┤ new( ├──┤ source ├──┬─────────────────────┬─┤ ) ├─▸◂
-   ╰──────╯  └────────┘  │ ╭───╮  ┌──────────┐ │ ╰───╯
-                         └─┤ , ├──┤ detailed ├─┘
-                           ╰───╯  └──────────┘
-```
-
-Returns a new tokenizer specialized to the _source_ program. _Source_ must be a (non-sparse) array of strings. The optional argument, _detailed_, has no effect when
-the tokenizer is used in "basic" mode. When used in "full" mode, _detailed_ must be a boolean, which determines whether ignored (or "absorbed") tokens will be
-kept as an optional attribute of the returned full tokens. When _detailed_ is __1__ (the default), ignored tokens are kept as an array, which can be accessed
-using "absorbed" as a tail for the returned stem. When _detailed_ is __0__, ignored tokens are discarded.
