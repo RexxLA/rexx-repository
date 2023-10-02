@@ -9,6 +9,12 @@
  *                                                                           
  *  <p>
  *    Please refer to the accompanying file "readme.md" for documentation.
+ * 
+ *  <h4>Notice</h4>:
+ *
+ *  <p>Although this routine is part of TUTOR, The Unicode Tools Of Rexx,
+ *    it can also be used separately, as it has no dependencies on the rest
+ *    of components of TUTOR.
  *
  *  <h4>Version history</h4>
  *  
@@ -22,84 +28,21 @@
  *    <tr><td>00.3  <td>JMB <td>20230811<td>Change "C" suffix to "Y", as per Rony's suggestion
  *    <tr><td>      <td>JMB <td>20230818<td>All tokens return "line1 start line2 start" as .location
  *    <tr><td>00.4  <td>JMB <td>20230901<td>Implement full tokenizing
+ *    <tr><td>00.4a <td>JMB <td>20230901<td>Move most of the external documentation to readme.md
  *  </table>
  *                                                                           
  */
 
-/**
- * <h3>The <code>ooRexx.Tokenizer</code> class</h3>
- *
- * <p>
- *   Instances of this class implement a ooRexx tokenizer.
- */
 
 ::Class ooRexx.Tokenizer            Subclass Rexx.Tokenizer      Public
-
-/**
- * <h3>The <code>ooRexx.Unicode.Tokenizer</code> class</h3>
- *
- * <p>
- *   Instances of this class implement a ooRexx tokenizer with Unicode extensions.
- */
- 
 ::Class ooRexx.Unicode.Tokenizer    Subclass ooRexx.Tokenizer    Public
-
-/**
- * <h3>The <code>Regina.Tokenizer</code> class</h3>
- *
- * <p>
- *   Instances of this class implement a Regina Rexx tokenizer.
- */
-
 ::Class Regina.Tokenizer            Subclass Rexx.Tokenizer      Public
-
-/**
- * <h3>The <code>Regina.Unicode.Tokenizer</code> class</h3>
- *
- * <p>
- *   Instances of this class implement a Regina Rexx tokenizer with Unicode
- *   extensions.
- */
-
 ::Class Regina.Unicode.Tokenizer    Subclass Regina.Tokenizer    Public
-
-/**
- * <h3>The <code>ANSI.Rexx.Tokenizer</code> class</h3>
- *
- * <p>
- *   Instances of this class implement a ANSI Rexx tokenizer.
- */
-
 ::Class ANSI.Rexx.Tokenizer         Subclass Rexx.Tokenizer      Public
-
-/**
- * <h3>The <code>ANSI.Rexx.Unicode.Tokenizer</code> class</h3>
- *
- * <p>
- *   Instances of this class implement a ANSI Rexx tokenizer with Unicode extenstions.
- */
-
 ::Class ANSI.Rexx.Unicode.Tokenizer Subclass ANSI.Rexx.Tokenizer Public
 
-/**
- * <h3>The <code>Rexx.Tokenizer</code> class</h3>
- *
- * <p>
- *   This is the main Rexx Tokenizer class.
- */
 
 ::Class Rexx.Tokenizer                                           Public
-
-/**
- * <h4>The <code>init</code> method</h4>
- *
- * @param <code>source</code> An array of strings containing the source of the program
- *   we want to tokenize.
- * @param <code>detailed = 1</code> An optional boolean. It has no effect for simple tokenizing.
- *   For full tokenizing, it determines whether full tokens will keep the collection of absorbed
- *   (ignored) simple tokens as an array as <code>token[absorbed]</code>.
- *
- */
 
 ::Method init
   Use local pkglocal
@@ -134,22 +77,6 @@
   
   UnicodeLoaded = 0
     
-/**
- *
- * <h4>The <code>tokenClasses</code> constant</h4>
- *
- * <p>
- *   The <code>tokenConstants</code> is indeed a vector of constants. The suggested way to use it is to
- *   use code similar to the following.
- *
- *<code><pre>
- *  Do tc over tokenizer~tokenClasses
- *   Call Value tc[1], tc[2]
- *  End
- *</pre></code>
- *
- */
-
 ::Constant tokenClasses (    -            -- <pre><code>
   ( SYNTAX_ERROR                   , "E" ), -  -- Special token returned when a Syntax error is found
   ( OPERATOR                       , "o" ), -
@@ -266,17 +193,6 @@
     ( UNOTATION                    , "U" )  -  -- Unicode only. U suffix</code></pre>
 )
 
-/**
- *
- * <h4>The <code>InitializeClasses</code> private method</h4>
- *
- * <p>
- *   This method scans the <code>tokenClasses</code> vector and assigns the values
- *   of the corresponding constants. It also creates some useful compound values,
- *   like <code>STRING_OR_SYMBOL</code> or <code>CLAUSE</code>.
- *
- */
-
 ::Method InitializeClasses Private
   Use Local tc
   
@@ -291,18 +207,6 @@
   IGNORE_NEXT_BLANK             = END_OF_CLAUSE || OPERATOR || SPECIAL || COLON || LPAREN || LBRACKET
   -- NULL clauses are ignored
   CLAUSE            = LABEL || DIRECTIVE || KEYWORD_INSTRUCTION || ASSIGNMENT_INSTRUCTION || COMMAND_OR_MESSAGE_INSTRUCTION
-
-/**
- *
- * <h4>The <code>InitializeKeywordInstructions</code> private method</h4>
- *
- * <p>
- *   The <code>InitializeKeywordInstructions</code> method creates the
- *   <code>keywordInstruction.</code> stem, which allows us to determine whether a certain
- *   <code>SIMPLE VAR_SYMBOL</code> is a candidate to start a <code>KEYWORD_INSTRUCTION</code>
- *   or not. The stem is customized for the ooRexx, Regina and ANSI cases.
- *
- */
 
 ::Method InitializeKeywordInstructions Private
   Use Local
@@ -355,16 +259,6 @@ End
   keywordInstruction.["USE"]       =        USE_INSTRUCTION
   keywordInstruction.["WHEN"]      =       WHEN_INSTRUCTION
 
-/**
- *
- * <h4>The <code>InitializeDirectives</code> private method</h4>
- *
- * <p>
- *   This method creates a stem that will be used to discriminate if a symbol is a valid
- *   directive name or not.
- *
- */
-
 ::Method InitializeDirectives
   Use Local
   
@@ -380,19 +274,6 @@ End
   directive.["REQUIRES" ] =  REQUIRES_DIRECTIVE
   directive.["RESOURCE" ] =  RESOURCE_DIRECTIVE
   directive.["ROUTINE"  ] =   ROUTINE_DIRECTIVE
-
-/**
- *
- * <h4>The <code>InitializeActionPairs</code> private method</h4>
- *
- * <p>
- *   <code>InitializeActionPairs</code> implements the <code>Action.</code> stem, which is 
- *   the core of the finite state automaton implementing the full tokenizing phase. Simple tokens
- *   are examined in a window of two consecutive tokens, and a series of actions is activated by
- *   examining the classes of these tokens. For example, a <code>BLANK</code> adjacent to a <code>COLON</code>
- *   can always be ignored ("absorbed"), and so on. 
- *
- */
 
 ::Method InitializeActionPairs Private
   Use Local
@@ -502,18 +383,6 @@ If .ooRexx Then Do
   Action.COLON.COLON                     = Detect_directive_start
 End
 
-/**
- *
- * <h4>The <code>InitializeOperatorTable</code> private method</h4>
- *
- * <p>
- *   The <code>InitializeOperatorTable</code> method creates the <code>operator_subclass.</code>
- *   stem. This stem allows us to discriminate which operator character combinations constitute
- *   valid Rexx operators, and which is the syntactic category (<code>ADDITIVE_OPERATOR</code>,
- *   <code>LOGICAL_OPERATOR</code>, etc., that should be assigned to those operators.
- *
- */
-
 ::Method InitializeOperatorTable Private
   Use Local
   
@@ -547,18 +416,6 @@ If \.ANSI Then Do
   End
 End
 
-/**
- *
- * <h4>The <code>InitializeTokenizer</code> private method</h4>
- *
- * <p>
- *   The <code>InitializeTokenizer</code> method sets a number of variables to track the special context
- *   for THEN clauses, the special token supplied at begin-of-source, and the extra buffer used when
- *   we are forced, in the full tokenizer, to insert certain symbols, for example, a semicolon after
- *   a label, or a THEN, ELSE or OTHERWISE clause.
- *
- */
-
 ::Method InitializeTokenizer Private
   Use Local
   moreLines       = 1
@@ -577,43 +434,6 @@ End
   buffer             = .Array~new  
   buffering          = 0
 
-/**
- *
- * <h4>The <code>Syntax_Error</code> method</h4>
- *
- *<code><pre>
- * Syntax_Error(major"."minor, startLocation, endLocation, subst_1, ..., subst_n)
- *</pre></code>
- *
- * <p>
- *   The <code>Syntax_Error</code> method returns a special type of token that includes extra information
- *   to identify a syntax error. The arguments to <code>Syntax_Error</code> are:
- *
- * <ul>
- *   <li>The <code>errorNumber</code>, in the format <code>major.minor</code>.
- *   <li>The <code>startLocation</code> and the <code>endLocation</code>. Their format is
- *     <code>startLine startCol endLine endCol</code>. The location of the error token will be the
- *     start position of the start location followed by the end position of the end location.
- *   <li>The following arguments are the substitution instances for the secondary error message.
- * </ul>
- *
- * <p>
- *   The tokenizer uses the <code>Syntax_Error</code> method to return special tokens when a syntax
- *   error is encountered. Both the <code>class</code> and the <code>subclass</code> components
- *   of the returned stem are <code>SYNTAX_ERROR</code>. Other components of the returned stem 
- *   <code>token.</code> are:
- *
- * <ul>
- *   <li><code>value</code> is the main error message. Same as <code>message</code>
- *   <li><code>message</code> is the main error message. Same as <code>value</code>
- *   <li><code>number</code> is the error number, in the <code>major.minor</code> format, as
- *     specified in the first argument to <code>Syntax_Error</code>.
- *   <li><code>secondaryMessage</code> is the secondary error message, with all substitutions applied.
- *   <li><code>line</code> is the line number where the error occurred.
- * </ul>
- *
- */
-
 ::Method Syntax_Error
   Expose SYNTAX_ERROR
   token. = .Stem~new
@@ -630,56 +450,6 @@ End
   token.secondaryMessage = errorMessages[2]
   token.line             = startLine
 Return token.  
-
-/**
- *
- * <h3>The <code>getFullToken</code> method</h3> 
- *
- * <p>
- *   The <code>getFullToken</code> method selects the next "full" token in the input file and
- *   returns a stem containing the details that describe this token.
- *
- * <p>
- *   "Full" tokens build over "simple" tokens, by applying Rexx rules and ignoring certain
- *   elements:
- *
- * <ul>
- *   <li>Classic comments and line comments are ignored.
- *   <li>Blanks adjacent to special characters are ignored, except when they can be interpreted
- *     as a concatenation operator.
- *   <li>Two consecutive end of clause markers (i.e., an explicit semicolon, or an end of line)
- *     are reduced to a single end of clause marker (the second one would constitute an ignorable
- *     null clause).
- *   <li>Blanks at the beginning of a clause are ignored.
- * </ul>
- *
- * <p>
- *   The ignoring process is not a simple discarding. On the one hand, the location of each full
- *   token is adjusted, so that the original source can always be reconstructed by examining the locations
- *   of the returned tokens. On the other hand, if the <code>detailed</code> parameter is specified
- *   as <b>1</b> when creating the tokenizer instance, all the ignored tokens, including the original
- *   non-ignored token, can be accessed as an array which is the value of <code>token[absorbed]</code>.
- *
- * <p>
- *   Sequences of special characters are collected to see if they form a multi-character operator,
- *   line "\==", an extended assignment token, like "+=", or a directive-start marker, like "::".
- *
- * <h4>Error handling</h4>
- *
- * <p>
- *   When the tokenizer encounters a syntax error, it returns a special token describing the error.
- *   Please note that the full tokenizer detects a series of errors that are not detected by the
- *   simple tokenizer. For example, when a directive start sequence, "::", is followed by a symbol that
- *   is not the name of a directive, the full tokenizer emits an error and stops, but the simple tokenizer
- *   does not detect any error. A higher-level parser making use of the tokenizer may detect earlier
- *   errors than the one returned. See the documentation for the <code>Syntax_Error</code> method for details.
- *
- * <h4>Important note</h4>
- *  
- * <p>
- *   Using <code>getSimpleToken</code> and <code>getFullToken</code> with the same tokenizer
- *   instance can lead to impredictable results.
- */
 
 ::Method GetFullToken
   Use Local
@@ -1080,23 +850,6 @@ CloneStem: Procedure
   lastToken = self~Syntax_Error(20.916, TrueLocation(lastToken), token[location])
 Signal Return_a_token
 
-/**
- *
- * <h4>The <code>InitializeCharacterCategories</code> private method</h4>
- *
- * <p>
- *   Each character in the <b>"00"X.."FF"X</b> range is assigned a <em>character category</em>, 
- *   simbolized by a single character: digits ("0".."9") are assigned the category "digit" (<b>"d"</b>), 
- *   letters ("a".."z" and "A".."Z", plus "_", "?", "!" and some other implementation-dependent characters) 
- *   are assigned the "general_letter" (<b>"l"</b>) category, and so on.
- *
- * <p>
- *   When we are about to tokenize a line <b>L</b>, we will use the <code>TRANSLATE</code> BIF to obtain
- *   a new string containing the character categories of each individual character in <b>L</b>.
- *   This allows a very efficient determination of the token boundaries. For example, a run of <b>"d"</b> will
- *   identify a simple number, a run of <b>"d"</b> or <b>"l"</b> will identify a simple symbol, and so on.
- */ 
-
 ::Method InitializeCharacterCategories Private
   Expose characters categories blank_character digit general_letter simple_symbol var_symbol_char
   
@@ -1186,16 +939,6 @@ AssignCharacterCategory:
   categories ||= Copies(Arg(1),Length(Arg(2)))
 Return
 
-/**
- *
- * <h4>The <code>InitializeSimpleTokenizer</code> private method</h4>
- *
- * <p>
- *   The <code>InitializeSimpleTokenizer</code> method initializes a series of variables
- *   that will hold the context when tokenizing a ::Resource directive.
- *
- */
-
 ::Method InitializeSimpleTokenizer Private
   Use Local
 
@@ -1224,42 +967,7 @@ Return
   lastLineOfResourceDirective =  0
   
   Return
-    
-/**
- *
- * <h4>The <code>getSimpleToken</code> method</h4> 
- *
- * <p>
- *   The <code>getSimpleToken</code> method selects the next token in the input file and
- *   returns a stem containing the details that describe this token.
- *
- * <p>
- *   The components of a returned stem <code>t.</code> are the following:
- *
- * <ul>
- *   <li><code>t.class</code>, selected between the <em>non-indented</em> elements of the <code>tokenClasses</code>
- *     constant above, excluding those marked as "Level 2".
- *   <li><code>t.subclass</code>, selected between the <em>indented</em> elements of the <code>tokenClasses</code>
- *     constant above (when there is no indented element, <code>t.class == t.subclass</code>). Subclasses
- *     identified as "Level 2" are not considered in a simple tokenizing.
- *   <li><code>t.value</code>. In general, this is the character representation of the token itself,
- *     but in some cases it can differ. For example, in the case of strings, this is the string value,
- *     independent of whether its specification has used or not internal double quotes, or it is any of the
- *     "X"-, "B"- or "U"- suffixed strings. That is, in the ASCII encoding, <code>t.value</code> 
- *     is identical when the token was <code>"a"</code>, <code>"61"X</code> or <code>"0110 0001"B</code>.
- *   <li><code>t.location</code>. This component has the form <code>line1 start line2 pos</code> and identifies the
- *     start position of the token, and the end position, plus one character. "Line1" and "line2" will always
- *     be identical, except in the case of multi-line comments.
- * </ul>
- *
- * <h4>Important note</h4>
- *  
- * <p>
- *   Using <code>getSimpleToken</code> and <code>getFullToken</code> with the same tokenizer
- *   instance can lead to impredictable results.
- *
- */ 
-  
+      
 -- Keeping track of the last token's class allows us to determine that leading blanks
 -- in a clause are indeed leading blanks, and thus ignorable (because they come after the
 -- previous END_OF_CLAUSE, which is either a semicolon or functionally equivalent to a
@@ -1859,16 +1567,7 @@ Token: Procedure Expose thisLine line start pos
   Use Strict Arg token.,classes
   Return Pos(token.class,classes) > 0
 
-/**
- * <h4>The <code>errorMessage</code> helper routine</h4>
- *
- * @param <code>code</code> The Rexx error Syntax code, in the <code><em>major</em>.<em>minor</em></code> format. 
- * @param <code>substArray</code> An array of substition instances.
- * @returns An array containing the major and the minor error messages for the specified <code>code</code>, with all the instances in <code>substArray</code>
- *   substituted in the message.
- */
-
-::Routine errorMessage Public
+::Routine errorMessage Private -- Public
 -- List of error messages, with substitutions
 --
 -- When the messages for ooRexx and Regina are new or different, there is
