@@ -429,6 +429,31 @@ When the tokenizer encounters a syntax error, it returns a special token describ
 
 Using ``getSimpleToken`` and ``getFullToken`` with the same tokenizer instance can lead to impredictable results.
 
+### getSimpleToken
+
+```
+   ╭────────────────╮
+▸▸─┤ getSimpleToken ├─▸◂
+   ╰────────────────╯
+```
+
+The ``getSimpleToken`` method selects the next token in the input file and returns a stem containing the details that describe this token.
+
+The components of a returned stem ``t.`` are the following:
+
+* ``t.class``, selected between the non-indented elements of the ``tokenClasses`` constant, excluding those marked as "Level 2".
+* ``t.subclass``, selected between the indented elements of the tokenClasses constant above (when there is no indented element, ``t.class == t.subclass``). Subclasses identified as "Level 2" are not considered in a 
+  simple tokenizing.
+* ``t.value``. In general, this is the character representation of the token itself, but in some cases it can differ. For example, in the case of strings, this is the string value,
+  independent of whether its specification has used or not internal double quotes, or it is any of the X-, B- or U- suffixed strings.
+  That is, in the ASCII encoding, ``t.value`` is identical when the token was ``"a"``, ``"61"X``, ``"0110 0001"B`` or ``"0061"U``.
+* ``t.location``. This component has the form ``line1 start line2 pos`` and identifies the start position of the token, and the end position, plus one character. ``Line1`` and ``line2`` will always be identical, except 
+  in the case of multi-line comments.
+  
+__Important note__
+
+Using ``getSimpleToken`` and ``getFullToken`` with the same tokenizer instance can lead to impredictable results.
+
 ## Implementation notes
 
 ### Private routines
