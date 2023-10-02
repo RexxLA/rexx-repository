@@ -29,6 +29,8 @@ For instance, currently you will find a Unicode-aware implementation of several 
 
 ### [New built-in functions](doc/new-functions.md)
 
+* [The properties model](properties/readme.md)
+
 ### [New classes](doc/classes.md)
 
 ### [New values for the OPTIONS instruction](doc/options.md)
