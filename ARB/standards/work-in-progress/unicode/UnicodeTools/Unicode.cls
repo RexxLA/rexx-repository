@@ -664,6 +664,6 @@ Return 1
   Return graphemes~items
 
 ::Requires "utf8.cls"    
-::Requires "Stream.cls"  
+::Requires "components/stream.cls"  
 ::Requires "properties/Properties.cls"
 ::Requires "encodings/Encoding.cls"
