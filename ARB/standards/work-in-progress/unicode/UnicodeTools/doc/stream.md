@@ -2,7 +2,7 @@
 
 Several of the stream built-in functions have been rewritten to implement a basic level of Unicode support.
 
-Unicode support for the built-in functions is implemented by the [``stream.cls``](components/stream.cls) package. It contains a set of
+Unicode support for the built-in functions is implemented by the [``stream.cls``](../components/stream.cls) package. It contains a set of
 helper routines implementing Unicode-enabled streams.
 
 ### Backwards compatibility
