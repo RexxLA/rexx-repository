@@ -275,8 +275,8 @@ Signal ContinueScan
     
 -- 1 character is in error  
 1Error:  
-  If validate Then Return 0
-  If null     Then Return ""
+  If validate Then Return String(0)
+  If null     Then Return String("")
   errorSequence = string[i]
   If syntax Then Signal Syntax
   Call ReplaceCharacter
@@ -284,8 +284,8 @@ Signal ContinueScan
 
 -- 2 characters are in error  
 2Error:  
-  If validate Then Return 0
-  If null     Then Return ""
+  If validate Then Return String(0)
+  If null     Then Return String("")
   errorSequence = string[i,2]
   If syntax Then Signal Syntax
   Call ReplaceCharacter
@@ -294,8 +294,8 @@ Signal ContinueScan
 
 -- 3 characters are in error  
 3Error:  
-  If validate Then Return 0
-  If null     Then Return ""
+  If validate Then Return String(0)
+  If null     Then Return String("")
   errorSequence = string[i,3]
   If syntax   Then Signal Syntax
   Call ReplaceCharacter
@@ -304,8 +304,8 @@ Signal ContinueScan
 
 -- 6 characters are in error (WTF-8 surrogate pair sequence)
 6Error:  
-  If validate Then Return 0
-  If null     Then Return ""
+  If validate Then Return String(0)
+  If null     Then Return String("")
   errorSequence = string[i,6]
   If syntax Then Signal Syntax
   Call ReplaceCharacter
@@ -325,45 +325,51 @@ OnlyASCIIsLeft:
 Return 0
   
 StringIsEmpty:  
-  If validate     Then Return 1
+  If validate     Then Return String(1)
   
+  null = String("")
   -- Only one target? Return a string
-  If targets == 1 Then Return ""
+  If targets == 1 Then Return null
   
   -- Several targets. Return a stem.
   s. = .Stem~new()
   If allowLoneSurrogates Then Do
-    s.wtf8  = ""
-    s.wtf32 = ""
+    s.wtf8  = null
+    s.wtf32 = null
   End
   Else Do
-    s.utf8  = ""
-    s.utf32 = ""
+    s.utf8  = null
+    s.utf32 = null
   End
   Return s.
     
 StringIsGood:
-  If validate     Then Return 1
+  If validate     Then Return String(1)
   
   -- Only one target? Return a string
   If targets == 1 Then 
-    If return8 Then Return buffer8 ~string
-    Else            Return buffer32~string
+    If return8 Then Return String(buffer8 ~string)
+    Else            Return String(buffer32~string)
     
   -- Several targets. Return a stem.
   s. = .Stem~new()
   If allowLoneSurrogates Then Do
-    s.wtf8  = buffer8  ~string
-    s.wtf32 = buffer32 ~string
+    s.wtf8  = String(buffer8  ~string)
+    s.wtf32 = String(buffer32 ~string)
   End
   Else Do
-    s.utf8  = buffer8  ~string
-    s.utf32 = buffer32 ~string
+    s.utf8  = String(buffer8  ~string)
+    s.utf32 = String(buffer32 ~string)
   End
   Return s.
   
 Syntax:
   Raise Syntax 23.900 Additional("Invalid" format "sequence in position" i "of string: '"C2X(errorSequence)"'X") 
+
+
+String:
+  If .Unicode.UTF8.Bytes Then Return .Bytes~new(Arg(1))
+  Return Arg(1)
 
 --------------------------------------------------------------------------------
 -- One time only: build the TRANSLATE tables for each supported encoding      --
@@ -372,7 +378,15 @@ Syntax:
 ::Routine InitializeTranslateTables
 
   .local~Unicode.UTF8.Initialized = 1
-
+  
+  -- See whether we should return .Bytes (when Unicode.cls has been loaded)
+  -- or .String (for standalone use)
+  --
+  -- We check that .Bytes is a class and that .Bytes subclasses .String
+  bytes = 0
+  If .Bytes~isA(.Class), .Bytes~isSubclassOf(.String) Then bytes = 1
+  .local~Unicode.UTF8.Bytes       = bytes
+  
   ASCII  = "A"
   
   --
