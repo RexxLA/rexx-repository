@@ -1,10 +1,10 @@
 Say "Running all tests..."
 Say "--------------------"
 
-Call "testutf8.rex"
+Call "rxu.rex" "../samples/linein.rxu auto" 
 If result \== 0 Then Exit result
 
-Call "rxu.rex" "../samples/linein.rxu auto" 
+Call "testutf8.rex"
 If result \== 0 Then Exit result
 
 Call "rxu.rex" "basic.rxu"

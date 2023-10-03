@@ -166,6 +166,5 @@ MakeString:
 ::Method decode Class 
   Use Strict Arg string, format = "", errorHandling = ""
   Return UTF8(string, "UTF-8", format, errorHandling)
-  --Return .Encoding~UTF8(string,format, errorHandling)
   
 ::Requires "utf8.cls"  
