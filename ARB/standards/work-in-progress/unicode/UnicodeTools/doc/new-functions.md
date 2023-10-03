@@ -231,6 +231,14 @@ UTF8 works as a _format_ encoding validator when _target_ is omitted, and as a d
 When UTF8 is used as validator, it returns a boolean value, indicating if the string is well-formed according to the _format_ encoding.
 For example, ``UTF8(string)`` returns __1__ when string contains well-formed UTF-8, and __0__ if it contains ill-formed UTF-8.
 
+### Type of the returned value(s)
+
+UTF8 always returns BYTES strings, except when it is used as a standalone routine (i.e., not in combination with ``Unicode.cls``, the RXU Rexx Preprocessor for Unicode, etc.), in which case it returns
+standard ooRexx strings.
+
+UTF8 performs a verification, at initialization time, to see whether .Bytes is a .Class, and, additionally, if .Bytes subclasses .String. If both conditions are met, UTF8 returns BYTES strings; 
+if not, it returns standard ooRexx strings.
+
 ### Valid formats
 
 The _format_ argument can be omitted or specified as the null string, in which case __UTF-8__ is assumed, or in can be one of __UTF8__ (or __UTF-8__), __UTF8Z__ (or __UTF-8Z__), __WTF8__ (or __WTF-8__), __CESU8__ (or __CESU-8__), and __MUTF8__ (or __MUTF-8__).
