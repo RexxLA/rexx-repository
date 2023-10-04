@@ -14,19 +14,35 @@
 %
 % \documentclass[draft]{article}
 \documentclass[b4paper]{article}
+\usepackage[
+    backend=biber,%
+    backref=true,%
+    indexing=true,%
+    sorting=anyt,%,
+    style=alphabetic%
+    ]%
+    {biblatex}
+\addbibresource{ARB.bib}
+\addbibresource{FAQ.bib}
+\addbibresource{IETF.bib}
+\addbibresource{ISO.bib}
+\addbibresource{Unicode.bib}
 \usepackage{enumitem}
 \usepackage{eqparbox}
 \usepackage{expl3}
 \usepackage{fontspec}
 \usepackage{geometry}
 \usepackage{hyperref}
+\usepackage{ifthen}
+\usepackage{imakeidx}
 \usepackage{listings}         %Requires luatex engine to handle UTF-8
                               %Consider using minted, but ...
 \usepackage{makeidx}
+\usepackage{tocbibind}
 \usepackage{upquote}
 \usepackage{cleveref}
 
-\makeindex
+\makeindex[intoc]
 \setmainfont{CMU Serif}
 % texlive-cm-unicode or retrieve cm-unicode with MikTex Console
 
@@ -63,6 +79,12 @@
   }
 \ExplSyntaxOff
 
+\newcommand \fullcref [1]
+   { \ifthenelse {\equal{\nameref{#1}}{}}
+       {\cref{#1}}
+       {\cref{#1} (\nameref{#1})}
+   }
+
 \title{Unicode Implementation Issues%
   \thanks
     {
@@ -91,14 +113,14 @@ This document describes basic issues and solutions for extending Rexx to support
 
 \section{Background}
 The Architecture Review board is investigating areas in which Rexx may be
-in need of enhancements, some of which are listed in \cite{Req}.
+in need of enhancements, some of which are listed in \cite{ARB:Issues}.
 Many modern languages support Unicode encoded as
-\href{https://datatracker.ietf.org/doc/rfc3629/}{UTF-8} (\cite{RFC 3629}),
-and the \href{https://www.ietf.org/}{IETF}, in \cite{RFC 5198},
+\href{https://datatracker.ietf.org/doc/rfc3629/}{UTF-8} (\cite{RFC:3629}),
+and the \href{https://www.ietf.org/}{IETF}, in \cite{RFC:5198},
 has mandated the use of UTF-8 with NFC in new protocols.
 Rexx will need to support UTF-8 if it is not to become a backwater,
 and that support should not break existing code.
-Elaboration of this issue may be added to \cite{Req} \cref{issue:MB,issue:UTF-8}.
+Elaboration of this issue may be added to \cite{ARB:Issues} \cref{issue:MB,issue:UTF-8}.
 
 
 \section{Scope}
@@ -107,7 +129,7 @@ multi-octet representations of characters in Unicode \cref{issue:MB,issue:UTF-8}
 address such issues as bidirectional text, nor does it address legacy
 DBCS support. It presents suggested solutions for requirements that
 are presented in other documents.  Also, most of the details are under
-active discussion, so everything here is provisional.
+active discussion, so everything here is provisional. Information on Unicode may be found at \citetitle{Unicode} and \citetitle{UFAQs}.
 
 This document concentrates on classic Rexx, ANSI Rexx and ooRexx; the
 implementations most relevant are ooRexx and Regina.  However, cREXX
@@ -117,7 +139,7 @@ differences.
 
 \section{Nomenclature}
 
-The definitions given in \cite{Glossary} and \cite{Unicode} take
+The definitions given in \cite{USTD:Gloss} and \cite{Unicode} take
 precedence over those given here. Quoted text is taken from those sources.
 Except for definitions taken from official IETF and Unicode documents,
 the nomenclature used here is illustrative rather than normative;
@@ -188,7 +210,7 @@ Rexx has built-in case conversion, but it is based on ASCII and
 can't even convert the accented letters found in, e.g., ISO-8859-1
 (Latin-1), ISO-8859-15 (Latin-9), much less all those found in Unicode.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Non-ASCII upper casing in classic Rexx}]
     foo = 'Ren!\'{e}!'
     parse upper var foo bar
 \end{lstlisting}
@@ -201,52 +223,81 @@ and thus the \textbf{xrange()} only returns short strings. (\cref{issue:xr})
 With Unicode the range expands to U+00 through U+10FFFF.
 That is far too large to allow as either an explict or implicit range in \textbf{xrange()}.
 
+\subsection{Numeric string conversion to characters}
+\label{problem:numeric}
+The definitions of binary and hexadecimal literals, and of the b2c()
+and x2c() functions, in \cite{ANSI:J18}, depend on Config\_B2C. While the
+definition"Translate Binary to a coded string." of Config\_B2C in ANSI
+X3J18-1996 is rather vague, it is adequate when the character set is
+restricted to an 8-bit character set.  The definition must be replaced
+by one that is unamgiguous when applied to Unicode.
+(\cref{issue:CUC}) There are several obvious options.
+
+\begin{enumerate}
+\item Treat every 32 bits as a Unicode scalar
+\item Treat every 8 bits as part of a UTF-8 sequence
+\item Treat every 8 bits as a character in a legacy code page.
+\end{enumerate}
+
+Each of these options has disadvantages.
+
+The converse issue exists for Config\_C2B.
+
 \subsection{Identifiers, labels and procedure names}
 The current definition restricts symbols to ASCII characters, which
 excludes letters used in many languages. If the rules are extended, in
-accordance with \cite{Annex31}.  to include Unicode letters and digits
+accordance with \cite{UAX31}. to include Unicode letters and digits
 beyond ASCII, the rules for equality of symbols must be addressed.
 Are composed and decomposed strings identical? Are base characters
 identical to their compatibility alterrnates? Are subscript and
 superscript digits distinct from their ASCII counterparts?
 
 When a numeric value is used as a label or procedure name, a precise
-definition of the semantics is needed.  While the definition
-"Translate Binary to a coded string." of Config\_B2C in ANSI X3J18-199X
-is rather vague, it is adequate when the character set is restricted
-to an 8-bit character set.  The definition must be replaced by one
-that is unamgiguous when applied to Unicode.  (\ref{issue:IAF})
-There are several
-obvious options.
-\begin{enumerate}
-\item Treat every 32 bits as a Unicode scalar
-\item Treat every 8 bits as part of a UTF-8 sequence
-\item Treat every 8 bits as a character in a legacy code page.
-\end{enumerate}
-Each of these options has disadvantages.
-The same issue exists for Config\_C2B.
+definition of the semantics is needed.  This is essentially the same
+issue as \fullcref{problem:numeric} above.
 
 When dealing with Unicode, different code sequences may have identical
 rendering due to the existence of both fully composed and combining
 code points and the exixtence of compatibility code points.
-Rexx needs a way to test two Unicode strings for equivalence. (\cref{issue:SNO,issue:NFCD,issue:NFKCD})
+Rexx needs a way to test two Unicode strings for equivalence.
+(\cref{issue:SNO,issue:NFCD,issue:NFKCD})
+
+\subsection{PARSE}
+The PARSE tempates currently support spliiting text based on a
+restricted set of whitespace characters.  A decision must be made
+whether to only support space and tab as whitespace for PARSE, or to
+use one of the whitespace definitions in \cite{UAX31}.
 
 \subsection{Status of legacy code pages}
 There has been some discussion claiming a need to continue supporting legacy code pages. (\cref{issue:LCPS,issue:mLS,issue:iconv})
 
 \subsection{Unassigned and invalid code points}
-There has been some discussion of the need to detect unassigned code points. (\cref{issue:UICP,issue:ED})
+There has been some discussion of the need to detect
+unassigned\footnote{Unsigned is not the same as noncharacter.}
+code points. (\cref{issue:UICP,issue:ED})
 
 \subsection{New notation}
 Unicode introduces new notation, which Rexx currently doesn't support, e.g., U+xxxx, <codepoint, ...>.
 
+\subsection{Tools}
+There are tools available that manipilate Rexx source code in various
+ways, e.g., code completion, cross referencing, navigation, prettyprinting, syntax highligting.
+These tools may not handle new syntax added in support of Unicode. Examples include
+\begin{itemize}
+\item The IBM Z\textregistered Open Editor \\
+A Rexx Language Support plugin for Visual Studio Code
+\item The \LaTeX\  package \href{https://www.ctan.org/pkg/listings}{\textbf{listings}}
+\item The \LaTeX \ package \href{https://www.ctan.org/pkg/minted}{\textbf{minted}}
+\item The Python package Pygments
+\end{itemize}
 
-\section{ARB Issues}
+
+\section{ARB GitHub Issues}
 \label{ARBiss}
 
-This section lists all issues in \cite{Req}, whether or not they relate to Unicode.
+This section lists all issues in \cite{ARB:Issues}, whether or not they relate to Unicode.
 
-\begin{issue}[label=I\arabic*,ref=\fbox{I\arabic*}]
+\begin{issue}[label=I.\arabic*,ref=\fbox{I.\arabic*}]
 \item{\href{https://github.com/users/RexxLA/projects/2/views/6?pane=issue&itemId=35730857}%
 {Expanded Alphabets}}
 \label{issue:EA}
@@ -407,6 +458,8 @@ code page in an environment variable or file metadata.
 \end{definition}
 \end{definition}
 
+The RXU preprocessor accepts \textbf{OPTIONS DEFAULTSTRING} \textit{default}, where default can be one of \textbf{ BYTES},\textbf{ CODEPOINTS}, \textbf{TEXT} OR \textbf{NONE}.
+
 \subsection{Classes and types}
 
 Allow Rexx variables to contain three distinct types of data: raw octets, Unicode code points and text,
@@ -427,6 +480,8 @@ Strings of this type could include a code page attribute.
 For ooRexx a single class with distinguishing attributes could be
 used, or a separate class for each type.
 
+RXU uses BYTES for both octet strings and legacy strings.
+
 \subsection{Width parameters for c2x()}
 
 Add a width parameter to \textbf{c2x()} for Unicode code point string
@@ -439,7 +494,10 @@ case could be made for using either the bit size or the digit size as
 the width.
 
 Assuming that the width is in in terms of octets
-\begin{lstlisting}[linewidth=35em]
+\begin{lstlisting}[
+    caption={c2x() with width parameter},%
+    linewidth=35em%
+    ]
     foo = 'Ren!\'{e}!'
     bar = foo~UTF-8
     /* assumes that width parameter is in octets */
@@ -448,7 +506,10 @@ Assuming that the width is in in terms of octets
 \end{lstlisting}
 
 There is an ongoing discussion as to whether an when to allow implicit coercions of type in, e.g.,
-\begin{lstlisting}[linewidth=35em]
+\begin{lstlisting}[
+    caption={Implicit coercion},%
+    linewidth=35em]%
+    ]
     foo = .BYTES~new
     foo = 'Ren!\'{e}!'
     !\textellipsis!
@@ -468,7 +529,7 @@ e.g., U+E9
 might be coded as {\textbackslash}u\{E9\} or {\textbackslash}u[LATIN SMALL LETTER E WITH ACUTE].
 The syntax used for such constants should be consisten across Rexx variants,
 including rules for optional spaces between (hex) digits,
-and should take into account the recommendations in \cite{RFC 5137}.
+and should take into account the recommendations in \cite{RFC:5137}.
 Implementations should use the machine readable data bases published by
 the Unicode Consortium in order to ease migration to new versions of Unicode.
 
@@ -528,7 +589,7 @@ Example & Type & Semantics \\
 {\verb|`|}Ren\'{e}{\verb|`|}T                              & TEXT       & Unicode text by grapheme cluster       \\
 \hline
 \end{tabular}
-
+\\
 An issue that must be resolved is whether string literals should have
 binary fidelity or visual fidelity to the target code page, i.e.,
 should the quoted source characters be given in the source code page
@@ -538,6 +599,19 @@ and in EBCDIC be coded as
 {\textquotesingle}foo{\textquotesingle}{EBCDIC}, requiring that Rexx
 translate the text, or should the second be entered with the EBCDIC
 code points 86, 96, 96, making it harder to read and edit?
+
+Another issue is whether numeric constants used as labels and call
+targets should be treated as strings of legacy code points, UTF-8
+sequences or as strings of Unicode scalars.
+
+RXU has five tpes of string literals:
+\begin{definition}
+\item['string'] The type is determined by OPTIONS.
+\item['string'P] Unicode by code point
+\item['string'T] Unicode by EGC
+\item['space separated tokens'U] Unicode code points by alias, name or value
+\item['string'Y] Legacy bYte string
+\end{definition}
 
 \subsection{Error detection}
 The Rexx standard should specify ehat to do when a string being transformed
@@ -587,7 +661,7 @@ There are several viable approaches, each with disadvantages.
 This risks a program doing a seek within a UTF-8 sequence,
 within a UCS-2/UCS-4 character,
 within a UTF-16 surrogate pair,
-or, for EGC access, withing an EGC.
+or, for EGC access, within an EGC.
 Strategies to ameliorate this include
 \begin{definition}
 \item [UTF-8]
@@ -605,7 +679,7 @@ Read four bytes and verify that they do not exceed U+10FFFF.
 \item Use character or EGC count \\
 This is expensive
 \item Define a cursor type. \\
-This violates "Everything is a string" in classic Rexx.
+This violates "Everything is a string" in classic Rexx, but is reasonable for ooRexx.
 \end{itemize}
 
 Handling update in the middle of a file with variable-width encodings
@@ -618,7 +692,7 @@ A discussion is needed on whether and when to create or discard byte order marks
 
 \subsection{Case folding}
 
-Case folding of symbols and caseless comparisons will use the \cite{UCD}.
+Case folding of symbols and caseless comparisons will use the \citetitle{UCD}.
 \cref{issue:CF,issue:CComp,issue:CConv})
 The rules for case folding should take into account mathematical usage.
 \begin{itemize}
@@ -793,104 +867,10 @@ There will be no automatic promotion for octet strings, Unicode to
 legacy nor for legacy strings without code page tagging.
 
 
-\section{Bibliography}
-
-\subsection{GitHub ARB documents}
-\renewcommand{\refname}{ARB}
-
-\begin{thebibliography}{20}
-\bibitem[New Types]{New Types}
-\href{https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/string-types.md}%
-{\textit{New types of strings}}
-
-\bibitem[Requirements]{Req}
-\href{https://github.com/users/RexxLA/projects/2/views/6}%
-{\textit{Unicode Standard Development - requirements}}
-
-\bibitem[Requirements Status]{ReqStat}
-\href{https://github.com/users/RexxLA/projects/2/views/1}%
-{\textit{Unicode Standard Development - requirements status}}
-
-\bibitem[RXU]{RXU}
-\href{https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/rxu.md}%
-{\textit{The RXU Rexx Preprocessor for Unicode}}
-
-\end{thebibliography}
-
-\subsection{Official documents}
-\renewcommand{\refname}{References}
-
-\begin{thebibliography}{20}
-\bibitem[Glossary of Unicode Terms]{Glossary}
-\href{https://unicode.org/glossary/}%
-{\textit{Glossary of Unicode Terms}}
-
-\bibitem[ISO/IEC 8859-1:1997 (E)]{ISO 8859-1}
-\href{https://www.open-std.org/JTC1/sc2/wg3/docs/n411.pdf}%
-{\textit{Final Text of DIS 8859-1, 8-bit single-byte coded graphic character sets-Part 1: Latin alphabet No.1}}
-
-\bibitem[ISO/IEC 10646:2020]{ISO 10646}
-\href{https://www.iso.org/standard/76835.html}%
-{\textit{Information technology - Universal coded character set (UCS)}}
-
-\bibitem[RFC 2781]{RFC 2781}
-\href{https://datatracker.ietf.org/doc/rfc2781/}%
-{\textit{UTF-16, a transformation format of ISO 10646}}
-
-\bibitem[RFC 3629, STD 63]{RFC 3629}
-\href{https://datatracker.ietf.org/doc/rfc3629/}%
-{\textit{UTF-8, a transformation format of ISO 10646}}
-
-\bibitem[RFC 5137, BCP 137]{RFC 5137}
-\href{https://datatracker.ietf.org/doc/rfc5137/}%
-{\textit{ASCII Escaping of Unicode Characters}}
-
-\bibitem[RFC 5198]{RFC 5198}
-\href{https://datatracker.ietf.org/doc/rfc5198/}%
-{\textit{Unicode Format for Network Interchange}}
-
-\bibitem[Unicode]{Unicode}
-\href{https://www.unicode.org/standard/standard.html}%
-{\textit{The Unicode Standard}}
-
-\bibitem[Unicode]{Unicode3.9}
-\href{https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf#page=50}%
-{\textit{3.9 Unicode Encoding Forms}}
-
-\bibitem[Unicode Character Database]{UCD}
-\href{https://www.unicode.org/ucd/}%
-{\textit{Unicode Character Database (UCD)}}
-
-\bibitem[Unicode CLDR Project]{CLDR}
-\href{https://cldr.unicode.org/}%
-{\textit{Unicode Common Locale Data Repository (CLDR)}}
-
-\bibitem[Unicode{\textregistered} Standard Annex 29]{Annex29}
-\href{https://www.unicode.org/reports/tr29/}%
-{\textit{Unicode{\textregistered} Standard Annex 29\\ %
-Unicode Text Segmentation}}
-
-\bibitem[Unicode{\textregistered} Standard Annex 31]{Annex31}
-\href{https://www.unicode.org/reports/tr31/}%
-{\textit{Unicode{\textregistered} Standard Annex 31\\ %
-Unicode Identifier and Pattern Syntax}}
-
-\bibitem[Unicode{\textregistered} Standard Annex 42]{Annex42}
-\href{https://www.unicode.org/reports/tr42/tr42-34.html}%
-{\textit{Unicode{\textregistered} Standard Annex 42\\ %
-Unicode Character Database in XML}}
-
-\bibitem[Unicode{\textregistered} Standard Annex 44]{Annex44}
-\href{https://www.unicode.org/reports/tr44/tr44-32.html}%
-{\textit{Unicode{\textregistered} Standard Annex 44\\ %
-Unicode Character Database}}
-
-\end{thebibliography}
-
-
 \section{Glossary}
 
-The definitions given in \cite{Glossary} and \cite{Unicode} take
+
+The definitions given in \cite{USTD:Gloss} and \cite{Unicode} take
 precedence over those given here. Quoted text is taken from those sources, or from IETF documents.
 Except for definitions taken from official IETF and Unicode documents,
 the nomenclature used here is illustrative rather than normative;
@@ -935,7 +915,7 @@ See \url{https://www.ibm.com/downloads/cas/G01BQVRV}.
 number of continuing characters, where acontinuing character may
 include any nonspacing combining mark, certain spacing combining
 marks, or a join control."
-{\cite{Annex29}} defines two types of grapheme clusters;
+{\cite{UAX29}} defines two types of grapheme clusters;
 "An extended grapheme cluster is the same as a legacy grapheme cluster,
 with the addition of some other characters.
 The continuing characters are extended to include all spacing combining marks,
@@ -1007,7 +987,7 @@ collectively representing a 21-bit code point.
 \item [Unicode Consortium] A non-profit corporation devoted to
 developing, maintaining, and promoting software internationalization standards and data.
 \item [UTF-8] UCS Transformation Format 8
-(\cite{Unicode3.9} and \cite{RFC 3629}).
+(\cite{USTD:3.9} and \cite{RFC:3629}).
 \\*
 The encoding of Unicode endorsed by the IETF
 \item [UTF-8 octet sequence]
@@ -1029,7 +1009,7 @@ U+10000 - U+10FFFF & 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx \\
 \hline
 \end{tabular}
 \item [UTF-16] UCS Transformation Format 16
-(\cite{Unicode3.9} and \cite{RFC 2781}).
+(\cite{USTD:3.9} and \cite{RFC:2781}).
 \end{definition}
 
 
@@ -1057,6 +1037,24 @@ There are some useful tools available on the WWW:
 \href{https://www.unicode.org/charts/charindex.html}%
 {Unicode{\textregistered} Character Name Index}
 \end{resource}
+
+\section{Bibliography}
+This version of the document prints all included bibliography entries, even those note cited.
+\nocite{*}
+
+\printbibliography[%
+    keyword=ARB,%
+    title={GitHub ARB documents}%
+    ]
+\printbibliography[%
+    keyword=FAQ,%
+    title=FAQs%
+    ]
+\printbibliography[%
+    keyword=standard,%
+    notkeyword=FAQ,%
+    title={Official documents}%
+    ]
 
 \printindex
 
