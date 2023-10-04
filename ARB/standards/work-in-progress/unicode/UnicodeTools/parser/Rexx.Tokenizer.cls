@@ -77,45 +77,45 @@
   
   UnicodeLoaded = 0
     
-::Constant tokenClasses (    -            -- <pre><code>
-  ( SYNTAX_ERROR                   , "E" ), -  -- Special token returned when a Syntax error is found
-  ( OPERATOR                       , "o" ), -
-                                            -  -- +--- All subclasses of OPERATOR are full tokenizer only
-    ( ADDITIVE_OPERATOR            , "a" ), -  -- | "+", "-" 
-    ( COMPARISON_OPERATOR          , "c" ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
-                                            -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
-    ( CONCATENATION_OPERATOR       , "k" ), -  -- | "||" 
-    ( LOGICAL_OPERATOR             , "l" ), -  -- | "&", "|", "&&" 
-    ( MESSAGE_OPERATOR             , "s" ), -  -- | "~", "~~" 
-    ( MULTIPLICATIVE_OPERATOR      , "m" ), -  -- | "*", "/", "//", "%" 
-    ( POWER_OPERATOR               , "p" ), -  -- | "**" 
-    ( EXTENDED_ASSIGNMENT          , "x" ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
-                                            -  -- +--- All subclasses of OPERATOR are full tokenizer only
-  ( SPECIAL                        , "s" ), -
-  ( COLON                          , ":" ), -
-  ( DIRECTIVE_START                , "*" ), -  -- "::" (Full tokenizer only, absorbed by directive)
-  ( LPAREN                         , "(" ), -
-  ( RPAREN                         , ")" ), -
-  ( LBRACKET                       , "[" ), -
-  ( RBRACKET                       , "]" ), -
-  ( BLANK                          , "b" ), -  -- May be ignorable, or not
-  ( LINE_COMMENT                   , "l" ), -  -- Up to but not including the end of the line
-  ( CLASSIC_COMMENT                , "c" ), -  -- Infinite nesting allowed
-  ( RESOURCE                       , "R" ), -  -- The resource itself, i.e., the array of lines
-  ( RESOURCE_DELIMITER             , "T" ), -  -- End delimiter, ends resource
-  ( RESOURCE_IGNORED               , "G" ), -  -- After "::Resource name ;" or "::END delimiter"
-  ( END_OF_SOURCE                  , "F" ), -
-  ( END_OF_CLAUSE                  , ";" ), -
-    ( BEGIN_OF_SOURCE              , "B" ), -  -- Dummy and inserted. Very convenient for simplification
-    ( END_OF_LINE                  , "L" ), -  -- Implied semicolon
-    ( SEMICOLON                    , ";" ), -  -- An explicit semicolon
-    ( INSERTED_SEMICOLON           , "I" ), -  -- For example, after a label, THEN, ELSE, and OTHERWISE
-                                            -
-                                            -  -- CLAUSE SUPPORT (Full tokenizer only)
-                                            -  -- ==============
-  ( LABEL                          , "W" ), -  -- Includes and absorbs the COLON
-                                            -  -- All DIRECTIVEs include and absorb the :: marker
-  ( DIRECTIVE                      , "w" ), -  -- 
+::Constant tokenClasses (    -             
+  ( SYNTAX_ERROR                   , "E"   ), -  -- Special token returned when a Syntax error is found
+  ( OPERATOR                       , "o"   ), -
+                                             -  -- +--- All subclasses of OPERATOR are full tokenizer only
+    ( ADDITIVE_OPERATOR            , "a"   ), -  -- | "+", "-" 
+    ( COMPARISON_OPERATOR          , "c"   ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
+                                              -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
+    ( CONCATENATION_OPERATOR       , "k"   ), -  -- | "||" 
+    ( LOGICAL_OPERATOR             , "l"   ), -  -- | "&", "|", "&&" 
+    ( MESSAGE_OPERATOR             , "s"   ), -  -- | "~", "~~" 
+    ( MULTIPLICATIVE_OPERATOR      , "m"   ), -  -- | "*", "/", "//", "%" 
+    ( POWER_OPERATOR               , "p"   ), -  -- | "**" 
+    ( EXTENDED_ASSIGNMENT          , "x"   ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
+                                              -  -- +--- All subclasses of OPERATOR are full tokenizer only
+  ( SPECIAL                        , "s"   ), -
+  ( COLON                          , ":"   ), -
+  ( DIRECTIVE_START                , "*"   ), -  -- "::" (Full tokenizer only, absorbed by directive)
+  ( LPAREN                         , "("   ), -
+  ( RPAREN                         , ")"   ), -
+  ( LBRACKET                       , "["   ), -
+  ( RBRACKET                       , "]"   ), -
+  ( BLANK                          , "b"   ), -  -- May be ignorable, or not
+  ( LINE_COMMENT                   , "l"   ), -  -- Up to but not including the end of the line
+  ( CLASSIC_COMMENT                , "c"   ), -  -- Infinite nesting allowed
+  ( RESOURCE                       , "R"   ), -  -- The resource itself, i.e., the array of lines
+  ( RESOURCE_DELIMITER             , "T"   ), -  -- End delimiter, ends resource
+  ( RESOURCE_IGNORED               , "G"   ), -  -- After "::Resource name ;" or "::END delimiter"
+  ( END_OF_SOURCE                  , "F"   ), -
+  ( END_OF_CLAUSE                  , ";"   ), -
+    ( BEGIN_OF_SOURCE              , "B"   ), -  -- Dummy and inserted. Very convenient for simplification
+    ( END_OF_LINE                  , "L"   ), -  -- Implied semicolon
+    ( SEMICOLON                    , ";"   ), -  -- An explicit semicolon
+    ( INSERTED_SEMICOLON           , "I"   ), -  -- For example, after a label, THEN, ELSE, and OTHERWISE
+                                              -
+                                              -  -- CLAUSE SUPPORT (Full tokenizer only)
+                                              -  -- ==============
+  ( LABEL                          , "W"   ), -  -- Includes and absorbs the COLON
+                                              -  -- All DIRECTIVEs include and absorb the :: marker
+  ( DIRECTIVE                      , "w"   ), -  -- 
     ( ANNOTATE_DIRECTIVE           , "01"X ), -  -- 
     ( ATTRIBUTE_DIRECTIVE          , "02"X ), -  -- 
     ( CLASS_DIRECTIVE              , "03"X ), -  -- 
@@ -125,8 +125,8 @@
     ( REQUIRES_DIRECTIVE           , "07"X ), -  -- 
     ( RESOURCE_DIRECTIVE           , "08"X ), -  -- 
     ( ROUTINE_DIRECTIVE            , "09"X ), -  -- 
-                                            -  --
-  ( KEYWORD_INSTRUCTION            , "K" ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present 
+                                              -  --
+  ( KEYWORD_INSTRUCTION            , "K"   ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present 
     (ADDRESS_INSTRUCTION           , "80"X ), -  --     
     (ARG_INSTRUCTION               , "81"X ), -  -- 
     (CALL_INSTRUCTION              , "82"X ), -  -- 
@@ -167,30 +167,30 @@
     (UPPER_INSTRUCTION             , "A5"X ), -  -- Regina only, no ANSI
     (USE_INSTRUCTION               , "A6"X ), -  -- 
     (WHEN_INSTRUCTION              , "A7"X ), -  -- 
-  ( ASSIGNMENT_INSTRUCTION         , "O" ), -  -- Variable assignments, not message assignments             
-  ( COMMAND_OR_MESSAGE_INSTRUCTION , "P" ), -  -- Cannot determine without arbitrarily large context        
-                                            -  -- End of CLAUSE SUPPORT
-                                            -  -- =====================
-  ( VAR_SYMBOL                     , "V" ), -  
+  ( ASSIGNMENT_INSTRUCTION         , "O"   ), -  -- Variable assignments, not message assignments             
+  ( COMMAND_OR_MESSAGE_INSTRUCTION , "P"   ), -  -- Cannot determine without arbitrarily large context        
+                                              -  -- End of CLAUSE SUPPORT
+                                              -  -- =====================
+  ( VAR_SYMBOL                     , "V"   ), -  
     ( SIMPLE                       , "10"X ), -  
     ( STEM                         , "11"X ), -
     ( COMPOUND                     , "12"X ), -
-  ( NUMBER                         , "N" ), -
+  ( NUMBER                         , "N"   ), -
     ( INTEGER                      , "13"X ), -
     ( FRACTIONAL                   , "14"X ), -
     ( EXPONENTIAL                  , "15"X ), -
-  ( CONST_SYMBOL                   , "C" ), -
+  ( CONST_SYMBOL                   , "C"   ), -
     ( PERIOD                       , "16"X ), -
     ( LITERAL                      , "17"X ), -
     ( ENVIRONMENT                  , "18"X ), -
-  ( STRING                         , "S" ), -
-    ( BINARY                       , "B" ), -
-    ( HEXADECIMAL                  , "X" ), -
-    ( CHARACTER                    , "K" ), -  
-    ( BYTES                        , "Y" ), -  -- Unicode only. Y suffix
-    ( CODEPOINTS                   , "P" ), -  -- Unicode only. P suffix
-    ( TEXT                         , "T" ), -  -- Unicode only. T suffix
-    ( UNOTATION                    , "U" )  -  -- Unicode only. U suffix</code></pre>
+  ( STRING                         , "S"   ), -
+    ( BINARY                       , "B"   ), -
+    ( HEXADECIMAL                  , "X"   ), -
+    ( CHARACTER                    , "K"   ), -  
+    ( BYTES                        , "Y"   ), -  -- Unicode only. Y suffix
+    ( CODEPOINTS                   , "P"   ), -  -- Unicode only. P suffix
+    ( TEXT                         , "T"   ), -  -- Unicode only. T suffix
+    ( UNOTATION                    , "U"   )  -  -- Unicode only. U suffix
 )
 
 ::Method InitializeClasses Private
