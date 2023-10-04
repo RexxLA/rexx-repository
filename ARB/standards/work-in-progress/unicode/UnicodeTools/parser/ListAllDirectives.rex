@@ -6,7 +6,7 @@
 -- ListAllDirectives.rex
 -- =====================
 --
--- A demo program for the Rexx tokenizer.
+-- A demo program for the Rexx tokenizer, following a suggestion by Rony Flatscher
 --
 -- This program scans a ooRexx files and lists all its directives.
 -- 
