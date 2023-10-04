@@ -21,9 +21,10 @@
 
 Parse Arg fn                                      -- No error handling
 
-size     = Stream(fn,"C","Q Size")                -- Retrieve the size and
-source   = CharIn(fn,1,size)~makeArray            -- create an array (fast)
-detailed = 1
+size     = Stream(fn,"C","Q Size")                -- Retrieve the size and...
+source   = CharIn(fn,1,size)~makeArray            -- ...create an array (fast)
+Call       Stream fn,"C","Close"                  -- Close the file
+detailed = 0                                      -- We don't need a detailed tokenizing
 
 tokenizer = .ooRexx.Tokenizer~new(source, detailed)
 
