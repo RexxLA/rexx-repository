@@ -126,7 +126,6 @@ End
 ::Method UCDFile.Qualify Class
   Expose myself myDir separator
   Use Strict Arg fileName
-  --Return myDir".."separator"UCD"separator || fileName
   Return myDir"UCD"separator || fileName
 
 --
@@ -136,7 +135,8 @@ End
 ::Method BinFile.Qualify Class
   Expose myself myDir separator
   Use Strict Arg fileName
-  Return myDir".."separator"bin"separator || fileName
+  --Return myDir".."separator"bin"separator || fileName
+  Return myDir"bin"separator || fileName
 
 -- Common activation. Subclasses that have an "activate" class
 -- method should use a self~activate:super method call at the
