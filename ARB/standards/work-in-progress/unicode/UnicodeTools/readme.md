@@ -22,7 +22,7 @@ Version 0.4a, 20231002.
 
 ## \[Cumulative changes, preparing for next release, 0.4b\]
 
-* Extensive code and doc refactoring to avoid clutter in the main directory.
+* 20231005 &mdash; Extensive code and doc refactoring to avoid clutter in the main directory.
 
 ---
 
@@ -39,9 +39,9 @@ You can then navigate to the ``samples`` directory and try the samples by using 
   * [New types of strings](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/string-types.md)
   * [Revised built-in functions](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/built-in.md)
     * [Stream functions for Unicode](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/stream.md)
-    * [The encoding/decoding model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/components/encodings.md)
+    * [The encoding/decoding model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/encodings.md)
   * [New built-in functions](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md)
-    * [The properties model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/components/properties.md)
+    * [The properties model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/properties.md)
   * [New classes](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/classes.md)
   * [New values for the OPTIONS instruction](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/options.md)
 * [For the Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md)
