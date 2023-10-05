@@ -34,9 +34,9 @@
 .local~Unicode.Property = .Unicode.Property
 .local~MultiStageTable  = .MultiStageTable
 
--- Extract our own directory, and do a directory listing.
--- Then call all the *.cls files in turn (except ourselves) to give them
--- the opportunity to register.
+-- Extract our own directory, and do a directory listing of its "properties"
+-- subdir. Call all the *.cls files in turn to give them the opportunity 
+-- to register.
 
 separator = .File~separator
 Parse Source . . myself

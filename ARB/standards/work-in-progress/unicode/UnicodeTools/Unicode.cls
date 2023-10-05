@@ -666,4 +666,4 @@ Return 1
 ::Requires "utf8.cls"    
 ::Requires "components/stream.cls"  
 ::Requires "components/properties.cls"
-::Requires "encodings/Encoding.cls"
+::Requires "components/encoding.cls"

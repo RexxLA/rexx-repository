@@ -7,7 +7,7 @@
      License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
   
   <p>
-    See https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/encodings/readme.md
+    See https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/components/encodings.md
     for documentation and details.
   
   <h4>Version history</h4>
@@ -27,18 +27,16 @@
 
 .local~encoding = .Encoding
 
--- Extract our own directory, and do a directory listing.
--- Then call all the *.cls files in turn (except ourselves) to give them
--- the opportunity to register.
+-- Extract our own directory, and do a directory listing of its "encodings"
+-- subdir. Call all the *.cls files in turn to give them the opportunity 
+-- to register.
 
 separator = .File~separator
 Parse Source . . myself
 myDir = Left(myself, LastPos(separator, myself))
-Do file Over .File~new(myDir)~listFiles
+Do file Over .File~new(myDir"encodings")~listFiles
   fileName = file~absolutePath
-  If fileName == myself         Then Iterate
-  If \filename~endsWith(".cls") Then Iterate
-  Call (filename)
+  If filename~endsWith(".cls") Then Call (filename)
 End
 
 ::Class "Encoding" Public
