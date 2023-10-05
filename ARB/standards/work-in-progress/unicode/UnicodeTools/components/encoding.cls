@@ -7,8 +7,7 @@
      License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
   
   <p>
-    See https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/components/encodings.md
-    for documentation and details.
+    See doc/encodings.md for documentation
   
   <h4>Version history</h4>
    

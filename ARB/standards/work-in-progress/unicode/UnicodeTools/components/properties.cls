@@ -9,7 +9,7 @@
  *  The UNICODE.PROPERTY class
  *  ==========================
  *                                                                           
- *  <p>See components/properties.md for documentation
+ *  <p>See /doc/properties.md for documentation
  *
  *  Version history                                                          
  *  ===============                                                          
