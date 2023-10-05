@@ -41,17 +41,17 @@ For instance, currently you will find a Unicode-aware implementation of several 
 
 ## Here is a list of what is currently implemented
 
-### [Four new types of string](doc/string-types.md)
+### [Four new types of string](string-types.md)
 
-### [Revised built-in functions](doc/built-in.md)
+### [Revised built-in functions](built-in.md)
 
-* [Stream functions for Unicode](doc/stream.md)
+* [Stream functions for Unicode](stream.md)
 * [The encoding/decoding model](components/encodings.md)
 
-### [New built-in functions](doc/new-functions.md)
+### [New built-in functions](new-functions.md)
 
 * [The properties model](components/properties.md)
 
 ### [New classes](doc/classes.md)
 
-### [New values for the OPTIONS instruction](doc/options.md)
+### [New values for the OPTIONS instruction](options.md)
