@@ -1,5 +1,5 @@
--- For cp850.cls
-inFile = "../UCD/CP850-2.0.0.TXT"
+-- For IBM850.cls
+inFile = "../../UCD/CP850-2.0.0.TXT"
 
 Do While Lines(inFile)
   line = LineIn(inFile)

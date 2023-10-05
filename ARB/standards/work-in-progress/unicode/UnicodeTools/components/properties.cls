@@ -126,7 +126,8 @@ End
 ::Method UCDFile.Qualify Class
   Expose myself myDir separator
   Use Strict Arg fileName
-  Return myDir".."separator"UCD"separator || fileName
+  --Return myDir".."separator"UCD"separator || fileName
+  Return myDir"UCD"separator || fileName
 
 --
 -- Binary files location method

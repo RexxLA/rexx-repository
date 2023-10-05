@@ -1,4 +1,4 @@
-inFile = "../IANA/iana.org_assignments_charset-reg_IBM1047.txt"
+inFile = "../../IANA/iana.org_assignments_charset-reg_IBM1047.txt"
 
 k = 0
 Do While Lines(inFile) > 0

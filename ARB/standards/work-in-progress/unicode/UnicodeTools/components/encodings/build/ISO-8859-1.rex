@@ -1,5 +1,5 @@
--- For iso88591.cls
-inFile = "../UCD/ISO-8859-1-3.0.0.TXT"
+-- For iso-8859-1.cls
+inFile = "../../UCD/ISO-8859-1-3.0.0.TXT"
 
 Do While Lines(inFile)
   line = LineIn(inFile)
