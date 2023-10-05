@@ -20,6 +20,12 @@ Version 0.4a, 20231002.
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## \[Cumulative changes, preparing for next release, 0.4b\]
+
+* Extensive code and doc refactoring to avoid clutter in the main directory.
+
+---
+
 ## Quick installation
 
 Download Unicode.zip, unzip it in some directory of your choice, and run ``setenv`` to set the path (for Linux users: use ``. ./setenv.sh``, not ``./setenv.sh``, or your path will not be set).
