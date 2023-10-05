@@ -46,11 +46,11 @@ For instance, currently you will find a Unicode-aware implementation of several 
 ### [Revised built-in functions](built-in.md)
 
 * [Stream functions for Unicode](stream.md)
-* [The encoding/decoding model](../components/encodings.md)
+* [The encoding/decoding model](encodings.md)
 
 ### [New built-in functions](new-functions.md)
 
-* [The properties model](../components/properties.md)
+* [The properties model](properties.md)
 
 ### [New classes](classes.md)
 
