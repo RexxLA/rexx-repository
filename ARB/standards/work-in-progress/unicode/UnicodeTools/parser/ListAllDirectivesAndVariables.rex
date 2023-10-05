@@ -17,7 +17,8 @@
 -- Limitation: the usefulness of this program is limited, because
 -- we are using a tokenizer, not a full AST parser, and therefore
 -- some sub-keywords, like "over", "value" or "with" may appear
--- wronly listed as variables.
+-- wrongly listed as variables. The same is true of function
+-- and method names.
 -- 
 -- Arguments: name -- The Rexx file to inspect
 --

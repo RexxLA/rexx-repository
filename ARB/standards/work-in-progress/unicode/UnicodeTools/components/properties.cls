@@ -9,6 +9,8 @@
  *  The UNICODE.PROPERTY class
  *  ==========================
  *                                                                           
+ *  <p>See components/properties.md for documentation
+ *
  *  Version history                                                          
  *  ===============                                                          
  *                                                                           
@@ -23,6 +25,9 @@
  *                     Start working on property register                    
  *                     Centralize list of UCD files                          
  *  00.4a JMB 20231002 Move docs to properties/readme.md                     
+ *  00.4b JMB 20231005 Move docs to components/properties.md                     
+ *                     Move individual property files to components/properties/
+ *                     Rename to properties.cls
  *                                                                           
  */
 
@@ -36,11 +41,9 @@
 separator = .File~separator
 Parse Source . . myself
 myDir = Left(myself, LastPos(separator, myself))
-Do file Over .File~new(myDir)~listFiles
+Do file Over .File~new(myDir"properties")~listFiles
   fileName = file~absolutePath
-  If fileName == myself         Then Iterate
-  If \filename~endsWith(".cls") Then Iterate
-  Call (filename)
+  If filename~endsWith(".cls") Then Call (filename)
 End
 
 ::Options Digits 16

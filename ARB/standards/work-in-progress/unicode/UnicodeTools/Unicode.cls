@@ -141,7 +141,7 @@ Properties:
   
   Select Case property
     When "NA", "NAME" Then Do
-      If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")
+      If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("components/properties/name.cls")
       Return .Unicode.Name[ code ]
     End
     When "GC", "GENERALCATEGORY" Then 
@@ -155,12 +155,12 @@ Properties:
 
 ::Routine N2P Public
   Use Strict Arg name
-  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
+  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("components/properties/name.cls")  
   Return .Unicode.Name~n2p( name )
 
 ::Routine P2N Public
 Use Strict Arg code
-  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("properties/name.cls")  
+  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("components/properties/name.cls")  
   Return .Unicode.Name[ code ]
 
 ::Routine STRINGTYPE Public
@@ -665,5 +665,5 @@ Return 1
 
 ::Requires "utf8.cls"    
 ::Requires "components/stream.cls"  
-::Requires "properties/Properties.cls"
+::Requires "components/properties.cls"
 ::Requires "encodings/Encoding.cls"
