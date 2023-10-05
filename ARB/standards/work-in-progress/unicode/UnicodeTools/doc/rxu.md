@@ -52,6 +52,6 @@ For instance, currently you will find a Unicode-aware implementation of several 
 
 * [The properties model](../components/properties.md)
 
-### [New classes](doc/classes.md)
+### [New classes](classes.md)
 
 ### [New values for the OPTIONS instruction](options.md)
