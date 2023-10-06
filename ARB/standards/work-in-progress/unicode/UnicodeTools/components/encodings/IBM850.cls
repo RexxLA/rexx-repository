@@ -134,7 +134,8 @@ StringIsGood:
     -- Several targets. Return a stem.
     s. = .Stem~new()
     s.["UTF8"]  = utf8  ~string
-    s.["UTF32"] = utf328~string
+    s.["UTF32"] = utf32 ~string
+    Return s.
   End
   If returnUTF8  Then Return utf8 ~string
   If returnUTF32 Then Return utf32~string
@@ -147,6 +148,7 @@ StringIsEmpty:
     s. = .Stem~new()
     s.["UTF8"]  = ""
     s.["UTF32"] = ""
+    Return s.
   End
   If returnUTF8 | returnUTF32  Then Return ""
   -- Validation only

@@ -91,11 +91,12 @@
   -- We are now located in the proper place. Let's read "length" codepoints or grapheme clusters
   res = "" -- Will hold the result
   If text Then codes = ""
+
   Do i = 1 To length
     Call GetACodepoint
     decode = encoding~decode(result,"UTF8 UTF32",errorHandling)
-    res ||= decode[1]
-    If text Then codes ||= " "NiceCode(c2X(decode[2]))
+    res ||= decode["UTF8"]
+    If text Then codes ||= " "NiceCode(c2X(decode["UTF32"]))
   End
   If \text Then Return .Codepoints~new(res)
   
@@ -107,12 +108,12 @@
     Call GetACodepoint
   If result == "" Then Return .Text~new(res) -- EOF
     decode = encoding~decode(result,"UTF8 UTF32",errorHandling)
-    res ||= decode[1]
-    codes ||= " "NiceCode(c2X(decode[2]))
+    res ||= decode["UTF8"]
+    codes ||= " "NiceCode(c2X(decode["UTF32"]))
   End
   
   -- We need to look ahead and maybe backtrack
-  
+
   -- Save our READ CHAR position in case we have to backtrack
 Extend:  
   save = Stream(name,"Command", "Query Position Read Char")
@@ -121,14 +122,13 @@ Extend:
   -- Don't raise a Syntax error if something is wrong
   decode = encoding~decode(result,"UTF8 UTF32","REPLACE")
   -- REPLACEMENT CHARACTER breaks graphemes
-  If decode[2] = "0000FFFD"X Then Signal BacktrackAndReturn
-  codes2 = codes" "NiceCode(c2X(decode[2]))
+  If decode["UTF32"] = "0000FFFD"X Then Signal BacktrackAndReturn
+  codes2 = codes" "NiceCode(c2X(decode["UTF32"]))
   If .Unicode.Grapheme_Cluster_Break~codepointsToGraphemes( Strip(codes2), "UTF8" )~items > length Then
     Signal BacktrackAndReturn
-  res ||= decode[1]
-  codes ||= " "NiceCode(c2X(decode[2]))    
+  res ||= decode["UTF8"]
+  codes ||= " "NiceCode(c2X(decode["UTF32"]))    
   Signal Extend
-
 
 BacktrackAndReturn:
   Call Stream name, "Command", "SEEK =" save "READ CHAR" -- Backtrack

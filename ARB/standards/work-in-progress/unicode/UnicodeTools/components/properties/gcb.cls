@@ -96,6 +96,8 @@
   
 ::Method hexValueOfPropertyAt Class
   Expose Control Extend Other table
+  
+  Numeric Digits 16
     
   Use Strict Arg code
 
@@ -268,6 +270,7 @@ Return
   
 UTF8: Procedure -- Internal, fast
   Use Arg code
+  Numeric Digits 16
   n = X2D(code)
   b = X2B(code)
   If b~length == 20 Then b = "0000"||b

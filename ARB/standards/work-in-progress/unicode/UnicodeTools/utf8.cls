@@ -366,7 +366,6 @@ StringIsGood:
 Syntax:
   Raise Syntax 23.900 Additional("Invalid" format "sequence in position" i "of string: '"C2X(errorSequence)"'X") 
 
-
 String:
   If .Unicode.UTF8.Bytes Then Return .Bytes~new(Arg(1))
   Return Arg(1)
