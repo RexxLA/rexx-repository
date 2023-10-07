@@ -22,6 +22,7 @@ Version 0.4a, 20231002.
 
 ## \[Cumulative changes, preparing for next release, 0.4b\]
 
+* 20231006 &mdash; Start using the 'Issues' feature of GitHub. Partial fix for [the charin.rxu bug](https://github.com/RexxLA/rexx-repository/issues/1).
 * 20231005 &mdash; Extensive code and doc refactoring to avoid clutter in the main directory.
 
 ---
