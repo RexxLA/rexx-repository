@@ -123,10 +123,12 @@ Say
 Say "Creating a UTF-8 file..."
 Say 
 
-crlf = "0d0a"x
+Call Stream tmpFile, "C", "Close"
+
+crlf = "0d0a"x  
+
 Call CreateFile ("F09F91A8 E2808D F09F91A9 61 CC81 FF"X,""),crlf
 
-Call Stream tmpFile, "C", "Close"
 Say "After 'Open Read Encoding UTF-8 SYNTAX TEXT'"
 Call Stream tmpFile, "C", "Open Read Encoding UTF-8 SYNTAX TEXT"
 

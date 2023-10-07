@@ -1,6 +1,9 @@
 Say "Running all tests..."
 Say "--------------------"
 
+Call "rxu.rex" "test.charin.rxu auto" 
+If result \== 0 Then Exit result
+
 Call "rxu.rex" "../samples/linein.rxu auto" 
 If result \== 0 Then Exit result
 
