@@ -1,5 +1,14 @@
 # The Unicode properties
 
+```
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+│ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+│ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+│ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+│ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+``` 
+
 This directory contains the main Unicode.Property class, located in the ``Properties.cls`` package, and the individual property files.
 
 The Unicode.Property class makes use of two auxiliary classes, MultiStageTable and PersistentStringTable, described below.

@@ -1,11 +1,17 @@
+/****************************************************************************************************************
+
+ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+ │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+ │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+ │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ 
+ *****************************************************************************************************************/
+
 /** 
    <h3>The <code>Encoding</code> class</h3>
     
-   <pre><code>   This file is part of <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools Of Rexx</a> (TUTOR). 
-     See <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/</a> for more information.
-     Copyright &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;.
-     License: Apache License 2.0 (<a href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a>).</code></pre>
-  
   <p>
     See doc/encodings.md for documentation
   

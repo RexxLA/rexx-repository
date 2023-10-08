@@ -1,5 +1,14 @@
 # The encoding/decoding model
 
+```
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+│ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+│ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+│ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+│ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+``` 
+
 This directory contains the main encoding class, ``Encoding.cls``, and a growing set of particular encoding classes. The ['build'](.encoding/build/) subdirectory
 contains a set of utility routines to generate the translate tables used by some of the encoding classes.
 

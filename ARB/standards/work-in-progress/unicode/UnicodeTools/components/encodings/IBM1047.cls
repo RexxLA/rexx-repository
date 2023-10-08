@@ -1,23 +1,17 @@
+/****************************************************************************************************************
+
+ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+ │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+ │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+ │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ 
+ *****************************************************************************************************************/
+
+
 /** <h3>The <code>IBM1047</code> encoding class</h3>
  *   
- *  <p>
- *    This classfile is part of 
- *    <a href="https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools">the Unicode Tools for Rexx</a>. 
- *    
- *  <p>See 
- *    <a href="https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/">
- *    https://github.com/RexxLA/rexx-repository/edit/master/ARB/standards/work-in-progress/unicode/UnicodeTools/
- *    </a>
- *    for more information.
- *    
- *  <p>
- *    License: Apache License 2.0 
- *    [<a href="https://www.apache.org/licenses/LICENSE-2.0">
- *    https://www.apache.org/licenses/LICENSE-2.0
- *    </a>]
- *    
- *  <h4>Description</h4>
- *  
  *  <p>
  *    The <code>IBM1047</code> class implements encoding/decoding from/to the IBM1047
  *    ("EBCDIC Open Systems Latin 1") format. 
@@ -35,9 +29,6 @@
  *                                                         https://www.iana.org/assignments/character-sets/character-sets.xhtml 
  *  </table>
  * 
- *  @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
- *  @version 1.0
- *  @see Encoding.cls
  *  @see https://www.iana.org/assignments/charset-reg/IBM1047
  *   
  */
