@@ -1,16 +1,20 @@
---
--- This file is part of The Unicode Tools Of Rexx (TUTOR).
--- See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools
---
--- Copyright &copy; 2023, Josep Maria Blasco <josep.maria.blasco@epbcn.com>.
---
--- License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).
---
+/****************************************************************************************************************
+
+ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+ │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+ │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+ │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ 
+ *****************************************************************************************************************/
+
 -- Please refer to docs/new-functions.md for documentation and additional details.
 --
 -- Version 0.4b, 20230925
 --
 -- Notice:
+-- -------
 --
 -- Although this routine is part of TUTOR, The Unicode Tools Of Rexx,
 -- it can also be used separately, as it has no dependencies on the rest
