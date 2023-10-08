@@ -20,7 +20,7 @@ Version 0.4a, 20231002.
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## \[Cumulative changes, preparing for next release, 0.4b\]
+## \[Cumulative change log, preparing for next release, 0.4b\]
 
 * 20231008 &mdash; Implement [enhancement #3](https://github.com/RexxLA/rexx-repository/issues/3): add programs in the samples directory to the automated test suite, where reasonable.
 * 20231007 &mdash; Fix [the charin.rxu bug](https://github.com/RexxLA/rexx-repository/issues/1).
