@@ -17,6 +17,10 @@
 -- of components of TUTOR.
 --
 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+--------------------------------------------------------------------------------
+
 -- This is the testfile for the UTF8 routine
 
 --

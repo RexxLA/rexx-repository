@@ -4,6 +4,10 @@
  * First released with the 0.3 version of the Tools, 20230811.
  */
  
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+--------------------------------------------------------------------------------  
+ 
 fn = "stream.rxu"
 
 Say "Testing existing behaviour"
@@ -48,8 +52,14 @@ Test:
   
 Syntax:
   If Arg(4) Then Do
-    Say "!!! FAILED. Unexpected Syntax error ("Condition("O")~code"):" Condition("A")
-    Exit 1
+    Say "FAILED!"
+    Say "Traceback follows:"
+    Say
+    Say Condition("O")~TraceBack~makeArray
+    Say
+    Say "Unexpected Syntax error:" rc"."Condition("E") "on" Condition("O")~program":" Condition("O")~ErrorText
+    Say Condition("O")~Message
+    Call Exit 1
     End
   Else 
     Say "==> Syntax error ("Condition("O")~code"):" Condition("A")

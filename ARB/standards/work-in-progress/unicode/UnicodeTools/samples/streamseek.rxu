@@ -1,10 +1,13 @@
 /**
- * <h4><code>lines.rxu</code></h4>
- *
  * <p>This program tests the modifications to STREAM COMMAND SEEK and POSITION.
  *
  * First released with the 0.3 version of the Tools, 20230811.
  */
+ 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+--------------------------------------------------------------------------------  
+ 
 tmpfile = SysTempFileName("????.file")
 
 If tmpFile == "" Then Do
@@ -17,8 +20,6 @@ Say "---------------------------"
 Say
 Say "When the program appears to stop, please press ENTER to continue"
 Say
-Parse pull
-Call CharOut ,"Testing the functionality of the BIF when no ENCODING has been specified... "
 
 Call LineOut tmpFile,"One line"
 Call LineOut tmpFile,"Two lines"

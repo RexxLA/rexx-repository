@@ -25,6 +25,13 @@
 /*                                                                           */
 /*****************************************************************************/
 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+-------------------------------------------------------------------------------- 
+
+Arg auto .
+auto = auto == "AUTO"
+
 Options Conversions Promote
 
 Say "Testing the LOWER BIF:"
@@ -32,7 +39,7 @@ Say "----------------------"
 
 Call NextTest "Testing the lowercasing of many european characters"
 
-Call Test "ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÜÂÊÎÔÛÑÃÕÇ"T
+Call Test "ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÜÂÊÎÔÛÑÃÕÇ"T,"áéíóúýàèìòùäëïöüâêîôûñãõç"
 
 Call NextTest "Testing non-final and final sigma:"
 
@@ -40,12 +47,12 @@ Say "Uppercase sigma ('Σ') gets lowercased to 'σ' or to 'ς'"
 Say "depending on whether 'Σ' was a medial or final letter." 
 Say 
 
-Call Test "ὈΔΥΣΣΕΎΣ"P
+Call Test "ὈΔΥΣΣΕΎΣ"P,"ὀδυσσεύς"
 
 Call NextTest "Testing non one-to-one casing for CODEPOINTS:"
 
 Test = CODEPOINTS("41 130"U)
-Call Test test
+Call Test test, "6169CC87"X
 
 Say "Length('"test"') =" Length(test)
 Say "Length(Lower('"test"')) =" Length(Lower(test))
@@ -53,7 +60,7 @@ Say "Length(Lower('"test"')) =" Length(Lower(test))
 Call NextTest "Testing non one-to-one casing for TEXT:"
 
 Test = Text("41 130"U)
-Call Test test
+Call Test test, "6169CC87"X
 
 Say "Length('"test"') =" Length(test)
 Say "Length(Lower('"test"')) =" Length(Lower(test))
@@ -72,6 +79,11 @@ Exit
 Test:
   Use Arg string
   Say "Lower('"string"') = '"Lower(string)"'"
+  If Lower(string) \== Arg(2) Then Do
+    Say "Test FAILED!"
+    Say "Expected: '"Arg(2)"'."
+    Exit 1
+  End  
 Return  
 
 NextTest:
@@ -79,7 +91,7 @@ NextTest:
   Say
   Say "(press ENTER to continue)"
   Say 
-  Parse Pull
+  If \auto Then Parse Pull
   Say title
   Say Copies("-",Length(title))
   Say 

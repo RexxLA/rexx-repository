@@ -4,6 +4,10 @@
  *
  */
  
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+--------------------------------------------------------------------------------  
+ 
 Say "Testing DATATYPE(string,'c')..."
 Say 
  

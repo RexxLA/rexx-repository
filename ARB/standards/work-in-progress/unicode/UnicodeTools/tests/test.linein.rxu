@@ -1,10 +1,18 @@
 /**
- * <h4><code>lines.rxu</code></h4>
+ * <h4><code>linein.rxu</code></h4>
  *
- * <p>This program tests the extended features of the LINES BIF.
+ * <p>This program tests the extended features of the LINEIN BIF.
  *
  * First released with the 0.3 version of the Tools, 20230811.
  */
+ 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+-------------------------------------------------------------------------------- 
+ 
+Arg auto .
+auto = auto == "AUTO"
+ 
 tmpfile = SysTempFileName("????.file")
 
 If tmpFile == "" Then Do
@@ -12,85 +20,25 @@ If tmpFile == "" Then Do
   Exit 1
 End
 
-Say "Testing the LINES BIF"
-Say "---------------------"
+Say "Testing the LINEIN BIF"
+Say "----------------------"
 Say
 Say "When the program appears to stop, please press ENTER to continue"
 Say
-Parse pull
+If \auto Then Parse pull
 Say "Testing the functionality of the BIF when no ENCODING has been specified"
+Say ""
 
-Call LineOut tmpFile,"One line"
-Call LineOut tmpFile,"Two lines"
-Call LineOut tmpFile,"Three lines"
-Call LineOut tmpFile               -- Close the file
-
-lines = lines(tmpFile)
-If lines \== 1 Then Do
-  Say "LINES returned" lines", expected 1."
-  Call Exit 1
-End
-lines = lines(tmpFile,"Count")
-If lines \== 3 Then Do
-  Say "LINES returned" lines", expected 3."
-  Call Exit 1
-End
-Say "PASSED!"
-Say
-Parse pull
-Say "Now testing the functionality of the BIF with a fixed-length ENCODING with a standard end-of-file character"
-
-Call Stream tmpFile,"Command", "Close"
-Call Stream tmpFile,"Command", "Open Read Encoding CP-850"
-lines = lines(tmpFile)
-If lines \== 1 Then Do
-  Say "LINES returned" lines", expected 1."
-  Call Exit 1
-End
-lines = lines(tmpFile,"Count")
-If lines \== 3 Then Do
-  Say "LINES returned" lines", expected 3."
-  Call Exit 1
-End
-Say "PASSED!"
-Say
-Parse pull
-Say "Now testing the functionality of the BIF with a fixed-length ENCODING with a non-standard end-of-file character"
-
-Call Stream tmpFile,"Command", "Close"
-Call Stream tmpFile,"Command", "Open Read Encoding IBM-1047"
-lines = lines(tmpFile)
-If lines \== 1 Then Do
-  Say "LINES returned" lines", expected 1."
-  Call Exit 1
-End
-Signal On Syntax Name IBM1047
-lines = lines(tmpFile,"Count")
-Say "FAILED! Syntax error expected."
-Call Exit 1
-IBM1047:
-Say "PASSED!"
-Say
-Parse pull
-Say "Now testing the functionality of the BIF with a variable-length ENCODING"
-
-Call Stream tmpFile,"Command", "Close"
-Call Stream tmpFile,"Command", "Open Read Encoding UTF-8"
-lines = lines(tmpFile)
-If lines \== 1 Then Do
-  Say "LINES returned" lines", expected 1."
-  Call Exit 1
-End
-Signal On Syntax Name UTF8
-lines = lines(tmpFile,"Count")
-Say "FAILED! Syntax error expected."
-Call Exit 1
-UTF8:
-Say "PASSED!"
-Say
-
-
-Call Exit 0  
+line.1  = "First line"
+line.2 = "Second line"
+line.3  = "Third line" || "0D"X || "extra"
+line.4 = "Fourth and final line"
+Call CreateFile (,
+  line.1||"0A"X ||,       -- Linux EOL
+  line.2||"0D0A"X ||,     -- Windows EOL
+  line.3, ,               -- "0d" is not an EOL, but the "," generates a system-dependent EOL
+  line.4,                 -- No EOL after last line (see the "CreateFile" procedure)
+), .endofline
    
 Call Stream tmpFile,"C","Open Read"   
 
@@ -122,7 +70,7 @@ Call SysFileDelete tmpfile
 
 Say ""
 Say "All tests PASSED!"
-parse pull
+If \auto Then Parse pull
 
 Say "Now testing new functionality."
 Say "=============================="
@@ -146,7 +94,7 @@ Say "Now let's call LINEIN:"
 Say 
 Say "  Call LineIn(tmpfile) -- This raises a syntax error"
 Say 
-Parse pull
+If \auto Then Parse pull
 Call LineIn(tmpfile) -- This raises a syntax error
 Say "Test failed! Should have raised a syntax error for bad encoding."
 Call Exit 1
@@ -167,7 +115,8 @@ End
 Say 
 Say "Test PASSED!"
 Say 
-Parse pull
+If \auto Then Parse pull
+
 Say 
 Say "Testing a non-existent ENCODING (should fail)"
 Say "---------------------------------------------"
@@ -184,7 +133,7 @@ Tralfamadore:
 Say 
 Say "  Raised Syntax condition ("rc"."Condition("E")"): "Condition("A")
 Say
-Parse pull
+If \auto Then Parse pull
 
 Say
 Say "Testing a ENCODING for BINARY streams (should fail)"
@@ -202,7 +151,7 @@ Binary:
 Say 
 Say "  Raised Syntax condition ("rc"."Condition("E")"): "Condition("A")
 Say
-Parse pull
+If \auto Then Parse pull
 
 Say
 Say "Testing ENCODING UTF-32 and unaligned line-ends."
@@ -244,7 +193,7 @@ Say
 
 
 Say "All tests PASSED!"
-parse pull
+If \auto Then Parse pull
 
 Say "Now testing a variant of EBCDIC, IBM1047"
 Say "----------------------------------------"
@@ -282,9 +231,11 @@ Say "  Raised Syntax condition ("rc"."Condition("E")"): "Condition("A")
 Say
 
 Say "All tests PASSED!"
-parse pull
+If \auto Then Parse pull
 
 Call Exit 0
+
+--------------------------------------------------------------------------------
 
 Exit:
   Call Stream tmpfile,"C","CLOSE"
@@ -304,8 +255,8 @@ Test: Procedure Expose line. tmpfile
   Say label": PASSED."
 Return
 
-
 CreateFile: Procedure Expose tmpFile
+  Call Stream tmpFile,"C","Close" -- CLOSE, so that possible ENCODING attributes in a previous OPEN are forgot
   Call Stream tmpFile,"C","Open Write Replace"
   Use Strict Arg lines, eol
   Do counter c line Over lines

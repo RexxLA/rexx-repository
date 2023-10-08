@@ -1,6 +1,12 @@
 -- Modify the encodings below to suit your needs
 --
 
+Arg arg
+If arg = "" Then Do
+  Say "Please inspect the source code to understand how this program works."
+  Exit
+End
+
 inEnc  = "UTF-8"
 outEnc = "IBM-1047"
 

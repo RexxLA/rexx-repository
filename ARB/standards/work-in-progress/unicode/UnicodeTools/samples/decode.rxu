@@ -6,10 +6,16 @@
  * First released with the 0.3 version of the Tools, 20230811.
  */
 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+-------------------------------------------------------------------------------- 
+
+Arg auto .
+auto = auto == "AUTO"
 
 Say "Testing priority of parameters..."
 Say 
-Parse Pull
+If \auto Then Parse Pull
 
 Call TestValidate 'Call Decode "61"X, "UTF-8"',1,0                     -- Boolean
 Call TestValidate 'Call Decode "BE"X, "UTF-8"',0,0                     -- Boolean
@@ -36,11 +42,11 @@ Call TestValidate 'Call Decode "BE"X, "IBM-1047"',1,0                  -- Boolea
 Call TestValidate 'Call Decode "BE"X, "IBM-1047",,"REPLACE"',1,1       -- Syntax error
 Call TestValidate 'Call Decode "BE"X, "IBM-1047",,"NULL","X"',1,1      -- Syntax error
 Say
-Parse Pull
+If \auto Then Parse Pull
 
 Say "Testing UTF-8 decoding..."
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Call Test 'Call DECODE "61"X,         "UTF-8", "UTF8",  "REPLACE"', "a", 0                      -- One char
 Call Test 'Call DECODE "6162"X,       "UTF-8", "UTF8",  "REPLACE"', "ab", 0                     -- Two chars
@@ -128,12 +134,12 @@ Call Test 'Call DECODE "61F09F9494"X, "UTF-8", "UTF32", "SYNTAX"',  "00000061000
 Call Test 'Call DECODE "F09F949461"X, "UTF-8", "UTF32", "SYNTAX"',  "0001F51400000061"X, 0      -- ASCII, U+1F514
 
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Say  
 Say "Testing UTF-16 decoding..."
 Say
-Parse pull
+If \auto Then Parse Pull
  
 Call Test 'Call DECODE "00610062"X,  "UTF-16", "UTF8",  "REPLACE"', "ab", 0                   -- Two chars
 Call Test 'Call DECODE "0061DB00"X,  "UTF-16", "UTF8",  "REPLACE"', "a"||"efbfbd"X, 0         -- Lone high surrogate
@@ -167,12 +173,12 @@ Call Test 'Call DECODE "0061AA"X,    "UTF-16", "UTF32", "SYNTAX"',  "", 1       
 Call Test 'Call DECODE "D83D DD14"X, "UTF-16", "UTF32", "SYNTAX"',  "0001 F514"X, 0           -- Surrogate pair
 
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Say  
 Say "Testing UTF-32 decoding..."
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Call Test 'Call DECODE "00000061"X,         "UTF-32", "UTF8",  "REPLACE"', "a", 0                 -- One char
 Call Test 'Call DECODE "0000006100000062"X, "UTF-32", "UTF8",  "REPLACE"', "ab", 0                -- Two chars
@@ -224,12 +230,12 @@ Call Test 'Call DECODE "00002BD7"X,         "UTF-32", "UTF32", "SYNTAX"',  "0000
 Call Test 'Call DECODE "0001F514"X,         "UTF-32", "UTF32", "SYNTAX"',  "0001F514"X, 0         -- U+1F514
 
 Say  
-Parse pull
+If \auto Then Parse Pull
 
 Say  
 Say "Testing CP850 decoding..."
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Call Test 'Call DECODE "61"X,         "CP-850", "UTF8",  "REPLACE"', "a", 0                       -- One char, ASCII
 Call Test 'Call DECODE "9F"X,         "CP-850", "UTF8",  "REPLACE"', "C692"X, 0                   -- One char, non-ASCII
@@ -263,12 +269,12 @@ Call Test 'Call DECODE "61B0"X,       "CP-850", "UTF32", "SYNTAX"',  "0000006100
 Call Test 'Call DECODE "B09F"X,       "CP-850", "UTF32", "SYNTAX"',  "0000259100000192"X, 0       -- One char, non-ASCIIs
 
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Say  
 Say "Testing IBM-1047 decoding..."
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Call Test 'Call DECODE "81"X,         "IBM-1047", "UTF8",  "REPLACE"', "a", 0                     -- One char
 Call Test 'Call DECODE "6F"X,         "IBM-1047", "UTF8",  "REPLACE"', "3F"X, 0                   -- One char
@@ -290,10 +296,10 @@ Call Test 'Call DECODE "6F"X,         "IBM-1047", "UTF32", "SYNTAX"',  "0000003F
 Call Test 'Call DECODE "816F"X,       "IBM-1047", "UTF32", "SYNTAX"',  "000000610000003F"X, 0     -- Two chars
 
 Say
-Parse pull
+If \auto Then Parse Pull
 
 Say "All tests PASSED!"
-Exit
+Exit 0
 
 
 TestValidate:
@@ -316,7 +322,12 @@ Return
 SignalValidate:
   If Arg(3) \== 1 Then Do
     Say "FAILED!"
-    Say "Unexpected Syntax error" rc"."Condition("E")":" Condition("A")
+    Say "Traceback follows:"
+    Say
+    Say Condition("O")~TraceBack~makeArray
+    Say
+    Say "Unexpected Syntax error:" rc"."Condition("E") "on" Condition("O")~program":" Condition("O")~ErrorText
+    Say Condition("O")~Message
     Exit 1
   End
   Say "PASSED!"
@@ -342,7 +353,12 @@ Return
 Syntax:
   If Arg(3) \== 1 Then Do
     Say "FAILED!"
-    Say "Unexpected Syntax error" rc"."Condition("E")":" Condition("A")
+    Say "Traceback follows:"
+    Say
+    Say Condition("O")~TraceBack~makeArray
+    Say
+    Say "Unexpected Syntax error:" rc"."Condition("E") "on" Condition("O")~program":" Condition("O")~ErrorText
+    Say Condition("O")~Message
     Exit 1
   End
   Say "PASSED!"

@@ -25,6 +25,13 @@
 /*                                                                           */
 /*****************************************************************************/
 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+-------------------------------------------------------------------------------- 
+
+Arg auto .
+auto = auto == "AUTO"
+
 Options Conversions Promote
 
 Say "Testing the UPPER BIF:"
@@ -32,7 +39,7 @@ Say "----------------------"
 
 Call NextTest "Uppercasing several european characters"
 
-Call Test "áéíóúýàèìòùäëïöïÿâêîôûñãõç"T
+Call Test "áéíóúýàèìòùäëïöïÿâêîôûñãõç"T, 'ÁÉÍÓÚÝÀÈÌÒÙÄËÏÖÏŸÂÊÎÔÛÑÃÕÇ'
 
 Call NextTest "Characters with iota-subscript (0345)"
 
@@ -43,23 +50,28 @@ Say "get applied to the resulting Iota."
 Say
 
 str = Codepoints("(GREEK SMALL LETTER ALPHA) 0345 (COMBINING ACUTE ACCENT)"U)
-Call Test str
+Call Test str, "ΆΙ"
 
 Say "Original string:" C2U(str)
 Say "Uppercased string:" C2U(Upper(str))
 
 Call NextTest "Uppercasing of the german es-zed"
 
-Call Test "Straße"P
+Call Test "Straße"P, "STRASSE"
 
 Say
 Say "Done!"
 
-Exit 
+Exit 0
 
 Test:
   Use Arg string
   Say "Upper('"string"') = '"Upper(string)"'"
+  If Upper(string) \== Arg(2) Then Do
+    Say "Test FAILED!"
+    Say "Expected: '"Arg(2)"'."
+    Exit 1
+  End
 Return  
 
 NextTest:
@@ -67,7 +79,7 @@ NextTest:
   Say
   Say "(press ENTER to continue)"
   Say 
-  Parse Pull
+  If \auto Then Parse Pull
   Say title
   Say Copies("-",Length(title))
   Say 

@@ -89,6 +89,7 @@
 -- See https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf, table 3.5, p. 124
 -- See https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt
 ::Method decode Class
+
   Use Strict Arg string, format = "", errorHandling = ""
   
   -- Check that the supplied arguments are OK, and raise a Syntax condition if not
@@ -98,14 +99,14 @@
   If string == "" Then Signal StringIsEmpty
   
   -- Will hold the utf8 value, if needed
-  utf8  = .MutableBuffer~new
+  utf8     = .MutableBuffer~new
   
   -- Will hold the utf32 value, if needed
-  utf32 = .MutableBuffer~new
+  utf32    = .MutableBuffer~new
   
-  repl   = errorHandling == "REPLACE"
-  syntax = errorHandling == "SYNTAX"
-  null   = errorHandling == "NULL"
+  repl     = errorHandling == "REPLACE"
+  syntax   = errorHandling == "SYNTAX"
+  null     = errorHandling == "NULL"
   validate = 0
   If \returnUTF8, \returnUTF32 Then validate = 1
   
@@ -119,8 +120,9 @@
       If validate Then Return 0
       If null     Then Return ""
       errorSequence = c
-      If \syntax Then Call ReplaceCharacter
-      Signal Syntax
+      If syntax Then Signal Syntax
+      Call ReplaceCharacter
+      Leave
     End
     
     Select
@@ -131,23 +133,26 @@
           If validate Then Return 0
           If null Then Return ""
           errorSequence = string[i,2]
-          If \syntax Then Call ReplaceCharacter
-          Signal Syntax
+          If syntax Then Signal Syntax
+          Call ReplaceCharacter
+          Iterate
         End
         If i + 3 > length        Then Do -- We need 4 bytes, no less
           If validate Then Return 0
           If null Then Return ""
           errorSequence = string[i,4]
-          If \syntax Then Call ReplaceCharacter
-          Signal Syntax
+          If syntax Then Signal Syntax
+          Call ReplaceCharacter
+          Iterate
         End
         d = string[i+2]
         If d < "DC"X | d > "DF"X Then Do -- Not a low surrogate
           If validate Then Return 0
-          If null Then Return ""        
+          If null Then Return ""      
           errorSequence = string[i+2,2]
-          If \syntax Then Call ReplaceCharacter
-          Signal Syntax
+          If syntax Then Signal Syntax          
+          Call ReplaceCharacter
+          Iterate
         End
         Call Decode4
     End
@@ -224,16 +229,4 @@ StringIsGood:
   Return 1
   
 Syntax:
-  -- NULL is handled elsewhere
-  If syntax Then
-    Raise Syntax 23.900 Additional("Invalid UTF-16 sequence in position" i "of string: '"C2X(errorSequence)"'X")  
-  If returnUTF8 , returnUTF32  Then Do
-    -- Several targets. Return a stem.
-    s. = .Stem~new()
-    s.["UTF8"]  = utf8 ~string
-    s.["UTF32"] = utf32~string
-    Return s.
-  End
-  If returnUTF8 | returnUTF32  Then Return ""
-  -- Validation only
-  Return 0
+  Raise Syntax 23.900 Additional("Invalid UTF-16 sequence in position" i "of string: '"C2X(errorSequence)"'X")

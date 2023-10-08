@@ -5,6 +5,14 @@
  *
  * First released with the 0.3 version of the Tools, 20230811.
  */
+ 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+--------------------------------------------------------------------------------  
+ 
+Arg auto 
+auto = auto == "AUTO"
+ 
 tmpfile = SysTempFileName("????.file")
 
 If tmpFile == "" Then Do
@@ -15,17 +23,28 @@ End
 Say "Testing the LINEOUT BIF"
 Say "----------------------"
 Say
+/*
 Say "When the program appears to stop, please press ENTER to continue"
 Say
-Parse pull
-
+If \auto Then Parse pull
+*/
 Call Stream tmpFile,"C", "Open Write Encoding UTF-16"
 
 Call LineOut tmpFile, "Abá" "(Man)"U "FF"X
 Call Stream  tmpFile, "C", "Close"
 
 Call Stream  tmpFile,"C", "Open Read"
-Say LineIn(tmpFile)~c2x"0A"
+line = LineIn(tmpFile)"0A"X
+expected = "0041006200E10020D83DDC680020FFFD000D000A"X
+If line \== expected Then Do
+  Say "FAILED!"
+  Say
+  Say "Expected: '"expected~c2x"'."
+  Say "Found:    '"line~c2x"'."
+  Call Exit 1
+End
+Say "...A...b...á... --(Man)-... REPL..CR..LF"
+Say line~c2x
 
 Call Exit 0
 
@@ -46,7 +65,6 @@ Test: Procedure Expose line. tmpfile
   End
   Say label": PASSED."
 Return
-
 
 CreateFile: Procedure Expose tmpFile
   Call Stream tmpFile,"C","Open Write Replace"

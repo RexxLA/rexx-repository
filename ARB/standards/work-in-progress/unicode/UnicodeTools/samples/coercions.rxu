@@ -1,41 +1,71 @@
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+--------------------------------------------------------------------------------
+
 text       = "text"T        -- This is a grapheme cluster string
 codepoints = "codepoints"P  -- This is a codepoints string
 bytes      = "bytes"Y       -- This is a bytes string
 
 Say "Testing default behaviour"
-Call Test
+Call Test 0
 
 Say "Testing 'Options coercions Left'"
 Options coercions Left
-Call Test
+Call Test 0
 
 Say "Testing 'Options coercions Right'"
 Options coercions Right
-Call Test
+Call Test 0
 
 Say "Testing 'Options coercions Promote'"
 Options coercions Promote
-Call Test
+Call Test 0
 
 Say "Testing 'Options coercions Demote'"
 Options coercions Demote
-Call Test
+Call Test 0
 
 Say "Testing 'Options coercions None'"
 Options coercions None
-Call Test
+Call Test 1
 
 Exit
 
 Test:
-  Say "StringType(bytes      || bytes)      = '"StringType(bytes      || bytes)"'"
-  Say "StringType(bytes      || codepoints) = '"StringType(bytes      || codepoints)"'"
-  Say "StringType(bytes      || text )      = '"StringType(bytes      || text)"'"
-  Say "StringType(codepoints || bytes)      = '"StringType(codepoints || bytes)"'"
-  Say "StringType(codepoints || codepoints) = '"StringType(codepoints || codepoints)"'"
-  Say "StringType(codepoints || text )      = '"StringType(codepoints || text)"'"
-  Say "StringType(text       || bytes)      = '"StringType(text       || bytes)"'"
-  Say "StringType(text       || codepoints) = '"StringType(text       || codepoints)"'"
-  Say "StringType(text       || text )      = '"StringType(text       || text)"'"
+  Arg expectSyntax
+  Signal On Syntax
+  Call CharOut ,"StringType(bytes      || bytes)      = '"; Say StringType(bytes      || bytes)"'"
+  Call CharOut ,"StringType(bytes      || codepoints) = '"; Say StringType(bytes      || codepoints)"'"
+  Call CharOut ,"StringType(bytes      || text )      = '"; Say StringType(bytes      || text)"'"
+  Call CharOut ,"StringType(codepoints || bytes)      = '"; Say StringType(codepoints || bytes)"'"
+  Call CharOut ,"StringType(codepoints || codepoints) = '"; Say StringType(codepoints || codepoints)"'"
+  Call CharOut ,"StringType(codepoints || text )      = '"; Say StringType(codepoints || text)"'"
+  Call CharOut ,"StringType(text       || bytes)      = '"; Say StringType(text       || bytes)"'"
+  Call CharOut ,"StringType(text       || codepoints) = '"; Say StringType(text       || codepoints)"'"
+  Call CharOut ,"StringType(text       || text )      = '"; Say StringType(text       || text)"'"
+  Say
+  If expectSyntax Then Do
+    Say "FAILED!"
+    Say "Expected syntax error not raised."
+    Exit 1
+  End
+  Say "PASSED!"
+  Say
+Return
+
+Syntax:
+  If \expectSyntax Then Do
+    Say "FAILED!"
+    Say "Traceback follows:"
+    Say
+    Say Condition("O")~TraceBack~makeArray
+    Say
+    Say "Unexpected Syntax error:" rc"."Condition("E") "on" Condition("O")~program":" Condition("O")~ErrorText
+    Say Condition("O")~Message
+    Exit 1
+  End
+  Say
+  Say "Syntax error!"
+  Say "PASSED!"
   Say
 Return

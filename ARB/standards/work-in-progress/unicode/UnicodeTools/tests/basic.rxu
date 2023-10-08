@@ -1,5 +1,9 @@
 -- Run a number of basic tests to check that the RXU translation level and BIFs are working
 
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+--------------------------------------------------------------------------------
+
 Say "Running basic tests..."
 Say
 

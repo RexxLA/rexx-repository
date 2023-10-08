@@ -1,3 +1,4 @@
 /* Copied from https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/code/cyrillic.rexx */
 Say "Length('удобство использования'T) =" length("удобство использования"T)
+Say "Length('удобство использования'P) =" length("удобство использования"P)
 Say "Length('удобство использования'Y) =" length("удобство использования"Y)

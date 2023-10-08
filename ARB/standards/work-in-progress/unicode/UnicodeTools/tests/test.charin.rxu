@@ -3,6 +3,10 @@
  * First released with the 0.3 version of the Tools, 20230811.
  */
  
+--------------------------------------------------------------------------------
+-- This program is part of the automated test suite. See tests/test.all.rex   --
+-------------------------------------------------------------------------------- 
+ 
 Arg auto .
 auto = auto == "AUTO"
 
