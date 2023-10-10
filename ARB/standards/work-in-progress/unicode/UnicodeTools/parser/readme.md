@@ -14,9 +14,8 @@
 
 __Notice:__
 
-Although this class is part of TUTOR, The Unicode Tools Of Rexx,
-it can also be used separately, as it has no dependencies on the rest
-of components of TUTOR.
+Although this class is part of TUTOR, The Unicode Tools Of Rexx, it can also be used separately, 
+as it has no dependencies on the rest of components of TUTOR.
 
 ---
 
@@ -24,8 +23,8 @@ of components of TUTOR.
 
 The ``Rexx.Tokenizer.cls`` classfile includes a set of ooRexx classes. The main class is ``Rexx.Tokenizer``.
 It implements both a _basic_ and a _full_ Rexx tokenizer (see below for definitions of _basic_ and _full_ tokenizing).
-The ``getSimpleToken`` method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
-while the ``getFullToken`` method returns full tokens, after discarding null clauses, ignorable blanks and comments.
+The [``getSimpleToken``](readme.md#getSimpleToken) method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
+while the [``getFullToken``](readme.md#getSimpleToken) method returns full tokens, after discarding null clauses, ignorable blanks and comments.
 When requesting full tokens, an optional mechanism allows access to the ignored simple tokens and some other tokens that are
 not ignorable but that have been included ("absorbed") for your convenience: for example, labels include their own colon,
 keyword instructions include the first blank after the keyword, if any, and so on.
@@ -39,11 +38,11 @@ The tokenizer intent is to support all the syntactical constructs of Open Object
 You can select the desired syntax subset at instance creation time by selecting the appropriate class.
 
 ```rexx
-Rexx.Tokenizer        -- The main class. Choose a subclass
+Rexx.Tokenizer                -- The main class. Choose a subclass
 
-ooRexx.Tokenizer      -- Tokenizes programs written in ooRexx
-Regina.Tokenizer      -- Tokenizes programs written in Regina Rexx
-ANSI.Rexx.Tokenizer   -- Tokenizes programs written in ANSI Rexx
+ooRexx.Tokenizer              -- Tokenizes programs written in ooRexx
+Regina.Tokenizer              -- Tokenizes programs written in Regina Rexx
+ANSI.Rexx.Tokenizer           -- Tokenizes programs written in ANSI Rexx
 ```
 
 Subclasses starting with "Regina" accept the Regina Rexx syntax; subclasses starting with "ANSI.Rexx" accept only the ANSI Rexx syntax
@@ -70,16 +69,15 @@ then be passed as an argument to the ``init`` method of the corresponding tokeni
 for this particular source.
 
 ```rexx
-size   = Stream(inFile,"Command","Query Size")     -- Source is located in a file
-array  = CharIn(inFile,,size)~makeArray            -- Read the whole file and produce an array
-tokenizer = .ooRexx.Tokenizer~new(array)           -- Or Regina.Tokenizer, etc.
+source  = CharIn(inFile,,Chars(inFile))~makeArray    -- Read the whole file into an array
+tokenizer = .ooRexx.Tokenizer~new(source)            -- Or Regina.Tokenizer, etc.
 ```
 
-You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the ``getSimpleToken`` tokenizer method),
-or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the ``getFullToken`` tokenizer method).
+You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the [``getSimpleToken``](readme.md#getSimpleToken) tokenizer method),
+or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the [``getFullToken``](readme.md#getSimpleToken) tokenizer method).
 
 ```rexx
-tokenizer = .ooRexx.Tokenizer~new(array)
+tokenizer = .ooRexx.Tokenizer~new(source)
 
 Do Forever
   token. = tokenizer~getSimpleToken                                        -- Or tokenizer~getFullToken
@@ -103,52 +101,52 @@ Let us start with a very simple piece of code:
 ```rexx
 i = i + 1
 ```
-We will create a test file, say ``test.rex``, and run it through ``inspectSimple.rex``, a sample utility program you will find in the ``parser`` directory.
+We will create a test file, say ``test.rex``, and run it through ``InspectTokens.rex`` with the ``-simple`` option. ``InspectTokens.rex`` is a sample utility program you will find in the ``parser`` directory.
 ```
-inspectSimple test.rex
+InspectTokens -simple test.rex
 ```
 Here is the output of the program, prettyprinted and commented for your convenience.
 ```
- 1   [1 1 1 1]: ''  (; B)  -- Automatically generated BEGIN_OF_SOURCE marker.
- 2   [1 1 1 2]: 'i' (V 1)  -- A simple variable
- 3   [1 2 1 3]: ' ' (b b)  -- A blank run consisting of a single blank
- 4   [1 3 1 4]: '=' (o o)  -- An operator. It happens to work as an assignment in this position
- 5   [1 4 1 5]: ' ' (b b)  -- Another blank
- 6   [1 5 1 6]: 'i' (V 1)  -- The same variable as before
- 7   [1 6 1 7]: ' ' (b b)  -- One blank more
- 8   [1 7 1 8]: '+' (o o)  -- A plus sign, denoting addition
- 9   [1 8 1 9]: ' ' (b b)  -- Still one more blank
-10  [1 9 1 10]: '1' (N 4)  -- A number (the smallest positive integer)
-11 [1 10 1 10]: ''  (; L)  -- An END_OF_LINE indicator (which works as an implied semicolon)
+ 1   [1 1 1 1] END_OF_CLAUSE (BEGIN_OF_SOURCE): ''    -- Automatically generated BEGIN_OF_SOURCE marker
+ 2   [1 1 1 2] VAR_SYMBOL (SIMPLE_VAR): 'i'           -- A simple variable (i.e., not a stem nor a compound variable)
+ 3   [1 2 1 3] BLANK: ' '                             -- A blank run consisting of a single blank
+ 4   [1 3 1 4] OPERATOR: '='                          -- An operator. It happens to work as an assignment in this position
+ 5   [1 4 1 5] BLANK: ' '                             -- Another blank
+ 6   [1 5 1 6] VAR_SYMBOL (SIMPLE_VAR): 'i'           -- The same variable as before
+ 7   [1 6 1 7] BLANK: ' '                             -- One blank more
+ 8   [1 7 1 8] OPERATOR: '+'                          -- A plus sign, denoting addition
+ 9   [1 8 1 9] BLANK: ' '                             -- Still one more blank
+10  [1 9 1 10] NUMBER (INTEGER): '1'                  -- A number (the smallest positive integer)
+11 [1 10 1 10] END_OF_CLAUSE (END_OF_LINE): ''        -- An END_OF_LINE indicator (which works as an implied semicolon)
 ```
 * The first column is a _counter_.
 * The second column is an aggregate, the _location_ of the token. We have written it between \[brackets\].
   It is of the form _starting-position_ _ending-position_, where each _position_ is a _line-column_ sequence.
   The ending position if the first character _after_ the returned token. For example, the first "i" in the line
   runs from position (1,1) to position (1,2).
-* The third column, after a colon and between simple quotes, is the _value_ of the token. Generally speaking,
+* The third column contains one or two values. When there are two, the second one is enclosed between parentheses. These are the _class_ and the _subclass_ of the token.
+  They give a lot of information about the nature of the token (e.g., this is a NUMBER \[class\], subclass INTEGER; or
+  this is a VAR_SYMBOL \[class\], subclass SIMPLE_VAR \[i.e., not a stem or a compound variable\]) and will be described below
+* The fourth column, after a colon and between simple quotes, is the _value_ of the token. Generally speaking,
   this is the token itself, but in some cases (classic comments, resources) only an indicator is returned
   (you can always reconstitute the original comment or resource by referring to the _location_ attribute
   of the token). In some other cases, the _value_ contains an elaboration of the original token: for example,
   an X, B or U string will be interpreted, so that their value can be substituted in the source file ("(man)"U,
   for instance, will generate a value of "👨").
-* The fourth column contains two values, grouped by parenthesis. These are the _class_ and the _subclass_ of the token.
-  They give a lot of information about the nature of the token (e.g., this is a NUMBER \[class\], subclass INTEGER; or
-  this is a VAR_SYMBOL \[class\], subclass SIMPLE_VAR \[i.e., not a stem or a compound variable\]) and will be described below
 
-How does the ``inspectSimple.rex`` program work? Well, essentially what it does is the following: it instantiates a
-tokenizer instance, and then it runs it, by calling the ``getSimpleToken`` method, until either the end of file is reached
-or a syntax error is encountered. Now, here is the trick: ``getSimpleToken`` _returns tokens... which are Rexx stems!_
+How does the ``InspectTokens.rex`` program work? Well, essentially what it does is the following: it instantiates a
+tokenizer instance, and then it runs it, by calling the [``getSimpleToken``](readme.md#getSimpleToken) method, until either the end of file is reached
+or a syntax error is encountered. Now, here is the trick: [``getSimpleToken``](readme.md#getSimpleToken) _returns tokens... which are Rexx stems!_
 (you can already imagine the components of these stems):
 
 ```rexx
 -- after
 token. = tokenizerInstance~getSimpleToken
 -- we have (assume that we have just scanned the second "i" of the above program)
-token.class    -- The CLASS of the token, i.e., V (stands for VAR_SYMBOL)
-token.subClass -- The SUBCLASS of the token, i.e., 1 (stands for SIMPLE_VAR)
-token.location -- The LOCATION of the token, i.e., "1 5 1 6"
-token.value    -- The VALUE of the token, i.e., "1".
+token.class    == VAR_SYMBOL     -- The CLASS of the token
+token.subClass == SIMPLE_VAR     -- The SUBCLASS of the token
+token.location == "1 5 1 6"      -- The LOCATION of the token
+token.value    == "1"            -- The VALUE of the token
 ```
 
 Now you know practically everything there is to know about simple tokens (indeed, there are only two things more
@@ -157,19 +155,23 @@ to both of these shortly).
 
 ### Structure of full tokens (undetailed)
 
-What happens now if we want _full_ tokens, instead of _simple_ ones? Well, we have a corresponding
-``inspectFull.rex`` utility program: it calls ``getFullToken`` instead of ``getSimpleToken``.
+What happens now if we want _full_ tokens, instead of _simple_ ones? We will call ``InspectTokens.rex`` with the ``-full`` option
+so that it calls [``getFullToken``](readme.md#getSimpleToken) instead of [``getSimpleToken``](readme.md#getSimpleToken).
+We will also add the ``-nodetailed`` option for the moment:
+```
+InspectTokens -full -nodetailed test.rex
+```
 Let us have a look at its output. Some tokens are the same as before, but some others have experienced some
 modifications. Let us focus on those:
 
 ```
-1   [1 1 1 1]: ''  (; B)
-2   [1 1 1 2]: 'i' (O 1)
-3   [1 2 1 5]: '=' (o c) -- "=" has grown to include the blanks before and after
-4   [1 5 1 6]: 'i' (V 1)
-5   [1 6 1 9]: '+' (o a) -- "+" has grown to include the blanks before and after
-6  [1 9 1 10]: '1' (N 4)
-7 [1 10 1 10]: ''  (; L)
+1   [1 1 1 1] END_OF_CLAUSE (BEGIN_OF_SOURCE): ''
+2   [1 1 1 2] ASSIGNMENT_INSTRUCTION (SIMPLE_VAR): 'i'
+3   [1 2 1 5] OPERATOR (COMPARISON_OPERATOR): '='        -- "=" has grown to include the blanks before and after
+4   [1 5 1 6] VAR_SYMBOL (SIMPLE_VAR): 'i'
+5   [1 6 1 9] OPERATOR (ADDITIVE_OPERATOR): '+'          -- "+" has grown to include the blanks before and after
+6  [1 9 1 10] NUMBER (INTEGER): '1'
+7 [1 10 1 10] END_OF_CLAUSE (END_OF_LINE): ''
 ```
 
 What has changed, exactly? Well, both the "=" operator and the "+" operator seem to have "grown".
@@ -181,41 +183,42 @@ on line 3 runs now from (1 2 1 3) \[where the previous blank is located\] to (1 
 the next blank is located\].
 
 There are some other, subtle, changes in the returned results. The _class_ of "i" has changed,
-it is no longer "V" (VAR_SYMBOL), but "O" (ASSIGNMENT_INSTRUCTION). The full tokenizer "knows"
+it is no longer VAR_SYMBOL, but ASSIGNMENT_INSTRUCTION. The full tokenizer "knows"
 that ``i = i + 1`` is an assignment instructions, and it passes this knowledge to us.
-Similarly, the _subclass_ of "=" has changed. Previously, it was "o", for OPERATOR: all the
-tokenizer knew was that "=" was an operator character. Now it is "c", COMPARISON_OPERATOR,
-which is more informative. Similarly, "+" has now a subclass of "a", ADDITIVE_OPERATOR.
+Similarly, the _subclass_ of "=" has changed. Previously, it was OPERATOR: all the
+tokenizer knew was that "=" was an operator character. Now it is COMPARISON_OPERATOR,
+which is more informative. Similarly, "+" has now a subclass of ADDITIVE_OPERATOR.
 
 ### Structure of full tokens (detailed)
 
 As we mentioned above, when using the full tokenizer, you have the option to request a _detailed_
 tokenizing. You do so at instance creation time, by specifying the optional, boolean, _detailed_ argument:
-
 ```rexx
 detailed = .true
 tokenizer = .ooRexx.Tokenizer~new(array, detailed)
 ```
-There is a corresponding ``inspectFullDetailed.rex`` utility program to test this feature. Let us try it,
-once more, on our test program. We will get something similar to the following (we have added comments
-and some prettyprinting):
-
+We will call our ``inspectTokens.rex`` utility program once more, but this time we will not specify the
+``-nodetailed`` option, so that a detailed listing (the default when requesting full tokenizing) is produced. 
 ```
-1   [1 1 1 1]: ''  (; B)
-2   [1 1 1 2]: 'i' (O 1)
-3   [1 2 1 5]: '=' (o c)              -- If this token is the stem "token." ...
-       ---> Absorbed:
-       1 [1 2 1 3] (b b): ' '        -- ...then these subtokens are in token.absorbed[1], ...
-       2 [1 3 1 4] (o o): '=' <==    -- ...token.absorbed[2], and...
-       3 [1 4 1 5] (b b): ' '        -- ...token.absorbed[3].
-4   [1 5 1 6]: 'i' (V 1)
-5   [1 6 1 9]: '+' (o a)
-       ---> Absorbed:
-       1 [1 6 1 7] (b b): ' '
-       2 [1 7 1 8] (o o): '+' <==    -- The "original" main token is indexed by token.cloneIndex, so that...
-       3 [1 8 1 9] (b b): ' '        -- ...token.absorbed[token.cloneIndex] is that token.
-6  [1 9 1 10]: '1' (N 4)
-7 [1 10 1 10]: ''  (; L)
+InspectTokens -full -nodetailed test.rex
+```
+We will get output similar to the following:
+```
+1   [1 1 1 1] END_OF_CLAUSE (BEGIN_OF_SOURCE): ''
+2   [1 1 1 2] ASSIGNMENT_INSTRUCTION (SIMPLE_VAR): 'i'
+3   [1 2 1 5] OPERATOR (COMPARISON_OPERATOR): '='          -- If this token is the stem "token." ...
+      ---> Absorbed:
+      1[1 2 1 3] BLANK: ' '                                -- ...then these subtokens are in token.absorbed[1], ...
+      2[1 3 1 4] OPERATOR: '=' <==                         -- ...token.absorbed[2], and...
+      3[1 4 1 5] BLANK: ' '                                -- ...token.absorbed[3].
+4   [1 5 1 6] VAR_SYMBOL (SIMPLE_VAR): 'i'
+5   [1 6 1 9] OPERATOR (ADDITIVE_OPERATOR): '+'
+      ---> Absorbed:
+      1[1 6 1 7] BLANK: ' '
+      2[1 7 1 8] OPERATOR: '+' <==                         -- The "original" main token is indexed by token.cloneIndex, so that...
+      3[1 8 1 9] BLANK: ' '                                -- ...token.absorbed[token.cloneIndex] is that token.
+6  [1 9 1 10] NUMBER (INTEGER): '1'
+7 [1 10 1 10] END_OF_CLAUSE (END_OF_LINE): ''
 ```
 
 The non-indented lines are identical to the previous listing. The indented ones show us some new components
@@ -242,123 +245,124 @@ End
 You should always use this construction, instead of relying on the internal values of the constants: these values
 can be changed without notice.
 
-Here is the full value of the ``tokenClasses`` constant:
+Here is the full value of the ``tokenClasses`` constant. Please note that the second element of each array is a placeholder,
+the character "*". This will be substituted by appropriate values by the tokenizer init method.
 
 ```rexx
 ::Constant tokenClasses (    -             
-  ( SYNTAX_ERROR                   , "E"   ), -  -- Special token returned when a Syntax error is found
-  ( OPERATOR                       , "o"   ), -
-                                             -  -- +--- All subclasses of OPERATOR are full tokenizer only
-    ( ADDITIVE_OPERATOR            , "a"   ), -  -- | "+", "-" 
-    ( COMPARISON_OPERATOR          , "c"   ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
-                                              -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
-    ( CONCATENATION_OPERATOR       , "k"   ), -  -- | "||" 
-    ( LOGICAL_OPERATOR             , "l"   ), -  -- | "&", "|", "&&" 
-    ( MESSAGE_OPERATOR             , "s"   ), -  -- | "~", "~~" 
-    ( MULTIPLICATIVE_OPERATOR      , "m"   ), -  -- | "*", "/", "//", "%" 
-    ( POWER_OPERATOR               , "p"   ), -  -- | "**" 
-    ( EXTENDED_ASSIGNMENT          , "x"   ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
-                                              -  -- +--- All subclasses of OPERATOR are full tokenizer only
-  ( SPECIAL                        , "s"   ), -
-  ( COLON                          , ":"   ), -
-  ( DIRECTIVE_START                , "*"   ), -  -- "::" (Full tokenizer only, absorbed by directive)
-  ( LPAREN                         , "("   ), -
-  ( RPAREN                         , ")"   ), -
-  ( LBRACKET                       , "["   ), -
-  ( RBRACKET                       , "]"   ), -
-  ( BLANK                          , "b"   ), -  -- May be ignorable, or not
-  ( LINE_COMMENT                   , "l"   ), -  -- Up to but not including the end of the line
-  ( CLASSIC_COMMENT                , "c"   ), -  -- Infinite nesting allowed
-  ( RESOURCE                       , "R"   ), -  -- The resource itself, i.e., the array of lines
-  ( RESOURCE_DELIMITER             , "T"   ), -  -- End delimiter, ends resource
-  ( RESOURCE_IGNORED               , "G"   ), -  -- After "::Resource name ;" or "::END delimiter"
-  ( END_OF_SOURCE                  , "F"   ), -
-  ( END_OF_CLAUSE                  , ";"   ), -
-    ( BEGIN_OF_SOURCE              , "B"   ), -  -- Dummy and inserted. Very convenient for simplification
-    ( END_OF_LINE                  , "L"   ), -  -- Implied semicolon
-    ( SEMICOLON                    , ";"   ), -  -- An explicit semicolon
-    ( INSERTED_SEMICOLON           , "I"   ), -  -- For example, after a label, THEN, ELSE, and OTHERWISE
-                                              -
-                                              -  -- CLAUSE SUPPORT (Full tokenizer only)
-                                              -  -- ==============
-  ( LABEL                          , "W"   ), -  -- Includes and absorbs the COLON
-                                              -  -- All DIRECTIVEs include and absorb the :: marker
-  ( DIRECTIVE                      , "w"   ), -  -- 
-    ( ANNOTATE_DIRECTIVE           , "01"X ), -  -- 
-    ( ATTRIBUTE_DIRECTIVE          , "02"X ), -  -- 
-    ( CLASS_DIRECTIVE              , "03"X ), -  -- 
-    ( CONSTANT_DIRECTIVE           , "04"X ), -  -- 
-    ( METHOD_DIRECTIVE             , "05"X ), -  -- 
-    ( OPTIONS_DIRECTIVE            , "06"X ), -  -- 
-    ( REQUIRES_DIRECTIVE           , "07"X ), -  -- 
-    ( RESOURCE_DIRECTIVE           , "08"X ), -  -- 
-    ( ROUTINE_DIRECTIVE            , "09"X ), -  -- 
-                                              -  --
-  ( KEYWORD_INSTRUCTION            , "K"   ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present 
-    (ADDRESS_INSTRUCTION           , "80"X ), -  --     
-    (ARG_INSTRUCTION               , "81"X ), -  -- 
-    (CALL_INSTRUCTION              , "82"X ), -  -- 
-    (CALL_ON_INSTRUCTION           , "83"X ), -  -- Includes CALL ON
-    (CALL_OFF_INSTRUCTION          , "84"X ), -  -- Includes CALL OFF
-    (DO_INSTRUCTION                , "85"X ), -  -- 
-    (DROP_INSTRUCTION              , "86"X ), -  -- 
-    (ELSE_INSTRUCTION              , "87"X ), -  -- Inserts a ";" after
-    (END_INSTRUCTION               , "88"X ), -  -- 
-    (EXIT_INSTRUCTION              , "89"X ), -  -- 
-    (EXPOSE_INSTRUCTION            , "8A"X ), -  -- 
-    (FORWARD_INSTRUCTION           , "8B"X ), -  -- 
-    (GUARD_INSTRUCTION             , "8C"X ), -  -- 
-    (IF_INSTRUCTION                , "8D"X ), -  -- 
-    (INTERPRET_INSTRUCTION         , "8E"X ), -  -- 
-    (ITERATE_INSTRUCTION           , "8F"X ), -  -- 
-    (LEAVE_INSTRUCTION             , "90"X ), -  -- 
-    (LOOP_INSTRUCTION              , "91"X ), -  -- 
-    (NOP_INSTRUCTION               , "92"X ), -  -- 
-    (NUMERIC_INSTRUCTION           , "93"X ), -  -- 
-    (OPTIONS_INSTRUCTION           , "94"X ), -  -- 
-    (OTHERWISE_INSTRUCTION         , "95"X ), -  -- Inserts a ";" after
-    (PARSE_INSTRUCTION             , "96"X ), -  -- Includes UPPER, LOWER and CASELESS (as attributes too)
-    (PROCEDURE_INSTRUCTION         , "97"X ), -  -- 
-    (PUSH_INSTRUCTION              , "98"X ), -  -- 
-    (PULL_INSTRUCTION              , "99"X ), -  -- 
-    (QUEUE_INSTRUCTION             , "9A"X ), -  -- 
-    (RAISE_INSTRUCTION             , "9B"X ), -  -- 
-    (REPLY_INSTRUCTION             , "9C"X ), -  -- 
-    (RETURN_INSTRUCTION            , "9D"X ), -  -- 
-    (SAY_INSTRUCTION               , "9E"X ), -  -- 
-    (SELECT_INSTRUCTION            , "9F"X ), -  -- 
-    (SIGNAL_INSTRUCTION            , "A0"X ), -  -- 
-    (SIGNAL_ON_INSTRUCTION         , "A1"X ), -  -- Includes SIGNAL ON
-    (SIGNAL_OFF_INSTRUCTION        , "A2"X ), -  -- Includes SIGNAL OFF
-    (THEN_INSTRUCTION              , "A3"X ), -  -- Inserts a ";" before and after
-    (TRACE_INSTRUCTION             , "A4"X ), -  -- 
-    (UPPER_INSTRUCTION             , "A5"X ), -  -- Regina only, no ANSI
-    (USE_INSTRUCTION               , "A6"X ), -  -- 
-    (WHEN_INSTRUCTION              , "A7"X ), -  -- 
-  ( ASSIGNMENT_INSTRUCTION         , "O"   ), -  -- Variable assignments, not message assignments             
-  ( COMMAND_OR_MESSAGE_INSTRUCTION , "P"   ), -  -- Cannot determine without arbitrarily large context        
-                                              -  -- End of CLAUSE SUPPORT
-                                              -  -- =====================
-  ( VAR_SYMBOL                     , "V"   ), -  
-    ( SIMPLE_VAR                   , "10"X ), -  
-    ( STEM_VAR                     , "11"X ), -
-    ( COMPOUND_VAR                 , "12"X ), -
-  ( NUMBER                         , "N"   ), -
-    ( INTEGER                      , "13"X ), -
-    ( FRACTIONAL                   , "14"X ), -
-    ( EXPONENTIAL                  , "15"X ), -
-  ( CONST_SYMBOL                   , "C"   ), -
-    ( PERIOD_SYMBOL                , "16"X ), -
-    ( LITERAL_SYMBOL               , "17"X ), -
-    ( ENVIRONMENT_SYMBOL           , "18"X ), -
-  ( STRING                         , "S"   ), -
-    ( BINARY_STRING                , "B"   ), -
-    ( HEXADECIMAL_STRING           , "X"   ), -
-    ( CHARACTER_STRING             , "K"   ), -  
-    ( BYTES_STRING                 , "Y"   ), -  -- Unicode only. Y suffix
-    ( CODEPOINTS_STRING            , "P"   ), -  -- Unicode only. P suffix
-    ( TEXT_STRING                  , "T"   ), -  -- Unicode only. T suffix
-    ( UNOTATION_STRING             , "U"   )  -  -- Unicode only. U suffix
+  ( SYNTAX_ERROR                   , "*" ), -  -- Special token returned when a Syntax error is found
+  ( OPERATOR                       , "*" ), -
+                                            -  -- +--- All subclasses of OPERATOR are full tokenizer only
+    ( ADDITIVE_OPERATOR            , "*" ), -  -- | "+", "-" 
+    ( COMPARISON_OPERATOR          , "*" ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
+                                            -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
+    ( CONCATENATION_OPERATOR       , "*" ), -  -- | "||" 
+    ( LOGICAL_OPERATOR             , "*" ), -  -- | "&", "|", "&&" 
+    ( MESSAGE_OPERATOR             , "*" ), -  -- | "~", "~~" 
+    ( MULTIPLICATIVE_OPERATOR      , "*" ), -  -- | "*", "/", "//", "%" 
+    ( POWER_OPERATOR               , "*" ), -  -- | "**" 
+    ( EXTENDED_ASSIGNMENT          , "*" ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
+                                            -  -- +--- All subclasses of OPERATOR are full tokenizer only
+  ( SPECIAL                        , "*" ), -
+  ( COLON                          , "*" ), -
+  ( DIRECTIVE_START                , "*" ), -  -- "::" (Full tokenizer only, absorbed by directive)
+  ( LPAREN                         , "*" ), -
+  ( RPAREN                         , "*" ), -
+  ( LBRACKET                       , "*" ), -
+  ( RBRACKET                       , "*" ), -
+  ( BLANK                          , "*" ), -  -- May be ignorable, or not
+  ( LINE_COMMENT                   , "*" ), -  -- Up to but not including the end of the line
+  ( CLASSIC_COMMENT                , "*" ), -  -- Infinite nesting allowed
+  ( RESOURCE                       , "*" ), -  -- The resource itself, i.e., the array of lines
+  ( RESOURCE_DELIMITER             , "*" ), -  -- End delimiter, ends resource
+  ( RESOURCE_IGNORED               , "*" ), -  -- After "::Resource name ;" or "::END delimiter"
+  ( END_OF_SOURCE                  , "*" ), -
+  ( END_OF_CLAUSE                  , "*" ), -
+    ( BEGIN_OF_SOURCE              , "*" ), -  -- Dummy and inserted. Very convenient for simplification
+    ( END_OF_LINE                  , "*" ), -  -- Implied semicolon
+    ( SEMICOLON                    , "*" ), -  -- An explicit semicolon
+    ( INSERTED_SEMICOLON           , "*" ), -  -- For example, after a label, THEN, ELSE, and OTHERWISE
+                                            -
+                                            -  -- CLAUSE SUPPORT (Full tokenizer only)
+                                            -  -- ==============
+  ( LABEL                          , "*" ), -  -- Includes and absorbs the COLON
+                                            -  -- All DIRECTIVEs include and absorb the :: marker
+  ( DIRECTIVE                      , "*" ), -  -- 
+    ( ANNOTATE_DIRECTIVE           , "*" ), -  -- 
+    ( ATTRIBUTE_DIRECTIVE          , "*" ), -  -- 
+    ( CLASS_DIRECTIVE              , "*" ), -  -- 
+    ( CONSTANT_DIRECTIVE           , "*" ), -  -- 
+    ( METHOD_DIRECTIVE             , "*" ), -  -- 
+    ( OPTIONS_DIRECTIVE            , "*" ), -  -- 
+    ( REQUIRES_DIRECTIVE           , "*" ), -  -- 
+    ( RESOURCE_DIRECTIVE           , "*" ), -  -- 
+    ( ROUTINE_DIRECTIVE            , "*" ), -  -- 
+                                            -  --
+  ( KEYWORD_INSTRUCTION            , "*" ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present 
+    (ADDRESS_INSTRUCTION           , "*" ), -  --     
+    (ARG_INSTRUCTION               , "*" ), -  -- 
+    (CALL_INSTRUCTION              , "*" ), -  -- 
+    (CALL_ON_INSTRUCTION           , "*" ), -  -- Includes the ON  sub-keyword
+    (CALL_OFF_INSTRUCTION          , "*" ), -  -- Includes the OFF sub-keyword
+    (DO_INSTRUCTION                , "*" ), -  -- 
+    (DROP_INSTRUCTION              , "*" ), -  -- 
+    (ELSE_INSTRUCTION              , "*" ), -  -- Inserts a ";" after
+    (END_INSTRUCTION               , "*" ), -  -- 
+    (EXIT_INSTRUCTION              , "*" ), -  -- 
+    (EXPOSE_INSTRUCTION            , "*" ), -  -- 
+    (FORWARD_INSTRUCTION           , "*" ), -  -- 
+    (GUARD_INSTRUCTION             , "*" ), -  -- 
+    (IF_INSTRUCTION                , "*" ), -  -- 
+    (INTERPRET_INSTRUCTION         , "*" ), -  -- 
+    (ITERATE_INSTRUCTION           , "*" ), -  -- 
+    (LEAVE_INSTRUCTION             , "*" ), -  -- 
+    (LOOP_INSTRUCTION              , "*" ), -  -- 
+    (NOP_INSTRUCTION               , "*" ), -  -- 
+    (NUMERIC_INSTRUCTION           , "*" ), -  -- 
+    (OPTIONS_INSTRUCTION           , "*" ), -  -- 
+    (OTHERWISE_INSTRUCTION         , "*" ), -  -- Inserts a ";" after
+    (PARSE_INSTRUCTION             , "*" ), -  -- Includes UPPER, LOWER and CASELESS (as attributes too)
+    (PROCEDURE_INSTRUCTION         , "*" ), -  -- 
+    (PUSH_INSTRUCTION              , "*" ), -  -- 
+    (PULL_INSTRUCTION              , "*" ), -  -- 
+    (QUEUE_INSTRUCTION             , "*" ), -  -- 
+    (RAISE_INSTRUCTION             , "*" ), -  -- 
+    (REPLY_INSTRUCTION             , "*" ), -  -- 
+    (RETURN_INSTRUCTION            , "*" ), -  -- 
+    (SAY_INSTRUCTION               , "*" ), -  -- 
+    (SELECT_INSTRUCTION            , "*" ), -  -- 
+    (SIGNAL_INSTRUCTION            , "*" ), -  -- 
+    (SIGNAL_ON_INSTRUCTION         , "*" ), -  -- Includes SIGNAL ON
+    (SIGNAL_OFF_INSTRUCTION        , "*" ), -  -- Includes SIGNAL OFF
+    (THEN_INSTRUCTION              , "*" ), -  -- Inserts a ";" before and after
+    (TRACE_INSTRUCTION             , "*" ), -  -- 
+    (UPPER_INSTRUCTION             , "*" ), -  -- Regina only, no ANSI
+    (USE_INSTRUCTION               , "*" ), -  -- 
+    (WHEN_INSTRUCTION              , "*" ), -  -- 
+  ( ASSIGNMENT_INSTRUCTION         , "*" ), -  -- Variable assignments, not message assignments             
+  ( COMMAND_OR_MESSAGE_INSTRUCTION , "*" ), -  -- Cannot determine without arbitrarily large context        
+                                            -  -- End of CLAUSE SUPPORT
+                                            -  -- =====================
+  ( VAR_SYMBOL                     , "*" ), -  
+    ( SIMPLE_VAR                   , "*" ), -  
+    ( STEM_VAR                     , "*" ), -
+    ( COMPOUND_VAR                 , "*" ), -
+  ( NUMBER                         , "*" ), -
+    ( INTEGER                      , "*" ), -
+    ( FRACTIONAL                   , "*" ), -
+    ( EXPONENTIAL                  , "*" ), -
+  ( CONST_SYMBOL                   , "*" ), -
+    ( PERIOD_SYMBOL                , "*" ), -
+    ( LITERAL_SYMBOL               , "*" ), -
+    ( ENVIRONMENT_SYMBOL           , "*" ), -
+  ( STRING                         , "*" ), -
+    ( BINARY_STRING                , "*" ), -
+    ( HEXADECIMAL_STRING           , "*" ), -
+    ( CHARACTER_STRING             , "*" ), -  
+    ( BYTES_STRING                 , "*" ), -  -- Unicode only. Y suffix
+    ( CODEPOINTS_STRING            , "*" ), -  -- Unicode only. P suffix
+    ( TEXT_STRING                  , "*" ), -  -- Unicode only. T suffix
+    ( UNOTATION_STRING             , "*" )  -  -- Unicode only. U suffix
 )
 ```
 
@@ -447,7 +451,7 @@ When the tokenizer encounters a syntax error, it returns a special token describ
 
 #### Important note
 
-Using ``getSimpleToken`` and ``getFullToken`` with the same tokenizer instance can lead to impredictable results.
+Using [``getSimpleToken``](readme.md#getSimpleToken) and [``getFullToken``](readme.md#getSimpleToken) with the same tokenizer instance can lead to impredictable results.
 
 ### getSimpleToken
 
@@ -457,7 +461,7 @@ Using ``getSimpleToken`` and ``getFullToken`` with the same tokenizer instance c
    ╰────────────────╯
 ```
 
-The ``getSimpleToken`` method selects the next token in the input file and returns a stem containing the details that describe this token.
+The [``getSimpleToken``](readme.md#getSimpleToken) method selects the next token in the input file and returns a stem containing the details that describe this token.
 
 The components of a returned stem ``t.`` are the following:
 
@@ -472,7 +476,7 @@ The components of a returned stem ``t.`` are the following:
   
 __Important note__
 
-Using ``getSimpleToken`` and ``getFullToken`` with the same tokenizer instance can lead to impredictable results.
+Using [``getSimpleToken``](readme.md#getSimpleToken) and [``getFullToken``](readme.md#getSimpleToken) with the same tokenizer instance can lead to impredictable results.
 
 ### syntax_error
 
