@@ -33,8 +33,7 @@
 
 Parse Arg fn                                      -- No error handling
 
-size     = Stream(fn,"C","Q Size")                -- Retrieve the size and...
-source   = CharIn(fn,1,size)~makeArray            -- ...create an array (fast)
+source   = CharIn(fn,1,Chars(fn))~makeArray       -- Create an array (fast)
 Call       Stream fn,"C","Close"                  -- Close the file
 detailed = 0                                      -- We don't need a detailed tokenizing
 
@@ -44,7 +43,7 @@ Do constant over tokenizer~tokenClasses           -- Create the constants
   c1 = constant[1]
   c2 = constant[2]
   Call Value c1, c2
-  pretty.c2 = c1                                  -- and a prettyprinting stem
+  nameOf.c2 = c1                                  -- and a prettyprinting stem
 End
 
 -- We are interested in directives, variables symbols and (some) constant
@@ -58,7 +57,7 @@ Loop
 
   If \MoreTokens() Then Leave                     -- If we don't leave, "token" is the next token
   If Pos(token[class], interested) == 0 Then Iterate -- We are not interested in this token
-  If token[class] == CONST_SYMBOL, token[subClass] \== ENVIRONMENT Then Iterate -- Ditto
+  If token[class] == CONST_SYMBOL, token[subClass] \== ENVIRONMENT_SYMBOL Then Iterate -- Ditto
   Parse Value token[location] With line .         -- Retrieve the line number
   
   -- Handle variables and environment symbols: collect them and their line numbers
@@ -88,7 +87,7 @@ Loop
     vars. = .nil                                  -- reset the "vars." stem
   End
   
-  type = pretty.[token[subclass]]                 -- And the directive type
+  type = nameOf.[token[subclass]]                 -- And the directive type
   If \MoreTokens() Then Leave                     -- Next token is the name, if any
   
   -- No error handling: we assume that there is a symbol or a string after a directive
@@ -123,6 +122,5 @@ Return Pos(token[class], SYNTAX_ERROR || END_OF_SOURCE ) == 0
 ::Resource Res
 A line
 ::END
--- TODO: Bug: this line is necessary, otherwise the ::Routine is not seen
 ::Routine R
 ::Requires "Rexx.Tokenizer.cls"

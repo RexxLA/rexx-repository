@@ -134,7 +134,7 @@ Here is the output of the program, prettyprinted and commented for your convenie
   for instance, will generate a value of "👨").
 * The fourth column contains two values, grouped by parenthesis. These are the _class_ and the _subclass_ of the token.
   They give a lot of information about the nature of the token (e.g., this is a NUMBER \[class\], subclass INTEGER; or
-  this is a VAR_SYMBOL \[class\], subclass SIMPLE \[i.e., not a stem or a compound variable\]) and will be described below
+  this is a VAR_SYMBOL \[class\], subclass SIMPLE_VAR \[i.e., not a stem or a compound variable\]) and will be described below
 
 How does the ``inspectSimple.rex`` program work? Well, essentially what it does is the following: it instantiates a
 tokenizer instance, and then it runs it, by calling the ``getSimpleToken`` method, until either the end of file is reached
@@ -146,7 +146,7 @@ or a syntax error is encountered. Now, here is the trick: ``getSimpleToken`` _re
 token. = tokenizerInstance~getSimpleToken
 -- we have (assume that we have just scanned the second "i" of the above program)
 token.class    -- The CLASS of the token, i.e., V (stands for VAR_SYMBOL)
-token.subClass -- The SUBCLASS of the token, i.e., 1 (stands for SIMPLE)
+token.subClass -- The SUBCLASS of the token, i.e., 1 (stands for SIMPLE_VAR)
 token.location -- The LOCATION of the token, i.e., "1 5 1 6"
 token.value    -- The VALUE of the token, i.e., "1".
 ```
@@ -340,25 +340,25 @@ Here is the full value of the ``tokenClasses`` constant:
                                               -  -- End of CLAUSE SUPPORT
                                               -  -- =====================
   ( VAR_SYMBOL                     , "V"   ), -  
-    ( SIMPLE                       , "10"X ), -  
-    ( STEM                         , "11"X ), -
-    ( COMPOUND                     , "12"X ), -
+    ( SIMPLE_VAR                   , "10"X ), -  
+    ( STEM_VAR                     , "11"X ), -
+    ( COMPOUND_VAR                 , "12"X ), -
   ( NUMBER                         , "N"   ), -
     ( INTEGER                      , "13"X ), -
     ( FRACTIONAL                   , "14"X ), -
     ( EXPONENTIAL                  , "15"X ), -
   ( CONST_SYMBOL                   , "C"   ), -
-    ( PERIOD                       , "16"X ), -
-    ( LITERAL                      , "17"X ), -
-    ( ENVIRONMENT                  , "18"X ), -
+    ( PERIOD_SYMBOL                , "16"X ), -
+    ( LITERAL_SYMBOL               , "17"X ), -
+    ( ENVIRONMENT_SYMBOL           , "18"X ), -
   ( STRING                         , "S"   ), -
-    ( BINARY                       , "B"   ), -
-    ( HEXADECIMAL                  , "X"   ), -
-    ( CHARACTER                    , "K"   ), -  
-    ( BYTES                        , "Y"   ), -  -- Unicode only. Y suffix
-    ( CODEPOINTS                   , "P"   ), -  -- Unicode only. P suffix
-    ( TEXT                         , "T"   ), -  -- Unicode only. T suffix
-    ( UNOTATION                    , "U"   )  -  -- Unicode only. U suffix
+    ( BINARY_STRING                , "B"   ), -
+    ( HEXADECIMAL_STRING           , "X"   ), -
+    ( CHARACTER_STRING             , "K"   ), -  
+    ( BYTES_STRING                 , "Y"   ), -  -- Unicode only. Y suffix
+    ( CODEPOINTS_STRING            , "P"   ), -  -- Unicode only. P suffix
+    ( TEXT_STRING                  , "T"   ), -  -- Unicode only. T suffix
+    ( UNOTATION_STRING             , "U"   )  -  -- Unicode only. U suffix
 )
 ```
 
@@ -569,7 +569,8 @@ This method creates a stem that will be used to discriminate if a symbol is a va
    ╰───────────────────────────────╯
 ```
 
-The ``InitializeKeywordInstructions`` method creates the ``keywordInstruction.`` stem, which allows us to determine whether a certain ``SIMPLE VAR_SYMBOL`` is a candidate to start a ``KEYWORD_INSTRUCTION`` or not. The stem is customized for the ooRexx, Regina and ANSI cases.
+The ``InitializeKeywordInstructions`` method creates the ``keywordInstruction.`` stem, which allows us to determine whether a certain 
+``SIMPLE_VAR VAR_SYMBOL`` is a candidate to start a ``KEYWORD_INSTRUCTION`` or not. The stem is customized for the ooRexx, Regina and ANSI cases.
 
 ### InitializeOperatorTable
 

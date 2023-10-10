@@ -184,7 +184,7 @@ Transform: Procedure Expose filename warnBIF
    Call Value tc[1], tc[2]
   End
   
-  tokenNumber            = 0         -- (full) token no. in clause
+  tokenNumber      = 0         -- (full) token no. in clause
   context          = "00"X     -- No context
   parseContext     = 0         -- Boolean: we are parsing a "parse" instruction
   parseWithPending = 0         -- Boolean: we are parsing a "parse value" instruction, didn't see "with" yet
@@ -296,7 +296,7 @@ Transform: Procedure Expose filename warnBIF
         If transformed == .nil Then Call TypedStringOrNumber
       End
       -- Handling of identifiers
-      Else If z[class] == VAR_SYMBOL, z[subClass] == SIMPLE Then Do
+      Else If z[class] == VAR_SYMBOL, z[subClass] == SIMPLE_VAR Then Do
         -- We don't change symbols that are method names
         If prevToken[class] == OPERATOR, prevToken[value][1] == "~" Then Nop
         -- No method call, function or subroutine call context...
@@ -360,10 +360,11 @@ Return 0
 
 StringAsIs:
   Select Case z[subClass]
-    -- When "U"           Then transformed = '"'C2X(z[value])'"X'
-    When "U"           Then transformed = '"'ChangeStr('"',z[value],'""')'"'
-    When "P", "T", "Y" Then transformed = array[line1][col1,col2-col1-1]
-    Otherwise               transformed = array[line1][col1,col2-col1]  -- Identity
+    -- When UNOTATION_STRING        Then transformed = '"'C2X(z[value])'"X'
+    When UNOTATION_STRING Then transformed = '"'ChangeStr('"',z[value],'""')'"'
+    When BYTES_STRING, CODEPOINTS_STRING, TEXT_STRING,
+                          Then transformed = array[line1][col1,col2-col1-1]
+    Otherwise                  transformed = array[line1][col1,col2-col1]  -- Identity
   End
 Return
 
@@ -384,16 +385,16 @@ TypedStringOrNumber:
     Else Signal StringAsIs
     Return
   End
-  If Pos(prevToken[class],STRING||VAR_SYMBOL||CONST_SYMBOL||NUMBER||STRING) > 0 Then concat = "||"
-  Else                                                                               concat = ""
+  If Pos(prevToken[class],STRING||VAR_SYMBOL||CONST_SYMBOL||NUMBER) > 0 Then concat = "||"
+  Else                                                                       concat = ""
   Select Case z[subClass]
-    When "U" Then transformed =      concat'(Bytes("'ChangeStr('"',z[value],'""')'"))'
-    When "P" Then transformed = concat'(Codepoints('array[line1][col1,col2-col1-1]'))'
-    When "T" Then transformed =       concat'(Text('array[line1][col1,col2-col1-1]'))'
-    When "Y" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1-1]'))'
-    When "X" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))' 
-    When "B" Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))'
-    Otherwise     transformed =       concat'(!!DS('array[line1][col1,col2-col1  ]'))' -- Handles NUMBER too
+    When UNOTATION_STRING   Then transformed =      concat'(Bytes("'ChangeStr('"',z[value],'""')'"))'
+    When CODEPOINTS_STRING  Then transformed = concat'(Codepoints('array[line1][col1,col2-col1-1]'))'
+    When TEXT_STRING        Then transformed =       concat'(Text('array[line1][col1,col2-col1-1]'))'
+    When BYTES_STRING       Then transformed =      concat'(Bytes('array[line1][col1,col2-col1-1]'))'
+    When HEXADECIMAL_STRING Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))' 
+    When BINARY_STRING      Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))'
+    Otherwise                    transformed =       concat'(!!DS('array[line1][col1,col2-col1  ]'))' -- Handles NUMBER too
   End
 Return
 

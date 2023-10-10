@@ -33,7 +33,7 @@ If result \== 0 Then Exit result
 Call "test.utf8.rex"
 If result \== 0 Then Exit result
 
-Say "Calling textrxu.rxu..."
+Say "Calling testrxu.rxu..."
 Call "rxu.rex" "../samples/testrxu.rxu auto"
 If result \== 0 Then Exit result
 Say 

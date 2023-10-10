@@ -40,7 +40,6 @@
  *                                                                           
  */
 
-
 ::Class ooRexx.Tokenizer            Subclass Rexx.Tokenizer      Public
 ::Class ooRexx.Unicode.Tokenizer    Subclass ooRexx.Tokenizer    Public
 ::Class Regina.Tokenizer            Subclass Rexx.Tokenizer      Public
@@ -48,156 +47,162 @@
 ::Class ANSI.Rexx.Tokenizer         Subclass Rexx.Tokenizer      Public
 ::Class ANSI.Rexx.Unicode.Tokenizer Subclass ANSI.Rexx.Tokenizer Public
 
-
 ::Class Rexx.Tokenizer                                           Public
 
 ::Method init
   Use local pkglocal
   Use Strict Arg source, detailed = 0
-  line      = 0
-  pos       = 0
-  maxLines  = source~items
-  moreLines = line < maxLines
+  line                   = 0
+  pos                    = 0
+  maxLines               = source~items
+  moreLines              = line < maxLines
+  UnicodeLoaded          = 0  
   
-  pkgLocal = .context~package~local
-  pkgLocal~ooRexx  = 0
-  pkgLocal~Regina  = 0
-  pkgLocal~ANSI    = 0
-  pkgLocal~Unicode = 0
+  pkgLocal               = .context~package~local
   
-  If self~isA(.ooRexx.Tokenizer)    Then pkgLocal~ooRexx  = 1
-  If self~isA(.Regina.Tokenizer)    Then pkgLocal~Regina  = 1
-  If self~isA(.ANSI.Rexx.Tokenizer) Then pkgLocal~ANSI    = 1
-  If self~class~id~upper~contains(".UNICODE.") 
-                                    Then pkgLocal~Unicode = 1
+  pkgLocal~ooRexx        = self~isA(.ooRexx.Tokenizer)
+  pkgLocal~Regina        = self~isA(.Regina.Tokenizer)
+  pkgLocal~ANSI          = self~isA(.ANSI.Rexx.Tokenizer)
+  pkgLocal~Unicode       = self~isA(.ooRexx.Unicode.Tokenizer) |,
+                           self~isA(.Regina.Unicode.Tokenizer) |,
+                           self~isA(.ANSI.Rexx.Unicode.Tokenizer)
                                     
   pkgLocal~line_comments = \ ( .ANSI )
   
+  -- Ensure that the second element of each tokenClasses element
+  -- is distinct
+  tokenClasses = self~tokenClasses
+  Do counter c pair Over tokenClasses 
+    pair[2] = X2C(D2X(c - 1))
+    If c >= 256 Then Say "PANIC! tolenClasses array has more than 256 elements!"
+  End
+  
   self~InitializeCharacterCategories
   self~InitializeClasses
+  self~InitializeStringSuffixes -- After InitializeClasses
   self~InitializeKeywordInstructions
   self~InitializeDirectives
   self~InitializeActionPairs
   self~InitializeOperatorTable
   self~InitializeTokenizer
   self~InitializeSimpleTokenizer
-  
-  UnicodeLoaded = 0
     
+-- This is a vector of two-element vectors. Each second element is an asterisk;
+-- it will be substituted by a distinct char value in the init method.
 ::Constant tokenClasses (    -             
-  ( SYNTAX_ERROR                   , "E"   ), -  -- Special token returned when a Syntax error is found
-  ( OPERATOR                       , "o"   ), -
-                                             -  -- +--- All subclasses of OPERATOR are full tokenizer only
-    ( ADDITIVE_OPERATOR            , "a"   ), -  -- | "+", "-" 
-    ( COMPARISON_OPERATOR          , "c"   ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
-                                              -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
-    ( CONCATENATION_OPERATOR       , "k"   ), -  -- | "||" 
-    ( LOGICAL_OPERATOR             , "l"   ), -  -- | "&", "|", "&&" 
-    ( MESSAGE_OPERATOR             , "s"   ), -  -- | "~", "~~" 
-    ( MULTIPLICATIVE_OPERATOR      , "m"   ), -  -- | "*", "/", "//", "%" 
-    ( POWER_OPERATOR               , "p"   ), -  -- | "**" 
-    ( EXTENDED_ASSIGNMENT          , "x"   ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
-                                              -  -- +--- All subclasses of OPERATOR are full tokenizer only
-  ( SPECIAL                        , "s"   ), -
-  ( COLON                          , ":"   ), -
-  ( DIRECTIVE_START                , "*"   ), -  -- "::" (Full tokenizer only, absorbed by directive)
-  ( LPAREN                         , "("   ), -
-  ( RPAREN                         , ")"   ), -
-  ( LBRACKET                       , "["   ), -
-  ( RBRACKET                       , "]"   ), -
-  ( BLANK                          , "b"   ), -  -- May be ignorable, or not
-  ( LINE_COMMENT                   , "l"   ), -  -- Up to but not including the end of the line
-  ( CLASSIC_COMMENT                , "c"   ), -  -- Infinite nesting allowed
-  ( RESOURCE                       , "R"   ), -  -- The resource itself, i.e., the array of lines
-  ( RESOURCE_DELIMITER             , "T"   ), -  -- End delimiter, ends resource
-  ( RESOURCE_IGNORED               , "G"   ), -  -- After "::Resource name ;" or "::END delimiter"
-  ( END_OF_SOURCE                  , "F"   ), -
-  ( END_OF_CLAUSE                  , ";"   ), -
-    ( BEGIN_OF_SOURCE              , "B"   ), -  -- Dummy and inserted. Very convenient for simplification
-    ( END_OF_LINE                  , "L"   ), -  -- Implied semicolon
-    ( SEMICOLON                    , ";"   ), -  -- An explicit semicolon
-    ( INSERTED_SEMICOLON           , "I"   ), -  -- For example, after a label, THEN, ELSE, and OTHERWISE
-                                              -
-                                              -  -- CLAUSE SUPPORT (Full tokenizer only)
-                                              -  -- ==============
-  ( LABEL                          , "W"   ), -  -- Includes and absorbs the COLON
-                                              -  -- All DIRECTIVEs include and absorb the :: marker
-  ( DIRECTIVE                      , "w"   ), -  -- 
-    ( ANNOTATE_DIRECTIVE           , "01"X ), -  -- 
-    ( ATTRIBUTE_DIRECTIVE          , "02"X ), -  -- 
-    ( CLASS_DIRECTIVE              , "03"X ), -  -- 
-    ( CONSTANT_DIRECTIVE           , "04"X ), -  -- 
-    ( METHOD_DIRECTIVE             , "05"X ), -  -- 
-    ( OPTIONS_DIRECTIVE            , "06"X ), -  -- 
-    ( REQUIRES_DIRECTIVE           , "07"X ), -  -- 
-    ( RESOURCE_DIRECTIVE           , "08"X ), -  -- 
-    ( ROUTINE_DIRECTIVE            , "09"X ), -  -- 
-                                              -  --
-  ( KEYWORD_INSTRUCTION            , "K"   ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present 
-    (ADDRESS_INSTRUCTION           , "80"X ), -  --     
-    (ARG_INSTRUCTION               , "81"X ), -  -- 
-    (CALL_INSTRUCTION              , "82"X ), -  -- 
-    (CALL_ON_INSTRUCTION           , "83"X ), -  -- Includes CALL ON
-    (CALL_OFF_INSTRUCTION          , "84"X ), -  -- Includes CALL OFF
-    (DO_INSTRUCTION                , "85"X ), -  -- 
-    (DROP_INSTRUCTION              , "86"X ), -  -- 
-    (ELSE_INSTRUCTION              , "87"X ), -  -- Inserts a ";" after
-    (END_INSTRUCTION               , "88"X ), -  -- 
-    (EXIT_INSTRUCTION              , "89"X ), -  -- 
-    (EXPOSE_INSTRUCTION            , "8A"X ), -  -- 
-    (FORWARD_INSTRUCTION           , "8B"X ), -  -- 
-    (GUARD_INSTRUCTION             , "8C"X ), -  -- 
-    (IF_INSTRUCTION                , "8D"X ), -  -- 
-    (INTERPRET_INSTRUCTION         , "8E"X ), -  -- 
-    (ITERATE_INSTRUCTION           , "8F"X ), -  -- 
-    (LEAVE_INSTRUCTION             , "90"X ), -  -- 
-    (LOOP_INSTRUCTION              , "91"X ), -  -- 
-    (NOP_INSTRUCTION               , "92"X ), -  -- 
-    (NUMERIC_INSTRUCTION           , "93"X ), -  -- 
-    (OPTIONS_INSTRUCTION           , "94"X ), -  -- 
-    (OTHERWISE_INSTRUCTION         , "95"X ), -  -- Inserts a ";" after
-    (PARSE_INSTRUCTION             , "96"X ), -  -- Includes UPPER, LOWER and CASELESS (as attributes too)
-    (PROCEDURE_INSTRUCTION         , "97"X ), -  -- 
-    (PUSH_INSTRUCTION              , "98"X ), -  -- 
-    (PULL_INSTRUCTION              , "99"X ), -  -- 
-    (QUEUE_INSTRUCTION             , "9A"X ), -  -- 
-    (RAISE_INSTRUCTION             , "9B"X ), -  -- 
-    (REPLY_INSTRUCTION             , "9C"X ), -  -- 
-    (RETURN_INSTRUCTION            , "9D"X ), -  -- 
-    (SAY_INSTRUCTION               , "9E"X ), -  -- 
-    (SELECT_INSTRUCTION            , "9F"X ), -  -- 
-    (SIGNAL_INSTRUCTION            , "A0"X ), -  -- 
-    (SIGNAL_ON_INSTRUCTION         , "A1"X ), -  -- Includes SIGNAL ON
-    (SIGNAL_OFF_INSTRUCTION        , "A2"X ), -  -- Includes SIGNAL OFF
-    (THEN_INSTRUCTION              , "A3"X ), -  -- Inserts a ";" before and after
-    (TRACE_INSTRUCTION             , "A4"X ), -  -- 
-    (UPPER_INSTRUCTION             , "A5"X ), -  -- Regina only, no ANSI
-    (USE_INSTRUCTION               , "A6"X ), -  -- 
-    (WHEN_INSTRUCTION              , "A7"X ), -  -- 
-  ( ASSIGNMENT_INSTRUCTION         , "O"   ), -  -- Variable assignments, not message assignments             
-  ( COMMAND_OR_MESSAGE_INSTRUCTION , "P"   ), -  -- Cannot determine without arbitrarily large context        
-                                              -  -- End of CLAUSE SUPPORT
-                                              -  -- =====================
-  ( VAR_SYMBOL                     , "V"   ), -  
-    ( SIMPLE                       , "10"X ), -  
-    ( STEM                         , "11"X ), -
-    ( COMPOUND                     , "12"X ), -
-  ( NUMBER                         , "N"   ), -
-    ( INTEGER                      , "13"X ), -
-    ( FRACTIONAL                   , "14"X ), -
-    ( EXPONENTIAL                  , "15"X ), -
-  ( CONST_SYMBOL                   , "C"   ), -
-    ( PERIOD                       , "16"X ), -
-    ( LITERAL                      , "17"X ), -
-    ( ENVIRONMENT                  , "18"X ), -
-  ( STRING                         , "S"   ), -
-    ( BINARY                       , "B"   ), -
-    ( HEXADECIMAL                  , "X"   ), -
-    ( CHARACTER                    , "K"   ), -  
-    ( BYTES                        , "Y"   ), -  -- Unicode only. Y suffix
-    ( CODEPOINTS                   , "P"   ), -  -- Unicode only. P suffix
-    ( TEXT                         , "T"   ), -  -- Unicode only. T suffix
-    ( UNOTATION                    , "U"   )  -  -- Unicode only. U suffix
+  ( SYNTAX_ERROR                   , "*" ), -  -- Special token returned when a Syntax error is found
+  ( OPERATOR                       , "*" ), -
+                                            -  -- +--- All subclasses of OPERATOR are full tokenizer only
+    ( ADDITIVE_OPERATOR            , "*" ), -  -- | "+", "-" 
+    ( COMPARISON_OPERATOR          , "*" ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
+                                            -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
+    ( CONCATENATION_OPERATOR       , "*" ), -  -- | "||" 
+    ( LOGICAL_OPERATOR             , "*" ), -  -- | "&", "|", "&&" 
+    ( MESSAGE_OPERATOR             , "*" ), -  -- | "~", "~~" 
+    ( MULTIPLICATIVE_OPERATOR      , "*" ), -  -- | "*", "/", "//", "%" 
+    ( POWER_OPERATOR               , "*" ), -  -- | "**" 
+    ( EXTENDED_ASSIGNMENT          , "*" ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
+                                            -  -- +--- All subclasses of OPERATOR are full tokenizer only
+  ( SPECIAL                        , "*" ), -
+  ( COLON                          , "*" ), -
+  ( DIRECTIVE_START                , "*" ), -  -- "::" (Full tokenizer only, absorbed by directive)
+  ( LPAREN                         , "*" ), -
+  ( RPAREN                         , "*" ), -
+  ( LBRACKET                       , "*" ), -
+  ( RBRACKET                       , "*" ), -
+  ( BLANK                          , "*" ), -  -- May be ignorable, or not
+  ( LINE_COMMENT                   , "*" ), -  -- Up to but not including the end of the line
+  ( CLASSIC_COMMENT                , "*" ), -  -- Infinite nesting allowed
+  ( RESOURCE                       , "*" ), -  -- The resource itself, i.e., the array of lines
+  ( RESOURCE_DELIMITER             , "*" ), -  -- End delimiter, ends resource
+  ( RESOURCE_IGNORED               , "*" ), -  -- After "::Resource name ;" or "::END delimiter"
+  ( END_OF_SOURCE                  , "*" ), -
+  ( END_OF_CLAUSE                  , "*" ), -
+    ( BEGIN_OF_SOURCE              , "*" ), -  -- Dummy and inserted. Very convenient for simplification
+    ( END_OF_LINE                  , "*" ), -  -- Implied semicolon
+    ( SEMICOLON                    , "*" ), -  -- An explicit semicolon
+    ( INSERTED_SEMICOLON           , "*" ), -  -- For example, after a label, THEN, ELSE, and OTHERWISE
+                                            -
+                                            -  -- CLAUSE SUPPORT (Full tokenizer only)
+                                            -  -- ==============
+  ( LABEL                          , "*" ), -  -- Includes and absorbs the COLON
+                                            -  -- All DIRECTIVEs include and absorb the :: marker
+  ( DIRECTIVE                      , "*" ), -  -- 
+    ( ANNOTATE_DIRECTIVE           , "*" ), -  -- 
+    ( ATTRIBUTE_DIRECTIVE          , "*" ), -  -- 
+    ( CLASS_DIRECTIVE              , "*" ), -  -- 
+    ( CONSTANT_DIRECTIVE           , "*" ), -  -- 
+    ( METHOD_DIRECTIVE             , "*" ), -  -- 
+    ( OPTIONS_DIRECTIVE            , "*" ), -  -- 
+    ( REQUIRES_DIRECTIVE           , "*" ), -  -- 
+    ( RESOURCE_DIRECTIVE           , "*" ), -  -- 
+    ( ROUTINE_DIRECTIVE            , "*" ), -  -- 
+                                            -  --
+  ( KEYWORD_INSTRUCTION            , "*" ), -  -- All KEYWORD_INSTRUCTIONs include the first blank after the keyword, if present 
+    (ADDRESS_INSTRUCTION           , "*" ), -  --     
+    (ARG_INSTRUCTION               , "*" ), -  -- 
+    (CALL_INSTRUCTION              , "*" ), -  -- 
+    (CALL_ON_INSTRUCTION           , "*" ), -  -- Includes the ON  sub-keyword
+    (CALL_OFF_INSTRUCTION          , "*" ), -  -- Includes the OFF sub-keyword
+    (DO_INSTRUCTION                , "*" ), -  -- 
+    (DROP_INSTRUCTION              , "*" ), -  -- 
+    (ELSE_INSTRUCTION              , "*" ), -  -- Inserts a ";" after
+    (END_INSTRUCTION               , "*" ), -  -- 
+    (EXIT_INSTRUCTION              , "*" ), -  -- 
+    (EXPOSE_INSTRUCTION            , "*" ), -  -- 
+    (FORWARD_INSTRUCTION           , "*" ), -  -- 
+    (GUARD_INSTRUCTION             , "*" ), -  -- 
+    (IF_INSTRUCTION                , "*" ), -  -- 
+    (INTERPRET_INSTRUCTION         , "*" ), -  -- 
+    (ITERATE_INSTRUCTION           , "*" ), -  -- 
+    (LEAVE_INSTRUCTION             , "*" ), -  -- 
+    (LOOP_INSTRUCTION              , "*" ), -  -- 
+    (NOP_INSTRUCTION               , "*" ), -  -- 
+    (NUMERIC_INSTRUCTION           , "*" ), -  -- 
+    (OPTIONS_INSTRUCTION           , "*" ), -  -- 
+    (OTHERWISE_INSTRUCTION         , "*" ), -  -- Inserts a ";" after
+    (PARSE_INSTRUCTION             , "*" ), -  -- Includes UPPER, LOWER and CASELESS (as attributes too)
+    (PROCEDURE_INSTRUCTION         , "*" ), -  -- 
+    (PUSH_INSTRUCTION              , "*" ), -  -- 
+    (PULL_INSTRUCTION              , "*" ), -  -- 
+    (QUEUE_INSTRUCTION             , "*" ), -  -- 
+    (RAISE_INSTRUCTION             , "*" ), -  -- 
+    (REPLY_INSTRUCTION             , "*" ), -  -- 
+    (RETURN_INSTRUCTION            , "*" ), -  -- 
+    (SAY_INSTRUCTION               , "*" ), -  -- 
+    (SELECT_INSTRUCTION            , "*" ), -  -- 
+    (SIGNAL_INSTRUCTION            , "*" ), -  -- 
+    (SIGNAL_ON_INSTRUCTION         , "*" ), -  -- Includes SIGNAL ON
+    (SIGNAL_OFF_INSTRUCTION        , "*" ), -  -- Includes SIGNAL OFF
+    (THEN_INSTRUCTION              , "*" ), -  -- Inserts a ";" before and after
+    (TRACE_INSTRUCTION             , "*" ), -  -- 
+    (UPPER_INSTRUCTION             , "*" ), -  -- Regina only, no ANSI
+    (USE_INSTRUCTION               , "*" ), -  -- 
+    (WHEN_INSTRUCTION              , "*" ), -  -- 
+  ( ASSIGNMENT_INSTRUCTION         , "*" ), -  -- Variable assignments, not message assignments             
+  ( COMMAND_OR_MESSAGE_INSTRUCTION , "*" ), -  -- Cannot determine without arbitrarily large context        
+                                            -  -- End of CLAUSE SUPPORT
+                                            -  -- =====================
+  ( VAR_SYMBOL                     , "*" ), -  
+    ( SIMPLE_VAR                   , "*" ), -  
+    ( STEM_VAR                     , "*" ), -
+    ( COMPOUND_VAR                 , "*" ), -
+  ( NUMBER                         , "*" ), -
+    ( INTEGER                      , "*" ), -
+    ( FRACTIONAL                   , "*" ), -
+    ( EXPONENTIAL                  , "*" ), -
+  ( CONST_SYMBOL                   , "*" ), -
+    ( PERIOD_SYMBOL                , "*" ), -
+    ( LITERAL_SYMBOL               , "*" ), -
+    ( ENVIRONMENT_SYMBOL           , "*" ), -
+  ( STRING                         , "*" ), -
+    ( BINARY_STRING                , "*" ), -
+    ( HEXADECIMAL_STRING           , "*" ), -
+    ( CHARACTER_STRING             , "*" ), -  
+    ( BYTES_STRING                 , "*" ), -  -- Unicode only. Y suffix
+    ( CODEPOINTS_STRING            , "*" ), -  -- Unicode only. P suffix
+    ( TEXT_STRING                  , "*" ), -  -- Unicode only. T suffix
+    ( UNOTATION_STRING             , "*" )  -  -- Unicode only. U suffix
 )
 
 ::Method InitializeClasses Private
@@ -214,6 +219,17 @@
   IGNORE_NEXT_BLANK             = END_OF_CLAUSE || OPERATOR || SPECIAL || COLON || LPAREN || LBRACKET
   -- NULL clauses are ignored
   CLAUSE            = LABEL || DIRECTIVE || KEYWORD_INSTRUCTION || ASSIGNMENT_INSTRUCTION || COMMAND_OR_MESSAGE_INSTRUCTION
+
+-- Transform string suffixes to subclasses
+::Method InitializeStringSuffixes
+  Use Local
+  suffix2subClass.["B"] = BINARY_STRING
+  suffix2subClass.["X"] = HEXADECIMAL_STRING
+  suffix2subClass.["K"] = CHARACTER_STRING
+  suffix2subClass.["Y"] = BYTES_STRING
+  suffix2subClass.["P"] = CODEPOINTS_STRING
+  suffix2subClass.["T"] = TEXT_STRING
+  suffix2subClass.["U"] = UNOTATION_STRING
 
 ::Method InitializeKeywordInstructions Private
   Use Local
@@ -657,7 +673,7 @@ Return_a_token:
   If nextToLastToken[class] == KEYWORD_INSTRUCTION Then Do
     Select Case nextToLastToken[subClass]
       When CALL_INSTRUCTION Then Do
-        If lastToken[class] == VAR_SYMBOL, lastToken[subClass] = SIMPLE, WordPos(Upper( lastToken[value] ),"ON OFF") > 0 Then Do
+        If lastToken[class] == VAR_SYMBOL, lastToken[subClass] = SIMPLE_VAR  UnicodeLoaded = 0, WordPos(Upper( lastToken[value] ),"ON OFF") > 0 Then Do
           If Upper( lastToken[value] ) == "ON" Then nextToLastToken[subClass] = CALL_ON_INSTRUCTION
           Else                                      nextToLastToken[subClass] = CALL_OFF_INSTRUCTION
           Call AbsorbRight nextToLastToken,lastToken
@@ -666,7 +682,7 @@ Return_a_token:
         End
       End
       When SIGNAL_INSTRUCTION Then Do
-        If lastToken[class] == VAR_SYMBOL, lastToken[subClass] = SIMPLE, WordPos(Upper( lastToken[value] ),"ON OFF") > 0 Then Do
+        If lastToken[class] == VAR_SYMBOL, lastToken[subClass] = SIMPLE_VAR, WordPos(Upper( lastToken[value] ),"ON OFF") > 0 Then Do
           If Upper( lastToken[value] ) == "ON" Then nextToLastToken[subClass] = SIGNAL_ON_INSTRUCTION
           Else                                      nextToLastToken[subClass] = SIGNAL_OFF_INSTRUCTION
           Call AbsorbRight nextToLastToken,lastToken
@@ -676,7 +692,7 @@ Return_a_token:
       End
       When PARSE_INSTRUCTION Then Do
         val = Upper( lastToken[value] )
-        If lastToken[class] == VAR_SYMBOL, lastToken[subClass] = SIMPLE, WordPos(val,"UPPER LOWER CASELESS") > 0 Then Do
+        If lastToken[class] == VAR_SYMBOL, lastToken[subClass] = SIMPLE_VAR, WordPos(val,"UPPER LOWER CASELESS") > 0 Then Do
           If val == "CASELESS" Then Do
             If nextToLastToken~hasIndex(caseless) Then
               Return self~Syntax_error( 25.12, nextToLastToken[location], lastToken[location], val )
@@ -703,7 +719,7 @@ Return_a_token:
     
   End
     
-  If nextToLastToken[class] == VAR_SYMBOL, nextToLastToken[subClass] == SIMPLE Then 
+  If nextToLastToken[class] == VAR_SYMBOL, nextToLastToken[subClass] == SIMPLE_VAR Then 
     possibleKeyword = 1
   Else
     possibleKeyword = 0
@@ -939,6 +955,7 @@ Signal Return_a_token
   
   -- All other characters are illegal, except inside strings 
   Call AssignCharacterCategory illegal,            xRange()
+
 Return
     
 AssignCharacterCategory:
@@ -1076,18 +1093,18 @@ getAToken:
 "l": Call skipCharsUntilNot simple_symbol -- Skip all letters and digits
 
      -- Neither a letter, a digit or a period? This is a simple symbol
-     If thisCharIsNotA( "." )             Then Return Token( VAR_SYMBOL, SIMPLE )
+     If thisCharIsNotA( "." )             Then Return Token( VAR_SYMBOL, SIMPLE_VAR )
      
      -- That was a period. Skip it
      Call nextChar
      
      -- End of symbol? This is a stem
-     If thisCharIsNotA( var_symbol_char ) Then Return Token( VAR_SYMBOL, STEM )
+     If thisCharIsNotA( var_symbol_char ) Then Return Token( VAR_SYMBOL, STEM_VAR )
      
      -- If there is any stuff after the period, that's a compound symbol
      Call skipCharsUntilNot var_symbol_char
      
-     Return Token( VAR_SYMBOL, COMPOUND )
+     Return Token( VAR_SYMBOL, COMPOUND_VAR )
 
 --------------------------------------------------------------------------------
 -- NUMBER (or maybe CONST_SYMBOL)                                             --
@@ -1125,7 +1142,7 @@ getAToken:
      -- Letter, digit or period? A literal constant symbol
 LiteralSymbol:     
      Call skipCharsUntilNot var_symbol_char
-     Return Token( CONST_SYMBOL, LITERAL )
+     Return Token( CONST_SYMBOL, LITERAL_SYMBOL )
 
 --------------------------------------------------------------------------------     
 -- If ("e"|"E")["+"|"-"]dddd then advance pointer and return true             --
@@ -1157,11 +1174,11 @@ NoValidExponent:
          If thisCharIsA( var_symbol_char ) Then Signal environmentSymbol
          Return Token( NUMBER, FRACTIONAL )
        End
-       Otherwise Return Token( CONST_SYMBOL, PERIOD )
+       Otherwise Return Token( CONST_SYMBOL, PERIOD_SYMBOL )
      End
 environmentSymbol:     
      Call skipCharsUntilNot var_symbol_char
-     Return Token( CONST_SYMBOL, ENVIRONMENT )
+     Return Token( CONST_SYMBOL, ENVIRONMENT_SYMBOL )
 
 ";": Return Token( END_OF_CLAUSE , SEMICOLON,  c  )          
 "(": Return Token( LPAREN        , ,  c  )
@@ -1256,17 +1273,19 @@ environmentSymbol:
   End  
   Else Do
     v = thisLine[oldPos,pos-oldPos-1]~changeStr(q||q,q)
-    r = CHARACTER
+    r = CHARACTER_STRING
+    Signal ReturnString
   End
 StringCommon:  
-  If r == "" Then r = CHARACTER
+  If r == "" Then r = CHARACTER_STRING
+  Else r = suffix2subClass.r
+ReturnString:  
   Return Token( STRING, r, v, line start line pos)
  
 BytesString: 
   v = thisLine[oldPos,pos-oldPos-1]~changeStr(q||q,q)
-  r = BYTES
   Call nextChar -- Skip radix
-  Return Token( STRING, r, v, line start line pos)  
+  Return Token( STRING, BYTES_STRING, v, line start line pos)  
  
 UnicodeString:
   If r == "U" Then Signal UnicodeUString
@@ -1506,7 +1525,7 @@ Check_for_resource:
                                 resourceContext =  7
       End
       Else Return self~Syntax_error( 21.914, resourceDirectiveStart, token[location], token[value] )     
-    When 7, 8, 9 Then Nop -- Handled elsewhere
+    When 7, 8, 9, 10 Then Nop -- Handled elsewhere
   End
 Return
 
@@ -1542,9 +1561,15 @@ Take_care_of_final_part_of_Resource_context:
   End
   If resourceContext == 9 Then Do
     savePos = pos
+    --pos = 0 -- Force line feed on next token
+    resourceContext = 10
+    Return Token( RESOURCE_IGNORED, , SubStr(thisLine, savePos), line savePos line maxPos )
+  End
+  If resourceContext == 10 Then Do
+    retPos = maxPos
     pos = 0 -- Force line feed on next token
     resourceContext = -1
-    Return Token( RESOURCE_IGNORED, , SubStr(thisLine, savePos), line savePos line maxPos )
+    Return Token( END_OF_CLAUSE, INSERTED_SEMICOLON, "", line retPos line retPos )
   End
 
 Missing_resource_end_marker:  
