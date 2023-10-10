@@ -22,6 +22,7 @@ Version 0.4a, 20231002.
 
 ## \[Cumulative change log, preparing for next release, 0.4b\]
 
+* 20231010 &mdash; Fix [tokenizer bug](https://github.com/RexxLA/rexx-repository/issues/2), update tokenizer and docs.
 * 20231008 &mdash; Implement [enhancement #3](https://github.com/RexxLA/rexx-repository/issues/3): add programs in the samples directory to the automated test suite, where reasonable.
 * 20231007 &mdash; Fix [the charin.rxu bug](https://github.com/RexxLA/rexx-repository/issues/1).
 * 20231006 &mdash; Start using the 'Issues' feature of GitHub. Partial fix for [the charin.rxu bug](https://github.com/RexxLA/rexx-repository/issues/1).
