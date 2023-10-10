@@ -70,12 +70,11 @@ then be passed as an argument to the ``init`` method of the corresponding tokeni
 for this particular source.
 
 ```rexx
-size   = Stream(inFile,"Command","Query Size")     -- Source is located in a file
-array  = CharIn(inFile,,size)~makeArray            -- Read the whole file and produce an array
-tokenizer = .ooRexx.Tokenizer~new(array)           -- Or Regina.Tokenizer, etc.
+source  = CharIn(inFile,,Chars(inFile))~makeArray   -- Read the whole file into the 'source' array
+tokenizer = .ooRexx.Tokenizer~new(source)           -- Or Regina.Tokenizer, etc.
 ```
 
-You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the ``getSimpleToken`` tokenizer method),
+You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the [``getSimpleToken``](readme.md#getSimpleToken) tokenizer method),
 or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the ``getFullToken`` tokenizer method).
 
 ```rexx
