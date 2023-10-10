@@ -234,10 +234,12 @@ of a full token, when a detailed tokenizing is requested:
   absorbs two blanks, these blanks are ignorable, but the "=" operator is the "original", main, non-ignorable token.
   In that case, ``token.cloneIndex`` will be the index of the "=" operator in the ``absorbed`` array.
 
+<a id="tokenClasses"></a>
+
 ## Constants, classes and subclasses
 
 A token ``t.`` has a _class_, ``t.class``, and a _subclass_, ``t.subclass``. Classes and subclasses are defined in the
-``tokenClasses`` constant of the ``Rexx.Tokenizer`` class. The ``tokenClasses`` constant itself is an array of constants,
+[``tokenClasses``](#tokenClasses) constant of the ``Rexx.Tokenizer`` class. The [``tokenClasses``](#tokenClasses) constant itself is an array of constants,
 so that you can use the following code to replicate these constants in your own program:
 
 ```rexx
@@ -249,7 +251,7 @@ End
 You should always use this construction, instead of relying on the internal values of the constants: these values
 can be changed without notice.
 
-Here is the full value of the ``tokenClasses`` constant. Please note that the second element of each array is a placeholder,
+Here is the full value of the [``tokenClasses``](#tokenClasses) constant. Please note that the second element of each array is a placeholder,
 the character "*". This will be substituted by appropriate values by the tokenizer init method.
 
 ```rexx
@@ -469,7 +471,7 @@ The [``getSimpleToken``](#getSimpleToken) method selects the next token in the i
 
 The components of a returned stem ``t.`` are the following:
 
-* ``t.class``, selected between the non-indented elements of the ``tokenClasses`` constant, excluding those marked as "Level 2".
+* ``t.class``, selected between the non-indented elements of the [``tokenClasses``](#tokenClasses) constant, excluding those marked as "Level 2".
 * ``t.subclass``, selected between the indented elements of the tokenClasses constant above (when there is no indented element, ``t.class == t.subclass``). Subclasses identified as "Level 2" are not considered in a 
   simple tokenizing.
 * ``t.value``. In general, this is the character representation of the token itself, but in some cases it can differ. For example, in the case of strings, this is the string value,
@@ -557,7 +559,7 @@ When we are about to tokenize a line ``L``, we will use the ``TRANSLATE`` BIF to
    ╰───────────────────╯
 ```
 
-This method scans the ``tokenClasses`` vector and assigns the values of the corresponding constants. It also creates some useful compound values, like ``STRING_OR_SYMBOL``, or ``CLAUSE``.
+This method scans the [``tokenClasses``](#tokenClasses) vector and assigns the values of the corresponding constants. It also creates some useful compound values, like ``STRING_OR_SYMBOL``, or ``CLAUSE``.
 
 ### InitializeDirectives 
 
@@ -599,6 +601,17 @@ The ``InitializeOperatorTable`` method creates the ``operator_subclass.`` stem. 
 ```
 
 The ``InitializeSimpleTokenizer`` method initializes a series of variables that will hold the context when tokenizing a ``::RESOURCE`` directive.
+
+### InitializeStringSuffixes
+
+```
+   ╭──────────────────────────╮
+▸▸─┤ InitializeStringSuffixes ├─▸◂
+   ╰──────────────────────────╯
+```
+
+The ``InitializeStringSuffixes`` method builds a stem that maps string suffixes (i.e., "X", "B", "Y", "P", "T" and "U") to their corresponding [``tokenClasses``](#tokenClasses).
+
 
 ### InitializeTokenizer 
 
