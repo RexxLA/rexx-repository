@@ -24,8 +24,8 @@ of components of TUTOR.
 
 The ``Rexx.Tokenizer.cls`` classfile includes a set of ooRexx classes. The main class is ``Rexx.Tokenizer``.
 It implements both a _basic_ and a _full_ Rexx tokenizer (see below for definitions of _basic_ and _full_ tokenizing).
-The ``getSimpleToken`` method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
-while the ``getFullToken`` method returns full tokens, after discarding null clauses, ignorable blanks and comments.
+The [``getSimpleToken``](readme.md#getSimpleToken) method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
+while the [``getFullToken``](readme.md#getFullToken) method returns full tokens, after discarding null clauses, ignorable blanks and comments.
 When requesting full tokens, an optional mechanism allows access to the ignored simple tokens and some other tokens that are
 not ignorable but that have been included ("absorbed") for your convenience: for example, labels include their own colon,
 keyword instructions include the first blank after the keyword, if any, and so on.
@@ -39,20 +39,20 @@ The tokenizer intent is to support all the syntactical constructs of Open Object
 You can select the desired syntax subset at instance creation time by selecting the appropriate class.
 
 ```rexx
-Rexx.Tokenizer        -- The main class. Choose a subclass
+Rexx.Tokenizer                -- The main class. You should choose a subclass
 
-ooRexx.Tokenizer      -- Tokenizes programs written in ooRexx
-Regina.Tokenizer      -- Tokenizes programs written in Regina Rexx
-ANSI.Rexx.Tokenizer   -- Tokenizes programs written in ANSI Rexx
+ooRexx.Tokenizer              -- Tokenizes programs written in ooRexx
+Regina.Tokenizer              -- Tokenizes programs written in Regina Rexx
+ANSI.Rexx.Tokenizer           -- Tokenizes programs written in ANSI Rexx
 ```
 
 Subclasses starting with "Regina" accept the Regina Rexx syntax; subclasses starting with "ANSI.Rexx" accept only the ANSI Rexx syntax
 (for example, comments starting with "--" are accepted by Regina but not by ANSI); subclasses starting with "ooRexx" accept ooRexx syntax;
 for example, "\[", "\]" and "~" are valid characters for ooRexx subclasses but not for Regina or ANSI subclasses.
 
-The tokenizer supports classic comments (including nested comments), line comments and strings. The ooRexx ``::ESOURCE`` construct is also accepted.
+The tokenizer supports classic comments (including nested comments), line comments, strings and ooRexx resources.
 
-When a Unicode class is used (see below), Y-, P-, T- and U-suffixed strings are recognized, translated (in the case of U strings) and supported.
+When a Unicode class is used (see below), Y-, P-, T- and U-suffixed strings are recognized, and, in the case of U strings, translated.
 
 ```rexx
 ooRexx.Unicode.Tokenizer      -- Tokenizes programs written in ooRexx, with experimental Unicode extensions
@@ -71,7 +71,7 @@ for this particular source.
 
 ```rexx
 source  = CharIn(inFile,,Chars(inFile))~makeArray   -- Read the whole file into the 'source' array
-tokenizer = .ooRexx.Tokenizer~new(source)           -- Or Regina.Tokenizer, etc.
+tokenizer = .ooRexx.Tokenizer~new(source)           -- Or .Regina.Tokenizer, etc.
 ```
 
 You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the [``getSimpleToken``](readme.md#getSimpleToken) tokenizer method),
@@ -147,10 +147,10 @@ or a syntax error is encountered. Now, here is the trick: [``getSimpleToken``](r
 -- after
 token. = tokenizerInstance~getSimpleToken
 -- we have (assume that we have just scanned the second "i" of the above program)
-token.class    -- The CLASS of the token, i.e., VAR_SYMBOL
-token.subClass -- The SUBCLASS of the token, i.e., SIMPLE_VAR
-token.location -- The LOCATION of the token, i.e., "1 5 1 6"
-token.value    -- The VALUE of the token, i.e., "1".
+token.class    = VAR_SYMBOL   -- The CLASS of the token
+token.subClass = SIMPLE_VAR   -- The SUBCLASS of the token
+token.location = "1 5 1 6"    -- The LOCATION of the token
+token.value    = "1"          -- The VALUE of the token
 ```
 
 Now you know practically everything there is to know about simple tokens (indeed, there are only two things more
@@ -174,7 +174,7 @@ Let us have a look at its output. Some tokens are the same as before, but some o
 2   [1 1 1 2] ASSIGNMENT_INSTRUCTION (SIMPLE_VAR): 'i'
 3   [1 2 1 5] OPERATOR (COMPARISON_OPERATOR): '='          -- "=" has grown to include the blanks before and after
 4   [1 5 1 6] VAR_SYMBOL (SIMPLE_VAR): 'i'
-5   [1 6 1 9] OPERATOR (ADDITIVE_OPERATOR): '+'             -- "+" has grown to include the blanks before and after
+5   [1 6 1 9] OPERATOR (ADDITIVE_OPERATOR): '+'            -- "+" has grown to include the blanks before and after
 6  [1 9 1 10] NUMBER (INTEGER): '1'
 7 [1 10 1 10] END_OF_CLAUSE (END_OF_LINE): ''
 ```
@@ -200,7 +200,7 @@ As we mentioned above, when using the full tokenizer, you have the option to req
 tokenizing. You do so at instance creation time, by specifying the optional, boolean, _detailed_ argument:
 
 ```rexx
-detailed = .true
+detailed  = .true
 tokenizer = .ooRexx.Tokenizer~new(source, detailed)
 ```
 
