@@ -68,7 +68,7 @@
                            self~isA(.ANSI.Rexx.Unicode.Tokenizer)
                                     
   pkgLocal~line_comments = \ ( .ANSI )
-  
+
   -- Ensure that the second element of each tokenClasses element
   -- is distinct
   tokenClasses = self~tokenClasses
@@ -76,7 +76,7 @@
     pair[2] = X2C(D2X(c - 1))
     If c >= 256 Then Say "PANIC! tolenClasses array has more than 256 elements!"
   End
-  
+    
   self~InitializeCharacterCategories
   self~InitializeClasses
   self~InitializeStringSuffixes -- After InitializeClasses
@@ -221,7 +221,7 @@
   CLAUSE            = LABEL || DIRECTIVE || KEYWORD_INSTRUCTION || ASSIGNMENT_INSTRUCTION || COMMAND_OR_MESSAGE_INSTRUCTION
 
 -- Transform string suffixes to subclasses
-::Method InitializeStringSuffixes
+::Method InitializeStringSuffixes Private
   Use Local
   suffix2subClass.["B"] = BINARY_STRING
   suffix2subClass.["X"] = HEXADECIMAL_STRING
