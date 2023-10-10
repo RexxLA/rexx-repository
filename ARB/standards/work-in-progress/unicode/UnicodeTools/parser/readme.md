@@ -95,8 +95,7 @@ In any case, you will always be able to reconstitute the entirety of your source
 
 ## An example: simple and full tokens,
 
-<a id="simple"></a>
-### Structure of simple tokens
+### Structure of simple tokens <a id="simple"></a>
 
 Let us start with a very simple piece of code:
 ```rexx
