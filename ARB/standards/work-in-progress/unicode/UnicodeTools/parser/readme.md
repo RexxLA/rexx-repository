@@ -22,9 +22,9 @@ as it has no dependencies on the rest of components of TUTOR.
 ## Introduction
 
 The ``Rexx.Tokenizer.cls`` classfile includes a set of ooRexx classes. The main class is ``Rexx.Tokenizer``.
-It implements both a [_simple_](#simple) and a _full_ Rexx tokenizer (see below for definitions of [_simple_](#simple) and _full_ tokenizing).
+It implements both a [_simple_](#simple) and a [_full_](#full) Rexx tokenizer (see below for definitions of [_simple_](#simple) and [_full_](#full) tokenizing).
 The [``getSimpleToken``](#getSimpleToken) method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
-while the [``getFullToken``](#getSimpleToken) method returns full tokens, after discarding null clauses, ignorable blanks and comments.
+while the [``getFullToken``](#getFullToken) method returns full tokens, after discarding null clauses, ignorable blanks and comments.
 When requesting full tokens, an optional mechanism allows access to the ignored simple tokens and some other tokens that are
 not ignorable but that have been included ("absorbed") for your convenience: for example, labels include their own colon,
 keyword instructions include the first blank after the keyword, if any, and so on.
@@ -74,7 +74,7 @@ tokenizer = .ooRexx.Tokenizer~new(source)            -- Or Regina.Tokenizer, etc
 ```
 
 You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the [``getSimpleToken``](#getSimpleToken) tokenizer method),
-or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the [``getFullToken``](#getSimpleToken) tokenizer method).
+or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the [``getFullToken``](#getFullToken) tokenizer method).
 
 ```rexx
 tokenizer = .ooRexx.Tokenizer~new(source)
@@ -155,10 +155,12 @@ Now you know practically everything there is to know about simple tokens (indeed
 to know, if you limit yourself to simple tokenizing: _error tokens_, and _end-of-file conditions_; we will get
 to both of these shortly).
 
+<a id="full"></a>
+
 ### Structure of full tokens (undetailed)
 
-What happens now if we want _full_ tokens, instead of _simple_ ones? We will call ``InspectTokens.rex`` with the ``-full`` option
-so that it calls [``getFullToken``](#getSimpleToken) instead of [``getSimpleToken``](#getSimpleToken).
+What happens now if we want [_full_](#full) tokens, instead of _simple_ ones? We will call ``InspectTokens.rex`` with the ``-full`` option
+so that it calls [``getFullToken``](#getFullToken) instead of [``getSimpleToken``](#getSimpleToken).
 We will also add the ``-nodetailed`` option for the moment:
 ```
 InspectTokens -full -nodetailed test.rex
@@ -453,7 +455,7 @@ When the tokenizer encounters a syntax error, it returns a special token describ
 
 #### Important note
 
-Using [``getSimpleToken``](#getSimpleToken) and [``getFullToken``](#getSimpleToken) with the same tokenizer instance can lead to impredictable results.
+Using [``getSimpleToken``](#getSimpleToken) and [``getFullToken``](#getFullToken) with the same tokenizer instance can lead to impredictable results.
 
 ### getSimpleToken
 
@@ -478,7 +480,7 @@ The components of a returned stem ``t.`` are the following:
   
 __Important note__
 
-Using [``getSimpleToken``](#getSimpleToken) and [``getFullToken``](#getSimpleToken) with the same tokenizer instance can lead to impredictable results.
+Using [``getSimpleToken``](#getSimpleToken) and [``getFullToken``](#getFullToken) with the same tokenizer instance can lead to impredictable results.
 
 ### syntax_error
 
