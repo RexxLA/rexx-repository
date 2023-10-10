@@ -23,8 +23,8 @@ as it has no dependencies on the rest of components of TUTOR.
 
 The ``Rexx.Tokenizer.cls`` classfile includes a set of ooRexx classes. The main class is ``Rexx.Tokenizer``.
 It implements both a [_simple_](#simple) and a _full_ Rexx tokenizer (see below for definitions of [_simple_](#simple) and _full_ tokenizing).
-The [``getSimpleToken``](readme.md#getSimpleToken) method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
-while the [``getFullToken``](readme.md#getSimpleToken) method returns full tokens, after discarding null clauses, ignorable blanks and comments.
+The [``getSimpleToken``](getSimpleToken) method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
+while the [``getFullToken``](getSimpleToken) method returns full tokens, after discarding null clauses, ignorable blanks and comments.
 When requesting full tokens, an optional mechanism allows access to the ignored simple tokens and some other tokens that are
 not ignorable but that have been included ("absorbed") for your convenience: for example, labels include their own colon,
 keyword instructions include the first blank after the keyword, if any, and so on.
@@ -73,8 +73,8 @@ source  = CharIn(inFile,,Chars(inFile))~makeArray    -- Read the whole file into
 tokenizer = .ooRexx.Tokenizer~new(source)            -- Or Regina.Tokenizer, etc.
 ```
 
-You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the [``getSimpleToken``](readme.md#getSimpleToken) tokenizer method),
-or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the [``getFullToken``](readme.md#getSimpleToken) tokenizer method).
+You will also have to decide whether you will be using the _simple tokenizer_ (i.e., you will be getting tokens using the [``getSimpleToken``](getSimpleToken) tokenizer method),
+or you will prefer to use the _full tokenizer_ (i.e., you will be getting your tokens using the [``getFullToken``](getSimpleToken) tokenizer method).
 
 ```rexx
 tokenizer = .ooRexx.Tokenizer~new(source)
@@ -137,8 +137,8 @@ Here is the output of the program, prettyprinted and commented for your convenie
   for instance, will generate a value of "👨").
 
 How does the ``InspectTokens.rex`` program work? Well, essentially what it does is the following: it instantiates a
-tokenizer instance, and then it runs it, by calling the [``getSimpleToken``](readme.md#getSimpleToken) method, until either the end of file is reached
-or a syntax error is encountered. Now, here is the trick: [``getSimpleToken``](readme.md#getSimpleToken) _returns tokens... which are Rexx stems!_
+tokenizer instance, and then it runs it, by calling the [``getSimpleToken``](getSimpleToken) method, until either the end of file is reached
+or a syntax error is encountered. Now, here is the trick: [``getSimpleToken``](getSimpleToken) _returns tokens... which are Rexx stems!_
 (you can already imagine the components of these stems):
 
 ```rexx
@@ -158,7 +158,7 @@ to both of these shortly).
 ### Structure of full tokens (undetailed)
 
 What happens now if we want _full_ tokens, instead of _simple_ ones? We will call ``InspectTokens.rex`` with the ``-full`` option
-so that it calls [``getFullToken``](readme.md#getSimpleToken) instead of [``getSimpleToken``](readme.md#getSimpleToken).
+so that it calls [``getFullToken``](getSimpleToken) instead of [``getSimpleToken``](getSimpleToken).
 We will also add the ``-nodetailed`` option for the moment:
 ```
 InspectTokens -full -nodetailed test.rex
@@ -453,7 +453,7 @@ When the tokenizer encounters a syntax error, it returns a special token describ
 
 #### Important note
 
-Using [``getSimpleToken``](readme.md#getSimpleToken) and [``getFullToken``](readme.md#getSimpleToken) with the same tokenizer instance can lead to impredictable results.
+Using [``getSimpleToken``](getSimpleToken) and [``getFullToken``](getSimpleToken) with the same tokenizer instance can lead to impredictable results.
 
 ### getSimpleToken
 
@@ -463,7 +463,7 @@ Using [``getSimpleToken``](readme.md#getSimpleToken) and [``getFullToken``](read
    ╰────────────────╯
 ```
 
-The [``getSimpleToken``](readme.md#getSimpleToken) method selects the next token in the input file and returns a stem containing the details that describe this token.
+The [``getSimpleToken``](getSimpleToken) method selects the next token in the input file and returns a stem containing the details that describe this token.
 
 The components of a returned stem ``t.`` are the following:
 
@@ -478,7 +478,7 @@ The components of a returned stem ``t.`` are the following:
   
 __Important note__
 
-Using [``getSimpleToken``](readme.md#getSimpleToken) and [``getFullToken``](readme.md#getSimpleToken) with the same tokenizer instance can lead to impredictable results.
+Using [``getSimpleToken``](getSimpleToken) and [``getFullToken``](getSimpleToken) with the same tokenizer instance can lead to impredictable results.
 
 ### syntax_error
 
