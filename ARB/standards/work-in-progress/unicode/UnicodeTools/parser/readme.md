@@ -22,7 +22,7 @@ as it has no dependencies on the rest of components of TUTOR.
 ## Introduction
 
 The ``Rexx.Tokenizer.cls`` classfile includes a set of ooRexx classes. The main class is ``Rexx.Tokenizer``.
-It implements both a _basic_ and a _full_ Rexx tokenizer (see below for definitions of _basic_ and _full_ tokenizing).
+It implements both a [_simple_](#simple) and a _full_ Rexx tokenizer (see below for definitions of [_simple_](#simple) and _full_ tokenizing).
 The [``getSimpleToken``](readme.md#getSimpleToken) method returns basic Rexx tokens and non-tokens character sequences, like comments and whitespace,
 while the [``getFullToken``](readme.md#getSimpleToken) method returns full tokens, after discarding null clauses, ignorable blanks and comments.
 When requesting full tokens, an optional mechanism allows access to the ignored simple tokens and some other tokens that are
@@ -94,6 +94,8 @@ token has been constructed.
 In any case, you will always be able to reconstitute the entirety of your source file by following the location attributes of the returned tokens.
 
 ## An example: simple and full tokens,
+
+<a id="simple"></a>
 
 ### Structure of simple tokens
 
