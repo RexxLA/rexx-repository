@@ -94,8 +94,9 @@ token has been constructed.
 In any case, you will always be able to reconstitute the entirety of your source file by following the location attributes of the returned tokens.
 
 ## An example: simple and full tokens,
+<a id="simple"></a>
 
-### Structure of simple tokens <a id="simple"></a>
+### Structure of simple tokens 
 
 Let us start with a very simple piece of code:
 ```rexx
