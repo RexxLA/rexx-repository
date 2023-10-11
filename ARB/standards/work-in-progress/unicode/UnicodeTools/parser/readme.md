@@ -549,7 +549,45 @@ substitucion instance, for ooRexx, but ``'Unmatched comment delimiter (""/*")'``
 
 Each character in the ``"00"X.."FF"X`` range is assigned a character category, simbolized by a single character: digits (``"0".."9"``) are assigned the category "digit" (``"d"``), letters (``"a".."z"`` and ``"A".."Z"``, plus ``"_"``, ``"?"``, ``"!"`` and some other implementation-dependent characters) are assigned the "general_letter" (``"l"``) category, and so on.
 
-When we are about to tokenize a line ``L``, we will use the ``TRANSLATE`` BIF to obtain a new string containing the character categories of each individual character in ``L``. This allows a very efficient determination of the token boundaries. For example, a run of ``"d"`` will identify a simple number, a run of ``"d"`` or ``"l"`` will identify a simple symbol, and so on.
+```
+digit              = "d"
+general_letter     = "l"
+...
+simple_symbol      = general_letter || digit
+var_symbol_char    = simple_symbol  || "."
+...
+Call AssignCharacterCategory digit,              "0123456789"
+Call AssignCharacterCategory general_letter,     "_!?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+...
+```
+
+When we are about to tokenize a line ``L``, we will use the ``TRANSLATE`` BIF to obtain a new string containing the character categories of each individual character in ``L``. 
+
+```
+input_line           = 'id123.xyz = id123.xyz + 1'
+character_categories = 'llddd.lll o llddd.lll o d'
+```
+
+This allows a very efficient determination of the token boundaries. For example, a run of ``"d"`` will identify a simple number, a run of ``"d"`` or ``"l"`` will identify a simple symbol, and so on.
+The fragment of code below shows how the tokenizer handles tokens that start with a letter; they can be either a simple variable, a stem variable, or a compound variable.
+
+```
+Call skipCharsUntilNot simple_symbol -- Skip all letters and digits
+
+-- Neither a letter, a digit or a period? This is a simple symbol
+If thisCharIsNotA( "." )             Then Return Token( VAR_SYMBOL, SIMPLE_VAR )
+     
+-- That was a period. Skip it
+Call nextChar
+     
+-- End of symbol? This is a stem
+If thisCharIsNotA( var_symbol_char ) Then Return Token( VAR_SYMBOL, STEM_VAR )
+     
+-- If there is any stuff after the period, that's a compound symbol
+Call skipCharsUntilNot var_symbol_char
+     
+Return Token( VAR_SYMBOL, COMPOUND_VAR )
+```
 
 ### InitializeClasses 
 
