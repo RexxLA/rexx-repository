@@ -617,11 +617,49 @@ Return 1
 ::Class "Codepoints" SubClass Bytes Public
 
 ::Method init
-  Expose utf32
+  Expose utf32 isNFC isNFD isNFKC isNFKD bits
+    
+  isNFC  = -1 -- Don't know    
+  isNFD  = -1 -- Don't know    
+  isNFKC = -1 -- Don't know    
+  isNFKD = -1 -- Don't know    
     
   -- UTF8 will do both the validation and the conversion.
   utf32 = UTF8(self, "UTF-8", "UTF32", "Syntax")
+  
+  -- See Unicode Standard Annex #15, Unicode Normalization Forms
+  -- https://unicode.org/reports/tr15/ 
 
+  -- Calculate the maximum width of a character  
+  max = "0000 0000"X
+  Do i = 1 To Length(utf32) By 4
+    n = utf32[i,4]
+    If n >> max Then max = n
+    If n >> "0000FFFF"X Then Leave
+  End
+  
+  Select
+    -- "Note: Text exclusively containing ASCII characters (U+0000..U+007F) is left unaffected by all of the Normalization Forms."
+    When n << "0000 0080"X Then Do
+      isNFC  = 1 
+      isNFD  = 1 
+      isNFKC = 1 
+      isNFKD = 1
+      bits   = 7
+    End
+    -- "Text exclusively containing Latin-1 characters (U+0000..U+00FF) is left unaffected by NFC. 
+    --  This is effectively the same as saying that all Latin-1 text is already normalized to NFC."
+    When n << "0000 0100"X Then Do
+      isNFC  = 1 
+      bits   = 8
+    End
+    When n << "0001 0000"X Then Do
+      bits   = 16
+    End
+    Otherwise
+      bits   = 16
+  End
+  
 ::Method "[]"
   Expose utf32
   Use Strict Arg n, length = 1
@@ -639,6 +677,10 @@ Return 1
   Expose utf32
   Return Length(utf32) / 4
     
+::Method isNFC
+  Expose isNFC
+  If isNFC \== -1 Then Return isNFC
+
 
 --------------------------------------------------------------------------------
 -- The TEXT class                                                             --

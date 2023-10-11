@@ -100,6 +100,7 @@
     ( MESSAGE_OPERATOR             , "*" ), -  -- | "~", "~~" 
     ( MULTIPLICATIVE_OPERATOR      , "*" ), -  -- | "*", "/", "//", "%" 
     ( POWER_OPERATOR               , "*" ), -  -- | "**" 
+    ( ASSIGNMENT_OPERATOR          , "*" ), -  -- | "=" 
     ( EXTENDED_ASSIGNMENT          , "*" ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
                                             -  -- +--- All subclasses of OPERATOR are full tokenizer only
   ( SPECIAL                        , "*" ), -
@@ -572,7 +573,9 @@ Maybe_continuation_or_assignment:
         nextToLastToken = self~Syntax_Error(31.2, TrueLocation(nextToLastToken), lastToken[location],val)
     End
     -- Assignment!
-    Otherwise nextToLastToken[class] = ASSIGNMENT_INSTRUCTION
+    Otherwise -- HERE
+      If lastToken[value] == "=" Then lastToken[subclass] = ASSIGNMENT_OPERATOR
+      nextToLastToken[class] = ASSIGNMENT_INSTRUCTION
   End
 Signal Return_a_token  
 
@@ -723,7 +726,7 @@ Return_a_token:
   Else
     possibleKeyword = 0
     
-  If nextToLastToken[class] == OPERATOR Then
+  If nextToLastToken[class] == OPERATOR, nextToLastToken[subClass] \== ASSIGNMENT_OPERATOR Then
     nextToLastToken[subClass] = operator_subclass.[nextToLastToken[value]]
     
   If nextToLastToken[firstInClause] == "1" Then Do
