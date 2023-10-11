@@ -9,7 +9,6 @@
  
  *****************************************************************************************************************/
 
-
 /**
  *                                                                           
  *  <h2><code>Rexx.Tokenizer.cls</code></h2>
@@ -897,8 +896,8 @@ Signal Return_a_token
   rbracket           = "]"
   illegal            = "x"
   
-  simple_symbol      = general_letter||digit
-  var_symbol_char    = simple_symbol||"."
+  simple_symbol      = general_letter || digit
+  var_symbol_char    = simple_symbol  || "."
 
   -- ANSI 6.2.2.1: digit := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
   Call AssignCharacterCategory digit,              "0123456789"
@@ -1028,6 +1027,7 @@ getLine:
   moreLines = line < maxLines
   maxPos    = Length(thisLine)+1
   charCat   = Translate(thisLine, categories, characters)
+    
 Return 1       
 
 nextChar:          pos += 1; Return

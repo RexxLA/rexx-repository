@@ -102,7 +102,7 @@ If token[class] == SYNTAX_ERROR Then Do
   Exit -major
 End
 
-Say Time("E")
+Say "Took" Time("E") "seconds."
 Exit
 
 PrintClass:
