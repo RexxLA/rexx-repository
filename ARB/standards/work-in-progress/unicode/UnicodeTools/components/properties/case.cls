@@ -30,7 +30,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
-.local~Unicode.Case = .Unicode.Case
+--.local~Unicode.Case = .Unicode.Case
 
 ::Class Unicode.Case Public SubClass Unicode.Property
 
@@ -92,8 +92,6 @@
 ::Method Activate Class
   Expose mask. SpecialUpper. upperCase lowercase caseproperties
       
-  self~activate:super
-  
   -- Build the MASK. stem
   
   Do pair Over self~masks
@@ -102,30 +100,30 @@
       
   -- Inform the registry that we will be handling these properties, functions and aliases
   
-  self~registerFunctions(  "toLowercase", self )
-  self~registerFunctions(  "toUppercase", self )
-  self~registerProperties( UnicodeData.Properties,           UnicodeData.Aliases,               self )
-  self~registerProperties( DerivedCoreProperties.Properties, DerivedCoreProperties.Aliases,     self )
-  self~registerProperties( DerivedNormalizationProps.Export, DerivedNormalizationProps.Aliases, self )
-  self~registerProperties( PropList.Properties,              PropList.Aliases,                  self )
+  super~registerFunctions(  "toLowercase", self )
+  super~registerFunctions(  "toUppercase", self )
+  super~registerProperties( UnicodeData.Properties,           UnicodeData.Aliases,               self )
+  super~registerProperties( DerivedCoreProperties.Properties, DerivedCoreProperties.Aliases,     self )
+  super~registerProperties( DerivedNormalizationProps.Export, DerivedNormalizationProps.Aliases, self )
+  super~registerProperties( PropList.Properties,              PropList.Aliases,                  self )
       
   If .Unicode.Buildtime \== 1 Then Do
-    self~loadPersistent( self~BinFile.Qualify( self~binaryFile ) ) 
+    super~loadPersistent( super~BinFile.Qualify( self~binaryFile ) ) 
     
-    offset    = self~getPersistent("Uppercase.Table1")
-    chunks    = self~getPersistent("Uppercase.Table2")
+    offset         = super~getPersistent("Uppercase.Table1")
+    chunks         = super~getPersistent("Uppercase.Table2")
     uppercase      = .MultiStageTable~new(offset, chunks)
 
-    offset    = self~getPersistent("Lowercase.Table1")
-    chunks    = self~getPersistent("Lowercase.Table2")
+    offset         = super~getPersistent("Lowercase.Table1")
+    chunks         = super~getPersistent("Lowercase.Table2")
     lowercase      = .MultiStageTable~new(offset, chunks)
 
-    offset    = self~getPersistent("CaseAndCaseMappingBitProperties.Table1")
-    chunks    = self~getPersistent("CaseAndCaseMappingBitProperties.Table2")
-    bigvalues = self~getPersistent("CaseAndCaseMappingBitProperties.Table3")
+    offset         = super~getPersistent("CaseAndCaseMappingBitProperties.Table1")
+    chunks         = super~getPersistent("CaseAndCaseMappingBitProperties.Table2")
+    bigvalues      = super~getPersistent("CaseAndCaseMappingBitProperties.Table3")
     caseproperties = .MultiStageTable~new(offset, chunks, 4, bigvalues)
   
-    string = self~getPersistent("SpecialUpper")
+    string         = super~getPersistent("SpecialUpper")
     
     SpecialUpper. = ""
     Do special Over string~makeArray(";")
@@ -229,7 +227,7 @@
 ::Method NFC_Quick_Check Class
   Use Strict Arg code
   If self~NFC_QC_N(code) Then Return "N"
-  If self~NFC_QC_M(code) Then Return "Y"
+  If self~NFC_QC_M(code) Then Return "M"
   Return "Y"
 
 ::Method NFC_QC_N Class
@@ -322,7 +320,7 @@
   n        = X2D(code)
   index    = X2D(C2X(uppercase[n]))
   If index == 0 Then Return code
-  upper    = D2X( n + X2D(C2X(self~getPersistent("Uppercase.Differences")[index*4-3,4]),8) )
+  upper    = D2X( n + X2D(C2X(super~getPersistent("Uppercase.Differences")[index*4-3,4]),8) )
   If Length(upper) < 4 Then Return Right(upper, 4, 0)
   Return upper
 
@@ -332,7 +330,7 @@
   n        = X2D(code)
   index    = X2D(C2X(lowercase[n]))
   If index == 0 Then Return code
-  lower    = D2X( n + X2D(C2X(self~getPersistent("Lowercase.Differences")[index*4-3,4]),8) )
+  lower    = D2X( n + X2D(C2X(super~getPersistent("Lowercase.Differences")[index*4-3,4]),8) )
   If Length(lower) < 4 Then Return Right(lower, 4, 0)
   Return lower
   
@@ -482,3 +480,5 @@ Return 1
     When n <= 65535 Then Return X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
     Otherwise            Return X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6)))
   End
+  
+::Requires "properties.cls"  

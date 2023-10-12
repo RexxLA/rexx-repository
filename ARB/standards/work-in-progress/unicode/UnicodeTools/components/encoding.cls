@@ -211,7 +211,4 @@ Return errorHandling returnUTF8 returnUTF32
   
   If self~isCodeOk(code) Then Return
   
-  Raise Error 23.900 Additional("Invalid Unicode codepoint '"code"'X")  
-  
-
-  
+  Raise Error 23.900 Additional("Invalid Unicode codepoint '"code"'X")

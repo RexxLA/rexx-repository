@@ -58,7 +58,7 @@
 -- “Unicode Character Database.”
 -------------------------------------------------------------------------------
 
-.local~Unicode.Name = .Unicode.Name
+--.local~Unicode.Name = .Unicode.Name
 
 ::Class Unicode.Name SubClass Unicode.Property Public
 
@@ -110,9 +110,7 @@
 ::Method Activate Class
   Expose n2p. c2n.
   
-  self~activate:super
-   
-  inFile = self~UCDFile.Qualify( self~UnicodeData )
+  inFile = super~UCDFile.Qualify( self~UnicodeData )
   
   Call Stream inFile, "c", "query exists"
   
@@ -144,7 +142,7 @@
 
   -- Now parse NameAliases.txt
 
-  inFile = self~UCDFile.Qualify( self~NameAliases )
+  inFile = super~UCDFile.Qualify( self~NameAliases )
   
   Call Stream inFile, "c", "query exists"
   
@@ -172,3 +170,5 @@ Compress:
   key = ChangeStr(">",key,"- ")    -- Now restore non-medial dash-blank sequences..
   key = ChangeStr("<",key," -")    -- ..and non-medial blank-slash sequences too.
 Return key  
+
+::Requires "properties.cls"

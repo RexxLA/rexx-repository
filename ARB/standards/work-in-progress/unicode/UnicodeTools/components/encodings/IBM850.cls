@@ -32,7 +32,6 @@
  *   
  */
 
-
 .Encoding~register(.IBM850) -- Honor the contract with the .Encoding superclass
 
 ::Class IBM850 Subclass Encoding Public

@@ -37,6 +37,8 @@
   Call "Unicode.cls"
 
   self = .Unicode.Case
+  
+  super = self~superClass
 
   Do pair Over self~masks
     Call Value pair[1], pair[2]
@@ -58,7 +60,7 @@
   -- integers, and then we store the index into this table as the value
   -- of the property. This effectively creates a three-stage table.
   
-  inFile = self~UCDFile.Qualify( self~UnicodeData )
+  inFile = super~UCDFile.Qualify( self~UnicodeData )
   
   Call Stream inFile, "c", "query exists"
   
@@ -85,9 +87,9 @@
   Call Stream inFile, "c", "Close"
   array = .MultiStageTable~Compress(buffer)
   
-  self~setPersistent("Lowercase.Table1",       array[1])
-  self~setPersistent("Lowercase.Table2",       array[2])
-  self~setPersistent("Lowercase.Differences",  diffs)
+  super~setPersistent("Lowercase.Table1",       array[1])
+  super~setPersistent("Lowercase.Table2",       array[2])
+  super~setPersistent("Lowercase.Differences",  diffs)
   
   -- Second pass, to collect upper
   
@@ -115,13 +117,13 @@
     
   array = .MultiStageTable~Compress(buffer)
   
-  self~setPersistent("Uppercase.Table1",       array[1])
-  self~setPersistent("Uppercase.Table2",       array[2])
-  self~setPersistent("Uppercase.Differences",  diffs)
+  super~setPersistent("Uppercase.Table1",       array[1])
+  super~setPersistent("Uppercase.Table2",       array[2])
+  super~setPersistent("Uppercase.Differences",  diffs)
 
   -- Now we parse SpecialCasing.txt for upper
   
-  inFile = self~UCDFile.Qualify( self~SpecialCasing )
+  inFile = super~UCDFile.Qualify( self~SpecialCasing )
 
   Call Stream inFile, "c", "query exists"
   
@@ -141,14 +143,14 @@
     string ||= code":"upper";"
   End
   
-  self~setPersistent("SpecialUpper", string)
+  super~setPersistent("SpecialUpper", string)
   
   Call Stream inFile, "c", "Close"
 
   -- Now we parse DerivedCoreProperties.txt for the properties
   -- listed below, in the "valueList" variable.
   
-  inFile = self~UCDFile.Qualify( self~DerivedCoreProperties )
+  inFile = super~UCDFile.Qualify( self~DerivedCoreProperties )
 
   Call Stream inFile, "c", "query exists"
   
@@ -183,7 +185,7 @@
   -- Now we parse DerivedNormalizationProps.txt for the properties
   -- listed below, in the "valueList" variable.
 
-  inFile = self~UCDFile.Qualify( self~DerivedNormalizationProps )
+  inFile = super~UCDFile.Qualify( self~DerivedNormalizationProps )
 
   Call Stream inFile, "c", "query exists"
   
@@ -218,7 +220,7 @@
   -- Now we parse DerivedNormalizationProps.txt for the properties
   -- listed below, in the "valueList" variable.
 
-  inFile = self~UCDFile.Qualify( self~PropList )
+  inFile = super~UCDFile.Qualify( self~PropList )
 
   Call Stream inFile, "c", "query exists"
   
@@ -266,11 +268,11 @@
 
   array = .MultiStageTable~Compress(smallBuffer)
   
-  self~setPersistent("CaseAndCaseMappingBitProperties.Table1", array[1])
-  self~setPersistent("CaseAndCaseMappingBitProperties.Table2", array[2])
-  self~setPersistent("CaseAndCaseMappingBitProperties.Table3", codes)
+  super~setPersistent("CaseAndCaseMappingBitProperties.Table1", array[1])
+  super~setPersistent("CaseAndCaseMappingBitProperties.Table2", array[2])
+  super~setPersistent("CaseAndCaseMappingBitProperties.Table3", codes)
   
-  self~SavePersistent( self~BinFile.Qualify( self~binaryFile ) )
+  super~SavePersistent( super~BinFile.Qualify( self~binaryFile ) )
   
   elapsed = Time("E")
   Say "Done, took" elapsed "seconds."

@@ -53,6 +53,8 @@
   
   self = .Unicode.General_Category
   
+  super = self~superClass
+  
   variables = self~variables
    
   nameOf. = "Cn"
@@ -67,7 +69,7 @@
 
   Call Time "R"
   
-  inFile = self~UCDFile.Qualify( self~UnicodeData )
+  inFile = super~UCDFile.Qualify( self~UnicodeData )
   
   Call Stream inFile, "c", "query exists"
   
@@ -165,10 +167,10 @@
 
   array = .MultiStageTable~Compress(buffer)
   
-  self~setPersistent("UnicodeData.gc.Table1", array[1])
-  self~setPersistent("UnicodeData.gc.Table2", array[2])
+  super~setPersistent("UnicodeData.gc.Table1", array[1])
+  super~setPersistent("UnicodeData.gc.Table2", array[2])
 
-  self~SavePersistent( self~BinFile.Qualify( self~binaryFile ) )
+  super~SavePersistent( super~BinFile.Qualify( self~binaryFile ) )
   
   elapsed = Time("E")
   Say "Done, took" elapsed "seconds."

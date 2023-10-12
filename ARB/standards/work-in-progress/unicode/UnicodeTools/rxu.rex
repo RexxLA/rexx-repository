@@ -58,6 +58,8 @@
  * @version 0.4
  */
 
+--Call "Unicode.cls"
+Call "parser/Rexx.Tokenizer.cls"
 
 Parse Arg arguments
 
@@ -433,5 +435,3 @@ Options (case insensitive):
   -nowarnbif : don't warn when using not-yet-migrated to Unicode BIFs (the default)
   
 ::END
-
-::Requires "parser/Rexx.Tokenizer.cls"

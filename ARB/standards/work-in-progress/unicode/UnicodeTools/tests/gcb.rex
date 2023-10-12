@@ -20,12 +20,14 @@
   Call "Unicode.cls"
 
   self = .Unicode.Grapheme_Cluster_Break
+  
+  super = self~superClass
       
   Call Time "R"
   
   Say "Running consistency checks..."
 
-  inFile = self~UCDFile.Qualify( self~UnicodeData )
+  inFile = super~UCDFile.Qualify( self~UnicodeData )
 
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
@@ -41,7 +43,7 @@
   
   Say "Checking the 'Grapheme_Cluster_Break' property for 1114112 codepoints..."
   
-  inFile = self~UCDFile.Qualify( self~GraphemeBreakProperty )
+  inFile = super~UCDFile.Qualify( self~GraphemeBreakProperty )
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
@@ -90,7 +92,7 @@
 
   Call Stream inFile,"C","Close"
 
-  inFile = self~UCDFile.Qualify( self~Emoji_data )
+  inFile = super~UCDFile.Qualify( self~Emoji_data )
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   
@@ -126,7 +128,7 @@
 
   Call Stream inFile,"C","Close"
 
-  inFile = self~UCDFile.Qualify( self~GraphemeBreakTest )
+  inFile = super~UCDFile.Qualify( self~GraphemeBreakTest )
 
   Say "Running all the tests in GraphemeBreakTest.txt..."
 

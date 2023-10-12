@@ -34,7 +34,6 @@
  *
  */
 
-
 .Encoding~register(.IBM437) -- Honor the contract with the .Encoding superclass
 
 ::Class IBM437 Subclass Encoding Public

@@ -37,6 +37,8 @@
   Call "Unicode.cls"
 
   self = .Unicode.Grapheme_Cluster_Break
+  
+  super = self~superClass
 
   variables = self~variables
   
@@ -52,7 +54,7 @@
 
   buffer = .MutableBuffer~new( Copies( Other, X2D( 20000 ) ) )
 
-  inFile = self~UCDFile.Qualify( self~GraphemeBreakProperty )
+  inFile = super~UCDFile.Qualify( self~GraphemeBreakProperty )
 
   Call Stream inFile, "c", "Query exist"
 
@@ -87,7 +89,7 @@
   
   -- The "Extended_Pictographic" property is on another file
   
-  inFile = self~UCDFile.Qualify( self~Emoji_data )
+  inFile = super~UCDFile.Qualify( self~Emoji_data )
 
   Call Stream inFile, "c", "Query exist"
 
@@ -120,7 +122,7 @@
 
   -- And, still, the ccc property is on another file
   
-  inFile = self~UCDFile.Qualify( self~UnicodeData )
+  inFile = super~UCDFile.Qualify( self~UnicodeData )
  
   Call Stream inFile, "c", "Query exist"
 
@@ -150,10 +152,10 @@
   
   array = .MultiStageTable~compress(buffer)
   
-  self~setPersistent("GraphemeBreakProperty.gcb.Table1", array[1])
-  self~setPersistent("GraphemeBreakProperty.gcb.Table2", array[2])
+  super~setPersistent("GraphemeBreakProperty.gcb.Table1", array[1])
+  super~setPersistent("GraphemeBreakProperty.gcb.Table2", array[2])
 
-  self~SavePersistent( self~BinFile.Qualify( self~binaryFile ) )
+  super~SavePersistent( super~BinFile.Qualify( self~binaryFile ) )
   
   elapsed = Time("E")
   Say "Done, took" elapsed "seconds."

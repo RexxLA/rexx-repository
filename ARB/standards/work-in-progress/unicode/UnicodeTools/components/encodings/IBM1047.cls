@@ -9,7 +9,6 @@
  
  *****************************************************************************************************************/
 
-
 /** <h3>The <code>IBM1047</code> encoding class</h3>
  *   
  *  <p>
@@ -157,4 +156,4 @@ StringIsEmpty:
   End
   If returnUTF8 | returnUTF32  Then Return ""
   -- Validation only
-  Return 1  
+  Return 1

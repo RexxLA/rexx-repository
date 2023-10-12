@@ -40,7 +40,6 @@
  *
  */
 
-
 .Encoding~register(.Windows1252) -- Honor the contract with the .Encoding superclass
 
 ::Class Windows1252 Subclass Encoding Public

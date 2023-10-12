@@ -524,4 +524,4 @@ AssignCharacters:
   input = XRange(X2C(from), X2C(to))
   tablei ||= input
   tableo ||= Copies(value,Length(input))
-Return      
+Return

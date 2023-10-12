@@ -29,13 +29,15 @@
   Call "Unicode.cls"
  
   self = .Unicode.Case
+  
+  super = self~superClass
 
   Call Time "R"    
   
   Say "Running consistency checks for the Unicode.Case class..."  
   Say 
   Say "Checking '"self~UnicodeData"'..."
-  inFile = self~UCDFile.Qualify( self~UnicodeData )
+  inFile = super~UCDFile.Qualify( self~UnicodeData )
 
   last = -1  
   Do While Lines(inFile)
@@ -115,7 +117,7 @@ CheckAFile:
   Say
   Say "Checking '"Arg(1)"'..."
   
-  inFile = self~UCDFile.Qualify(Arg(1))
+  inFile = super~UCDFile.Qualify(Arg(1))
   
   Do counter c property Over Arg(2)~makeArray(" ")
     Say Right(c,2) "Checking '"property"'..."

@@ -37,20 +37,7 @@
  *                                                                           
  */
 
-.local~Unicode.Property = .Unicode.Property
 .local~MultiStageTable  = .MultiStageTable
-
--- Extract our own directory, and do a directory listing of its "properties"
--- subdir. Call all the *.cls files in turn to give them the opportunity 
--- to register.
-
-separator = .File~separator
-Parse Source . . myself
-myDir = Left(myself, LastPos(separator, myself))
-Do file Over .File~new(myDir"properties")~listFiles
-  fileName = file~absolutePath
-  If filename~endsWith(".cls") Then Call (filename)
-End
 
 ::Options Digits 16
 
@@ -132,7 +119,7 @@ End
 ::Method UCDFile.Qualify Class
   Expose myself myDir separator
   Use Strict Arg fileName
-  Return myDir"UCD"separator || fileName
+  Return myDir".."separator"UCD"separator || fileName
 
 --
 -- Binary files location method
@@ -142,7 +129,7 @@ End
   Expose myself myDir separator
   Use Strict Arg fileName
   --Return myDir".."separator"bin"separator || fileName
-  Return myDir"bin"separator || fileName
+  Return myDir".."separator"bin"separator || fileName
 
 -- Common activation. Subclasses that have an "activate" class
 -- method should use a self~activate:super method call at the

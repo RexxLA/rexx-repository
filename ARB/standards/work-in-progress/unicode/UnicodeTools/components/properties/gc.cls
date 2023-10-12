@@ -115,9 +115,7 @@
 ::Method Activate Class
   Use Local c char variable offset chunks
   -- Should be "Expose (variables) etc.", but the variables are not constructed yet.
-    
-  self~activate:super
-  
+
   variables = self~variables
    
   nameOf. = "Cn"
@@ -131,10 +129,10 @@
   self~nameOf = nameOf.
   
   If .Unicode.Buildtime \== 1 Then Do
-    self~loadPersistent( self~BinFile.Qualify( self~binaryFile ) ) 
-    offset = self~getPersistent("UnicodeData.gc.Table1")
-    chunks = self~getPersistent("UnicodeData.gc.Table2")
-    table = .MultiStageTable~new(offset, chunks)
+    super~loadPersistent( super~BinFile.Qualify( self~binaryFile ) ) 
+    offset = super~getPersistent("UnicodeData.gc.Table1")
+    chunks = super~getPersistent("UnicodeData.gc.Table2")
+    table  = .MultiStageTable~new(offset, chunks)
   End
     
 ::Method Algorithmic_Name Class
@@ -336,3 +334,5 @@ Hangul_Syllabe_Code:
     Otherwise Return ""
   End
 Return d2x( tail + (vowel-1)*28 + (lead-1)*588 + 44032 )  
+
+::Requires "properties.cls"

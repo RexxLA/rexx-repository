@@ -678,9 +678,27 @@ Return 1
   Return Length(utf32) / 4
     
 ::Method isNFC
-  Expose isNFC
+  Expose isNFC utf32
   If isNFC \== -1 Then Return isNFC
+  
+  -- Try a quick check
+  handler = .Unicode.Case -- TODO: Should get that value via the Unicode.properties class!
+  Do i = 1 To Length(utf32) By 4
+    n = c2x(utf32[i,4])
+    QC = handler~NFC_Quick_Check(n)
+    Select Case QC
+      When "N" Then Do
+        isNFC = 0
+        Return 0
+      End
+      When "Y" Then Iterate
+      Otherwise Signal SlowCheck
+    End
+  End
+  isNFC = 1
+  Return 1  
 
+SlowCheck: 1/0  
 
 --------------------------------------------------------------------------------
 -- The TEXT class                                                             --
@@ -712,5 +730,9 @@ Return 1
 
 ::Requires "utf8.cls"    
 ::Requires "components/stream.cls"  
-::Requires "components/properties.cls"
+::Requires "components/properties/case.cls"
+::Requires "components/properties/gc.cls"
+::Requires "components/properties/gcb.cls"
+::Requires "components/properties/name.cls"
+::Requires "components/properties/properties.cls"
 ::Requires "components/encoding.cls"

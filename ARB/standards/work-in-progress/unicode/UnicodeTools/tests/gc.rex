@@ -21,6 +21,8 @@
 
   self = .Unicode.General_Category
   
+  super = self~superClass
+  
   variables = self~variables
    
   nameOf. = "Cn"
@@ -37,7 +39,7 @@
   Say ""
   Say "Checking the 'General_Category' (gc) property for 1114112 codepoints..."
   
-  inFile = self~UCDFile.Qualify( self~UnicodeData )
+  inFile = super~UCDFile.Qualify( self~UnicodeData )
   
   Call Stream inFile,"C","Close"      -- Recovers if previous run crashed
   

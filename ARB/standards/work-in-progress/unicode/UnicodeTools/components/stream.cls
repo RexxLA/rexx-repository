@@ -743,4 +743,3 @@ StandardCall: Return LINES(name, option)
   
   newCommand = "SEEK" prefix (offset * bytesPerChar) rest
   Return Stream(name,"Command", newCommand)
-  
