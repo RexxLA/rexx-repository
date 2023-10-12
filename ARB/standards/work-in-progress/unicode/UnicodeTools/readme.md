@@ -22,6 +22,7 @@ Version 0.4a, 20231002.
 
 ## \[Cumulative change log, preparing for next release, 0.4b\]
 
+* 20231012 &mdash; Improve properties registration system, preparing to implement normalizations
 * 20231011 &mdash; Document AssignCharacterCategory; Add examples for InitializeCharacterCategories; add an ASSIGNMENT_OPERATOR subclass of OPERATOR, as per Rony's suggestion
 * 20231010 &mdash; Fix [tokenizer bug](https://github.com/RexxLA/rexx-repository/issues/2), update tokenizer and docs.
 * 20231008 &mdash; Implement [enhancement #3](https://github.com/RexxLA/rexx-repository/issues/3): add programs in the samples directory to the automated test suite, where reasonable.
