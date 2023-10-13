@@ -22,6 +22,7 @@ Version 0.4a, 20231002.
 
 ## \[Cumulative change log, preparing for next release, 0.4b\]
 
+* 20231013 &mdash; Move MultiStageTable.cls to /components/utilities, and create a separate helpfile in /doc.
 * 20231012 &mdash; Improve properties registration system, preparing to implement normalizations
 * 20231011 &mdash; Document AssignCharacterCategory; Add examples for InitializeCharacterCategories; add an ASSIGNMENT_OPERATOR subclass of OPERATOR, as per Rony's suggestion
 * 20231010 &mdash; Fix [tokenizer bug](https://github.com/RexxLA/rexx-repository/issues/2), update tokenizer and docs.
@@ -50,6 +51,8 @@ You can then navigate to the ``samples`` directory and try the samples by using 
     * [The properties model](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/properties.md)
   * [New classes](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/classes.md)
   * [New values for the OPTIONS instruction](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/options.md)
+  * Utility packages
+    * [The MultiStageTable class](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/multi-stage-table.md)
 * [For the Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md)
 
 ## Release notes for version 0.4a, 20231002
