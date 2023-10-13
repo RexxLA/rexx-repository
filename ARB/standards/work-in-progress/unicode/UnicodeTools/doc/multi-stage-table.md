@@ -1,8 +1,8 @@
 ## The MultiStageTable class
 
-This class specializes in producing two-stage tables, three-stage tables, or, in general multi-stage tables.
+This class, defined in the ``/components/utilities/MultiStageTable.cls`` package, specializes in producing two-stage tables, three-stage tables, or, in general multi-stage tables.
 
-Multi-stage tables are recommended in The Unicode Standard 15.0 (https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf), section 5.1, 
+Multi-stage tables are recommended in [_The Unicode Standard 15.0_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf), section 5.1, 
 _Data Structures for Character Conversion_, "Multistage Tables", pp. 196–7.
 
 This is not a general implementation of multi-stage tables, but a custom, tailored one, specific to Unicode and the BMP and SMP planes.
