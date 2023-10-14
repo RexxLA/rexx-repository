@@ -121,7 +121,7 @@
     offset         = super~getPersistent("CaseAndCaseMappingBitProperties.Table1")
     chunks         = super~getPersistent("CaseAndCaseMappingBitProperties.Table2")
     bigvalues      = super~getPersistent("CaseAndCaseMappingBitProperties.Table3")
-    caseproperties = .MultiStageTable~new(offset, chunks, 4, bigvalues)
+    caseproperties = .MultiStageTable~new(offset, chunks, , , 4, bigvalues)
   
     string         = super~getPersistent("SpecialUpper")
     

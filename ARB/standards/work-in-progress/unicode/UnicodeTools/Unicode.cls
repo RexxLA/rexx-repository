@@ -119,11 +119,31 @@
 -- finished the properties infrastructure 
 
 ::Routine Unicode Public
-  Use Arg, option
-  option = Upper( Strip( option ) )
+  Use Arg , option
+  option = Upper( option )
   Select
     When "PROPERTY"~Abbrev(option,1) Then Signal Properties
+    When option~startsWith("IS") Then Signal IS
+    When option~startsWith("TO") Then Signal TO
     Otherwise Raise Syntax 88.900 Additional("Invalid option '"Arg(2)"'")
+  End
+    
+IS:
+  Use Strict Arg string, is
+  is = Upper(is)
+  If \string~isA(.Bytes) Then string = BYTES(string)
+  Select Case is
+    When "ISNFD" Then Return string~isNFD
+    Otherwise Raise Syntax 88.900 Additional("Invalid option '"is"'")
+  End
+
+TO:
+  Use Strict Arg string, to
+  to = Upper(to)
+  If \string~isA(.Codepoints) Then string = CODEPOINTS(string)
+  Select Case to
+    When "TONFD" Then Return .Unicode.normalization~toNFD(string)
+    Otherwise Raise Syntax 88.900 Additional("Invalid option '"is"'")
   End
     
 Properties:
@@ -637,10 +657,10 @@ Return 1
     If n >> max Then max = n
     If n >> "0000FFFF"X Then Leave
   End
-  
+    
   Select
     -- "Note: Text exclusively containing ASCII characters (U+0000..U+007F) is left unaffected by all of the Normalization Forms."
-    When n << "0000 0080"X Then Do
+    When max << "0000 0080"X Then Do
       isNFC  = 1 
       isNFD  = 1 
       isNFKC = 1 
@@ -649,11 +669,11 @@ Return 1
     End
     -- "Text exclusively containing Latin-1 characters (U+0000..U+00FF) is left unaffected by NFC. 
     --  This is effectively the same as saying that all Latin-1 text is already normalized to NFC."
-    When n << "0000 0100"X Then Do
+    When max << "0000 0100"X Then Do
       isNFC  = 1 
       bits   = 8
     End
-    When n << "0001 0000"X Then Do
+    When max << "0001 0000"X Then Do
       bits   = 16
     End
     Otherwise
@@ -677,28 +697,66 @@ Return 1
   Expose utf32
   Return Length(utf32) / 4
     
-::Method isNFC
-  Expose isNFC utf32
-  If isNFC \== -1 Then Return isNFC
+::Method isNFD
+  Expose isNFD utf32
+  If isNFD \== -1 Then Return isNFD
   
   -- Try a quick check
-  handler = .Unicode.Case -- TODO: Should get that value via the Unicode.properties class!
+  -- See https://unicode.org/reports/tr15/:
+  -- "There are no MAYBE values for NFD and NFKD: 
+  -- the quickCheck function will always produce a definite result for these Normalization Forms".
+  
+  -- TODO: Should get that value via the Unicode.properties class!
+  -- TODO: Save the offending character, if any, to optimize toNFD later
+  handler = .Unicode.Case 
   Do i = 1 To Length(utf32) By 4
     n = c2x(utf32[i,4])
-    QC = handler~NFC_Quick_Check(n)
+    QC = handler~NFD_Quick_Check(n)
     Select Case QC
       When "N" Then Do
         isNFC = 0
         Return 0
       End
       When "Y" Then Iterate
-      Otherwise Signal SlowCheck
     End
   End
-  isNFC = 1
+  handler = .Unicode.normalization
+  Do i = 5 To Length(utf32) By 4
+    B = utf32[i,4]
+    cccB = handler~Canonical_Combining_Class(B) 
+    If cccB == "00"X Then Iterate
+    A = utf32[i-4,4]
+    cccA = handler~Canonical_Combining_Class(A) 
+    If cccA >> cccB Then Do
+      isNFD = 0
+      Return 0
+    End
+  End
+  isNFD = 1
   Return 1  
 
-SlowCheck: 1/0  
+::Method "="
+  -- TODO: Should better be using NFC, when we'll have it
+  Use Strict Arg string
+  class = self~coerceTo(string,"a division")
+  -- If the return should be a BYTES string, perform a normal compare
+  If \class~isSubClassOf(.Codepoints) Then 
+    Return class~new(self~"=":.String(string))
+  -- We are returning CODEPOINTS or TEXT. Promote string if needed
+  If \string~isA(.Codepoints) Then string = class~new(string~makeString)
+  
+  -- Normalize the strings, if needed
+  If self~isNFD   Then left  = self
+  Else                 left  = .Unicode.normalization~toNFD(self)
+  If string~isNFD Then right = string
+  Else                 right = .Unicode.normalization~toNFD(self)
+  
+  -- Now do a standard string comparison
+Return class~new(left~"=":.String(right))
+
+::Method "\="
+  Use Strict Arg string
+  Return \ self~"="(string)
 
 --------------------------------------------------------------------------------
 -- The TEXT class                                                             --
@@ -730,9 +788,11 @@ SlowCheck: 1/0
 
 ::Requires "utf8.cls"    
 ::Requires "components/stream.cls"  
+::Requires "components/utilities/MultiStageTable.cls"
 ::Requires "components/properties/case.cls"
 ::Requires "components/properties/gc.cls"
 ::Requires "components/properties/gcb.cls"
 ::Requires "components/properties/name.cls"
+::Requires "components/properties/normalization.cls"
 ::Requires "components/properties/properties.cls"
 ::Requires "components/encoding.cls"

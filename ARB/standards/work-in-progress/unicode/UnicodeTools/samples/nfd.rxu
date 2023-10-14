@@ -1,0 +1,132 @@
+Options DefaultString Codepoints
+Options Coercions     Promote
+
+Call TestString "René",                 0
+Call TestString "Rene" || "301"U,       1
+Call TestString "Barça",                0
+Call TestString "Barc" || "327"U ||"a", 1
+
+Say "Now testing reordering..."
+Say
+
+Call TestString "A" || "327"U || "301"U, 1
+Call TestString "A" || "301"U || "327"U, 0
+
+Say "Now testing equality..."
+Say
+Call TestEqual "René", "René"                 , 1, 1
+Call TestEqual "René", "Rene" || "301"U       , 1, 0
+Call TestEqual "Barça", "Barça"               , 1, 1
+Call TestEqual "Barça", "Barc" || "327"U ||"a", 1, 0
+
+Exit 0
+
+TestEqual:
+  Use Arg string1, string2, equals, strictEquals
+  Say "Testing '"string1"'  = '"string2"' -->" (string1 = string2)
+  If equals Then Do
+    If string1 \= string2 Then Do
+      Say "FAILED! Should have been equal."
+      Exit 1
+    End
+  End
+  Else Do
+    If string1 = string2 Then Do
+      Say "FAILED! Should have been different."
+      Exit 1
+    End
+  End
+  Say "Testing '"string1"' == '"string2"' -->" (string1 == string2)
+  If strictEquals Then Do
+    If string1 \== string2 Then Do
+      Say "FAILED! Should have been equal."
+      Exit 1
+    End
+  End
+  Else Do
+    If string1 == string2 Then Do
+      Say "FAILED! Should have been different."
+      Exit 1
+    End
+  End
+  Say 
+Return  
+
+TestString:
+  Use Arg string, nfd?
+  Say "String = '"string"' -- '"string~c2x"'X"
+  Say "Unicode(string,isNFD) =" Unicode(string,isNFD)
+  If \Unicode(string,isNFD) Then Do
+    Say "Unicode(string,toNFD) =" Unicode(string,toNFD) "-- '"Unicode(string,toNFD)~c2x"'X"
+    If nfd? Then Do
+      Say "FAILED! Should be NFD, but it is not."
+      Exit 1
+    End
+  End
+  Else Do
+    If \nfd? Then Do
+      Say "FAILED! Should not be NFD, but it is."
+      Exit 1
+    End
+  End
+  Say
+Return  
+
+
+
+/*
+  Parse Arg code
+  Say code~c2x
+  utf32 = C2U(CodePoints(code),"UTF32")
+  Say code "-->" handler~toNFD(utf32) "("handler~toNFD(utf32)~c2x")"
+Exit
+*/
+
+Say CodePoints("Papá")   = " Papa"  || "cc81"x
+Say CodePoints("Papá")  == " Papa"  || "cc81"x
+Say CodePoints("Barça")  = " Barc"  || "cca7"X || "a  "
+Say CodePoints("Barça") == " Barc"  || "cca7"X || "a  "
+
+Say Text("Papá")   = " Papa"  || "cc81"x
+Say Text("Papá")  == " Papa"  || "cc81"x
+Say Text("Barça")  = " Barc"  || "cca7"X || "a  "
+Say Text("Barça") == " Barc"  || "cca7"X || "a  "
+
+
+Call Test "Papá"  
+Call Test "Papa"  || "cc81"x
+Call Test "Barç"  
+Call Test "Barc" || "cca7"X
+Call Test "Z" || "cca7"X || "cc81"x
+Call Test "Z" || "cc81"x || "cca7"X 
+Call Test "Z" || "cca7"X || "cc81"x || "cca7"X
+Call Test "Z" || "cc81"x || "cca7"X || "cca7"X
+Call Test "Z" || "cca7"X || "cc81"x || "cc81"x
+Call Test "Z" || "cc81"x || "cca7"X || "cc81"x
+Exit
+
+Test:
+  Parse arg word
+  word = CodePoints(word)
+  Say word "('"word~c2x"')-->" handler~toNFD(word) "("handler~toNFD(word)~c2x")"
+Return
+
+Loop
+  Call CharOut ,"String? "
+  Parse Pull code
+  Say code~c2x
+  utf32 = C2U(CodePoints(code),"UTF32")
+  Say code "-->" handler~toNFD(utf32) "("handler~toNFD(utf32)~c2x")"
+End
+
+Exit
+
+Loop
+  Call CharOut ,"Code? "
+  Pull code
+  Say code "('"X2C(code)"')-->" handler~Canonical_Decomposition(code) "('"handler~Canonical_Decomposition(code)~x2c"')"
+End
+
+Exit
+
+::Requires "Unicode.cls"

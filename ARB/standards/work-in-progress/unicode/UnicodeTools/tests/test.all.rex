@@ -56,6 +56,9 @@ If result \== 0 Then Exit result
 Call "rxu.rex" "../samples/lower.rxu auto"
 If result \== 0 Then Exit result
 
+Call "rxu.rex" "../samples/nfd.rxu auto"
+If result \== 0 Then Exit result
+
 Call "rxu.rex" "../samples/pos.rxu auto"
 If result \== 0 Then Exit result
 

@@ -37,8 +37,6 @@
  *                                                                           
  */
 
-.local~MultiStageTable  = .MultiStageTable
-
 ::Options Digits 16
 
 ::Class Unicode.Property Public
@@ -170,65 +168,6 @@
 ::Method SyntaxError Class
   Use Strict Arg message
   Raise Syntax 98.900 Additional(message)  
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
--- The MultiStageTable class                                                  --
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-
-
-::Class MultiStageTable Public
-
-::Method init 
-  Expose offset chunks width bigvalues
-  
-  Use Strict Arg offset, chunks, width = 1, bigvalues = .Nil
-
-::Method "[]"
-  Expose offset chunks width bigvalues
-  
-  Use Strict Arg n
-  
-  .Validate~nonNegativeNumber("n",n)
-  
-  If n > 131071 Then Return Copies("00"X,width)
-  
-  
-  highIndex  = n  % 256
-  highOffset = offset[ 1 + highIndex ]~c2x~x2d
-  lowOffset  = n // 256
-  byte       = chunks[ 1 + highOffset*256 + lowOffset ]
-  
-  -- width == 1 is the two-stage case
-  If width == 1 Then Return byte
-  
-  Return       bigvalues[ 1 + (byte~c2x~x2d - 1) * width, width]
-
-::Method Compress Class
-  Use Strict Arg buffer
-  
-  k       = -1       -- Offset of a chunk
-  offset. = 0        -- Stores the offset of a chunk. 0 when the chunk was never seen.
-  step    = 256      -- Size of the chunks
-  offset  = ""       -- Will store the (512 = 128K/256) 1-byte offsets
-  chunks  = ""       -- Will store the deduplicated chunks
-
-  Do i = 0 + 1 To 1FFFF~x2d + 1 By step  -- U+0000..U+1FFFF
-    chunk = buffer[i,step]               -- Pick a chunk of "step" bytes     
-    If offset.chunk > 0 Then Do          -- Already seen? offset.chunk will store the offset
-      offset ||= Right(D2X(offset.chunk),2,0)~x2c
-      Iterate
-    End
-    k += 1                               -- Never seen: we need a new offset for that
-    offset.chunk = k
-    offset ||= Right( d2x(k) , 2, 0)~x2c 
-    chunks ||= chunk                     -- Store the new chunk
-  End
-  If k > 255 Then Say "Warning!" k "chunks when compressing file!"
-  Else Say "Compressing two-stage table into" k "256-byte fragments, total =" (Length(offset)+Length(chunks)) "bytes ."
-  
-Return offset, chunks
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
