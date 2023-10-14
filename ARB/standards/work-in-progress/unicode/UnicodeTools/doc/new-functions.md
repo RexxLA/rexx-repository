@@ -231,8 +231,8 @@ Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-form
 
 The _option_ string is case-insensitive.
 
-* When _option_ is __ISNFD__, the function returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
-* When _option_ is __TONFD__, the function returns _string_ normalized to the NFD format.
+* When _option_ is __isNFD__, the function returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
+* When _option_ is __toNFD__, the function returns _string_ normalized to the NFD format.
 
 __Examples:__
 
