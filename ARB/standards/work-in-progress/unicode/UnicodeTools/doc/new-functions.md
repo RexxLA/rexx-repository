@@ -221,6 +221,28 @@ The argument _string_ has to contain well-formed UTF-8, or a Syntax error is rai
 
 Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` function call.
 
+## UNICODE
+
+```
+   ╭──────────╮  ┌────────┐  ╭───╮  ┌────────┐  ╭───╮
+▸▸─┤ UNICODE( ├──┤ string ├──┤ , ├──┤ option ├──┤ ) ├─▸◂
+   ╰──────────╯  └────────┘  ╰───╯  └────────┘  ╰───╯
+```
+
+The _option_ string is case-insensitive.
+
+* When _option_ is __ISNFD__, the function returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
+* When _option_ is __TONFD__, the function returns _string_ normalized to the NFD format.
+
+__Examples:__
+
+```
+Unicode("José",isNFD)         = 0                 -- "é" is "E9"U, a decomposable character.
+Unicode("José",toNFD)         = "Jose´"           -- "é" decomposes as "e" ("65"U) || "◌́ " ("301"U)
+Unicode("Jose"||"301"U,isNFD) = 1                 -- "é" is "E9"U, a decomposable character.
+```
+
+
 ## UTF8
 
 __Note:__ Although this routine is part of TUTOR, The Unicode Tools Of Rexx, it can also be used separately, as it has no dependencies on the rest of components of TUTOR.
