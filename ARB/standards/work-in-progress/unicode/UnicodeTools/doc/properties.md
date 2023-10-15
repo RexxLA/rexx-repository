@@ -10,14 +10,14 @@
 ``` 
 
 The Unicode.Property class (``properties.cls``) and its subclasses are located in the ``components/properties`` subdirectory. 
-Unicode.Property makes use of two auxiliary classes, [MultiStageTable](muilti-stage-table.md), and PersistentStringTable, described below.
+Unicode.Property makes use of two auxiliary classes, [MultiStageTable](multi-stage-table.md), and PersistentStringTable, described below.
 
 Classes implementing concrete Unicode properties should subclass Unicode.Property. It offers a set of common services, including the            
 generation and loading of compressed two-stage tables to store property values.               
 
 Documented subclasses are:
 
-* (Unicode.Normalization)[properties/Unicode.Normalization.md).
+* [Unicode.Normalization](properties/Unicode.Normalization.md).
 
 ## PersistentStringTable (internal documentation)
 
