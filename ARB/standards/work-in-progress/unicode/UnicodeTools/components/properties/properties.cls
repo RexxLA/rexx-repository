@@ -50,6 +50,7 @@
 ::Constant GraphemeBreakProperty     "GraphemeBreakProperty-15.0.0.txt"
 ::Constant GraphemeBreakTest         "GraphemeBreakTest-15.0.0.txt"
 ::Constant NameAliases               "NameAliases-15.0.0.txt"
+::Constant NormalizationTest         "NormalizationTest-15.0.0.txt"
 ::Constant PropList                  "PropList-15.0.0.txt"
 ::Constant SpecialCasing             "SpecialCasing-15.0.0.txt"
 

@@ -13,9 +13,10 @@
 -- This program is part of the automated test suite. See tests/test.all.rex   --
 --------------------------------------------------------------------------------
 
--- gc.rex - Performs a consistency check on the properties implemented by properties/gcb.cls
+-- gcb.rex - Performs a consistency check on the properties implemented by 
+-- /components/properties/gcb.cls
 --
--- See also build/gcb.rex
+-- See also /components/bin/build/gcb.rex
 
   Call "Unicode.cls"
 

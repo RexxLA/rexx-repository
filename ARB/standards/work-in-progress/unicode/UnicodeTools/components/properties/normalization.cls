@@ -108,18 +108,16 @@
   Use Strict Arg code
   
   If code~startsWith("00"X) Then code = C2X(code)
-  code = StripZeros(Upper(code))
-  If Length(code) < 4 Then code = Right(code,4,0)
+  code = NiceCode(Upper(code))
   
   n   = X2D(code)
   
   Return canonicalCombiningClass[n]
   
-StripZeros: 
+NiceCode: 
   Arg aCode
-  Do While Length(aCode) > 4, aCode~startsWith(0)
-    aCode = SubStr(aCode,2)
-  End
+  aCode = Strip(aCode,"L",0)
+  If Length(aCode) < 4 Then aCode = Right(aCode,4,0)
 Return aCode  
 
 ::Method Canonical_Decomposition   Class
@@ -128,8 +126,7 @@ Return aCode
   Use Strict Arg code
   
   If code~startsWith("00"X) Then code = C2X(code)
-  code = StripZeros(Upper(code))
-  If Length(code) < 4 Then code = Right(code,4,0)
+  code = NiceCode(Upper(code))
   
   n   = X2D(code)
   
@@ -140,18 +137,17 @@ Return aCode
     firstOffset = bin // 512
     first = C2X(canonicalDoubleFirsts[1-3+firstOffset*3,3])
     last  = C2X(canonicalDoubleLasts[ 1-3+lastOffset *3,3])
-    Return StripZeros(first) StripZeros(last)
+    Return NiceCode(first) NiceCode(last)
   End
   
   co = code~left(Length(code)-2)
   Signal (Canonical_Decomposition.co)
 
-StripZeros: 
+NiceCode: 
   Arg aCode
-  Do While Length(aCode) > 4, aCode~startsWith(0)
-    aCode = SubStr(aCode,2)
-  End
-Return aCode
+  aCode = Strip(aCode,"L",0)
+  If Length(aCode) < 4 Then aCode = Right(aCode,4,0)
+Return aCode  
 
 "Same": Return code
 
@@ -245,7 +241,7 @@ Return aCode
 -- All the codepoints have a decomposition
 CJK_2FXXX:
   If code >> 2FA1D Then Return code
-  Return StripZeros(CJK_2F800_2FA1D[3*(X2D(code)-X2D(2F800))+1,3]~C2X)
+  Return NiceCode(CJK_2F800_2FA1D[3*(X2D(code)-X2D(2F800))+1,3]~C2X)
   
 -- There are no decompositions for codepoints FAxx higher than FAD9
 -- Not all the codepoints have a decomposition
@@ -253,7 +249,7 @@ CJK_FXXX:
   If code >> FAD9 Then Return code
   decomp = CJK_F900_FAD9[3*(X2D(code)-X2D(F900))+1,3]~C2X
   If decomp == "000000" Then Return code
-  Return StripZeros(CJK_F900_FAD9[3*(X2D(code)-X2D(F900))+1,3]~C2X)
+  Return NiceCode(CJK_F900_FAD9[3*(X2D(code)-X2D(F900))+1,3]~C2X)
     
 --------------------------------------------------------------------------------    
 -- Method toNFD                                                               --
@@ -267,7 +263,7 @@ CJK_FXXX:
   buffer = .Array~new
   
   Do i = 1 To Length(utf32) By 4
-    code = StripZeros(C2X(utf32[i,4]))
+    code = NiceCode(C2X(utf32[i,4]))
     codes = self~Canonical_Decomposition(code)
     If code == codes Then Do
       buffer~append(code)
@@ -295,8 +291,8 @@ CJK_FXXX:
   -- no more Reorderable Pairs. 
   
   Do i = 2 To buffer~items
-    A = buffer[i-1]
-    B = buffer[i]
+    A = buffer[i - 1]
+    B = buffer[i    ]
     cccB = self~Canonical_Combining_Class(B) 
     If cccB \== "00"X Then Do
       cccA = self~Canonical_Combining_Class(A) 
@@ -304,7 +300,7 @@ CJK_FXXX:
         temp = buffer[i-1]
         buffer[i-1] = buffer[i]
         buffer[i] = temp
-        i = i - 1
+        i = Max(i-2,1)
         Iterate
       End
     End
@@ -318,12 +314,11 @@ CJK_FXXX:
     
 Return utf8~string  
  
-StripZeros: 
+NiceCode: 
   Arg aCode
-  Do While Length(aCode) > 4, aCode~startsWith(0)
-    aCode = SubStr(aCode,2)
-  End
-Return aCode
+  aCode = Strip(aCode,"L",0)
+  If Length(aCode) < 4 Then aCode = Right(aCode,4,0)
+Return aCode  
   
 UTF8: Procedure
   Use Arg code
