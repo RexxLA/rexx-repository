@@ -28,7 +28,7 @@ The Unicode.Normalization class implements the following methods.
 This class method gets automatically called at the end of the class construction process. It uses the Unicode.Property registry to register:
 
 * The ``toNFD`` function.
-* The ``Canonical_Decomposition`` and ``Canonical_Combining_Class`` (``ccc``) properties.
+* The ``Canonical_Decomposition_Mapping`` and ``Canonical_Combining_Class`` (``ccc``) properties.
 
 The ``/components/bin/normalization.bin`` PersistentStringTable contains the following entries:
 
@@ -55,7 +55,7 @@ The ``/components/bin/normalization.bin`` PersistentStringTable contains the fol
       <dd>Chunks table for the ``canonicalCombiningClass`` MultiStageTable.</dd>
 </dl>  
 
-A stem called ``Canonical_Decomposition.`` is created. It will contain targets for a calculated SIGNAL instruction. 
+A stem called ``Canonical_Decomposition_Mapping.`` is created. It will contain targets for a calculated SIGNAL instruction. 
 This will handle the cases of Hangul Syllabes ("AC00"U to "D7A3"U), and the few singleton decompositions that are not CJK Ideographs.
 
 In the 15.0 version of ``UnicodeData.txt``, most singleton canonical decomposable characters are CJK COMPATIBILITY IDEOGRAPH F900 to FAD9 (some few
@@ -78,12 +78,12 @@ a hexadecimal codepoint.
 
 The returned value is encoded as an unsigned 8-bit integer. You should use C2X and then X2D to obtain its decimal value.
 
-## Canonical_Decomposition (Class method)
+## Canonical_Decomposition_Mapping (Class method)
 
 ```
-     ╭──────────────────────────╮  ┌──────┐  ╭───╮
-▸▸───┤ Canonical_Decomposition( ├──┤ code ├──┤ ) ├─▸◂
-     ╰──────────────────────────╯  └──────┘  ╰───╯
+     ╭──────────────────────────────────╮  ┌──────┐  ╭───╮
+▸▸───┤ Canonical_Decomposition_Mapping( ├──┤ code ├──┤ ) ├─▸◂
+     ╰──────────────────────────────────╯  └──────┘  ╰───╯
 ```
 
 Returns the Canonical Decomposition property associated to the Unicode codepoint identified by _code_ (this will be the supplied _code_ itself when there is no explicit decomposition in ``UnicodeData.txt``). _Code_ can be a UTF-32 codepoint (that is, a 4-byte binary integer representing a Unicode scalar), or
@@ -99,7 +99,7 @@ The returned value consists of a blank-separated list of Unicode codepoints. Ind
      ╰────────╯  └────────┘  ╰───╯
 ```
 
-Returns a new NFD-normalized string equivalent to _string_. Each codepoint in the supplied _string_ is substituted by its _Canonical_Decomposition_, and then the substituted codepoints are themselves substituted by their respective decompositions, until no more decompositions are possible. Then the characters that have a _Canonical_Combining_Class_ greater than 0 are reordered according to the following algorithm:
+Returns a new NFD-normalized string equivalent to _string_. Each codepoint in the supplied _string_ is substituted by its _Canonical_Decomposition_Mapping_, and then the substituted codepoints are themselves substituted by their respective decompositions, until no more decompositions are possible. Then the characters that have a _Canonical_Combining_Class_ greater than 0 are reordered according to the following algorithm:
 
 >_D108_ Reorderable pair: Two adjacent characters `A` and `B` in a coded character sequence
 >`<A, B>` are a Reorderable Pair if and only if `ccc(A) > ccc(B) > 0`. 
