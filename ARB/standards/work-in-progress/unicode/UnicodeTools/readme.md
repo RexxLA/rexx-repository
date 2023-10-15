@@ -25,7 +25,7 @@ Version 0.4b, 20231014.
 ## \[Cumulative change log since release 0.4b\]
 
 * 20231015 &mdash; Fix [bug #6](https://github.com/RexxLA/rexx-repository/issues/6), implement all tests in NormalizationTest.txt, consistency check on ccc and canonical decomposition. Document
-  [the Unicode.Normalization class](doc/properties/Unicode.Normalization.md).
+  [the Unicode.Normalization class](doc/properties/Unicode.Normalization.md). Improve the docs for the PersistentStringTable class, and move them to [a separate helpfile](doc/persistent-string-table.md).
 
 ---
 
@@ -49,7 +49,8 @@ You can then navigate to the ``samples`` directory and try the samples by using 
   * [New classes](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/classes.md)
   * [New values for the OPTIONS instruction](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/options.md)
   * Utility packages
-    * [The MultiStageTable class](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/multi-stage-table.md)
+    * [The MultiStageTable class](doc/multi-stage-table.md)
+    * [The PersistentStringTable class](doc/persistent-string-table.md)
 * [For the Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md)
 
 ## Release notes for version 0.4b, 20231014
