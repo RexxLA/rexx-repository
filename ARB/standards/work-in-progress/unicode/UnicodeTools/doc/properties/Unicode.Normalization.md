@@ -1,10 +1,10 @@
 # The Unicode.Normalization class
 
-The Unicode.Normalization class, a subclass of Unicode.Property, resides in ``/components/properties/normalization.cls``. 
+The Unicode.Normalization class, a subclass of Unicode.Property, resides in [``/components/properties/normalization.cls``](../../components/properties/normalization.cls). 
 
-The associated build routine is located at ``/components/bin/build/normalization.rex``; it generates the ``/components/bin/normalization.bin`` PersistentStringTable.
+The associated build routine is located at [``/components/bin/build/normalization.rex``](../../components/bin/build/normalization.rex); it generates the ``/components/bin/normalization.bin`` PersistentStringTable.
 
-The PersistentStringTable can be checked for internal consistency by the ``/tests/normalization.rex`` utility. It also runs all the tests in NormalizationTest-15.0.0.txt.
+The PersistentStringTable can be checked for internal consistency by the [``/tests/normalization.rex``](../../tests/normalization.rex) utility. It also runs all the tests in NormalizationTest-15.0.0.txt.
 
 The Unicode.Normalization class implements the following methods.
 
