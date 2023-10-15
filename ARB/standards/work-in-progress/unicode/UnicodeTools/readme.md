@@ -20,6 +20,14 @@ Version 0.4b, 20231014.
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+---
+
+## \[Cumulative change log since release 0.4b\]
+
+* 20231015 &mdash; Fix [bug #6](https://github.com/RexxLA/rexx-repository/issues/6), implement all tests in NormalizationTest.txt, consistency check on ccc and canonical decomposition.
+
+---
+
 ## Quick installation
 
 Download Unicode.zip, unzip it in some directory of your choice, and run ``setenv`` to set the path (for Linux users: use ``. ./setenv.sh``, not ``./setenv.sh``, or your path will not be set).
