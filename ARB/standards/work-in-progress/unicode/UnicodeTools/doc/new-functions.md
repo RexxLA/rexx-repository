@@ -223,18 +223,38 @@ Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-form
 
 ## UNICODE
 
+### "Is" and "to" forms
+
 ```
    ╭──────────╮  ┌────────┐  ╭───╮  ┌────────┐  ╭───╮
 ▸▸─┤ UNICODE( ├──┤ string ├──┤ , ├──┤ option ├──┤ ) ├─▸◂
    ╰──────────╯  └────────┘  ╰───╯  └────────┘  ╰───╯
 ```
 
-The _option_ string is case-insensitive.
+_Option_ can be one of:
+
+* A string starting with the (case insensitive) chaacters __"is"__. 
+* A string starting with the (case insensitive) chaacters __"to"__.
 
 * When _option_ is __isNFD__, the function returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
 * When _option_ is __toNFD__, the function returns _string_ normalized to the NFD format.
 
-__Examples:__
+### "Property" form
+
+```
+   ╭──────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮  ┌──────┐  ╭───╮
+▸▸─┤ UNICODE( ├──┤ string ├──┤ , ├──┤ PROPERTY ├──┤ , ├──┤ name ├──┤ ) ├─▸◂
+   ╰──────────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯  └──────┘  ╰───╯
+```
+
+The string _name_ must be one of:
+
+* __Canonical_Combining_Class__: returns an integer between 0 and 254.
+* __CCC__: an alias for __Canonical_Combining_Class__.
+* __Comp_Ex__: an alias for __Full_Composition_Exclusion__.
+* __Full_Composition_Exclusion__: returns a boolean.
+
+### Examples
 
 ```
 Unicode("José",isNFD)         = 0                 -- "é" is "E9"U, a decomposable character.
