@@ -35,7 +35,7 @@ Converts _string_ to a CODEPOINTS string and returns it. CODEPOINTS strings are 
 The argument _string_ has to contain well-formed UTF-8, or a Syntax error will be raised. When working with CODEPOINTS strings, Rexx built-in functions operate at the codepoint level, 
 and can produce much richer results than when operating on BYTES strings.
 
-Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` function call.
+Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` or ``UTF8(string)`` function calls.
 
 ## C2U (Character to Unicode)
 
@@ -130,6 +130,19 @@ ENCODE(string, "IBM1047")                          -- The encoded string, or "" 
 ENCODE(string, "IBM1047","SYNTAX")                 -- The encoded string. If the encoding fails, a Syntax error is raised.
 ```
 
+## GRAPHEMES
+
+```
+   ╭────────────╮  ┌────────┐  ╭───╮
+▸▸─┤ GRAPHEMES( ├──┤ string ├──┤ ) ├─▸◂
+   ╰────────────╯  └────────┘  ╰───╯
+```
+
+Converts _string_ to a GRAPHEMES string and returns it. GRAPHEMES strings are composed of extended grapheme clusters, and every character in a GRAPHEMES string can be an arbitrary extended grapheme cluster. 
+The argument _string_ has to contain well-formed UTF-8, or a Syntax error is raised. When working with GRAPHEMES strings, Rexx built-in functions operate at the extended grapheme cluster level, and can produce much richer results than when operating with BYTES or CODEPOINTS strings.
+
+Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` or ``UTF8(string)`` function calls.
+
 ## N2P (Name to codePoint)
 
 ```
@@ -219,7 +232,7 @@ _string_ matches the _type_. Otherwise, it returns __0__. The following are vali
 Converts _string_ to a TEXT string and returns it. TEXT strings are composed of extended grapheme clusters, and every character in a TEXT string can be an arbitrary extended grapheme cluster. 
 The argument _string_ has to contain well-formed UTF-8, or a Syntax error is raised. When working with TEXT strings, Rexx built-in functions operate at the extended grapheme cluster level, and can produce much richer results than when operating with BYTES or CODEPOINTS strings.
 
-Please note that CODEPOINTS and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` function call.
+Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` or ``UTF8(string)`` function calls.
 
 ## UNICODE
 
@@ -242,17 +255,37 @@ _Option_ can be one of:
 ### "Property" form
 
 ```
-   ╭──────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮  ┌──────┐  ╭───╮
-▸▸─┤ UNICODE( ├──┤ string ├──┤ , ├──┤ PROPERTY ├──┤ , ├──┤ name ├──┤ ) ├─▸◂
-   ╰──────────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯  └──────┘  ╰───╯
+   ╭──────────╮  ┌──────┐  ╭───╮  ┌──────────┐  ╭───╮  ┌──────┐  ╭───╮
+▸▸─┤ UNICODE( ├──┤ code ├──┤ , ├──┤ PROPERTY ├──┤ , ├──┤ name ├──┤ ) ├─▸◂
+   ╰──────────╯  └──────┘  ╰───╯  └──────────┘  ╰───╯  └──────┘  ╰───╯
 ```
+
+The first argument, __code__, 
+
 
 The string _name_ must be one of:
 
 * __Canonical_Combining_Class__: returns an integer between 0 and 254.
 * __CCC__: an alias for __Canonical_Combining_Class__.
+* __Changes_When_NFKC_Casefolded__: returns a boolean.
 * __Comp_Ex__: an alias for __Full_Composition_Exclusion__.
+* __CWKCF__: an alias for __Changes_When_NFKC_Casefolded__.
 * __Full_Composition_Exclusion__: returns a boolean.
+* __NFC_Quick_Check__: returns either __Y__, __N__ or __M__.
+* __NFC_QC__: an alias for __NFC_Quick_Check__.
+* __NFD_Quick_Check__: returns either __Y__ or __N__.
+* __NFD_QC__: an alias for __NFD_Quick_Check__.
+* __NFKC_Quick_Check__: returns either __Y__, __N__ or __M__.
+* __NKFC_QC__: an alias for __NFKC_Quick_Check__.
+* __NFKD_Quick_Check__: returns either __Y__ or __N__.
+* __NKFD_QC__: an alias for __NFKD_Quick_Check__.
+* __Simple_Lowercase_Mapping__: returns the lowercase version of the argument _code_, or _code_ itself when the character has no explicit lowercase mapping. This corresponds to (1-based) column number 14 of UnicodeData-txt.
+* __Simple_Uppercase_Mapping__: returns the uppercase version of the argument _code_, or _code_ itself when the character has no explicit uppercase mapping. This corresponds to (1-based) column number 13 of UnicodeData-txt.
+* __slc__: an alias for __Simple_Lowercase_Mapping__.
+* __suc__: an alias for __Simple_Uppercase_Mapping__.
+
+* Simple_Lowercase_Mapping slc Simple_Uppercase_Mapping suc
+
 
 ### Examples
 
