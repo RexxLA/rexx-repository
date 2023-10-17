@@ -284,9 +284,6 @@ The string _name_ must be one of:
 * __slc__: an alias for __Simple_Lowercase_Mapping__.
 * __suc__: an alias for __Simple_Uppercase_Mapping__.
 
-* Simple_Lowercase_Mapping slc Simple_Uppercase_Mapping suc
-
-
 ### Examples
 
 ```
