@@ -86,10 +86,19 @@ The returned value is encoded as an unsigned 8-bit integer. You should use C2X a
      ╰──────────────────────────────────╯  └──────┘  ╰───╯
 ```
 
-Returns the Canonical Decomposition property associated to the Unicode codepoint identified by _code_ (this will be the supplied _code_ itself when there is no explicit decomposition in ``UnicodeData.txt``). _Code_ can be a UTF-32 codepoint (that is, a 4-byte binary integer representing a Unicode scalar), or
-a hexadecimal codepoint.
+Returns the Canonical Decomposition property associated to the Unicode codepoint identified by _code_ (this will be the supplied _code_ itself when there is no explicit decomposition in ``UnicodeData.txt``). _Code_ can be a UTF-32 codepoint (that is, a 4-byte binary integer representing a Unicode scalar), or a hexadecimal codepoint.
 
 The returned value consists of a blank-separated list of Unicode codepoints. Individual codepoints have a minimum of four hexadecimal digits, and no leading zero if their length exceeds four bytes.
+
+## ccc (Class method)
+
+```
+     ╭──────╮  ┌──────┐  ╭───╮
+▸▸───┤ ccc( ├──┤ code ├──┤ ) ├─▸◂
+     ╰──────╯  └──────┘  ╰───╯
+```
+
+Returns the same value as the _Canonical_Combining_Class_ method.
 
 ## toNFD
 
