@@ -109,12 +109,14 @@
 
 ::Method Activate Class
   Expose n2p. c2n.
-  
+    
   inFile = super~UCDFile.Qualify( self~UnicodeData )
   
   Call Stream inFile, "c", "query exists"
   
-  if result == "" Then self~SyntaxError("File '"inFile"' not found. Aborting")
+  If result == "" Then self~SyntaxError("File '"inFile"' not found. Aborting")
+  
+  Call Stream inFile,"C","Close"
 
   Call Time "R"
 

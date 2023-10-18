@@ -103,7 +103,7 @@ End
       Raise Syntax 93.900 Additional("Invalid option '"Arg(2)"'")
   End
   name = Upper(name)
-  If Names.~hasIndex(name) Then Return names.[Upper(name)]
+  If Names.~hasIndex(name) Then Return names.[name]
   If \syntax Then Return ""
   Raise Syntax 93.900 Additional("Encoding '"name"' not found.")
  

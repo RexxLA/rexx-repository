@@ -58,6 +58,10 @@
 ::Attribute Lo_CJK_Unified_Ideograph       Class Get
 ::Attribute Lt                             Class Get
  
+::Method "[]" Class
+  Use Strict Arg code
+  Return self~nameOf[ self~hexValueOfPropertyAt( code ) ] 
+ 
 ::Method hexValueOfPropertyAt Class
   Use Local -- Should be "Expose BinaryString (variables)", but it is slow
   

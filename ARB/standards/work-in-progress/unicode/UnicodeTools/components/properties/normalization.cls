@@ -30,20 +30,19 @@
 
 ::Constant BinaryFile                           "normalization.bin"  
 
-::Constant Normalization.Properties             "Canonical_Decomposition Canonical_Combining_Class"
-::Constant Normalization.Aliases                "=                       ccc"
+::Constant Normalization.Properties             "Canonical_Decomposition_Mapping Canonical_Combining_Class ccc"
 
 --
 -- Activate is automatically called at the end of class initialization.
 --
  
 ::Method Activate Class
-  Expose canonicalCombiningClass Canonical_Decomposition. canonicalDouble canonicalDoubleFirsts canonicalDoubleLasts CJK_2F800_2FA1D CJK_F900_FAD9
+  Expose canonicalCombiningClass Canonical_Decomposition_Mapping. canonicalDouble canonicalDoubleFirsts canonicalDoubleLasts CJK_2F800_2FA1D CJK_F900_FAD9
 
   -- Inform the registry that we will be handling these properties, functions and aliases
   
   super~registerFunctions(  "toNFD", self )
-  super~registerProperties( self~Normalization.Properties, self~Normalization.Aliases, self )
+  super~registerProperties( self~Normalization.Properties, self )
       
   If .Unicode.Buildtime \== 1 Then Do
     super~loadPersistent( super~BinFile.Qualify( self~binaryFile ) ) 
@@ -86,22 +85,25 @@
 --
 --  
   
-  Canonical_Decomposition.    = "Same"
-  Canonical_Decomposition.03  = "03"
-  Canonical_Decomposition.1F  = "1F"
-  Canonical_Decomposition.20  = "20"
-  Canonical_Decomposition.21  = "21"
-  Canonical_Decomposition.23  = "23"
+  Canonical_Decomposition_Mapping.    = "Same"
+  Canonical_Decomposition_Mapping.03  = "03"
+  Canonical_Decomposition_Mapping.1F  = "1F"
+  Canonical_Decomposition_Mapping.20  = "20"
+  Canonical_Decomposition_Mapping.21  = "21"
+  Canonical_Decomposition_Mapping.23  = "23"
   Do i = X2D(AC) To X2D(D7)
     x = D2X(i)
-    Canonical_Decomposition.x = "Hangul_Syllabe"
+    Canonical_Decomposition_Mapping.x = "Hangul_Syllabe"
   End
-  Canonical_Decomposition.F9  = "CJK_FXXX"
-  Canonical_Decomposition.FA  = "CJK_FXXX"
-  Canonical_Decomposition.2F8 = "CJK_2FXXX"
-  Canonical_Decomposition.2F9 = "CJK_2FXXX"
-  Canonical_Decomposition.2FA = "CJK_2FXXX"
-
+  Canonical_Decomposition_Mapping.F9  = "CJK_FXXX"
+  Canonical_Decomposition_Mapping.FA  = "CJK_FXXX"
+  Canonical_Decomposition_Mapping.2F8 = "CJK_2FXXX"
+  Canonical_Decomposition_Mapping.2F9 = "CJK_2FXXX"
+  Canonical_Decomposition_Mapping.2FA = "CJK_2FXXX"
+    
+::Method ccc                       Class
+  Forward Message "Canonical_Combining_Class"
+  
 ::Method Canonical_Combining_Class Class
   Expose canonicalCombiningClass
 
@@ -109,10 +111,8 @@
   
   If code~startsWith("00"X) Then code = C2X(code)
   code = NiceCode(Upper(code))
-  
-  n   = X2D(code)
-  
-  Return canonicalCombiningClass[n]
+    
+  Return X2D(C2X( canonicalCombiningClass[ X2D(code) ] ))
   
 NiceCode: 
   Arg aCode
@@ -120,8 +120,10 @@ NiceCode:
   If Length(aCode) < 4 Then aCode = Right(aCode,4,0)
 Return aCode  
 
-::Method Canonical_Decomposition   Class
-  Expose Canonical_Decomposition. canonicalDouble canonicalDoubleFirsts canonicalDoubleLasts CJK_2F800_2FA1D CJK_F900_FAD9
+::Method Canonical_Composition             Class
+
+::Method Canonical_Decomposition_Mapping   Class
+  Expose Canonical_Decomposition_Mapping. canonicalDouble canonicalDoubleFirsts canonicalDoubleLasts CJK_2F800_2FA1D CJK_F900_FAD9
   
   Use Strict Arg code
   
@@ -141,7 +143,7 @@ Return aCode
   End
   
   co = code~left(Length(code)-2)
-  Signal (Canonical_Decomposition.co)
+  Signal (Canonical_Decomposition_Mapping.co)
 
 NiceCode: 
   Arg aCode
@@ -258,20 +260,29 @@ CJK_FXXX:
 ::Method toNFD Class
   Use Strict arg string, failingPos = 1
   
+  -- TODO: Take a look at that:
+  -- "14.1.3 Optimizing Tables for NFD Quick Check
+  -- "The values of the Canonical_Combining_Class property are constrained by the character encoding stability guarantees to the range 0..254; 
+  --  the value 255 will never be assigned for a Canonical_Combining_Class value. Because of this constraint, implementations can make use of 255 
+  --  as an implementation-specific value for optimizing data tables. For example, one can do a fast and compact table for implementing isNFD(x) 
+  --  by using the value 255 to represent NFKC_QC=No."
+  --  (https://www.unicode.org/reports/tr15/tr15-53.html)
+  
+  
   utf32 = string~c2u("UTF32")
   
   buffer = .Array~new
   
   Do i = 1 To Length(utf32) By 4
     code = NiceCode(C2X(utf32[i,4]))
-    codes = self~Canonical_Decomposition(code)
+    codes = self~Canonical_Decomposition_Mapping(code)
     If code == codes Then Do
       buffer~append(code)
       Iterate
     End
     Parse Value codes With first rest
     Do While Length(first) > 0
-      codes = self~Canonical_Decomposition(first)
+      codes = self~Canonical_Decomposition_Mapping(first)
       If codes == first Then Do
         buffer~append(first)
         Parse Value rest With first rest
@@ -294,9 +305,9 @@ CJK_FXXX:
     A = buffer[i - 1]
     B = buffer[i    ]
     cccB = self~Canonical_Combining_Class(B) 
-    If cccB \== "00"X Then Do
+    If cccB \== 0 Then Do
       cccA = self~Canonical_Combining_Class(A) 
-      If cccA >> cccB Then Do
+      If cccA > cccB Then Do
         temp = buffer[i-1]
         buffer[i-1] = buffer[i]
         buffer[i] = temp

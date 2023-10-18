@@ -120,6 +120,20 @@ CheckAFile:
   inFile = super~UCDFile.Qualify(Arg(1))
   
   Do counter c property Over Arg(2)~makeArray(" ")
+    -- Skip alias!
+    If property = "Alpha"  Then Iterate
+    If property = "Lower"  Then Iterate
+    If property = "Upper"  Then Iterate
+    If property = "CI"     Then Iterate
+    If property = "CWL"    Then Iterate
+    If property = "CWU"    Then Iterate
+    If property = "CWT"    Then Iterate
+    If property = "CWCF"   Then Iterate
+    If property = "CWCM"   Then Iterate
+    If property = "OAlpha" Then Iterate
+    If property = "OLower" Then Iterate
+    If property = "OUpper" Then Iterate
+    If property = "SD"     Then Iterate
     Say Right(c,2) "Checking '"property"'..."
     Call Stream inFile, "c", "Close"
     Call Stream inFile, "c", "Open"

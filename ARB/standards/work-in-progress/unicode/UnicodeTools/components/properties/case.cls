@@ -36,19 +36,15 @@
 
 ::Constant BinaryFile                           "case.bin"  
 
-::Constant UnicodeData.Properties               "Simple_Lowercase_Mapping Simple_Uppercase_Mapping"
-::Constant UnicodeData.Aliases                  "slc                      suc"
+::Constant UnicodeData.Properties               "Simple_Lowercase_Mapping slc Simple_Uppercase_Mapping suc"
 
-::Constant DerivedCoreProperties.Properties     "Math Alphabetic Lowercase Uppercase Cased Case_Ignorable Changes_When_Lowercased Changes_When_Uppercased Changes_When_Titlecased Changes_When_Casefolded Changes_When_Casemapped"
-::Constant DerivedCoreProperties.Aliases        "=    Alpha      Lower     Upper     =     CI             CWL                     CWU                     CWT                     CWCF                    CWCM"
+::Constant DerivedCoreProperties.Properties     "Math Alphabetic Alpha Lowercase Lower Uppercase Upper Cased Case_Ignorable CI Changes_When_Lowercased CWL Changes_When_Uppercased CWU Changes_When_Titlecased CWT Changes_When_Casefolded CWCF Changes_When_Casemapped CWCM"
 
 ::Constant DerivedNormalizationProps.Properties "Full_Composition_Exclusion NFD_QC_N NFC_QC_N NFC_QC_M NFKD_QC_N NFKC_QC_N NFKC_QC_M Changes_When_NFKC_Casefolded"
 -- .Export different from .Properties because we internally implement the QC properties as if they were binary
-::Constant DerivedNormalizationProps.Export     "Full_Composition_Exclusion NFD_Quick_Check NFC_Quick_Check NFKD_Quick_Check  NFKC_Quick_Check Changes_When_NFKC_Casefolded"
-::Constant DerivedNormalizationProps.Aliases    "Comp_Ex                    NFD_QC          NFC_QC          NFKD_QC           NFKC_QC          CWKCF"
+::Constant DerivedNormalizationProps.Export     "Full_Composition_Exclusion Comp_Ex NFD_Quick_Check NFD_QC NFC_Quick_Check NFC_QC NFKD_Quick_Check NFKD_QC NFKC_Quick_Check NFKC_QC Changes_When_NFKC_Casefolded CWKCF"
 
-::Constant PropList.Properties                  "Other_Alphabetic Other_Lowercase Other_Uppercase Soft_Dotted"
-::Constant PropList.Aliases                     "OAlpha           OLower          OUpper          SD"
+::Constant PropList.Properties                  "Other_Alphabetic OAlpha Other_Lowercase OLower Other_Uppercase OUpper Soft_Dotted SD"
 
 ::Constant Masks (                                   -
    /*                                           */   -
@@ -102,10 +98,10 @@
   
   super~registerFunctions(  "toLowercase", self )
   super~registerFunctions(  "toUppercase", self )
-  super~registerProperties( UnicodeData.Properties,           UnicodeData.Aliases,               self )
-  super~registerProperties( DerivedCoreProperties.Properties, DerivedCoreProperties.Aliases,     self )
-  super~registerProperties( DerivedNormalizationProps.Export, DerivedNormalizationProps.Aliases, self )
-  super~registerProperties( PropList.Properties,              PropList.Aliases,                  self )
+  super~registerProperties( self~UnicodeData.Properties,           self )
+  super~registerProperties( self~DerivedCoreProperties.Properties, self )
+  super~registerProperties( self~DerivedNormalizationProps.Export, self )
+  super~registerProperties( self~PropList.Properties,              self )
       
   If .Unicode.Buildtime \== 1 Then Do
     super~loadPersistent( super~BinFile.Qualify( self~binaryFile ) ) 
@@ -137,6 +133,8 @@
   Use Strict Arg code  
   Return BITAND(caseproperties[X2D(code)], mask.Math) == mask.Math
 
+::Method Alpha     Class
+  Forward Message "Alphabetic"
 ::Method Alphabetic Class
   Expose mask. caseproperties
   Use Strict Arg code
@@ -147,11 +145,15 @@
   If value == .Unicode.General_Category~Lo_CJK_Unified_Ideograph       Then Return 1
   Return 0
 
+::Method Lower     Class
+  Forward Message "Lowercase"
 ::Method Lowercase Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Lowercase) == mask.Lowercase
   
+::Method Upper     Class
+  Forward Message "Uppercase"  
 ::Method Uppercase Class
   Expose mask. caseproperties
   Use Strict Arg code
@@ -162,6 +164,8 @@
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Cased) == mask.Cased
   
+::Method CI             Class    
+  Forward Message "Case_Ignorable"
 ::Method Case_Ignorable Class  
   Expose mask. caseproperties
   Use Strict Arg code
@@ -174,31 +178,43 @@
   If n >= X2D(E0100), n <= X2D(E01EF) Then Return 1
   Return 0
   
+::Method CWL                     Class  
+  Forward Message "Changes_When_Lowercased"
 ::Method Changes_When_Lowercased Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Lowercased) == mask.Changes_When_Lowercased
-  
+
+::Method CWU                     Class  
+  Forward Message "Changes_When_Uppercased"
 ::Method Changes_When_Uppercased Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Uppercased) == mask.Changes_When_Uppercased
 
+::Method CWT                     Class  
+  Forward Message "Changes_When_Titlecased"
 ::Method Changes_When_Titlecased Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Titlecased) == mask.Changes_When_Titlecased
 
+::Method CWCF                    Class
+  Forward Message "Changes_When_Casefolded"
 ::Method Changes_When_Casefolded Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Casefolded) == mask.Changes_When_Casefolded
 
+::Method CWCM                    Class
+  Forward Message "Changes_When_Casemapped"
 ::Method Changes_When_Casemapped Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Casemapped) == mask.Changes_When_Casemapped
 
+::Method Comp_Ex                    Class
+  Forward Message "Full_Composition_Exclusion"
 ::Method Full_Composition_Exclusion Class
   Expose mask. caseproperties
   Use Strict Arg code
@@ -209,6 +225,8 @@
   If n <= X2D("2FA1D") Then Return 1
   Return 0
 
+::Method NFD_QC          Class
+  Forward Message "NFD_Quick_Check"
 ::Method NFD_Quick_Check Class
   Use Strict Arg code
   If self~NFD_QC_N(code) Then Return "N"
@@ -224,6 +242,8 @@
   If n <= X2D("2FA1D") Then Return 1
   Return 0
 
+::Method NFC_QC          Class
+  Forward Message "NFC_Quick_Check"
 ::Method NFC_Quick_Check Class
   Use Strict Arg code
   If self~NFC_QC_N(code) Then Return "N"
@@ -245,6 +265,8 @@
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.NFC_QC_M) == mask.NFC_QC_M
 
+::Method NFKD_QC          Class
+  Forward Message "NFKD_Quick_Check"
 ::Method NFKD_Quick_Check Class
   Use Strict Arg code
   If self~NFKD_QC_N(code) Then Return "N"
@@ -260,10 +282,12 @@
   If n <= X2D("2FA1D") Then Return 1
   Return 0
 
-::Method NFKC_Quick_Check
+::Method NFKC_QC          Class
+  Forward Message "NFKC_Quick_Check"
+::Method NFKC_Quick_Check Class
   Use Strict Arg code
   If self~NFKC_QC_N(code) Then Return "N"
-  If self~NFKC_QC_M(code) Then Return "Y"
+  If self~NFKC_QC_M(code) Then Return "M"
   Return "Y"
 
 ::Method NFKC_QC_N Class
@@ -293,26 +317,36 @@
   If n <= X2D("E0FFF") Then Return 1
   Return 0
 
+::Method OAlpha           Class
+  Forward Message "Other_Alphabetic"
 ::Method Other_Alphabetic Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Other_Alphabetic) == mask.Other_Alphabetic
 
+::Method OLower           Class
+  Forward Message "Other_Lowercase"
 ::Method Other_Lowercase Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Other_Lowercase) == mask.Other_Lowercase
 
+::Method OUpper           Class
+  Forward Message "Other_Uppercase"
 ::Method Other_Uppercase Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Other_Uppercase) == mask.Other_Uppercase
 
+::Method SD           Class
+  Forward Message "Soft_Dotted"
 ::Method Soft_Dotted Class
   Expose mask. caseproperties
   Use Strict Arg code
   Return BITAND(caseproperties[X2D(code)], mask.Soft_Dotted) == mask.Soft_Dotted
 
+::Method suc                      Class
+  Forward Message "Simple_Uppercase_Mapping"
 ::Method Simple_Uppercase_Mapping Class
   Expose uppercase
   Use Strict Arg code
@@ -324,6 +358,8 @@
   If Length(upper) < 4 Then Return Right(upper, 4, 0)
   Return upper
 
+::Method slc                      Class
+  Forward Message "Simple_Lowercase_Mapping"
 ::Method Simple_Lowercase_Mapping Class
   Expose lowercase
   Use Strict Arg code

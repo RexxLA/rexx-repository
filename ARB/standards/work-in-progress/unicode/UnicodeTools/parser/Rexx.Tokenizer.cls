@@ -35,6 +35,7 @@
  *    <tr><td>      <td>JMB <td>20230818<td>All tokens return "line1 start line2 start" as .location
  *    <tr><td>00.4  <td>JMB <td>20230901<td>Implement full tokenizing
  *    <tr><td>00.4a <td>JMB <td>20230901<td>Move most of the external documentation to readme.md
+ *    <tr><td>00.4c <td>    <td>20231016 <td>Add G strings
  *  </table>
  *                                                                           
  */
@@ -201,6 +202,7 @@
     ( CHARACTER_STRING             , "*" ), -  
     ( BYTES_STRING                 , "*" ), -  -- Unicode only. Y suffix
     ( CODEPOINTS_STRING            , "*" ), -  -- Unicode only. P suffix
+    ( GRAPHEMES_STRING             , "*" ), -  -- Unicode only. G suffix
     ( TEXT_STRING                  , "*" ), -  -- Unicode only. T suffix
     ( UNOTATION_STRING             , "*" )  -  -- Unicode only. U suffix
 )
@@ -218,7 +220,7 @@
   STRING_OR_SYMBOL              = STRING || SYMBOL
   IGNORE_NEXT_BLANK             = END_OF_CLAUSE || OPERATOR || SPECIAL || COLON || LPAREN || LBRACKET
   -- NULL clauses are ignored
-  CLAUSE            = LABEL || DIRECTIVE || KEYWORD_INSTRUCTION || ASSIGNMENT_INSTRUCTION || COMMAND_OR_MESSAGE_INSTRUCTION
+  CLAUSE                        = LABEL || DIRECTIVE || KEYWORD_INSTRUCTION || ASSIGNMENT_INSTRUCTION || COMMAND_OR_MESSAGE_INSTRUCTION
 
 -- Transform string suffixes to subclasses
 ::Method InitializeStringSuffixes Private
@@ -228,6 +230,7 @@
   suffix2subClass.["K"] = CHARACTER_STRING
   suffix2subClass.["Y"] = BYTES_STRING
   suffix2subClass.["P"] = CODEPOINTS_STRING
+  suffix2subClass.["G"] = GRAPHEMES_STRING
   suffix2subClass.["T"] = TEXT_STRING
   suffix2subClass.["U"] = UNOTATION_STRING
 
@@ -1242,10 +1245,10 @@ environmentSymbol:
   End
   pos = p + 1
   r = thisLine[pos]~upper
-  If  .unicode, Pos(r,"XBPTUY") == 0 Then r = ""
+  If  .unicode, Pos(r,"XBPGTUY") == 0 Then r = ""
   If \.unicode, Pos(r,"XB")     == 0 Then r = ""
   If r \== "" , (pos+1 == maxPos | Verify(charCat[pos+1], var_symbol_char)) Then Do
-    If Pos(r,"PTU") > 0 Then Signal UnicodeString
+    If Pos(r,"PGTU") > 0 Then Signal UnicodeString
     If r == "Y" Then Signal BytesString
     inside = Translate(thisLine[start+1,pos-start-2]," ","09"x)  
     -- TODO See what does Regina consider whitespace inside such strings
@@ -1292,7 +1295,7 @@ BytesString:
  
 UnicodeString:
   If r == "U" Then Signal UnicodeUString
-UnicodePandTStrings:  
+UnicodePGandTStrings:  
   v = thisLine[oldPos,pos-oldPos-1]~changeStr(q||q,q)
   length = Length(v)
   -- See https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf,
@@ -1347,7 +1350,7 @@ UnicodePandTStrings:
     End
     Iterate
   End
-  -- Do something
+  -- TODO: For G strings, ensure NFC
   Call nextChar -- Skip radix
 Signal StringCommon  
 

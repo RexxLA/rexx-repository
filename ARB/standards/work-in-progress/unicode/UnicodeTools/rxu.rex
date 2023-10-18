@@ -52,6 +52,7 @@
  *   <tr><td>      <td>    <td>20230911 <td>X and B strings are always BYTES
  *   <tr><td>      <td>    <td>20230912 <td>DEFAULTSTRING should affect numbers too
  *   <tr><td>      <td>    <td>20230917 <td>Migrate most docs to md (see rxu.md and the /doc subdir)
+ *   <tr><td>00.4c <td>    <td>20231016 <td>Add G strings
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -364,7 +365,7 @@ StringAsIs:
   Select Case z[subClass]
     -- When UNOTATION_STRING        Then transformed = '"'C2X(z[value])'"X'
     When UNOTATION_STRING Then transformed = '"'ChangeStr('"',z[value],'""')'"'
-    When BYTES_STRING, CODEPOINTS_STRING, TEXT_STRING,
+    When BYTES_STRING, CODEPOINTS_STRING, GRAPHEMES_STRING, TEXT_STRING,
                           Then transformed = array[line1][col1,col2-col1-1]
     Otherwise                  transformed = array[line1][col1,col2-col1]  -- Identity
   End
@@ -392,6 +393,7 @@ TypedStringOrNumber:
   Select Case z[subClass]
     When UNOTATION_STRING   Then transformed =      concat'(Bytes("'ChangeStr('"',z[value],'""')'"))'
     When CODEPOINTS_STRING  Then transformed = concat'(Codepoints('array[line1][col1,col2-col1-1]'))'
+    When GRAPHEMES_STRING   Then transformed =  concat'(Graphemes('array[line1][col1,col2-col1-1]'))'
     When TEXT_STRING        Then transformed =       concat'(Text('array[line1][col1,col2-col1-1]'))'
     When BYTES_STRING       Then transformed =      concat'(Bytes('array[line1][col1,col2-col1-1]'))'
     When HEXADECIMAL_STRING Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))' 

@@ -44,6 +44,8 @@
 -- List of UCD files
 
 ::Constant UnicodeData               "UnicodeData-15.0.0.txt"  
+
+::Constant CompositionExclusions     "CompositionExclusions-15.0.0.txt"
 ::Constant DerivedCoreProperties     "DerivedCoreProperties-15.0.0.txt"
 ::Constant DerivedNormalizationProps "DerivedNormalizationProps-15.0.0.txt"
 ::Constant Emoji_data                "emoji-data-15.0.0.txt"
@@ -60,7 +62,9 @@
 
 ::Method RegisterProperties Class
   Expose propertyRegistry propertyHandler
-  Use Strict Arg propertyList, propertyAliases, handler
+  
+  Use Strict Arg propertyList, handler
+  propertyList    = Upper( propertyList    )
   Do i = 1 To Words(propertyList)
     property = Word(propertyList, i)
     If propertyRegistry~hasIndex(property) Then
@@ -68,19 +72,11 @@
     propertyRegistry[ property ] = property
     propertyHandler[  property ] = handler
   End
-  Do i = 1 To Min( Words(propertyList), Words(propertyAliases) )
-    property = Word(propertyList, i)
-    alias    = Word(propertyAliases, i)
-    If alias == "=" Then Iterate
-    If propertyRegistry~hasIndex(alias) Then
-      self~SyntaxError("Property name '"alias"' already registered")
-    propertyRegistry[ alias ] = property
-    propertyHandler[  alias ] = handler
-  End
 
 ::Method RegisterFunctions  Class
   Expose functionRegistry
   Use Strict Arg functionList, handler
+  functionList = Upper( functionList )
   Do function Over Upper(functionList)~makeArray(" ")
     If functionRegistry~hasIndex(function) Then
       self~SyntaxError("Function '"function"' already registered")
@@ -148,12 +144,23 @@
   Parse Source . . myself
   myDir = Left( myself,LastPos( separator, myself ) )
 
--- Main getter method
-
-::Method "[]" Class
-  Use Strict Arg code
-  Return self~nameOf[ self~hexValueOfPropertyAt( code ) ]
-
+::Method "[]" Class  
+  Expose propertyHandler
+  Use Strict Arg name, option = "SYNTAX"
+  name   = Upper( name   )
+  option = Upper( option )
+  Select Case option
+    When "SYNTAX" Then syntax = 1
+    When "NULL"   Then syntax = 0
+    When ""       Then syntax = 0
+    Otherwise
+      Raise Syntax 93.900 Additional("Invalid option '"Arg(2)"'")
+  End  
+  If \propertyHandler~hasIndex(name) Then
+    If \syntax Then Return ""
+    Else Raise Syntax 93.900 Additional("Property '"name"' not found.")
+  Return propertyHandler[name]
+  
 -- This will hold the enumerated values of the property
 
 ::Method Variables Class Abstract
@@ -169,104 +176,3 @@
 ::Method SyntaxError Class
   Use Strict Arg message
   Raise Syntax 98.900 Additional(message)  
-
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
--- The PersistentStringTable class                                            --
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-
-::Class PersistentStringTable SubClass StringTable Private
-::Method Save
-  Use Strict arg target
-  size = 4 -- To store the number of elements
-  Do With Index index Item item over self
-    If \item~isA(.String)  Then Raise Syntax 93.900 Additional("PersistentStringTable value cannot be saved because item at index '"index"' is not a string.")
-    If Length(index) > 255 Then Raise Syntax 93.900 Additional("PersistentStringTable value cannot be saved because index '"index"' is longer that 255 characters.")
-    size += 1 + Length(index) + 4 + 4 + Length(item)
-  End
-  If size > 3**32-1 Then Raise Syntax 93.900 Additional("Stringtable too big.")
-  
-  Call Stream target,"c","Open Write Replace"
-  If result \== "READY:" Then Raise Syntax 98.920 Array(target,result)
-  
-  bin = .MutableBuffer~new(,size)
-  
-  -- Store the number of items as a 32-bit integer
-  Call StoreInt32At 0, self~items
-  
-  offset  = 4  -- Current offset in bin
-  offset. = 0  -- Offset of the different self~index values
-  
-  Do index Over self~allIndexes
-    length = Length(index)
-    Call StoreInt8At  offset, length
-    offset += 1
-    Call StoreStringAt offset, index
-    offset += length
-    offset.index = offset
-    offset += 8
-  End
-
-  Do ix Over self~allIndexes
-    length = Length(self[ix])
-    Call StoreStringAt offset,     self[ix]
-    Call StoreInt32At  offset.ix,   offset
-    Call StoreInt32At  offset.ix+4, length
-    offset += length
-  End
-  
-  Call CharOut target, bin
-  If result \== 0 Then 
-    Raise Syntax 98.900 Additional("Not all bytes written to file '"target"';" result "bytes remaining.")
-  
-  Call Stream target, "c", "close"
-  If result \== "READY:" Then 
-    Raise Syntax 98.900 Additional("Error when closing file '"target"': '"result"'.")
-  
-Return
-
-StoreInt8At:
-  bin[Arg(1)+1] = X2C(D2X(Arg(2)))
-Return 
-
-StoreInt32At:
-  bin[Arg(1)+1] = Right(X2C(D2X(Arg(2))),4,"00"X)  
-Return 
-
-StoreStringAt:
-  bin[Arg(1)+1] = Arg(2)
-Return
-  
-::Method Load
-  Use Strict Arg source
-  
-  If Stream(source,"c","Query exists") = "" Then
-    Raise Syntax 98.900 Additional("File '"source"' not found.")
-    
-  Call Stream source, "c", "Open read"
-  If result \== "READY:" Then Raise Syntax 98.900 Additional("Can not open file '"source"' for reading, error was '"result"'.")
-  
-  size = Stream(source,"c","Query size")
-  bin  = CharIn(source,1,size)
-  
-  Call Stream source, "c", "Close"  
-  If result \== "READY:" Then 
-    Raise Syntax 98.900 Additional("Error when closing file '"source"': '"result"'.")
-    
-  items = Int32At(0)
-  offset = 4
-  Do i = 1 To items
-    length = Int8At(offset)
-    name = StringAt(offset+1,length)
-    valuePos = Int32At(1 + offset + length)
-    valueLen = Int32At(1 + offset + length + 4)
-    self[name] = StringAt(valuePos,valueLen)
-    offset += 1 + length + 8
-  End
-
-Return
-
-StringAt: Return bin[Arg(1)+1,Arg(2)]
-Int8At:   Return bin[Arg(1)+1,1]~c2x~x2d
-Int32At:  Return bin[Arg(1)+1,4]~c2x~x2d

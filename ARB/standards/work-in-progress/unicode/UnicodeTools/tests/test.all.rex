@@ -38,6 +38,10 @@ Say Time("E") "Calling test.lines.rxu..."
 Call "rxu.rex" "test.lines.rxu auto" 
 If result \== 0 Then Exit result
 
+Say Time("E") "Calling test.unicode.property.rxu..."
+Call "rxu.rex" "test.unicode.property.rxu auto" 
+If result \== 0 Then Exit result
+
 Say Time("E") "Calling test.utf8.rex..."
 Call "test.utf8.rex"
 If result \== 0 Then Exit result

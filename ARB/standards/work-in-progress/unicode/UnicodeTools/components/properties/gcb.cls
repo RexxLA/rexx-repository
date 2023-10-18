@@ -94,6 +94,10 @@
 --                      01    02      03 04     05               06                   07 08 09 0A  0B      0C                 0D         0E 10 11
 ::Constant BinaryFile "gcb.bin"  
   
+::Method "[]" Class
+  Use Strict Arg code
+  Return self~nameOf[ self~hexValueOfPropertyAt( code ) ]  
+  
 ::Method hexValueOfPropertyAt Class
   Expose Control Extend Other table
   
@@ -279,4 +283,5 @@ UTF8: Procedure -- Internal, fast
     When n <= 65535 Then Return X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
     Otherwise            Return X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6)))
   End
+  
 ::Requires "properties.cls"

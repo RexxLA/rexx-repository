@@ -107,15 +107,15 @@
     dcode = X2D(code)
     If ccc == 0, dcode < X2D(20000) Then Iterate
     Do n = oldcode To dcode-1
-      If self~Canonical_Combining_Class(d2x(n)) \== "00"X Then Do
-        Say "FAILED! UnicodeData ccc for '"d2x(n)"'U says 0, found" self~Canonical_Combining_Class(d2x(n))~c2x~x2d "instead."
+      If self~Canonical_Combining_Class(d2x(n)) \== 0 Then Do
+        Say "FAILED! UnicodeData ccc for '"d2x(n)"'U says 0, found" self~Canonical_Combining_Class(d2x(n)) "instead."
         Exit 1
       End
       tests += 1
     End
     If dcode >= X2D(20000) Then Leave
-    If self~Canonical_Combining_Class(code)~c2x~x2d \== ccc Then Do
-      Say "FAILED! UnicodeData ccc for '"code"'U says" ccc", found" self~Canonical_Combining_Class(code)~c2x~x2d "instead."
+    If self~Canonical_Combining_Class(code) \== ccc Then Do
+      Say "FAILED! UnicodeData ccc for '"code"'U says" ccc", found" self~Canonical_Combining_Class(code) "instead."
       Exit 1
     End
     tests += 1
@@ -128,7 +128,7 @@
   
   Say 
   
-  Say "Checking the Canonical_Decomposition property in UnicodeData.txt..."
+  Say "Checking the Canonical_Decomposition_Mapping property in UnicodeData.txt..."
   
   tests = 0
 
@@ -142,15 +142,15 @@
     Do n = oldcode To dcode-1
       If n >= X2D(AC00), n <= X2D(DA73) Then Iterate -- Skip Hangul Syllabes
       nx = NiceCode(D2X(n))
-      If self~Canonical_Decomposition(nx) \== nx Then Do
-        Say "FAILED! UnicodeData canonical decomposition for '"d2x(n)"'U says '', found" self~Canonical_Decomposition(nx) "instead."
+      If self~Canonical_Decomposition_Mapping(nx) \== nx Then Do
+        Say "FAILED! UnicodeData canonical decomposition for '"d2x(n)"'U says '', found" self~Canonical_Decomposition_Mapping(nx) "instead."
         Exit 1
       End
       tests += 1
     End
     If dcode >= X2D(30000) Then Leave    
-    If self~Canonical_Decomposition(code) \== decomp Then Do
-      Say "FAILED! UnicodeData canonical decomposition for '"code"'U says '"decomp"', found" self~Canonical_Decomposition(code) "instead."
+    If self~Canonical_Decomposition_Mapping(code) \== decomp Then Do
+      Say "FAILED! UnicodeData canonical decomposition for '"code"'U says '"decomp"', found" self~Canonical_Decomposition_Mapping(code) "instead."
       Exit 1
     End
     tests += 1

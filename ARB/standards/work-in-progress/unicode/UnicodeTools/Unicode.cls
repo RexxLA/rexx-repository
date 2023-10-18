@@ -54,6 +54,7 @@
 
 .local~bytes                 = .Bytes       -- Make sure .Bytes is known everywhere
 .local~codepoints            = .Codepoints  -- Make sure .Codepoints is known everywhere
+.local~graphemes             = .Graphemes   -- Make sure .Graphemes is known everywhere
 .local~text                  = .Text        -- Make sure .Text is known everywhere
 
 --------------------------------------------------------------------------------
@@ -87,6 +88,7 @@
       When "DEFAULTSTRING BYTES"      Then .local~Unicode.DefaultString = "Bytes"
       When "DEFAULTSTRING CODEPOINTS" Then .local~Unicode.DefaultString = "Codepoints"
       When "DEFAULTSTRING TEXT"       Then .local~Unicode.DefaultString = "Text"
+      When "DEFAULTSTRING GRAPHEMES"  Then .local~Unicode.DefaultString = "Graphemes"
       When "DEFAULTSTRING NONE"       Then .local~Unicode.DefaultString = ""
       When "COERCIONS NONE"           Then .local~Unicode.Coercions     = "None"
       When "COERCIONS LEFT"           Then .local~Unicode.Coercions     = "Left"
@@ -110,6 +112,7 @@
   Select Case Upper(.Unicode.DefaultString)
     When "BYTES"      Then Return Bytes(string)
     When "CODEPOINTS" Then Return Codepoints(string)
+    When "GRAPHEMES"  Then Return Graphemes(string)
     When "TEXT"       Then Return Text(string)
     When "NONE",""    Then Return String
     Otherwise              Return String -- Should not happen
@@ -143,41 +146,34 @@ TO:
   If \string~isA(.Codepoints) Then string = CODEPOINTS(string)
   Select Case to
     When "TONFD" Then Return .Unicode.normalization~toNFD(string)
-    Otherwise Raise Syntax 88.900 Additional("Invalid option '"is"'")
+    Otherwise Raise Syntax 88.900 Additional("Invalid option '"to"'")
   End
     
 Properties:
   Use Strict Arg code, option , property
-  
-  code = Upper( code )
-  If \DataType(code,"X") | Length(code) > 6 Then
-    Raise Syntax 40.900 Additional("Invalid code '"code"'")
-  n = X2D(code)
-  If n > 1114111 Then 
-    Raise Syntax 40.900 Additional("Invalid code '"code"'")
-  If Length(code) < 4 Then code = Right(code,4,0)
-  Else If Length(code) > 4 Then
-    Do While code[1] == "0"
-      code = SubStr(code,2)
-      If Length(code) == 4 Then Leave
-    End
     
-  property = Space( Translate( Upper( property ),"  ","-_"), 0)
-  
-  Select Case property
-    When "NA", "NAME" Then Do
-      If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("components/properties/name.cls")
-      Return .Unicode.Name[ code ]
-    End
-    When "GC", "GENERALCATEGORY" Then 
-      Return .Unicode.General_Category[ code ]
-    When "GCB", "GRAPHEMECLUSTERBREAK" Then 
-      Return .Unicode.Grapheme_Cluster_Break[ code ]
-    When "ALGORITHMICNAME" Then -- Until we have a true NAME implementation
-      Return .Unicode.General_Category~Algorithmic_Name( code )
-    Otherwise Raise Syntax 88.900 Additional("Invalid property '"Arg(3)"'")
+  If code~startsWith("00"X) Then 
+    If Length(code) \== 4 Then 
+      Raise Syntax 40.900 Additional("Invalid code '"C2X(code)"'X")
+    Else code = SubStr(C2X(code),3)
+  Else Do
+    code = Upper( code )
+    If \DataType(code,"X") | Length(code) > 6 Then
+      Raise Syntax 40.900 Additional("Invalid code '"code"'")
   End
+  
+  code = Strip(code,"L",0)
+  If Length(code) < 4 Then code = Right(code,4,0)
 
+  If X2D(code) > 1114111 Then 
+    Raise Syntax 40.900 Additional("Invalid code '"code"'")
+    
+  property = Upper( property )
+  
+  handler = .Unicode.Property[property, "SYNTAX"]
+  
+  Return handler~send(property, code)
+  
 ::Routine N2P Public
   Use Strict Arg name
   If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("components/properties/name.cls")  
@@ -226,6 +222,10 @@ Use Strict Arg code
 ::Routine ENCODE Public  
   Use Strict Arg string, encoding, errorHandling=""
   Return .Encoding[encoding]~encode(string, errorHandling)  
+
+::Routine GRAPHEMES Public
+  Use Strict Arg string
+  Return .Graphemes~new(string)
   
 ::Routine TEXT Public
   Use Strict Arg string
@@ -724,10 +724,10 @@ Return 1
   Do i = 5 To Length(utf32) By 4
     B = utf32[i,4]
     cccB = handler~Canonical_Combining_Class(B) 
-    If cccB == "00"X Then Iterate
+    If cccB == 0 Then Iterate
     A = utf32[i-4,4]
     cccA = handler~Canonical_Combining_Class(A) 
-    If cccA >> cccB Then Do
+    If cccA > cccB Then Do
       isNFD = 0
       Return 0
     End
@@ -759,10 +759,10 @@ Return class~new(left~"=":.String(right))
   Return \ self~"="(string)
 
 --------------------------------------------------------------------------------
--- The TEXT class                                                             --
+-- The GRAPHEMES class                                                        --
 --------------------------------------------------------------------------------
 
-::Class "Text" SubClass Codepoints Public
+::Class "Graphemes" SubClass Codepoints Public
   
 ::Method init
   Expose graphemes
@@ -786,9 +786,16 @@ Return class~new(left~"=":.String(right))
   Expose graphemes
   Return graphemes~items
 
+--------------------------------------------------------------------------------
+-- The TEXT class                                                             --
+--------------------------------------------------------------------------------
+
+::Class "Text" SubClass Graphemes Public
+
 ::Requires "utf8.cls"    
 ::Requires "components/stream.cls"  
 ::Requires "components/utilities/MultiStageTable.cls"
+::Requires "components/utilities/PersistentStringTable.cls"
 ::Requires "components/properties/case.cls"
 ::Requires "components/properties/gc.cls"
 ::Requires "components/properties/gcb.cls"
