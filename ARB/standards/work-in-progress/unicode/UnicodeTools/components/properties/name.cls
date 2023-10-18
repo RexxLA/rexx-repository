@@ -62,8 +62,13 @@
 
 ::Class Unicode.Name SubClass Unicode.Property Public
 
-::Method "[]" Class
-  Expose c2n.
+::Method na   Class
+  Forward Message "name"
+::Method name Class
+  Expose c2n. activated
+  
+  If \activated Then self~Delayed_activation
+  
   Use Strict Arg code
   
   If \DataType(code,"X") Then Return ""
@@ -84,11 +89,11 @@
   name = .Unicode.General_Category~Algorithmic_Name(code)
   Return name
 
-::Method p2n Class
-  Forward Message ("[]")
-
 ::Method n2p Class
-  Expose n2p.
+  Expose n2p. activated
+  
+  If \activated Then self~Delayed_activation
+  
   Use Strict Arg name
   label = 0
   If name[1] == "<" Then Do
@@ -107,9 +112,18 @@
   If code \== "" Then Return code
   Return .Unicode.General_Category~Algorithmic_Code(name)
 
+-- Delay activation until it is really needed, because this implementation
+-- is quite slow
+
 ::Method Activate Class
-  Expose n2p. c2n.
-    
+  Expose activated
+  super~registerProperties( "Name Na", self )
+  activated = 0
+  
+::Method Delayed_activation Class
+  Expose n2p. c2n. activated
+  activated = 1
+  
   inFile = super~UCDFile.Qualify( self~UnicodeData )
   
   Call Stream inFile, "c", "query exists"

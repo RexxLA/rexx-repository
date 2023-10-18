@@ -83,6 +83,23 @@
     functionRegistry[ function ] = handler
   End
 
+::Method FunctionHandlerFor Class
+  Expose functionRegistry
+  Use Strict Arg name, option = "SYNTAX"
+  name   = Upper( name   )
+  option = Upper( option )
+  Select Case option
+    When "SYNTAX" Then syntax = 1
+    When "NULL"   Then syntax = 0
+    When ""       Then syntax = 0
+    Otherwise
+      Raise Syntax 93.900 Additional("Invalid option '"Arg(2)"'")
+  End  
+  If \functionRegistry~hasIndex(name) Then
+    If \syntax Then Return ""
+    Else Raise Syntax 93.900 Additional("Function '"name"' not found.")
+  Return functionRegistry[name]
+
 --
 -- Persistence methods
 --

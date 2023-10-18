@@ -39,7 +39,7 @@
 ::Method Activate Class
   Expose canonicalCombiningClass Canonical_Decomposition_Mapping. canonicalDouble canonicalDoubleFirsts canonicalDoubleLasts CJK_2F800_2FA1D CJK_F900_FAD9
 
-  -- Inform the registry that we will be handling these properties, functions and aliases
+  -- Inform the registry that we will be handling these properties and functions
   
   super~registerFunctions(  "toNFD", self )
   super~registerProperties( self~Normalization.Properties, self )
@@ -102,8 +102,7 @@
   Canonical_Decomposition_Mapping.2FA = "CJK_2FXXX"
     
 ::Method ccc                       Class
-  Forward Message "Canonical_Combining_Class"
-  
+  Forward Message "Canonical_Combining_Class" 
 ::Method Canonical_Combining_Class Class
   Expose canonicalCombiningClass
 
@@ -268,6 +267,9 @@ CJK_FXXX:
   --  by using the value 255 to represent NFKC_QC=No."
   --  (https://www.unicode.org/reports/tr15/tr15-53.html)
   
+  If \string~isA(.Codepoints) Then string = CODEPOINTS(string)
+  
+  If string~isNFD Then Return string
   
   utf32 = string~c2u("UTF32")
   

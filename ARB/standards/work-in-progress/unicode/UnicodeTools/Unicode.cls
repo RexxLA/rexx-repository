@@ -125,32 +125,24 @@
   Use Arg , option
   option = Upper( option )
   Select
-    When "PROPERTY"~Abbrev(option,1) Then Signal Properties
-    When option~startsWith("IS") Then Signal IS
-    When option~startsWith("TO") Then Signal TO
-    Otherwise Raise Syntax 88.900 Additional("Invalid option '"Arg(2)"'")
+    When option == "PROPERTY"    Then Signal Properties
+    When option == "ISNFD"       Then Do
+      Use Strict Arg string, function
+      If \string~isA(.Bytes) Then string = BYTES(string)
+      Return string~isNFD    
+    End
+    Otherwise                         Signal Functions
   End
     
-IS:
-  Use Strict Arg string, is
-  is = Upper(is)
-  If \string~isA(.Bytes) Then string = BYTES(string)
-  Select Case is
-    When "ISNFD" Then Return string~isNFD
-    Otherwise Raise Syntax 88.900 Additional("Invalid option '"is"'")
-  End
 
-TO:
-  Use Strict Arg string, to
-  to = Upper(to)
-  If \string~isA(.Codepoints) Then string = CODEPOINTS(string)
-  Select Case to
-    When "TONFD" Then Return .Unicode.normalization~toNFD(string)
-    Otherwise Raise Syntax 88.900 Additional("Invalid option '"to"'")
-  End
-    
+Functions:
+  Use Strict Arg string, function
+  function = Upper(function)
+  handler  = .Unicode.Property~FunctionHandlerFor(function,"SYNTAX")
+  Return handler~send(function, string)
+
 Properties:
-  Use Strict Arg code, option , property
+  Use Strict Arg code, option, property
     
   If code~startsWith("00"X) Then 
     If Length(code) \== 4 Then 
@@ -176,13 +168,12 @@ Properties:
   
 ::Routine N2P Public
   Use Strict Arg name
-  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("components/properties/name.cls")  
   Return .Unicode.Name~n2p( name )
 
 ::Routine P2N Public
-Use Strict Arg code
-  If .Unicode.Name == ".UNICODE.NAME" Then .Context~package~loadPackage("components/properties/name.cls")  
-  Return .Unicode.Name[ code ]
+  Use Strict Arg code
+  Return Unicode(code, "Property", "Name")
+  --Return .Unicode.Name~Name( code )
 
 ::Routine STRINGTYPE Public
   Use Strict Arg string, option = ""
@@ -191,6 +182,7 @@ Use Strict Arg code
   Select
     When Abbrev("BYTES",      option,1) Then Return self~stringType == "BYTES"
     When Abbrev("CODEPOINTS", option,1) Then Return self~stringType == "CODEPOINTS"
+    When Abbrev("GRAPHEMES",  option,1) Then Return self~stringType == "GRAPHEMES"
     When Abbrev("TEXT",       option,1) Then Return self~stringType == "TEXT"
     Otherwise 
       If option \== "" Then
@@ -198,6 +190,7 @@ Use Strict Arg code
   End
   Select
     When string~isA(.Text)       Then Return "TEXT"
+    When string~isA(.Graphemes)  Then Return "GRAPHEMES"
     When string~isA(.Codepoints) Then Return "CODEPOINTS"
     When string~isA(.String)     Then Return "BYTES"
     Otherwise                         Return "NONE"
@@ -393,9 +386,11 @@ UTF8: Procedure
     When "DEMOTE" Then
       If      (lType == "BYTES"      | rType == "BYTES")      Then resultType = "BYTES"
       Else If (lType == "CODEPOINTS" | rType == "CODEPOINTS") Then resultType = "CODEPOINTS"
+      Else If (lType == "GRAPHEMES"  | rType == "GRAPHEMES")  Then resultType = "GRAPHEMES"
       Else                                                         resultType = "TEXT"
     When "PROMOTE" Then
       If      (lType == "TEXT"       | rType == "TEXT")       Then resultType = "TEXT"
+      Else If (lType == "GRAPHEMES"  | rType == "GRAPHEMES")  Then resultType = "GRAPHEMES"
       Else If (lType == "CODEPOINTS" | rType == "CODEPOINTS") Then resultType = "CODEPOINTS"
       Else                                                         resultType = "BYTES"
     When "NONE" Then
@@ -405,6 +400,7 @@ UTF8: Procedure
   End
   Select
     When resultType == "TEXT"       Then Return .Text  
+    When resultType == "GRAPHEMES"  Then Return .Graphemes
     When resultType == "BYTES"      Then Return .Bytes
     When resultType == "CODEPOINTS" Then Return .Codepoints
   End

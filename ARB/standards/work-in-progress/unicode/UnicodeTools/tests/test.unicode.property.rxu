@@ -39,6 +39,9 @@ Call Test 'Unicode("0340", "Property", "Full_Composition_Exclusion"      )', 1
 Call Test 'Unicode("007A", "Property", "Lowercase"                       )', 1
 Call Test 'Unicode("007A", "Property", "Lower"                           )', 1
 Call Test 'Unicode("007C", "Property", "Math"                            )', 1
+Call Test 'Unicode("0041", "Property", "Na"                              )', "LATIN CAPITAL LETTER A"
+Call Test 'Unicode("0041", "Property", "Name"                            )', "LATIN CAPITAL LETTER A"
+Call Test 'Unicode("D800", "Property", "Name"                            )', "<surrogate-D800>"
 Call Test 'Unicode("0313", "Property", "NFC_Quick_Check"                 )', "M"
 Call Test 'Unicode("0313", "Property", "NFC_Quick_Check"                 )', "M"
 Call Test 'Unicode("0313", "Property", "NFC_QC"                          )', "M"
