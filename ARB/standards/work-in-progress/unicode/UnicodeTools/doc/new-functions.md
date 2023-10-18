@@ -265,12 +265,28 @@ The first argument, __code__,
 
 The string _name_ must be one of:
 
+* __Alphabetic__: returns a boolean.
+* __Alpha__: an alias for __Alphabetic__.
 * __Canonical_Combining_Class__: returns an integer between 0 and 254.
+* __Case_Ignorable__: returns a boolean.
+* __Cased__: returns a boolean.
 * __CCC__: an alias for __Canonical_Combining_Class__.
-* __Changes_When_NFKC_Casefolded__: returns a boolean.
+* __Changes_When_Casefolded__: returns a boolean.
+* __Changes_When_Casemapped__: returns a boolean.
+* __Changes_When_Lowercased__: returns a boolean.
+* __Changes_When_Titlecased__: returns a boolean.
+* __Changes_When_Uppercased__: returns a boolean.
+* __CI__: an alias for __Case_Ignorable__.
 * __Comp_Ex__: an alias for __Full_Composition_Exclusion__.
-* __CWKCF__: an alias for __Changes_When_NFKC_Casefolded__.
+* __CWCF__: an alias for __Changes_When_NFKC_Casefolded__.
+* __CWCM__: an alias for __Changes_When_Casemapped__.
+* __CWL__: an alias for __Changes_When_Lowercased__.
+* __CWT__: an alias for __Changes_When_Titlecased__.
+* __CWU__: an alias for __Changes_When_Uppercased__.
 * __Full_Composition_Exclusion__: returns a boolean.
+* __Lowercase__: returns a boolean.
+* __Lower__: an alias for __Lowercase__.
+* __Math__: returns a boolean.
 * __NFC_Quick_Check__: returns either __Y__, __N__ or __M__.
 * __NFC_QC__: an alias for __NFC_Quick_Check__.
 * __NFD_Quick_Check__: returns either __Y__ or __N__.
@@ -279,10 +295,20 @@ The string _name_ must be one of:
 * __NKFC_QC__: an alias for __NFKC_Quick_Check__.
 * __NFKD_Quick_Check__: returns either __Y__ or __N__.
 * __NKFD_QC__: an alias for __NFKD_Quick_Check__.
+* __OAlpha__: an alias for __Other_Alphabetic__.
+* __OLower__: an alias for __Other_Lowercase__.
+* __OUpper__: an alias for __Other_Uppercase__.
+* __Other_Alphabetic__: returns a boolean.
+* __Other_Lowercase__: returns a boolean.
+* __Other_Uppercase__: returns a boolean.
+* __SD__: an alias for __Soft_Dotted__.
 * __Simple_Lowercase_Mapping__: returns the lowercase version of the argument _code_, or _code_ itself when the character has no explicit lowercase mapping. This corresponds to (1-based) column number 14 of UnicodeData-txt.
 * __Simple_Uppercase_Mapping__: returns the uppercase version of the argument _code_, or _code_ itself when the character has no explicit uppercase mapping. This corresponds to (1-based) column number 13 of UnicodeData-txt.
 * __slc__: an alias for __Simple_Lowercase_Mapping__.
+* __Soft_Dotted__: returns a boolean.
 * __suc__: an alias for __Simple_Uppercase_Mapping__.
+* __Uppercase__: returns a boolean.
+* __Upper__: an alias for __Uppercase__.
 
 ### Examples
 
