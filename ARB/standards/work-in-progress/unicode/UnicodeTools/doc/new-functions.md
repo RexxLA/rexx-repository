@@ -268,6 +268,8 @@ The string _name_ must be one of:
 * __Alphabetic__: returns a boolean.
 * __Alpha__: an alias for __Alphabetic__.
 * __Canonical_Combining_Class__: returns an integer between 0 and 254.
+* __Canonical_Decomposition_Mapping__: returns one or two normalized hex codepoints _\[Non-standard property: this corresponds to the Decomposition_Mapping column (number 6, 1-based, in UnicodeData.txt),
+  when the mapping is not a compatibility mapping (i.e., it does not start with a "&lt;" character)\]_
 * __Case_Ignorable__: returns a boolean.
 * __Cased__: returns a boolean.
 * __CCC__: an alias for __Canonical_Combining_Class__.
