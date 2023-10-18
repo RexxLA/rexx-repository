@@ -194,7 +194,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
      ╰─────────╯
 ```
 
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
 _pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
 
@@ -219,7 +219,7 @@ Center("Man"T,5,"FF"X)                            -- Syntax error ("Invalid UTF-
      ╰─────────╯  └────────┘  ╰───╯  └───┘  ╰───╯
 ```
 
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively.
 
 ## DATATYPE
@@ -265,7 +265,7 @@ DATATYPE('(Man)(Zwj)(Woman)','C')                 -- 1
                                               ╰───╯  └─────┘
 ```
 
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
 _pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
 
@@ -387,7 +387,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
                                  └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
                                    └───┘      ╰───╯  └────────┘
 ```
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toLowercase(X)`` definition,
 as defined in rule __R2__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
 
@@ -421,7 +421,7 @@ Length(Lower('Aİ'))                               -- 3
                                                       └───────┘      ╰───╯  └────────┘
 ```
 
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _haystack_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _haystack_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. If necessary, _needle_ is converted to the type of _haystack_. 
 If this conversion fails, a Syntax error is raised.
 
@@ -449,7 +449,7 @@ Pos('FF'X,haystack)                               -- Syntax error ("FF"X is ill-
    ╰──────────╯  └────────┘  ╰───╯
 ```
 
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively.
 
 __Examples:__
@@ -475,7 +475,7 @@ Say string == REVERSE(string)                     -- 1, since LENGTH(string) == 
                                                ╰───╯  └─────┘
 ```
 
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
 _pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
 
@@ -540,7 +540,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
                                                   └────────┘      ╰───╯  └─────┘
 ```
 
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
 _pad_ is first converted, if necessary, to the type of _string_. If this conversion fails, a Syntax error is raised.
 
@@ -553,7 +553,7 @@ _pad_ is first converted, if necessary, to the type of _string_. If this convers
                                  └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
                                    └───┘      ╰───╯  └────────┘
 ```
-Works as the standard BIF does, but it operates on byes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
+Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toUppercase(X)`` definition,
 as defined in rule __R1__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
 
