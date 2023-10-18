@@ -236,21 +236,20 @@ Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contai
 
 ## UNICODE
 
-### "Is" and "to" forms
+### Functional form
 
 ```
-   ╭──────────╮  ┌────────┐  ╭───╮  ┌────────┐  ╭───╮
-▸▸─┤ UNICODE( ├──┤ string ├──┤ , ├──┤ option ├──┤ ) ├─▸◂
-   ╰──────────╯  └────────┘  ╰───╯  └────────┘  ╰───╯
+   ╭──────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮
+▸▸─┤ UNICODE( ├──┤ string ├──┤ , ├──┤ function ├──┤ ) ├─▸◂
+   ╰──────────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯
 ```
 
-_Option_ can be one of:
+_Function_ can be one of:
 
-* A string starting with the (case insensitive) chaacters __"is"__. 
-* A string starting with the (case insensitive) chaacters __"to"__.
-
-* When _option_ is __isNFD__, the function returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
-* When _option_ is __toNFD__, the function returns _string_ normalized to the NFD format.
+* __isNFD__: returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
+* __toLowerCase__: returns _toLowercase(X)_, as defined in rule R2 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Lowercase_Mapping(C)_". Broadly speaking, _Lowercase_Mapping(C)_ implements the _Simple_Lowercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD). Two exceptions to this mapping are defined in the ``SpecialCasing.txt`` file of the UCD. One exception is due to the fact that the mapping is not one to one: ``"0130"U, LATIN CAPITAL LETTER I WITH DOT ABOVE`` lowercases to ``"0069 0307"U``. The second exception is for ``"03A3"U``, the final greek sigma, which lowercases to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial position).
+* __toUpperCase__: returns _toUppercase(X)_, as defined in rule R1 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Uppercase_Mapping(C)_". Broadly speaking, _Uppercase_Mapping(C)_ implements the _Simple_Uppercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD), but a number of exceptions, defined in the ``SpecialCasing.txt`` file of the UCD have to be applied. Additionally, the Iota-subscript, ``"0345"X``, receives a special treatment.
+* __toNFD__: returns _string_ normalized to the NFD format.
 
 ### "Property" form
 
@@ -290,7 +289,7 @@ The string _name_ must be one of:
 * __Lower__: an alias for __Lowercase__.
 * __Math__: returns a boolean.
 * __Na__: an alias for __Name__.
-* __Name__: returns the name or label corresponding to the _code_ argument. This corresponds to the (1-based) column number 2 of UnicodeData-txt. This is a modified property, since it returns labelswhen there
+* __Name__: returns the name or label corresponding to the _code_ argument. This corresponds to the (1-based) column number 2 of UnicodeData-txt. This is a modified property, since it returns labels when there
   is no name to return. If you want only names, discard returned values that start with a "&lt;" character.
 * __NFC_Quick_Check__: returns either __Y__, __N__ or __M__.
 * __NFC_QC__: an alias for __NFC_Quick_Check__.
