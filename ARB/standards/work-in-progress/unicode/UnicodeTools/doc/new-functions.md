@@ -234,9 +234,7 @@ The argument _string_ has to contain well-formed UTF-8, or a Syntax error is rai
 
 Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` or ``UTF8(string)`` function calls.
 
-## UNICODE
-
-### Functional form
+## UNICODE (Functional form)
 
 ```
    ╭──────────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮
@@ -247,11 +245,21 @@ Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contai
 _Function_ can be one of:
 
 * __isNFD__: returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
-* __toLowerCase__: returns _toLowercase(X)_, as defined in rule R2 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Lowercase_Mapping(C)_". Broadly speaking, _Lowercase_Mapping(C)_ implements the _Simple_Lowercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD). Two exceptions to this mapping are defined in the ``SpecialCasing.txt`` file of the UCD. One exception is due to the fact that the mapping is not one to one: ``"0130"U, LATIN CAPITAL LETTER I WITH DOT ABOVE`` lowercases to ``"0069 0307"U``. The second exception is for ``"03A3"U``, the final greek sigma, which lowercases to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial position).
-* __toUpperCase__: returns _toUppercase(X)_, as defined in rule R1 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Uppercase_Mapping(C)_". Broadly speaking, _Uppercase_Mapping(C)_ implements the _Simple_Uppercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD), but a number of exceptions, defined in the ``SpecialCasing.txt`` file of the UCD have to be applied. Additionally, the Iota-subscript, ``"0345"X``, receives a special treatment.
+* __toLowercase__: returns _toLowercase(X)_, as defined in rule R2 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Lowercase_Mapping(C)_". Broadly speaking, _Lowercase_Mapping(C)_ implements the _Simple_Lowercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD). Two exceptions to this mapping are defined in the ``SpecialCasing.txt`` file of the UCD. One exception is due to the fact that the mapping is not one to one: ``"0130"U, LATIN CAPITAL LETTER I WITH DOT ABOVE`` lowercases to ``"0069 0307"U``. The second exception is for ``"03A3"U``, the final greek sigma, which lowercases to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial position).
+* __toUppercase__: returns _toUppercase(X)_, as defined in rule R1 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Uppercase_Mapping(C)_". Broadly speaking, _Uppercase_Mapping(C)_ implements the _Simple_Uppercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD), but a number of exceptions, defined in the ``SpecialCasing.txt`` file of the UCD have to be applied. Additionally, the Iota-subscript, ``"0345"X``, receives a special treatment.
 * __toNFD__: returns _string_ normalized to the NFD format.
 
-### "Property" form
+__Examples__:
+
+```
+UNICODE("Café", toNFD)                            -- "Cafe" || "301"U
+UNICODE("Café","isNFD")                           -- 0 (Since "Café" normalizes to something else)
+UNICODE("Cafe" || "301"U,"isNFD")                 -- 1
+UNICODE("Café",toUppercase)                       -- "CAFÉ"
+UNICODE("ὈΔΥΣΣΕΎΣ"T,toLowercase)                  -- "ὀδυσσεύς" (note the difference between medial and final sigmas)
+```
+
+## UNICODE ("Property" form)
 
 ```
    ╭──────────╮  ┌──────┐  ╭───╮  ┌──────────┐  ╭───╮  ┌──────┐  ╭───╮
@@ -317,11 +325,33 @@ The string _name_ must be one of:
 ### Examples
 
 ```
-Unicode("José",isNFD)         = 0                 -- "é" is "E9"U, a decomposable character.
-Unicode("José",toNFD)         = "Jose´"           -- "é" decomposes as "e" ("65"U) || "◌́ " ("301"U)
-Unicode("Jose"||"301"U,isNFD) = 1                 -- "é" is "E9"U, a decomposable character.
+UNICODE(AA, "Property",Alphabetic)                          -- 1 ("ª", Feminine ordinal indicator)
+UNICODE(301, "Property", Canonical_Combining_Class)         -- 230 ("301"U, Combining grave accent)
+UNICODE(C7, "Property", Canonical_Decomposition_Mapping)    -- "0043 0327" ("Ç", Latin capital letter C with Cedilla)
+UNICODE(B8, "Property", Case_Ignorable)                     -- 1 ("B8"U, Cedilla)
+UNICODE(F8, "Property", Cased)                              -- 1 ("ù", Latin small letter u with grave)
+UNICODE(110, "Property", Changes_When_Lowercased)           -- 1 ("Đ", Latin capital letter D with stroke)
+UNICODE(128, "Property", Changes_When_Casefolded            -- 1 ("Ĩ", Latin capital letter I with tilde)
+UNICODE(222, "Property", Changes_When_Casemapped            -- 1 ("Ȣ", Latin capital letter Ou)
+UNICODE(105, "Property", "Changes_When_Titlecased")         -- 1 ("ą", Latin small letter a with ogonek)
+UNICODE(113, "Property", "Changes_When_Uppercased")         -- 1 ("ē", Latin small letter e with macron)
+UNICODE(340, "Property", "Full_Composition_Exclusion")      -- 1 ("◌̀ ", Combining grave tone mark)
+UNICODE(7A, "Property", "Lowercase")                        -- 1
+UNICODE(7C, "Property", "Math")                             -- 1
+UNICODE(41, "Property", "Name")                             -- "LATIN CAPITAL LETTER A"
+UNICODE(D800, "Property", "Name")                           -- "<surrogate-D800>"
+UNICODE(313, "Property", "NFC_Quick_Check")                 -- "M"
+UNICODE(38C, "Property", "NFD_Quick_Check")                 -- "N"
+UNICODE(CD5, "Property", "NFKC_Quick_Check")                -- "M"
+UNICODE(BC, "Property", "NFKD_Quick_Check")                 -- "N"
+UNICODE(730, "Property", "Other_Alphabetic")                -- 1
+UNICODE(2071, "Property", "Other_Lowercase")                -- 1
+UNICODE(2160, "Property", "Other_Uppercase")                -- 1
+UNICODE(41, "Property", "Simple_Lowercase_Mapping")         -- "0061"
+UNICODE(61, "Property", "Simple_Uppercase_Mapping")         -- "0041"
+UNICODE(3F3, "Property", "Soft_Dotted")                     -- 1
+UNICODE(102, "Property", "Uppercase")                       -- 1
 ```
-
 
 ## UTF8
 
