@@ -267,8 +267,7 @@ UNICODE("ὈΔΥΣΣΕΎΣ"T,toLowercase)                  -- "ὀδυσσεύς
    ╰──────────╯  └──────┘  ╰───╯  └──────────┘  ╰───╯  └──────┘  ╰───╯
 ```
 
-The first argument, __code__, 
-
+The first argument, _code_, must be either a UTF-32 codepoint (i.e., a four-byte BYTES string representing a 32-bit positive integer) or a hexadecimal codepoint (without the leading "U+").
 
 The string _name_ must be one of:
 
@@ -325,32 +324,32 @@ The string _name_ must be one of:
 ### Examples
 
 ```
-UNICODE(AA, "Property",Alphabetic)                          -- 1 ("ª", Feminine ordinal indicator)
-UNICODE(301, "Property", Canonical_Combining_Class)         -- 230 ("301"U, Combining grave accent)
-UNICODE(C7, "Property", Canonical_Decomposition_Mapping)    -- "0043 0327" ("Ç", Latin capital letter C with Cedilla)
-UNICODE(B8, "Property", Case_Ignorable)                     -- 1 ("B8"U, Cedilla)
-UNICODE(F8, "Property", Cased)                              -- 1 ("ù", Latin small letter u with grave)
-UNICODE(110, "Property", Changes_When_Lowercased)           -- 1 ("Đ", Latin capital letter D with stroke)
-UNICODE(128, "Property", Changes_When_Casefolded            -- 1 ("Ĩ", Latin capital letter I with tilde)
-UNICODE(222, "Property", Changes_When_Casemapped            -- 1 ("Ȣ", Latin capital letter Ou)
-UNICODE(105, "Property", "Changes_When_Titlecased")         -- 1 ("ą", Latin small letter a with ogonek)
-UNICODE(113, "Property", "Changes_When_Uppercased")         -- 1 ("ē", Latin small letter e with macron)
-UNICODE(340, "Property", "Full_Composition_Exclusion")      -- 1 ("◌̀ ", Combining grave tone mark)
-UNICODE(7A, "Property", "Lowercase")                        -- 1
-UNICODE(7C, "Property", "Math")                             -- 1
-UNICODE(41, "Property", "Name")                             -- "LATIN CAPITAL LETTER A"
-UNICODE(D800, "Property", "Name")                           -- "<surrogate-D800>"
-UNICODE(313, "Property", "NFC_Quick_Check")                 -- "M"
-UNICODE(38C, "Property", "NFD_Quick_Check")                 -- "N"
-UNICODE(CD5, "Property", "NFKC_Quick_Check")                -- "M"
-UNICODE(BC, "Property", "NFKD_Quick_Check")                 -- "N"
-UNICODE(730, "Property", "Other_Alphabetic")                -- 1
-UNICODE(2071, "Property", "Other_Lowercase")                -- 1
-UNICODE(2160, "Property", "Other_Uppercase")                -- 1
-UNICODE(41, "Property", "Simple_Lowercase_Mapping")         -- "0061"
-UNICODE(61, "Property", "Simple_Uppercase_Mapping")         -- "0041"
-UNICODE(3F3, "Property", "Soft_Dotted")                     -- 1
-UNICODE(102, "Property", "Uppercase")                       -- 1
+UNICODE(AA, Property,Alphabetic)                            -- 1 ("ª", Feminine ordinal indicator)
+UNICODE(301, Property, Canonical_Combining_Class)           -- 230 ("301"U, Combining grave accent)
+UNICODE(C7, Property, Canonical_Decomposition_Mapping)      -- "0043 0327" ("Ç", Latin capital letter C with Cedilla)
+UNICODE(B8, Property, Case_Ignorable)                       -- 1 ("B8"U, Cedilla)
+UNICODE(F8, Property, Cased)                                -- 1 ("ù", Latin small letter u with grave)
+UNICODE(110, Property, Changes_When_Lowercased)             -- 1 ("Đ", Latin capital letter D with stroke)
+UNICODE(128, Property, Changes_When_Casefolded              -- 1 ("Ĩ", Latin capital letter I with tilde)
+UNICODE(222, Property, Changes_When_Casemapped              -- 1 ("Ȣ", Latin capital letter Ou)
+UNICODE(105, Property, Changes_When_Titlecased)             -- 1 ("ą", Latin small letter a with ogonek)
+UNICODE(113, Property, Changes_When_Uppercased)             -- 1 ("ē", Latin small letter e with macron)
+UNICODE(340, Property, Full_Composition_Exclusion)          -- 1 ("◌̀ ", Combining grave tone mark)
+UNICODE(7A, Property, Lowercase)                            -- 1
+UNICODE(7C, Property, Math)                                 -- 1
+UNICODE(41, Property, Name)                                 -- "LATIN CAPITAL LETTER A"
+UNICODE(D800, Property, Name)                               -- "<surrogate-D800>"
+UNICODE(313, Property, NFC_Quick_Check)                     -- "M"
+UNICODE(38C, Property, NFD_Quick_Check)                     -- "N"
+UNICODE(CD5, Property, NFKC_Quick_Check)                    -- "M"
+UNICODE(BC, Property, NFKD_Quick_Check)                     -- "N"
+UNICODE(730, Property, Other_Alphabetic)                    -- 1
+UNICODE(2071, Property, Other_Lowercase)                    -- 1
+UNICODE(2160, Property, Other_Uppercase)                    -- 1
+UNICODE(41, Property, Simple_Lowercase_Mapping)             -- "0061"
+UNICODE(61, Property, Simple_Uppercase_Mapping)             -- "0041"
+UNICODE(3F3, Property, Soft_Dotted)                         -- 1
+UNICODE(102, Property, Uppercase)                           -- 1
 ```
 
 ## UTF8
