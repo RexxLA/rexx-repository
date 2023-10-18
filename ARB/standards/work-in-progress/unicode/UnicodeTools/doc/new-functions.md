@@ -289,6 +289,9 @@ The string _name_ must be one of:
 * __Lowercase__: returns a boolean.
 * __Lower__: an alias for __Lowercase__.
 * __Math__: returns a boolean.
+* __Na__: an alias for __Name__.
+* __Name__: returns the name or label corresponding to the _code_ argument. This corresponds to the (1-based) column number 2 of UnicodeData-txt. This is a modified property, since it returns labelswhen there
+  is no name to return. If you want only names, discard returned values that start with a "&lt;" character.
 * __NFC_Quick_Check__: returns either __Y__, __N__ or __M__.
 * __NFC_QC__: an alias for __NFC_Quick_Check__.
 * __NFD_Quick_Check__: returns either __Y__ or __N__.
@@ -304,8 +307,8 @@ The string _name_ must be one of:
 * __Other_Lowercase__: returns a boolean.
 * __Other_Uppercase__: returns a boolean.
 * __SD__: an alias for __Soft_Dotted__.
-* __Simple_Lowercase_Mapping__: returns the lowercase version of the argument _code_, or _code_ itself when the character has no explicit lowercase mapping. This corresponds to (1-based) column number 14 of UnicodeData-txt.
-* __Simple_Uppercase_Mapping__: returns the uppercase version of the argument _code_, or _code_ itself when the character has no explicit uppercase mapping. This corresponds to (1-based) column number 13 of UnicodeData-txt.
+* __Simple_Lowercase_Mapping__: returns the lowercase version of the argument _code_, or _code_ itself when the character has no explicit lowercase mapping. This corresponds to the (1-based) column number 14 of UnicodeData-txt.
+* __Simple_Uppercase_Mapping__: returns the uppercase version of the argument _code_, or _code_ itself when the character has no explicit uppercase mapping. This corresponds to the (1-based) column number 13 of UnicodeData-txt.
 * __slc__: an alias for __Simple_Lowercase_Mapping__.
 * __Soft_Dotted__: returns a boolean.
 * __suc__: an alias for __Simple_Uppercase_Mapping__.
