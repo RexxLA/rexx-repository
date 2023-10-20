@@ -102,6 +102,14 @@ Unicode("Jose"||"301"U,isNFD) = 1                 -- "é" is "E9"U, a decomposab
 ("Jose"||"301"U)~isNFD                            -- 1
 ```
 
+## Components of TUTOR which can be used independently
+
+There are currently two components of TUTOR which can be used independently of TUTOR, since they have no absolute dependencies on other TUTOR components.
+
+* [The Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md) can be used independently of TUTOR, but you will need TUTOR
+  when you use one of the Unicode subclasses.
+* [The UTF8](utf8.cls) routine can be used independently of TUTOR. UTF8 detects whether Unicode.cls has been loaded (by looking for the existence of a .Bytes class that subclasses .String), and returns .Bytes strings or standard ooRexx strings as appropriate.
+
 ---
 
 ## \[Cumulative change log since release 0.4a\]
@@ -118,24 +126,7 @@ Unicode("Jose"||"301"U,isNFD) = 1                 -- "é" is "E9"U, a decomposab
 
 ---
 
-## Release notes for version 0.4a, 20231002
-
-This release, apart from a large number of documentation improvements and some small bug fixes, contains two main improvements:
-
-* A new UTF8 built-in function has been defined. It contains the main part of the UTF-8 decoder, previously found in the ``encodings/Encoding.cls`` package. The new routine has been generalized so that it can manage
-  strings in UTF-8, UTF-8Z, CESU-8, MUTF-8 and WTF-8 formats. See [the code](utf8.cls) and [the UTF8 section](doc/new-functions.md#utf8) of [this helpfile](doc/new-functions.md) for documentation details.
-* Documentation has been migrated to markdown format. Most classes and routines are fully documented, and some are partially documented. Documentation includes some internal details, which in most cases are labeled as "implementation notes".
-
-## Components of TUTOR which can be used independently
-
-There are currently two components of TUTOR which can be used independently of TUTOR, since they have no absolute dependencies on other TUTOR components.
-
-* [The Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md) can be used independently of TUTOR, but you will need TUTOR
-  when you use one of the Unicode subclasses.
-* [The UTF8](utf8.cls) routine can be used independently of TUTOR. UTF8 detects whether Unicode.cls has been loaded (by looking for the existence of a .Bytes class that subclasses .String), and returns .Bytes strings or standard ooRexx strings as appropriate.
-
----
-
+## [Release notes for version 0.4a, 20231002](doc/0.4a-release-notes.md)
 ## [Release notes for version 0.4, 20230901](doc/0.4-release-notes.md)
 ## [Release notes for version 0.3b, 20230817](doc/0.3b-release-notes.md)
 ## [Release notes for version 0.3](doc/0.3-release-notes.md)
