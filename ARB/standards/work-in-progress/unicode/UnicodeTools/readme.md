@@ -130,3 +130,4 @@ There are currently two components of TUTOR which can be used independently of T
 ## [Release notes for version 0.4, 20230901](doc/0.4-release-notes.md)
 ## [Release notes for version 0.3b, 20230817](doc/0.3b-release-notes.md)
 ## [Release notes for version 0.3, 20230811](doc/0.3-release-notes.md)
+## [A toy ooRexx implementation of the General_Category Unicode property (20230711)](doc/pre-0.1-release-notes.md)
