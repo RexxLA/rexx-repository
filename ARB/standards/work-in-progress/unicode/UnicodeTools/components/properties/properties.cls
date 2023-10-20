@@ -61,22 +61,46 @@
 --
 
 ::Method RegisterProperties Class
-  Expose propertyRegistry propertyHandler
+  Expose propertyHandler propertyRegistry
   
   Use Strict Arg propertyList, handler
-  propertyList    = Upper( propertyList    )
-  Do i = 1 To Words(propertyList)
-    property = Word(propertyList, i)
-    If propertyRegistry~hasIndex(property) Then
+  
+  propertyList = Upper( propertyList )
+  
+  Do property Over propertyList~makeArray(" ")
+    name = LooseMatching( property )
+    If propertyHandler~hasIndex(name) Then
       self~SyntaxError("Property name '"property"' already registered")
-    propertyRegistry[ property ] = property
-    propertyHandler[  property ] = handler
+    propertyHandler[  name ] = handler
+    propertyRegistry[ name ] = property
   End
+
+::Method "[]" Class  
+  Expose propertyHandler propertyRegistry
+  
+  Use Strict Arg name, option = "SYNTAX"
+  
+  name   = LooseMatching( name  )
+  
+  option = Upper( option )
+  Select Case option
+    When "SYNTAX" Then syntax = 1
+    When "NULL"   Then syntax = 0
+    When ""       Then syntax = 0
+    Otherwise
+      Raise Syntax 93.900 Additional("Invalid option '"Arg(2)"'")
+  End  
+  
+  If \propertyHandler~hasIndex(name) Then
+    If \syntax Then Return ("", "") -- An array
+    Else Raise Syntax 93.900 Additional("Property '"name"' not found.")
+  Return ( propertyHandler[name], propertyRegistry[name] ) -- An array
 
 ::Method RegisterFunctions  Class
   Expose functionRegistry
+  
   Use Strict Arg functionList, handler
-  functionList = Upper( functionList )
+  
   Do function Over Upper(functionList)~makeArray(" ")
     If functionRegistry~hasIndex(function) Then
       self~SyntaxError("Function '"function"' already registered")
@@ -85,7 +109,9 @@
 
 ::Method FunctionHandlerFor Class
   Expose functionRegistry
+  
   Use Strict Arg name, option = "SYNTAX"
+  
   name   = Upper( name   )
   option = Upper( option )
   Select Case option
@@ -95,6 +121,7 @@
     Otherwise
       Raise Syntax 93.900 Additional("Invalid option '"Arg(2)"'")
   End  
+  
   If \functionRegistry~hasIndex(name) Then
     If \syntax Then Return ""
     Else Raise Syntax 93.900 Additional("Function '"name"' not found.")
@@ -160,23 +187,6 @@
   separator = .File~separator
   Parse Source . . myself
   myDir = Left( myself,LastPos( separator, myself ) )
-
-::Method "[]" Class  
-  Expose propertyHandler
-  Use Strict Arg name, option = "SYNTAX"
-  name   = Upper( name   )
-  option = Upper( option )
-  Select Case option
-    When "SYNTAX" Then syntax = 1
-    When "NULL"   Then syntax = 0
-    When ""       Then syntax = 0
-    Otherwise
-      Raise Syntax 93.900 Additional("Invalid option '"Arg(2)"'")
-  End  
-  If \propertyHandler~hasIndex(name) Then
-    If \syntax Then Return ""
-    Else Raise Syntax 93.900 Additional("Property '"name"' not found.")
-  Return propertyHandler[name]
   
 -- This will hold the enumerated values of the property
 
@@ -193,3 +203,19 @@
 ::Method SyntaxError Class
   Use Strict Arg message
   Raise Syntax 98.900 Additional(message)  
+
+-- https://www.unicode.org/Public/15.0.0/ucd/PropertyValueAliases.txt:
+--
+-- "Loose matching should be applied to all property names and property values, with
+--  the exception of String Property values. With loose matching of property names and
+--  values, the case distinctions, whitespace, hyphens, and '_' are ignored.
+--  For Numeric Property values, numeric equivalence is applied: thus "01.00"
+--  is equivalent to "1"."
+
+::Routine LooseMatching Private
+  Arg name                      -- Takes care of casing
+  name = ChangeStr(" ",name,"")
+  name = ChangeStr("-",name,"")
+  name = ChangeStr("_",name,"")
+Return name
+  

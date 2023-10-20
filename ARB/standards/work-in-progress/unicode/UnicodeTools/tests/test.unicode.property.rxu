@@ -13,6 +13,13 @@
 -- This program is part of the automated test suite. See tests/test.all.rex   --
 -------------------------------------------------------------------------------- 
 
+Say "Testing loose matching for property names..."
+
+Call Test 'Unicode("0340", "Property", "Full_Composition_Exclusion"      )', 1
+Call Test 'Unicode("0340", "Property", "FullCompositionExclusion"        )', 1
+Call Test 'Unicode("0340", "Property", "Comp Ex"                         )', 1
+Call Test 'Unicode("0340", "Property", "COMP_EX"                         )', 1
+
 Say "Testing UNICODE(code, "Property", name)..."
 
 Call Test 'Unicode("00AA", "Property", "Alphabetic"                      )', 1

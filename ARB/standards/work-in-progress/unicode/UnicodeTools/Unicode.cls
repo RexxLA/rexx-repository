@@ -162,9 +162,9 @@ Properties:
     
   property = Upper( property )
   
-  handler = .Unicode.Property[property, "SYNTAX"]
+  array = .Unicode.Property[property, "SYNTAX"]
   
-  Return handler~send(property, code)
+  Return array[1]~send(array[2], code)
   
 ::Routine N2P Public
   Use Strict Arg name
@@ -787,6 +787,8 @@ Return class~new(left~"=":.String(right))
 --------------------------------------------------------------------------------
 
 ::Class "Text" SubClass Graphemes Public
+
+--------------------------------------------------------------------------------
 
 ::Requires "utf8.cls"    
 ::Requires "components/stream.cls"  
