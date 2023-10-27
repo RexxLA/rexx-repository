@@ -42,7 +42,10 @@
 \usepackage{upquote}
 \usepackage{cleveref}
 
+\defbibcheck{standard}{\iffieldequalstr{type}{standard}{}{\skipentry}}
+
 \makeindex[intoc]
+
 \setmainfont{CMU Serif}
 % texlive-cm-unicode or retrieve cm-unicode with MikTex Console
 
@@ -129,7 +132,8 @@ multi-octet representations of characters in Unicode \cref{issue:MB,issue:UTF-8}
 address such issues as bidirectional text, nor does it address legacy
 DBCS support. It presents suggested solutions for requirements that
 are presented in other documents.  Also, most of the details are under
-active discussion, so everything here is provisional. Information on Unicode may be found at \citetitle{Unicode} and \citetitle{UFAQs}.
+active discussion, so everything here is provisional.
+Information on Unicode may be found at \citetitle{Unicode} and \citetitle{UFAQs}.
 
 This document concentrates on classic Rexx, ANSI Rexx and ooRexx; the
 implementations most relevant are ooRexx and Regina.  However, cREXX
@@ -458,7 +462,28 @@ code page in an environment variable or file metadata.
 \end{definition}
 \end{definition}
 
-The RXU preprocessor accepts \textbf{OPTIONS DEFAULTSTRING} \textit{default}, where default can be one of \textbf{ BYTES},\textbf{ CODEPOINTS}, \textbf{TEXT} OR \textbf{NONE}.
+\subsubsection{RXU OPTIONS values}
+
+The RXU preprocessor accepts these\cite{RXU:OPT} values on the OPTIONS statement:
+
+\begin{definition}
+\item[DEFAULTSTRING \textit{default}] where \textit{default} determines the type of a string literal with no suffix:
+\begin{definition}
+\item[\underline{BYTES}]Y
+\item[CODEPOINTS]P
+\item[NONE]
+\item[TEXT]T
+\end{definition}
+\item[COERCIONS \textit{ucoercion}] where \textit{ucoercion} determines the result of an operation on strings of mixed string types:
+\begin{definition}
+\item[DEMOTE]Type of lowest operand
+\item[LEFT]Type of left operand
+\item[NONE]Raise SYNTAX
+\item[\underline{PROMOTE}]Type of highest operand
+\item[RIGHT]Type of right operand
+\end{definition}
+\end{definition}
+
 
 \subsection{Classes and types}
 
@@ -494,7 +519,7 @@ case could be made for using either the bit size or the digit size as
 the width.
 
 Assuming that the width is in in terms of octets
-\begin{lstlisting}[
+\begin{lstlisting}[%
     caption={c2x() with width parameter},%
     linewidth=35em%
     ]
@@ -519,6 +544,13 @@ There is an ongoing discussion as to whether an when to allow implicit coercions
 
 If there is no raw octet string added to the language,
 then \textbf{c2x()} might behave differently depending on whether an explicit width is provided.
+
+\subsection{RXU c2x() and c2u()}
+In RXU, \textbf{c2x()} for Unicode code point strings returns the
+hexadecimal values of UTF-8 sequences rather than the hexadecimal
+values of unicode scalars. The second parameter of \textbf{c2u()}
+controls the output format, and \textbf{c2x(foo,UTF-32)} returns space
+separated Unicode scalars.
 
 \subsection{Constants}
 Other languages allow specifying Unicode characters using either
@@ -604,13 +636,17 @@ Another issue is whether numeric constants used as labels and call
 targets should be treated as strings of legacy code points, UTF-8
 sequences or as strings of Unicode scalars.
 
-RXU has five tpes of string literals:
+\subsubsection{RXU string types}
+
+RXU has five types of string literals\cite{RXU:NewTypes}:
 \begin{definition}
 \item['string'] The type is determined by OPTIONS.
 \item['string'P] Unicode by code point
 \item['string'T] Unicode by EGC
-\item['space separated tokens'U] Unicode code points by alias, name or value
-\item['string'Y] Legacy bYte string
+\item['space separated tokens'U]
+Unicode code points by alias, name or hexadecimal value;
+the string is BYTES rather than CODEPOINTS or TEXT.
+\item['string'Y] Legacy bYte string,can only be promoted if valid UTF-8 sequences
 \end{definition}
 
 \subsection{Error detection}
@@ -789,7 +825,7 @@ points and grapheme clusters that do not exist in the target code page.
 \end{itemize}
 
 \subsection{Functions and methods}
-The following table summarizes some of the methods that differ among string types.
+The following table summarizes some of the methods that differ among string types. 
 With the exceptions of \textbf{{[}{]}}, \textbf{makeArray} and \textbf{makeString},
 there is an operator or polymorphic BIF for each BIM listed.
 
@@ -1038,6 +1074,7 @@ There are some useful tools available on the WWW:
 {Unicode{\textregistered} Character Name Index}
 \end{resource}
 
+
 \section{Bibliography}
 This version of the document prints all included bibliography entries, even those note cited.
 \nocite{*}
@@ -1051,10 +1088,11 @@ This version of the document prints all included bibliography entries, even thos
     title=FAQs%
     ]
 \printbibliography[%
-    keyword=standard,%
-    notkeyword=FAQ,%
+    check={standard},%
+    notkeyword={FAQ},%
     title={Official documents}%
     ]
+
 
 \printindex
 
