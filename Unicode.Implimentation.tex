@@ -1,4 +1,4 @@
-﻿%Compile with latexmk -lualatex
+%Compile with latexmk -lualatex
 %
 % Changes
 % Table of contents
@@ -42,7 +42,7 @@
 \usepackage{upquote}
 \usepackage{cleveref}
 
-\defbibcheck{standard}{\iffieldequalstr{type}{standard}{}{\skipentry}} 
+\defbibcheck{standard}{\iffieldequalstr{type}{standard}{}{\skipentry}}
 
 \makeindex[intoc]
 
@@ -292,7 +292,7 @@ These tools may not handle new syntax added in support of Unicode. Examples incl
 A Rexx Language Support plugin for Visual Studio Code
 \item The \LaTeX\  package \href{https://www.ctan.org/pkg/listings}{\textbf{listings}}
 \item The \LaTeX \ package \href{https://www.ctan.org/pkg/minted}{\textbf{minted}}
-\item The Python package Pygments
+\item The Python package \href{https://pygments.org/}{\textbf{Pygments}}
 \end{itemize}
 
 
@@ -462,8 +462,28 @@ code page in an environment variable or file metadata.
 \end{definition}
 \end{definition}
 
-The RXU preprocessor accepts \textbf{OPTIONS DEFAULTSTRING} \textit{default},
-where default can be one of \textbf{ BYTES},\textbf{ CODEPOINTS}, \textbf{TEXT} OR \textbf{NONE}.
+\subsubsection{RXU OPTIONS values}
+
+The RXU preprocessor accepts these\cite{RXU:OPT} values on the OPTIONS statement:
+
+\begin{definition}
+\item[DEFAULTSTRING \textit{default}] where \textit{default} determines the type of a string literal with no suffix:
+\begin{definition}
+\item[\underline{BYTES}]Y
+\item[CODEPOINTS]P
+\item[NONE]
+\item[TEXT]T
+\end{definition}
+\item[COERCIONS \textit{ucoercion}] where \textit{ucoercion} determines the result of an operation on strings of mixed string types:
+\begin{definition}
+\item[DEMOTE]Type of lowest operand
+\item[LEFT]Type of left operand
+\item[NONE]Raise SYNTAX
+\item[\underline{PROMOTE}]Type of highest operand
+\item[RIGHT]Type of right operand
+\end{definition}
+\end{definition}
+
 
 \subsection{Classes and types}
 
@@ -510,9 +530,9 @@ Assuming that the width is in in terms of octets
     say bar~c2x    /* Displays 52656EC3A9        */
 \end{lstlisting}
 
-There is an ongoing discussion as to whether an when to allow implicit coercions of type in, e.g., 
+There is an ongoing discussion as to whether an when to allow implicit coercions of type in, e.g.,
 \begin{lstlisting}[
-    caption={Implicit coercion},% 
+    caption={Implicit coercion},%
     linewidth=35em]%
     ]
     foo = .BYTES~new
@@ -616,7 +636,9 @@ Another issue is whether numeric constants used as labels and call
 targets should be treated as strings of legacy code points, UTF-8
 sequences or as strings of Unicode scalars.
 
-RXU has five types of string literals:
+\subsubsection{RXU string types}
+
+RXU has five types of string literals\cite{RXU:NewTypes}:
 \begin{definition}
 \item['string'] The type is determined by OPTIONS.
 \item['string'P] Unicode by code point
@@ -624,7 +646,7 @@ RXU has five types of string literals:
 \item['space separated tokens'U]
 Unicode code points by alias, name or hexadecimal value;
 the string is BYTES rather than CODEPOINTS or TEXT.
-\item['string'Y] Legacy bYte string
+\item['string'Y] Legacy bYte string,can only be promoted if valid UTF-8 sequences
 \end{definition}
 
 \subsection{Error detection}
@@ -701,12 +723,42 @@ or EGC access has similar issues, Absent an acceptable way to deal
 with it, prohibit update in the middle of a file for anything but
 binary and legacy characters.
 
-
 A discussion is needed on whether and when to create or discard byte order marks.
+
+\subsubsection{RXU I/O}
+
+in RXU, stream I/O\cite{RXU:STREAM} defaults to legacy (BYTES).
+
+RXU adds an \textbf{ENCODING} option to \textbf{STREAM(}\textit{streamid},\textbf{OPEN }\textit{options}\textbf{)}. When this option is used the stream is Unicode enabled, and some stream functions are not allowed.
+\textbf{ENCODING} must be followed by the name of then encoding, which for Unicode may in turn be followed by \textit{error} and \textit{target} options:
+
+\begin{itemize}
+  \item \underline{\textbf{REPLACE}} \\
+  Replace invalid characters with the Unicode Replacement Character (U+FFFd).
+  \item \textbf{SYNTAX} \\
+  Raise SYNTAX for invalid characters.
+  \item \textbf{CODEPOINTS} \\
+  Units of codepoints.
+  \item \underline{\textbf{TEXT}} \\
+  Units of extended grapheme clusters.
+\end{itemize}
+ 
+RXU adds  options to  \textbf{STREAM(}\textit{streamid},\textbf{QUERY}\textit{options}\textbf{)}
+
+\begin{itemize}
+\item \textbf{Query Encoding Name}
+\item \textbf{Query Encoding Target} \\
+CODEPOINTS  or TEXT
+\item \textbf{Query Encoding Error} \\
+REPLACE or SYNTAX
+\item \textbf{Query Encoding LastError}
+\item \textbf{Query Encoding \\
+Everything but LastError}
+\end{itemize}
 
 \subsection{Case folding}
 
-Case folding of symbols and caseless comparisons will use the \citetitle{UCD}.
+Case folding of symbols and caseless comparisons will use the \citetitle{UCD}ENCODING.
 \cref{issue:CF,issue:CComp,issue:CConv})
 The rules for case folding should take into account mathematical usage.
 \begin{itemize}
@@ -803,7 +855,7 @@ points and grapheme clusters that do not exist in the target code page.
 \end{itemize}
 
 \subsection{Functions and methods}
-The following table summarizes some of the methods that differ among string types.
+The following table summarizes some of the methods that differ among string types. 
 With the exceptions of \textbf{{[}{]}}, \textbf{makeArray} and \textbf{makeString},
 there is an operator or polymorphic BIF for each BIM listed.
 
@@ -862,6 +914,37 @@ functions like center and left will give unexpected results.
 \item [Legacy] Legacy string with default encoding unless cp= is also specified.
 \item [raw] Raw octet string; cp= must be specified.
 \end{definition}
+
+\subsubsection{RXU functions and methods}
+
+RXU adds the \textbf{DECODE} and \textbf{ENCODE} methods in the Unicode class. These provide an easy way to implement the proposed \textbf{iconv} function.
+
+RXU adds these\cite{RXU:NewBIFs} additional built-in functions:
+
+\begin{itemize}
+\item \textbf{BYTES}
+\item \textbf{C2U}
+\item \textbf{CODEPOINTS}
+\item \textbf{GRAPHEMES}
+\item \textbf{N2P}
+\item \textbf{P2N}
+\item \textbf{STRINGTYPE}
+\item \textbf{TEXT}
+\item \textbf{UNICODE(}\textit{string},\textit{function}\textbf{)} \\
+Performs the named function on \textit{string}:
+\begin{description}
+\item[isNFD] Returns 1 if string is in normalized form D
+\item[toLowercase]
+Returns upper case translatio.
+\item[toUpercase]
+Returns lower case translation
+\item[toNFD] Normalizes to form D (decomposed)
+\end{description}
+\item \textbf{UNICODE(}\textit{codepoint},\textbf{PROPERTY},\textit{property}\textbf{)} \\
+Retrieves the value of the named property
+\item \textbf{UTF8} \\
+Validates a UTF-8 string and optionally converts it to a different Unicode transform.
+\end{itemize}
 
 \subsection{Coercions}
 In addition to explicit casts via BIF/BIM, the following promotions
