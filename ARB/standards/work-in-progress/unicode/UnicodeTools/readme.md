@@ -28,6 +28,7 @@ Version 0.4b, 20231014.
 * 20231017-18 &mdash; Document many properties for the UNICODE BIF, prepare for the introduction of the GRAPHEMES STRINGTYPE and class, add new tests, prepare for NFC.
 * 20231015 &mdash; Fix [bug #6](https://github.com/RexxLA/rexx-repository/issues/6), implement all tests in NormalizationTest.txt, consistency check on ccc and canonical decomposition. Document
   [the Unicode.Normalization class](doc/properties/Unicode.Normalization.md). Improve the docs for the PersistentStringTable class, and move them to [a separate helpfile](doc/persistent-string-table.md).
+* 20231101 &mdash; First version of isNFC and toNFC, add CHANGESTR BIF, two new samples.
 
 ---
 
