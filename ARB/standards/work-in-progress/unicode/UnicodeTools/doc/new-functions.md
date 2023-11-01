@@ -244,9 +244,11 @@ Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contai
 
 _Function_ can be one of:
 
+* __isNFC__: returns __1__ when _string_ is normalized to the NFC format, and __0__ otherwise.
 * __isNFD__: returns __1__ when _string_ is normalized to the NFD format, and __0__ otherwise.
 * __toLowercase__: returns _toLowercase(X)_, as defined in rule R2 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Lowercase_Mapping(C)_". Broadly speaking, _Lowercase_Mapping(C)_ implements the _Simple_Lowercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD). Two exceptions to this mapping are defined in the ``SpecialCasing.txt`` file of the UCD. One exception is due to the fact that the mapping is not one to one: ``"0130"U, LATIN CAPITAL LETTER I WITH DOT ABOVE`` lowercases to ``"0069 0307"U``. The second exception is for ``"03A3"U``, the final greek sigma, which lowercases to ``"03C2"U`` only in certain contexts (i.e., when it is not in a medial position).
 * __toUppercase__: returns _toUppercase(X)_, as defined in rule R1 of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf): "Map each character C in X to _Uppercase_Mapping(C)_". Broadly speaking, _Uppercase_Mapping(C)_ implements the _Simple_Uppercase_Mapping_ property, as defined in the ``UnicodeData.txt`` file of the Unicode Character Database (UCD), but a number of exceptions, defined in the ``SpecialCasing.txt`` file of the UCD have to be applied. Additionally, the Iota-subscript, ``"0345"X``, receives a special treatment.
+* __toNFC__: returns _string_ normalized to the NFC format.
 * __toNFD__: returns _string_ normalized to the NFD format.
 
 __Examples__:
