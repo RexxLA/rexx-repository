@@ -64,6 +64,9 @@ characters in this range are not decomposable) and 2F800 to 2FA1D. The rest of t
 2329, 232A.
 
 The algorithm for Hangul Syllabes can be found in https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf, pp. 144ss.
+
+The `activate` class method initializes three arrays, `PrimaryCompositeLastSuffixes`, `PrimaryCompositeFirstPrefixes` and `PrimaryCompositeFirstSuffix`. It does so
+by calling `Unicode.PrimaryComposite.rex`, located in the `components/bin` directory. This file is created at build time by `components/bin/build/normalization.rex`.
     
 ## Canonical_Combining_Class (Class method)
 
@@ -77,6 +80,16 @@ Returns the Canonical Combining Class (ccc) property associated to the Unicode c
 a hexadecimal codepoint.
 
 The returned value is encoded as an unsigned 8-bit integer. You should use C2X and then X2D to obtain its decimal value.
+
+## Canonical_Composition32 (class method)
+
+```
+     ╭──────────────────────────────────╮  ┌────────┐  ╭───╮
+▸▸───┤ Canonical_Decomposition_Mapping( ├──┤ buffer ├──┤ ) ├─▸◂
+     ╰──────────────────────────────────╯  └────────┘  ╰───╯
+```
+
+Takes a MutableBuffer argument containing the UTF-32 representation of a string, applies the Canonical Composition Algorithm (see https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf, p. 138) to the buffer, and returns the modified buffer.
 
 ## Canonical_Decomposition_Mapping (Class method)
 
@@ -99,6 +112,16 @@ The returned value consists of a blank-separated list of Unicode codepoints. Ind
 ```
 
 Returns the same value as the _Canonical_Combining_Class_ method.
+
+## toNFC
+
+```
+     ╭────────╮  ┌────────┐  ╭───╮
+▸▸───┤ toNFC( ├──┤ string ├──┤ ) ├─▸◂
+     ╰────────╯  └────────┘  ╰───╯
+```
+
+Returns a new NFC-normalized string equivalent to _string_.
 
 ## toNFD
 
