@@ -1,4 +1,8 @@
 %Compile with latexmk -lualatex
+% If using texworks, define a Typeset menu option for latexmk with
+%    -lualatex
+%    -synctex
+%    $fullname
 %
 % Changes
 % Table of contents
@@ -944,6 +948,31 @@ Returns lower case translation
 Retrieves the value of the named property
 \item \textbf{UTF8} \\
 Validates a UTF-8 string and optionally converts it to a different Unicode transform.
+\end{itemize}
+
+RXU modifies some of the standard functions. In general, it assumes and exposes a UTF-8 representation. Also, not all functions are available for all string types. The functions modified by RXU are:
+
+\begin{itemize}
+\item \textbf{C2X}
+\item \textbf{CHARIN}
+\item \textbf{CHAROUT}
+\item \textbf{CHARS}
+\item \textbf{CENTER}
+\item \textbf{CENTRE}
+\item \textbf{COPIES}
+\item \textbf{DATATYPE}
+\item \textbf{LEFT}
+\item \textbf{LENGTH}
+\item \textbf{LINEIN}
+\item \textbf{INEOUT}
+\item \textbf{LINES}
+\item \textbf{LOWER}
+\item \textbf{POS}
+\item \textbf{REVERSE}
+\item \textbf{RIGHT}
+\item \textbf{STREAM}
+\item \textbf{SUBSTR}
+\item \textbf{UPPER}
 \end{itemize}
 
 \subsection{Coercions}
