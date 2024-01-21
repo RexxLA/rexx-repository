@@ -51,7 +51,7 @@ for example, "\[", "\]" and "~" are valid characters for ooRexx subclasses but n
 
 The tokenizer supports classic comments (including nested comments), line comments and strings. The ooRexx ``::ESOURCE`` construct is also accepted.
 
-When a Unicode class is used (see below), Y-, P-, T- and U-suffixed strings are recognized, translated (in the case of U strings) and supported.
+When a Unicode class is used (see below), Y-, P-, G-, T- and U-suffixed strings are recognized, translated (in the case of U strings) and supported.
 
 ```rexx
 ooRexx.Unicode.Tokenizer      -- Tokenizes programs written in ooRexx, with experimental Unicode extensions
