@@ -24,6 +24,7 @@ Version 0.4b, 20231014.
 
 ## \[Cumulative change log since release 0.4b\]
 
+* 20240121 &mdash; Start to document the GRAPHEMES string type.
 * 20231020 &mdash; Implement loose matching for property names. Move release notes for old releases to separate files in the ``doc`` directory.
 * 20231017-18 &mdash; Document many properties for the UNICODE BIF, prepare for the introduction of the GRAPHEMES STRINGTYPE and class, add new tests, prepare for NFC.
 * 20231015 &mdash; Fix [bug #6](https://github.com/RexxLA/rexx-repository/issues/6), implement all tests in NormalizationTest.txt, consistency check on ccc and canonical decomposition. Document
