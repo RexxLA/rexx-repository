@@ -34,7 +34,7 @@ You can then use that label (with a function call, a ``CALL`` or ``SIGNAL`` stat
 as ``"0110 0001"B``:
 
 ```rexx
-Call "61"X            -- Identical to 'Call "a"'
+Call ("61"X)          -- Identical to 'Call ("a")' -- Parentheses are needed for internal function calls
 Signal "0110 0001"B   -- Identical to 'Signal "a"'
 ```
 
@@ -139,7 +139,7 @@ of these suffixes will be discussed below, when some further questions about Uni
 To satisfy (2), we will be introducing a new BIF called STRINGTYPE. ``STRINGTYPE(string)`` will return different values depending
 on the type of the string; these values will be specified later.
 
-## Scalars and grapheme clusters: CODEPOINTS and TEXT
+## Scalars and grapheme clusters: CODEPOINTS, GRAPHEMES and TEXT
 
 Unicode strings will extend the built-in functions of Classic Rexx to take advantage of the Unicode world. Unicode characters will no
 longer be limited to one byte; indeed, the very same definition of "character" will be under discussion.
@@ -156,7 +156,7 @@ are Extended Grapheme Clusters, you may lose some efficiency, but you will gain 
 more expressive power, and (it is hoped) a better experience, both for the programmers and for the end-users.
 
 The RXU Rexx Preprocessor for Unicode implements both definitions, i.e., it has a data type for unicode scalars,
-called CODEPOINTS, and another data type for Extended Grapheme Clusters, called TEXT. 
+called CODEPOINTS, and another data type for Extended Grapheme Clusters, called TEXT.
 
 This may seem somewhat redundant, but it has its benefits. TEXT is supposed to be the default string type for Unicode-enabled Rexx programs, 
 and, in this sense, CODEPOINTS would always be a secondary, technically-oriented, type. But CODEPOINTS strings offers compatibility
@@ -164,6 +164,11 @@ with Java (and with all the other languages that have opted to implement charact
 of this writing is the absolute majority of languages), and they may be useful when you have to manage streams that are not normalized, 
 or (by using an additional, special, switch) contains ill-formed sequences, like Windows file names, that may contain UTF-16 sequences with ill-formed surrogates (WTF-16). 
 TEXT strings, for example, can be normalized at string creation time, while CODEPOINTS strings will never be automatically normalized; and so on.
+
+Indeed, there are situations in which one would need grapheme-based strings which are automatically normalized, and some other situations where
+such automatic normalization would be undesirable. RXU thus defines an intermediate data type, called GRAPHEMES. A GRAPHEMES string is composed of graphemes,
+but it does not have to be normalized; a TEXT string, on the other hand, is guaranteed to be NFC-normalized. It is expected that most users will
+prefer to manage TEXT strings, but GRAPHEMES strings may come handy for specialized applications.
 
 ## _Excursus:_ A note about the implementation strategy 
 
@@ -178,12 +183,12 @@ and then it is very easy to end up by introducing biases, while thinking that th
 
 On a similar vein, we cannot forget that RXU, and the whole Unicode Tools Of Rexx, are _prototypes_ to foster discussion and interchange
 about a future Unicode-aware implementation of Rexx, and not that future implementation itself: in this sense, giving names 
-(like BYTES, TEXT or CODEPOINTS) to the entities we have to manage (i.e., Classic RExx strings, codepoint-based strings, and grapheme based strings) 
+(like BYTES, CODEPOINTS, GRAPHEMES or TEXT) to the entities we have to manage (i.e., Classic Rexx strings, codepoint-based strings, and grapheme based strings) 
 is a way to fix ideas, to create a collective vocabulary for the Architecture Review Board to share and use, and to disseminate a collective imaginary, that
 is, to create the conditions for the collective decisions that have to be taken.
 
-Does this mean that the real, final, implementations of Unicode-enabled Rexx will have to support both CODEPOINTS and TEXT, or that these names, CODEPOINTS and TEXT, will
-be mandatory? Not at all. BYTES, CODEPOINTS and TEXT are _temporary names_, or, if you prefer, _temporary concepts_ for a collective research. 
+Does this mean that the real, final, implementations of Unicode-enabled Rexx will have to support both CODEPOINTS, GRAPHEMES and TEXT, or that these names, CODEPOINTS,
+GRAPHEMES and TEXT, will be mandatory? Not at all. BYTES, CODEPOINTS, GRAPHEMES and TEXT are _temporary names_, or, if you prefer, _temporary concepts_ for a collective research. 
 Once we decide that this research is finished, we will be able to decide whether we prefer to keep both concepts or we chose to keep only one. 
 And, regarding the names, they can be changed on-the-fly, if needs arise: we have already changed from RUNES to CODEPOINTS, for example.
 
@@ -274,16 +279,16 @@ __Examples:__
 ```
 
 U strings are low-level constructions, equivalent to X and B strings, and therefore they are BYTES strings. 
-You can always promote them, if you so please, using the CODEPOINTS or the TEXT built-in functions.
+You can always promote them, if you so please, using the CODEPOINTS, GRAPHEMES or TEXT built-in functions.
 
 Please note that U strings are first-class strings: ``"(Bell)"U`` and ``"0001F514"U`` are equivalent to ``"🔔"``, and ``"🔔"``, in turn,
 is equivalent to ``"F0 9F 94 94"X``, its UTF-8 representation. All of them can be used, interchangeably, as labels and as targets
 of the CALL and SIGNAL instructions. The following code, for example, is perfectly legitimate:
 
 ```rexx
-Call "F0 9F 94 94"X
+Call ("F0 9F 94 94"X)                -- Parentheses are required since this is an internal call
 ...
-"🔔": -- Do something
+"🔔": /* Do something */
 ...
 If condition Then Signal "(Bell)"U  
 
@@ -296,8 +301,10 @@ The RXU Rexx Preprocessor for Unicode implements, in addition to the classical R
 * ``"string"Y`` strings, composed of bytes (octets). A character is one byte. They are suitable to store binary data.
 * ``"string"P`` strings, composed of Unicode codepoints. A character is a single Unicode codepoint. The ``"string"`` should
   contain well-formed UTF-8 data.
-* ``"string"T`` strings, composed of Unicode Extended Grapheme clusters. A character is a single Extended Grapheme Cluster. The ``"string"`` should
+* ``"string"G`` strings, composed of Unicode Extended Grapheme clusters. A character is a single Extended Grapheme Cluster. The ``"string"`` should
   contain well-formed UTF-8 data.
+* ``"string"T`` strings, composed of Unicode Extended Grapheme clusters, automatically normalized to NFC at creation time. A character is a single Extended Grapheme Cluster. The ``"string"`` should
+  contain well-formed UTF-8 data, and will be NFC-normalized if needed.
 * ``"string"U`` strings, composed of Unicode codepoints, specified using their hexadecimal representation, preceded or not by "U+", or as names,
   alias or labels between parentheses, as defined in the Unicode Character Database. U strings are BYTES strings.
 
