@@ -190,7 +190,7 @@ There are some other, subtle, changes in the returned results. The _class_ of "i
 it is no longer VAR_SYMBOL, but ASSIGNMENT_INSTRUCTION. The full tokenizer "knows"
 that ``i = i + 1`` is an assignment instructions, and it passes this knowledge to us.
 Similarly, the _subclass_ of "=" has changed. Previously, it was OPERATOR: all the
-tokenizer knew was that "=" was an operator character. Now it is COMPARISON_OPERATOR,
+tokenizer knew was that "=" was an operator character. Now it is ASSIGNMENT_OPERATOR,
 which is more informative. Similarly, "+" has now a subclass of ADDITIVE_OPERATOR.
 
 ### Structure of full tokens (detailed)
