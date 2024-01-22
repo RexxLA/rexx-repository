@@ -204,7 +204,7 @@ tokenizer = .ooRexx.Tokenizer~new(array, detailed)
 We will call our ``inspectTokens.rex`` utility program once more, but this time we will not specify the
 ``-nodetailed`` option, so that a detailed listing (the default when requesting full tokenizing) is produced. 
 ```
-InspectTokens -full -nodetailed test.rex
+InspectTokens -full test.rex
 ```
 We will get output similar to the following:
 ```
