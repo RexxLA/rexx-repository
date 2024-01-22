@@ -367,6 +367,7 @@ the character "*". This will be substituted by appropriate values by the tokeniz
     ( CHARACTER_STRING             , "*" ), -  
     ( BYTES_STRING                 , "*" ), -  -- Unicode only. Y suffix
     ( CODEPOINTS_STRING            , "*" ), -  -- Unicode only. P suffix
+    ( GRAPHEMES_STRING             , "*" ), -  -- Unicode only. G suffix
     ( TEXT_STRING                  , "*" ), -  -- Unicode only. T suffix
     ( UNOTATION_STRING             , "*" )  -  -- Unicode only. U suffix
 )
