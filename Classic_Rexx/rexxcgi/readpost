@@ -1,0 +1,41 @@
+ReadPost: PROCEDURE; PARSE ARG StdinFile
+  /******************************************** */
+  /*Read HTML FORM POST input (if any) from     */
+  /*standard input. Note that if the caller     */
+  /*provides a filename then we save the input  */
+  /*in case we need to send it to another       */
+  /*script. If so we can restore the stdin for  */
+  /*the called command by  using the command:   */
+  /*ADDRESS UNIX script '<' StdinFile           */
+  /*A good way to get a unique filename to save */
+  /*the standard input in, is to use the process*/
+  /*id. For example in Uni-REXX:                */
+  /* StdinFile='/tmp/stdin'_GETPID()            */
+  /* Post=ReadPost(StdinFile)                   */
+  /*If a StdinFile is specified, but ReadPost   */
+  /*is unable to write the standard input to    */
+  /*StdInFile, then ReadPost EXITs.             */ 
+  /*ReadPost returns the POST input if the      */
+  /*REQUEST_METHOD="POST" else it returns null. */
+  /*ReadPost also returns a null string if the  */
+  /*REQUEST_METHOD="POST" but there is no input */
+  /*in the standard input.                      */
+  /*N.b. the returned Post input does NOT have  */
+  /*plus signs (+) converted to spaces or hex   */
+  /*ASCII %XX encodings converted to characters.*/  
+  /******************************************** */      
+  In=''
+  IF GETENV('REQUEST_METHOD')="POST" THEN DO
+    N=GETENV('CONTENT_LENGTH')
+    IF N='' THEN RETURN In
+    In=CHARIN(,1,GETENV('CONTENT_LENGTH'))
+    IF StdinFile\='' THEN DO
+      IF CHAROUT(StdinFile,In,1) \=0 THEN DO
+        SAY "500: Can't write all POST chars!" 
+        EXIT
+      END
+      Fail=CHAROUT(StdinFile)/*Close the file*/
+    END
+  END
+RETURN In
+

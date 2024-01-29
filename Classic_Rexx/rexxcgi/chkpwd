@@ -1,0 +1,34 @@
+chkpwd: PROCEDURE; PARSE ARG PasswordFile, UserName, Password
+/* Check's user's password (fails if there is no such user).
+Returns zero if the password is correct. Otherwise returns
+an error message and message number.
+
+The parameters PasswordFile, UserName and Password must only contain
+alphanumerics plus .-_/@,
+
+This function uses the CERN httpd password file, that is maintained
+using the htadm program which is part of the CERN httpd distribution.
+At SLAC htadm is located at /afs/slac/g/www/bin/htadm-sun or
+/afs/slac/g/www/bin/htadm-aix
+Before using this function the password admin must use the
+htadm function to create the password file and enter the password
+for the selected username.
+
+Example:
+Msg=chkpwd('/afs/slac/u/sf/cottrell/www/test.pwd','cottrell',password)
+
+*/
+IF PasswordFile='' THEN RETURN 'chkpwd(1): null PasswordFile name given!'
+IF LINES(PasswordFile)=0 THEN RETURN "chkpwd(2): either can't find or found an empty PasswordFile" PasswordFile
+IF UserName=''     THEN RETURN 'chkpwd(3): needs a UserName, but none was provided!'
+IF Password=''     THEN RETURN 'chkpwd(4): needs a Password, but none was provided!'
+IF LENGTH(Password)>8 THEN RETURN 'chkpwd(5): password must be 8 characters or less!'
+Parms=PasswordFile Username Password
+IF Suspect(Parms)\='' THEN RETURN 'chkpwd(6):' Suspect(Parms) 'in input parameters!' 
+Fail=POPEN('/afs/slac/g/www/bin/htadm-sun -check' Parms)
+IF QUEUED()>0      THEN PARSE PULL Line
+ELSE RETURN 'chkpwd('10+Fail'): htadm failed, maybe a problem with passwordfile' PasswordFile'!'
+IF Fail\=0         THEN RETURN 'chkpwd(-'Fail'): username/password' Line
+IF Line='Correct'  THEN RETURN 0
+ELSE RETURN Line
+

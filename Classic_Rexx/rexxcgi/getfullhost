@@ -1,0 +1,16 @@
+/*
+ * GetFullHost()
+ *
+ * Returns the fully qualified domain name (FQDN) of the local host,
+ * using the UniREXX specific _GETHOSTNAME and _GETHOSTBYNAME functions.
+ */
+GetFullHost:	PROCEDURE
+   fullhost = _GETHOSTNAME()		/* This is UniREXX Specific! */
+
+   If POS('.',host) = 0 Then Do		/* Get domain information */
+     Call _GETHOSTBYNAME fullhost,'hinfo.'
+     fullhost = hinfo.H_NAME
+   End
+Return fullhost
+
+

@@ -1,0 +1,28 @@
+/*
+ * DelQuery(cgi_string,varname)
+ *
+ * Removes all occurences of a given CGI query variable from the input
+ * string.  CGI query strings are of the form VAR1=value1&VAR2=value2&...
+ * The matching is not case sensitive, and the result is returned with
+ * the same case as the input string.
+ *
+ * Example: DelQuery("A=5&B=2&C=3&B=ABC","B") returns "A=5&C=3".
+ *
+ * 970221  Michael Kelsey
+ * 970303  Steve Meyer, replace UPPER with TRANSLATE, add Qstring to all RETURNs
+ */
+
+DelQuery:	PROCEDURE
+  Parse arg Qstring, Varname
+  Parse upper arg Qup, Vup	/* Case-insensitive version for matching */
+
+  If Varname = '' Then Return Qstring
+
+  Do while POS(Vup'=',Qup) > 0		/* Case-insensitive matching */
+     a = POS(Vup'=',Qup) ; b = POS('&',Qup,a)
+     If b = 0 Then b = LENGTH(Qup)
+     Qstring = STRIP(SUBSTR(Qstring,1,a-1)||SUBSTR(Qstring,b+1),'T','&')
+     Qup = TRANSLATE(Qstring)
+  End
+Return Qstring
+

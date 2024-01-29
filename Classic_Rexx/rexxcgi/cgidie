@@ -1,0 +1,19 @@
+/* CgiDie
+   Identical to CgiError, but also quits with the 
+   passed error message. This appears to work on SunOS. 
+   On AIX 3.2 it appears to be  necessary to enter an
+   extra carriage return if cgidie is called from a 
+   REXX script initiated from the command line.
+*/
+CgiDie: PROCEDURE
+  PARSE ARG Title, Body
+  Fail=CgiError(Title, Body)
+  Pid=_GETPID()
+  Kill=_KILL(Pid,9)
+  SAY 'Kill='Kill
+  SAY 'Error killing process id',
+      Pid', system error:' _errno()
+  SAY _sys_errlist(_errno())
+  SAY 'Process not killed.'
+  EXIT
+

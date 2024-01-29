@@ -1,0 +1,12 @@
+/* MyURL
+   Returns a URL to the script
+*/
+MyURL: PROCEDURE
+   IF GETENV('SERVER_PORT')\='80' THEN 
+        Port=':'GETENV('SERVER_PORT')
+   ELSE Port=''
+/*   Host=GETENV('SERVER_NAME') */
+/*   Url='http://'||Host||Port  */
+   Url='http://'GETENV('HTTP_HOST')
+   RETURN Url||GETENV('SCRIPT_NAME')
+   

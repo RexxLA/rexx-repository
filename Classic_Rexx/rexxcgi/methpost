@@ -1,0 +1,6 @@
+/* MethPost
+   Return true if this cgi call was using the POST request, false otherwise
+*/
+MethPost: PROCEDURE
+  RETURN 'POST'=GETENV('REQUEST_METHOD')
+     

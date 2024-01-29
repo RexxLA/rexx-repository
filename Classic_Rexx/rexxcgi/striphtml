@@ -1,0 +1,27 @@
+/*
+ * StripHTML(markup)
+ *
+ * Simplistically removes HTML markup from an input string.  No use of
+ * context or semantic information is done -- every <.....> tag is just
+ * removed.
+ *
+ * Example: StripHTML("<H1><IMG SRC="babar.gif"> BaBar Experiment</H1>")
+ *          returns " BaBar Experiment"
+ *
+ * 970221  Michael Kelsey
+ */
+
+StripHTML:	PROCEDURE
+  Parse arg in
+
+  out = ''
+  tag = 0
+  i = 1
+  Do until i > LENGTH(in)
+    ch = SUBSTR(in,i,1)
+    tag = tag | (ch = '<')		/* Beginning of HTML tag */
+    If tag=0 Then out = out||ch
+    tag = tag & (ch <> '>')		/* End of HTML tag */
+    i = i + 1
+  End
+Return out

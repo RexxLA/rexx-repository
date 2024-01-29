@@ -1,0 +1,8 @@
+/* HtmlTop
+ Returns the head of a document and the  
+ beginning of the body with the title and a 
+ body h1 header as specified by the parameter.
+ Example: SAY HTMLBot('Heading for WWW Page')
+*/
+HtmlTop: PROCEDURE; PARSE ARG Title
+  RETURN '<html><head><title>'Title'</title></head><body><h1>'Title'</h1>'

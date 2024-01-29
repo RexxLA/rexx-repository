@@ -1,0 +1,26 @@
+Webify: PROCEDURE; PARSE ARG Input
+/* ***************************************************
+Some characters may not be usable in a URL since its
+use may conflict with a reserved character. In such
+cases the character may be encoded with a % followed
+by its ASCII hexadecimal equivalent code.  Webify
+encodes the Input provided in the argument for
+a selected set of ASCII characters (see the variable
+Esc) and provides the encoded Input as output.
+*************************************************** */
+Esc='%'||XRANGE('00'X,'$')||XRANGE('&','/'),
+       ||XRANGE(':','@')||XRANGE('[','`'),
+       ||XRANGE('{','FF'X) /* List of chars to be encoded*/
+DO UNTIL Esc=''/*Check for chars to be escaped*/
+   PARSE VAR Esc Char 2 Esc
+   P=POS(Char,Input); Enc='%'C2X(Char)
+   Start=1; Decoded=''
+   DO WHILE POS(Char,SUBSTR(Input,Start))\=0
+      String=SUBSTR(Input,Start)
+      PARSE VAR String Pre (Char) Input
+      Start=LENGTH(Decoded||Pre||Enc)+1
+      Input=Decoded||Pre||Enc||Input
+      Decoded=Decoded||Pre||Enc
+   END
+END
+RETURN Input

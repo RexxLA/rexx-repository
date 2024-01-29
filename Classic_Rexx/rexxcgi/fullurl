@@ -1,0 +1,20 @@
+/*
+ * FullURL()
+ *
+ * Rebuilds complete CGI query URL from CGI environment variables.  The
+ * "REFERER_URL" string stops at the name of the CGI script, eliminating
+ * any path or query information.  This makes it difficult to embed the
+ * original query for reference in script output.
+ *
+ * 970221  Michael Kelsey
+ */
+
+FullURL:	PROCEDURE
+  path  = GetEnv('PATH_INFO')
+  query = GetENV('QUERY_STRING')
+
+  FullURL = MyURL()
+  If path <> '' Then FullURL = FullURL||path
+  If query <> '' Then FullURL = FullURL'?'query
+Return FullURL
+

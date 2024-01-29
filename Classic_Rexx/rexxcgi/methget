@@ -1,0 +1,6 @@
+/* MethGet
+   Return true if this cgi call was using the GET request, false otherwise
+*/
+MethGet: PROCEDURE
+   RETURN 'GET'=GETENV('REQUEST_METHOD')
+   

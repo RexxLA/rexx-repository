@@ -1,0 +1,30 @@
+#!/usr/local/bin/rexx
+/* The above line indicates that the code is a 
+REXX script and where the REXX interpreter is 
+to be found. This may be different at your site.    
+
+Sample CGI Script in  Uni-REXX, invoke from:
+http://www.slac.stanford.edu/cgi-wrap/finger?cottrell*/
+
+Fail=PUTENV('REXXPATH=/afs/slac/www/slac/www/tool/cgi-rexx')
+/* The above line tells the REXX interpreter 
+where to find the external REXX library 
+functions, such as PrintHeader, HTMLTop, 
+DeWeb and HTMLBot.            */ 
+
+SAY PrintHeader()  /*Put out Content-type stuff*/
+SAY '<body bgcolor="FFFFFF">'
+
+In=DeWeb(TRANSLATE(GETENV('QUERY_STRING'),' ','+'))
+  /*Decode + signs to spaces and hex %XX to chars*/
+SAY HTMLTop('Finger' In)'<pre>'
+Valid=' abcdefghijklmnopqrstuvwxyz'
+Valid=Valid||'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+Valid=Valid||'0123456789-_/.@'
+
+V=VERIFY(In,Valid) /*Check input is valid*/
+IF V\=0 THEN
+  SAY 'Bad char('SUBSTR(In,V,1)')in:"'In'"'
+ELSE ADDRESS COMMAND '/usr/ucb/finger' In
+SAY HTMLBot() /*Put out trailer boilerplate*/
+EXIT

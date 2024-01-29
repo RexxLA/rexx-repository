@@ -1,0 +1,45 @@
+DeWeb: PROCEDURE; PARSE ARG In, Op
+/* *******************************************
+DeWeb converts hex encoded (e.g. %3B=semi-colon) 
+characters in the In string to the equivalent 
+ASCII characters and returns the decoded string.
+If the 2 characters following a % sign do not
+represent a hexadecimal 2 digit number, then 
+the % and following 2 characters are returned
+unchanged. If the string terminates with a % then
+the % sign is returned unchanged. If the final
+two characters in the string are a % sign 
+followed by a single hexadecimal digit then  
+they are returned unchanged.
+
+The optional Op argument contains a set of 
+characters which allows you to tell DeWeb to:
+'+' convert plus signs (+) to spaces
+    in the input before the hex decoding is done.
+'*' convert asterisks (*) to percent signs (%) 
+    after the decoding.  This option
+    is often used with Oracle.
+   
+Authors: Les Cottrell & Steve Meyer - SLAC
+
+Examples:
+  SAY DeWeb('%3Cpre%3e%20%%25Loss  %Util%') 
+  results in:  '<pre> %%Loss  %Util%'
+  SAY DeWeb('%3cpre%3eName++Address*','*+')
+  results in   '<pre>Name  Address%'
+******************************************* */
+IF POS('+',Op)\=0 THEN In=TRANSLATE(In,' ','+')
+Start=1; Decoded=''; String=In
+DO WHILE POS('%',String)\=0
+   PARSE VAR String Pre'%'+1 Ch +2 In
+   IF DATATYPE(Ch,'X') & LENGTH(Ch)=2 THEN 
+        Ch=X2C(Ch)
+   ELSE DO; In=Ch||In; Ch='%'; END
+   Decoded=Decoded||Pre||Ch
+   Start=LENGTH(Decoded)+1
+   In=Decoded||In
+   String=SUBSTR(In,Start)
+END
+IF POS('*',Op)\=0 THEN In=TRANSLATE(In,'%','*')
+RETURN In
+

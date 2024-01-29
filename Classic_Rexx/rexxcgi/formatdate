@@ -1,0 +1,51 @@
+/*
+ * FormatDate(DTexpr)
+ *
+ * Parses the date expression given, and converts it to a standard
+ * format DD-MON-YY:HH:MM:SS, for use by Oracle.  The date may be
+ * given in any of the formats
+ *
+ *	mm/dd/yy	mm/dd/yyyy
+ *      dd/mm/yy	dd/mm/yyyy
+ *      dd-Mon-yy	dd-Mon-yyyy
+ *
+ * and with an optional hh:mm[:ss] time string, with hours in 12- or
+ * 24-hour format, appended with a colon.
+ *
+ * 970221  Michael Kelsey
+ */
+
+FormatDate:	PROCEDURE
+  Parse Arg DTexpr
+  Parse Var DTexpr date ':' time
+
+  months = 'JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC'
+  days =   '31  29  31  30  31  30  31  31  30  31  30  31'
+
+  Parse Var date mm '/' dd '/' yy		/* eg 10/18/96 */
+  If Datatype(mm,'W') = 0 | Datatype(dd,'W') = 0 ,
+     | Datatype(yy,'W') = 0 Then Do
+
+     Parse Upper Var date dd '-' mon '-' yy	/* eg 18-oct-96 */
+     mm = WordPos(mon,months)
+
+     If Datatype(dd,'W') = 0 | Datatype(yy,'W') = 0 | mm = 0 ,
+     Then Return ''
+  End
+  Else Do
+     dd = Format(dd)
+     mm = Format(mm)
+     If dd > Word(days,mm) | dd < 1 Then Do
+        parse value dd mm with mm dd
+        If dd > Word(days,mm) | dd < 1 Then Call DateError DTexpr
+     End
+  End
+
+  If yy > 1900 Then yy = RIGHT(yy,2)
+
+  date = dd"-"Word(months,mm)"-"yy
+
+  If time='' then result = date		/* Return full date-time string */
+  Else result = date':'time
+Return result
+

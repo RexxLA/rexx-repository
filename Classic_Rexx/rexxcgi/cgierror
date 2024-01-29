@@ -1,0 +1,18 @@
+/* CgiError
+Prints out an error message which contains 
+appropriate headers, markup, etcetera.
+Parameters:
+If no parameters, gives a generic error message
+Otherwise, the first parameter will be the title 
+and the rest will be given as the body
+*/
+CgiError: PROCEDURE; PARSE ARG Title, Body
+  IF Title='' THEN 
+    Title='Error: script' MyURL(),
+          'encountered fatal error.'
+  SAY '<html><head><title>'Title'</title></head>'
+  SAY '<body><h1>'Title'</h1>'
+  IF Body\='' THEN SAY Body
+  SAY '</body></html>'
+RETURN ''
+

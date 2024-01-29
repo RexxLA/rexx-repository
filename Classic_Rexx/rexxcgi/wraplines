@@ -1,0 +1,25 @@
+/*
+ * CALL WrapLines long_string [,len]
+ *
+ * Breaks the specified "very long" message string into lines appropriate
+ * for terminal output.  Each line will be up to _len_ characters long
+ * (80 if len not specified), and will be broken at word boundaries (spaces
+ * or tabs).  Each resulting line is written to standard output.
+ *
+ * 970221  Michael Kelsey
+ */
+
+WrapLines:	PROCEDURE
+  Parse arg message, len
+  If len='' Then len = 80
+
+  Do while message <> ''
+     cuts = LASTPOS(' ',LEFT(message,len))	/* Find word break at end */
+     cutt = LASTPOS(d2c(9),LEFT(message,len))
+     cut = MAX(cuts,cutt)
+     if cut = 0 Then cut = len-1
+
+     Say LEFT(message,cut)
+     message = SUBSTR(message,cut+1)
+  End
+Return

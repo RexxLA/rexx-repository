@@ -1,0 +1,32 @@
+#!/usr/local/bin/rexx
+/* The above line indicates that the code is a 
+REXX script and where the REXX interpreter is 
+to be found. This may be different at your site.    
+
+Sample CGI Script in  Uni-REXX, invoke from:
+http://www.slac.stanford.edu/cgi-wrap/testinput*/
+
+Fail=PUTENV('REXXPATH=/afs/slac/www/slac/www/tool/cgi-rexx')
+/* The above line tells the REXX interpreter 
+where to find the external REXX library 
+functions, such as PrintHeader, HTMLTop, 
+ReadPost, DeWeb and HTMLBot.            */ 
+
+StdinFile='/tmp/stdin'_GETPID()/*Get unique name*/
+  /*_GETPID() provides the process Id in Uni-REXX*/
+SAY PrintHeader(); SAY HTMLTop('testinput')
+/*********************************************** */
+/*Read input from the various sources.           */
+/*Note that we preserve or save                  */
+/*input in case we need to send it to another    */
+/*script. If so we can restore the stdin for the */
+/*the called command by  using the REXX command: */
+/*ADDRESS UNIX script '<' StdinFile              */ 
+/*********************************************** */      
+
+PARSE ARG Parms/*QUERY_STRING input for non FORMS*/
+SAY 'Command line parms="'Parms'"'
+SAY '<br>Standard input="'ReadPost(StdinFile)'"'
+SAY '<br>PATH_INFO="'GETENV('PATH_INFO')'"'
+SAY '<br>QUERY_INPUT="'GETENV('QUERY_STRING')'"'
+EXIT

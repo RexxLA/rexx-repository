@@ -1,0 +1,73 @@
+HTtab: PROCEDURE; PARSE ARG InFn, OutFn, Delim, Options
+/* httab - Converts a tab delimited file into an HTML Table */
+/*
+   httab - Converts a tab delimited file into an HTML Table
+
+  .....................................................................
+  Command Format:
+       CALL HTtab(InFn, OutFn)
+       
+Where: InFn is the fully qualified inout filename of the tab delimited
+       file.
+       IF InFn is equal to '-' THEN input is read from stdin.
+       OutFn is the fully qualified name of the output filename where the
+       HTML table will be written.  The default for OutFn is standard
+       output. If OutFn="=" then the output filename=InFn||'.html',
+       unles InFn='-' in which case OutFn='/tmp/qall.html'.      
+       If OutFn='-' then no output file is written.
+       Delim specifies the tab delimter to be used.  The default
+       is '09'X an horizontal tab.
+
+The converted file contents are returned by HTTab.  If an error
+is encountered (e.g. no Input filename is provided), then an
+HTML error message is returned with the first character being an
+exclamation mark (!).
+       
+Examples:
+ Msg=HTTab(Fn),1,1); IF SUBSTR(Msg,1,1)='!' THEN DO; SAY Msg'</body></html>'; EXIT; END
+ SAY HTTab(Fn,'=')
+
+Note this function can be much more simply done in Perl.
+
+Please send comments and/or suggestion to Les Cottrell.
+*/
+/* **************************************************************** */
+/* Owner(s): Les Cottrell, Jan 23, 1996                             */
+/* Revision History:                                                */
+/* **************************************************************** */
+
+   /* ********************************************************** */
+   /* Get the  parameters                                        */
+   /* ********************************************************** */
+   IF InFn=''        THEN RETURN '!<br>No input file specified.</br>'
+   IF InFn='-'       THEN InFn=''
+   IF LINES(InFn)=0  THEN RETURN "!<br>Can't find file' InFn 'or it is empty.</br>"
+   Out=1
+   IF OutFn='='      THEN DO;
+      IF InFn='' THEN OutFn='/tmp/qall.html'
+      ELSE            OutFn=InFn'.html'
+   END
+   ELSE IF OutFn='-' THEN Out=0
+   IF Delim=''       THEN Delim='09'X /* Horizontal Tab */
+
+   /* *********************************************************** */
+   /* Do the conversion.                                          */
+   /* *********************************************************** */
+   Body='<CAPTION><b>'InFn'</b></CAPTION><TABLE Border>'
+   IF Out THEN CALL LINEOUT(OutFn,Body,1)
+   DO L=1 BY 1 WHILE LINES(InFn)>0
+      Line=LINEIN(InFn); LineO='<TR>'
+      DO WHILE Line\=''
+         PARSE VAR Line Pre (Delim) Line 
+         LineO=LineO||'<TD>'Pre'</TD>'
+      END
+      Body=Body||'0a'X||LineO||'</TR>'
+      IF Out THEN CALL LINEOUT(OutFn,LineO||'</TR>')
+   END
+   Body=Body||'0a'x||'</TABLE>'
+   IF Out THEN DO
+      CALL LINEOUT(OutFn,'</TABLE>')
+      CALL LINEOUT(OutFn) /*Close File*/
+   END
+   RETURN Body
+   

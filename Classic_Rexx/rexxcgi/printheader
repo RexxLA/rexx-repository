@@ -1,0 +1,27 @@
+/* PrintHeader
+   Returns the magic line which tells WWW what    
+   kind of document is to follow.  If no first  
+   argument is provided, then the default 
+   document type is HTML, and this is returned together
+   with an extra newline to terminate the HTTP header.
+   Otherwise the first argument provides the type/subtype.
+   If the second argument is 1 then a Location: 
+   header is returned instead of the text/html header.
+   If the second argument is present (i.e. not null)
+   but not equal to 1, then the first argument is returned. 
+   If the second argument is not provided and there is
+   a non null first argument then 
+   Content-type: <first-argument>nl is returned.
+   Examples:
+     SAY PrintHeader()
+     SAY PrintHeader('http://www.halcyon.com/hedlund/cgi-faq/',1)
+     SAY PrintHeader('Status: 305 Document moved',0)
+     SAY PrintHeader('application/postscript')   
+*/
+PrintHeader: PROCEDURE; PARSE ARG Content, IsURL
+  nl=d2c(10) /*N.B. 10 is the decimal code for a newline*/
+  IF Content='' THEN RETURN 'Content-type: text/html'nl
+  ELSE IF IsUrl=1 THEN RETURN 'Location:' Content
+  ELSE IF IsUrl\='' THEN RETURN Content
+  ELSE RETURN 'Content-type:' Content||nl
+  

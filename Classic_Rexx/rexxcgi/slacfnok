@@ -1,0 +1,40 @@
+/* SLACfnOK
+Checks that the filename is OK to be made accessible.
+IF OK then it returns a null string, else it returns a
+string with the reason why the file is not accessible.
+*/
+SLACfnOK: PROCEDURE; PARSE ARG Fn
+
+Valid='abcdefghijklmnopqrstuvwxyz0123456789'
+Valid=Valid||'ABCDEFGHIJKLMNOPQRSTUVWXYZ.-_/'
+CharNb=VERIFY(Fn,Valid)
+IF CharNb\=0                                      THEN
+  RETURN 'contains an invalid character ('SUBSTR(Fn,CharNb,1)')'
+
+IF POS('..',Fn)\=0                                THEN
+  RETURN '.. in filename'
+IF LEFT(Fn,1)='-'                                 THEN
+  RETURN '- at start of filename'
+IF POS('SLACONLY',TRANSLATE(Fn))\=0 THEN DO
+  IF SUBSTR(GETENV('REMOTE_ADDR'),1,7)\='134.79.' &,
+     GETENV('REMOTE_ADDR')\='' THEN
+     RETURN 'SLAC only access'
+END
+IF SUBSTR(Fn,1,10)='/afs/slac/' THEN
+  Fn='/afs/slac.stanford.edu/'||SUBSTR(Fn,11)
+IF SUBSTR(Fn,1,27)='/afs/slac.stanford.edu/www/'  THEN RETURN ''
+IF POS('public_html/',Fn)\=0                      THEN RETURN ''
+IF SUBSTR(GETENV('REMOTE_ADDR'),1,7)\='134.79.' &,
+  GETENV('REMOTE_ADDR')\=''                      THEN
+  RETURN 'file not accessible from outside SLAC'
+IF SUBSTR(Fn,1,25)='/usr/local/scs/net/cando/'    THEN RETURN ''
+IF SUBSTR(Fn,1,39)='/afs/slac.stanford.edu/g/scs/net/cando/' THEN
+   RETURN ''
+IF Fn='/etc/printcap'                             THEN RETURN ''
+IF SUBSTR(,1,28)='/var/www/log/httpd.prod/err.'   THEN RETURN ''
+IF Fn=''                                          THEN RETURN ''
+IF LEFT(Fn,5)='/tmp/'                             THEN RETURN ''
+IF Fn='/var/www/harvest/gatherers/slac/log.errors' THEN RETURN ''
+IF Fn='/var/www/harvest/gatherers/slac/log.gatherer' THEN RETURN ''
+IF POS('/tmp/htlog',Fn)\=0                        THEN RETURN ''
+ELSE RETURN 'file not in access list'

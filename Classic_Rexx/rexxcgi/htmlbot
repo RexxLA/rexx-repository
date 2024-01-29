@@ -1,0 +1,6 @@
+/* HtmlBot
+   Returns the </body>, </html> codes for 
+   the bottom of every HTML page
+*/
+HtmlBot: PROCEDURE
+  RETURN '</body></html>'

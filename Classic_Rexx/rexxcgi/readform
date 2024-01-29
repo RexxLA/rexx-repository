@@ -1,0 +1,17 @@
+/* ReadForm
+Reads in GET or POST data, converts plus signs (+) 
+to spaces. Does not convert %XX encoded characters 
+to unescaped text since this would confuse 
+encoded ampersands and equal signs with
+those used to separate the fields in the 
+name=value& pairs.
+Returns the converted input if there is any, 
+else returns ''.
+*/
+ReadForm: PROCEDURE
+  /* Read in text */
+  IF MethGet() THEN In=GETENV('QUERY_STRING')
+  ELSE IF MethPost() THEN 
+     In=CHARIN(,1,GETENV('CONTENT_LENGTH'))
+  ELSE RETURN ''
+RETURN TRANSLATE(In,' ','+')

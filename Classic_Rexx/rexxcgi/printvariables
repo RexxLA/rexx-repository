@@ -1,0 +1,19 @@
+/* PrintVariables
+Decodes the Form data block variables 
+in the In argument (which are in the format 
+key1=value1&key2=value2&...) and returns them 
+in a nicely formatted HTML string.
+Example:  
+  SAY PrintVariables(GETENV('QUERY_STRING'))
+*/
+PrintVariables: PROCEDURE; PARSE ARG In
+  n='0A'X; /*Newline*/; Out=n||'<dl compact>'||n
+  DO I=1 BY 1 UNTIL In=''
+    /* Split into key and value */
+    PARSE VAR In Key.I'='Val.I'&' In
+    /* Convert %XX from hex to alphanumeric*/
+    Key.I=DeWeb(Key.I,'+'); Val.I=DeWeb(Val.I,'+')
+    Out=Out'<dt><b>'Key.I'</b>'n,
+           '<dd><i>'Val.I'</i><br>'n
+  END I
+RETURN Out||'</dl>'||n

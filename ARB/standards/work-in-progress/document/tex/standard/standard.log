@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  3 SEP 2023 17:45
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  3 SEP 2023 22:04
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -2781,7 +2781,7 @@ sign PASSED, #Level, TRANSIENT,
                                                   (Lines,`W') then call \#Ra...
 l.423 call \#Raise `SYNTAX',54.1,Stem'0', Lines /}
                                                    Use a stream for the stem
-? qq
+? q
 OK, entering \batchmode...
 
 Overfull \hbox (22.6147pt too wide) in paragraph at lines 419--429

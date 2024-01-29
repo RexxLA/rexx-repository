@@ -1,0 +1,22 @@
+OraEnv: PROCEDURE
+
+   /* oraenv - set up Oracle database environment variables */     
+   /* George Crane, January 1996                            */
+
+   Address command
+
+   /* Set up the correct environment variables for */
+   /* communcations with Oracle and set some       */
+   /* required environment variables for Oracle    */
+ 
+   call popen "grep 'setenv ORACLE_HOME' /usr/local/bin/coraenvp","P"
+   If queued() = 0 Then exit
+   parse pull . . home
+   path = GetEnv('PATH')
+   rc = putenv("LIBHOME="home"/lib")
+   rc = putenv("PATH="path":"home"/bin")
+   rc = putenv("TWO_TASK=SLAC_TCP")
+   rc = putenv("TNS_ADMIN="home"/network/admin")
+ 
+   Return 0
+

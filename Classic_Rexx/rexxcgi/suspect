@@ -1,0 +1,18 @@
+Suspect: PROCEDURE; PARSE ARG Input
+/*
+Checks that the Input string is composed of valid
+characters which should not cause problems with 
+shell expansions. Suspect returns null if Input 
+is composed of valid characters otherwise it 
+returns an error message.
+Example:
+IF Suspect(In)\='' THEN DO; 
+   SAY Suspect(In) 'in:' '"'In'"'; EXIT; END
+*/
+Valid=' abcdefghijklmnopqrstuvwxyz' ||,
+       'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+Valid=Valid||'0123456789-_/.@,'
+V=VERIFY(Input,Valid)
+IF V\=0 THEN 
+   RETURN 'Invalid character('SUBSTR(Input,V,1)')'
+ELSE RETURN ''

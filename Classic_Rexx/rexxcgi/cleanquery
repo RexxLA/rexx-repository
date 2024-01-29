@@ -1,0 +1,24 @@
+/*
+ * CleanQuery(cgi_string)
+ *
+ * Removes all occurences of unassigned variables from a CGI query string.
+ * CGI query strings are of the form VAR1=value1&VAR2=value2&...  It is
+ * possible for a Web form to generate "VAR=" elements, with no assignment,
+ * which in many cases are removable from the query without effect.  The
+ * remaining elements are preserved in order and in case.
+ *
+ * Example: CleanQuery("A=5&B=&C=&B=abc") returns "A=5&B=abc".
+ *
+ * 970221  Michael Kelsey
+ */
+
+CleanQuery:	PROCEDURE
+  Parse arg Qstring
+
+  Qnew = ''
+  Do while Qstring <> ''
+     Parse var Qstring var '=' val '&' Qstring
+     If val <> '' Then Qnew = Qnew'&'var'='val
+  End
+  Qnew = STRIP(Qnew,'B','&')
+Return Qnew

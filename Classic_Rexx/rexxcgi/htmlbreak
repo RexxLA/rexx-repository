@@ -1,0 +1,27 @@
+/*
+ * HTMLBreak(long_string[,len])
+ *
+ * Breaks the specified "very long" message string into lines appropriate
+ * for HTML parsing.  Each "line" will be up to _len_ characters long
+ * (80 if len not specified), and will be broken at word boundaries (spaces
+ * or tabs).  The string will have HTML break tags "<BR>" inserted at each
+ * line break point.
+ *
+ * 970221  Michael Kelsey
+ */
+
+HTMLBreak:	PROCEDURE
+  Parse arg message, len
+  If len='' Then len = 80
+
+  broken = ''
+  br = ''
+  Do while message <> ''
+     cut = LASTPOS(' ',LEFT(message,len))	/* Find word break at end */
+     if cut = 0 Then cut = len-1
+
+     broken = broken||br||LEFT(message,cut)
+     If broken<>'' Then br = '<BR>'		/* Add breaks to later lines */
+     message = SUBSTR(message,cut+1)
+  End
+Return broken

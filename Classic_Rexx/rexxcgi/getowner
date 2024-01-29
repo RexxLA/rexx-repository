@@ -1,0 +1,18 @@
+/*
+ * GetOwner(file)
+ *
+ * Return username of owner of specified file.  This function is ONLY
+ * valid for UniREXX (Rexx running on Unix).  It uses the POPEN routine
+ * to fetch file information from 'ls'.
+ *
+ * 970221  Michael Kelsey
+ */
+
+GetOwner:	PROCEDURE
+   Parse Arg fname
+   Call POPEN 'ls -dloL' fname		/* This is UniREXX Specific! */
+   Parse pull . . owner .
+Return owner
+
+
+

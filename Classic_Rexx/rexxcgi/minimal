@@ -1,0 +1,15 @@
+#!/usr/local/bin/rexx
+/*  Minimalist http form and script           */
+F=PUTENV("REXXPATH=/afs/slac/www/slac/www/tool/cgi-rexx")
+SAY PrintHeader(); SAY '<body bgcolor="FFFFFF">'
+Input=ReadForm()
+IF Input='' THEN DO  /*Part 1*/
+  SAY HTMLTop('Minimal Form')
+  SAY '<form><input type="submit">',
+      '<br>Data: <input name="myfield">'
+END
+ELSE DO              /*Part 2*/
+  SAY HTMLTop('Output from Minimal Form') 
+  SAY PrintVariables(Input)
+END
+SAY HTMLBot()
