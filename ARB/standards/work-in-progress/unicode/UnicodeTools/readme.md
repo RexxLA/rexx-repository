@@ -24,6 +24,7 @@ Version 0.4b, 20231014.
 
 ## \[Cumulative change log since release 0.4b\]
 
+* 20240130 &mdash; InspectTokens: add options to select different dialects, specify default in the help display.
 * 20240128 &mdash; RXU: Function names are not translated after a double twiddle. Unicode.cls and RXU: rename !!DS to !DS. 
 * 20240121 &mdash; Start to document the GRAPHEMES string type.
 * 20231020 &mdash; Implement loose matching for property names. Move release notes for old releases to separate files in the ``doc`` directory.
