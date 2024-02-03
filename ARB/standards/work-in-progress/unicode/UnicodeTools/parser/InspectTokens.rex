@@ -9,12 +9,14 @@
  
  *****************************************************************************************************************/
 
--- InspectTokens.rex - A sample program for the Rexx Tokenizer. It tokenizes a file, and prints its tokenization. 
+-- InspectTokens.rex - A sample program for the Rexx Tokenizer. It tokenizes a file, and then prints its tokenization. 
 
 Parse Arg inFile
 
 detailed = 1
 full     = 1
+unicode  = 1
+dialect  = "ooRexx"
 Do While inFile~Word(1)~Left(1) == "-"
   Parse var inFile option inFile
   Select Case Upper(option)
@@ -22,10 +24,15 @@ Do While inFile~Word(1)~Left(1) == "-"
       Say .resources[help]
       Exit 1
     End
-    When "-D", "-DETAIL",   "-DETAILED"   Then detailed = 1
-    When "-N", "-NODETAIL", "-NODETAILED" Then detailed = 0
-    When "-F", "-FULL"                    Then full     = 1
-    When "-S", "-SIMPLE"                  Then full     = 0
+    When "-D",  "-DETAIL",   "-DETAILED"   Then detailed = 1
+    When "-ND", "-NODETAIL", "-NODETAILED" Then detailed = 0
+    When "-F",  "-FULL"                    Then full     = 1
+    When "-S",  "-SIMPLE"                  Then full     = 0
+	When "-U",  "-UNICODE"                 Then Unicode  = 1
+	When "-NU", "-NOUNICODE"               Then Unicode  = 0
+	When "-R",  "-REGINA"                  Then dialect  = "Regina"
+	When "-O",  "-OOREXX"                  Then dialect  = "ooRexx"
+	When "-A",  "-ANSI"                    Then dialect  = "ANSI"
     Otherwise
       Say "Invalid option '"option"'."
       Exit 1
@@ -38,8 +45,8 @@ If inFile = "" Then Do
 End
 
 quote = infile[1]
-If Pos(quote,"""'") > 0 Then Do Parse Arg (quote)inFile(quote)rest
-
+If Pos(quote,"""'") > 0 Then Do 
+  Parse Arg (quote)inFile(quote)rest
   If rest \= "" Then Do
     Say "Invalid file name" quote||inFile||quote||rest"."
     Exit 1
@@ -53,9 +60,23 @@ End
 
 source = CharIn(inFile,,Chars(inFile))~makeArray
 
+-- Select the right tokenizer class
+
+Select Case dialect
+  When "ooRexx" Then
+    If Unicode Then tokenizerClass = .ooRexx.Unicode.Tokenizer
+	Else            tokenizerClass = .ooRexx.Tokenizer
+  When "Regina" Then
+    If Unicode Then tokenizerClass = .Regina.Unicode.Tokenizer
+	Else            tokenizerClass = .Regina.Tokenizer
+  When "ANSI"   Then
+    If Unicode Then tokenizerClass = .ANSI.Rexx.Unicode.Tokenizer
+	Else            tokenizerClass = .ANSI.Rexx.Tokenizer
+End
+
 -- Get a tokenizer instance for our source
 
-tokenizer = .ooRexx.Unicode.Tokenizer~new(source, detailed)
+tokenizer = tokenizerClass~new(source, detailed)
 
 -- The following code fragment allows symbolic manipulation of
 -- the constants returned by the tokenizer.
@@ -69,24 +90,69 @@ End
 
 Call Time "R"
 
-Do tokenNo = 1 By 1
+tokens = .Array~new
 
+LocationPlaces. = 0
+
+
+
+Do tokenNo = 1 By 1
   If full Then token = tokenizer~getFullToken
   Else         token = tokenizer~getSimpleToken
-  
--- Exit conditions  
-If token[class] == END_OF_SOURCE Then Leave
-If token[class] == SYNTAX_ERROR  Then Leave
 
-  Say Right(tokenNo,5) "["token[location]"]" printClass(token)": '"token[value]"'"
+  lastToken = token
+  
+  -- Exit conditions  
+  If token[class] == END_OF_SOURCE Then Leave
+  If token[class] == SYNTAX_ERROR  Then Leave
+  
+  Parse Value token[location] With n.1 n.2 n.3 n.4
+  Do i = 1 To 4
+    LocationPlaces.i = Max(LocationPlaces.i, Length(n.i))
+  End
+  
+  tokens~append(token)
+End
+
+
+Do tokenNo = 1 To tokens~items
+
+  token = tokens[tokenNo]
+
+  Parse Value token[location] With n.1 n.2 n.3 n.4
+
+  Say Right(tokenNo,5),
+    "["||,
+    Right(n.1, LocationPlaces.1),
+    Right(n.2, LocationPlaces.2),
+    Right(n.3, LocationPlaces.3),
+    Right(n.4, LocationPlaces.4) || ,
+    "]" printClass(token)": '"token[value]"'"
   
   -- Detailed full tokenizing? Print the absorbed subtokens
   If token~hasIndex(absorbed) Then Do
     clonedIndex = token[cloneIndex]
     Say "        ---> Absorbed:"
+    subTokenNoPlaces = Length(token[absorbed]~items)
+    SubTokenLocationPlaces. = 0
     Do subTokenNo = 1 To token[absorbed]~items
       subToken = token[absorbed][subTokenNo]
-      Say "        "subTokenNo"["subToken[location]"]" printClass(subToken)": '"||subToken[value]"'" Copies("<==", subTokenNo = clonedIndex)
+      Parse Value subToken[location] With n.1 n.2 n.3 n.4
+      SubTokenLocationPlaces.1 = Max(SubTokenLocationPlaces.1, Length(n.1))
+      SubTokenLocationPlaces.2 = Max(SubTokenLocationPlaces.2, Length(n.2))
+      SubTokenLocationPlaces.3 = Max(SubTokenLocationPlaces.3, Length(n.3))
+      SubTokenLocationPlaces.4 = Max(SubTokenLocationPlaces.4, Length(n.4))
+    End
+    Do subTokenNo = 1 To token[absorbed]~items
+      subToken = token[absorbed][subTokenNo]
+      Parse Value subToken[location] With n.1 n.2 n.3 n.4
+      Say "        "Right(subTokenNo,subTokenNoPlaces),
+        "[" || , 
+          Right(n.1, SubTokenLocationPlaces.1) ,
+          Right(n.2, SubTokenLocationPlaces.2) ,
+          Right(n.3, SubTokenLocationPlaces.3) ,
+          Right(n.4, SubTokenLocationPlaces.4) ||,
+        "]" printClass(subToken)": '"||subToken[value]"'" Copies("<==", subTokenNo = clonedIndex)
     End
   End
 
@@ -94,11 +160,11 @@ End
 
 -- When a token is a SYNTAX_ERROR, it contains additional fields to print
 -- a meaningful error message.
-If token[class] == SYNTAX_ERROR Then Do
+If lastToken[class] == SYNTAX_ERROR Then Do
   Say
-  Parse Value token["NUMBER"] With major"."minor
-  Say "Syntax error" major"."minor "on line" token[line]":" token[message]
-  Say token[secondaryMessage]
+  Parse Value lastToken["NUMBER"] With major"."minor
+  Say "Syntax error" major"."minor "on line" lastToken[line]":" lastToken[message]
+  Say lastToken[secondaryMessage]
   Exit -major
 End
 
@@ -117,20 +183,24 @@ PrintClass:
   Return nameOf.[theClass] "("nameOf.[theSubClass]")"
   
 ::Resource Help
-inspect.rex -- Tokenize and inspect a .rex source file
-------------------------------------------------------
+InspectTokens.rex -- Tokenize and inspect a .rex source file
+------------------------------------------------------------
 
 Format:
 
   [rexx] InspectTokens[.rex] [options] [filename]
 
-Options:
+Options (starred descriptions are the default):
   
-  -h, -help                   Print this information
-  -d, -detail, -detailed      Perform a detailed tokenization
-  -n, -nodetail, -nodetailed  Perform an undetailed tokenization
-  -f, -full                   Use the full tokenizer
-  -s, -simple                 Use the simple tokenizer
-   
+  -h,  -help                   Print this information
+  -d,  -detail, -detailed      Perform a detailed tokenization (*)
+  -nd, -nodetail, -nodetailed  Perform an undetailed tokenization
+  -f,  -full                   Use the full tokenizer (*)
+  -s,  -simple                 Use the simple tokenizer
+  -u,  -unicode                Allow Unicode extensions (*)
+  -nu, -nounicode              Do not allow Unicode extensions
+  -o,  -oorexx                 Use the Open Object Rexx tokenizer (*)
+  -r,  -regina                 Use the Regina Rexx tokenizer
+  -a,  -ansi                   Use the ANSI Rexx tokenizer
 ::END    
 ::Requires Rexx.Tokenizer.cls

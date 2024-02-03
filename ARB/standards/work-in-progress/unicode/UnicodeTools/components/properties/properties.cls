@@ -37,6 +37,8 @@
  *                                                                           
  */
 
+.local~Unicode.Property = .Unicode.Property
+
 ::Options Digits 16
 
 ::Class Unicode.Property Public
@@ -112,7 +114,7 @@
   
   Use Strict Arg name, option = "SYNTAX"
   
-  name   = Upper( name   )
+  name   = Upper( name )
   option = Upper( option )
   Select Case option
     When "SYNTAX" Then syntax = 1
@@ -167,7 +169,6 @@
 ::Method BinFile.Qualify Class
   Expose myself myDir separator
   Use Strict Arg fileName
-  --Return myDir".."separator"bin"separator || fileName
   Return myDir".."separator"bin"separator || fileName
 
 -- Common activation. Subclasses that have an "activate" class
@@ -218,4 +219,3 @@
   name = ChangeStr("-",name,"")
   name = ChangeStr("_",name,"")
 Return name
-  

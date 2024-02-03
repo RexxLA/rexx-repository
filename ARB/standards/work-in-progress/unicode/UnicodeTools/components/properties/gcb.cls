@@ -140,7 +140,7 @@
     super~loadPersistent( super~BinFile.Qualify( self~binaryFile ) ) 
     offset = super~getPersistent("GraphemeBreakProperty.gcb.Table1")
     chunks = super~getPersistent("GraphemeBreakProperty.gcb.Table2")
-    table = .MultiStageTable~new(offset, chunks)
+    table  = .MultiStageTable~new(offset, chunks)
   End
   
   -- A modified version of
@@ -283,5 +283,3 @@ UTF8: Procedure -- Internal, fast
     When n <= 65535 Then Return X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
     Otherwise            Return X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6)))
   End
-  
-::Requires "properties.cls"

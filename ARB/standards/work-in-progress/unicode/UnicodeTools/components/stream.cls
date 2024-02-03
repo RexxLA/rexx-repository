@@ -52,12 +52,13 @@
   
   encoding        = fileInfo~encoding        -- E.g., CP-850, or UTF-32.
   errorHandling   = fileInfo~errorHandling   -- REPLACE or SYNTAX
-  target          = fileInfo~target          -- TEXT or CODEPOINTS
+  target          = fileInfo~target          -- TEXT, GRAPHEMES or CODEPOINTS
   
-  text            = target        == "TEXT"
+  text            = target         == "TEXT"
+  graphemes       = text | (target == "GRAPHEMES" )
   
-  replace         = errorHandling == "REPLACE"
-  syntax          = errorHandling == "SYNTAX"
+  replace         = errorHandling  == "REPLACE"
+  syntax          = errorHandling  == "SYNTAX"
   
   isFixedLength   = encoding~isFixedLength
   bytesPerChar    = encoding~bytesPerChar
@@ -65,7 +66,7 @@
            
   -- Handle the "start" argument. If it is not specified, we have nothing to do
   If Arg(2,"E") Then 
-    If IsFixedLength, \ text Then Do -- We can handle seeks
+    If IsFixedLength, \ graphemes Then Do -- We can handle seeks
       -- Seek in any case
       Call CharIn name, 1 + (arg(2)-1)* bytesPerChar, 0
       -- Pure seek? Return the result
@@ -80,24 +81,24 @@
         If Arg(3) == 0 Then Return result
         -- Seek, then do something else
       End
-      -- We don't do seeks when the encoding is not fixed-length or target = "TEXT"
-      Else If Text Then
-        Raise Syntax 93.900 Additional("Implementation restriction: cannot modify to a start position \= 1 when reading TEXT.")
+      -- We don't do seeks when the encoding is not fixed-length or target = "TEXT" or "GRAPHEMES"
+      Else If graphemes Then
+        Raise Syntax 93.900 Additional("Implementation restriction: cannot modify to a start position \= 1 when reading TEXT or GRAPHEMES.")
       Else 
         Raise Syntax 93.900 Additional("Implementation restriction: cannot modify to a start position \= 1 with a non-fixed length encoding.")
     End
 
   -- We are now located in the proper place. Let's read "length" codepoints or grapheme clusters
   res = "" -- Will hold the result
-  If text Then codes = ""
+  If graphemes Then codes = ""
 
   Do i = 1 To length
     Call GetACodepoint
     decode = encoding~decode(result,"UTF8 UTF32",errorHandling)
     res ||= decode["UTF8"]
-    If text Then codes ||= " "NiceCode(c2X(decode["UTF32"]))
+    If graphemes Then codes ||= " "NiceCode(c2X(decode["UTF32"]))
   End
-  If \text Then Return .Codepoints~new(res)
+  If \graphemes Then Return .Codepoints~new(res)
   
   -- We should discriminate the grapheme clusters as we read the decoded string.
   -- This is aprototype! It just works, but it is severely inefficient.
@@ -105,7 +106,9 @@
   -- Ensure that we have at least "length" grapheme clusters.
   Do While .Unicode.Grapheme_Cluster_Break~codepointsToGraphemes( Strip(codes), "UTF8" )~items < length
     Call GetACodepoint
-  If result == "" Then Return .Text~new(res) -- EOF
+  If result == "" Then -- EOF
+    If \text Then Return .Graphemes~new(res)
+    Else          Return .Text~new(res)
     decode = encoding~decode(result,"UTF8 UTF32",errorHandling)
     res ||= decode["UTF8"]
     codes ||= " "NiceCode(c2X(decode["UTF32"]))
@@ -117,7 +120,9 @@
 Extend:  
   save = Stream(name,"Command", "Query Position Read Char")
   Call GetACodepoint
-  If result == "" Then Return .Text~new(res) -- EOF
+  If result == "" Then -- EOF
+    If text Then Return .Text~new(res)
+    Else         Return .Graphemes~new(res)
   -- Don't raise a Syntax error if something is wrong
   decode = encoding~decode(result,"UTF8 UTF32","REPLACE")
   -- REPLACEMENT CHARACTER breaks graphemes
@@ -131,7 +136,8 @@ Extend:
 
 BacktrackAndReturn:
   Call Stream name, "Command", "SEEK =" save "READ CHAR" -- Backtrack
-  Return .Text~new(res)
+  If text Then Return .Text~new( .Unicode[ res, "toNFC"] )
+  Return .Graphemes~new(res)
 
 -- Temporary
 NiceCode:
@@ -199,10 +205,11 @@ SyntaxError:
   errorHandling   = fileInfo~errorHandling   -- REPLACE or SYNTAX
   target          = fileInfo~target          -- TEXT or CODEPOINTS
   
-  text            = target        == "TEXT"
+  text            = target         == "TEXT"
+  graphemes       = text | (target == "GRAPHEMES")
   
-  replace         = errorHandling == "REPLACE"
-  syntax          = errorHandling == "SYNTAX"
+  replace         = errorHandling  == "REPLACE"
+  syntax          = errorHandling  == "SYNTAX"
   
   isFixedLength   = encoding~isFixedLength
   bytesPerChar    = encoding~bytesPerChar
@@ -215,8 +222,8 @@ SyntaxError:
     If start \== 1 Then Do
       If \isFixedLength Then 
         Raise Syntax 93.900 Additional("Implementation restriction: cannot modify to a start position \= 1 with a non-fixed length encoding.")
-      If text Then
-        Raise Syntax 93.900 Additional("Implementation restriction: cannot modify to a start position \= 1 when reading TEXT.")
+      If graphemes Then
+        Raise Syntax 93.900 Additional("Implementation restriction: cannot modify to a start position \= 1 when reading TEXT or GRAPHEMES.")
     End
     -- Ok, we can do that. Set the write position now
     Call CharOut name,,1 + (start-1) * bytesPerChar
@@ -252,18 +259,19 @@ StandardCall:
   
   encoding        = fileInfo~encoding        -- E.g., CP-850, or UTF-32.
   errorHandling   = fileInfo~errorHandling   -- REPLACE or SYNTAX
-  target          = fileInfo~target          -- TEXT or CODEPOINTS
+  target          = fileInfo~target          -- TEXT, GRAPHEMES or CODEPOINTS
   
-  text            = target        == "TEXT"
+  text            = target         == "TEXT"
+  graphemes       = text | (target == "GRAPHEMES")
   
-  replace         = errorHandling == "REPLACE"
-  syntax          = errorHandling == "SYNTAX"
+  replace         = errorHandling  == "REPLACE"
+  syntax          = errorHandling  == "SYNTAX"
   
   isFixedLength   = encoding~isFixedLength
   bytesPerChar    = encoding~bytesPerChar
   maxBytesPerChar = encoding~maxBytesPerChar  
   
-  If isFixedLength, \text Then Do
+  If isFixedLength, \graphemes Then Do
     chars = Chars(name)
     If chars // bytesPerChar == 0 Then
       Return Chars(name)/bytesPerChar
@@ -306,12 +314,13 @@ StandardCall: Return CHARS(name)
   
   encoding           = fileInfo~encoding        -- E.g., CP-850, or UTF-32.
   errorHandling      = fileInfo~errorHandling   -- REPLACE or SYNTAX
-  target             = fileInfo~target          -- TEXT or CODEPOINTS
+  target             = fileInfo~target          -- TEXT, GRAPHEMES or CODEPOINTS
   
-  text               = target        == "TEXT"
+  text               = target         == "TEXT"
+  graphemes          = text | (target == "GRAPHEMES") 
   
-  replace            = errorHandling == "REPLACE"
-  syntax             = errorHandling == "SYNTAX"
+  replace            = errorHandling  == "REPLACE"
+  syntax             = errorHandling  == "SYNTAX"
   
   isFixedLength      = encoding~isFixedLength
   bytesPerChar       = encoding~bytesPerChar
@@ -338,9 +347,11 @@ StandardCall: Return CHARS(name)
     Call LineIn name, line, 0
   End
   -- "Line" is handled. Take care of "count" now.
-  If count == 0 Then
-    If text Then Return .Text~new("")
-    Else         Return .Codepoints~new("")
+  If count == 0 Then Do
+    If text      Then Return .Text~new("")
+    If graphemes Then Return .Graphemes~new("")
+    Return .Codepoints~new("")
+  End
  
   -- Handle the cases where the end-of-line sequence does not end with "0A"X
   If \endOfLine~endsWith("0A"X) Then Signal NonStandardEOL
@@ -358,9 +369,10 @@ GotALine:
   Signal On Syntax
   
   If res == "" Then Return ""
-  If text Then 
-    Return .Text~new(encoding~decode(res,"UTF8", errorHandling))
-  Return .Codepoints~new(encoding~decode(res,"UTF8", errorHandling))
+  value = encoding~decode(res,"UTF8", errorHandling)
+  If text      Then Return .Text~new(value)
+  If graphemes Then Return .Graphemes~new(value)
+  Return .Codepoints~new(value)
   
 Syntax:
   fileInfo~lastError = res
@@ -495,12 +507,13 @@ BigEOL:
   
   encoding              = fileInfo~encoding        -- E.g., CP-850, or UTF-32.
   errorHandling         = fileInfo~errorHandling   -- REPLACE or SYNTAX
-  target                = fileInfo~target          -- TEXT or CODEPOINTS
+  target                = fileInfo~target          -- TEXT, GRAPHEMES or CODEPOINTS
   
-  text                  = target        == "TEXT"
+  text                  = target         == "TEXT"
+  graphemes             = text | (target == "GRAPHEMES")
   
-  replace               = errorHandling == "REPLACE"
-  syntax                = errorHandling == "SYNTAX"
+  replace               = errorHandling  == "REPLACE"
+  syntax                = errorHandling  == "SYNTAX"
   
   isFixedLength         = encoding~isFixedLength
   bytesPerChar          = encoding~bytesPerChar
@@ -564,7 +577,7 @@ StandardCall:
   -- Options is "Count". We don't do that unless ooRexx knows how to.
   
   encoding        = fileInfo~encoding        -- E.g., CP-850, or UTF-32.
-  target          = fileInfo~target          -- TEXT or CODEPOINTS
+  target          = fileInfo~target          -- TEXT, GRAPHEMES or CODEPOINTS
   
   isFixedLength   = encoding~isFixedLength
   bytesPerChar    = encoding~bytesPerChar
@@ -624,13 +637,16 @@ StandardCall: Return LINES(name, option)
       -- To prevent duplicates or contradictions
       seenTarget = 0
       seenError  = 0
-      -- Eat any of TEXT CODEPOINTS REPLACE AND SYNTAX
+      -- Eat any of TEXT GRAPHEMES CODEPOINTS REPLACE AND SYNTAX
       Do While i < Words 
         next = Word(UCommand,i+1)
         Select
           When next == "TEXT" Then 
             If seenTarget Then Raise Syntax 93.900 Additional("Multiple encoding targets specified")
             Else Do; target = "TEXT";           seenTarget = 1; End
+          When next == "GRAPHEMES" Then 
+            If seenTarget Then Raise Syntax 93.900 Additional("Multiple encoding targets specified")
+            Else Do; target = "GRAPHEMES";      seenTarget = 1; End
           When next == "CODEPOINTS" Then 
             If seenTarget Then Raise Syntax 93.900 Additional("Multiple encoding targets specified")
             Else Do; target = "CODEPOINTS";     seenTarget = 1; End
@@ -732,7 +748,7 @@ StandardCall: Return LINES(name, option)
   linePos = Abbrev("LINE",Word(UCommand, words),1)
   
   -- We don't support these
-  If \encoding~isFixedLength | fileInfo~target == "TEXT" | (linePos & encoding~endOfLine \== "0A"X) Then
+  If \encoding~isFixedLength | fileInfo~target == "TEXT" | fileInfo~target == "GRAPHEMES" | (linePos & encoding~endOfLine \== "0A"X) Then
     Raise Syntax 93.900 Additional("SEEK and POSITION disabled for encoding '"encoding~name"'")
   
   -- Line positioning? ooRexx knows how to do that

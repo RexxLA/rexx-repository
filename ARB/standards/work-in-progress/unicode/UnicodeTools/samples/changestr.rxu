@@ -1,0 +1,34 @@
+/****************************************************************************************************************
+
+ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+ │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+ │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+ │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ 
+ *****************************************************************************************************************/
+
+-- changestr.rxu - Test some features of the CHANGESTR BIF.                                 
+
+Options Coercions Promote
+
+string = "Patata"Y
+Do n = 0 To 4
+  Say n":" ChangeStr("a", string, "b", n) StringType(ChangeStr("a", string, "b", n))
+End
+
+string = Codepoints("Patata")
+Do n = 0 To 4
+  Say n":" ChangeStr("a", string, "b", n) StringType(ChangeStr("a", string, "b", n))
+End
+
+string = Graphemes("Patata")
+Do n = 0 To 4
+  Say n":" ChangeStr("a", string, "b", n) StringType(ChangeStr("a", string, "b", n))
+End
+
+string = Text("Patata")
+Do n = 0 To 4
+  Say n":" ChangeStr("a", string, "b", n) StringType(ChangeStr("a", string, "b", n))
+End

@@ -338,5 +338,3 @@ Hangul_Syllabe_Code:
     Otherwise Return ""
   End
 Return d2x( tail + (vowel-1)*28 + (lead-1)*588 + 44032 )  
-
-::Requires "properties.cls"

@@ -909,6 +909,7 @@ Signal Return_a_token
   Call AssignCharacterCategory digit,              "0123456789"
  
   -- ANSI 6.2.2.2: special := ',' | ':' | ';' | ')' | '(' 
+  -- COLON, SEMICOLON, LPAREN, RPAREN, LBRACKET and RBRACKET are handled separately
   Call AssignCharacterCategory special,            ","
   -- Separate handling 
   Call AssignCharacterCategory semicolon,          ";"
@@ -958,7 +959,7 @@ Signal Return_a_token
     Call AssignCharacterCategory general_letter,   "$@#"
   End
   
-  -- All other characters are illegal, except inside strings 
+  -- All other characters are illegal, except inside strings and comments
   Call AssignCharacterCategory illegal,            xRange()
 
 Return
@@ -1567,7 +1568,6 @@ Take_care_of_final_part_of_Resource_context:
   End
   If resourceContext == 9 Then Do
     savePos = pos
-    --pos = 0 -- Force line feed on next token
     resourceContext = 10
     Return Token( RESOURCE_IGNORED, , SubStr(thisLine, savePos), line savePos line maxPos )
   End

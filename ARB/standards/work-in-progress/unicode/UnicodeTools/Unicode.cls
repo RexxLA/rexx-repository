@@ -49,6 +49,8 @@
  *    <tr><td>00.4 <td>JMB <td>20230901<td>General support for OPTIONS instruction via !Options routine
  *    <tr><td>     <td>JMB <td>20230912<td>Re-add OPTIONS COERCIONS support
  *    <tr><td>     <td>JMB <td>20230917<td>Migrate most of the docs to markdown format (see rxu.md and the /docs subdir)
+ *    <tr><td>00.4c<td>JMB <td>20231001<td>Add GRAPHEMES class and BIF, isNFC, isNFD, toNFD, toNFD, CHANGESTR.
+ *    <tr><td>     <td>JMB <td>20240128<td>!!DS -> !DS
  *  </table>
  */
 
@@ -70,6 +72,18 @@
 
 -- When nothing is specified, default is "Promote".
 .local~Unicode.Coercions = "Promote"
+
+.local~Unicode = .routines~Unicode
+
+Call "components/utilities/MultiStageTable.cls"
+Call "components/utilities/PersistentStringTable.cls"
+Call "components/properties/properties.cls"
+Call "components/properties/case.cls"
+Call "components/properties/gc.cls"
+Call "components/properties/gcb.cls"
+Call "components/properties/name.cls"
+Call "components/properties/normalization.cls"
+
 
 /**
  *
@@ -104,10 +118,10 @@
  *  <h4>Support for unsuffixed strings</h4>
  *
  *  <p>
- *    An unsuffixed "string" will be translated to "(!!DS(string))" by the preprocessor.
+ *    An unsuffixed "string" will be translated to "(!DS(string))" by the preprocessor.
  */
  
-::Routine !!DS Public
+::Routine !DS Public
   Use Strict Arg string
   Select Case Upper(.Unicode.DefaultString)
     When "BYTES"      Then Return Bytes(string)
@@ -127,14 +141,18 @@
   Select
     When option == "PROPERTY"    Then Signal Properties
     When option == "ISNFD"       Then Do
-      Use Strict Arg string, function
-      If \string~isA(.Bytes) Then string = BYTES(string)
+      Use Strict Arg string, option
+      If \string~isA(.Codepoints) Then string = Codepoints(string)
       Return string~isNFD    
+    End
+    When option == "ISNFC"       Then Do
+      Use Strict Arg string, option
+      If \string~isA(.Codepoints) Then string = Codepoints(string)
+      Return string~isNFC    
     End
     Otherwise                         Signal Functions
   End
     
-
 Functions:
   Use Strict Arg string, function
   function = Upper(function)
@@ -235,6 +253,14 @@ Return string~center(length, pad)
 ::Routine !CENTRE Public
   Use Strict Arg string, length, pad = " "
 Return string~centre(length, pad)  
+
+::Routine !CHANGESTR Public
+  Use Strict Arg needle, haystack, newneedle, ...
+  If Arg() > 4 Then Raise Syntax 40.4 Array("CHANGESTR",4)
+  If Arg(4,"O") Then 
+    Return haystack~changestr(needle, newneedle)  
+  Else
+    Return haystack~changestr(needle, newneedle, Arg(4))  
 
 ::Routine !COPIES Public
   Use Strict Arg string, n
@@ -408,17 +434,20 @@ UTF8: Procedure
 ::Method "||"
   Use Strict Arg string
   class = self~coerceTo(string,"a concatenation")
-  Return class~new(self~"||":.String(string))
+  value = self~"||":.String(string)
+  Return class~new(value)
 
 ::Method ""
   Use Strict Arg string
   class = self~coerceTo(string,"a concatenation")
-  Return class~new(self~"":.String(string))
+  value = self~"":.String(string)
+  Return class~new(value)
   
 ::Method " "
   Use Strict Arg string
   class = self~coerceTo(string,"a concatenation")
-  Return class~new(self~" ":.String(string))  
+  value = self~" ":.String(string)
+  Return class~new(value)
 
 ::Method "*"
   Use Strict Arg string
@@ -489,86 +518,136 @@ UTF8: Procedure
 ::Method Center
   Use Strict Arg n, pad = " "
   .Validate~nonNegativeWholeNumber( "n" , n )
-  If pad~class \== self~class Then pad = self~class~new(pad)
+  class = self~class
+  If pad~class \== class Then pad = class~new(pad)
   If pad~length > 1 Then Raise Syntax 40.023 Array("CENTER",3,pad)
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~center:.String(n,pad))
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Graphemes), \self~isA(.Codepoints) Then Return Bytes(self~center:.String(n,pad))
   size = self~length
   If n == size Then Return self
   If n > size Then Do
     extra = n - size
     left  = (extra) % 2
     right = (extra) % 2 + (extra // 2 = 1)
-    Return self~class~new( Copies(pad,left) || self~makeString || Copies(pad, right) )
+    value = Copies(pad,left) || self~makeString || Copies(pad, right)
+    Return class~new( value )
   End
   left = (size - n + 1) % 2
+  -- Normalization is stable under substringing
   Return self~subStr(left, n)
 
 ::Method Centre
   Forward Message (Center)
   
+::Method ChangeStr
+  Use Strict Arg needle, newneedle, ...
+  class = self~class
+  If needle~class \== class Then needle = class~new(needle)
+  If Arg() > 3 Then Raise Syntax 93.902 Additional(3)
+  If Arg(3, "O") Then count = self~length
+  Else                Use Arg , , count
+  .Validate~nonNegativeWholeNumber( "count" , count )
+  If count = 0 Then Return self
+  myCount = 0
+  searchPos = 1
+  res = .MutableBuffer~new -- Will hold the result
+  Do Forever
+    pos = self~pos(needle,searchPos)
+    If pos == 0 Then
+      If searchPos == 1 Then Return self
+      Else signal Done
+    res~append( self[searchPos, pos-searchPos], newNeedle )
+    searchPos = pos + needle~length
+    myCount += 1
+    If myCount == count Then Signal Done
+  End
+    
+Done:
+  res~append( self~subStr(searchPos) )
+  Return class~new( res~string)
+  
 ::Method Copies
   Use Strict Arg n
   .Validate~nonNegativeWholeNumber( "n" , n )
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~copies:.String(n))
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Graphemes), \self~isA(.Codepoints) Then 
+    Return Bytes(self~copies:.String(n))
   Return self~class~new( Copies( self~makeString, n ) )    
 
 ::Method Datatype
   If Arg() > 1 Then Raise Syntax 93.902 Array(1)
   
-  If Arg() == 0 Then Return self~datatype:.String
+  If Arg() == 0 Then Return !DS(self~datatype:.String)
   
-  If Arg(1) \== "C" Then Return self~datatype:.String(Arg(1))
+  If Arg(1) \== "C" Then Return !DS(self~datatype:.String(Arg(1)))
 
+  no = !DS(0)
   contents = self~makeString
   Do While contents \= " "
     contents = Strip(contents)
     If contents[1] == "(" Then Do
       Parse var contents "("name")"extra
-      If extra == "" Then If \contents~endsWith(")") Then Return 0
+      If extra == "" Then If \contents~endsWith(")") Then Return no
       contents = Strip(extra)
       code = N2P(name)
-      If code = "" Then Return 0
+      If code = "" Then Return no
     End
     Else Do
       Parse Var contents word contents
-      If Upper(word) == "U+"         Then Return 0
+      If Upper(word) == "U+"         Then Return no
       If Upper(Left(word,2)) == "U+" Then word = SubStr(word,3)
-      If \DataType(word,"X")         Then Return 0
-      If X2D(word) > X2D(10FFFF)     Then Return 0
+      If \DataType(word,"X")         Then Return no
+      If X2D(word) > X2D(10FFFF)     Then Return no
       If X2D(word) >= X2D(D800),,
-         X2D(word) <= X2D(DFFF)      Then Return 0
+         X2D(word) <= X2D(DFFF)      Then Return no
     End
   End
-Return 1
+Return !DS(1)
   
 ::Method Left
   Use Strict Arg length, pad = " "
   .Validate~nonNegativeWholeNumber( "length" , length )
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~left:.String(length,pad))
-  If pad~class \== self~class Then pad = self~class~new(pad)
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Codepoints) Then Return Bytes(self~left:.String(length,pad))
+  class = self~class
+  If \pad~isA(class) Then pad = class~new(pad)
   If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 2, pad)
   If length > self~length Then 
     Return self~class~new(self||Copies(" ",length-self~length))
+  -- Normalization is stable under substringing
+  -- Substr will take care of class
   Return self~subStr(1,length)
     
 ::Method Lower
   Use Strict Arg n = 1, length = (Max(self~length - n + 1,0))
   .Validate~nonNegativeWholeNumber( "length" , length )
   .Validate~positiveWholeNumber(    "n" ,      n      )
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~lower:.String(n,length))
-  If length == 0 Then Return self
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Codepoints) Then Return Bytes(self~lower:.String(n,length))
+  If length == 0     Then Return self
   If n > self~length Then Return self
-  left = self[1,n-1]
-  center = .Unicode.case~toLowercase(self[n,length])
-  right = self[n+length,self~length] -- ensure we get all the rest
-  Return self~class~new(left || center || right)
+  If n > 1 Then left = self[1,n-1]
+  Else          left = ""
+  If n = 1, length == self~length Then 
+    center = .Unicode.case~toLowercase(self)
+  Else
+    center = .Unicode.case~toLowercase(self[n,length])
+  If n+length <= self~length Then 
+    right = self[n+length,self~length] -- ensure we get all the rest
+  Else right = ""
+  class = self~class
+  If left == "" Then
+    If right == "" Then 
+      If self~identityHash == center~identityHash Then 
+                        Return self
+      Else              Return center
+    Else                Return class~new( center || right )
+  Else
+    If right == "" Then Return class~new( left || center )
+    Else                Return class~new( left || center || right )
 
 ::Method Pos
   Use Strict Arg needle, start = 1, length = (self~length - start + 1)
   If needle~class \== self~class Then needle = self~class~new(needle)
   .Validate~positiveWholeNumber(    "start" ,  start )
   .Validate~nonNegativeWholeNumber( "length" , length )
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~pos:.String(needle, start, length))
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Codepoints) Then Return Bytes(self~pos:.String(needle, start, length))
   If self~length == 0    Then Return 0
   If start > self~length Then Return 0
   Do Label outer i = start By 1 While i + needle~length <= start + length
@@ -591,7 +670,7 @@ Return 1
 ::Method Right
   Use Strict Arg length, pad = " "
   .Validate~nonNegativeWholeNumber( "length" , length )
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~right:.String(length,pad))
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Codepoints) Then Return Bytes(self~right:.String(length,pad))
   If pad~class \== self~class Then pad = self~class~new(pad)
   If pad~length \== 1 Then Raise Syntax 40.23 Array ("LEFT", 2, pad)
   res = ""
@@ -605,7 +684,7 @@ Return 1
   .Validate~classType( "pad" , pad , .String )
   If pad~class \== self~class Then pad = self~class~new(pad)
   If pad~length > 1 Then Raise Syntax 40.023 Array("SUBSTR",3,pad)
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~subStr:.String(n,length,pad))
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Codepoints) Then Return Bytes(self~subStr:.String(n,length,pad))
   max = self~length
   res = ""
   Do i = n For length
@@ -618,7 +697,7 @@ Return 1
   Use Strict Arg n = 1, length = (Max(self~length - n + 1,0))
   .Validate~nonNegativeWholeNumber( "length" , length )
   .Validate~positiveWholeNumber(    "n" ,      n      )
-  If \self~isA(.Text), \self~isA(.Codepoints) Then Return Bytes(self~upper:.String(n,length))
+  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Codepoints) Then Return Bytes(self~upper:.String(n,length))
   If length == 0 Then Return self
   If n > self~length Then Return self
   left = self[1,n-1]
@@ -643,8 +722,7 @@ Return 1
   -- UTF8 will do both the validation and the conversion.
   utf32 = UTF8(self, "UTF-8", "UTF32", "Syntax")
   
-  -- See Unicode Standard Annex #15, Unicode Normalization Forms
-  -- https://unicode.org/reports/tr15/ 
+  -- See Unicode Standard Annex #15, Unicode Normalization Forms. https://unicode.org/reports/tr15/ 
 
   -- Calculate the maximum width of a character  
   max = "0000 0000"X
@@ -673,9 +751,9 @@ Return 1
       bits   = 16
     End
     Otherwise
-      bits   = 16
+      bits   = 24
   End
-  
+    
 ::Method "[]"
   Expose utf32
   Use Strict Arg n, length = 1
@@ -687,11 +765,46 @@ Return 1
   
   If n + length - 1 > max Then length = max - n + 1
     
-  Return .Encoding["UTF32"]~decode(SubStr(utf32, 1 + (n-1)* 4, length * 4),"UTF8","Syntax")
+  Return self~class~new(.Encoding["UTF32"]~decode(SubStr(utf32, 1 + (n-1)* 4, length * 4),"UTF8","Syntax"))
   
 ::Method Length
   Expose utf32
   Return Length(utf32) / 4
+    
+::Method isNFC
+  Expose isNFC utf32
+    
+  If isNFC \== -1 Then Return isNFC
+  
+  -- Try a quick check. See https://unicode.org/reports/tr15/
+  
+  -- TODO: Should get that value via the Unicode.properties class!
+  -- TODO: Save the offending character, if any, to optimize toNFC later
+  
+  quick_check   = .Unicode.Case 
+  normalization = .Unicode.normalization
+  
+  lastCCC = 0
+  Do i = 1 To Length(utf32) By 4
+    A = utf32[i,4]
+    QC = quick_check~NFC_Quick_Check(A)
+    If QC == "N" Then Signal No
+    CCC = normalization~Canonical_Combining_Class(A)
+    If lastCCC > CCC, CCC \== 0 Then Signal No
+    If QC == "M" Then Signal Deepertest
+    lastCCC = CCC
+  End
+Yes:  
+  isNFC = 1
+  Return 1
+  
+No:  
+  isNFC = 0
+  Return  0
+  
+DeeperTest:
+  isNFC = self~"==":.String( Unicode(self, "toNFC") )
+  Return isNFC
     
 ::Method isNFD
   Expose isNFD utf32
@@ -704,13 +817,14 @@ Return 1
   
   -- TODO: Should get that value via the Unicode.properties class!
   -- TODO: Save the offending character, if any, to optimize toNFD later
+  
   handler = .Unicode.Case 
   Do i = 1 To Length(utf32) By 4
     n = c2x(utf32[i,4])
     QC = handler~NFD_Quick_Check(n)
     Select Case QC
       When "N" Then Do
-        isNFC = 0
+        isNFD = 0
         Return 0
       End
       When "Y" Then Iterate
@@ -732,20 +846,20 @@ Return 1
   Return 1  
 
 ::Method "="
-  -- TODO: Should better be using NFC, when we'll have it
+  Expose isNFC
   Use Strict Arg string
-  class = self~coerceTo(string,"a division")
+  class = self~coerceTo(string,"non-strict equality")
   -- If the return should be a BYTES string, perform a normal compare
   If \class~isSubClassOf(.Codepoints) Then 
     Return class~new(self~"=":.String(string))
-  -- We are returning CODEPOINTS or TEXT. Promote string if needed
+  -- We are returning CODEPOINTS, GRAPHEMES or TEXT. Promote string if needed
   If \string~isA(.Codepoints) Then string = class~new(string~makeString)
   
   -- Normalize the strings, if needed
-  If self~isNFD   Then left  = self
-  Else                 left  = .Unicode.normalization~toNFD(self)
-  If string~isNFD Then right = string
-  Else                 right = .Unicode.normalization~toNFD(self)
+  If isNFC == 1   Then left  = self
+  Else                 left  = .Unicode.normalization~toNFC(self)
+  If string~isNFC Then right = string
+  Else                 right = .Unicode.normalization~toNFC(self)
   
   -- Now do a standard string comparison
 Return class~new(left~"=":.String(right))
@@ -787,17 +901,16 @@ Return class~new(left~"=":.String(right))
 --------------------------------------------------------------------------------
 
 ::Class "Text" SubClass Graphemes Public
+-- Autonormalize to NFC
+::Method new Class
+  Use Strict Arg string
+  string = Unicode(string, "toNFC")
+  this = self~new:super(string)
+  this~init
+  Return this
 
 --------------------------------------------------------------------------------
 
 ::Requires "utf8.cls"    
 ::Requires "components/stream.cls"  
-::Requires "components/utilities/MultiStageTable.cls"
-::Requires "components/utilities/PersistentStringTable.cls"
-::Requires "components/properties/case.cls"
-::Requires "components/properties/gc.cls"
-::Requires "components/properties/gcb.cls"
-::Requires "components/properties/name.cls"
-::Requires "components/properties/normalization.cls"
-::Requires "components/properties/properties.cls"
 ::Requires "components/encoding.cls"

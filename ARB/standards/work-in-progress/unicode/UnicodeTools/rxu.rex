@@ -53,6 +53,8 @@
  *   <tr><td>      <td>    <td>20230912 <td>DEFAULTSTRING should affect numbers too
  *   <tr><td>      <td>    <td>20230917 <td>Migrate most docs to md (see rxu.md and the /doc subdir)
  *   <tr><td>00.4c <td>    <td>20231016 <td>Add G strings
+ *   <tr><td>      <td>    <td>20231101 <td>Add CHANGESTR
+ *   <tr><td>      <td>    <td>20240128 <td>Function names are not translated after a double twiddle.
  * </table>
  *
  * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
@@ -160,13 +162,14 @@ Transform: Procedure Expose filename warnBIF
   Use Arg inFile, outFile
   
   -- Implemented BIFs
-  BIFs   = "C2X CHARIN CHAROUT CHARS CENTER CENTRE COPIES DATATYPE LEFT LENGTH "
-  BIFs ||= "LINEIN LINEOUT LINES LOWER POS REVERSE RIGHT STREAM SUBSTR UPPER "
+  BIFs   = "C2X CHARIN CHAROUT CHARS CENTER CENTRE CHANGESTR COPIES DATATYPE LEFT "
+  BIFs ||= "LENGTH LINEIN LINEOUT LINES LOWER POS REVERSE RIGHT STREAM SUBSTR "
+  BIFs ||= "UPPER "
   
   -- The following list is taken from rexxref, ooRexx 5.0
   Unsupported   = "ABBREV ABS ADDRESS ARG B2X BEEP BITAND BITOR BITXOR C2D "
-  Unsupported ||= "CHANGESTR COMPARE CONDITION "
-  Unsupported ||= "tokenNumberSTR D2C D2X DATE DELSTR DELWORD DIGITS "
+  Unsupported ||= "COMPARE CONDITION "
+  Unsupported ||= "D2C D2X DATE DELSTR DELWORD DIGITS "
   Unsupported ||= "DIRECTORY ENDLOCAL ERRORTEXT FILESPEC FORM FORMAT FUZZ "
   Unsupported ||= "INSERT LASTPOS MAX MIN OVERLAY QUALIFY "
   Unsupported ||= "QUEUED RANDOM RXFUNCADD RXFUNCDROP RXFUNCQUERY RXQUEUE "
@@ -373,7 +376,7 @@ Return
 
 TypedStringOrNumber:
   -- We don't change strings that are method names
-  If prevToken[class] == OPERATOR, prevToken[value][1] == "~" Then Signal StringAsIs
+  If prevToken[class] == OPERATOR, (prevToken[value][1] == "~" | prevToken[value][1] == "~~")Then Signal StringAsIs
   -- A function or subroutine call? Maybe it is a BIF...
   If (nextToken()[class] == LPAREN) |,                    -- Function
      (subcontext = CALL_INSTRUCTION & tokenNumber == 2),  -- Subroutine
@@ -398,7 +401,7 @@ TypedStringOrNumber:
     When BYTES_STRING       Then transformed =      concat'(Bytes('array[line1][col1,col2-col1-1]'))'
     When HEXADECIMAL_STRING Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))' 
     When BINARY_STRING      Then transformed =      concat'(Bytes('array[line1][col1,col2-col1  ]'))'
-    Otherwise                    transformed =       concat'(!!DS('array[line1][col1,col2-col1  ]'))' -- Handles NUMBER too
+    Otherwise                    transformed =        concat'(!DS('array[line1][col1,col2-col1  ]'))' -- Handles NUMBER too
   End
 Return
 

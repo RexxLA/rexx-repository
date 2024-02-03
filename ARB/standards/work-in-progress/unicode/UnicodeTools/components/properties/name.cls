@@ -58,7 +58,7 @@
 -- “Unicode Character Database.”
 -------------------------------------------------------------------------------
 
---.local~Unicode.Name = .Unicode.Name
+.local~Unicode.Name = .Unicode.Name
 
 ::Class Unicode.Name SubClass Unicode.Property Public
 
@@ -186,5 +186,3 @@ Compress:
   key = ChangeStr(">",key,"- ")    -- Now restore non-medial dash-blank sequences..
   key = ChangeStr("<",key," -")    -- ..and non-medial blank-slash sequences too.
 Return key  
-
-::Requires "properties.cls"

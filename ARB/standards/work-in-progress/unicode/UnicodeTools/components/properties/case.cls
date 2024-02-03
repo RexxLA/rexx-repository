@@ -30,7 +30,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
---.local~Unicode.Case = .Unicode.Case
+.local~Unicode.Case = .Unicode.Case
 
 ::Class Unicode.Case Public SubClass Unicode.Property
 
@@ -131,6 +131,7 @@
 ::Method Math Class
   Expose mask. caseproperties
   Use Strict Arg code  
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Math) == mask.Math
 
 ::Method Alpha     Class
@@ -138,6 +139,7 @@
 ::Method Alphabetic Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   If X2D(code) <= 131071 Then
     Return BITAND(caseproperties[X2D(code)], mask.Alphabetic) == mask.Alphabetic
   value    =  .Unicode.General_Category~hexValueOfPropertyAt(code)
@@ -150,6 +152,7 @@
 ::Method Lowercase Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Lowercase) == mask.Lowercase
   
 ::Method Upper     Class
@@ -157,11 +160,13 @@
 ::Method Uppercase Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Uppercase) == mask.Uppercase
   
 ::Method Cased Class  
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Cased) == mask.Cased
   
 ::Method CI             Class    
@@ -169,6 +174,7 @@
 ::Method Case_Ignorable Class  
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   If X2D(code) <= 131071 Then
     Return BITAND(caseproperties[X2D(code)], mask.Case_Ignorable) == mask.Case_Ignorable
   n = X2D(code)
@@ -183,6 +189,7 @@
 ::Method Changes_When_Lowercased Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Lowercased) == mask.Changes_When_Lowercased
 
 ::Method CWU                     Class  
@@ -190,6 +197,7 @@
 ::Method Changes_When_Uppercased Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Uppercased) == mask.Changes_When_Uppercased
 
 ::Method CWT                     Class  
@@ -197,6 +205,7 @@
 ::Method Changes_When_Titlecased Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Titlecased) == mask.Changes_When_Titlecased
 
 ::Method CWCF                    Class
@@ -204,6 +213,7 @@
 ::Method Changes_When_Casefolded Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Casefolded) == mask.Changes_When_Casefolded
 
 ::Method CWCM                    Class
@@ -211,6 +221,7 @@
 ::Method Changes_When_Casemapped Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Changes_When_Casemapped) == mask.Changes_When_Casemapped
 
 ::Method Comp_Ex                    Class
@@ -218,6 +229,7 @@
 ::Method Full_Composition_Exclusion Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   n = X2D(code)
   If n <  X2d("20000") Then
     Return BITAND(caseproperties[X2D(code)], mask.Full_Composition_Exclusion) == mask.Full_Composition_Exclusion
@@ -229,12 +241,14 @@
   Forward Message "NFD_Quick_Check"
 ::Method NFD_Quick_Check Class
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   If self~NFD_QC_N(code) Then Return "N"
   Return "Y"
 
 ::Method NFD_QC_N Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   n = X2D(code)
   If n <  X2d("20000") Then
     Return BITAND(caseproperties[X2D(code)], mask.NFD_QC_N) == mask.NFD_QC_N
@@ -246,6 +260,7 @@
   Forward Message "NFC_Quick_Check"
 ::Method NFC_Quick_Check Class
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   If self~NFC_QC_N(code) Then Return "N"
   If self~NFC_QC_M(code) Then Return "M"
   Return "Y"
@@ -253,8 +268,9 @@
 ::Method NFC_QC_N Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   n = X2D(code)
-  If n <  X2d("20000") Then
+  If n <  X2D("20000") Then
     Return BITAND(caseproperties[X2D(code)], mask.NFC_QC_N) == mask.NFC_QC_N
   If n <  X2D("2F800") Then Return 0
   If n <= X2D("2FA1D") Then Return 1
@@ -263,18 +279,21 @@
 ::Method NFC_QC_M Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.NFC_QC_M) == mask.NFC_QC_M
 
 ::Method NFKD_QC          Class
   Forward Message "NFKD_Quick_Check"
 ::Method NFKD_Quick_Check Class
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   If self~NFKD_QC_N(code) Then Return "N"
   Return "Y"
 
 ::Method NFKD_QC_N Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   n = X2D(code)
   If n <  X2d("20000") Then
     Return BITAND(caseproperties[X2D(code)], mask.NFKD_QC_N) == mask.NFKD_QC_N
@@ -286,6 +305,7 @@
   Forward Message "NFKC_Quick_Check"
 ::Method NFKC_Quick_Check Class
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   If self~NFKC_QC_N(code) Then Return "N"
   If self~NFKC_QC_M(code) Then Return "M"
   Return "Y"
@@ -293,6 +313,7 @@
 ::Method NFKC_QC_N Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   n = X2D(code)
   If n <  X2d("20000") Then
     Return BITAND(caseproperties[X2D(code)], mask.NFKC_QC_N) == mask.NFKC_QC_N
@@ -303,11 +324,13 @@
 ::Method NFKC_QC_M Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.NFKC_QC_M) == mask.NFKC_QC_M
 
 ::Method Changes_When_NFKC_Casefolded Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   n = X2D(code)
   If n <  X2d("20000") Then
     Return BITAND(caseproperties[X2D(code)], mask.Changes_When_NFKC_Casefolded) == mask.Changes_When_NFKC_Casefolded
@@ -322,6 +345,7 @@
 ::Method Other_Alphabetic Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Other_Alphabetic) == mask.Other_Alphabetic
 
 ::Method OLower           Class
@@ -329,6 +353,7 @@
 ::Method Other_Lowercase Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Other_Lowercase) == mask.Other_Lowercase
 
 ::Method OUpper           Class
@@ -336,6 +361,7 @@
 ::Method Other_Uppercase Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Other_Uppercase) == mask.Other_Uppercase
 
 ::Method SD           Class
@@ -343,6 +369,7 @@
 ::Method Soft_Dotted Class
   Expose mask. caseproperties
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   Return BITAND(caseproperties[X2D(code)], mask.Soft_Dotted) == mask.Soft_Dotted
 
 ::Method suc                      Class
@@ -350,6 +377,7 @@
 ::Method Simple_Uppercase_Mapping Class
   Expose uppercase
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   
   n        = X2D(code)
   index    = X2D(C2X(uppercase[n]))
@@ -363,6 +391,7 @@
 ::Method Simple_Lowercase_Mapping Class
   Expose lowercase
   Use Strict Arg code
+  If code[1] == "00"X, code~length == 4 Then code = C2X(code[2,3])
   n        = X2D(code)
   index    = X2D(C2X(lowercase[n]))
   If index == 0 Then Return code
@@ -483,7 +512,7 @@ SpecialUpper:
   
   If \changes Then Return string
   
-  Return sring~class~new(res)
+  Return string~class~new(res)
  
 CapitalIWithDotAbove: -- 0130 --> 0069 0307
   res   ||= "69CC87"X
@@ -516,5 +545,3 @@ Return 1
     When n <= 65535 Then Return X2C(B2X("1110"Left(b,4)"10"SubStr(b,5,6)"10"Right(b,6)))
     Otherwise            Return X2C(B2X("11110"SubStr(b,4,3) "10"SubStr(b,7,6) "10"SubStr(b,13,6) "10"Right(b,6)))
   End
-  
-::Requires "properties.cls"  

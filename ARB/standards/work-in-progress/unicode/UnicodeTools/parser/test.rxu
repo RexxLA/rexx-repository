@@ -1,0 +1,3 @@
+Options DefaultString Text
+var = "🦀" || "(Lobster)"U
+Say '"'var'" is a' StringType(var) "string of length" Length(var)

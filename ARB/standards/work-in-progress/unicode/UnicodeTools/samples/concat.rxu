@@ -1,0 +1,64 @@
+/****************************************************************************************************************
+
+ ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+ │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+ │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+ │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+ └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+ 
+ *****************************************************************************************************************/
+
+Options Coercions Promote 
+
+word     = "Cafe"Y -- Bytes
+accent   = "301"U  -- U strings are always bytes too
+accented = "Café" 
+
+Call Test1
+
+word = Codepoints(word)
+Call Test1
+
+word = Graphemes(word)
+Call Test1
+
+word = Text(word)
+Call Test1
+
+Say
+
+Say "An example of accented string:"
+accented = Text("áéíóúàèìòùÁÉÍÓÚÀÈÌÒÙäëïöüÄËÏÖÜâêîôûÂÊÎÔÛãõñÃÕÑçÇ")
+Say accented"," StringType(accented)", length="Length(accented)
+Say
+Say "We transform it into a codepoints NFD string, to be able to manipulate combining marks:"
+accented = Unicode( Codepoints(accented), "toNFD")
+Say accented"," StringType(accented)", length="Length(accented)
+Say
+Say "Now we remove six combining marks, one by one:"
+accents = Codepoints( "300 301 302 303 308 327"U)
+Do i = 1 To Length( accents )
+  c = accents[i]
+  Say "Removing" c~c2u "("P2N(c~c2u)")..."
+  accented = ChangeStr(c, accented, "")
+  accented = Unicode( Codepoints(accented), "toNFD")
+  Say accented"," StringType(accented)", length="Length(accented)
+End
+
+Exit
+
+Test1:
+  Say 
+  Say "'"word"' is a" StringType(word) "string, '"accent"' is a" StringType(accent) "string, '"accented"' is a" StringType(accented) "string"
+  Say "'"word" ("StringType(word)") '||'"accent"' ("StringType(accent)") = '"word||accent"' ('"C2X(word||accent)"'X, "Length(word||accent) Test1Units()")"
+  Say "'"word||accent"' ("StringType(word||accent)") =  '"accented"' ("StringType(accented)") is " (word||accent = accented)~?("true","false")
+  Say "'"word||accent"' ("StringType(word||accent)") == '"accented"' ("StringType(accented)") is " (word||accent == accented)~?("true","false")
+Return
+
+Test1Units:
+  Select Case StringType(word||accent)
+    When "BYTES" Then Return "bytes"
+    When "CODEPOINTS" Then Return "codepoints"
+    Otherwise Return "graphemes"
+  End
