@@ -1,20 +1,17 @@
-Options DefaultString Codepoints
+Options DefaultString Text
 Options Coercions     Promote
 
-Say ("Rene"T || "301"U)~c2x
-Exit
-
 Call TestString "René",                 1
-Call TestString "Rene" || "301"U,       0
+Call TestString "Rene" || "301"U,       1
 Call TestString "Barça",                1
-Call TestString "Barc" || "327"U ||"a", 0
+Call TestString "Barc" || "327"U ||"a", 1
 
 
 Say "Now testing reordering..."
 Say
 
 Call TestString "Ǻ", 1
-Call TestString "A" || "30A 301"U, 0
+Call TestString "A" || "30A 301"U, 1
 
 Say "Now testing equality..."
 Say

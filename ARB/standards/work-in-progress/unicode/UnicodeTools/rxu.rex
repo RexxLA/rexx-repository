@@ -52,19 +52,26 @@
  *   <tr><td>      <td>    <td>20230911 <td>X and B strings are always BYTES
  *   <tr><td>      <td>    <td>20230912 <td>DEFAULTSTRING should affect numbers too
  *   <tr><td>      <td>    <td>20230917 <td>Migrate most docs to md (see rxu.md and the /doc subdir)
- *   <tr><td>00.4c <td>    <td>20231016 <td>Add G strings
+ *   <tr><td>00.5  <td>    <td>20231016 <td>Add G strings
  *   <tr><td>      <td>    <td>20231101 <td>Add CHANGESTR
  *   <tr><td>      <td>    <td>20240128 <td>Function names are not translated after a double twiddle.
+ *   <tr><td>      <td>    <td>20240204 <td>Add interactive mode, support for rxutry.rex
  * </table>
  *
- * @author &copy; 2023, Josep Maria Blasco &lt;josep.maria.blasco@epbcn.com&gt;  
- * @version 0.4
  */
 
---Call "Unicode.cls"
 Call "parser/Rexx.Tokenizer.cls"
 
-Parse Arg arguments
+Use Arg arguments
+
+interactive = 0
+If arguments~isA(.Array) Then Do
+  interactive = 1
+  outIndex = 1
+  outArray = .Array~new(arguments~items)
+  outArray[1] = ""
+  Return Transform(arguments, outArray)
+End
 
 If arguments = "" Then Do
   Say .resources~help
@@ -158,7 +165,7 @@ Exit saveRC
 
 --------------------------------------------------------------------------------
 
-Transform: Procedure Expose filename warnBIF
+Transform: Procedure Expose filename warnBIF interactive outIndex outArray
   Use Arg inFile, outFile
   
   -- Implemented BIFs
@@ -177,13 +184,14 @@ Transform: Procedure Expose filename warnBIF
   Unsupported ||= "TIME TRACE TRANSLATE TRUNC USERID VALUE VAR VERIFY WORD "
   Unsupported ||= "WORDINDEX WORDLENGTH WORDPOS WORDS X2B X2C X2D XRANGE"
   
-  inFile = Qualify(infile)
-  
   eol = .endOfLine
-
-  size  = Stream(infile,"c","q size") -- This
-  array = CharIn(inFile,,size)~makeArray
-
+  
+  If inFile~isA(.Array) Then array = inFile
+  Else Do
+    inFile = Qualify(infile)  
+    array = CharIn(inFile,,Chars(inFile))~makeArray
+  End
+  
   t = .ooRexx.Unicode.Tokenizer~new(array,1)
   
   Do tc over t~tokenClasses
@@ -231,7 +239,7 @@ Transform: Procedure Expose filename warnBIF
       When RBRACKET Then If parseContext Then openBrackets -= 1
       When END_OF_CLAUSE Then Do
         If optionsContext Then
-          Call CharOut outFile, "; Call !Options !Options; Options !Options; End"
+          Call GenericCharout "; Call !Options !Options; Options !Options; End"
         optionsContext = 0
       End
       Otherwise Nop
@@ -324,30 +332,36 @@ Transform: Procedure Expose filename warnBIF
       End
       
       Do i = lastLine To line1-1
-        Call CharOut outFile, eol -- Sources are created in Windows
+        If interactive Then Do
+          outIndex += 1
+          outArray[outIndex] = ""
+          End
+        Else
+          Call CharOut outFile, eol -- Sources are created in Windows
       End
       If line1 == line2 Then Do
         If transformed \== .Nil Then
-          Call CharOut outFile, transformed
+          Call GenericCharout transformed
         Else
-          Call CharOut outFile, array[line1][col1,col2-col1]
+          Call GenericCharout array[line1][col1,col2-col1]
         lastLine = line1
       End
       Else Do line = line1 To line2
         Select Case line
-          When line1 Then Call CharOut outFile, SubStr(array[line1],col1)eol
-          When line2 Then Call CharOut outFile, Left(array[line2],col2-1)
-          Otherwise       Call CharOut outFile, array[line]eol
+          When line1 Then Call GenericCharOut SubStr(array[line1],col1)eol
+          When line2 Then Call GenericCharOut Left(array[line2],col2-1)
+          Otherwise       Call GenericCharOut array[line]eol
         End
         lastLine = line2
       End
     End
   End
   -- Final EOL
-  Call CharOut outFile, eol -- Sources are created in Windows
+  If \interactive Then 
+    Call CharOut outFile, eol -- Sources are created in Windows
   
-  --Call Stream outFile,"c","Close"
-  Call Stream inFile ,"c","Close"
+  If \interactive Then 
+    Call Stream inFile ,"c","Close"
   
   If x[class] == SYNTAX_ERROR Then Do
     line = x[line]
@@ -361,6 +375,8 @@ Transform: Procedure Expose filename warnBIF
     Return -major
     
   End
+  
+If interactive Then Return outArray
   
 Return 0
 
@@ -405,7 +421,7 @@ TypedStringOrNumber:
   End
 Return
 
--- Implements one token of look-ahead (nextToken) and one token of look-back (prevYoken)
+-- Implements one token of look-ahead (nextToken) and one token of look-back (prevToken)
 GetAToken:
   prevToken = x
   -- Did we pick the next token before? Then this is our token now
@@ -421,6 +437,15 @@ Return
 NextToken:
   If nextToken~isNil Then nextToken = t~getFullToken
 Return nextToken  
+
+GenericCharout:
+  If interactive Then Call InteractiveCharOut Arg(1)
+  Else Call CharOut outFile, Arg(1)
+Return   
+
+InteractiveCharOut:
+  outArray[outIndex] ||= Arg(1)
+Return  
 
 ::Resource Help
 rxu: A Rexx Preprocessor for Unicode
