@@ -70,9 +70,9 @@
 /*                                                                          */
 /****************************************************************************/
 
-Call Unicode.Setup                             /* JMB                       */
 parse arg argrx                                /* Get user's arg string.    */
 call house                                     /* Go do some housekeeping.  */
+Call Unicode.Setup                             /* JMB                       */
 
 select                                         /* 3 modes of operation...   */
   when argrx = '?' then                        /*   1.  Tell user how.      */
@@ -87,7 +87,20 @@ select                                         /* 3 modes of operation...   */
 end
 
 Unicode.Setup:                                 /* This whole routine by JMB */
-  Signal On Syntax Name Unicode.cls.not.found
+  path = Value("PATH",,"ENVIRONMENT")
+  sep = .File~pathSeparator
+  --myDir = .File~new(
+  uFile = .File~searchPath("Unicode.cls","."sep||path)
+  If uFile == .nil Then Signal Unicode.cls.not.found
+  dir = uFile~parent
+  If abbrev(sysrx,  'Windows') Then
+    present = Pos(Upper(dir) || sep, Upper(path) || sep) > 0
+  Else 
+    present = Pos(      dir  || sep,       path  || sep) > 0
+  If \present Then Do
+    Call Value "PATH",  dir || sep || path, "ENVIRONMENT"
+    Say "Adding" dir "to the PATH environment variable..."
+  End
   Call "Unicode.cls"
   Return
 Unicode.cls.not.found:
@@ -167,6 +180,7 @@ main:
       when inputrx='?' then call help          /* Request for online help.  */
       otherwise
         inputrx = rxu2rexx()                   /* run RXU on user input JMB */
+        If inputrx = .Nil Then Iterate
         rc = 'X'                               /* Make rc change visible.   */
         call set2; trace (trace)               /* Need these on same line.  */
         interpret inputrx                      /* Try the user's input.     */
@@ -179,12 +193,11 @@ main:
   return result                                /* Preserve result contents. */
 
 rxu2rexx:                                      /* Whole routine by JMB      */
---  Signal On Syntax Name rxu.rex.not.found
+  --Signal On Syntax Name rxu.rex.not.found
   Call "rxu.rex" .Array~of(inputrx)
   If result~isA(.Array) Then Return result[1]
   Return result
 rxu.rex.not.found:
-Nop
   Say "The rxu.rex preprocessor was not found."
   Call done
 

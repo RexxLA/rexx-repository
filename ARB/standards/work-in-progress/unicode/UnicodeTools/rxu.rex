@@ -367,6 +367,13 @@ Transform: Procedure Expose filename warnBIF interactive outIndex outArray
     line = x[line]
     Parse Value x["NUMBER"] With major"."minor
     
+    If inFile~isA(.Array) Then Do
+      Say "  Oooops ! ... try again.    " x[message]
+      Say "                             " x[secondaryMessage]
+      Parse Source source
+      Say Left("  rc =" major"."minor" ",46,".") "rxutry.rex on" Word(source,1)
+      Return .nil
+    End
     Say
     Say Right(line,6) "*-*" array[line]
     Say "Error" major "running" inFile "line" line":" x[message]
