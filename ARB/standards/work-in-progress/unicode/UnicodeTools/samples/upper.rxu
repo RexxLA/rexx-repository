@@ -37,7 +37,7 @@ Say "get applied to the resulting Iota."
 Say
 
 str = Codepoints("(GREEK SMALL LETTER ALPHA) 0345 (COMBINING ACUTE ACCENT)"U)
-Call Test str, "ΆΙ"
+Call Test str, "ΆΙ"P
 
 Say "Original string:" C2U(str)
 Say "Uppercased string:" C2U(Upper(str))

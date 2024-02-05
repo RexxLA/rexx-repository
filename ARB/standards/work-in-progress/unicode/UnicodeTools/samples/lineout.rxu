@@ -35,7 +35,7 @@ If \auto Then Parse pull
 */
 Call Stream tmpFile,"C", "Open Write Encoding UTF-16"
 
-Call LineOut tmpFile, "Abá" "(Man)"U "FF"X
+Call LineOut tmpFile, "Abá"Y "(Man)"U "FF"X
 Call Stream  tmpFile, "C", "Close"
 
 Call Stream  tmpFile,"C", "Open Read"

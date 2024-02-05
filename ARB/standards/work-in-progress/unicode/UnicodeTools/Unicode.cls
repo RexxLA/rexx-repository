@@ -52,6 +52,7 @@
  *    <tr><td>00.5 <td>JMB <td>20231001<td>Add GRAPHEMES class and BIF, isNFC, isNFD, toNFD, toNFD, CHANGESTR.
  *    <tr><td>     <td>JMB <td>20240128<td>!!DS -> !DS
  *    <tr><td>     <td>JMB <td>20240128<td>Defaultstring and promote can be set by caller
+ *    <tr><td>     <td>JMB <td>20240128<td>Make TEXT the default string
  *  </table>
  */
 
@@ -64,9 +65,9 @@
 -- Support for OPTIONS DEFAULTSTRING                                          --
 --------------------------------------------------------------------------------
 
--- When nothing is specified, default is "Bytes".
+-- When nothing is specified, default is "Text".
 If .local~Unicode.DefaultString~isNil Then
-  .local~Unicode.DefaultString = "Bytes"
+  .local~Unicode.DefaultString = "Text"
 
 --------------------------------------------------------------------------------
 -- Support for OPTIONS COERCIONS                                              --

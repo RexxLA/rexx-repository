@@ -141,8 +141,8 @@ Say
 If \auto Then Parse pull
 
 Say
-Say "Testing a ENCODING for BINARY streams (should fail)"
-Say "---------------------------------------------------"
+Say "Testing ENCODING for BINARY streams (should fail)"
+Say "-------------------------------------------------"
 Say
 Signal On Syntax Name Binary
 
@@ -162,18 +162,18 @@ Say
 Say "Testing ENCODING UTF-32 and unaligned line-ends."
 Say "------------------------------------------------"
 Say ""
-line.1 = 4("a")4("b")4("c")
+line.1 = 4("a"Y)4("b"Y)4("c"Y)
 -- Test a "0A" in the wrong place, i.e., the string will contain "0000000A"X,
--- but nor aligned to a 4-byte boundary.
-line.2 = 4("z")4("")4("0A81"X) -- 0A81 is GUJARATI SIGN CANDRABINDU 
+-- but not aligned to a 4-byte boundary.
+line.2 = 4("z"Y)4(""Y)4("0A81"X) -- 0A81 is GUJARATI SIGN CANDRABINDU 
 -- now out of alignment "0000000D 0000000A"X
-line.3 = 4("z")4("")4("0D0A"X)4("")4("0A81"X) -- 0D0A is MALAYALAM LETTER UU
+line.3 = 4("z"Y)4(""Y)4("0D0A"X)4(""Y)4("0A81"X) -- 0D0A is MALAYALAM LETTER UU
 
 Call CreateFile (line.1, line.2, line.3), "0000000A"X
 
 Call Stream tmpfile, "C", "Open Read Encoding UTF-32"
 
-line.1 = "abc"
+line.1 = "abc"Y
 line.2 = "7A00E0AA81"X
 line.3 = "7A00E0B48A00E0AA81"X
 

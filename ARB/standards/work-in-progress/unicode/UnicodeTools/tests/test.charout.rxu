@@ -58,6 +58,7 @@ End
 lin = LineIn(tmpFile)
 If lin \== "0000 0061 0000 0062 0000 0063 0000 0058 0000 0065"X Then Do
   Say "FAILED! File contains '"lin"', expected 'abcXe'."
+  Say "["C2X(lin)"]"
   Call Exit 1
 End
 Say "Write, seek, overwrite, close: PASSED!"
