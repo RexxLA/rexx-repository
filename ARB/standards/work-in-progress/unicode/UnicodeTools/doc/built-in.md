@@ -133,7 +133,7 @@ The CHARIN BIF is enhanced by supporting the _encoding_ options specified in the
  
 Character positioning is precautionarily disabled in some circumstances:
 * When the _encoding_ is a variable-length encoding.
-* When the _encoding_ is a fixed-length encoding, but a _target_ of __TEXT__ has been requested.
+* When the _encoding_ is a fixed-length encoding, but a _target_ of __TEXT__ or __GRAPHEMES__ has been requested.
 
 Character positioning at the start of the stream (that is, when _start_ is specified as __1__) will work unconditionally.
 
