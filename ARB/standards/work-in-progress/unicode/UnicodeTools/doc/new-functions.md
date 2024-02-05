@@ -214,11 +214,13 @@ P2N("110000")  =  ""                          -- Out-of-range
 ```
 
 If you specify only _string_, it returns __TEXT__ when _string_ is a TEXT string,
+__GRAPHEMES__ when _string_ is a GRAPHEMES string,
 __CODEPOINTS__ when _string_ is a CODEPOINTS string, and __BYTES__ when _string_ is a BYTES string. If you specify _type_, it returns __1__ when
 _string_ matches the _type_. Otherwise, it returns __0__. The following are valid types: 
 
 * __BYTES__. Returns __1__ if the string is a BYTES string.
 * __CODEPOINTS__. Returns __1__ if the string is a CODEPOINTS string.
+* __GRAPHEMES__. Returns __1__ if the string is a GRAPHEMES string.
 * __TEXT__. Returns __1__ if the string is a TEXT string.
 
 ## TEXT
