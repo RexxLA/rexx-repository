@@ -94,23 +94,26 @@ will be the original, undecoded, line or character sequence, as it appears in th
 
 ### Specifying the target type
 
-By default, Unicode-enabled streams return strings of type TEXT, composed of grapheme clusters. In some occasions, you may prefer
-to manage CODEPOINTS strings. You can specify the target type in the ``ENCODING`` section of your ``STREAM`` ``OPEN`` command:
+By default, Unicode-enabled streams return strings of type TEXT, composed of grapheme clusters automatically normalized to the NFC Unicode normalization form. 
+You may prefer to manage Unicode string that are not automatically normalized; in that case, you should use GRAPHEMES as the target type.
+In some other occasions, you may prefer to manage CODEPOINTS strings. 
+You can specify the target type in the ``ENCODING`` section of your ``STREAM`` ``OPEN`` command:
 
 ```rexx
    Call Stream filename, "Command", "Open read ENCODING UTF-8 TEXT"
 ```
 
-When you specify __TEXT__ (the default), ``LINEIN`` and ``CHARIN`` will return strings are of type TEXT. When you specify __CODEPOINTS__, returned strings will be
-of type CODEPOINTS.
+When you specify __TEXT__ (the default), ``LINEIN`` and ``CHARIN`` will return strings are of type TEXT, automatically normalized to NFC.
+When you specify __GRAPHEMES__, ``LINEIN`` and ``CHARIN`` will return strings are of type GRAPHEMES, without any automatical normalization.
+When you specify __CODEPOINTS__, returned strings will be of type CODEPOINTS.
 
-**Note**: *Some operations that are easy to implement for a CODEPOINTS target type can become impractical when switching to a TEXT type.
+**Note**: *Some operations that are easy to implement for a CODEPOINTS target type can become impractical when switching to a GRAPHEMES or a TEXT type.
 For example, UTF-32 is a fixed-length encoding, so that with a CODEPOINTS target type, direct-access character positioning and
 substitution is trivial to implement. On the other hand, if the target type is TEXT, these operations become very difficult to implement*.
 
 ### Options order
 
-You can specify any of __TEXT__, __CODEPOINTS__, __REPLACE__ and __SYNTAX__ in any order, but you can not specify
+You can specify any of __TEXT__, __GRAPHEMES__, __CODEPOINTS__, __REPLACE__ and __SYNTAX__ in any order, but you can not specify
 contradictory options. For example, __TEXT SYNTAX__ is the same as __SYNTAX TEXT:: (and as __Syntax text__, since case is ignored), 
 but __REPLACE SYNTAX__ will produce a syntax error.
 
