@@ -179,11 +179,11 @@ main:
         procrx':  'remindrx helprx             /*   user how to escape.     */
       when inputrx='?' then call help          /* Request for online help.  */
       otherwise
-        inputrx = rxu2rexx()                   /* run RXU on user input JMB */
-        If inputrx = .Nil Then Iterate
+        rxuinputrx = rxu2rexx()                /* run RXU on user input JMB */
+        If rxuinputrx = .Nil Then Iterate      /* error handled in rxu  JMB */
         rc = 'X'                               /* Make rc change visible.   */
         call set2; trace (trace)               /* Need these on same line.  */
-        interpret inputrx                      /* Try the user's input.     */
+        interpret rxuinputrx                   /* Try the user's input. JMB */
         trace 'Off'                            /* Don't trace rexxtry.      */
         call border                            /* Go write the border.      */
     end
@@ -288,6 +288,9 @@ show:
   say "    'source'    = '"source"'"           /* What oper system etc.     */
   say "    'result'    = '"result"'"           /* REXX special variable.    */
   say
+  Say "     Options DefaultString =" .Unicode.DefaultString   /*        JMB */
+  Say "     Options Coercions     =" .Unicode.Coercions       /*        JMB */
+  say                                          /*                       JMB */
   say '     Previous line entered by user.  Initial value=INPUTRX.'
   say "    'prev'      = '"prev"'"             /* Previous user statement.  */
   say "    'current'   = '"current"'"          /* Compare curr with prev.   */

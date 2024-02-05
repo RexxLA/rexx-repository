@@ -49,8 +49,9 @@
  *    <tr><td>00.4 <td>JMB <td>20230901<td>General support for OPTIONS instruction via !Options routine
  *    <tr><td>     <td>JMB <td>20230912<td>Re-add OPTIONS COERCIONS support
  *    <tr><td>     <td>JMB <td>20230917<td>Migrate most of the docs to markdown format (see rxu.md and the /docs subdir)
- *    <tr><td>00.4c<td>JMB <td>20231001<td>Add GRAPHEMES class and BIF, isNFC, isNFD, toNFD, toNFD, CHANGESTR.
+ *    <tr><td>00.5 <td>JMB <td>20231001<td>Add GRAPHEMES class and BIF, isNFC, isNFD, toNFD, toNFD, CHANGESTR.
  *    <tr><td>     <td>JMB <td>20240128<td>!!DS -> !DS
+ *    <tr><td>     <td>JMB <td>20240128<td>Defaultstring and promote can be set by caller
  *  </table>
  */
 
@@ -64,14 +65,16 @@
 --------------------------------------------------------------------------------
 
 -- When nothing is specified, default is "Bytes".
-.local~Unicode.DefaultString = "Bytes"
+If .local~Unicode.DefaultString~isNil Then
+  .local~Unicode.DefaultString = "Bytes"
 
 --------------------------------------------------------------------------------
 -- Support for OPTIONS COERCIONS                                              --
 --------------------------------------------------------------------------------
 
 -- When nothing is specified, default is "Promote".
-.local~Unicode.Coercions = "Promote"
+If .local~Unicode.Coercions~isNil Then
+  .local~Unicode.Coercions = "Promote"
 
 .local~Unicode = .routines~Unicode
 
