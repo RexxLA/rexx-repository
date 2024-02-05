@@ -24,6 +24,7 @@ Version 0.4b, 20231014.
 
 ## \[Cumulative change log since release 0.4b\]
 
+* 20240205 &mdash; rxutry.rex autoloads path. Unicode.cls: Options DefaultString and Promote can be set on caller.
 * 20240204 &mdash; Add rxutry.rex utility (needs previous setenv).
 * 20240203 &mdash; Samples: add nfc.rxu. Unicode.cls: Rename TEXT to GRAPHEMES class; add new TEXT subclass GRAPHEMES; TEXT auto-nfc on NEW.
 * 20240130 &mdash; InspectTokens: add options to select different dialects, specify default in the help display.
