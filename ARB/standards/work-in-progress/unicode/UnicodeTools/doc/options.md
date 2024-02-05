@@ -11,14 +11,14 @@
 
 ## OPTIONS DEFAULTSTRING
 
-``OPTIONS DEFAULTSTRING`` _default_, where _default_ can be one of __BYTES__, __CODEPOINTS__, __TEXT__ or __NONE__. 
+``OPTIONS DEFAULTSTRING`` _default_, where _default_ can be one of __BYTES__, __CODEPOINTS__, __GRAPHEMES__, __TEXT__ or __NONE__. 
 This affects the semantics of numbers and unsuffixed strings, i.e., ``"string"``, without an explicit B, X, Y, P, T or U suffix. 
 If _default_ is NONE, numbers and strings are not converted (i.e., they are handled as default Rexx numbers and strings). 
-In the other cases, numbers and strings are transformed to the corresponding type. For example, if OPTIONS DEFAULTSTRING TEXT is in effect, ``"string"``, will automatically be a TEXT string,
-as if ``"string"T`` had been specified, i.e., ``"string"`` will be composed of extended grapheme clusters, and if OPTIONS DEFAULTSTRING CODEPOINTS is in effect, ``12.3`` will automatically
+In the other cases, numbers and strings are transformed to the corresponding type. For example, if OPTIONS DEFAULTSTRING TEXT is in effect, ``"string"`` will automatically be a TEXT string,
+as if ``"string"T`` had been specified, i.e., ``"string"`` will be composed of extended grapheme clusters, and will be automatically normalized to the NFC Unicode normalization form if needed; if OPTIONS DEFAULTSTRING GRAPHEMES is in effect, ``"string"`` will automatically be a GRAPHEMES string, as if ``"string"G`` had been specified, i.e., ``"string"`` will be composed of extended grapheme clusters, with no automatical normalization; , and if OPTIONS DEFAULTSTRING CODEPOINTS is in effect, ``12.3`` will automatically
 be a CODEPOINTS string, as if ``CODEPOINTS(12.3)`` had been specified.
 
-By default, RXU works as if OPTIONS DEFAULTSTRING BYTES had been specified.
+By default, RXU works as if OPTIONS DEFAULTSTRING TEXT had been specified.
 
 __Note.__ Currently, OPTIONS DEFAULTSTRING does not apply to variable and constant symbols. This will be fixed in a future release.
 
@@ -39,9 +39,9 @@ __Implementation notes:__
 
 RXU translates an unsuffixed string ``"string"`` to the following expression:
 ```
-(!!DS("string"))
+(!DS("string"))
 ```
-!!DS is a helper routine defined in ``Unicode.cls``; DS stands for Default String. !!DS implements the current OPTIONS DEFAULTSTRING setting.
+!DS is a helper routine defined in ``Unicode.cls``; DS stands for Default String. !DS implements the current OPTIONS DEFAULTSTRING setting.
 
 ## OPTIONS COERCIONS
 
