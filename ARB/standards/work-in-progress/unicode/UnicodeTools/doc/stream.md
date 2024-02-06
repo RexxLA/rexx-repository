@@ -153,7 +153,7 @@ You can also use ``DECODE`` to decode a string, by specifying a target format (c
 In this case, the function will return the null string if *string* cannot be decoded without errors with the specified *encoding*, and the decoded version of its first argument if no ill-formed character combinations are found.
 
 Since encoding and decoding are considered to be low-level operations, the results of ``ENCODE`` and ``DECODE`` are always ``BYTES`` strings. If you need
-more features for the returned strings, you can always promote the results to higher types by using the ``CODEPOINTS`` and ``TEXT`` BIFs.
+more features for the returned strings, you can always promote the results to higher types by using the ``CODEPOINTS``. ``GRAPHEMES`` and ``TEXT`` BIFs.
 
 #### Manual decoding and error handling
 
