@@ -42,7 +42,7 @@ Say  Stream filename, "Command", "QUERY ENCODING NAME"             -- IBM1047 (m
 Once a stream is opened with the ENCODING option, stream I/O BIFs recognize that the stream is Unicode-enabled, and change their behaviour accordingly:
 
 * For input BIFs, the contents of the stream is automatically decoded and converted to Unicode (i.e., to a UTF-8 *presentation*).
-* Both ``LINEIN`` and ``CHARIN`` return strings of type ``TEXT``, composed of extended grapheme clusters.
+* Both ``LINEIN`` and ``CHARIN`` return strings of type ``TEXT``, composed of extended grapheme clusters. Lines and character strings are automatically normalized to the NFC Unicode normalization form.
 * When you call ``CHARIN`` and specify the *length* parameter, the appropriate number of codepoints (or grapheme clusters) are read and returned.
 * Each encoding can specify its own set of end-of-line characters. For example, the IBM-1047 encoding (a variant of EBCDIC)
   specifies that ``"15"X``, the NL character, is to be used as end-of-line. Both ``LINEIN`` and ``LINEOUT`` honor this requirement, i.e.,
