@@ -136,7 +136,7 @@ Extend:
 
 BacktrackAndReturn:
   Call Stream name, "Command", "SEEK =" save "READ CHAR" -- Backtrack
-  If text Then Return .Text~new( .Unicode[ res, "toNFC"] )
+  If text Then Return .Text~new(res)
   Return .Graphemes~new(res)
 
 -- Temporary

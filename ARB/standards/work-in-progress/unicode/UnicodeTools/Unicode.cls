@@ -572,7 +572,7 @@ Done:
 ::Method Copies
   Use Strict Arg n
   .Validate~nonNegativeWholeNumber( "n" , n )
-  If \self~isA(.Text), \self~isA(.Graphemes), \self~isA(.Graphemes), \self~isA(.Codepoints) Then 
+  If \self~isA(.Codepoints) Then 
     Return Bytes(self~copies:.String(n))
   Return self~class~new( Copies( self~makeString, n ) )    
 
@@ -665,11 +665,11 @@ Return !DS(1)
   Return 0    
 
 ::Method Reverse
-  ret = ""
+  ret = .MutableBuffer~new(, self~length : .String)
   Do i = self~length To 1 By -1
-    ret ||= self[i]
+    ret~append( self[i] )
   End
-  Return self~class~new(ret)
+  Return self~class~new(ret~makeString)
 
 ::Method Right
   Use Strict Arg length, pad = " "

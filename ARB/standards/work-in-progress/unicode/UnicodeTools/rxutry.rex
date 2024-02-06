@@ -87,6 +87,7 @@ select                                         /* 3 modes of operation...   */
 end
 
 Unicode.Setup:                                 /* This whole routine by JMB */
+  hand     = "F0 9F 91 89"X
   path = Value("PATH",,"ENVIRONMENT")
   sep = .File~pathSeparator
   --myDir = .File~new(
@@ -98,8 +99,8 @@ Unicode.Setup:                                 /* This whole routine by JMB */
   Else 
     present = Pos(      dir  || sep,       path  || sep) > 0
   If \present Then Do
+    Say hand  " Adding" dir "to the PATH environment variable..."
     Call Value "PATH",  dir || sep || path, "ENVIRONMENT"
-    Say "Adding" dir "to the PATH environment variable..."
   End
   Call "Unicode.cls"
   Return
@@ -152,12 +153,14 @@ clear:
 
 intro:                                         /* Display brief             */
   say version                                  /*   introductory            */
-  say '  'procrx' lets you',                   /*   about rexxtry and       */
+  say hand''procrx' lets you',                 /*   about rxutry and  *JMB* */
     'interactively try Unicode-REXX',          /*   remarks for       *JMB* */
     'statements.'                              /*   interactive mode.       */
   say '    Each string is executed when you hit Enter.'
   say "    Enter 'call tell' for",             /* How to see description.   */
     "a description of the features."
+  say hand"  Options DefaultString is" .Unicode.DefaultString /*        JMB */
+  say hand"  Options Coercions     is" .Unicode.Coercions     /*        JMB */
   say '  Go on - try a few...            'remindrx
   return result                                /* Preserve result contents. */
 
@@ -193,7 +196,7 @@ main:
   return result                                /* Preserve result contents. */
 
 rxu2rexx:                                      /* Whole routine by JMB      */
-  --Signal On Syntax Name rxu.rex.not.found
+  Signal On Syntax Name rxu.rex.not.found
   Call "rxu.rex" .Array~of(inputrx)
   If result~isA(.Array) Then Return result[1]
   Return result
@@ -280,6 +283,10 @@ syntax:
 
 show:
   trace 'Off'; call clear                      /* Display user variables    */
+  say                                          /*                       JMB */  
+  Say hand"   Options DefaultString =" .Unicode.DefaultString   /*      JMB */
+  Say hand"   Options Coercions     =" .Unicode.Coercions       /*      JMB */
+  say                                          /*                       JMB */
   say '  'procrx' provides',                   /*   provided by rexxtry.    */
     'these user variables.'
   say '  The current values are...'            /* Show current values.      */
@@ -288,9 +295,6 @@ show:
   say "    'source'    = '"source"'"           /* What oper system etc.     */
   say "    'result'    = '"result"'"           /* REXX special variable.    */
   say
-  Say "     Options DefaultString =" .Unicode.DefaultString   /*        JMB */
-  Say "     Options Coercions     =" .Unicode.Coercions       /*        JMB */
-  say                                          /*                       JMB */
   say '     Previous line entered by user.  Initial value=INPUTRX.'
   say "    'prev'      = '"prev"'"             /* Previous user statement.  */
   say "    'current'   = '"current"'"          /* Compare curr with prev.   */
