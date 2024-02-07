@@ -95,7 +95,7 @@ and the second item of the array contains the UTF-32 representation of the decod
 The optional _error_handling_ argument determines the behaviour of the function when the _format_ argument has been specified.
 If it has the value __""__ (the default) or __NULL__, a null string is returned when there a decoding error is encountered.
 If it has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``U+FFFD``).
-If it has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
+If it has the value __SYNTAX__, a syntax condition will be raised when a decoding error is encountered.
 
 __Examples:__
 
