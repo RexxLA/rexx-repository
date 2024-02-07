@@ -89,7 +89,7 @@ To use DECODE as a decoder, you have to specify a _format_. This argument accept
 Each token can have one of the following values: __UTF8__, __UTF-8__, __UTF32__, or __UTF-32__ (duplicates are allowed and ignored).
 When __UTF8__ or __UTF-8__ have been specified, a UTF-8 representation of the decoded _string_ is returned.
 When __UTF32__ or __UTF-32__ have been specified, UTF-32 representation of the decoded _string_ is returned.
-When both have been specified, an two-items array is returned. The first item of the array is the UTF-8 representation of the decoded _string_,
+When both have been specified, a two-items array is returned. The first item of the array is the UTF-8 representation of the decoded _string_,
 and the second item of the array contains the UTF-32 representation of the decoded _string_.
 
 The optional _error_handling_ argument determines the behaviour of the function when the _format_ argument has been specified.
