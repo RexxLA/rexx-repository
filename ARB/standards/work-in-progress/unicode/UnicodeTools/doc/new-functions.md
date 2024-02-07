@@ -411,9 +411,9 @@ When several targets have been specified, a stem is returned. The stem will cont
 
 The optional _error_handling_ argument determines the behaviour of the function when a decoding error is encountered. It is an error to specify _error_handling_ withour specifying _format_ at the same time.
 
-* When _error_handling_ has the value __""__ (the default) or __NULL__, a null string is returned when there a decoding error is encountered.
+* When _error_handling_ has the value __""__ (the default) or __NULL__, a null string is returned when a decoding error is encountered.
 * When _error_handling_ has the value __REPLACE__, any ill-formed character will be replaced by the Unicode Replacement Character (``"FFFD"U``).
-* When _error_handling_ has the value __SYNTAX___, a Syntax condition will be raised when a decoding error is encountered.
+* When _error_handling_ has the value __SYNTAX__, a syntax condition will be raised when a decoding error is encountered.
 
 ### Conditions
 
