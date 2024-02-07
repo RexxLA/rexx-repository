@@ -100,7 +100,7 @@ If it has the value __SYNTAX___, a Syntax condition will be raised when a decodi
 __Examples:__
 
 ```
-DECODE(string, "UTF-16")                           -- Returns 1 if string contains proper UTF-8, and 0 otherwise
+DECODE(string, "UTF-16")                           -- Returns 1 if string contains proper UTF-16, and 0 otherwise
 var = DECODE(string, "UTF-16", "UTF-8")            -- Decodes string to the UTF-8 format. A null string is returned if string contains ill-formed UTF-16.
 DECODE(string, "UTF-16",,"SYNTAX")                 -- The fourth argument is checked for validity and then ignored.
 DECODE(string, "UTF-16",,"POTATO")                 -- Syntax error (Invalid option 'POTATO').
