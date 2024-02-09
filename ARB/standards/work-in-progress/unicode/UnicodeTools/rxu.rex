@@ -318,7 +318,7 @@ Transform: Procedure Expose filename warnBIF interactive outIndex outArray
            (subcontext == CALL_INSTRUCTION & tokenNumber == 2), -- Subroutine
            Then Do
           val = Upper( z[value] )
-          If WordPos(val, BIFs) > 1 Then transformed = '!'z[value]
+          If WordPos(val, BIFs) > 0 Then transformed = '!'z[value]
           Else If WordPos(val, Unsupported) > 1 Then Do
             If warnBIF Then 
               Say "WARNING: Unsupported BIF '"val"' used in program '"filename"', line" Word(z[location],1)

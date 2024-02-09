@@ -99,7 +99,7 @@ Unicode.Setup:                                 /* This whole routine by JMB */
   Else 
     present = Pos(      dir  || sep,       path  || sep) > 0
   If \present Then Do
-    Say hand  " Adding" dir "to the PATH environment variable..."
+    Say hand  " Temporarily adding" dir "to the PATH environment variable..."
     Call Value "PATH",  dir || sep || path, "ENVIRONMENT"
   End
   Call "Unicode.cls"
@@ -182,8 +182,12 @@ main:
         procrx':  'remindrx helprx             /*   user how to escape.     */
       when inputrx='?' then call help          /* Request for online help.  */
       otherwise
-        rxuinputrx = rxu2rexx()                /* run RXU on user input JMB */
-        If rxuinputrx = .Nil Then Iterate      /* error handled in rxu  JMB */
+        rxuinputrx = rxu2rexx()                /* Run RXU on user input JMB */
+        If rxuinputrx = .Nil Then Do           /* Error handled in rxu  JMB */
+          If argrx <> '' & queued() = 0 Then   /* One-liner and queue   JMB */
+            Leave                              /* isempty? We are done  JMB */
+          Iterate                              /* Get more input        JMB */
+        End                                    /*                       JMB */
         rc = 'X'                               /* Make rc change visible.   */
         call set2; trace (trace)               /* Need these on same line.  */
         interpret rxuinputrx                   /* Try the user's input. JMB */

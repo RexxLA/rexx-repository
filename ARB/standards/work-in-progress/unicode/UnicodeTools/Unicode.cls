@@ -247,8 +247,8 @@ Properties:
   Return .Text~new(string)
      
 ::Routine !C2X Public
-  Use Strict Arg string
-Return string~c2x
+  Use Strict Arg string, encoding = "UTF-8"
+Return string~c2x(encoding)
 
 ::Routine !CENTER Public
   Use Strict Arg string, length, pad = " "
@@ -516,7 +516,12 @@ UTF8: Procedure
 --
 
 ::Method C2X
-  Use Strict Arg
+  Use Strict Arg encoding = "UTF-8"
+  Select Case Upper(encoding)
+    When "UTF8", "UTF-8" Then Nop
+    Otherwise
+      Raise Syntax 93.914 Array(1,"UTF8, UTF-8", encoding)
+  End
   Return .Bytes~new(self~makeString~c2x)
   
 ::Method Center
