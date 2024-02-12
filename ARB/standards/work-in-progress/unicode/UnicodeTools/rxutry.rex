@@ -90,7 +90,6 @@ Unicode.Setup:                                 /* This whole routine by JMB */
   hand     = "F0 9F 91 89"X
   path = Value("PATH",,"ENVIRONMENT")
   sep = .File~pathSeparator
-  --myDir = .File~new(
   uFile = .File~searchPath("Unicode.cls","."sep||path)
   If uFile == .nil Then Signal Unicode.cls.not.found
   dir = uFile~parent
@@ -102,6 +101,7 @@ Unicode.Setup:                                 /* This whole routine by JMB */
     Say hand  " Temporarily adding" dir "to the PATH environment variable..."
     Call Value "PATH",  dir || sep || path, "ENVIRONMENT"
   End
+  Drop path sep uFile dir present
   Call "Unicode.cls"
   Return
 Unicode.cls.not.found:
@@ -288,8 +288,8 @@ syntax:
 show:
   trace 'Off'; call clear                      /* Display user variables    */
   say                                          /*                       JMB */  
-  Say hand"   Options DefaultString =" .Unicode.DefaultString   /*      JMB */
-  Say hand"   Options Coercions     =" .Unicode.Coercions       /*      JMB */
+  Say hand"   Options DefaultString =" .Unicode.DefaultString  /*       JMB */
+  Say hand"   Options Coercions     =" .Unicode.Coercions      /*       JMB */
   say                                          /*                       JMB */
   say '  'procrx' provides',                   /*   provided by rexxtry.    */
     'these user variables.'
