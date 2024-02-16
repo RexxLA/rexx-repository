@@ -1,10 +1,12 @@
 # Instructions
+
 This clause describes the execution of instructions, and how the sequence of execution can vary from the
 normal execution in order of appearance in the program.
 
 Execution of the program begins with its first clause.
 
 If we left Routine initialization to here we can leave method initialization.
+
 ## Method initialization
 
 There is a pool for local variables.
