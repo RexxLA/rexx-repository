@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  16 FEB 2024 16:28
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  16 FEB 2024 16:47
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1370,26 +1370,875 @@ LaTeX Warning: Label `purpose' multiply defined.
 
 LaTeX Warning: Label `notation' multiply defined.
 
-! Missing \endcsname inserted.
-<to be read again> 
-                   \protect 
-l.301 ...tion\_arithmetic.rexx}{lstlisting.9.3}{}}
-                                                  
-? 
-! Emergency stop.
-<to be read again> 
-                   \protect 
-l.301 ...tion\_arithmetic.rexx}{lstlisting.9.3}{}}
-                                                  
-End of file on the terminal!
+))
+\openout1 = `standard.aux'.
 
- 
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 2.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
+.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+Package hyperref Info: Link coloring OFF on input line 2.
+
+(./standard.out) (./standard.out)
+\@outlinefile=\write8
+\openout8 = `standard.out'.
+
+
+Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
+(fontspec)             this).
+
+\symlegacymaths=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 2.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 2.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 2.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 2.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 2.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 2.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 2.
+LaTeX Font Info:    Redeclaring math accent \check on input line 2.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 2.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 2.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \colon on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 2.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 2.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 2.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `normal' on input line 2.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> TU/MinionPro(0)/m/n on input line 2.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `bold' on input line 2.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> TU/MinionPro(0)/m/n on input line 2.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  TU/MinionPro(0)/m/n --> TU/MinionPro(0)/m/n on input li
+ne 2.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> TU/MinionPro(0)/m/it on input line 2.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> TU/MinionPro(0)/b/n on input line 2.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 2.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> TU/IBMPlexMono(0)/m/n on input line 2.
+
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  TU/MinionPro(0)/m/n --> TU/MinionPro(0)/b/n on input li
+ne 2.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> TU/MinionPro(0)/b/it on input line 2.
+
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 2.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> TU/IBMPlexMono(0)/b/n on input line 2.
+
+\c@lstlisting=\count450
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: longtable package is loaded.
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.st
+y
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
+F (HO)
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
+
+))
+(../boilerplate/template.tex
+
+Package fontspec Info: Font family 'TeXGyrePagella(0)' created for font 'TeX
+(fontspec)             Gyre Pagella' with options [].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"TeX Gyre
+(fontspec)             Pagella/OT:script=latn;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: <->"TeX Gyre
+(fontspec)             Pagella/OT:script=latn;language=dflt;+smcp;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"TeX Gyre
+(fontspec)             Pagella/B/OT:script=latn;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: <->"TeX
+(fontspec)             Gyre Pagella/B/OT:script=latn;language=dflt;+smcp;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"TeX Gyre
+(fontspec)             Pagella/I/OT:script=latn;language=dflt;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.:
+(fontspec)             <->"TeX Gyre
+(fontspec)             Pagella/I/OT:script=latn;language=dflt;+smcp;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"TeX Gyre
+(fontspec)             Pagella/BI/OT:script=latn;language=dflt;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.:
+(fontspec)             <->"TeX Gyre
+(fontspec)             Pagella/BI/OT:script=latn;language=dflt;+smcp;"
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 8.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 8.
+\openout5 = `standard.sh'.
+
+runsystem(bash -c "bash standard.sh >standard.stdout 2>standard.stderr || echo 
+$? >standard.exitCode")...executed.
+
+ (./standard.stdout)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 8.
+ [1
+
+
+]
+\rexx@copyrightBox=\box137
+\rexx@copyrightHeight=\skip96
+
+(../boilerplate/bookmeta.tex
+\openout5 = `standard.sh'.
+
+runsystem(bash -c "bash standard.sh >standard.stdout 2>standard.stderr || echo 
+$? >standard.exitCode")...executed.
+
+ (./standard.stdout)
+LaTeX Font Info:    Font shape `TU/IBMPlexMono(0)/m/n' will be
+(Font)              scaled to size 8.20007pt on input line 7.
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--8
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--23
+
+ []
+
+[1
+
+]
+
+Package marginnote Warning: Consecutive odd pages found.
+(marginnote)                Note, it is not recommended to use consecutive
+(marginnote)                odd pages in a double-ended document.
+(marginnote)                The pages of your document should always
+(marginnote)                be a sequence: odd-even-odd-even-...
+(marginnote)                Maybe you've forgotten a \cleardoublepage before
+(marginnote)                changing the page numbering on page I.
+
+Package marginnote Info: Using workaround for absolute page number on input lin
+e 25.
+) (./standard.toc [2
+
+])
+\tf@toc=\write9
+\openout9 = `standard.toc'.
+
+ [3]
+\openout2 = `structure.aux'.
+
+ (./structure.tex (./foreword.tex
+Chapter 1.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (3.06761pt too wide) in paragraph at lines 17--21
+\TU/MinionPro(0)/m/n/12 typing and control structures which would contribute to
+ rapid, efficient and accurate
+ []
+
+Warning: \Huger is more than \Huge.
+[1
+
+
+
+
+]
+
+Package marginnote Warning: Consecutive odd pages found.
+(marginnote)                Note, it is not recommended to use consecutive
+(marginnote)                odd pages in a double-ended document.
+(marginnote)                The pages of your document should always
+(marginnote)                be a sequence: odd-even-odd-even-...
+(marginnote)                Maybe you've forgotten a \cleardoublepage before
+(marginnote)                changing the page numbering on page 1.
+
+Package marginnote Info: Using workaround for absolute page number on input lin
+e 53.
+) (./introduction.tex [2]
+Chapter 2.
+) (./scope_purpose_and_application.tex [3
+
+]
+Chapter 3.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (8.57964pt too wide) in paragraph at lines 27--30
+[]\TU/MinionPro(0)/m/n/12 the mechanism by which Rexx programs are transformed 
+for use by a data-processing
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+) (./normative_references.tex [4
+
+] [5]
+Chapter 4.
+) (./definitions_and_document_notation.tex [6
+
+]
+Chapter 5.
+
+Overfull \hbox (7.49562pt too wide) in paragraph at lines 15--19
+[]\TU/MinionPro(0)/m/n/12 The expressions (separated by commas) between the par
+entheses of a function
+ []
+
+
+Overfull \hbox (10.77078pt too wide) in paragraph at lines 33--36
+[]\TU/MinionPro(0)/m/n/12 A clause consisting of just an expression is an instr
+uction known as a command.
+ []
+
+
+Overfull \hbox (11.53163pt too wide) in paragraph at lines 60--63
+[]\TU/MinionPro(0)/m/n/12 Clauses which begin with two colons are directives. D
+irectives are not executable,
+ []
+
+[7
+
+] [8]
+Overfull \hbox (8.42274pt too wide) in paragraph at lines 132--135
+[]\TU/MinionPro(0)/m/n/12 A function with the sole purpose of providing a notat
+ion for describing
+ []
+
+[9]) (./conformance.tex [10]
+Chapter 6.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (26.22368pt too wide) in paragraph at lines 23--30
+\TU/MinionPro(0)/m/n/12 Aside from the items listed here (and the assumed limit
+ation in resources of the configuration),
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+) (./configuration.tex [11
+
+]
+Chapter 7.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (10.32762pt too wide) in paragraph at lines 44--47
+[]\TU/MinionPro(0)/m/n/12 API_-is part of the application programming interface
+ and is accessible from programs
+ []
+
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (18.16365pt too wide) in paragraph at lines 56--59
+\TU/MinionPro(0)/m/n/12 the language processor in variables. This does not cons
+train how a particular implementation
+ []
+
+[12
+
+] [13]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[14]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[15]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[16]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Underfull \hbox (badness 1603) in paragraph at lines 379--382
+[]\TU/MinionPro(0)/m/n/12 ‘equal’ and Config_-Compare(b,c) produces ‘equal’ the
+n Config_-Compare(a,c)
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[17]
+Overfull \hbox (109.79163pt too wide) in paragraph at lines 440--450
+\TU/MinionPro(0)/m/n/12 Compare; otherwise let HighBound be Character2lf #Outco
+me after Config_-Compare(LowBound,HighBound)
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[18] [19]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[20]
+Overfull \hbox (2.33075pt too wide) in paragraph at lines 591--594
+\TU/MinionPro(0)/m/n/12 provide one the indicator of the completion response is
+ ‘H’. As a result SYNTAX condition
+ []
+
+
+Overfull \hbox (0.42091pt too wide) in paragraph at lines 606--625
+\TU/MinionPro(0)/m/n/12 OOI has external classes explicitly via the ::CLASS abc
+ EXTERNAL mechanism. Analogy
+ []
+
+
+Overfull \hbox (28.47163pt too wide) in paragraph at lines 606--625
+\TU/MinionPro(0)/m/n/12 ExternalRoutine with Config_-ExternalMethod. There is a
+ terminology clash on “environment”.
+ []
+
+[21]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[22]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[23]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[24]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (6.24368pt too wide) in paragraph at lines 887--891
+[]\TU/MinionPro(0)/m/n/12 Config Stream Qualified (Stream) where: Stream is the
+ name of the stream to be processed.
+ []
+
+[25]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.28357pt too wide) in paragraph at lines 932--936
+\TU/MinionPro(0)/m/n/12 some function which resets #Charin_-Position.Stream and
+ #Linein_-Position.Stream. 
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.28357pt too wide) in paragraph at lines 949--956
+\TU/MinionPro(0)/m/n/12 some function which resets #Charin_-Position.Stream and
+ #Linein_-Position.Stream.
+ []
+
+[26]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[27]
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (23.33154pt too wide) in paragraph at lines 1018--1025
+\TU/MinionPro(0)/m/n/12 #Limit_-Literal, #Limit_-Messagelnsert, #Limit_-Name, #
+Limit_-String, #Limit_-TraceData
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (16.39159pt too wide) in paragraph at lines 1079--1082
+[]\TU/MinionPro(0)/m/n/12 Semantics: Indicate whether external activity is requ
+esting interactive tracing. Set #Outcome
+ []
+
+[28] [29]
+Overfull \hbox (3.87567pt too wide) in paragraph at lines 1178--1183
+[]\TU/MinionPro(0)/m/n/12 Set #Adjust<Index “#Adjust” #“” > to an integer numbe
+r of microseconds. #Adjust<Index
+ []
+
+[30]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[31] [32]
+Overfull \hbox (5.09962pt too wide) in paragraph at lines 1365--1367
+[]\TU/MinionPro(0)/m/n/12 Drop the variable identified by Symbol. If the Symbol
+ contains no period: Var Drop(#Pool,
+ []
+
+Warning: \Huger is more than \Huge.
+[33]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+) (./syntax_constructs.tex [34]
+Chapter 8.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.95563pt too wide) in paragraph at lines 40--43
+[]\TU/MinionPro(0)/m/n/12 the postfix plus operator specifies one or more repet
+itions of the preceding construct; 
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[35
+
+]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[36]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (2.88364pt too wide) in paragraph at lines 135--142
+\TU/MinionPro(0)/m/n/12 SYMBOL. Msg30.1 shall be produced if Const_-symbo! cont
+ains more than #Limit_-
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[37]
+Overfull \hbox (8.58366pt too wide) in paragraph at lines 201--204
+\TU/MinionPro(0)/m/n/12 In scanning, recognition that causes an action (see nnn
+) only occurs if no other recognition
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[38]
+Overfull \hbox (18.33162pt too wide) in paragraph at lines 291--301
+[]\TU/MinionPro(0)/m/n/12 program := [label list] [ncl] [requires+] [prolog_-in
+struction+] (class definition [requires+])+
+ []
+
+
+Overfull \hbox (34.74007pt too wide) in paragraph at lines 302--306
+\TU/MinionPro(0)/m/n/12 ‘DEPRECATED’ ‘EXTENDS’ ( NAME | Msgnn ) ‘USES’ ( NAMEli
+st | Msgnn ) | ‘IMPLEMENTS’
+ []
+
+[39]
+Overfull \hbox (10.26277pt too wide) in paragraph at lines 314--336
+\TU/MinionPro(0)/m/n/12 constant | Msg19.15 ) submix = ‘MIXINCLASS’ ( taken con
+stant | Msg19.16 ) | ‘SUBCLASS’
+ []
+
+
+Overfull \hbox (13.01291pt too wide) in paragraph at lines 314--336
+\TU/MinionPro(0)/m/n/12 [‘ENGINEERING’ | ‘SCIENTIFIC’] property agsignment := N
+AME | assignment properties
+ []
+
+
+Overfull \hbox (0.80673pt too wide) in paragraph at lines 314--336
+\TU/MinionPro(0)/m/n/12 := ‘PROPERTIES’ ( properties option+ | Msgnn) propertie
+s option := properties vigibility
+ []
+
+
+Overfull \hbox (16.54402pt too wide) in paragraph at lines 314--336
+\TU/MinionPro(0)/m/n/12 ‘INDIRECT’ properties modifier := ‘CONSTANT’ | ‘STATIC’
+ | ‘VOLATILE’ | ‘TRANSIENT’
+ []
+
+
+Overfull \hbox (10.5329pt too wide) in paragraph at lines 343--351
+[]\TU/MinionPro(0)/m/n/12 ‘DEPRECATED’! ‘CLASS’ | ‘ATTRIBUTE’ | /\TU/MinionPro(
+0)/m/it/12 ‘PRIVATE’ | \TU/MinionPro(0)/m/n/12 / guarded guarded := ‘GUARDED’
+ []
+
+
+Overfull \hbox (18.31294pt too wide) in paragraph at lines 343--351
+\TU/MinionPro(0)/m/n/12 | ‘UNGUARDED! method visibility := ’INHERITABLE’ | ‘PRI
+VATE’ | ‘PUBLIC’ | ‘SHARED!’
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [40]
+Overfull \hbox (2.30582pt too wide) in paragraph at lines 399--403
+\TU/MinionPro(0)/m/n/12 instruction | keyword instruction | command assignment 
+:= VAR SYMBOL ‘#’ expression
+ []
+
+
+Overfull \hbox (1.64763pt too wide) in paragraph at lines 404--408
+[]\TU/MinionPro(0)/m/n/12 message instruction := message term | message term ‘#
+’ expression keyword instruction:=
+ []
+
+
+Overfull \hbox (74.46674pt too wide) in paragraph at lines 456--471
+\TU/MinionPro(0)/m/n/12 ‘CONTINUE’ | ArrayArgOption | MessageOption | ClassOpti
+on | ToOption ArrayArgOption:=‘ARRAY’
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [41]
+Overfull \hbox (6.49692pt too wide) in paragraph at lines 479--498
+\TU/MinionPro(0)/m/n/12 list] push = ‘PUSH’ [expression] queue = ‘QUEUE’ [expre
+ssion] raise = ‘RAISE’ conditions
+ []
+
+
+Overfull \hbox (1.24005pt too wide) in paragraph at lines 529--532
+[]\TU/MinionPro(0)/m/n/12 symbol = VAR_-SYMBOL | CONST SYMBOL | NUMBER expressi
+on = expr [(‘,’ Msg37.1)
+ []
+
+[42]
+Overfull \hbox (15.33965pt too wide) in paragraph at lines 537--551
+\TU/MinionPro(0)/m/n/12 comparison := concatenation | comparison comparison ope
+rator concatenation comparison
+ []
+
+
+Overfull \hbox (6.3796pt too wide) in paragraph at lines 583--607
+\TU/MinionPro(0)/m/n/12 specification, otherwise a message (Msg28.1, Msg28.2, M
+sg28.3 or Msg28.4 appropriately)
+ []
+
+[43]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[44]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[45]) (./evaluation.tex [46]
+Chapter 9.
+[47
+
+] [48] [49] [50] [51]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 318.
+
+Package fontspec Info: Font family 'Hack(0)' created for font 'Hack' with
+(fontspec)             options [].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"Hack/OT:script=latn;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"Hack/B/OT:script=latn;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->"Hack/I/OT:script=latn;language=dflt;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->"Hack/BI/OT:script=latn;language=dflt;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
+
+ (./evaluation-datatype.rexx) [52]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (21.69553pt too wide) in paragraph at lines 397--402
+[]\TU/MinionPro(0)/m/n/12 Config_-Compare(Config_-Subsir(rhs,n),Config_-Substr(
+Value,Config_-Length(Ihs)+n))
+ []
+
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (5.21559pt too wide) in paragraph at lines 402--405
+[]\TU/MinionPro(0)/m/n/12 Config_-Length(Value) will be equal to Config_-Length
+(Ihs)+1+Config_-Length(rhs). 
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (37.95552pt too wide) in paragraph at lines 412--414
+[]\TU/MinionPro(0)/m/n/12 Config_-Compare(Config_-Subsitr(rhs,n),Config_-Substr
+(Value,Config_-Length(Ins)+1+n))
+ []
+
+[53]
+Overfull \hbox (9.31166pt too wide) in paragraph at lines 431--435
+[]\TU/MinionPro(0)/m/n/12 #Test is set to ‘E’. Let Length be the smaller of Con
+fig_-Length(Ihs) and Config_-Length(rhs).
+ []
+
+
+Overfull \hbox (0.10364pt too wide) in paragraph at lines 444--446
+[]\TU/MinionPro(0)/m/n/12 If the comparison has a comparison_-operator that is 
+a normal_-compare then the variable
+ []
+
+(./evaluation-comparison.rexx)
+Underfull \vbox (badness 1024) has occurred while \output is active []
+
+ [54]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[55] (./evaluation-arithmetic.rexx [56]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [57]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [58]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [59]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [60]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [61]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [62]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [63]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [64]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [65]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [66])
+Overfull \hbox (15.77158pt too wide) in paragraph at lines 565--569
+[]\TU/MinionPro(0)/m/n/12 From the left, if #ArgExists.#NewLevel.ArgNumber is ‘
+1’ then #Arg.#NewLevel.ArgNumber
+ []
+
+
+Overfull \hbox (65.0716pt too wide) in paragraph at lines 570--573
+[]\TU/MinionPro(0)/m/n/12 #ArgExists.#NewLevel.0 is set to the largest ArgNumbe
+r for which #ArgExists.#NewLevel.ArgNumber
+ []
+
+[67] [68] (./evaluation-selectmethod [69])))
+Overfull \hbox (0.85164pt too wide) in paragraph at lines 697--21
+[]\TU/MinionPro(0)/m/n/12 The response from Config_-ExternalRoutine is processe
+d. If no conditions are (implicitly)
+ []
+
+[70] (../boilerplate/acknowledgements.tex
+Underfull \hbox (badness 5924) in paragraph at lines 4--7
+[]\TU/MinionPro(0)/m/n/9 RexxLA thanks everybody who has been involved
+ []
+
+[71
+
+
+
+
+]) (./standard.ind [72
+
+]
+LaTeX Font Info:    Font shape `TU/IBMPlexMono(0)/m/n' will be
+(Font)              scaled to size 7.38007pt on input line 3.
+) [73
+
+
+]
+Overfull \hbox (62.66872pt too wide) in paragraph at lines 35--36
+[][] 
+ []
+
+[74
+
+
+] (./standard.aux (./structure.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `standard.out' has not changed.
+(rerunfilecheck)             Checksum: 535F95B825D559C8A0EC079E84611BE9;5666.
+ ) ) 
 Here is how much of TeX's memory you used:
- 35104 strings out of 476683
- 701494 string characters out of 5804048
- 1844018 words of memory out of 5000000
- 54698 multiletter control sequences out of 15000+600000
- 514280 words of font info for 65 fonts, out of 8000000 for 9000
+ 36274 strings out of 476683
+ 722728 string characters out of 5804048
+ 2113018 words of memory out of 5000000
+ 55719 multiletter control sequences out of 15000+600000
+ 515569 words of font info for 115 fonts, out of 8000000 for 9000
  1371 hyphenation exceptions out of 8191
- 107i,0n,108p,698b,262s stack positions out of 10000i,1000n,20000p,200000b,200000s
-No pages of output.
+ 107i,8n,108p,1862b,2530s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on standard.pdf (78 pages).

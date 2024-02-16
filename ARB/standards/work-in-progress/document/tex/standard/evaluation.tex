@@ -445,6 +445,31 @@ If the comparison has a comparison\_operator that is a normal\_compare
 then the variable \#Test is set as follows:
 \lstinputlisting[language=rexx,label=evaluation-comparison.rexx,caption=evaluation-comparison.rexx]{evaluation-comparison.rexx}
 
+The value of \#Test, in conjunction with the operator in the comparison,
+determines the value of the comparison. The value of the comparison is
+`1' if - \#Test is `E' and the operator is one of `=``\,``,'==````,
+`\textgreater=', \textless='', `\textgreater{}', `\textless{}',
+`p\textgreater=', `\textless\textless=', \textgreater\textgreater', or
+\textless\textless)
+
+\begin{itemize}
+\tightlist
+\item
+  \#Test is `G' and the operator is one of `\textgreater{}',
+  `\textgreater=``, `\textless{}', `=', `\textless\textgreater{}',
+  `\textgreater\textless{}', Nes'', `\textgreater\textgreater!
+  `p\textgreater{}', or \textless\textless``)
+\item
+  \#Test is `L' and the operator is one of `\textless{}', \textless=``,
+  \textgreater{}`, =', `\textless\textgreater{}',
+  `\textgreater\textless{}', ==`,'\textless\textless',
+  *\textless\textless=`, or \textgreater\textgreater{}'. In all other
+  cases the value of the comparison is `0'.
+\end{itemize}
+
+If the comparison is not a concatenation then: if \#Tracing.\#Level ==
+`I' then call \#Trace `\textgreater0O\textgreater{}'
+
 \subsection{The value of an
 and\_expression}\label{the-value-of-an-and_expression}
 
@@ -509,7 +534,7 @@ operators `+' and `-' applied to signed or unsigned integers.
 
 The code of ArithOp itself is assumed to operate under a sufficiently
 high setting of numeric digits to avoid exponential notation.
-\lstinputlisting[language=rexx,label=evaluation\_arithmetic.rexx,caption=evaluation\_arithmetic.rexx]{evaluation\_arithmetic.rexx}
+\lstinputlisting[language=rexx,label=evaluation-arithmetic.rexx,caption=evaluation-arithmetic.rexx]{evaluation-arithmetic.rexx}
 
 \section{Functions}\label{functions}
 
@@ -520,8 +545,11 @@ evaluated. Invocation of a function may result in a value, in which
 case:
 
 if \#Tracing.\#Level == `I' then call \#Trace
-`\textgreater F\textgreater{}' Invocation of a message\_term may result
-in a value, in which case: if \#Tracing.\#Level == `I' then call \#Trace
+`\textgreater F\textgreater{}'
+
+Invocation of a message\_term may result in a value, in which case:
+
+if \#Tracing.\#Level == `I' then call \#Trace
 `\textgreater M\textgreater{}'
 
 \subsection{Evaluation of arguments}\label{evaluation-of-arguments}

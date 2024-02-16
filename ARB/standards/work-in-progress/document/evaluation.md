@@ -387,7 +387,6 @@ less than Config_Length(rhs) then #Test is set to 'L’.
 If the comparison has a comparison_operator that is a normal_compare then the variable #Test is set as
 follows:
 ```rexx <!--evaluation-comparison.rexx-->
-/* rexx */
 if datatype(lhs)\== 'NUM' | datatype(rhs)\== 'NUM' then do
 /* Non-numeric non-strict comparison */
 lhs=strip(lhs, 'B', ' ') /* ExtraBlanks not stripped */
@@ -410,6 +409,8 @@ else if Difference < 0 then #Test='L'
 else #Test='E'
 end
 end
+```
+
 The value of #Test, in conjunction with the operator in the comparison, determines the value of the
 comparison.
 The value of the comparison is '1' if
@@ -421,7 +422,6 @@ In all other cases the value of the comparison is '0'.
 
 If the comparison is not a concatenation then:
 if #Tracing.#Level == 'I' then call #Trace '>0O>'
-```
 
 ### The value of an and_expression
 
@@ -479,7 +479,7 @@ signed or unsigned integers.
 
 The code of ArithOp itself is assumed to operate under a sufficiently high setting of numeric digits to
 avoid exponential notation.
-```rexx <!--evaluation_arithmetic.rexx-->
+```rexx <!--evaluation-arithmetic.rexx-->
 ArithoOp:
 
 arg Numberl, Operator, Number2
@@ -1104,7 +1104,9 @@ Invocation occurs when a function or a message_term or a callis evaluated. Invoc
 may result in a value, in which case:
 
 if #Tracing.#Level == 'I' then call #Trace '>F>'
+
 Invocation of a message_term may result in a value, in which case:
+
 if #Tracing.#Level == 'I' then call #Trace '>M>'
 
 ### Evaluation of arguments
@@ -1277,6 +1279,7 @@ if t == 'UNKNOWN' then return .nil
 if \arg(3,'E') then return SelectMethod arg(1),'UNKNOWN'
 else return SelectMethod arg(1),'UNKNOWN',arg(3)
 ```
+
 
 ### Use of Config_ExternalRoutine
 
