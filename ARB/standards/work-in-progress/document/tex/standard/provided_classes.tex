@@ -1,17 +1,14 @@
 %preprocessed texin
-\hypertarget{provided-classes}{%
-\chapter{Provided classes}\label{provided-classes}}
+\chapter{Provided classes}\label{provided-classes}
 
 (Informative)
 
-\hypertarget{notation}{%
-\section{Notation}\label{notation}}
+\section{Notation}\label{notation}
 
 The provided classes are defined mainly through code. \#\# The
 Collection Classes
 
-\hypertarget{collection-class-routines}{%
-\subsection{Collection Class Routines}\label{collection-class-routines}}
+\subsection{Collection Class Routines}\label{collection-class-routines}
 
 These routines are used in the definition of the collection classes
 ::routine CommonxXor /* Returns a new collection that contains all items
@@ -109,13 +106,11 @@ arg(1)\textasciitilde class == .Queue then r{[}s\textasciitilde item{]}
 */ r{[}s\textasciitilde index{]} =s\textasciitilde index
 s\textasciitilde-next end return r
 
-\hypertarget{the-collection-class}{%
-\subsection{The collection class}\label{the-collection-class}}
+\subsection{The collection class}\label{the-collection-class}
 
 ::Cclass `Collection'
 
-\hypertarget{init}{%
-\subsubsection{INIT}\label{init}}
+\subsubsection{INIT}\label{init}
 
 ::method init
 
@@ -135,16 +130,14 @@ a{[}2{]}/\emph{Unique}/=0
 
 return self
 
-\hypertarget{exposed}{%
-\subsubsection{EXPOSED}\label{exposed}}
+\subsubsection{EXPOSED}\label{exposed}
 
 ::method exposed private expose a
 
 /* This method allows subclasses to get at the implementation of
 Collection. */ return a
 
-\hypertarget{findindex}{%
-\subsubsection{FINDINDEX}\label{findindex}}
+\subsubsection{FINDINDEX}\label{findindex}
 
 ::method findindex private expose a /* Returns array index if the
 collection contains any item associated with the index specified or
@@ -152,20 +145,17 @@ returns 0 otherwise. \emph{/ do j=4 by 3 to
 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj+l{]}==arg(1) then return j end j
 return 0
 
-\hypertarget{at}{%
-\subsubsection{AT}\label{at}}
+\subsubsection{AT}\label{at}
 
 ::method at /* vANY \emph{/ expose a /} Returns the item associated with
 the specified index. */ j=self\textasciitilde findindex(arg(1)) if j=0
 then return .nil return a{[}j{]}
 
-\hypertarget{section}{%
-\subsubsection{{[}{]}}\label{section}}
+\subsubsection{{[}{]}}\label{section}
 
 ::method `{[}{]}' /* Synonym for the AT method. */ forward message `AT'
 
-\hypertarget{put}{%
-\subsubsection{PUT}\label{put}}
+\subsubsection{PUT}\label{put}
 
 ::method put /* rANY rANy \emph{/ expose a use arg item, index /}
 Replaces any existing item associated with the specified index with the
@@ -176,14 +166,12 @@ alj{]}=item return end a{[}1{]} /}ItemsCount\emph{/=a {[}1{]}
 a{[}lj+1{]} =index a{[}j+2{]}=0 return /* Error 91 in OOI if context
 requiring result. */
 
-\hypertarget{section-1}{%
-\subsubsection{{[}{]}=}\label{section-1}}
+\subsubsection{{[}{]}=}\label{section-1}
 
 :smethod `{[}{]}=' /* Synonym for the PUT method. */ forward message
 `PUT'
 
-\hypertarget{hasindex}{%
-\subsubsection{HASINDEX}\label{hasindex}}
+\subsubsection{HASINDEX}\label{hasindex}
 
 ::method hasindex /* vANY \emph{/ /} Returns 1 (true) if the collection
 contains any item associated with the index specified or returns 0
@@ -191,16 +179,14 @@ contains any item associated with the index specified or returns 0
 
 return self\textasciitilde findindex (arg(1))\textgreater0
 
-\hypertarget{items}{%
-\subsubsection{ITEMS}\label{items}}
+\subsubsection{ITEMS}\label{items}
 
 ::method items expose a
 
 /* Returns the number of items in the collection. \emph{/ return
 a{[}1{]}/}ItemsCount*/
 
-\hypertarget{remove}{%
-\subsubsection{REMOVE}\label{remove}}
+\subsubsection{REMOVE}\label{remove}
 
 ::method remove /* vANY */
 
@@ -217,8 +203,7 @@ self\textasciitilde removeit (j)
 
 return r
 
-\hypertarget{removeit}{%
-\subsubsection{REMOVEIT}\label{removeit}}
+\subsubsection{REMOVEIT}\label{removeit}
 
 ::method removeit private
 
@@ -235,8 +220,7 @@ a{[}1{]} /\emph{ItemsCount}/=a {[}1{]} /\emph{ItemsCount}/-1
 
 return
 
-\hypertarget{makearrya}{%
-\subsubsection{MAKEARRYA}\label{makearrya}}
+\subsubsection{MAKEARRYA}\label{makearrya}
 
 ::method makearray
 
@@ -248,8 +232,7 @@ r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]} end j
 
 return r
 
-\hypertarget{makearrayx}{%
-\subsubsection{MAKEARRAYX}\label{makearrayx}}
+\subsubsection{MAKEARRAYX}\label{makearrayx}
 
 ::method makearrayx private expose a /* Returns a single-index array
 containing the receiver index items. \emph{/ r=
@@ -257,8 +240,7 @@ containing the receiver index items. \emph{/ r=
 1+3}a{[}1{]}/\emph{ItemsCount}/
 r{[}r\textasciitilde dimension(1)+1{]}=a{[}j+1{]} end j return r
 
-\hypertarget{supplier}{%
-\subsubsection{SUPPLIER}\label{supplier}}
+\subsubsection{SUPPLIER}\label{supplier}
 
 ::method supplier expose a
 
@@ -266,13 +248,11 @@ r{[}r\textasciitilde dimension(1)+1{]}=a{[}j+1{]} end j return r
 .supplier\textsubscript{new(self}makearray: .collection,
 self\textasciitilde makearrayx)
 
-\hypertarget{class-list}{%
-\subsection{Class list}\label{class-list}}
+\subsection{Class list}\label{class-list}
 
 ::¢class `List' subclass Collection
 
-\hypertarget{put-1}{%
-\subsubsection{PUT}\label{put-1}}
+\subsubsection{PUT}\label{put-1}
 
 ::method put /* vANY rANY */ use arg item, index
 a=self\textasciitilde exposed
@@ -281,16 +261,14 @@ a=self\textasciitilde exposed
 j=self\textasciitilde findindex (index) if j=0 then call Raise
 `Syntax',93.918 alj{]}=item return
 
-\hypertarget{of}{%
-\subsubsection{OF}\label{of}}
+\subsubsection{OF}\label{of}
 
 ::method of class /* 1 or more oANY Are they omittable? Not in I00
 \emph{/ /} Returns a newly created list containing the specified value
 objects in the order specified. */ r= self \textasciitilde{} new do j =
 1 to arg() r\textasciitilde{} insert (arg(j)) end j return r
 
-\hypertarget{insert}{%
-\subsubsection{INSERT}\label{insert}}
+\subsubsection{INSERT}\label{insert}
 
 ::method insert /* rANY oANY */
 
@@ -342,8 +320,7 @@ a{[}j+2{]}=0
 
 return a{[}j+1{]}
 
-\hypertarget{first}{%
-\subsubsection{FIRST}\label{first}}
+\subsubsection{FIRST}\label{first}
 
 ::method first a=self\textasciitilde exposed
 
@@ -352,8 +329,7 @@ a{[}1{]}/}ItemsCount*/=0 then return .nil
 
 141 return a{[}5{]}
 
-\hypertarget{last}{%
-\subsubsection{LAST}\label{last}}
+\subsubsection{LAST}\label{last}
 
 ::smethod last a=self\textasciitilde exposed
 
@@ -361,16 +337,14 @@ a{[}1{]}/}ItemsCount*/=0 then return .nil
 a{[}1{]}/}ItemsCount*/=0 then return .nil return
 a{[}3\emph{a{[}1{]}/}ItemsCount*/+2{]}
 
-\hypertarget{firstitem}{%
-\subsubsection{FIRSTITEM}\label{firstitem}}
+\subsubsection{FIRSTITEM}\label{firstitem}
 
 ::method firstitem a=self\textasciitilde exposed
 
 /* Returns the first item in the list. \emph{/ if
 a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}4{]}
 
-\hypertarget{lastitem}{%
-\subsubsection{LASTITEM}\label{lastitem}}
+\subsubsection{LASTITEM}\label{lastitem}
 
 ::method lastitem a=self\textasciitilde exposed
 
@@ -378,8 +352,7 @@ a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}4{]}
 a{[}1{]}/}ItemsCount*/=0 then return .nil return
 a{[}3\emph{a{[}1{]}/}ItemsCount*/+1{]}
 
-\hypertarget{next}{%
-\subsubsection{NEXT}\label{next}}
+\subsubsection{NEXT}\label{next}
 
 ::method next /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
 the index of the item that follows the list item having the specified
@@ -388,8 +361,7 @@ Raise `Syntax',93.918 j=j+3 if
 j\textgreater3}a{[}1{]}/\emph{ItemsCount}/ then return .nil /* Next of
 last was requested. */ return a{[}j+1{]}
 
-\hypertarget{previous}{%
-\subsubsection{PREVIOUS}\label{previous}}
+\subsubsection{PREVIOUS}\label{previous}
 
 ::method previous /* vANY */
 
@@ -406,8 +378,7 @@ if j\textless4 then return .nil /* Previous of first was requested. */
 
 return a{[}j+1{]}
 
-\hypertarget{section-2}{%
-\subsubsection{SECTION}\label{section-2}}
+\subsubsection{SECTION}\label{section-2}
 
 ::method section /* rANY oWHOLE\textgreater=0 */
 
@@ -424,8 +395,7 @@ then s = arg(2) else s = self\textasciitilde items; do s
 r\textasciitilde insert (a{[}j{]}) j=j+3 if
 j\textgreater1+3}a{[}1{]}/\emph{ItemsCount}/ then leave end return r
 
-\hypertarget{class-queue}{%
-\subsection{Class queue}\label{class-queue}}
+\subsection{Class queue}\label{class-queue}
 
 ::class `Queue' subclass Collection
 
@@ -435,8 +405,7 @@ indexes specify the position of an item relative to the head (first
 item) of the queue. Adding or removing an item changes the association
 of an index to its queue item. */
 
-\hypertarget{push}{%
-\subsubsection{PUSH}\label{push}}
+\subsubsection{PUSH}\label{push}
 
 ::method push /* vANY */
 
@@ -457,8 +426,7 @@ then return .nil /} Stays empty \emph{/ r=a{[}4{]} a{[}1{]}
 1+3}a{[}1{]}/\emph{ItemCount}/ aljl=a{[}j+3{]} alj+l{]}=a{[}j+4{]}-1; /*
 Index changes */ end j return r
 
-\hypertarget{queue}{%
-\subsubsection{QUEUE}\label{queue}}
+\subsubsection{QUEUE}\label{queue}
 
 ::method queue /* vANY \emph{/ /} Adds the object value to the queue at
 its tail. \emph{/ a=self\textasciitilde exposed a{[}1{]}
@@ -466,8 +434,7 @@ its tail. \emph{/ a=self\textasciitilde exposed a{[}1{]}
 /}ItemCount*/{]}=arg(1) a{[}2+3\emph{a{[}1{]}
 /}ItemCount*/{]}=a{[}1{]}/}ItemCount*/ return
 
-\hypertarget{peek}{%
-\subsubsection{PEEK}\label{peek}}
+\subsubsection{PEEK}\label{peek}
 
 ::method peek
 
@@ -476,8 +443,7 @@ queue. The collection remains unchanged. */
 
 return a{[}4{]}
 
-\hypertarget{remove-1}{%
-\subsubsection{REMOVE}\label{remove-1}}
+\subsubsection{REMOVE}\label{remove-1}
 
 ::method remove /* rcWHOLE\textgreater O \emph{/ /} Returns and removes
 from a collection the member item with the specified index. \emph{/
@@ -487,49 +453,41 @@ r=self\textasciitilde remove: super (arg(1)) /} Reset the indexes.
 \emph{/ k=0 do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ k=k+1
 alj+l{]}=k end j return r
 
-\hypertarget{class-table}{%
-\subsection{Class table}\label{class-table}}
+\subsection{Class table}\label{class-table}
 
 ::Class `Table' subclass Collection
 
-\hypertarget{makearray}{%
-\subsubsection{MAKEARRAY}\label{makearray}}
+\subsubsection{MAKEARRAY}\label{makearray}
 
 ::method makearray /* Returns a single-index array containing the index
 objects. \emph{/ /} This is different from Collection MAKEARRAY where
 items rather than indexes are in the returned array. */ forward message
 `MAKEARRAYX'
 
-\hypertarget{union}{%
-\subsubsection{UNION}\label{union}}
+\subsubsection{UNION}\label{union}
 
 ::method union /* rCOLLECTION */ return CommonUnion (self,arg(1))
 
-\hypertarget{intersection}{%
-\subsubsection{INTERSECTION}\label{intersection}}
+\subsubsection{INTERSECTION}\label{intersection}
 
 ::method intersection /* rCOLLECTION */ return CommoniIntersect
 (self,arg(1))
 
-\hypertarget{xor}{%
-\subsubsection{XOR}\label{xor}}
+\subsubsection{XOR}\label{xor}
 
 ::method xor /* rCOLLECTION */ return CommonXor (self,arg(1))
 
-\hypertarget{difference}{%
-\subsubsection{DIFFERENCE}\label{difference}}
+\subsubsection{DIFFERENCE}\label{difference}
 
 ::method difference /* rCOLLECTION */ return
 CommonDifference(self,arg(1))
 
-\hypertarget{subset}{%
-\subsubsection{SUBSET}\label{subset}}
+\subsubsection{SUBSET}\label{subset}
 
 ::method subset /* rCOLLECTION */ return
 self\textsubscript{difference(arg(1))}items = 0
 
-\hypertarget{class-set}{%
-\subsubsection{Class set}\label{class-set}}
+\subsubsection{Class set}\label{class-set}
 
 ::¢class `Set' subclass table
 
@@ -539,8 +497,7 @@ can be only
 
 one occurrence of any object in a set. */
 
-\hypertarget{put-2}{%
-\subsubsection{PUT}\label{put-2}}
+\subsubsection{PUT}\label{put-2}
 
 /* Second arg same as first. Committee has dropped second? \emph{/
 ::method put /} YANY oANY \emph{/ /} Makes the object value a member
@@ -548,43 +505,36 @@ item of the collection and associates it with specified index. \emph{/
 if arg(2,`E') then if arg(2)==arg(1) then signal error /} 949 */
 self\textasciitilde put:super(arg(1),arg(1))
 
-\hypertarget{of-1}{%
-\subsubsection{OF}\label{of-1}}
+\subsubsection{OF}\label{of-1}
 
 ::method of class /* 1 or more rANYy \emph{/ /} Returns a newly created
 set containing the specified value objects. */ r=self\textasciitilde new
 do j=1 to arg() r\textasciitilde put (arg(j)) end j return r
 
-\hypertarget{union-1}{%
-\subsubsection{UNION}\label{union-1}}
+\subsubsection{UNION}\label{union-1}
 
 ::method union /* rCOLLECTION */ return CommonUnion (self,
 EnBag(arg(1)))
 
-\hypertarget{intersection-1}{%
-\subsubsection{INTERSECTION}\label{intersection-1}}
+\subsubsection{INTERSECTION}\label{intersection-1}
 
 ::method intersection /* rCOLLECTION */ return CommoniIntersect
 (self,EnBag(arg(1)))
 
-\hypertarget{xor-1}{%
-\subsubsection{XOR}\label{xor-1}}
+\subsubsection{XOR}\label{xor-1}
 
 ::method xor /* rCOLLECTION */ return CommonXor (self, EnBag(arg(1)))
 
-\hypertarget{difference-1}{%
-\subsubsection{DIFFERENCE}\label{difference-1}}
+\subsubsection{DIFFERENCE}\label{difference-1}
 
 ::method difference /* rCOLLECTION */ return CommonDifference (self,
 EnBag(arg(1)))
 
-\hypertarget{class-relation}{%
-\subsection{Class relation}\label{class-relation}}
+\subsection{Class relation}\label{class-relation}
 
 ::Class `Relation' subclass Collection
 
-\hypertarget{put-3}{%
-\subsubsection{PUT}\label{put-3}}
+\subsubsection{PUT}\label{put-3}
 
 ::method put /* vANY rANY */
 
@@ -608,8 +558,7 @@ a{[}j+2{]}=0
 
 return /* Error 91 in OOI if context requiring result. */
 
-\hypertarget{items-1}{%
-\subsubsection{ITEMS}\label{items-1}}
+\subsubsection{ITEMS}\label{items-1}
 
 ::method items /* oANY \emph{/ a=self\textasciitilde exposed /} Returns
 the number of relation items with the specified index. If you specify no
@@ -619,13 +568,11 @@ a{[}1{]}/}ItemsCount\emph{/ n=0 do j=4 by 3 to
 1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1)==a{[}j+1{]} then n=n+1 end j
 return n
 
-\hypertarget{makearray-1}{%
-\subsubsection{MAKEARRAY}\label{makearray-1}}
+\subsubsection{MAKEARRAY}\label{makearray-1}
 
 ::method makearray forward message `MAKEARRAYX'
 
-\hypertarget{supplier-1}{%
-\subsubsection{SUPPLIER}\label{supplier-1}}
+\subsubsection{SUPPLIER}\label{supplier-1}
 
 ::method supplier /* oANY \emph{/ a=self\textasciitilde exposed /}
 Returns a supplier object for the collection. If an index is specified,
@@ -649,8 +596,7 @@ cs=MayEnBag (arg(1))\textasciitilde supplier do while
 cs\textasciitilde available r{[}cs\textasciitilde index{]}
 =cs\textasciitilde item es-next end return r
 
-\hypertarget{intersection-2}{%
-\subsubsection{INTERSECTION}\label{intersection-2}}
+\subsubsection{INTERSECTION}\label{intersection-2}
 
 ::method intersection /* rCOLLECTION */
 
@@ -668,8 +614,7 @@ cs\textasciitilde next end return r
 
 cs\textasciitilde index)
 
-\hypertarget{xor-2}{%
-\subsubsection{XOR}\label{xor-2}}
+\subsubsection{XOR}\label{xor-2}
 
 ::method xor /* rCOLLECTION \emph{/ /} Returns a new relation that
 contains all items from self and
@@ -686,8 +631,7 @@ r\textsubscript{removeitem(cs}item, cs\textasciitilde index) else
 r{[}cs\textasciitilde index{]} =cs\textasciitilde item
 cs\textasciitilde next end return r
 
-\hypertarget{difference-2}{%
-\subsubsection{DIFFERENCE}\label{difference-2}}
+\subsubsection{DIFFERENCE}\label{difference-2}
 
 ::method difference /* rCOLLECTION */
 
@@ -705,14 +649,12 @@ cs\textasciitilde index) cs\textasciitilde next end
 
 return r
 
-\hypertarget{subset-1}{%
-\subsubsection{SUBSET}\label{subset-1}}
+\subsubsection{SUBSET}\label{subset-1}
 
 ::method subset /* rCOLLECTION */ return
 self\textsubscript{difference(arg(1))}items = 0
 
-\hypertarget{removeitem}{%
-\subsubsection{REMOVEITEM}\label{removeitem}}
+\subsubsection{REMOVEITEM}\label{removeitem}
 
 ::method removeitem /* YANY rANY \emph{/ a=self\textasciitilde exposed
 /} Returns and removes from a relation the member item value (associated
@@ -722,8 +664,7 @@ index index, this method returns the NIL object and removes no item.
 \& a{[}j+1l{]}==arg(2) then do self\textasciitilde removeit (j) return
 arg(1) end end j return .nil
 
-\hypertarget{index}{%
-\subsubsection{INDEX}\label{index}}
+\subsubsection{INDEX}\label{index}
 
 ::method index /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
 the index for the specified item. If there is more than one index
@@ -731,8 +672,7 @@ associated with the specified item, the one this method returns is not
 defined. \emph{/ do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if
 arg(1)==a{[}j{]} then return a{[}j+1{]} end j return .nil
 
-\hypertarget{allat}{%
-\subsubsection{ALLAT}\label{allat}}
+\subsubsection{ALLAT}\label{allat}
 
 ::method allat /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
 a single-index array containing all the items associated with the
@@ -740,8 +680,7 @@ specified index. \emph{/ r=.array\textasciitilde new do j=4 by 3 to
 1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1)==a{[}j+1{]} then
 r{[}r\textasciitilde dimension(1)+1{]} = aljl end j return r
 
-\hypertarget{hasitem}{%
-\subsubsection{HASITEM}\label{hasitem}}
+\subsubsection{HASITEM}\label{hasitem}
 
 ::method hasitem /* YANY rANY \emph{/ a=self\textasciitilde exposed /}
 Returns 1 (true) if the relation contains the member item value
@@ -749,8 +688,7 @@ Returns 1 (true) if the relation contains the member item value
 do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj{]}==arg(1) \&
 a{[}j+l{]}==arg(2) then return 1 end j return 0
 
-\hypertarget{allindex}{%
-\subsubsection{ALLINDEX}\label{allindex}}
+\subsubsection{ALLINDEX}\label{allindex}
 
 ::method allindex /* vANY */
 
@@ -767,15 +705,13 @@ r{[}r-\textasciitilde dimension (1)+1{]} =a{[}j+1{]} end end j return r
 value that is the same as the index. Any object can be placed in a bag,
 and the same object can be placed in a bag multiple times. */
 
-\hypertarget{of-2}{%
-\subsubsection{OF}\label{of-2}}
+\subsubsection{OF}\label{of-2}
 
 ::method of class /* 1 or more rANYy \emph{/ /} Returns a newly created
 bag containing the specified value objects. */ r=self\textasciitilde new
 do j=1 to arg() r\textasciitilde put (arg(j)) end j return r
 
-\hypertarget{put-4}{%
-\subsubsection{PUT}\label{put-4}}
+\subsubsection{PUT}\label{put-4}
 
 ::method put /* vANY oANY \emph{/ /} Committee does away with second
 argument? \emph{/ /} Makes the object value a member item of the
@@ -784,36 +720,30 @@ index, it must be the same as value. */ if arg(2,`E') then if
 arg(2)=s=arg(1) then signal error self\textasciitilde put: super
 (arg(1),arg(1))
 
-\hypertarget{union-2}{%
-\subsubsection{UNION}\label{union-2}}
+\subsubsection{UNION}\label{union-2}
 
 ::method union /* rCOLLECTION */ return CommonUnion (self,
 EnBag(arg(1)))
 
-\hypertarget{intersection-3}{%
-\subsubsection{INTERSECTION}\label{intersection-3}}
+\subsubsection{INTERSECTION}\label{intersection-3}
 
 ::method intersection /* rCOLLECTION */ return CommoniIntersect
 (self,EnBag(arg(1)))
 
-\hypertarget{xor-3}{%
-\subsubsection{XOR}\label{xor-3}}
+\subsubsection{XOR}\label{xor-3}
 
 ::method xor /* rCOLLECTION */ return CommonXor (self, EnBag(arg(1)))
 
-\hypertarget{difference-3}{%
-\subsubsection{DIFFERENCE}\label{difference-3}}
+\subsubsection{DIFFERENCE}\label{difference-3}
 
 ::method difference /* rCOLLECTION */ return CommonDifference (self,
 EnBag(arg(1)))
 
-\hypertarget{the-directory-class}{%
-\subsection{The directory class}\label{the-directory-class}}
+\subsection{The directory class}\label{the-directory-class}
 
 ::class `Directory' subclass Collection
 
-\hypertarget{at-1}{%
-\subsubsection{AT}\label{at-1}}
+\subsubsection{AT}\label{at-1}
 
 ::method at /* vANY */ a=self\textasciitilde exposed
 
@@ -825,8 +755,7 @@ if j=0 then return .nil
 /* Run the method if there is one. */ if a{[}j+2{]} then return
 self\textasciitilde run(a{[}j{]}) return a{[}j{]}
 
-\hypertarget{put-5}{%
-\subsubsection{PUT}\label{put-5}}
+\subsubsection{PUT}\label{put-5}
 
 ::method put /* vANY rANY \emph{/ a=self\textasciitilde exposed /} Makes
 the object value a member item of the collection and associates it with
@@ -835,13 +764,11 @@ the specified index. */ if
 93.938 self\textasciitilde put:super(arg(1),arg(2)
 \textasciitilde makestring) return
 
-\hypertarget{makearray-2}{%
-\subsubsection{MAKEARRAY}\label{makearray-2}}
+\subsubsection{MAKEARRAY}\label{makearray-2}
 
 ::method makearray forward message `MAKEARRAYX'
 
-\hypertarget{supplier-2}{%
-\subsubsection{SUPPLIER}\label{supplier-2}}
+\subsubsection{SUPPLIER}\label{supplier-2}
 
 ::method supplier a=self\textasciitilde exposed /* Returns a supplier
 object for the directory. \emph{/ /} Check out what happens to the
@@ -854,31 +781,26 @@ UNION ::method union /* rCOLLECTION */
 
 return CommonUnion (self,arg(1))
 
-\hypertarget{intersection-4}{%
-\subsubsection{INTERSECTION}\label{intersection-4}}
+\subsubsection{INTERSECTION}\label{intersection-4}
 
 ::method intersection /* rCOLLECTION */ return CommoniIntersect
 (self,arg(1))
 
-\hypertarget{xor-4}{%
-\subsubsection{XOR}\label{xor-4}}
+\subsubsection{XOR}\label{xor-4}
 
 ::method xor /* rCOLLECTION */ return CommonXor (self,arg(1))
 
-\hypertarget{difference-4}{%
-\subsubsection{DIFFERENCE}\label{difference-4}}
+\subsubsection{DIFFERENCE}\label{difference-4}
 
 ::method difference /* rCOLLECTION */ return
 CommonDifference(self,arg(1))
 
-\hypertarget{subset-2}{%
-\subsubsection{SUBSET}\label{subset-2}}
+\subsubsection{SUBSET}\label{subset-2}
 
 ::method subset /* rCOLLECTION */ return
 self\textsubscript{difference(arg(1))}items = 0
 
-\hypertarget{setentry}{%
-\subsubsection{SETENTRY}\label{setentry}}
+\subsubsection{SETENTRY}\label{setentry}
 
 ::smethod setentry /* rSTRING oANY */
 
@@ -908,8 +830,7 @@ a{[}4j+2{]}=0
 
 return
 
-\hypertarget{entry}{%
-\subsubsection{ENTRY}\label{entry}}
+\subsubsection{ENTRY}\label{entry}
 
 ::smethod entry /* rSTRING \emph{/ a=self\textasciitilde exposed /}
 Returns the directory entry with the specified name (translated to
@@ -920,8 +841,7 @@ if j=0 then return .nil /} If there is an entry decide whether to invoke
 it. */ if a\textasciitilde hasindex(j) then do if \al[j+2] then return
 al{[}j{]} return self\textasciitilde run(al{[}jl{]}) end
 
-\hypertarget{hasentry}{%
-\subsubsection{HASENTRY}\label{hasentry}}
+\subsubsection{HASENTRY}\label{hasentry}
 
 ::method hasentry /* rSTRING \emph{/ /} Returns 1 (true) if the
 directory has an entry or a method for the specified name (translated to
@@ -929,8 +849,7 @@ uppercase) or 0 (false) otherwise. */
 
 return self\textasciitilde findindex (translate(arg(1)))\textgreater0
 
-\hypertarget{setmethod}{%
-\subsubsection{SETMETHOD}\label{setmethod}}
+\subsubsection{SETMETHOD}\label{setmethod}
 
 ::method setmethod /* rSTRING oMETHOD \emph{/
 a=self\textasciitilde exposed /} Associates entry with the specified
@@ -945,8 +864,7 @@ a{[}1{]}/}ItemsCount\emph{/=a{[}1{]}/}ItemsCount\emph{/ +1
 j=1+3}al{[}1{]} /\emph{ItemsCount}/ alj+l{]}=n end alj{]}=arg(2)
 a{[}j+2{]}=1 return
 
-\hypertarget{unknown}{%
-\subsubsection{UNKNOWN}\label{unknown}}
+\subsubsection{UNKNOWN}\label{unknown}
 
 ::method unknown /* rSTRING rARRAY */
 
@@ -1826,8 +1744,7 @@ tmpSupp \textasciitilde{} INDEX ELSE tmpColl{[} tmpSupp
 
 SYNTAX: RAISE PROPAGATE /* raise error in caller */
 
-\hypertarget{the-stream-class}{%
-\section{The stream class}\label{the-stream-class}}
+\section{The stream class}\label{the-stream-class}
 
 The stream class provides input/output on external streams. ::class
 stream
@@ -1913,8 +1830,7 @@ current read position. ::smethod arrayout /* rARRAY rCHARLINE */
 
 Returns a stream object that contains the data from array.
 
-\hypertarget{the-alarm-class}{%
-\section{The alarm class}\label{the-alarm-class}}
+\section{The alarm class}\label{the-alarm-class}
 
 ::class alarm
 
@@ -1924,8 +1840,7 @@ Returns a stream object that contains the data from array.
 Cancels the pending alarm request represented by the receiver. This
 method takes no action if the specified time has already been reached.
 
-\hypertarget{the-monitor-class}{%
-\section{The monitor class}\label{the-monitor-class}}
+\section{The monitor class}\label{the-monitor-class}
 
 The Monitor class forwards messages to a destination object.
 
@@ -1933,8 +1848,7 @@ The Monitor class forwards messages to a destination object.
 
 ::class monitor
 
-\hypertarget{init-1}{%
-\subsection{INIT}\label{init-1}}
+\subsection{INIT}\label{init-1}
 
 Initializes the newly created monitor object.
 
@@ -1942,15 +1856,13 @@ Initializes the newly created monitor object.
 .queue\textasciitilde new if arg(1,`E') then
 Destination\textasciitilde push (arg(1)) return
 
-\hypertarget{current}{%
-\subsection{CURRENT}\label{current}}
+\subsection{CURRENT}\label{current}
 
 Returns the current destination object.
 
 ::smethod current expose Destination return Destination {[}1{]}
 
-\hypertarget{destination}{%
-\subsection{DESTINATION}\label{destination}}
+\subsection{DESTINATION}\label{destination}
 
 Returns a new destination object.
 
@@ -1958,8 +1870,7 @@ Returns a new destination object.
 then Destination\textasciitilde push (arg(1)) else
 Destination\textasciitilde pull return Destination {[}1{]}
 
-\hypertarget{unknown-1}{%
-\subsection{UNKNOWN}\label{unknown-1}}
+\subsection{UNKNOWN}\label{unknown-1}
 
 Reissues or forwards to the current monitor destination all unknown
 messages sent to a monitor object

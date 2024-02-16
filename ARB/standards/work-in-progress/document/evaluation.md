@@ -219,7 +219,7 @@ Add a load of string coercions. Equality can operate on non-strings. What if one
 
 ### The value of a term
 
-See nnn for the syntax of a ferm.
+See nnn for the syntax of a term.
 
 The value of a STRING is the content of the token; see nnn.
 
@@ -265,7 +265,7 @@ the prefix_expression.
 Otherwise, let Ihs be the value of power_expression within it, and rhs be the value of prefix_expression
 within it.
 
-```
+```rexx <!--evaluation-datatype.rexx-->
 if datatype(lhs)\=='NUM' then call #Raise 'SYNTAX',41.1,lhs,'**'
 
 if \datatype(rhs,'W') then call #Raise 'SYNTAX',26.1,rhs,'**'
@@ -386,7 +386,8 @@ less than Config_Length(rhs) then #Test is set to 'L’.
 
 If the comparison has a comparison_operator that is a normal_compare then the variable #Test is set as
 follows:
-```
+```rexx <!--evaluation-comparison.rexx-->
+/* rexx */
 if datatype(lhs)\== 'NUM' | datatype(rhs)\== 'NUM' then do
 /* Non-numeric non-strict comparison */
 lhs=strip(lhs, 'B', ' ') /* ExtraBlanks not stripped */
@@ -478,7 +479,7 @@ signed or unsigned integers.
 
 The code of ArithOp itself is assumed to operate under a sufficiently high setting of numeric digits to
 avoid exponential notation.
-```
+```rexx <!--evaluation_arithmetic.rexx-->
 ArithoOp:
 
 arg Numberl, Operator, Number2
@@ -1208,7 +1209,7 @@ taken_constant, and symbol. */
 
 /* This code is used in a context where #Self is the receiver of the
 method invocation which the subject message term is running under. */
-```
+```rexx <!--evaluation-selectmethod-->
 SelectMethod:
 
 /* If symbol given, receiver must be self. */

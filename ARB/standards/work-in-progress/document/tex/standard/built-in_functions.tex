@@ -1,9 +1,7 @@
 %preprocessed texin
-\hypertarget{built-in-functions}{%
-\chapter{Built-in functions}\label{built-in-functions}}
+\chapter{Built-in functions}\label{built-in-functions}
 
-\hypertarget{notation}{%
-\section{Notation}\label{notation}}
+\section{Notation}\label{notation}
 
 The built-in functions are defined mainly through code. The code refers
 to state variables. This is solely a notation used in this standard.
@@ -33,17 +31,15 @@ by an item containing `WHOLE' the settings are those for the particular
 built-in function. Elsewhere the settings have sufficient numeric digits
 to avoid values which would require exponential notation.
 
-\hypertarget{routines-used-by-built-in-functions}{%
 \section{Routines used by built-in
-functions}\label{routines-used-by-built-in-functions}}
+functions}\label{routines-used-by-built-in-functions}
 
 The routine CheckArgs is concerned with checking the arguments to the
 built-in. The routines Time2Date and Leap are for date calculations.
 ReRadix is used for radix conversion. The routine Raise raises a
 condition and does not return.
 
-\hypertarget{argument-checking}{%
-\subsection{Argument checking}\label{argument-checking}}
+\subsection{Argument checking}\label{argument-checking}
 
 /* Check arguments. Some further checks will be made in particular
 built-ins.\emph{/ /} The argument to CheckArgs is a checklist for the
@@ -328,9 +324,8 @@ FromRadix = 2 \& ToRadix = 16 then r=eright(r, (length(Subject)+3) \% 4,
 `0') else if FromRadix = 16 \& ToRadix = 2 then reright(r,
 length(Subject) } 4, `0') return r
 
-\hypertarget{raising-the-syntax-condition}{%
 \subsection{Raising the SYNTAX
-condition}\label{raising-the-syntax-condition}}
+condition}\label{raising-the-syntax-condition}
 
 Raise:
 
@@ -338,17 +333,15 @@ Raise:
 insert.\emph{/ call \#Raise `SYNTAX', arg(1), \#Bif, arg(2), arg(3),
 arg(4) /} \#Raise does not return. */
 
-\hypertarget{character-built-in-functions}{%
 \section{Character built-in
-functions}\label{character-built-in-functions}}
+functions}\label{character-built-in-functions}
 
 These functions process characters or words in strings. Character
 positions are numbered from one at the left. Words are delimited by
 blanks and their equivalents, word positions are counted from one at the
 left.
 
-\hypertarget{abbrev}{%
-\subsection{ABBREV}\label{abbrev}}
+\subsection{ABBREV}\label{abbrev}
 
 ABBREV returns `1' if the second argument is equal to the leading
 characters of the first and the length of the second argument is not
@@ -368,8 +361,7 @@ Condl = length(Subject) \textgreater= length(Subj) Cond2 = length(Subj)
 
 return Condl \& Cond2 \& Cond3
 
-\hypertarget{center}{%
-\subsection{CENTER}\label{center}}
+\subsection{CENTER}\label{center}
 
 CENTER returns a string with the first argument centered in it. The
 length of the result is the second argument and the third argument
@@ -390,13 +382,11 @@ Length)
 
 return overlay(String, copies(Pad, Length), -Trim \% 2 + 1)
 
-\hypertarget{centre}{%
-\subsection{CENTRE}\label{centre}}
+\subsection{CENTRE}\label{centre}
 
 This is an alternative spelling for the CENTER built-in function.
 
-\hypertarget{changestr}{%
-\subsection{CHANGESTR}\label{changestr}}
+\subsection{CHANGESTR}\label{changestr}
 
 CHANGESTR replaces all occurrences of the first argument within the
 second argument, replacing them with the third argument.
@@ -409,8 +399,7 @@ Arg.2, Position) if FoundPos = 0 then leave Output = Output
 \textbar\textbar{} \#Bif Arg.3 Position = FoundPos + length(\#Bif Arg.1)
 end return Output \textbar\textbar{} substr(\#Bif Arg.2, Position)
 
-\hypertarget{compare}{%
-\subsection{COMPARE}\label{compare}}
+\subsection{COMPARE}\label{compare}
 
 COMPARE returns `0' if the first and second arguments have the same
 value. Otherwise, the result is the position of the first character that
@@ -446,8 +435,7 @@ return i end
 
 return 0
 
-\hypertarget{copies}{%
-\subsection{COPIES}\label{copies}}
+\subsection{COPIES}\label{copies}
 
 COPIES returns concatenated copies of the first argument. The second
 argument is the number of copies.
@@ -457,8 +445,7 @@ Arg.2 Output = Output \textbar\textbar{} \#Bif\_Arg.1 end
 
 return Output
 
-\hypertarget{countstr}{%
-\subsection{COUNTSTR}\label{countstr}}
+\subsection{COUNTSTR}\label{countstr}
 
 COUNTSTR counts the appearances of the first argument in the second
 argument.
@@ -474,8 +461,7 @@ pos(\#Bif Arg.1, \#Bif Arg.2, Position + length(\#Bif Arg.1)) end
 
 return Output
 
-\hypertarget{datatype}{%
-\subsection{DATATYPE}\label{datatype}}
+\subsection{DATATYPE}\label{datatype}
 
 DATATYPE tests for characteristics of the first argument. The second
 argument specifies the particular test.
@@ -612,8 +598,7 @@ substr(Residue, 2) end
 
 return Outcome
 
-\hypertarget{delstr}{%
-\subsection{DELSTR}\label{delstr}}
+\subsection{DELSTR}\label{delstr}
 
 DELSTR deletes the sub-string of the first argument which begins at the
 position given by the second argument. The third argument is the length
@@ -630,8 +615,7 @@ Output = substr(String, 1, Num - 1) if \#Bif\_ArgExists.3 then if Num +
 Len \textless= length(String) then Output = Output \textbar\textbar{}
 substr(String, Num + Len) return Output
 
-\hypertarget{delword}{%
-\subsection{DELWORD}\label{delword}}
+\subsection{DELWORD}\label{delword}
 
 DELWORD deletes words from the first argument. The second argument
 specifies position of the first word to be deleted and the third
@@ -651,8 +635,7 @@ if BeginRight\textgreater0 then Output =
 
 end return Output
 
-\hypertarget{insert}{%
-\subsection{INSERT}\label{insert}}
+\subsection{INSERT}\label{insert}
 
 Output \textbar\textbar{} substr(String, BeginRight)
 
@@ -680,8 +663,7 @@ Num + 1)
 
 ``
 
-\hypertarget{lastpos}{%
-\subsection{LASTPOS}\label{lastpos}}
+\subsection{LASTPOS}\label{lastpos}
 
 /* To left of insert /* New string inserted \emph{/ /} To right of
 insert
@@ -704,8 +686,7 @@ NeedleLength = length (Needle) if NeedleLength = 0 then return 0 Start =
 Start - NeedleLength + 1 do i= Start by -1 while i \textgreater{} 0 if
 substr(Haystack, i, NeedleLength) end i return 0
 
-\hypertarget{left}{%
-\subsection{LEFT}\label{left}}
+\subsection{LEFT}\label{left}
 
 LEFT returns characters that are on the left of the first argument.
 
@@ -745,8 +726,7 @@ call \#Raise `SYNTAX',
 
 \emph{/ /} No return to here */
 
-\hypertarget{overlay}{%
-\subsection{OVERLAY}\label{overlay}}
+\subsection{OVERLAY}\label{overlay}
 
 OVERLAY overlays the first argument onto the second. The third argument
 is the starting position of the
@@ -792,8 +772,7 @@ i, length(Needle)) == Needle then return i end i
 
 return 0
 
-\hypertarget{reverse}{%
-\subsection{REVERSE}\label{reverse}}
+\subsection{REVERSE}\label{reverse}
 
 REVERSE returns its argument, swapped end for end.
 
@@ -804,8 +783,7 @@ String
 \#Bif Arg.1 Output = '\,' do i= 1 to length (String) Output =
 substr(String,i,1) \textbar\textbar{} Output end return Output
 
-\hypertarget{right}{%
-\subsection{RIGHT}\label{right}}
+\subsection{RIGHT}\label{right}
 
 RIGHT returns characters that are on the right of the first argument.
 The second argument specifies the
@@ -821,8 +799,7 @@ Trim = length(String) - Length if Trim \textgreater= 0 then return
 substr(String,Trim + 1) return copies(Pad, -Trim) \textbar\textbar{}
 String /* Pad string on the left */
 
-\hypertarget{space}{%
-\subsection{SPACE}\label{space}}
+\subsection{SPACE}\label{space}
 
 SPACE formats the blank-delimited words in the first argument with pad
 characters between each word. The second argument is the number of pad
@@ -840,8 +817,7 @@ Output \textbar\textbar{} Padding \textbar\textbar{} subword(String, i,
 
 end return Output
 
-\hypertarget{strip}{%
-\subsection{STRIP}\label{strip}}
+\subsection{STRIP}\label{strip}
 
 STRIP removes characters from its first argument. The second argument
 specifies whether the deletions are leading characters, trailing
@@ -864,8 +840,7 @@ characters \emph{/ do while String == '\,' \& pos(right(String, 1),
 Unwanted) \textgreater{} 0 String = left(String, length(String) -1) end
 /} of while */ end return String
 
-\hypertarget{substr}{%
-\subsection{SUBSTR}\label{substr}}
+\subsection{SUBSTR}\label{substr}
 
 SUBSTR returns a sub-string of the first argument. The second argument
 specifies the position of the first character and the third specifies
@@ -894,8 +869,7 @@ end if \#Outcome == `M' then Character = Pad Output=Output \textbar{}
 
 return Output
 
-\hypertarget{subword}{%
-\subsection{SUBWORD}\label{subword}}
+\subsection{SUBWORD}\label{subword}
 
 SUBWORD returns a sub-string of the first argument, comprised of words.
 The second argument is the position in the first argument of the first
@@ -932,8 +906,7 @@ leave Output = left (Output, length (Output) -1) end
 
 return Output
 
-\hypertarget{translate}{%
-\subsection{TRANSLATE}\label{translate}}
+\subsection{TRANSLATE}\label{translate}
 
 TRANSLATE returns the characters of its first argument with each
 character either unchanged or translated to another character.
@@ -961,8 +934,7 @@ k=pos(c,Tablei) if k=0 then Output=Output \textbar\textbar c else
 Output=Output \textbar{} \textbar{} substr (Tableo,k,1) end j return
 Output
 
-\hypertarget{verify}{%
-\subsection{VERIFY}\label{verify}}
+\subsection{VERIFY}\label{verify}
 
 VERIFY checks that its first argument contains only characters that are
 in the second argument, or that it contains no characters from the
@@ -988,8 +960,7 @@ do i = Start to Last t = pos(substr(String, i, 1), Reference) if Option
 character. \emph{/ end else if t \textgreater{} 0 then return i /}
 Return position of Matched character. */ end i return 0
 
-\hypertarget{word}{%
-\subsection{WORD}\label{word}}
+\subsection{WORD}\label{word}
 
 WORD returns the word from the first argument at the position given by
 the second argument.
@@ -998,8 +969,7 @@ call CheckArgs `rANY rwWHOLE\textgreater0'
 
 return subword(\#Bif Arg.1, \#Bif\_Arg.2, 1)
 
-\hypertarget{wordindex}{%
-\subsection{WORDINDEX}\label{wordindex}}
+\subsection{WORDINDEX}\label{wordindex}
 
 WORDINDEX returns the character position in the first argument of a word
 in the first argument. The second argument is the word position of that
@@ -1024,8 +994,7 @@ Find blank */
 
 if Start = 0 then return 0 /* Start is beyond end */ end return Start
 
-\hypertarget{wordlength}{%
-\subsection{WORDLENGTH}\label{wordlength}}
+\subsection{WORDLENGTH}\label{wordlength}
 
 WORDLENGTH returns the number of characters in a word from the first
 argument. The second argument is the word position of that word.
@@ -1034,8 +1003,7 @@ call CheckArgs `rANY rwWHOLE\textgreater0'
 
 return length(subword(\#Bif Arg.1, \#Bif\_Arg.2, 1))
 
-\hypertarget{wordpos}{%
-\subsection{WORDPOS}\label{wordpos}}
+\subsection{WORDPOS}\label{wordpos}
 
 WORDPOS finds the leftmost occurrence in the second argument of the
 sequence of words in the first argument. The result is `0' or the word
@@ -1056,8 +1024,7 @@ WordNumber = Start to StringWords - PhraseWords + 1 if Phrase ==
 subword(String, WordNumber, PhraseWords) then return WordNumber end
 WordNumber return 0
 
-\hypertarget{words}{%
-\subsection{WORDS}\label{words}}
+\subsection{WORDS}\label{words}
 
 WORDS counts the number of words in its argument.
 
@@ -1066,8 +1033,7 @@ call CheckArgs `rANY'
 do Count = 0 by 1 if subword(\#Bif Arg.1, Count + 1) == '\,' then return
 Count end Count
 
-\hypertarget{xrange}{%
-\subsection{XRANGE}\label{xrange}}
+\subsection{XRANGE}\label{xrange}
 
 XRANGE returns an ordered string of all valid character encodings in the
 specified range.
@@ -1078,16 +1044,14 @@ if \#Bif\_ArgExists.1 then \#Bif\_Arg.1 mr if \#Bif\_ArgExists.2 then
 \#Bif Arg.2 \#Response = Config Xrange(\#Bif Arg.1, \#Bif Arg.2) return
 \#Outcome
 
-\hypertarget{arithmetic-built-in-functions}{%
 \section{Arithmetic built-in
-functions}\label{arithmetic-built-in-functions}}
+functions}\label{arithmetic-built-in-functions}
 
 These functions perform arithmetic at the numeric settings current at
 the invocation of the built-in function. Note that CheckArgs formats any
 `NUM' (numeric) argument.
 
-\hypertarget{abs}{%
-\subsection{ABS}\label{abs}}
+\subsection{ABS}\label{abs}
 
 ABS returns the absolute value of its argument.
 
@@ -1095,8 +1059,7 @@ call CheckArgs `rNUM' Number=\#Bif Arg.1
 
 if left (Number,1) = `-' then Number = substr (Number, 2) return Number
 
-\hypertarget{format}{%
-\subsection{FORMAT}\label{format}}
+\subsection{FORMAT}\label{format}
 
 FORMAT formats its first argument. The second argument specifies the
 number of characters to be used for the integer part and the third
@@ -1325,8 +1288,7 @@ return Number
 
 `E+' Exponent `E-' Exponent
 
-\hypertarget{max}{%
-\subsection{MAX}\label{max}}
+\subsection{MAX}\label{max}
 
 MAX returns the largest of its arguments.
 
@@ -1340,8 +1302,7 @@ then Max = Next end i
 
 return Max
 
-\hypertarget{min}{%
-\subsection{MIN}\label{min}}
+\subsection{MIN}\label{min}
 
 MIN returns the smallest of its arguments.
 
@@ -1355,8 +1316,7 @@ Next then Min = Next end i
 
 return Min
 
-\hypertarget{sign}{%
-\subsection{SIGN}\label{sign}}
+\subsection{SIGN}\label{sign}
 
 SIGN returns `1', `0' or `-1' according to whether its argument is
 greater than, equal to, or less than zero.
@@ -1372,8 +1332,7 @@ when Number \textless{} 0 then Output = -1 when Number = 0 then Output =
 
 end return Output
 
-\hypertarget{trunc}{%
-\subsection{TRUNC}\label{trunc}}
+\subsection{TRUNC}\label{trunc}
 
 TRUNC returns the integer part of its argument, or the integer part plus
 a number of digits after the decimal point, specified by the second
@@ -1390,13 +1349,11 @@ Integer =(10**Num * Number) \%1 if Num=0 then return Integer
 t=length (Integer) -Num if t\textless=0 then return
 `0.'right(Integer,Num,'0') else return insert(`.',Integer,t)
 
-\hypertarget{state-built-in-functions}{%
-\section{State built-in functions}\label{state-built-in-functions}}
+\section{State built-in functions}\label{state-built-in-functions}
 
 These functions return values from the state of the execution.
 
-\hypertarget{address}{%
-\subsection{ADDRESS}\label{address}}
+\subsection{ADDRESS}\label{address}
 
 ADDRESS returns the name of the environment to which commands are
 currently being submitted. Optionally, under control by the argument, it
@@ -1412,8 +1369,7 @@ if Optionl == `N' then return \#Env\_Name.ACTIVE. \#Level
 Tail = Optionl' .ACTIVE. '\#Level return \#Env\_Position.Tail
 \#Env\_Type.Tail \#Env\_Resource.Tail
 
-\hypertarget{arg}{%
-\subsection{ARG}\label{arg}}
+\subsection{ARG}\label{arg}
 
 ARG returns information about the argument strings to a program or
 routine, or the value of one of those strings.
@@ -1430,8 +1386,7 @@ if \#Bif\_ArgExists.2 then return \#Arg.\#Level.ArgNum
 if \#Bif\_Arg.2 ==`0O' then return \#ArgExists.\#Level.ArgNum else
 return \#ArgExists.\#Level .ArgNum
 
-\hypertarget{condition}{%
-\subsection{CONDITION}\label{condition}}
+\subsection{CONDITION}\label{condition}
 
 CONDITION returns information associated with the current condition.
 
@@ -1459,8 +1414,7 @@ DIGITS returns the current setting of NUMERIC DIGITS. call CheckArgs
 
 return \#Digits.\#Level
 
-\hypertarget{errortext}{%
-\subsection{ERRORTEXT}\label{errortext}}
+\subsection{ERRORTEXT}\label{errortext}
 
 ERRORTEXT returns the unexpanded text of the message which is identified
 by the first argument. A second argument of `S' selects the standard
@@ -1475,8 +1429,7 @@ if \#Bif\_ ArgExists.2 then Option else Option
 
 return \#ErrorText .msgcode
 
-\hypertarget{form}{%
-\subsection{FORM}\label{form}}
+\subsection{FORM}\label{form}
 
 FORM returns the current setting of NUMERIC FORM.
 
@@ -1486,8 +1439,7 @@ call CheckArgs '\,'
 
 return \#Form.\#Level
 
-\hypertarget{fuzz}{%
-\subsection{FUZZ}\label{fuzz}}
+\subsection{FUZZ}\label{fuzz}
 
 FUZZ returns the current setting of NUMERIC FUZZ.
 
@@ -1495,8 +1447,7 @@ call CheckArgs '\,'
 
 return \#Fuzz.\#Level
 
-\hypertarget{sourceline}{%
-\subsection{SOURCELINE}\label{sourceline}}
+\subsection{SOURCELINE}\label{sourceline}
 
 If there is no argument, SOURCELINE returns the number of lines in the
 program, or `0' if the source program is not being shown on this
@@ -1509,8 +1460,7 @@ if \#Bif\_ArgExists.1 then return \#SourceLine.0 Num = \#Bif\_Arg.1 if
 Num \textgreater{} \#SourceLine.0O then call Raise 40.34, Num,
 \#SourceLine.0 return \#SourceLine.Num
 
-\hypertarget{trace}{%
-\subsection{TRACE}\label{trace}}
+\subsection{TRACE}\label{trace}
 
 TRACE returns the trace setting currently in effect, and optionally
 alters the setting.
@@ -1547,8 +1497,7 @@ Conversion to Coded form gives a result which depends on the encoding.
 Depending on the encoding, the result may be a string that does not
 represent any sequence of characters.
 
-\hypertarget{b2xx}{%
-\subsection{B2xX}\label{b2xx}}
+\subsection{B2xX}\label{b2xx}
 
 B2X performs binary to hexadecimal conversion.
 
@@ -1556,8 +1505,7 @@ call CheckArgs `rBIN'
 
 String = space (\#Bif Arg.1,0) return ReRadix(String,2,16)
 
-\hypertarget{bitand}{%
-\subsection{BITAND}\label{bitand}}
+\subsection{BITAND}\label{bitand}
 
 The functions BITAND, BITOR and BITXOR operate on encoded character
 data. Each binary digit from the encoding of the first argument is
@@ -1604,18 +1552,15 @@ j rer \textbar\textbar{} right (Stringl, length (String1)
 
 /* Convert back to encoded characters. */ return x2c (b2x(r))
 
-\hypertarget{bitor}{%
-\subsection{BITOR}\label{bitor}}
+\subsection{BITOR}\label{bitor}
 
 See nnn
 
-\hypertarget{bitxor}{%
-\subsection{BITXOR}\label{bitxor}}
+\subsection{BITXOR}\label{bitxor}
 
 See nnn
 
-\hypertarget{c2d}{%
-\subsection{C2D}\label{c2d}}
+\subsection{C2D}\label{c2d}
 
 C2D performs coded to decimal conversion.
 
@@ -1640,8 +1585,7 @@ call CheckArgs `rANY' if length(\#Bif Arg.1) = 0 then return '\,'
 
 call Config C2B \#Bif\_Arg.1 return ReRadix (\#Outcome,2,16)
 
-\hypertarget{d2c}{%
-\subsection{D2C}\label{d2c}}
+\subsection{D2C}\label{d2c}
 
 D2C performs decimal to coded conversion.
 
@@ -1664,8 +1608,7 @@ to characters */ \#Response = Config B2C(r) Output = \#Outcome if
 \#Bif\_Arg.2,left(xrange(),1)) else return right (Output, \#Bif
 Arg.2,right (xrange(),1))
 
-\hypertarget{d2x}{%
-\subsection{D2X}\label{d2x}}
+\subsection{D2X}\label{d2x}
 
 D2X performs decimal to hexadecimal conversion. if \#Bif\_ArgExists.2
 then ArgData = `rWHOLENUM\textgreater=0' else ArgData = `rWHOLENUM
@@ -1681,8 +1624,7 @@ the length with appropriate characters. */ if \#Bif\_
 Arg.1\textgreater=0 then return right(r,\#Bif Arg.2,`0') else return
 right(r,\#Bif Arg.2,`F')
 
-\hypertarget{x2b}{%
-\subsection{X2B}\label{x2b}}
+\subsection{X2B}\label{x2b}
 
 X2B performs hexadecimal to binary conversion.
 
@@ -1697,8 +1639,7 @@ space (Subject, 0)
 
 return ReRadix(translate (Subject) ,16,2)
 
-\hypertarget{x2c}{%
-\subsection{X2C}\label{x2c}}
+\subsection{X2C}\label{x2c}
 
 X2C performs hexadecimal to coded character conversion.
 
@@ -1719,8 +1660,7 @@ r = ReRadix(translate (Subject) ,16,2)
 Length = 8*( (length (Subject) +1) \%2) \#Response = Config
 B2C(right(r,Length,`0')) return \#Outcome
 
-\hypertarget{x2d}{%
-\subsection{X2D}\label{x2d}}
+\subsection{X2D}\label{x2d}
 
 X2D performs hexadecimal to decimal conversion.
 
@@ -1744,9 +1684,8 @@ return r
 
 left (x2b (Subject) ,1) ror
 
-\hypertarget{inputoutput-built-in-functions}{%
 \section{Input/Output built-in
-functions}\label{inputoutput-built-in-functions}}
+functions}\label{inputoutput-built-in-functions}
 
 The configuration shall provide the ability to access streams. Streams
 are identified by character string identifiers and provide for the
@@ -1815,8 +1754,7 @@ Count = Count-1
 
 end if Mode == `B' then do call Config B2C r r = \#Outcome end return r
 
-\hypertarget{charout}{%
-\subsection{CHAROUT}\label{charout}}
+\subsection{CHAROUT}\label{charout}
 
 CHAROUT returns the count of characters remaining after attempting to
 write the second argument to the stream named by the first argument.
@@ -1855,8 +1793,7 @@ substr(\#Response, 2)
 
 return Residue end Residue = Residue - 1 end return 0
 
-\hypertarget{chars}{%
-\subsection{CHARS}\label{chars}}
+\subsection{CHARS}\label{chars}
 
 CHARS indicates whether there are characters remaining in the named
 stream. Optionally, it returns a
@@ -1871,8 +1808,7 @@ if \#Bif\_ArgExists.2 then Option = \#Bif Arg.2 else Option = `N'
 
 call Config Stream Count Stream, `CHARS', Option return \#Outcome
 
-\hypertarget{linein}{%
-\subsection{LINEIN}\label{linein}}
+\subsection{LINEIN}\label{linein}
 
 LINEIN reads a line from the stream named by the first argument, unless
 the third argument is Zero.
@@ -1898,8 +1834,7 @@ B2C r r= \#Outcome end return r
 
 \#Bif Arg.1
 
-\hypertarget{lineout}{%
-\subsection{LINEOUT}\label{lineout}}
+\subsection{LINEOUT}\label{lineout}
 
 LINEOUT returns `1' or `0', indicating whether the second argument has
 been successfully written to the
@@ -1968,8 +1903,7 @@ then Option else Option
 
 Call Config Stream Count Stream, return \#Outcome
 
-\hypertarget{qualify}{%
-\subsection{QUALIFY}\label{qualify}}
+\subsection{QUALIFY}\label{qualify}
 
 \#Bif Arg.1 ter \#Bif\_Arg.2 tint
 
@@ -1986,8 +1920,7 @@ if \#Bif\_ArgExists.1 then Stream else Stream
 \#Bif Arg.1 \#Response = Config Stream Qualified (Stream) return
 \#Outcome
 
-\hypertarget{stream}{%
-\subsection{STREAM}\label{stream}}
+\subsection{STREAM}\label{stream}
 
 STREAM returns a description of the state of, or the result of an
 operation upon, the stream named by the first argument.
@@ -2028,11 +1961,9 @@ end
   ==
 \end{enumerate}
 
-\hypertarget{other-built-in-functions}{%
-\section{Other built-in functions}\label{other-built-in-functions}}
+\section{Other built-in functions}\label{other-built-in-functions}
 
-\hypertarget{date}{%
-\subsection{DATE}\label{date}}
+\subsection{DATE}\label{date}
 
 DATE with fewer than two arguments returns the local date. Otherwise it
 converts the second argument (which has a format given by the third
@@ -2214,8 +2145,7 @@ return word (Weekdays, 1+Base//7)
 
 end
 
-\hypertarget{queued}{%
-\subsection{QUEUED}\label{queued}}
+\subsection{QUEUED}\label{queued}
 
 QUEUED returns the number of lines remaining in the external data queue.
 
@@ -2223,8 +2153,7 @@ call CheckArgs '\,'
 
 \#Response = Config Queued() return \#Outcome
 
-\hypertarget{random}{%
-\subsection{RANDOM}\label{random}}
+\subsection{RANDOM}\label{random}
 
 RANDOM returns a quasi-random number.
 
@@ -2250,8 +2179,7 @@ if Maximum-Minimum\textless0 then call Raise 40.33, Minimum, Maximum
 if \#Bif\_ArgExists.3 then call Config Random Seed \#Bif\_Arg.3 call
 Config Random Next Minimum, Maximum return \#Outcome
 
-\hypertarget{symbol}{%
-\subsection{SYMBOL}\label{symbol}}
+\subsection{SYMBOL}\label{symbol}
 
 The function SYMBOL takes one argument, which is evaluated. Let String
 be the value of that argument. If Config\_Length(String) returns an
@@ -2265,8 +2193,7 @@ SYMBOL depends on the outcome of accessing the value of that symbol, see
 nnn. If the final use of Var\_Value leaves the indicator with value `D'
 then the result of the function SYMBOL is `LIT', otherwise `VAR'.
 
-\hypertarget{time}{%
-\subsection{TIME}\label{time}}
+\subsection{TIME}\label{time}
 
 TIME with less than two arguments returns the local time within the day,
 or an elapsed time. Otherwise it converts the second argument (which has
@@ -2423,15 +2350,13 @@ Arg.2)
 
 return Value
 
-\hypertarget{queued-1}{%
-\subsection{QUEUED}\label{queued-1}}
+\subsection{QUEUED}\label{queued-1}
 
 QUEUED returns the number of lines remaining in the external data queue.
 
 call CheckArgs '\,' \#Response = Config Queued() return \#Outcome
 
-\hypertarget{random-1}{%
-\subsection{RANDOM}\label{random-1}}
+\subsection{RANDOM}\label{random-1}
 
 RANDOM returns a quasi-random number.
 
@@ -2455,8 +2380,7 @@ if Maximum-Minimum\textless0 then call Raise 40.33, Minimum, Maximum
 if \#Bif\_ArgExists.3 then call Config Random Seed \#Bif\_Arg.3 call
 Config Random Next Minimum, Maximum return \#Outcome
 
-\hypertarget{symbol-1}{%
-\subsection{SYMBOL}\label{symbol-1}}
+\subsection{SYMBOL}\label{symbol-1}
 
 The function SYMBOL takes one argument, which is evaluated. Let String
 be the value of that argument. If Config\_Length(String) returns an
@@ -2470,8 +2394,7 @@ SYMBOL depends on the outcome of accessing the value of that symbol, see
 nnn. If the final use of Var\_Value leaves the indicator with value `D'
 then the result of the function SYMBOL is `LIT', otherwise `VAR'.
 
-\hypertarget{time-1}{%
-\subsection{TIME}\label{time-1}}
+\subsection{TIME}\label{time-1}
 
 TIME with less than two arguments returns the local time within the day,
 or an elapsed time. Otherwise it converts the second argument (which has

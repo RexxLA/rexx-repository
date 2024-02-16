@@ -1,6 +1,5 @@
 %preprocessed texin
-\hypertarget{instructions}{%
-\chapter{Instructions}\label{instructions}}
+\chapter{Instructions}\label{instructions}
 
 This clause describes the execution of instructions, and how the
 sequence of execution can vary from the normal execution in order of
@@ -19,8 +18,7 @@ call Config ObjectNew
 
 Set self and super
 
-\hypertarget{routine-initialization}{%
-\section{Routine initialization}\label{routine-initialization}}
+\section{Routine initialization}\label{routine-initialization}
 
 If the routine is invoked as a function, \#lsFunction.\#NewLevel shall
 be set to `1', otherwise to `0O'; this affects the processing of a
@@ -62,8 +60,7 @@ built-in function are copied. \#Condition.\#NewLevel =
 continues at the new level of invocation. \#Level = \#NewLevel
 \#NewLevel = \#Level + 1
 
-\hypertarget{clause-initialization}{%
-\section{Clause initialization}\label{clause-initialization}}
+\section{Clause initialization}\label{clause-initialization}
 
 The clause is traced before execution: if pos(\#Tracing.\#Level, `AIR')
 \textgreater{} 0 then call \#TraceSource
@@ -77,8 +74,7 @@ clause or label or procedure instruction sets:
 
 \#AllowProcedure.\#Level = `0' /* See message 17.1 */
 
-\hypertarget{clause-termination}{%
-\section{Clause termination}\label{clause-termination}}
+\section{Clause termination}\label{clause-termination}
 
 if \#InhibitTrace \textgreater{} 0 then \#InhibitTrace = \#InhibitTrace
 - 1 Polling for a HALT condition occurs:
@@ -163,11 +159,9 @@ interpret \#Outcome
 \#AtPause = 0 end /* forever loop \emph{/ if \#Outcome == `=' then call
 \#Retry /} With no return */ end end
 
-\hypertarget{instruction}{%
-\section{Instruction}\label{instruction}}
+\section{Instruction}\label{instruction}
 
-\hypertarget{address}{%
-\subsection{ADDRESS}\label{address}}
+\subsection{ADDRESS}\label{address}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -323,16 +317,14 @@ Type.E.Lhs.LhsLevel = \#Env\_Type.E.Rhs.RhsLevel
 \#Env\_Resource.E.Lhs.LhsLevel \#Env\_Resource.E.Rhs.RhsLevel
 \#Env\_Position.E.Lhs.LhsLevel \#Env\_Position.E.Rhs.RhsLevel return
 
-\hypertarget{arg}{%
-\subsection{ARG}\label{arg}}
+\subsection{ARG}\label{arg}
 
 For a definition of the syntax of this instruction, see nnn.
 
 The ARG instruction is a shorter form of the equivalent instruction:
 PARSE UPPER ARG template list
 
-\hypertarget{assignment}{%
-\subsection{Assignment}\label{assignment}}
+\subsection{Assignment}\label{assignment}
 
 Assignment can occur as the result of executing a clause containing an
 assignment (see nnn and nnn), or as a result of executing the VALUE
@@ -349,8 +341,7 @@ SYMBOL, `0',Value
 Otherwise, a name is derived, see nnn. The value is associated with the
 derived name: call Var Set \#Pool,Derived Name,`1',Value
 
-\hypertarget{call}{%
-\subsection{CALL}\label{call}}
+\subsection{CALL}\label{call}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -391,9 +382,8 @@ else
 
 Name = Condition \#TrapName.Condition.\#Level = Name end
 
-\hypertarget{command-to-the-configuration}{%
 \subsection{Command to the
-configuration}\label{command-to-the-configuration}}
+configuration}\label{command-to-the-configuration}
 
 For a definition of the syntax of a command, see nnn. A command that is
 not part of an ADDRESS instruction is processed in the ACTIVE
@@ -507,8 +497,7 @@ return /* From CommandIssue */
 The configuration may choose to perform the test for message 54.1 before
 or after issuing the command.
 
-\hypertarget{do}{%
-\subsection{DO}\label{do}}
+\subsection{DO}\label{do}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -593,8 +582,7 @@ call \#Goto \#Iterate.\#Loop /* to IterateLabel */ LeaveLabel:
 
 \#Loop = \#Loop - 1
 
-\hypertarget{do-loop-tracing}{%
-\subsection{DO loop tracing}\label{do-loop-tracing}}
+\subsection{DO loop tracing}\label{do-loop-tracing}
 
 When clauses are being traced by \#TraceSource, due to
 pos(\#Tracing.\#Level, `AIR') \textgreater{} 0, the DO instruction shall
@@ -617,8 +605,7 @@ subject to tracing, and other expressions involving state variables are
 not. When tracing intermediates, the BY value will have a tag of
 `\textgreater+\textgreater{}',
 
-\hypertarget{drop}{%
-\subsection{DROP}\label{drop}}
+\subsection{DROP}\label{drop}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -654,8 +641,7 @@ raised: call \#Raise `SYNTAX', 20.1, word
 Otherwise the VAR\_SYMBOL indicated by the word is dropped, as if that
 VAR\_SYMBOL were a word of the variable\_list.
 
-\hypertarget{exit}{%
-\subsection{EXIT}\label{exit}}
+\subsection{EXIT}\label{exit}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -680,8 +666,7 @@ program; that is, would execute a further statement if one were appended
 to the program, then the program is terminated in the same manner as an
 EXIT instruction with no argument.
 
-\hypertarget{expose}{%
-\subsection{EXPOSE}\label{expose}}
+\subsection{EXPOSE}\label{expose}
 
 The expose instruction identifies variables that are not local to the
 method.
@@ -728,8 +713,7 @@ raised: call \#Raise `SYNTAX', 20.1, word
 Otherwise the VAR\_SYMBOL indicated by the word is exposed, as if that
 VAR\_SYMBOL were a word of the variable\_list.
 
-\hypertarget{forward}{%
-\subsection{FORWARD}\label{forward}}
+\subsection{FORWARD}\label{forward}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -737,8 +721,7 @@ The FORWARD instruction is used to send a message based on the current
 message. if \#Contains (forward, `ARRAY') \& \#Contains(forward,
 `ARGUMENTS') then call \#Raise `SYNTAX', nn.n
 
-\hypertarget{guard}{%
-\subsection{GUARD}\label{guard}}
+\subsection{GUARD}\label{guard}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -766,8 +749,7 @@ THEN keyword shall be traced in addition to the instructions.
 In the latter case, if tracing clauses, the clause consisting of the
 ELSE keyword shall be traced in addition to the instructions.
 
-\hypertarget{interpret}{%
-\subsection{INTERPRET}\label{interpret}}
+\subsection{INTERPRET}\label{interpret}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -795,8 +777,7 @@ where Label is the first LABEL in the program.
 
 Otherwise the instruction\_list in the program is executed.
 
-\hypertarget{iterate}{%
-\subsection{ITERATE}\label{iterate}}
+\subsection{ITERATE}\label{iterate}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -805,15 +786,13 @@ repetitive DO. For a definition of the nesting correction, see nnn.
 
 \#Loop = \#Loop - NestingCorrection call \#Goto \#Iterate.\#Loop
 
-\hypertarget{execution-of-labels}{%
-\subsection{Execution of labels}\label{execution-of-labels}}
+\subsection{Execution of labels}\label{execution-of-labels}
 
 The execution of a label has no effect, other than clause termination
 activity and any tracing. if \#Tracing.\#Level==`L' then call
 \#TraceSource
 
-\hypertarget{leave}{%
-\subsection{LEAVE}\label{leave}}
+\subsection{LEAVE}\label{leave}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -822,33 +801,28 @@ DOs. For a definition of the nesting correction, see nnn.
 
 \#Loop = \#Loop - NestingCorrection call \#Goto \#Leave.\#Loop
 
-\hypertarget{message-term}{%
-\subsection{Message term}\label{message-term}}
+\subsection{Message term}\label{message-term}
 
 We can do this by reference to method invokation, just as we do CALL by
 reference to invoking a function.
 
-\hypertarget{loop}{%
-\subsection{LOOP}\label{loop}}
+\subsection{LOOP}\label{loop}
 
 Shares most of it's definition with repetitive DO.
 
-\hypertarget{nop}{%
-\subsection{NOP}\label{nop}}
+\subsection{NOP}\label{nop}
 
 For a definition of the syntax of this instruction, see nnn. The NOP
 instruction has no effect other than the effects associated with all
 instructions.
 
-\hypertarget{numeric}{%
-\subsection{NUMERIC}\label{numeric}}
+\subsection{NUMERIC}\label{numeric}
 
 For a definition of the syntax of this instruction, see nnn. The NUMERIC
 instruction is used to change the way in which arithmetic operations are
 carried out.
 
-\hypertarget{numeric-digits}{%
-\subsubsection{NUMERIC DIGITS}\label{numeric-digits}}
+\subsubsection{NUMERIC DIGITS}\label{numeric-digits}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -868,8 +842,7 @@ call \#Raise `SYNTAX',33.1,Value if Value\textgreater\#Limit Digits then
 
 call \#Raise `SYNTAX',33.2,Value \#Digits.\#Level = Value
 
-\hypertarget{numeric-form}{%
-\subsubsection{NUMERIC FORM}\label{numeric-form}}
+\subsubsection{NUMERIC FORM}\label{numeric-form}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -889,8 +862,7 @@ Value = \#Evaluate (numericformsuffix,valueexp) Value = translate (left
 == `E' then Value = `ENGINEERING' otherwise call \#Raise
 `SYNTAX',33.3,Value end end \#Form.\#Level = Value
 
-\hypertarget{numeric-fuzz}{%
-\subsubsection{NUMERIC FUZZ}\label{numeric-fuzz}}
+\subsubsection{NUMERIC FUZZ}\label{numeric-fuzz}
 
 For a definition of the syntax of this instruction, see nnn. NUMERIC
 FUZZ controls how many digits, at full precision, will be ignored during
@@ -903,8 +875,7 @@ then call \#Raise `SYNTAX',26.6,Value If Value \textgreater=
 \#Digits.\#Level then call \#Raise `SYNTAX',33.1,\#Digits.\#Level,Value
 \#Fuzz.\#Level = Value
 
-\hypertarget{options}{%
-\subsubsection{OPTIONS}\label{options}}
+\subsubsection{OPTIONS}\label{options}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -918,8 +889,7 @@ delimited words. Any words in the value that are not recognized by
 the language processor are ignored without producing an error. call
 Config Options (Expression)
 
-\hypertarget{parse}{%
-\subsubsection{PARSE}\label{parse}}
+\subsubsection{PARSE}\label{parse}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1128,8 +1098,7 @@ do Tag=`\textgreater=\textgreater{}' call value Template.Tok,arg(1) end
 
 return
 
-\hypertarget{procedure}{%
-\subsection{PROCEDURE}\label{procedure}}
+\subsection{PROCEDURE}\label{procedure}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1192,16 +1161,14 @@ raised: call \#Raise `SYNTAX', 20.1, word
 Otherwise the VAR\_SYMBOL indicated by the word is exposed, as if that
 VAR\_SYMBOL were a word of the variable\_list.
 
-\hypertarget{pull}{%
-\subsection{PULL}\label{pull}}
+\subsection{PULL}\label{pull}
 
 For a definition of the syntax of this instruction, see nnn.
 
 A PULL instruction is a shorter form of the equivalent instruction:
 PARSE UPPER PULL template list
 
-\hypertarget{push}{%
-\subsection{PUSH}\label{push}}
+\subsection{PUSH}\label{push}
 
 For a definition of the syntax of this instruction, see nnn. The PUSH
 instruction is used to place a value on top of the stack.
@@ -1209,8 +1176,7 @@ instruction is used to place a value on top of the stack.
 If \#Contains(push,expression) then Value = \#Evaluate (push,
 expression) else Value = '\,' call Config Push Value
 
-\hypertarget{queue}{%
-\subsection{QUEUE}\label{queue}}
+\subsection{QUEUE}\label{queue}
 
 For a definition of the syntax of this instruction, see nnn. The QUEUE
 instruction is used to place a value on the bottom of the stack.
@@ -1218,14 +1184,12 @@ instruction is used to place a value on the bottom of the stack.
 If \#Contains (queue,expression) then Value = \#Evaluate (queue,
 expression) else Value = '\,' call Config Queue Value
 
-\hypertarget{raise}{%
-\subsection{RAISE}\label{raise}}
+\subsection{RAISE}\label{raise}
 
 The RAISE instruction returns from the current method or routine and
 raises a condition.
 
-\hypertarget{reply}{%
-\subsection{REPLY}\label{reply}}
+\subsection{REPLY}\label{reply}
 
 The REPLY instruction is used to allow both the invoker of a method, and
 the replying method, to continue executing.
@@ -1272,8 +1236,7 @@ stream.
 If \#Contains(say,expression) then Value = Evaluate (say, expression)
 else Value = '\,' call Config Default Output Value
 
-\hypertarget{select}{%
-\subsection{SELECT}\label{select}}
+\subsection{SELECT}\label{select}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1299,8 +1262,7 @@ LineNum If \#Contains (select body, instruction list) then call
 When tracing, the clause containing the END keyword is traced at this
 point.
 
-\hypertarget{signal}{%
-\subsection{SIGNAL}\label{signal}}
+\subsection{SIGNAL}\label{signal}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1346,8 +1308,7 @@ these settings: \#Loop.\#Level = 0
 
 if \#Level = \#AtPause then \#AtPause = 0
 
-\hypertarget{trace}{%
-\subsection{TRACE}\label{trace}}
+\subsection{TRACE}\label{trace}
 
 For a definition of the syntax of this instruction, see nnn.
 
@@ -1373,8 +1334,7 @@ translate( left(Value,1) ) if verify(Value, `ACEFILNOR') \textgreater{}
 0 then call \#Raise `SYNTAX', 24.1, Value if Value==`0O' then
 \#Interactive.\#Level=`0' end \#Tracing.\#Level = Value end
 
-\hypertarget{trace-output}{%
-\subsection{Trace output}\label{trace-output}}
+\subsection{Trace output}\label{trace-output}
 
 If \#NoSource is `1' there is no trace output.
 
@@ -1431,8 +1391,7 @@ if \#ArgExists.Position then call Value VAR\_SYMBOL, \#Arg.Position else
 Messy because VALUE bif won't DROP and var\_drop needs to know if
 compound.
 
-\hypertarget{conditions-and-messages}{%
-\section{Conditions and Messages}\label{conditions-and-messages}}
+\section{Conditions and Messages}\label{conditions-and-messages}
 
 When an error occurs during execution of a program, an error number and
 message are associated with it. The error number has two parts, the
@@ -1470,8 +1429,7 @@ other cases the argument is a further description of the condition.
 The action of the program as a result of a condition is dependent on any
 signa/\_spec and callon\_spec in the program.
 
-\hypertarget{raising-of-conditions}{%
-\subsection{Raising of conditions}\label{raising-of-conditions}}
+\subsection{Raising of conditions}\label{raising-of-conditions}
 
 The routine \#Raise corresponds to raising a condition. In the following
 definition, the instructions containing SIGNAL VALUE and INTERPRET
@@ -1538,8 +1496,7 @@ function. \emph{/ \#Condition.\#NewLevel = \#Condition
 \#TrapName.\#Condition.\#Level \#Enabling.\#Condition.\#Level = `ON'
 return /} To clause termination */
 
-\hypertarget{messages-during-execution}{%
-\subsection{Messages during execution}\label{messages-during-execution}}
+\subsection{Messages during execution}\label{messages-during-execution}
 
 The state function \#Message corresponds to constructing a message.
 

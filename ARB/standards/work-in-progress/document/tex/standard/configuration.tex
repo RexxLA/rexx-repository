@@ -1,6 +1,5 @@
 %preprocessed texin
-\hypertarget{configuration}{%
-\chapter{Configuration}\label{configuration}}
+\chapter{Configuration}\label{configuration}
 
 Any implementation of this standard will be functioning within a
 configuration. In practice, the boundary between what is implemented
@@ -22,8 +21,7 @@ JAVA is only a ``reference'' for NetRexx so some generalized JAVA-like
 support is needed for that. It would provide the answers to what classes
 were in the context, what their method signatures were etc.
 
-\hypertarget{notation}{%
-\section{Notation}\label{notation}}
+\section{Notation}\label{notation}
 
 The interface to the configuration is described in terms of functions.
 The notation for describing the interface functionally uses the name
@@ -59,9 +57,8 @@ This standard defines any additional results from Config\_ functions as
 made available to the language processor in variables. This does not
 constrain how a particular implementation should return these results.
 
-\hypertarget{notation-for-completion-response-and-conditions}{%
 \subsection{Notation for completion response and
-conditions}\label{notation-for-completion-response-and-conditions}}
+conditions}\label{notation-for-completion-response-and-conditions}
 
 As alternatives to the normal indicator `N', each function may return a
 completion response with indicator 'X' or `S'; other possible indicators
@@ -78,8 +75,7 @@ the indicator is `S' then Message is 48.1. Description is the
 description in the completion response. The `SYNTAX' condition 5.1 can
 also be raised by any other activity of the language processor.
 
-\hypertarget{processing-initiation}{%
-\section{Processing initiation}\label{processing-initiation}}
+\section{Processing initiation}\label{processing-initiation}
 
 The processing initiation interface consists of a function which the
 configuration shall provide to invoke the language processor. We could
@@ -89,8 +85,7 @@ will prefer to recursively ``run'' each required file. One of the
 results of that will be the classes and methods made public by that
 REQUIRES subject.
 
-\hypertarget{api-start}{%
-\subsection{API Start}\label{api-start}}
+\subsection{API Start}\label{api-start}
 
 Syntax:
 
@@ -138,9 +133,8 @@ If How was `REQUIRED' and the completion response was not `E', the
 Provides argument is set to reference classes made available. See nnn
 for the semantics of these classes.
 
-\hypertarget{source-programs-and-character-sets}{%
 \section{Source programs and character
-sets}\label{source-programs-and-character-sets}}
+sets}\label{source-programs-and-character-sets}
 
 The configuration shall provide the ability to access source programs
 (see nnn). Source programs consist of characters belonging to the
@@ -161,8 +155,7 @@ following categories:
 
 A character shall belong to only one category.
 
-\hypertarget{syntactic_characters}{%
-\subsection{Syntactic\_characters}\label{syntactic_characters}}
+\subsection{Syntactic\_characters}\label{syntactic_characters}
 
 The following characters represent the category of characters called
 syntactic\_characters, identified by their names. The glyphs used to
@@ -225,15 +218,13 @@ hyphen, minus sign;
   vertical line, bar, vertical bar.
 \end{itemize}
 
-\hypertarget{extra_letters}{%
-\subsection{Extra\_letters}\label{extra_letters}}
+\subsection{Extra\_letters}\label{extra_letters}
 
 A configuration may have a category of characters in source programs
 called extra\_letters. Extra\_letters are determined by the
 configuration.
 
-\hypertarget{other_blank_characters}{%
-\subsection{Other\_blank\_characters}\label{other_blank_characters}}
+\subsection{Other\_blank\_characters}\label{other_blank_characters}
 
 A configuration may have a category of characters in source programs
 called other\_blank\_characters. Other\_blank\_characters are determined
@@ -253,8 +244,7 @@ characters of this category:
   vertical tabulation.
 \end{itemize}
 
-\hypertarget{other_negators}{%
-\subsection{Other\_negators}\label{other_negators}}
+\subsection{Other\_negators}\label{other_negators}
 
 A configuration may have a category of characters in source programs
 called other\_negators. Other\_negators are determined by the
@@ -263,6 +253,7 @@ characters of this category. The glyphs used to represent them in this
 document are also shown:
 
 \begin{itemize}
+\tightlist
 \item
   \begin{itemize}
   \tightlist
@@ -273,16 +264,14 @@ document are also shown:
   --- not sign.
 \end{itemize}
 
-\hypertarget{other_characters}{%
-\subsection{Other\_characters}\label{other_characters}}
+\subsection{Other\_characters}\label{other_characters}
 
 A configuration may have a category of characters in source programs
 called other\_characters. Other\_characters are determined by the
 configuration.
 
-\hypertarget{configuration-characters-and-encoding}{%
 \section{Configuration characters and
-encoding}\label{configuration-characters-and-encoding}}
+encoding}\label{configuration-characters-and-encoding}
 
 The configuration characters and encoding interface consists of
 functions which the configuration shall provide which are concerned with
@@ -309,8 +298,7 @@ the encoding of characters. The following functions shall be provided:
   Config\_Xrange.
 \end{itemize}
 
-\hypertarget{config_sourcechar}{%
-\subsection{Config\_SourceChar}\label{config_sourcechar}}
+\subsection{Config\_SourceChar}\label{config_sourcechar}
 
 Syntax:
 
@@ -328,8 +316,7 @@ program encoding is incorrect the indicator of the completion response
 is `E' and the description of the completion information is the encoding
 which is incorrect, in hexadecimal notation.
 
-\hypertarget{config_otherblankcharacters}{%
-\subsection{Config\_OtherBlankCharacters}\label{config_otherblankcharacters}}
+\subsection{Config\_OtherBlankCharacters}\label{config_otherblankcharacters}
 
 Syntax: Config OtherBlankCharacters ()
 
@@ -338,8 +325,7 @@ string of zero or more distinct characters in arbitrary order. Each
 character is one that the configuration considers equivalent to the
 character Blank for the purposes of parsing.
 
-\hypertarget{config_upper}{%
-\subsection{Config\_Upper}\label{config_upper}}
+\subsection{Config\_Upper}\label{config_upper}
 
 Syntax: Config Upper (Character)
 
@@ -349,8 +335,7 @@ translated character. Characters which have been subject to this
 translation are referred to as being in uppercase. Config\_Upper applied
 to a character in uppercase must not change the character.
 
-\hypertarget{config_lower}{%
-\subsection{Config\_Lower}\label{config_lower}}
+\subsection{Config\_Lower}\label{config_lower}
 
 Syntax:
 
@@ -362,8 +347,7 @@ Config\_Lower applied to a character in lowercase must not change the
 character. Config\_Upper of the outcome of Config\_Lower(Character)
 shall be the original character.
 
-\hypertarget{config_compare}{%
-\subsection{Config\_Compare}\label{config_compare}}
+\subsection{Config\_Compare}\label{config_compare}
 
 Syntax: Config Compare(Characterl, Character2)
 
@@ -406,8 +390,7 @@ Compare two characters. Set \#Outcome to
   not compare equal by Config\_Compare, see nnn.
 \end{itemize}
 
-\hypertarget{config-_b2c}{%
-\subsection{Config \_B2C}\label{config-_b2c}}
+\subsection{Config \_B2C}\label{config-_b2c}
 
 Syntax: Config B2C (Binary) where: Binary is a sequence of digits, each
 `0' or `1'. The number of digits shall be a multiple of eight.
@@ -417,8 +400,7 @@ Translate Binary to a coded string. Set \#Outcome to the resulting
 string. The string may, or may not, correspond to a sequence of
 characters.
 
-\hypertarget{config_c2b}{%
-\subsection{Config\_C2B}\label{config_c2b}}
+\subsection{Config\_C2B}\label{config_c2b}
 
 Syntax: Config C2B (String)
 
@@ -426,8 +408,7 @@ where: String is a string. Semantics: Translate String to a sequence of
 digits, each `0' or `1'. Set \#Outcome to the result. This function is
 the inverse of Config\_B2C.
 
-\hypertarget{config_substr}{%
-\subsection{Config\_Substr}\label{config_substr}}
+\subsection{Config\_Substr}\label{config_substr}
 
 Syntax: Config Substr(String, n)
 
@@ -441,8 +422,7 @@ because the encoding of String is incorrect the indicator of the
 completion response is `E' and the description of the completion
 information is the encoding which is incorrect, in hexadecimal notation.
 
-\hypertarget{config-length}{%
-\subsection{Config Length}\label{config-length}}
+\subsection{Config Length}\label{config-length}
 
 Syntax: Config Length (String)
 
@@ -453,8 +433,7 @@ is incorrect, the indicator of the completion response is `E' and the
 description of the completion information is the encoding which is
 incorrect, in hexadecimal notation.
 
-\hypertarget{config_xrange}{%
-\subsection{Config\_Xrange}\label{config_xrange}}
+\subsection{Config\_Xrange}\label{config_xrange}
 
 Syntax:
 
@@ -481,14 +460,12 @@ value of
   characters LowBound and smaller, in ranking order.
 \end{itemize}
 
-\hypertarget{objects}{%
-\section{Objects}\label{objects}}
+\section{Objects}\label{objects}
 
 The objects interface consists of functions which the configuration
 shall provide for creating objects.
 
-\hypertarget{config_objectnew}{%
-\subsection{Config\_ObjectNew}\label{config_objectnew}}
+\subsection{Config\_ObjectNew}\label{config_objectnew}
 
 Syntax: Config ObjectNew
 
@@ -499,16 +476,14 @@ suitable for use as a variable pool, see nnn. This function shall never
 return a value in \#Outcome which compares equal with the value returned
 on another invokation of the function.
 
-\hypertarget{config_array_size}{%
-\subsection{Config\_Array\_Size}\label{config_array_size}}
+\subsection{Config\_Array\_Size}\label{config_array_size}
 
 Syntax: Config Array Size(Object, size) where: Object is an object. Size
 is an integer greater or equal to 0. Semantics: The configuration should
 prepare to deal efficiently with the object as an array with indexes
 having values up to the value of size.
 
-\hypertarget{config_array_put}{%
-\subsection{Config\_Array\_Put}\label{config_array_put}}
+\subsection{Config\_Array\_Put}\label{config_array_put}
 
 Syntax: Config Array Put(Array, Item, Index)
 
@@ -516,8 +491,7 @@ where: Array is an array. Item is an object Index is an integer greater
 or equal to 1. Semantics: The configuration shall record that the array
 has Item associated with Index.
 
-\hypertarget{config_array_at}{%
-\subsection{Config\_Array\_At}\label{config_array_at}}
+\subsection{Config\_Array\_At}\label{config_array_at}
 
 Syntax: Config Array At(Array, Index)
 
@@ -525,15 +499,13 @@ where: Array is an array. Index is an integer greater or equal to 1.
 Semantics: The configuration shall return the item that the array has
 associated with Index.
 
-\hypertarget{config_array_hasindex}{%
-\subsection{Config\_Array\_Hasindex}\label{config_array_hasindex}}
+\subsection{Config\_Array\_Hasindex}\label{config_array_hasindex}
 
 Syntax: Config Array At(Array, Index) where: Array is an array. Index is
 an integer greater or equal to 1. Semantics: Return `1' if there is an
 item in Array associated with Index, `0' otherwise.
 
-\hypertarget{config_array_remove}{%
-\subsection{Config\_Array\_Remove}\label{config_array_remove}}
+\subsection{Config\_Array\_Remove}\label{config_array_remove}
 
 Syntax: Config Array At(Array, Index)
 
@@ -541,8 +513,7 @@ where: Array is an array. Index is an integer greater or equal to 1.
 Semantics: After this operation, no item is associated with the Index in
 the Array.
 
-\hypertarget{commands}{%
-\section{Commands}\label{commands}}
+\section{Commands}\label{commands}
 
 The commands interface consists of a function which the configuration
 shall provide for strings to be passed as commands to an environment.
@@ -550,8 +521,7 @@ shall provide for strings to be passed as commands to an environment.
 See nnn and nnn for a description of language features that use
 commands.
 
-\hypertarget{config-_command}{%
-\subsection{Config \_Command}\label{config-_command}}
+\subsection{Config \_Command}\label{config-_command}
 
 Syntax:
 
@@ -581,15 +551,13 @@ environment to be addressed. It has components for:
   set \#RC to the return code string of the command.
 \end{itemize}
 
-\hypertarget{external-routines}{%
-\section{External routines}\label{external-routines}}
+\section{External routines}\label{external-routines}
 
 The external routines interface consists of a function which the
 configuration shall provide to invoke external routines. See nnn and nnn
 for a description of the language features that use external routines.
 
-\hypertarget{config_externalroutine}{%
-\subsection{Config\_ExternalRoutine}\label{config_externalroutine}}
+\subsection{Config\_ExternalRoutine}\label{config_externalroutine}
 
 Syntax: Config ExternalRoutine(How, NameType, Name, Environment,
 Arguments, Streams, Traps) where: How is one of `FUNCTION' or
@@ -633,8 +601,7 @@ If the routine failed in a way not indicated by some other indicator the
 indicator of the completion response is `F'. As a result SYNTAX
 condition 40.1 is raised implicitly.
 
-\hypertarget{config_externalmethod}{%
-\subsection{Config\_ExternalMethod}\label{config_externalmethod}}
+\subsection{Config\_ExternalMethod}\label{config_externalmethod}
 
 OOI has external classes explicitly via the ::CLASS abc EXTERNAL
 mechanism. Analogy with classic would also allow the subject of
@@ -706,8 +673,7 @@ shall be an ordered list. Config\_Push adds the specified string to one
 end of the list, Config \_Queue to the other. Config\_Pull removes a
 string from the end that Config\_Push adds to unless the list is empty.
 
-\hypertarget{config-push}{%
-\subsection{Config Push}\label{config-push}}
+\subsection{Config Push}\label{config-push}
 
 Syntax: Config Push(String)
 
@@ -715,8 +681,7 @@ where: String is the value to be retained in the external data queue.
 Semantics: Add String as an item to the end of the external data queue
 from which Config\_Pull will remove an item.
 
-\hypertarget{contig_queue}{%
-\subsection{Contig\_Queue}\label{contig_queue}}
+\subsection{Contig\_Queue}\label{contig_queue}
 
 Syntax: Config Queue (String)
 
@@ -724,8 +689,7 @@ where: String is the value to be retained in the external data queue.
 Semantics: Add String as an item to the opposite end of the external
 data queue from which Config\_Pull will remove an item.
 
-\hypertarget{config_pull}{%
-\subsection{Config\_Pull}\label{config_pull}}
+\subsection{Config\_Pull}\label{config_pull}
 
 Syntax: Config Pull()
 
@@ -734,8 +698,7 @@ which Config\_Push adds an element to the list. Set \#Outcome to the
 value of the retrieved item. If no item could be retrieved the indicator
 of the completion response is `F'.
 
-\hypertarget{contig_queued}{%
-\subsection{Contig\_Queued}\label{contig_queued}}
+\subsection{Contig\_Queued}\label{contig_queued}
 
 Syntax: Config Queued ()
 
@@ -744,8 +707,7 @@ Semantics:
 Get the count of items in the external data queue. Set \#Outcome to that
 number.
 
-\hypertarget{streams}{%
-\section{Streams}\label{streams}}
+\section{Streams}\label{streams}
 
 The streams interface consists of functions which the configuration
 shall provide to manipulate streams. See nnn, nnn, and nnn for a
@@ -799,8 +761,7 @@ The following functions shall be provided:
   \#Lineout\_Position.Stream.
 \end{itemize}
 
-\hypertarget{config-_stream_charin}{%
-\subsection{Config \_Stream\_Charin}\label{config-_stream_charin}}
+\subsection{Config \_Stream\_Charin}\label{config-_stream_charin}
 
 Syntax:
 
@@ -841,8 +802,7 @@ set to contain the data. The indicator of the response shall be `N';
   stream is accessed but no data is read.
 \end{itemize}
 
-\hypertarget{config_stream_position}{%
-\subsection{Config\_Stream\_Position}\label{config_stream_position}}
+\subsection{Config\_Stream\_Position}\label{config_stream_position}
 
 Syntax:
 
@@ -867,8 +827,7 @@ this position. If this function is unable to position the stream because
 the stream is transient then the indicator of the completion response
 shall be `T'.
 
-\hypertarget{config-_stream_command}{%
-\subsection{Config \_Stream\_Command}\label{config-_stream_command}}
+\subsection{Config \_Stream\_Command}\label{config-_stream_command}
 
 Syntax:
 
@@ -881,8 +840,7 @@ may alter the effect of any subsequent operation on the specified
 stream. If the indicator is set to `N', \#Outcome shall be set to
 information from the command.
 
-\hypertarget{config_stream_state}{%
-\subsection{Config\_Stream\_State}\label{config_stream_state}}
+\subsection{Config\_Stream\_State}\label{config_stream_state}
 
 Syntax:
 
@@ -895,8 +853,7 @@ Alternatively, return an indicator of `U'.
 The remainder of the response shall be a configuration-dependent
 description of the state of the stream.
 
-\hypertarget{config_stream_charout}{%
-\subsection{Config\_Stream\_Charout}\label{config_stream_charout}}
+\subsection{Config\_Stream\_Charout}\label{config_stream_charout}
 
 Syntax:
 
@@ -923,8 +880,7 @@ the stream will be affected as follows:
   `E'.
 \end{itemize}
 
-\hypertarget{config_stream_qualified}{%
-\subsection{Config\_Stream\_Qualified}\label{config_stream_qualified}}
+\subsection{Config\_Stream\_Qualified}\label{config_stream_qualified}
 
 Syntax:
 
@@ -933,8 +889,7 @@ to be processed. Semantics: Set \#Outcome to some name which identifies
 Stream. Return a completion response with indicator `B' if the argument
 is not acceptable to the configuration as identifying a stream.
 
-\hypertarget{config_stream_unique}{%
-\subsection{Config\_Stream\_Unique}\label{config_stream_unique}}
+\subsection{Config\_Stream\_Unique}\label{config_stream_unique}
 
 Syntax:
 
@@ -942,15 +897,13 @@ Config Stream Unique () Semantics: Set \#Outcome to a name that the
 configuration recognizes as a stream name. The name shall not be a name
 that the configuration associates with any existing data.
 
-\hypertarget{config_stream_query}{%
-\subsection{Config\_Stream\_Query}\label{config_stream_query}}
+\subsection{Config\_Stream\_Query}\label{config_stream_query}
 
 Syntax: Config Stream Query (Stream) where: Stream is the name of the
 stream to be queried. Semantics: Set \#Outcome to `B' if the stream is a
 binary stream, or to `C' if it is a character stream.
 
-\hypertarget{config_stream_close}{%
-\subsection{Config\_Stream\_Close}\label{config_stream_close}}
+\subsection{Config\_Stream\_Close}\label{config_stream_close}
 
 Syntax:
 
@@ -962,8 +915,7 @@ existing data. If this function is unable to position the stream because
 the stream is transient then the indicator of the completion response
 shall be `T'.
 
-\hypertarget{config-_stream_count}{%
-\subsection{Config \_Stream\_Count}\label{config-_stream_count}}
+\subsection{Config \_Stream\_Count}\label{config-_stream_count}
 
 Syntax: Config Stream Count (Stream, Operation, Option) where: Stream is
 the name of the stream to be counted. Operation is `CHARS', or `LINES'.
@@ -1003,8 +955,7 @@ If the option is `C', \#Outcome is set to zero if:
   can be read from the stream without delay and before resetting.
 \end{itemize}
 
-\hypertarget{external-variable-pools}{%
-\section{External variable pools}\label{external-variable-pools}}
+\section{External variable pools}\label{external-variable-pools}
 
 The external variable pools interface consists of functions which the
 configuration shall provide to manipulate variables in external variable
@@ -1022,8 +973,7 @@ pools mechanism. The following functions shall be provided:
 The configuration may permit the external variable pools to be altered
 in other ways.
 
-\hypertarget{config-get}{%
-\subsection{Config Get}\label{config-get}}
+\subsection{Config Get}\label{config-get}
 
 Syntax: Config Get (Poolid, Name) where: Poolid is an identification of
 the external variable pool. Name is the name of a variable. Semantics:
@@ -1033,8 +983,7 @@ external pool provided by this configuration, the indicator of the
 completion response is `P'. If Name is not a valid name of a variable in
 the external pool, the indicator of the completion response is `F'.
 
-\hypertarget{config-set}{%
-\subsection{Config Set}\label{config-set}}
+\subsection{Config Set}\label{config-set}
 
 Syntax: Config Set (Poolid, Name, Value)
 
@@ -1046,16 +995,14 @@ pool provided by this configuration, the indicator of the completion
 response is `P'. If Name is not a valid name of a variable in the
 external pool, the indicator of the completion response is `F'.
 
-\hypertarget{configuration-characteristics}{%
 \section{Configuration
-characteristics}\label{configuration-characteristics}}
+characteristics}\label{configuration-characteristics}
 
 The configuration characteristics interface consists of a function which
 the configuration shall provide which indicates choices decided by the
 configuration.
 
-\hypertarget{config_constants}{%
-\subsection{Config\_Constants}\label{config_constants}}
+\subsection{Config\_Constants}\label{config_constants}
 
 Syntax:
 
@@ -1090,8 +1037,7 @@ variables:
   set .local .kernel .system?
 \end{itemize}
 
-\hypertarget{configuration-routines}{%
-\section{Configuration routines}\label{configuration-routines}}
+\section{Configuration routines}\label{configuration-routines}
 
 The configuration routines interface consists of functions which the
 configuration shall provide which provide functions for a language
@@ -1126,8 +1072,7 @@ processor. The following functions shall be provided:
   Config\_Random\_Next.
 \end{itemize}
 
-\hypertarget{config_trace_query}{%
-\subsection{Config\_Trace\_Query}\label{config_trace_query}}
+\subsection{Config\_Trace\_Query}\label{config_trace_query}
 
 Syntax: Config Trace Query ()
 
@@ -1135,16 +1080,14 @@ Semantics: Indicate whether external activity is requesting interactive
 tracing. Set \#Outcome to `Yes' if interactive tracing is currently
 requested. Otherwise set \#Outcome to `No'.
 
-\hypertarget{config_trace_input}{%
-\subsection{Config\_Trace\_Input}\label{config_trace_input}}
+\subsection{Config\_Trace\_Input}\label{config_trace_input}
 
 Syntax: Config Trace Input ()
 
 Semantics: Set \#Outcome to a value from the source of trace input. The
 source of trace input is determined by the configuration.
 
-\hypertarget{config_trace_output}{%
-\subsection{Config\_Trace\_Output}\label{config_trace_output}}
+\subsection{Config\_Trace\_Output}\label{config_trace_output}
 
 Syntax: Config Trace Output (Line)
 
@@ -1153,23 +1096,20 @@ where: Line is a string. Semantics:
 Write String as a line to the destination of trace output. The
 destination of trace output is defined by the configuration.
 
-\hypertarget{config-_default_input}{%
-\subsection{Config \_Default\_Input}\label{config-_default_input}}
+\subsection{Config \_Default\_Input}\label{config-_default_input}
 
 Syntax: Config Default Input ()
 
 Semantics: Set \#Outcome to the value that LINEIN( ) would return.
 
-\hypertarget{config_default_output}{%
-\subsection{Config\_Default\_Output}\label{config_default_output}}
+\subsection{Config\_Default\_Output}\label{config_default_output}
 
 Syntax: Config Default Output (Line)
 
 where: Line is a string. Semantics: Write the string as a line in the
 manner of LINEOUT( ,Line).
 
-\hypertarget{config_initialization}{%
-\subsection{Config\_Initialization}\label{config_initialization}}
+\subsection{Config\_Initialization}\label{config_initialization}
 
 Syntax:
 
@@ -1179,8 +1119,7 @@ Semantics: This function is provided only as a counterpart to
 Trap\_Initialization; in itself it does nothing except return the
 response. An indicator of `F' gives rise to Msg3.1.
 
-\hypertarget{config_termination}{%
-\subsection{Config\_Termination}\label{config_termination}}
+\subsection{Config\_Termination}\label{config_termination}
 
 Syntax:
 
@@ -1190,8 +1129,7 @@ Semantics: This function is provided only as a counterpart to
 Trap\_Termination; in itself it does nothing except return the response.
 An indicator of `F' gives rise to Msg2.1.
 
-\hypertarget{config_halt_query}{%
-\subsection{Config\_Halt\_Query}\label{config_halt_query}}
+\subsection{Config\_Halt\_Query}\label{config_halt_query}
 
 Syntax: Config Halt Query ()
 
@@ -1208,8 +1146,7 @@ Semantics:
 Reset the configuration so that further attempts to cause a HALT
 condition will be recognized.
 
-\hypertarget{config-_nosource}{%
-\subsection{Config \_NoSource}\label{config-_nosource}}
+\subsection{Config \_NoSource}\label{config-_nosource}
 
 Syntax:
 
@@ -1224,8 +1161,7 @@ program to be processed in such a way that Config\_NoSource() sets
 \#NoSource to `0'. A configuration may allow any program to be processed
 in such a way that Config\_NoSource() sets \#NoSource to `1'.
 
-\hypertarget{config_time}{%
-\subsection{Config\_Time}\label{config_time}}
+\subsection{Config\_Time}\label{config_time}
 
 Syntax:
 
@@ -1245,8 +1181,7 @@ integer number of microseconds. \#Adjust\textless Index ``\#Adjust'' \#
 the date/time corresponding to \#Time. \#Time + \#Adjust\textless Index
 ``\#Adjust'' \# ``\,'' \textgreater{} is the local date/time.
 
-\hypertarget{config_random_seed}{%
-\subsection{Config\_Random\_Seed}\label{config_random_seed}}
+\subsection{Config\_Random\_Seed}\label{config_random_seed}
 
 Syntax: Config Random Seed (Seed)
 
@@ -1254,8 +1189,7 @@ where: Seed is a sequence of up to \#Bif\_Digits. RANDOM digits.
 Semantics: Set a seed, so that subsequent uses of Config\_Random\_Next
 will reproducibly return quasi-random numbers.
 
-\hypertarget{config_random_next}{%
-\subsection{Config\_Random\_Next}\label{config_random_next}}
+\subsection{Config\_Random\_Next}\label{config_random_next}
 
 Syntax:
 
@@ -1264,15 +1198,13 @@ on the number returned in \#Outcome. Max is the upper bound, inclusive,
 on the number returned in \#Outcome. Semantics: Set \#Outcome to a
 quasi-random nonnegative integer in the range Min to Max.
 
-\hypertarget{config_options}{%
-\subsection{Config\_Options}\label{config_options}}
+\subsection{Config\_Options}\label{config_options}
 
 Syntax: Config Options (String) where: String is a string. Semantics: No
 effect beyond the effects common to all Config\_ invocations. The value
 of the string will have come from an OPTIONS instruction, see nnn.
 
-\hypertarget{traps}{%
-\section{Traps}\label{traps}}
+\section{Traps}\label{traps}
 
 The trapping interface consists of functions which may be provided by
 the caller of API\_Start (see nnn) as a list of traps. Each trap may be
@@ -1322,8 +1254,7 @@ a Config\_ function. The names of the traps are
   Trap\_Halt\_Reset.
 \end{itemize}
 
-\hypertarget{variable-pool}{%
-\section{Variable pool}\label{variable-pool}}
+\section{Variable pool}\label{variable-pool}
 
 How does this fit with variables as properties?
 
@@ -1371,8 +1302,7 @@ these calls is the state variable \#Pool. If these Var\_ functions do
 not return an indicator `N', `R', or `D' then the API function shall
 return an error indication.
 
-\hypertarget{api-set}{%
-\subsection{API Set}\label{api-set}}
+\subsection{API Set}\label{api-set}
 
 Syntax: API Set(Symbol, Value) where: Symbol is a symbol. Value is the
 string whose value is to be assigned to the variable. Semantics: Assign
@@ -1382,8 +1312,7 @@ Set(\#Pool, Symbol, `0', Value) Otherwise: Var \_Set(\#Pool, \#Symbol,
 `1', Value) where: \#Symbol is Symbol after any replacements in the tail
 as described by nnn.
 
-\hypertarget{api-value}{%
-\subsection{API Value}\label{api-value}}
+\subsection{API Value}\label{api-value}
 
 Syntax: API Value (Symbol)
 
@@ -1397,8 +1326,7 @@ Otherwise the value of \#Outcome after: Var Value(\#Pool, \#Symbol, `1')
 where: \#Symbol is Symbol after any replacements in the tail as
 described by nnn.
 
-\hypertarget{api_drop}{%
-\subsection{API\_Drop}\label{api_drop}}
+\subsection{API\_Drop}\label{api_drop}
 
 Syntax: API Drop (Symbol)
 
@@ -1408,8 +1336,7 @@ character: Var Drop(\#Pool, Symbol, `0') Otherwise: Var Drop(\#Pool,
 \#Symbol, `1') where: \#Symbol is Symbol after any replacements in the
 tail as described by nnn.
 
-\hypertarget{api-setdirect}{%
-\subsection{API SetDirect}\label{api-setdirect}}
+\subsection{API SetDirect}\label{api-setdirect}
 
 Syntax: API SetDirect (Symbol, Value)
 
@@ -1421,8 +1348,7 @@ Symbol contains no period: Var\_ Set(\#Pool, Symbol, `0', Value)
 
 Otherwise: Var\_ Set(\#Pool, Symbol, `1', Value)
 
-\hypertarget{api_valuedirect}{%
-\subsection{API\_ValueDirect}\label{api_valuedirect}}
+\subsection{API\_ValueDirect}\label{api_valuedirect}
 
 Syntax: API ValueDirect (Symbol)
 
@@ -1430,8 +1356,7 @@ where: Symbol is a direct symbol. Semantics: Return the value of the
 variable identified by Symbol. If the Symbol contains no period: Var
 \_Value(\#Pool, Symbol, `0') Otherwise: Var \_Value(\#Pool, Symbol, `1')
 
-\hypertarget{api-dropdirect}{%
-\subsection{API DropDirect}\label{api-dropdirect}}
+\subsection{API DropDirect}\label{api-dropdirect}
 
 Syntax: API DropDirect (Symbol)
 
@@ -1442,8 +1367,7 @@ period: Var Drop(\#Pool, Symbol, `0')
 
 Otherwise: Var Drop(\#Pool, Symbol, `1')
 
-\hypertarget{api-valueother}{%
-\subsection{API ValueOther}\label{api-valueother}}
+\subsection{API ValueOther}\label{api-valueother}
 
 Syntax: API ValueOther (Qualifier) where: Qualifier is an indication
 distinguishing the result to be returned including any necessary further
@@ -1462,8 +1386,7 @@ be returned are:
   the value of \#Arg.1.n where n is an integer value provided as input.
 \end{itemize}
 
-\hypertarget{api-next}{%
-\subsection{API Next}\label{api-next}}
+\subsection{API Next}\label{api-next}
 
 Syntax: API Next ()
 
@@ -1477,8 +1400,7 @@ return a name that has not previously been returned; the order is
 undefined. This process of returning different names will restart
 whenever the Rexx processor executes Var\_Reset.
 
-\hypertarget{api-nextvariable}{%
-\subsection{API NextVariable}\label{api-nextvariable}}
+\subsection{API NextVariable}\label{api-nextvariable}
 
 Syntax: API NextVariable()
 
