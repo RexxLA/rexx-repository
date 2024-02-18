@@ -73,7 +73,7 @@ If arguments~isA(.Array) Then Do
   Return Transform(arguments, outArray)
 End
 
-If arguments = "" Then Do
+If Arg() == 0 Then Do
   Say .resources~help
   Exit 
 End
