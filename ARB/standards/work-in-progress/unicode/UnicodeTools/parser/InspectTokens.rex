@@ -39,6 +39,8 @@ Do While inFile~Word(1)~Left(1) == "-"
   End
 End
 
+inFile = Strip(inFile)
+
 If inFile = "" Then Do
   Say .resources[help]
   Exit 1

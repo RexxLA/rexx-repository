@@ -469,6 +469,7 @@ Options (case insensitive):
   -keep, -k  : do not delete the generated .rex file                     
   -nokeep    : delete the generated .rex file (the default)              
   -warnbif   : warn when using not-yet-migrated to Unicode BIFs
-  -nowarnbif : don't warn when using not-yet-migrated to Unicode BIFs (the default)
+  -nowarnbif : don't warn when using not-yet-migrated-to-Unicode
+               BIFs (the default)
   
 ::END

@@ -52,6 +52,7 @@
 ::Class Unicode.General_Category Public SubClass Unicode.Property
 
 ::Constant Variables   "Lu Ll Lt Lm Lo Lo_CJK_Compatibility_Ideograph Lo_CJK_Unified_Ideograph Lo_Hangul_Syllabe Lo_Khitan_Small_Script Lo_Nushu_Character Lo_Tangut_Component Lo_Tangut_Ideograph Mn Mc Me Nd Nl No Pc Pd Ps Pe Pi Pf Po Sm Sc Sk So Zs Zl Zp Cc Cf Cs Co Cn"
+--                      01 02 03 04 05 06 07                          08                       09                0A                     0B                 0C                  0D                  0E 0F 10 11 12 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25
 ::Constant BinaryFile  "gc.bin"  
 
 ::Attribute Lo_CJK_Compatibility_Ideograph Class Get
