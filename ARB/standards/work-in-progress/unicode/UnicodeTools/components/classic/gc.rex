@@ -21,7 +21,7 @@
   
   See testgc.rex for an utilization example.
   
-  The first call should have a single argument, called "INIT". It will return an opaque token,
+  The first call should have a single argument, called "INIT". It will return an opaque token.
   
   Subsequent calls should have three arguments:
     1: "Query" (case insensitive, 1 char is enough)
@@ -33,7 +33,6 @@
 
 /* Location of the binary file */
 binFile = "../bin/gc.bin"
-
 
 Arg verb
 

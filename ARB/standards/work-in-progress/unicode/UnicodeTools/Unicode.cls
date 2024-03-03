@@ -248,7 +248,7 @@ Properties:
      
 ::Routine !C2X Public
   Use Strict Arg string, encoding = "UTF-8"
-Return string~c2x(encoding)
+Return .Bytes~new(string)~c2x(encoding)
 
 ::Routine !CENTER Public
   Use Strict Arg string, length, pad = " "
