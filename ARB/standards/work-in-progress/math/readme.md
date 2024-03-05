@@ -12,7 +12,7 @@ The goal is to specify a standard Rexx math library which is compatible over the
 ### Patrick McPhee Rexx Math Bumper Pack
 
 |Function                 | Call. Seq.   | Alias(es) |       Requires    |
-|=========================|==============|===========|===================|
+|-------------------------|--------------|-----------|-------------------|
 |Absolute value           | abs(x)       |  fabs     | |
 |Inverse cosine           | acos(x)      |            |   -1.0 <= x <= 1.0|
 |Inverse hyperbolic cos   | acosh(x)     |             |     x >= 1.0|
