@@ -15,7 +15,7 @@
 
 ### Related to Graphemes
 
-* The [Grapheme Break Property UCD file](https://www.unicode.org/Public/UCD/latest/ucd/auxiliary/GraphemeBreakTest.txt), implementing the Grapheme_Cluster_Break (gcb) property, by the Unicode Consortium.
+* The [Grapheme Break Property UCD file](https://www.unicode.org/Public/UCD/latest/ucd/auxiliary/GraphemeBreakProperty.txt), implementing the Grapheme_Cluster_Break (gcb) property, by the Unicode Consortium.
 * The [Grapheme Break Test UCD file](https://www.unicode.org/Public/UCD/latest/ucd/auxiliary/GraphemeBreakTest.txt), by the Unicode Consortium.
 * The [Grapheme Break Chart](http://www.unicode.org/Public/UNIDATA/auxiliary/GraphemeBreakTest.html), by the Unicode Consortium.
 
