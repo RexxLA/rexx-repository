@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  16 FEB 2024 16:56
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  28 FEB 2024 22:25
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -2407,43 +2407,43 @@ hough this is nominally EXTERNAL
 ) (./instructions.tex [84]
 Chapter 11.
 
-Overfull \hbox (0.33966pt too wide) in paragraph at lines 23--26
+Overfull \hbox (0.33966pt too wide) in paragraph at lines 25--28
 \TU/MinionPro(0)/m/n/12 If the routine is invoked as a function, #lsFunction.#N
 ewLevel shall be set to ‘1’, otherwise
  []
 
 
-Overfull \hbox (14.29114pt too wide) in paragraph at lines 44--47
+Overfull \hbox (14.29114pt too wide) in paragraph at lines 46--49
 []\TU/MinionPro(0)/m/n/12 do t=1 to 7 Condition = word(‘SYNTAX HALT ERROR FAILU
 RE NOTREADY NOVALUE
  []
 
 
-Overfull \hbox (75.21156pt too wide) in paragraph at lines 48--51
+Overfull \hbox (75.21156pt too wide) in paragraph at lines 50--53
 []\TU/MinionPro(0)/m/n/12 #Instruction.Condition.#NewLevel = #Instruction.Condi
 tion.#Level #TrapName.Condition.#NewLevel
  []
 
 
-Overfull \hbox (58.66754pt too wide) in paragraph at lines 48--51
+Overfull \hbox (58.66754pt too wide) in paragraph at lines 50--53
 \TU/MinionPro(0)/m/n/12 = #TrapName.Condition.#Level #EventLevel.Condition.#New
 Level = #EventLevel.Condition.#Level
  []
 
 
-Overfull \hbox (98.78358pt too wide) in paragraph at lines 55--62
+Overfull \hbox (98.78358pt too wide) in paragraph at lines 57--64
 []\TU/MinionPro(0)/m/n/12 built-in function are copied. #Condition.#NewLevel = 
 #Condition.#Level #ConditionDescription.#NewLevel
  []
 
 
-Overfull \hbox (3.71956pt too wide) in paragraph at lines 55--62
+Overfull \hbox (3.71956pt too wide) in paragraph at lines 57--64
 \TU/MinionPro(0)/m/n/12 = #ConditionDescription.#Level #ConditionExtra.#NewLeve
 l = #ConditionExtra.#Level
  []
 
 
-Overfull \hbox (8.69565pt too wide) in paragraph at lines 55--62
+Overfull \hbox (8.69565pt too wide) in paragraph at lines 57--64
 \TU/MinionPro(0)/m/n/12 initialized routine continues at the new level of invoc
 ation. #Level = #NewLevel #NewLevel
  []
@@ -2451,49 +2451,49 @@ ation. #Level = #NewLevel #NewLevel
 [85
 
 ]
-Overfull \hbox (21.04674pt too wide) in paragraph at lines 65--67
+Overfull \hbox (21.04674pt too wide) in paragraph at lines 67--69
 \TU/MinionPro(0)/m/n/12 The clause is traced before execution: if pos(#Tracing.
 #Level, ‘AIR’) > 0 then call #TraceSource 
  []
 
 [86]
-Overfull \hbox (0.49875pt too wide) in paragraph at lines 127--132
+Overfull \hbox (0.49875pt too wide) in paragraph at lines 129--134
 []\TU/MinionPro(0)/m/n/12 If a TRACE instruction is executed within the string,
  the language processor immediately
  []
 
 [87]
-Overfull \hbox (3.95877pt too wide) in paragraph at lines 191--194
+Overfull \hbox (3.95877pt too wide) in paragraph at lines 193--196
 \TU/MinionPro(0)/m/n/12 “environment” is used to refer to an environment name t
 ogether with the I/O redirections. 
  []
 
 
-Overfull \hbox (0.31953pt too wide) in paragraph at lines 213--223
+Overfull \hbox (0.31953pt too wide) in paragraph at lines 215--225
 \TU/MinionPro(0)/m/it/12 (address, taken constant), & #Contains (address,valuee
 xp), & #Contains (address, ‘WITH’)
  []
 
 
-Overfull \hbox (15.35164pt too wide) in paragraph at lines 213--223
+Overfull \hbox (15.35164pt too wide) in paragraph at lines 215--225
 \TU/MinionPro(0)/m/it/12 return end / \TU/MinionPro(0)/m/n/12 The environment n
 ame will be explicitly specified. */ if #Contains(address,taken
  []
 
 
-Overfull \hbox (21.59166pt too wide) in paragraph at lines 213--223
+Overfull \hbox (21.59166pt too wide) in paragraph at lines 215--225
 \TU/MinionPro(0)/m/n/12 constant) then Name = #Instance(address, taken _- const
 ant) else Name = #Evaluate(valueexp,
  []
 
 
-Overfull \hbox (14.45474pt too wide) in paragraph at lines 245--248
+Overfull \hbox (14.45474pt too wide) in paragraph at lines 247--250
 []\TU/MinionPro(0)/m/n/12 AddressSetup: /* Note what is specified on the ADDRES
 S instruction, into the TRANSIENT
  []
 
 
-Overfull \hbox (29.74182pt too wide) in paragraph at lines 249--251
+Overfull \hbox (29.74182pt too wide) in paragraph at lines 251--253
 []\TU/MinionPro(0)/m/n/12 #Env_- Type.I.EnvTail = ‘NORMAL’ #Env_- Type.O.EnvTai
 l = ‘NORMAL’ #Env_- Type.E.EnvTail
  []
@@ -2502,88 +2502,85 @@ l = ‘NORMAL’ #Env_- Type.E.EnvTail
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [88]
-Underfull \hbox (badness 1024) in paragraph at lines 256--258
+Underfull \hbox (badness 1024) in paragraph at lines 258--260
 []\TU/MinionPro(0)/m/n/12 #Env_-Position.I.EnvTail = ‘INPUT’ #Env_-Position.O.E
 nvTail = ‘REPLACE’ #Env_-
  []
 
 
-Overfull \hbox (68.51376pt too wide) in paragraph at lines 265--270
+Overfull \hbox (68.51376pt too wide) in paragraph at lines 267--272
 \TU/MinionPro(0)/m/n/12 ‘STREAM’) then do #Env_-Type.I.EnvTail = ‘STREAM’ #Env_
 -Resource.1.EnvTail=#Evaluate(resourcei,
  []
 
 
-Overfull \hbox (0.70767pt too wide) in paragraph at lines 278--281
+Overfull \hbox (0.70767pt too wide) in paragraph at lines 280--283
 \TU/MinionPro(0)/m/n/12 of #Contains specifies that the relevant resourceo is u
 sed in NoteTarget. */ call NoteTarget
  []
 
 
-Overfull \hbox (27.42177pt too wide) in paragraph at lines 296--299
+Overfull \hbox (27.42177pt too wide) in paragraph at lines 298--301
 []\TU/MinionPro(0)/m/n/12 if #Contains(resourceo,‘STEM’) then do #Env_-Type.Whi
 ch.EnvTail=‘STEM’ Temp=#Instance
  []
 
 
-Overfull \hbox (1.08357pt too wide) in paragraph at lines 307--319
+Overfull \hbox (1.08357pt too wide) in paragraph at lines 309--321
 \TU/MinionPro(0)/m/n/12 #Env_- Type.I.Lhs.LhsLevel = #Env_-Type.I.Rhs.RhsLevel 
 #Env_- Resource.I.Lhs.LhsLevel
  []
 
 
-Overfull \hbox (40.25957pt too wide) in paragraph at lines 307--319
+Overfull \hbox (40.25957pt too wide) in paragraph at lines 309--321
 \TU/MinionPro(0)/m/n/12 = #Env_-Resource.I.Rhs.RhsLevel #Env_-Position.I.Lhs.Lh
 sLevel = #Env_-Position.I.Rhs.RhsLevel
  []
 
 
-Overfull \hbox (12.44356pt too wide) in paragraph at lines 307--319
+Overfull \hbox (12.44356pt too wide) in paragraph at lines 309--321
 \TU/MinionPro(0)/m/n/12 #Env_- Type.O.Lhs.LhsLevel = #Env_-Type.O.Rhs.RhsLevel 
 #Env_-Resource.O.Lhs.LhsLevel
  []
 
 
-Overfull \hbox (53.43556pt too wide) in paragraph at lines 307--319
+Overfull \hbox (53.43556pt too wide) in paragraph at lines 309--321
 \TU/MinionPro(0)/m/n/12 = #Env_-Resource.O.Rhs.RhsLevel #Env_-Position.O.Lhs.Lh
 sLevel = #Env_-Position.O.Rhs.RhsLevel
  []
 
 
-Overfull \hbox (7.43956pt too wide) in paragraph at lines 307--319
+Overfull \hbox (7.43956pt too wide) in paragraph at lines 309--321
 \TU/MinionPro(0)/m/n/12 #Env_- Type.E.Lhs.LhsLevel = #Env_-Type.E.Rhs.RhsLevel 
 #Env_-Resource.E.Lhs.LhsLevel
  []
 
 
-Overfull \hbox (30.87953pt too wide) in paragraph at lines 307--319
+Overfull \hbox (30.87953pt too wide) in paragraph at lines 309--321
 \TU/MinionPro(0)/m/n/12 #Env_-Resource.E.Rhs.RhsLevel #Env_-Position.E.Lhs.LhsL
 evel #Env_-Position.E.Rhs.RhsLevel
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [89]
-Overfull \hbox (42.06764pt too wide) in paragraph at lines 371--373
+[89]
+Overfull \hbox (42.06764pt too wide) in paragraph at lines 373--375
 []\TU/MinionPro(0)/m/n/12 If a callon_-spec is specified: If #Contains(call,cal
 lon spec) then do Condition = #Instance(callon_-
  []
 
 
-Overfull \hbox (85.18979pt too wide) in paragraph at lines 374--377
+Overfull \hbox (85.18979pt too wide) in paragraph at lines 376--379
 []\TU/MinionPro(0)/m/n/12 #Instruction.Condition.#Level = ‘CALL’ If #Contains(c
 allon spec, ‘OFF’) then #Enabling.Condition.#Level
  []
 
 [90]
-Overfull \hbox (1.13875pt too wide) in paragraph at lines 403--408
+Overfull \hbox (1.13875pt too wide) in paragraph at lines 405--410
 \TU/MinionPro(0)/m/n/12 TRANSIENT \TU/MinionPro(0)/m/it/12 / / \TU/MinionPro(0)
 /m/n/12 This description does not require the command processor to understand
  []
 
 
-Overfull \hbox (2.53963pt too wide) in paragraph at lines 403--408
+Overfull \hbox (2.53963pt too wide) in paragraph at lines 405--410
 \TU/MinionPro(0)/m/n/12 stems, so it uses an altered environment. */ call EnvAs
 sign PASSED, #Level, TRANSIENT,
  []
@@ -2591,19 +2588,19 @@ sign PASSED, #Level, TRANSIENT,
 ! Undefined control sequence.
 <argument> ...Lines = value(Stem'0') if \datatype 
                                                   (Lines,`W') then call \#Ra...
-l.413 call \#Raise `SYNTAX',54.1,Stem'0', Lines /}
+l.415 call \#Raise `SYNTAX',54.1,Stem'0', Lines /}
                                                    Use a stream for the stem
 ? q
 OK, entering \batchmode...
 
-Overfull \hbox (22.6147pt too wide) in paragraph at lines 409--419
+Overfull \hbox (22.6147pt too wide) in paragraph at lines 411--421
 []\TU/MinionPro(0)/m/n/12 /* Note the command input. \TU/MinionPro(0)/m/it/12 /
  if #Env_-Type.I.EnvTail = ‘STEM’ then do / \TU/MinionPro(0)/m/n/12 Check reaso
 nableness
  []
 
 
-Overfull \hbox (1.71153pt too wide) in paragraph at lines 409--419
+Overfull \hbox (1.71153pt too wide) in paragraph at lines 411--421
 \TU/MinionPro(0)/m/it/12 call #Raise ‘SYNTAX’,54.1,Stem’0’, Lines if Lines<0 th
 en call #Raise ‘SYNTAX’,54.1,Stem’0’,
  []
@@ -2611,7 +2608,7 @@ en call #Raise ‘SYNTAX’,54.1,Stem’0’,
 ! Undefined control sequence.
 <argument> / Lines=value (Stem'0'); if \datatype 
                                                  (Lines,`W') then call \#Rai...
-l.429 ...', Lines end else call value Stem'0',O /}
+l.431 ...', Lines end else call value Stem'0',O /}
                                                    Use a
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2620,19 +2617,19 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (1.71153pt too wide) in paragraph at lines 426--432
+Overfull \hbox (1.71153pt too wide) in paragraph at lines 428--434
 \TU/MinionPro(0)/m/it/12 call #Raise ‘SYNTAX’,54.1,Stem’0’, Lines if Lines<0 th
 en call #Raise ‘SYNTAX’,54.1,Stem’0’,
  []
 
 
-Overfull \hbox (16.1787pt too wide) in paragraph at lines 426--432
+Overfull \hbox (16.1787pt too wide) in paragraph at lines 428--434
 \TU/MinionPro(0)/m/it/12 Lines end else call value Stem’0’,O / \TU/MinionPro(0)
 /m/n/12 Use a stream for the stem */ #Env_-Type.O.PASSED.#Level
  []
 
 ! Undefined control sequence.
-l.440 if \datatype
+l.442 if \datatype
                   (Lines,`W') then call \#Raise `SYNTAX',54.1,Stem'0', Lines
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2641,50 +2638,50 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (28.72762pt too wide) in paragraph at lines 439--442
+Overfull \hbox (28.72762pt too wide) in paragraph at lines 441--444
 \TU/MinionPro(0)/m/n/12 then call #Raise ‘SYNTAX’,54.1,Stem’0’, Lines if Lines<
 0 then call #Raise ‘SYNTAX’,54.1,Stem’0’,
  []
 
 
-Overfull \hbox (2.49878pt too wide) in paragraph at lines 443--446
+Overfull \hbox (2.49878pt too wide) in paragraph at lines 445--448
 []\TU/MinionPro(0)/m/n/12 end else call value Stem’0’,0O /* Use a stream for th
 e stem */ #Env_- Type.E.PASSED.#Level
  []
 
 
-Overfull \hbox (17.35164pt too wide) in paragraph at lines 455--457
+Overfull \hbox (17.35164pt too wide) in paragraph at lines 457--459
 []\TU/MinionPro(0)/m/n/12 #Response = Config Command (PASSED, Cmd) #Indicator =
  left (#Response,1) Description
  []
 
  [91]
-Overfull \hbox (14.35959pt too wide) in paragraph at lines 468--481
+Overfull \hbox (14.35959pt too wide) in paragraph at lines 470--483
 \TU/MinionPro(0)/m/n/12 Error \TU/MinionPro(0)/m/it/12 / end call Var Set 0, ‘.
 RS’, 0, Temp / \TU/MinionPro(0)/m/n/12 Process the output \TU/MinionPro(0)/m/it
 /12 / if #Env_-Type.O.EnvTail=‘STEM’
  []
 
 
-Overfull \hbox (79.12354pt too wide) in paragraph at lines 468--481
+Overfull \hbox (79.12354pt too wide) in paragraph at lines 470--483
 \TU/MinionPro(0)/m/it/12 #Env_-Resource.0O.PASSED.#Level do while lines (Output
 Stream) > 0 call value Stem’0O’,value(Stem’0’)4+1
  []
 
 
-Overfull \hbox (31.80759pt too wide) in paragraph at lines 468--481
+Overfull \hbox (31.80759pt too wide) in paragraph at lines 470--483
 \TU/MinionPro(0)/m/n/12 (OutputStream) > 0 call value Stem’0O’,value(Stem’0’)4+
 1 call value Stem| |value(Stem’0’),linein
  []
 
 
-Overfull \hbox (5.87874pt too wide) in paragraph at lines 482--487
+Overfull \hbox (5.87874pt too wide) in paragraph at lines 484--489
 \TU/MinionPro(0)/m/n/12 > 0 then call #Trace ‘+++’ if (#Indicator == ‘N’ & #Tra
 cing.#Level==‘E’), | (#Indicator==‘F’
  []
 
 ! Undefined control sequence.
-l.518 specification, repexpr) then if \datatype
+l.520 specification, repexpr) then if \datatype
                                                (repexpr,`W') then call \#Raise
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2693,32 +2690,32 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (26.22362pt too wide) in paragraph at lines 514--527
+Overfull \hbox (26.22362pt too wide) in paragraph at lines 516--529
 \TU/MinionPro(0)/m/n/12 (OnceLabel) #Leave.#Loop = #Clause (LeaveLabel) if #Con
 tains (do specification,assignment)
  []
 
 
-Overfull \hbox (21.35382pt too wide) in paragraph at lines 514--527
+Overfull \hbox (21.35382pt too wide) in paragraph at lines 516--529
 \TU/MinionPro(0)/m/n/12 then #Identity.#Loop = #Instance(assignment, VAR SYMBOL
 ) if #Contains (do specification,
  []
 
 
-Overfull \hbox (20.83475pt too wide) in paragraph at lines 514--527
+Overfull \hbox (20.83475pt too wide) in paragraph at lines 516--529
 \TU/MinionPro(0)/m/n/12 repexpr) then if (repexpr,‘W’) then call #Raise ‘SYNTAX
 ’, 26.2,repexpr else do #Repeat.#Loop
  []
 
 
-Overfull \hbox (16.00362pt too wide) in paragraph at lines 514--527
+Overfull \hbox (16.00362pt too wide) in paragraph at lines 516--529
 \TU/MinionPro(0)/m/n/12 ‘SYNTAX’, 41.6, #StartValue.#Loop #StartValue.#Loop = #
 StartValue.#Loop + 0 if #Contains
  []
 
  [92]
 ! Undefined control sequence.
-l.535 ...cification, forexpr) then do if \datatype
+l.537 ...cification, forexpr) then do if \datatype
                                                   (forexpr,
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2727,31 +2724,31 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (30.08766pt too wide) in paragraph at lines 543--546
+Overfull \hbox (30.08766pt too wide) in paragraph at lines 545--548
 []\TU/MinionPro(0)/m/n/12 #Repeat.#Loop = #OverArray~items /* Count this downwa
 rds as if repexpr. */ #Iidentity.#Loop
  []
 
 
-Overfull \hbox (2.07562pt too wide) in paragraph at lines 551--553
+Overfull \hbox (2.07562pt too wide) in paragraph at lines 553--555
 []\TU/MinionPro(0)/m/n/12 if #Contains (do specification, untilexpr) then do Va
 lue = #Evaluate(untilexp, expression) 
  []
 
 
-Overfull \hbox (14.78674pt too wide) in paragraph at lines 560--562
+Overfull \hbox (14.78674pt too wide) in paragraph at lines 562--564
 []\TU/MinionPro(0)/m/n/12 if #Indicator == ‘D’ then call #Raise ‘NOVALUE’, #Ide
 ntity.#Loop call value #Identity.#Loop,
  []
 
 
-Overfull \hbox (38.91164pt too wide) in paragraph at lines 565--569
+Overfull \hbox (38.91164pt too wide) in paragraph at lines 567--571
 []\TU/MinionPro(0)/m/n/12 if #Contains (do specification, toexpr) then do if #B
 y.#Loop>=0 then do if value(#Identity.#Loop)
  []
 
 
-Overfull \hbox (42.55164pt too wide) in paragraph at lines 570--578
+Overfull \hbox (42.55164pt too wide) in paragraph at lines 572--580
 \TU/MinionPro(0)/m/n/12 #For.#Loop - 1 end if #Contains (do specification, whil
 eexpr) then do Value = #Evaluate(whileexp,
  []
@@ -2760,13 +2757,13 @@ eexpr) then do Value = #Evaluate(whileexp,
 Underfull \vbox (badness 1348) has occurred while \output is active []
 
  [93] [94] [95]
-Overfull \hbox (18.13875pt too wide) in paragraph at lines 756--758
+Overfull \hbox (18.13875pt too wide) in paragraph at lines 758--760
 []\TU/MinionPro(0)/m/n/12 The INTERPRET instruction is used to execute instruct
 ions that have been built dynamically
  []
 
 
-Overfull \hbox (4.53163pt too wide) in paragraph at lines 770--772
+Overfull \hbox (4.53163pt too wide) in paragraph at lines 772--774
 []\TU/MinionPro(0)/m/n/12 If that recognition would produce any message then th
 e interpret raises the corresponding
  []
@@ -2776,7 +2773,7 @@ Underfull \vbox (badness 4254) has occurred while \output is active []
 
  [96] [97]
 ! Undefined control sequence.
-l.836 if \datatype
+l.838 if \datatype
                   (Value,`W') then
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2785,7 +2782,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.872 ...z,expression) else Value = 0 If \datatype
+l.874 ...z,expression) else Value = 0 If \datatype
                                                   (Value,`W') then
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2794,7 +2791,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (0.38359pt too wide) in paragraph at lines 871--877
+Overfull \hbox (0.38359pt too wide) in paragraph at lines 873--879
 []\TU/MinionPro(0)/m/n/12 If #Contains (numericfuzz,expression) then Value = #E
 valuate (numericfuzz,expression)
  []
@@ -2806,32 +2803,32 @@ Underfull \vbox (badness 1178) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [99]
-Overfull \hbox (27.2436pt too wide) in paragraph at lines 960--962
+Overfull \hbox (27.2436pt too wide) in paragraph at lines 962--964
 []\TU/MinionPro(0)/m/n/12 Data=substr (ToParse,DataStart, DataEnd-DataStart) ca
 ll WordParse /* Does the assignments.
  []
 
 
-Overfull \hbox (16.83963pt too wide) in paragraph at lines 963--967
+Overfull \hbox (16.83963pt too wide) in paragraph at lines 965--969
 []\TU/MinionPro(0)/m/n/12 end /* while \TU/MinionPro(0)/m/it/12 / if Template.T
 ok == ‘,’ then leave / \TU/MinionPro(0)/m/n/12 Continue with next source. */ To
 ken=Token+1
  []
 
 
-Overfull \hbox (42.39969pt too wide) in paragraph at lines 977--980
+Overfull \hbox (42.39969pt too wide) in paragraph at lines 979--982
 \TU/MinionPro(0)/m/n/12 introduces a pattern which is not a constant. */ Token 
 = Token+1 Pattern = value(Template.Token) 
  []
 
 
-Overfull \hbox (63.11566pt too wide) in paragraph at lines 986--993
+Overfull \hbox (63.11566pt too wide) in paragraph at lines 988--995
 []\TU/MinionPro(0)/m/n/12 /* The following removes the outer quotes from the li
 teral pattern \TU/MinionPro(0)/m/it/12 / interpret “Pattern=”Template.Token
  []
 
 ! Undefined control sequence.
-l.1014 \datatype
+l.1016 \datatype
                  (BreakStart,`W')
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2844,7 +2841,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [100]
 ! Undefined control sequence.
-l.1067 if \Target
+l.1069 if \Target
                  .NextTok then do call Assign (Data)
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2853,7 +2850,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (20.42365pt too wide) in paragraph at lines 1093--1098
+Overfull \hbox (20.42365pt too wide) in paragraph at lines 1095--1100
 []\TU/MinionPro(0)/m/n/12 end Tok=Token /* Next time start on new part of templ
 ate. \TU/MinionPro(0)/m/it/12 / return Assign: if Template.Tok==‘.’
  []
@@ -2862,32 +2859,32 @@ ate. \TU/MinionPro(0)/m/it/12 / return Assign: if Template.Tok==‘.’
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [101] [102]
-Overfull \hbox (2.93874pt too wide) in paragraph at lines 1189--1191
+Overfull \hbox (2.93874pt too wide) in paragraph at lines 1191--1193
 \TU/MinionPro(0)/m/n/12 The RAISE instruction returns from the current method o
 r routine and raises a condition. 
  []
 
 
-Overfull \hbox (11.36359pt too wide) in paragraph at lines 1197--1205
+Overfull \hbox (11.36359pt too wide) in paragraph at lines 1199--1207
 \TU/MinionPro(0)/m/n/12 evaluated: if #Contains(return,expression) then #Outcom
 e = #Evaluate(return, expression) 
  []
 
  [103]
-Overfull \hbox (98.2858pt too wide) in paragraph at lines 1276--1279
+Overfull \hbox (98.2858pt too wide) in paragraph at lines 1278--1281
 []\TU/MinionPro(0)/m/n/12 #Instruction.Condition.#Level = ‘SIGNAL’ If #Contains
  (signal spec, ‘OFF’) then #Enabling.Condition.#Level
  []
 
 
-Overfull \hbox (7.63164pt too wide) in paragraph at lines 1287--1289
+Overfull \hbox (7.63164pt too wide) in paragraph at lines 1289--1291
 []\TU/MinionPro(0)/m/n/12 If there was a signal_-spec this complete the process
 ing of the signal instruction. Otherwise:
  []
 
  [104]
 ! Undefined control sequence.
-l.1326 \datatype
+l.1328 \datatype
                 (Value,`W') then call \#Raise `SYNTAX', 26.7, Value if
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2896,31 +2893,31 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (20.99559pt too wide) in paragraph at lines 1321--1336
+Overfull \hbox (20.99559pt too wide) in paragraph at lines 1323--1338
 []\TU/MinionPro(0)/m/n/12 Config_-Trace_-Input) and interactive trace is reques
 ted (#Interactive.#Level = ‘1’). Otherwise:
  []
 
 
-Overfull \hbox (33.68771pt too wide) in paragraph at lines 1321--1336
+Overfull \hbox (33.68771pt too wide) in paragraph at lines 1323--1338
 \TU/MinionPro(0)/m/n/12 #TraceInstruction = ‘1’ value = ’’ if #Contains(trace, 
 valueexp) then Value = #Evaluate(valueexp,
  []
 
  [105]
-Overfull \hbox (5.38364pt too wide) in paragraph at lines 1357--1388
+Overfull \hbox (5.38364pt too wide) in paragraph at lines 1359--1390
 \TU/MinionPro(0)/m/n/12 greater than zero, #TraceSource does nothing except dec
 rement #InhibitTrace. Otherwise,
  []
 
 
-Overfull \hbox (22.60365pt too wide) in paragraph at lines 1408--1413
+Overfull \hbox (22.60365pt too wide) in paragraph at lines 1410--1415
 \TU/MinionPro(0)/m/n/12 phase. These are error conditions recognized by the lan
 guage processor, but the circumstances
  []
 
  [106]
-Overfull \hbox (0.93875pt too wide) in paragraph at lines 1425--1428
+Overfull \hbox (0.93875pt too wide) in paragraph at lines 1427--1430
 []\TU/MinionPro(0)/m/n/12 Some of the arguments may be omitted. In the case of 
 condition ‘SYNTAX’ the arguments
  []
@@ -2928,90 +2925,90 @@ condition ‘SYNTAX’ the arguments
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1452 boundary. */ if \arg
+l.1454 boundary. */ if \arg
                            (1,`E') then do Description = \#PendingDescription.
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 1452.
+(Font)              <12> on input line 1454.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 1452.
+(Font)              <8> on input line 1454.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 1452.
+(Font)              <6> on input line 1454.
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.1454 
+l.1456 
        
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (51.32088pt too wide) in paragraph at lines 1450--1454
+Overfull \hbox (51.32088pt too wide) in paragraph at lines 1452--1456
 \TU/MinionPro(0)/m/n/12 the condition occurred until an appropriate clause boun
 dary. */ if $[]\OT1/cmr/m/n/12 (1\OML/cmm/m/it/12 ; []E[]\OT1/cmr/m/n/12 )\OML/
 cmm/m/it/12 thendoDescription \OT1/cmr/m/n/12 =
  []
 
 
-Overfull \hbox (27.7877pt too wide) in paragraph at lines 1450--1454
+Overfull \hbox (27.7877pt too wide) in paragraph at lines 1452--1456
 []\OML/cmm/m/it/12 PendingDescription:[]Condition:[]LevelExtra \OT1/cmr/m/n/12 
 = []\OML/cmm/m/it/12 PendingExtra:[]Condition:[]Level$ 
  []
 
 
-Overfull \hbox (50.51164pt too wide) in paragraph at lines 1457--1460
+Overfull \hbox (50.51164pt too wide) in paragraph at lines 1459--1462
 []\TU/MinionPro(0)/m/n/12 Description = arg(2) Extra = arg(3) end else do Descr
 iption = #Message(arg(2),arg(3),arg(4),arg(5))
  []
 
 
-Overfull \hbox (7.53464pt too wide) in paragraph at lines 1464--1469
+Overfull \hbox (7.53464pt too wide) in paragraph at lines 1466--1471
 \TU/MinionPro(0)/m/it/12 == ‘HALT’ then Description = #Message(4.1, Description
 ) exit / \TU/MinionPro(0)/m/n/12 Terminate with Description
  []
 
 
-Overfull \hbox (3.7076pt too wide) in paragraph at lines 1472--1477
+Overfull \hbox (3.7076pt too wide) in paragraph at lines 1474--1479
 \TU/MinionPro(0)/m/n/12 = Description #ConditionExtra.#Level = Extra #Condition
 Instruction.#Level = ‘SIGNAL’
  []
 
 
-Overfull \hbox (39.43771pt too wide) in paragraph at lines 1480--1498
+Overfull \hbox (39.43771pt too wide) in paragraph at lines 1482--1500
 \TU/MinionPro(0)/m/it/12 == ‘DELAYED’ then do if #Condition == ‘HALT’ then retu
 rn EventLevel = #EventLevel.#Condition.
  []
 
 
-Overfull \hbox (14.4436pt too wide) in paragraph at lines 1480--1498
+Overfull \hbox (14.4436pt too wide) in paragraph at lines 1482--1500
 \TU/MinionPro(0)/m/n/12 the one being handled. \TU/MinionPro(0)/m/it/12 / end /
  \TU/MinionPro(0)/m/n/12 Record a delayed event. \TU/MinionPro(0)/m/it/12 / #Pe
 ndingNow.#Condition.EventLevel
  []
 
 
-Overfull \hbox (58.0435pt too wide) in paragraph at lines 1480--1498
+Overfull \hbox (58.0435pt too wide) in paragraph at lines 1482--1500
 \TU/MinionPro(0)/m/it/12 = ‘1’ #PendingDescription.#Condition.EventLevel = Desc
 ription #PendingExtra.#Condition.EventLevel
  []
 
 
-Overfull \hbox (11.64273pt too wide) in paragraph at lines 1480--1498
+Overfull \hbox (11.64273pt too wide) in paragraph at lines 1482--1500
 \TU/MinionPro(0)/m/n/12 action after delay. \TU/MinionPro(0)/m/it/12 / / \TU/Mi
 nionPro(0)/m/n/12 Values for the CONDITION built-in function. \TU/MinionPro(0)/
 m/it/12 / #Condition.#NewLevel
  []
 
 
-Underfull \hbox (badness 1721) in paragraph at lines 1480--1498
+Underfull \hbox (badness 1721) in paragraph at lines 1482--1500
 \TU/MinionPro(0)/m/it/12 = #Condition #ConditionDescription.#NewLevel = #Pendin
 gDescription. #Condition.
  []
 
 
-Overfull \hbox (80.06352pt too wide) in paragraph at lines 1480--1498
+Overfull \hbox (80.06352pt too wide) in paragraph at lines 1482--1500
 \TU/MinionPro(0)/m/it/12 #Level #ConditionExtra.#NewLevel = #PendingExtra.#Cond
 ition. #Level #ConditionInstruction.#NewLevel
  []
@@ -3046,14 +3043,20 @@ Overfull \hbox (62.66872pt too wide) in paragraph at lines 35--36
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `standard.out' has not changed.
-(rerunfilecheck)             Checksum: 70048636F02EE80BBE83267E7C975F09;6948.
+
+Package rerunfilecheck Warning: File `standard.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `standard.out':
+(rerunfilecheck)             Before: 70048636F02EE80BBE83267E7C975F09;6948
+(rerunfilecheck)             After:  8C025C13E944799B8BDA618B344B6982;7113.
  ) ) 
 Here is how much of TeX's memory you used:
- 36358 strings out of 476683
- 723917 string characters out of 5804048
+ 36359 strings out of 476683
+ 723940 string characters out of 5804048
  2113018 words of memory out of 5000000
- 55789 multiletter control sequences out of 15000+600000
+ 55790 multiletter control sequences out of 15000+600000
  518321 words of font info for 126 fonts, out of 8000000 for 9000
  1371 hyphenation exceptions out of 8191
  107i,8n,108p,1862b,2530s stack positions out of 10000i,1000n,20000p,200000b,200000s
