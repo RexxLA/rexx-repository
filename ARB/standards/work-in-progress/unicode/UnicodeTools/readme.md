@@ -50,7 +50,7 @@ You can then navigate to the ``samples`` directory and try the samples by using 
 
 New and changed features in the 0.5 release are:
 
-* Implementations of NFC normalization (``toNFC'' and ``isNFC'' functions).
+* Implementations of NFC normalization (``toNFC`` and ``isNFC`` functions).
 * Addition of a new GRAPHEMES string type. TEXT auto-normalizes to NFC at creation time (this includes the results of operations and built-ins), while GRAPHEMES does perform any automatical normalization. Both GRAPHEMES and TEXT can be used as targets when opening a Unicode-enabled stream.
 * Implement loose matching for property names (UNICODE BIF).
 * Implement all tests in NormalizationTest.txt, consistency check on ccc and canonical decomposition.
