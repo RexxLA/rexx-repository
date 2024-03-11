@@ -16,3 +16,4 @@ As a proof-of-concept, in the [components/classic](../components/classic) subdir
 
 Both programs were written in less that one hour. One has to study a little, of course: the relevant references and links can be found inside the
 source code. The same techniques can be used to port these programs to completely different environments, like CMS or TSO Rexx, for example.
+I will gladly update this file if I hear news from people venturing to try these ports.
