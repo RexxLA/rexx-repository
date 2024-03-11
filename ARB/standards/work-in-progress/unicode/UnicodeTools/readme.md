@@ -45,6 +45,7 @@ You can then navigate to the ``samples`` directory and try the samples by using 
     * [The MultiStageTable class](doc/multi-stage-table.md)
     * [The PersistentStringTable class](doc/persistent-string-table.md)
 * [For the Rexx Tokenizer](https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/parser/readme.md)
+* [Using TUTOR from Classic Rexx](doc/using-tutor-from-classic-rexx.md)
 
 ## Release notes for version 0.5, 20240307
 
@@ -57,6 +58,7 @@ New and changed features in the 0.5 release are:
 * InspectTokens: add options to select different dialects, specify default in the help display.
 * New ``rxutry.rex`` utility, a modification of ``rexxtry.rex`` with Unicode support.
 * ``Options DefaultString`` and ``Options Promote`` can be set by the caller. Make Options DefaultString TEXT the default.
+* Added [a new helpfile](doc/using-tutor-from-classic-rexx.md) detailing how to use some of the TUTOR-generated data files from Classic Rexx dialects like Regina.
 
 Bugs fixed:
 
@@ -82,6 +84,7 @@ There are currently two components of TUTOR which can be used independently of T
 
 ## \[Cumulative change log since release 0.4b\]
 
+* (February) &mdash; Write two proof-of-concept programs to show how to use TUTOR-generated files from Classic Rexx.
 * 20240205 &mdash; rxutry.rex autoloads path. Unicode.cls: Options DefaultString and Promote can be set by the caller; make Options DefaultString TEXT the default.
 * 20240204 &mdash; Add rxutry.rex utility (needs previous setenv).
 * 20240203 &mdash; Samples: add nfc.rxu. Unicode.cls: Rename TEXT to GRAPHEMES class; add new TEXT subclass GRAPHEMES; TEXT auto-nfc on NEW.
