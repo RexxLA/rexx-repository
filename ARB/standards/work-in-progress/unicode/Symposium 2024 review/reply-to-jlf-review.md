@@ -32,7 +32,7 @@ If you normalize on the fly, you lose a first-class operator to determine whethe
 My impression is that normalization pertains to _non-strict_ equality. "Normal" equality, that is, non-strict equality, is, somehow, the default
 one: blanks are ignored, numbers have to be equivalent, etc., ... and "e" + acute accent is the same as "é".
 
-OTOH, "==", I think, should mean "identical", that is, binary identical.
+"==", I think, should mean "identical", that is, binary identical.
 
 (p. 43)
 >Can’t resist to remind my point of view, but feel free to ignore, was already discussed at one moment and written somewhere in the draft documents.
