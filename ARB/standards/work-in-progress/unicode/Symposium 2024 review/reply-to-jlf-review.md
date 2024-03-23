@@ -34,5 +34,34 @@ one: blanks are ignored, numbers have to be equivalent, etc., ... and "e" + acut
 
 OTOH, "==", I think, should mean "identical", that is, binary identical.
 
+(p. 43)
+>Can’t resist to remind my point of view, but feel free to ignore, was already discussed at one moment and written somewhere in the draft documents.
+>
+>It’s well defined: it’s what the interpreter exposes to you via the native C2X.
+>
+>Netrexx: UCS-2 (16 bits)
+>
+>Crexx: UTF-8
+>
+>all other interpreters: byte, whatever the encoding.
+>
+>You defined several views. Just apply these views on the native C2X. That will be exactly the same hex digits than the native C2X, but grouped according the view.
+
+I think the final version refers to it (not sure about the version you have commented): it appears that recent versions of Java store Unicode strings as ISO-8859-1 when all 
+codepoints are < "FF"X. This means that the notion of "internal representation" does no longer make sense (or varies according to whether a string contains a single
+codepoint >= "100"X, which is ridiculous), as it is the remnant of a situation which is no longer true: when strings were manageable by a simple adlen pair, and were
+composed of bytes.
+
+(Ibid.)
+>Hum… Don’t you have another BIF that convert to  a target encoding?
+
+Yes. The addition of a second, encoding parameter to C2X is a compatibility aid: if you want NetRexx behaviour, for example, you just add "UTF-16" and you are done.
+
+(p. 45)
+> This is not very usual to return 2 results at once. Sounds like an internal optimization for your implementation.
+> 
+> UTF8()) returns a stem.
+
+You are right, there are several details in the current version that are internal optimization leftovers. Will try to fix in a subsequent release.
 
 
