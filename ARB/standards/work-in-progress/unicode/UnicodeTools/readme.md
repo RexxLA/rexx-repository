@@ -82,24 +82,14 @@ There are currently two components of TUTOR which can be used independently of T
 
 ---
 
-## \[Cumulative change log since release 0.4b\]
+## \[Cumulative change log since release 0.5\]
 
-* (February) &mdash; Write two proof-of-concept programs to show how to use TUTOR-generated files from Classic Rexx.
-* 20240205 &mdash; rxutry.rex autoloads path. Unicode.cls: Options DefaultString and Promote can be set by the caller; make Options DefaultString TEXT the default.
-* 20240204 &mdash; Add rxutry.rex utility (needs previous setenv).
-* 20240203 &mdash; Samples: add nfc.rxu. Unicode.cls: Rename TEXT to GRAPHEMES class; add new TEXT subclass GRAPHEMES; TEXT auto-nfc on NEW.
-* 20240130 &mdash; InspectTokens: add options to select different dialects, specify default in the help display.
-* 20240128 &mdash; RXU: Function names are not translated after a double twiddle. Unicode.cls and RXU: rename !!DS to !DS. 
-* 20240121 &mdash; Start to document the GRAPHEMES string type.
-* 20231020 &mdash; Implement loose matching for property names. Move release notes for old releases to separate files in the ``doc`` directory.
-* 20231017-18 &mdash; Document many properties for the UNICODE BIF, prepare for the introduction of the GRAPHEMES STRINGTYPE and class, add new tests, prepare for NFC.
-* 20231015 &mdash; Fix [bug #6](https://github.com/RexxLA/rexx-repository/issues/6), implement all tests in NormalizationTest.txt, consistency check on ccc and canonical decomposition. Document
-  [the Unicode.Normalization class](doc/properties/Unicode.Normalization.md). Improve the docs for the PersistentStringTable class, and move them to [a separate helpfile](doc/persistent-string-table.md).
-* 20231101 &mdash; First version of isNFC and toNFC, add CHANGESTR BIF, two new samples.
+* 20240323 &mdash; Create [0.5-release-notes.md](doc/0.5-release-notes.md).
+* 20240323 &mdash; Tokenizer: SPECIAL --> COMMA (all other special characters already handled separately).
 
 ---
 
-[Release notes for version 0.4a, 20231014](doc/0.4b-release-notes.md)<br>
+[Release notes for version 0.5, 20240307](doc/0.5-release-notes.md)<br>
 [Release notes for version 0.4a, 20231002](doc/0.4a-release-notes.md)<br>
 [Release notes for version 0.4, 20230901](doc/0.4-release-notes.md)<br>
 [Release notes for version 0.3b, 20230817](doc/0.3b-release-notes.md)<br>
