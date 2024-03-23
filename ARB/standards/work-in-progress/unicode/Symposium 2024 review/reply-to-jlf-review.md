@@ -62,6 +62,29 @@ Yes. The addition of a second, encoding parameter to C2X is a compatibility aid:
 > 
 > UTF8()) returns a stem.
 
-You are right, there are several details in the current version that are internal optimization leftovers. Will try to fix in a subsequent release.
+You are right, there are several details in the current version that are internal optimization leftovers. Will try to fix in a subsequent release. https://github.com/RexxLA/rexx-repository/issues/10
+
+(Ibid.)
+>This decode/encode reminds me Python.
+>
+>But your functions seems to be still a draft…
+>
+>with decode, you can transcode from a source encoding to a target encoding, where the target encoding is limited to UTF-8/16/32?
+
+Only -8 and -32. This is another leftover. I need the -32 version internally, but I should most probably not expose that as an API.
+
+(cont.)
+>encode is also doing a transcoding… Only the target encoding is specified.
+>The source encoding is UTF-8/16/32? Why is it not needed to specify it here?
+
+My way of understanding the standard is the following: Unicode is the _lingua franca_ of all encodings. You only need a DECODE function that
+specifies an encoding E (this converts from E to Unicode, our _lingua franca_), and a ENCODE function: this converts from Unicode,
+our _lingua franca_, to a specified encoding E. You do not need a source encoding for ENCODE, since your source string is always (abstract)
+Unicode.
+
+If you want to transcode, say, from UTF-32 to another encoding E, you should first DECODE from UTF-32, and then ENCODE to E.
+
+Most probably, the fact that DECODE allows a limited set of target Unicode encodings is misleading, and therefore a bad design decision. Thanks for bringing
+this aspect to my attention.
 
 
