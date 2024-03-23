@@ -4,7 +4,7 @@
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
 │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
 │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
-│ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+│ Copyright © 2023, 2024 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                     │
 │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ``` 
@@ -235,6 +235,20 @@ Converts _string_ to a TEXT string and returns it. TEXT strings are composed of 
 The argument _string_ has to contain well-formed UTF-8, or a Syntax error is raised. When working with TEXT strings, Rexx built-in functions operate at the extended grapheme cluster level, and can produce much richer results than when operating with BYTES or CODEPOINTS strings.
 
 Please note that CODEPOINTS, GRAPHEMES and TEXT strings are guaranteed to contain well-formed UTF-8 sequences. To test if a string contains well-formed UTF-8, you can use the ``DECODE(string,"UTF-8")`` or ``UTF8(string)`` function calls.
+
+## U2C (Unicode to Character)
+
+```
+   ╭──────╮  ┌──────────┐  ╭───╮
+▸▸─┤ U2C( ├──┤ u-string ├──┤ ) ├─▸◂
+   ╰──────╯  └──────────┘  ╰───╯
+```
+
+Returns a string, in character format, that represents _u-string_ converted to characters. _U-string_ must be
+a blank-separated sequence of hexadecimal codepoints, or parenthesized code point names, alias or labels (separator
+blanks are not needed outside parentheses). The function will succeed if and only if an equivalent `"U-string"U`
+string would be syntactically correct, and produce a syntax error otherwise.
+
 
 ## UNICODE (Functional form)
 
