@@ -296,11 +296,14 @@ __Examples:__
 
 ### pos
 
+```
    ╭──────╮  ┌────────┐  ╭───╮                                      ╭───╮
 ▸▸─┤ pos( ├──┤ needle ├──┤ , ├─┬───────────┬──┬───────────────────┬─┤ ) ├─▸◂
    ╰──────╯  └────────┘  ╰───╯ │ ┌───────┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
                                └─┤ start ├─┘  └─┤ , ├──┤ length ├─┘
                                  └───────┘      ╰───╯  └────────┘
+```
+
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. If necessary, _needle_ is converted to the type of the receiving string. If this conversion fails, a syntax error is raised.
 
 __Examples:__
@@ -353,6 +356,24 @@ Say string == string~reverse                      -- 1, since LENGTH(string) == 
 ```
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
+
+### stringtype
+
+```
+   ╭─────────────╮               ╭───╮
+▸▸─┤ stringtype( ├──┬──────────┬─┤ ) ├─▸◂
+   ╰─────────────╯  │ ┌──────┐ │ ╰───╯
+                    └─┤ type ├─┘
+                      └──────┘
+```
+
+If you specify no argument, this method returns __BYTES__ when receiving string is a BYTES string,
+__CODEPOINTS__ when receiving string is a CODEPOINTS string,
+__GRAPHEMES__ when receiving string is a GRAPHEMES string,
+and __TEXT__ when receiving string is a TEXT string.
+
+If you specify _type_, it has to be one of __BYTES__, __CODEPOINTS__, __GRAPHEMES__ or __TEXT__ (case insensitive). In that case, the method returns
+__.true__ when the receiving string class matches _type_, and __.false__ otherwise.
 
 ### substr
 
