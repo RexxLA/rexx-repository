@@ -2,7 +2,7 @@
 
 I am replying in markdown format, because pdf is not very useable to have a dialog.
 
-Please note that the version you have reviewed is not final. I have uploaded the final, published, versions of the articles in the Unicode/publications/35 subdirectory.
+Please note that the version you have reviewed is not the final one. I have uploaded the final, published, versions of the articles in the Unicode/publications/35 subdirectory.
 
 I will not copy some of your comments in the pdf, and intersperse my own comments in between. Page references are to the version you reviewed, not to the final document.
 
