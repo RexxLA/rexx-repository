@@ -84,6 +84,7 @@ There are currently two components of TUTOR which can be used independently of T
 
 ## \[Cumulative change log since release 0.5\]
 
+* 20240323 &mdash; Implement the STRINGTYPE BIM, fixing https://github.com/RexxLA/rexx-repository/issues/9
 * 20240323 &mdash; U2C was left undocumented in 0.5. 
 * 20240323 &mdash; Create the [publications](publications) subdirectory.
 * 20240323 &mdash; Create [0.5-release-notes.md](doc/0.5-release-notes.md).
