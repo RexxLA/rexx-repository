@@ -87,4 +87,17 @@ If you want to transcode, say, from UTF-32 to another encoding E, you should fir
 Most probably, the fact that DECODE allows a limited set of target Unicode encodings is misleading, and therefore a bad design decision. Thanks for bringing
 this aspect to my attention.
 
+(p. 47)
+>I’m not aware of WTF32, and I don’t see how it could be needed. There is no low/high surrogates in UTF32.
+>Do you have links?
+
+I can't seem to be able to recover the links I once had, my bad; I have not invented the term. Just because UTF-32 does not allow
+lone surrogates, we _need_ WTF-32. For example, when handling WTF-8, we may find lone surrogates. Either we forbid transforming
+WTF-8 to a four-bytes per codepoint format (bad), or we have to implement WTF-32.
+
+(p. 48)
+>U2C() is cited once elsewhere in this document. But not yet implemented? or discarded?
+
+Forgot to document it :/ It was implemented as a method, but not as a (new) BIF. Fixed: https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md#u2c-unicode-to-character
+
 
