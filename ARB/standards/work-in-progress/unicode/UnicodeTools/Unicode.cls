@@ -3,7 +3,7 @@
  ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
  │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
  │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
- │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ Copyright © 2023, 2024 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                     │
  │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
  └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
  
@@ -53,6 +53,7 @@
  *    <tr><td>     <td>JMB <td>20240128<td>!!DS -> !DS
  *    <tr><td>     <td>JMB <td>20240128<td>Defaultstring and promote can be set by caller
  *    <tr><td>     <td>JMB <td>20240128<td>Make TEXT the default string
+ *    <tr><td>00.6 <td>JMB <td>20240323<td>Implement the STRINGTYPE BIM
  *  </table>
  */
 
