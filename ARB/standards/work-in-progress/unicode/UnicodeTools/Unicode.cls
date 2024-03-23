@@ -202,10 +202,10 @@ Properties:
   .Validate~classType( "option" , option , .String )
   option = Upper(option)
   Select
-    When Abbrev("BYTES",      option,1) Then Return self~stringType == "BYTES"
-    When Abbrev("CODEPOINTS", option,1) Then Return self~stringType == "CODEPOINTS"
-    When Abbrev("GRAPHEMES",  option,1) Then Return self~stringType == "GRAPHEMES"
-    When Abbrev("TEXT",       option,1) Then Return self~stringType == "TEXT"
+    When Abbrev("BYTES",      option,1) Then Return string~stringType == "BYTES"
+    When Abbrev("CODEPOINTS", option,1) Then Return string~stringType == "CODEPOINTS"
+    When Abbrev("GRAPHEMES",  option,1) Then Return string~stringType == "GRAPHEMES"
+    When Abbrev("TEXT",       option,1) Then Return string~stringType == "TEXT"
     Otherwise 
       If option \== "" Then
         Raise Syntax 40.900 Additional("Invalid option '"Arg(2)"'")
@@ -245,6 +245,10 @@ Properties:
 ::Routine TEXT Public
   Use Strict Arg string
   Return .Text~new(string)
+
+::Routine U2C Public  
+  Use Strict Arg string
+  Return string~U2C
      
 ::Routine !C2X Public
   Use Strict Arg string, encoding = "UTF-8"
@@ -352,6 +356,16 @@ Names:
   End
   Return Strip(res,"L")
  
+::Method STRINGTYPE
+  If Arg() == 0 Then Return "BYTES"
+  Use Strict Arg type
+  type = Upper(type)
+  Select Case Type
+    When "TEXT", "CODEPOINTS", "GRAPHEMES" Then Return 0
+    When "BYTES"                           Then Return 1
+    Otherwise Raise Syntax 93.914 Array(1,"BYTES, CODEPOINTS, GRAPHEMES or TEXT", Arg(1))
+  End
+
 ::Method U2C
   -- We want to operate on bytes
   contents = self~makeString
@@ -854,6 +868,16 @@ DeeperTest:
   isNFD = 1
   Return 1  
 
+::Method STRINGTYPE
+  If Arg() == 0 Then Return "CODEPOINTS"
+  Use Strict Arg type
+  type = Upper(type)
+  Select Case Type
+    When "TEXT", "BYTES", "GRAPHEMES" Then Return 0
+    When "CODEPOINTS"                 Then Return 1
+    Otherwise Raise Syntax 93.914 Array(1,"BYTES, CODEPOINTS, GRAPHEMES or TEXT", Arg(1))
+  End
+
 ::Method "="
   Expose isNFC
   Use Strict Arg string
@@ -905,6 +929,16 @@ Return class~new(left~"=":.String(right))
   Expose graphemes
   Return graphemes~items
 
+::Method STRINGTYPE
+  If Arg() == 0 Then Return "GRAPHEMES"
+  Use Strict Arg type
+  type = Upper(type)
+  Select Case Type
+    When "TEXT", "BYTES", "CODEPOINTS" Then Return 0
+    When "GRAPHEMES"                   Then Return 1
+    Otherwise Raise Syntax 93.914 Array(1,"BYTES, CODEPOINTS, GRAPHEMES or TEXT", Arg(1))
+  End
+
 --------------------------------------------------------------------------------
 -- The TEXT class                                                             --
 --------------------------------------------------------------------------------
@@ -917,6 +951,15 @@ Return class~new(left~"=":.String(right))
   this = self~new:super(string)
   this~init
   Return this
+::Method STRINGTYPE
+  If Arg() == 0 Then Return "TEXT"
+  Use Strict Arg type
+  type = Upper(type)
+  Select Case Type
+    When "BYTES", "CODEPOINTS", "GRAPHEMES" Then Return 0
+    When "TEXT"                             Then Return 1
+    Otherwise Raise Syntax 93.914 Array(1,"BYTES, CODEPOINTS, GRAPHEMES or TEXT", Arg(1))
+  End
 
 --------------------------------------------------------------------------------
 
