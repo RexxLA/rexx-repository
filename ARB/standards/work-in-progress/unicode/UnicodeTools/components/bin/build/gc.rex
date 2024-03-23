@@ -3,7 +3,7 @@
  ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
  │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
  │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
- │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ Copyright © 2023, 2024 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                     │
  │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
  └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
  
@@ -143,9 +143,10 @@
     If thisGC == "LO" Then Do
       Select
         When name~startsWith("CJK COMPATIBILITY IDEOGRAPH-")   Then
+        /* Nobody seems to really implement that
           If WordPos(code,"FA0E FA0F FA11 FA13 FA14 FA1F FA21 FA23 FA24 FA27 FA28 U+FA29") > 0 Then 
                                                                     thisGC = "LO_CJK_UNIFIED_IDEOGRAPH"
-          Else                                                      thisGC = "LO_CJK_COMPATIBILITY_IDEOGRAPH"
+          Else */                                                     thisGC = "LO_CJK_COMPATIBILITY_IDEOGRAPH"
         When name~startsWith("<CJK Ideograph")                 Then thisGC = "LO_CJK_UNIFIED_IDEOGRAPH"
         When name~startsWith("<Hangul Syllable")               Then thisGC = "LO_HANGUL_SYLLABE"
         When name~startsWith("<Tangut Ideograph")              Then thisGC = "LO_TANGUT_IDEOGRAPH"

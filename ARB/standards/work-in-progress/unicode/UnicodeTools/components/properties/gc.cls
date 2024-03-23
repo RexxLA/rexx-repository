@@ -188,17 +188,16 @@ Hangul_Syllabe_Name: Procedure
   Return Space(lead vowel tail,0)
   
 ::Method Algorithmic_Code Class  
+  Expose Cn
   Use Strict Arg name -- Name is supposed to be uppercased and compressed
     
   If name == "HANGULJUNGSEONGO-E" Then Return "1180" -- Special case
   If name[1] == "<" Then Signal Label                -- This is a label, not a name
-  
-  -- TODO Check that code corresponds to the range
-  
+   
   Do word Over "CJKCOMPATIBILITYIDEOGRAPH CJKUNIFIEDIDEOGRAPH KHITANSMALLSCRIPTCHARACTER NUSHUCHARACTER TANGUTIDEOGRAPH"~makeArray(" ")
     If name~startsWith(word) Then Do
       code = SubStr(name,length(word)+1)
-      Return CheckValid(code)
+      Return CheckValid() -- (code, word)
     End
   End
    
@@ -224,17 +223,108 @@ Label:
   Do word Over "CONTROL PRIVATEUSE RESERVED SURROGATE NONCHARACTER"~makeArray(" ")
     If token~startsWith(word) Then Do
       code = SubStr(token,length(word)+1)
-      Return CheckValid(code)
+      Return CheckValid()  -- (code, word)
     End
   End
 Return ""  
 
 CheckValid:
+  -- Check that "code" is valid
   If \DataType(code,"X")              Then Return ""
   If Length(code) < 4                 Then Return ""
   If Length(code) > 6                 Then Return ""
   If Length(code) > 4, code[1] == "0" Then Return ""
-  If X2D(code) > 1114111              Then Return ""
+  temp = X2D(code)
+  If temp > 1114111                   Then Return ""
+  -- Check that code in range
+  Select Case word
+    When "CJKCOMPATIBILITYIDEOGRAPH"   Then 
+      /*If WordPos(Upper(code), "FA0E FA0F FA11 FA13 FA14 FA1F FA21 FA23 FA24 FA27 FA28 FA29") > 0
+                                  Then Return ""
+      Else */If temp <  X2D(  F900) Then Return ""
+      Else If temp <= X2D(  FAD9) Then Return code
+      Else If temp <  X2D( 2F800) Then Return ""
+      Else If temp >  X2D( 2FA1D) Then Return ""
+    When "CJKUNIFIEDIDEOGRAPH"         Then
+      /*
+      If WordPos(Upper(code), "FA0E FA0F FA11 FA13 FA14 FA1F FA21 FA23 FA24 FA27 FA28 FA29") > 0
+                                  Then Return code
+      Else */ If temp <  X2D(  3400) Then Return ""
+      Else If temp <= X2D(  4DBF) Then Return code
+      Else If temp <  X2D(  4E00) Then Return ""
+      Else If temp <= X2D(  9FFF) Then Return code
+      Else If temp <  X2D( 20000) Then Return ""
+      Else If temp <= X2D( 2A6DF) Then Return code
+      Else If temp <  X2D( 2A700) Then Return ""
+      Else If temp <= X2D( 2B739) Then Return code
+      Else If temp <  X2D( 2B740) Then Return ""
+      Else If temp <= X2D( 2B81D) Then Return code
+      Else If temp <  X2D( 2B820) Then Return ""
+      Else If temp <= X2D( 2CEA1) Then Return code
+      Else If temp <  X2D( 2CEB0) Then Return ""
+      Else If temp <= X2D( 2EBE0) Then Return code
+      Else If temp <  X2D( 2F800) Then Return ""
+      Else If temp <= X2D( 2FA1D) Then Return code
+      Else If temp <  X2D( 30000) Then Return ""
+      Else If temp <= X2D( 3134A) Then Return code
+      Else If temp <  X2D( 31350) Then Return ""
+      Else If temp <= X2D( 323AF) Then Return code
+      Else                             Return ""
+    When "KHITANSMALLSCRIPTCHARACTER"  Then
+      If      temp <  X2D( 18B00) Then Return ""
+      Else If temp >  X2D( 18CD5) Then Return ""
+    When "NUSHUCHARACTER"              Then
+      If      temp <  X2D( 1B170) Then Return ""
+      Else If temp >  X2D( 1B2FB) Then Return ""
+    When "TANGUTIDEOGRAPH"             Then
+      If      temp <  X2D( 17000) Then Return ""
+      Else If temp <= X2D( 187F7) Then Return code
+      Else If temp <  X2D( 18D00) Then Return ""
+      Else If temp <= X2D( 18D08) Then Return code
+      Else                             Return ""
+    When "CONTROL"                     Then
+      If      temp <  X2D(  0000) Then Return ""
+      Else If temp <= X2D(  001F) Then Return code
+      Else If temp <  X2D(  007F) Then Return ""
+      Else If temp <= X2D(  009F) Then Return code
+      Else                             Return ""
+    When "PRIVATEUSE"                  Then 
+      If      temp <  X2D(  E000) Then Return ""
+      Else If temp <= X2D(  F8FF) Then Return code
+      Else If temp <  X2D( F0000) Then Return ""
+      Else If temp <= X2D( FFFFD) Then Return code
+      Else If temp <  X2D(100000) Then Return ""
+      Else If temp <= X2D(10FFFD) Then Return code
+      Else                             Return ""
+    When "RESERVED"                    Then Do
+      -- The list of reserved characters is very large
+      code = Upper(code)
+      If \(self~hexValueOfPropertyAt(code) == Cn)
+                                  Then Return ""
+      -- Noncharacters are not reserved                                  
+      If      temp <  X2D(  FDD0) Then Return code
+      Else If temp <= X2D(  FDEF) Then Return ""
+      Else Do
+        temp = temp // 2**16
+        If      temp == X2D(FFFE)      Then Return ""
+        Else If temp == X2D(FFFF)      Then Return ""
+        Else                           Return code
+      End
+    End
+    When "SURROGATE"                   Then
+      If      temp <  X2D(  D800) Then Return ""
+      Else If temp >  X2D(  DFFF) Then Return ""
+    When "NONCHARACTER"                Then 
+      If      temp <  X2D(  FDD0) Then Return ""
+      Else If temp <= X2D(  FDEF) Then Return code
+      Else Do
+        temp = temp // 2**16
+        If      temp == X2D(FFFE)      Then Return code
+        Else If temp == X2D(FFFF)      Then Return code
+        Else                           Return ""
+      End
+    Otherwise Return code
+  End
 Return code  
 
 Hangul_Syllabe_Code:

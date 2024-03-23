@@ -34,7 +34,9 @@
     Else If code[1] == "0" Then code = Strip(code, "L",0)
     name = P2N(code)
     If name \== "", code == N2P(name) Then Iterate
-    Say "Consistency check failed at:" code
+    Say "Consistency check failed at code point: '"code"'X"
+    Say "Name is:" name
+    Say "Round trip:" N2P(name)
     Exit 1
   End
 
