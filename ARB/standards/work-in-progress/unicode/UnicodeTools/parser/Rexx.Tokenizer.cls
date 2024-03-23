@@ -35,7 +35,8 @@
  *    <tr><td>      <td>JMB <td>20230818<td>All tokens return "line1 start line2 start" as .location
  *    <tr><td>00.4  <td>JMB <td>20230901<td>Implement full tokenizing
  *    <tr><td>00.4a <td>JMB <td>20230901<td>Move most of the external documentation to readme.md
- *    <tr><td>00.4c <td>    <td>20231016 <td>Add G strings
+ *    <tr><td>00.5  <td>JMB <td>20231016<td>Add G strings
+ *    <tr><td>00.6  <td>JMB <td>20240323<td>SPECIAL -> COMMA
  *  </table>
  *                                                                           
  */
@@ -74,12 +75,12 @@
   tokenClasses = self~tokenClasses
   Do counter c pair Over tokenClasses 
     pair[2] = X2C(D2X(c - 1))
-    If c >= 256 Then Say "PANIC! tolenClasses array has more than 256 elements!"
+    If c >= 256 Then Say "PANIC! tokenClasses array has more than 256 elements!"
   End
     
   self~InitializeCharacterCategories
   self~InitializeClasses
-  self~InitializeStringSuffixes -- After InitializeClasses
+  self~InitializeStringSuffixes       -- Must go after InitializeClasses
   self~InitializeKeywordInstructions
   self~InitializeDirectives
   self~InitializeActionPairs
@@ -104,7 +105,7 @@
     ( ASSIGNMENT_OPERATOR          , "*" ), -  -- | "=" 
     ( EXTENDED_ASSIGNMENT          , "*" ), -  -- | "+=", "-=", "*=", "/=", "%=", "//=", "||=", "&=", "|=", "&&=", "**=" 
                                             -  -- +--- All subclasses of OPERATOR are full tokenizer only
-  ( SPECIAL                        , "*" ), -
+  ( COMMA                          , "*" ), -
   ( COLON                          , "*" ), -
   ( DIRECTIVE_START                , "*" ), -  -- "::" (Full tokenizer only, absorbed by directive)
   ( LPAREN                         , "*" ), -
@@ -118,6 +119,7 @@
   ( RESOURCE_DELIMITER             , "*" ), -  -- End delimiter, ends resource
   ( RESOURCE_IGNORED               , "*" ), -  -- After "::Resource name ;" or "::END delimiter"
   ( END_OF_SOURCE                  , "*" ), -
+  ( BEGIN_OF_CLAUSE                , "*" ), -  -- Used by the clauser
   ( END_OF_CLAUSE                  , "*" ), -
     ( BEGIN_OF_SOURCE              , "*" ), -  -- Dummy and inserted. Very convenient for simplification
     ( END_OF_LINE                  , "*" ), -  -- Implied semicolon
@@ -218,7 +220,7 @@
   
   SYMBOL                        = VAR_SYMBOL || CONST_SYMBOL || NUMBER
   STRING_OR_SYMBOL              = STRING || SYMBOL
-  IGNORE_NEXT_BLANK             = END_OF_CLAUSE || OPERATOR || SPECIAL || COLON || LPAREN || LBRACKET
+  IGNORE_NEXT_BLANK             = END_OF_CLAUSE || OPERATOR || COMMA || COLON || LPAREN || LBRACKET
   -- NULL clauses are ignored
   CLAUSE                        = LABEL || DIRECTIVE || KEYWORD_INSTRUCTION || ASSIGNMENT_INSTRUCTION || COMMAND_OR_MESSAGE_INSTRUCTION
 
@@ -324,13 +326,13 @@ End
     
   Action.BLANK.RPAREN                    = Ignore_last_token 
   Action.BLANK.RBRACKET                  = Ignore_last_token 
-  Action.BLANK.SPECIAL                   = Ignore_last_token
+  Action.BLANK.COMMA                     = Ignore_last_token
   Action.BLANK.COLON                     = Ignore_last_token
   Action.BLANK.OPERATOR                  = Ignore_last_token
 
   Action.LPAREN.BLANK                    = Ignore_this_token 
   Action.LBRACKET.BLANK                  = Ignore_this_token 
-  Action.SPECIAL.BLANK                   = Ignore_this_token
+  Action.COMMA.BLANK                     = Ignore_this_token
   Action.COLON.BLANK                     = Ignore_this_token
   
   Do v Over self~tokenClasses
@@ -358,7 +360,7 @@ End
 
   -- "-" + END_OF_CLAUSE (ooRexx, and Regina, but not ANSI)
 If \.ANSI Then Do  
-  Action.SPECIAL.END_OF_CLAUSE           = Check_Continuation
+  Action.COMMA.END_OF_CLAUSE             = Check_Continuation
 End  
       
   -- There is a "window" operating over "lastToken" and "token" where most of the
@@ -889,7 +891,7 @@ Signal Return_a_token
   
   digit              = "d"
   general_letter     = "l"
-  special            = "s"
+  comma              = "s"
   not                = "n"
   operator_only      = "o" -- Partial operator
   operator_or_other  = "/"
@@ -910,7 +912,7 @@ Signal Return_a_token
  
   -- ANSI 6.2.2.2: special := ',' | ':' | ';' | ')' | '(' 
   -- COLON, SEMICOLON, LPAREN, RPAREN, LBRACKET and RBRACKET are handled separately
-  Call AssignCharacterCategory special,            ","
+  Call AssignCharacterCategory comma,              ","
   -- Separate handling 
   Call AssignCharacterCategory semicolon,          ";"
   Call AssignCharacterCategory colon,              ":"
@@ -1193,7 +1195,7 @@ environmentSymbol:
 "[": Return Token( LBRACKET      , ,  c  )
 "]": Return Token( RBRACKET      , ,  c  )
 ":": Return Token( COLON         , ,  c  )
-"s": Return Token( SPECIAL       , ,  c  )
+"s": Return Token( COMMA         , ,  c  )
 "n": Return Token( OPERATOR      , , "\" )           -- Always "\"
 "o": If c == "-", .line_comments, thisChar() == "-" Then Do
        pos = maxPos                                  -- Forces END_OF_CLAUSE on next
@@ -1480,7 +1482,7 @@ Check_for_resource:
   
   -- Found a continuation char?
   If \resourceContinuation?,,
-     Pos(newClass,OPERATOR||SPECIAL) > 0,,
+     Pos(newClass,OPERATOR||COMMA) > 0,,
      Pos(token[value],",-") > 0 Then Do
      -- Yes? Take note, and wait for an END_OF_LINE
      resourceContinuation? = 1
