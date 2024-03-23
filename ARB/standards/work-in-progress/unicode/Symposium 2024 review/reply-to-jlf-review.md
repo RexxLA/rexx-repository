@@ -116,4 +116,21 @@ I think that in many cases it may be very convenient to specify a character by n
 
 The idea of subsuming this in UNICODE is great. https://github.com/RexxLA/rexx-repository/issues/11
 
+(p. 50)
+>You could also support a Unicode character name, but I understand that it collides with the other form UNICODE(string…).
 
+Again a great idea. https://github.com/RexxLA/rexx-repository/issues/12
+
+(p. 55)
+>Under macOS, and probably under Linux:
+>
+>  rlwrap rexx rxutry
+>
+>to have an history of commands.
+
+Thanks for the tip! I will document it in the following release.
+
+(p. 56)
+>Something specific to ooRexx (and maybe Netrexx?): the caseless methods.
+
+Have not delved into case folding still. Thanks for the info!
