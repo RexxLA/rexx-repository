@@ -49,8 +49,7 @@ one: blanks are ignored, numbers have to be equivalent, etc., ... and "e" + acut
 
 I think the final version refers to it (not sure about the version you have commented): it appears that recent versions of Java store Unicode strings as ISO-8859-1 when all 
 codepoints are < "FF"X. This means that the notion of "internal representation" does no longer make sense (or varies according to whether a string contains a single
-codepoint >= "100"X, which is ridiculous), as it is the remnant of a situation which is no longer true: when strings were manageable by a simple adlen pair, and were
-composed of bytes.
+codepoint >= "100"X, which is ridiculous), as it is the remnant of a situation which is no longer true: when strings were manageable by a simple adlen pair and a chunk of bytes.
 
 (Ibid.)
 >Hum… Don’t you have another BIF that convert to  a target encoding?
