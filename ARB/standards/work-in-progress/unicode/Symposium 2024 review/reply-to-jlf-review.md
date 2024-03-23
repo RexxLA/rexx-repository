@@ -100,4 +100,20 @@ WTF-8 to a four-bytes per codepoint format (bad), or we have to implement WTF-32
 
 Forgot to document it :/ It was implemented as a method, but not as a (new) BIF. Fixed: https://github.com/RexxLA/rexx-repository/blob/master/ARB/standards/work-in-progress/unicode/UnicodeTools/doc/new-functions.md#u2c-unicode-to-character
 
+(Ibid.)
+>Should I provide U2C? it would support only the U+ notation.
+>Yes, having C2U/U2C would be consistent with C2X/X2C.
+>The target encoding would be the default encoding.
+
+I can see that this is a note to yourself. Just wanted to add that this is just the idea: consistency with C2X/X2C. My U2C allows names, aliases and labels, in addition to codepoints and U+codepoints.
+
+(Ibid.)
+>Low level, so maybe you need it for your implementation.
+>
+>But from an end-user perspective, don’t you have a BIF that returns all the properties of a unicode character? including its name and aliases. Yes: UNICODE()
+
+I think that in many cases it may be very convenient to specify a character by name. Not so much low-level, I think.
+
+The idea of subsuming this in UNICODE is great. https://github.com/RexxLA/rexx-repository/issues/11
+
 
