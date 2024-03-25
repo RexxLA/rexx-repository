@@ -6,17 +6,51 @@ BIF_CODEPOINTS ::= "CODEPOINTS(" string ")"
 
 BIF_C2U ::= "C2U(" string ( | "," format) ")"
 
+BIF_C2X ::= "C2X(" string ")"
+
+BIF_CHARIN ::= "CHARIN(" (| name) "," (| start) (|"," length) ")"
+
+BIF_CHAROUT ::= "CHAROUT(" (| name) "," (| string) (|"," start) ")"
+
+BIF_CHARS ::= "CHARS(" (|name) ")"
+
+BIF_CENTER ::= ( "CENTER(" | "CENTRE(" ) string "," length (| "," pad) ")"
+
+BIF_COPIES ::= "COPIES(" string "," n ")"
+
+BIF_DATATYPE ::= "DATATYPE(" string (| "," type) ")"
+
 BIF_DECODE ::= "DECODE(" string "," encoding (|"," ( |format) (| "," error_handling)) ")"
 
 BIF_ENCODE ::= "ENCODE(" string "," encoding (| "," error_handling) ")"
 
 BIF_GRAPHEMES ::= "GRAPHEMES(" string ")"
 
+BIF_LEFT ::= "LEFT(" string "," length (| "," pad) ")"
+
+BIF_LENGTH ::= "LENGTH(" string ")"
+
+BIF_LINEIN ::= "LINEIN(" (| name) "," (| line) (|"," count) ")"
+
+BIF_LINEOUT ::= "LINEOUT(" (| name) "," (| string) (|"," line) ")"
+
+BIF_LINES ::= "LINES(" (| name) (| "," '"Normal"' | "," '"Count"') ")"
+
+BIF_LOWER ::= "LOWER(" string "," (| n) (|"," length) ")"
+
 BIF_N2P ::= "N2P(" name ")"
 
 BIF_P2N ::= "P2N(" codepoint ")"
 
+BIF_POS ::= "POS(" needle "," haystack "," (| start) (| "," length) ")"
+
+BIF_REVERSE ::= "REVERSE(" string ")"
+
+BIF_RIGHT ::= "RIGHT(" string "," length (| "," pad) ")"
+
 BIF_STRINGTYPE ::= "STRINGTYPE(" string ( | "," type) ")"
+
+BIF_SUBSTR ::= "SUBSTR(" string "," n "," (| length) (| "," pad) ")"
 
 BIF_TEXT ::= "TEXT(" string ")"
 
@@ -25,5 +59,7 @@ BIF_U2C ::= "U2C(" u-string ")"
 BIF_UNICODE_FUNCTIONAL ::= "UNICODE(" string "," function ")"
 
 BIF_UNICODE_PROPERTY ::= "UNICODE(" code "," '"PROPERTY"' "," name ")"
+
+BIF_UPPER ::= "UPPER(" string "," (| n) (|"," length) ")"
 
 BIF_UTF8 ::= "UTF8(" string (|"," ( |format) (| "," target (| "," error_handling)) )")"
