@@ -84,6 +84,7 @@ There are currently two components of TUTOR which can be used independently of T
 
 ## \[Cumulative change log since release 0.5\]
 
+* 20240325 &mdash; Start working on new railroad diagrams, using the same tools as in rexxref. First document migrated: new BIFS
 * 20240323 &mdash; Fix https://github.com/RexxLA/rexx-repository/issues/7
 * 20240323 &mdash; Implement the STRINGTYPE BIM, fixing https://github.com/RexxLA/rexx-repository/issues/9
 * 20240323 &mdash; U2C was left undocumented in 0.5. 
