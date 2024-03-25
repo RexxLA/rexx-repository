@@ -1,0 +1,29 @@
+/* TUTOR NEW BIFS */
+
+BIF_BYTES ::= "BYTES(" string ")"
+
+BIF_CODEPOINTS ::= "CODEPOINTS(" string ")"
+
+BIF_C2U ::= "C2U(" string ( | "," format) ")"
+
+BIF_DECODE ::= "DECODE(" string "," encoding (|"," ( |format) (| "," error_handling)) ")"
+
+BIF_ENCODE ::= "ENCODE(" string "," encoding (| "," error_handling) ")"
+
+BIF_GRAPHEMES ::= "GRAPHEMES(" string ")"
+
+BIF_N2P ::= "N2P(" name ")"
+
+BIF_P2N ::= "P2N(" codepoint ")"
+
+BIF_STRINGTYPE ::= "STRINGTYPE(" string ( | "," type) ")"
+
+BIF_TEXT ::= "TEXT(" string ")"
+
+BIF_U2C ::= "U2C(" u-string ")"
+
+BIF_UNICODE_FUNCTIONAL ::= "UNICODE(" string "," function ")"
+
+BIF_UNICODE_PROPERTY ::= "UNICODE(" code "," '"PROPERTY"' "," name ")"
+
+BIF_UTF8 ::= "UTF8(" string (|"," ( |format) (| "," target (| "," error_handling)) )")"
