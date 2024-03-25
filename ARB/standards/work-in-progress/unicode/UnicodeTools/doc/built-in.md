@@ -92,11 +92,7 @@ An alphabetic list of Unicode-enabled BIFs follows. This list will be updated wh
 
 ## C2X (Character to heXadecimal)
 
-```
-   ╭──────╮  ┌────────┐  ╭───╮
-▸▸─┤ C2X( ├──┤ string ├──┤ ) ├─▸◂
-   ╰──────╯  └────────┘  ╰───╯
-```
+![Diagram for the C2X BIF](img/BIF_C2X.svg)
 
 Returns a BYTES string that represents _string_ converted to hexadecimal.
 
@@ -113,13 +109,7 @@ C2X("👨"T) = "F0 9F 91 A8"X
 
 ## CHARIN 
 
-```
-   ╭─────────╮              ╭───╮                                    ╭───╮
-▸▸─┤ CHARIN( ├─┬──────────┬─┤ , ├─┬───────────┬─┬──────────────────┬─┤ ) ├─▸◂
-   ╰─────────╯ │ ┌──────┐ │ ╰───╯ │ ┌───────┐ │ │ ╭───╮ ┌────────┐ │ ╰───╯
-               └─┤ name ├─┘       └─┤ start ├─┘ └─┤ , ├─┤ length ├─┘
-                 └──────┘           └───────┘     ╰───╯ └────────┘
-```
+![Diagram for the CHARIN BIF](img/BIF_CHARIN.svg)
 
 The CHARIN BIF is enhanced by supporting the _encoding_ options specified in the STREAM OPEN command.
 * When an _encoding_ is not specified for a stream, the standard BIF is called.
@@ -141,13 +131,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## CHAROUT
 
-```
-   ╭──────────╮              ╭───╮                                    ╭───╮
-▸▸─┤ CHAROUT( ├─┬──────────┬─┤ , ├─┬────────────┬─┬─────────────────┬─┤ ) ├─▸◂
-   ╰──────────╯ │ ┌──────┐ │ ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌───────┐ │ ╰───╯
-                └─┤ name ├─┘       └─┤ string ├─┘ └─┤ , ├─┤ start ├─┘
-                  └──────┘           └────────┘     ╰───╯ └───────┘
-```
+![Diagram for the CHAROUT BIF](img/BIF_CHAROUT.svg)
 
 The CHAROUT BIF is enhanced by supporting the _encoding_ options specified in the STREAM OPEN command.
 * When an _encoding_ has not been specified for a stream, the standard BIF is called.
@@ -167,11 +151,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## CHARS 
 
-```
-   ╭────────╮  ┌──────┐  ╭───╮
-▸▸─┤ CHARS( ├──┤ name ├──┤ ) ├─▸◂
-   ╰────────╯  └──────┘  ╰───╯
-```
+![Diagram for the CHARS BIF](img/BIF_CHARS.svg)
 
 The CHARS BIF is modified to support the _encoding_ options specified in the STREAM OPEN command.
 
@@ -186,14 +166,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## CENTER (or CENTRE)
 
-```
-     ╭─────────╮   ┌────────┐  ╭───╮  ┌────────┐                   ╭───╮
-▸▸─┬─┤ CENTER( ├─┬─┤ string ├──┤ , ├──┤ length ├─┬───────────────┬─┤ ) ├─▸◂
-   │ ╰─────────╯ │ └────────┘  ╰───╯  └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
-   │ ╭─────────╮ │                               └─┤ , ├─┤ pad ├─┘
-   └─┤ CENTRE( ├─┘                                 ╰───╯ └─────┘
-     ╰─────────╯
-```
+![Diagram for the CENTER BIF](img/BIF_CENTER.svg)
 
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
@@ -214,24 +187,14 @@ Center("Man"T,5,"FF"X)                            -- Syntax error ("Invalid UTF-
 
 ## COPIES
 
-```
-     ╭─────────╮  ┌────────┐  ╭───╮  ┌───┐  ╭───╮
-▸▸───┤ COPIES( ├──┤ string ├──┤ , ├──┤ n ├──┤ ) ├─▸◂
-     ╰─────────╯  └────────┘  ╰───╯  └───┘  ╰───╯
-```
+![Diagram for the COPIES BIF](img/BIF_COPIES.svg)
 
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or TEXT string, respectively.
 
 ## DATATYPE
 
-```
-   ╭───────────╮  ┌────────┐                      ╭───╮
-▸▸─┤ DATATYPE( ├──┤ string ├──┬─────────────────┬─┤ ) ├─▸◂
-   ╰───────────╯  └────────┘  │ ╭───╮  ┌──────┐ │ ╰───╯
-                              └─┤ , ├──┤ type ├─┘
-                                ╰───╯  └──────┘
-```
+![Diagram for the DATATYPE BIF](img/BIF_DATATYPE.svg)
 
 A new _type_ is admitted, __C__, for __uniCode__. 
 ``Datatype(string, "C")`` returns __1__ if and only if _string_
@@ -258,13 +221,7 @@ DATATYPE('(Man)(Zwj)(Woman)','C')                 -- 1
 
 ## LEFT
 
-```
-   ╭───────╮  ┌────────┐  ╭───╮  ┌────────┐                    ╭───╮
-▸▸─┤ LEFT( ├──┤ string ├──┤ , ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
-   ╰───────╯  └────────┘  ╰───╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
-                                            └─┤ , ├──┤ pad ├─┘
-                                              ╰───╯  └─────┘
-```
+![Diagram for the LEFT BIF](img/BIF_LEFT.svg)
 
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
