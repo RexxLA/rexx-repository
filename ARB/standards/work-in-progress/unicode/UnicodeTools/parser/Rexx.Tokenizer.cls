@@ -103,16 +103,32 @@
     ( AMPERSAND                    , "*" ), -  -- | "&"
     ( BAR                          , "*" ), -  -- | "|"
     ( EQUAL                        , "*" ), -  -- | "="
-    ( LESSTHAN                     , "*" ), -  -- | "<"
-    ( GREATERTHAN                  , "*" ), -  -- | ">"
+    ( LESS_THAN                    , "*" ), -  -- | "<"
+    ( GREATER_THAN                 , "*" ), -  -- | ">"
     ( TWIDDLE                      , "*" ), -  -- | "~"
                                             -  -- +--- Simple tokenizer only
                                             -
                                             -  -- Multi-character operators
     ( CONCATENATION                , "*" ), -  -- "||"  -- Clauser only
+    ( GREATER_LESS                 , "*" ), -  -- "><"  -- Clauser only
+    ( GREATER_EQUAL                , "*" ), -  -- ">="  -- Clauser only
+    ( LESS_EQUAL                   , "*" ), -  -- "<="  -- Clauser only
+    ( LESS_GREATER                 , "*" ), -  -- "<>"  -- Clauser only
+    ( NOT_EQUAL                    , "*" ), -  -- "\="  -- Clauser only
+    ( NOT_LESS                     , "*" ), -  -- "\<"  -- Clauser only
+    ( NOT_GREATER                  , "*" ), -  -- "\>"  -- Clauser only
     ( POWER                        , "*" ), -  -- "**"  -- Clauser only
     ( REMAINDER                    , "*" ), -  -- "//"  -- Clauser only
     ( XOR                          , "*" ), -  -- "&&"  -- Clauser only
+                                            -
+    ( NOT_STRICTLY_EQUAL           , "*" ), -  -- "\==" -- Clauser only
+    ( NOT_STRICTLY_LESS            , "*" ), -  -- "\<<" -- Clauser only
+    ( NOT_STRICTLY_GREATER         , "*" ), -  -- "\>>" -- Clauser only
+    ( STRICTLY_EQUAL               , "*" ), -  -- "=="  -- Clauser only
+    ( STRICTLY_LESS                , "*" ), -  -- "<<"  -- Clauser only
+    ( STRICTLY_LESS_EQUAL          , "*" ), -  -- "<<=" -- Clauser only
+    ( STRICTLY_GREATER             , "*" ), -  -- ">>"  -- Clauser only
+    ( STRICTLY_GREATER_EQUAL       , "*" ), -  -- ">>=" -- Clauser only
                                             -  -- Extended assignments
     ( AMPERSAND_EQUAL              , "*" ), -  -- "&="  -- Clauser only
     ( BAR_EQUAL                    , "*" ), -  -- "|="  -- Clauser only
@@ -1241,8 +1257,8 @@ environmentSymbol:
 "|": Return Token( OPERATOR      , BAR,          c  )
 "&": Return Token( OPERATOR      , AMPERSAND,    c  )
 "=": Return Token( OPERATOR      , EQUAL,        c  )
-"<": Return Token( OPERATOR      , LESSTHAN,     c  )
-">": Return Token( OPERATOR      , GREATERTHAN,  c  )
+"<": Return Token( OPERATOR      , LESS_THAN,    c  )
+">": Return Token( OPERATOR      , GREATER_THAN, c  )
 "~": Return Token( OPERATOR      , TWIDDLE,      c  )
 "n": Return Token( OPERATOR      , BACKSLASH,   "\" )           -- Always "\"
 "-": If c == "-", .line_comments, thisChar() == "-" Then Do
