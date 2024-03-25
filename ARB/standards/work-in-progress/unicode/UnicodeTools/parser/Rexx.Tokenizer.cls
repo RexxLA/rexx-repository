@@ -93,7 +93,22 @@
 ::Constant tokenClasses (    -             
   ( SYNTAX_ERROR                   , "*" ), -  -- Special token returned when a Syntax error is found
   ( OPERATOR                       , "*" ), -
-                                            -  -- +--- All subclasses of OPERATOR are full tokenizer only
+                                            -  -- +--- Simple tokenizer only
+    ( PLUS                         , "*" ), -  -- | "+"
+    ( MINUS                        , "*" ), -  -- | "-"
+    ( STAR                         , "*" ), -  -- | "*"
+    ( SLASH                        , "*" ), -  -- | "/"
+    ( PERCENT                      , "*" ), -  -- | "%"
+    ( BACKSLASH                    , "*" ), -  -- | "\"
+    ( AMPERSAND                    , "*" ), -  -- | "&"
+    ( BAR                          , "*" ), -  -- | "|"
+    ( EQUAL                        , "*" ), -  -- | "="
+    ( LESSTHAN                     , "*" ), -  -- | "<"
+    ( GREATERTHAN                  , "*" ), -  -- | ">"
+    ( TWIDDLE                      , "*" ), -  -- | "~"
+                                            -  -- +--- Simple tokenizer only
+                                            -
+                                            -  -- +--- Full tokenizer only
     ( ADDITIVE_OPERATOR            , "*" ), -  -- | "+", "-" 
     ( COMPARISON_OPERATOR          , "*" ), -  -- | "=", "\=", ">", "<", "><", "<>", ">=", "\<", "<=", "\>" 
                                             -  -- | "==", "\==", ">>", "<<", ">>=", "\<<", "<<=", "\>>"
@@ -425,6 +440,7 @@ End
     operator_subclass.op   = MULTIPLICATIVE_OPERATOR
   End
   operator_subclass.["**"] =          POWER_OPERATOR
+  -- Non-strict comparisons
   Do op over "= \= > < >< <> >= \< <= \>"~makeArray(" ")
     operator_subclass.op   =     COMPARISON_OPERATOR
   End
@@ -440,7 +456,7 @@ End
   End
 If \.ANSI Then Do
   Do op over "+=  -=  *= /=  %=  //=  ||=  &=  |=  &&= **="~makeArray(" ")
-    operator_subclass.op   =        EXTENDED_ASSIGNMENT
+    operator_subclass.op   =     EXTENDED_ASSIGNMENT
   End
 End
 
@@ -893,15 +909,12 @@ Signal Return_a_token
   general_letter     = "l"
   comma              = "s"
   not                = "n"
-  operator_only      = "o" -- Partial operator
   operator_or_other  = "/"
   blank_character    = " "
   semicolon          = ";"
   colon              = ":"
   lparen             = "("
   rparen             = ")"
-  lbracket           = "["
-  rbracket           = "]"
   illegal            = "x"
   
   simple_symbol      = general_letter || digit
@@ -923,11 +936,19 @@ Signal Return_a_token
   Call AssignCharacterCategory not,                "\"
 
   -- ANSI 6.2.2.4 operator_only := '+' | '-' | '%' | '|' | '&' | '=' | not | '>' | '<'
-  Call AssignCharacterCategory operator_only,      "+-%|&=><" -- "not" is handled separately
+  --Call AssignCharacterCategory operator_only,    "+-%|&=><" -- "not" is handled separately
+  Call AssignCharacterCategory "-",                "-" -- "not" is handled separately
+  Call AssignCharacterCategory "+",                "+"
+  Call AssignCharacterCategory "%",                "%"
+  Call AssignCharacterCategory "|",                "|"
+  Call AssignCharacterCategory "&",                "&"
+  Call AssignCharacterCategory "=",                "="
+  Call AssignCharacterCategory "<",                "<"
+  Call AssignCharacterCategory ">",                ">"
 
   -- ANSI 6.2.2.5: operator_or_other := '/' | '*'
   Call AssignCharacterCategory operator_or_other,  "/" -- Comment start, or 
-  Call AssignCharacterCategory operator_only,      "*" -- pass it as an operatos, it works as such outside comments
+  Call AssignCharacterCategory "*",                "*" -- pass it as an operator, it works as such outside comments
 
   -- ANSI 6.2.2.6: operator_char := operator_only | operator_or_other
 
@@ -945,10 +966,10 @@ Signal Return_a_token
   Call AssignCharacterCategory '"',                '"' -- String delimiter
   
   If .ooRexx Then Do
-    Call AssignCharacterCategory lbracket,         "["
-    Call AssignCharacterCategory rbracket,         "]"
+    Call AssignCharacterCategory "[",              "["
+    Call AssignCharacterCategory "]",              "]"
+    Call AssignCharacterCategory "~",              "~"         
     Call AssignCharacterCategory not,              "aaac"x -- other_negator. Two forms of the logical not character
-    Call AssignCharacterCategory operator_only,    "~"     
     Call AssignCharacterCategory blank_character,  "09"x   -- Horizontal tab ("09"x) as other_blank_character
   End
   
@@ -1196,17 +1217,26 @@ environmentSymbol:
 "]": Return Token( RBRACKET      , ,  c  )
 ":": Return Token( COLON         , ,  c  )
 "s": Return Token( COMMA         , ,  c  )
-"n": Return Token( OPERATOR      , , "\" )           -- Always "\"
-"o": If c == "-", .line_comments, thisChar() == "-" Then Do
+"+": Return Token( OPERATOR      , PLUS,         c  )
+"*": Return Token( OPERATOR      , STAR,         c  )
+"%": Return Token( OPERATOR      , PERCENT,      c  )
+"|": Return Token( OPERATOR      , BAR,          c  )
+"&": Return Token( OPERATOR      , AMPERSAND,    c  )
+"=": Return Token( OPERATOR      , EQUAL,        c  )
+"<": Return Token( OPERATOR      , LESSTHAN,     c  )
+">": Return Token( OPERATOR      , GREATERTHAN,  c  )
+"~": Return Token( OPERATOR      , TWIDDLE,      c  )
+"n": Return Token( OPERATOR      , BACKSLASH,   "\" )           -- Always "\"
+"-": If c == "-", .line_comments, thisChar() == "-" Then Do
        pos = maxPos                                  -- Forces END_OF_CLAUSE on next
        Return Token( LINE_COMMENT, )
      End
-     Return Token( OPERATOR      , ,  c  )
+     Return Token( OPERATOR      , MINUS,        c  )
 "x": If .ooRexx Then                                 -- illegal
        Return self~Syntax_error( 13.1, line 1, ". ." line pos, c, c2x(c) )       
      Else                                            -- illegal
        Return self~Syntax_error( 13.1, line 1, ". ." line pos, c2x(c) )       
-"/": If thisChar() \== "*" Then Return Token( OPERATOR, , "/" )
+"/": If thisChar() \== "*" Then Return Token( OPERATOR, SLASH, "/" )
      level = 1                                       -- standard_comment
      Call nextChar
      save = line
