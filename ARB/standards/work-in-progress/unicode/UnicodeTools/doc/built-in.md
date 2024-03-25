@@ -229,11 +229,7 @@ _pad_ is first converted, if necessary, to the type of _string_. If this convers
 
 ## LENGTH
 
-```
-   ╭─────────╮  ┌────────┐  ╭───╮
-▸▸─┤ LENGTH( ├──┤ string ├──┤ ) ├─▸◂
-   ╰─────────╯  └────────┘  ╰───╯
-```
+![Diagram for the LENGTH BIF](img/BIF_LENGTH.svg)
 
 When _string_ is a BYTES string, it returns the number of bytes in _string_. When _string_ is a CODEPOINTS string, it returns the number of
 codepoints in _string_. When _string_ is a GRAPHEMES or a TEXT string, it returns the number of extended grapheme clusters in _string_.
@@ -251,13 +247,7 @@ Length("👨‍👩"T)                                     -- 1 grapheme cluster
 
 ## LINEIN 
 
-```
-   ╭─────────╮              ╭───╮                                  ╭───╮
-▸▸─┤ LINEIN( ├─┬──────────┬─┤ , ├─┬──────────┬─┬─────────────────┬─┤ ) ├─▸◂
-   ╰─────────╯ │ ┌──────┐ │ ╰───╯ │ ┌──────┐ │ │ ╭───╮ ┌───────┐ │ ╰───╯
-               └─┤ name ├─┘       └─┤ line ├─┘ └─┤ , ├─┤ count ├─┘
-                 └──────┘           └──────┘     ╰───╯ └───────┘
-```
+![Diagram for the LINEIN BIF](img/BIF_LINEIN.svg)
 
 The LINEIN BIF is enhanced by supporting the _encoding_ options specified in the STREAM OPEN command.
 
@@ -290,13 +280,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## LINEOUT
 
-```
-   ╭─────────╮              ╭───╮                                   ╭───╮
-▸▸─┤ LINEIN( ├─┬──────────┬─┤ , ├─┬────────────┬─┬────────────────┬─┤ ) ├─▸◂
-   ╰─────────╯ │ ┌──────┐ │ ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌──────┐ │ ╰───╯
-               └─┤ name ├─┘       └─┤ string ├─┘ └─┤ , ├─┤ line ├─┘
-                 └──────┘           └────────┘     ╰───╯ └──────┘
-```
+![Diagram for the LINEOUT BIF](img/BIF_LINEOUT.svg)
 
 The LINEOUT BIF is enhanced by supporting the _encoding_ options specified in the STREAM OPEN command.
 * When an _encoding_ has not been specified for stream _name_, the standard BIF is called.
@@ -313,16 +297,7 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## LINES
 
-```
-   ╭────────╮                                      ╭───╮
-▸▸─┤ LINES( ├─┬──────────┬──┬────────────────────┬─┤ ) ├─▸◂
-   ╰────────╯ │ ┌──────┐ │  │ ╭───╮ ┌──────────┐ │ ╰───╯
-              └─┤ name ├─┘  ├─┤ , ├─┤ "Normal" ├─┤ 
-                └──────┘    │ ╰───╯ └──────────┘ │
-                            │ ╭───╮ ┌─────────┐  │
-                            └─┤ , ├─┤ "Count" ├──┘
-                              ╰───╯ └─────────┘
-```
+![Diagram for the LINES BIF](img/BIF_LINES.svg)
 
 The LINES BIF is modified to support the _encoding_ options specified in the STREAM OPEN command.
 
@@ -337,13 +312,8 @@ Please refer to the accompanying document [_Stream functions for Unicode_](strea
 
 ## LOWER
 
-```
-   ╭────────╮  ┌────────┐  ╭───╮                                  ╭───╮
-▸▸─┤ LOWER( ├──┤ string ├──┤ , ├─┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
-   ╰────────╯  └────────┘  ╰───╯ │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
-                                 └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
-                                   └───┘      ╰───╯  └────────┘
-```
+![Diagram for the LOWER BIF](img/BIF_LOWER.svg)
+
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or a TEXT string, respectively. When operating on CODEPOINTS, GRAPHEMES or TEXT strings, it implements the ``toLowercase(X)`` definition,
 as defined in rule __R2__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
@@ -370,13 +340,7 @@ Length(Lower('Aİ'))                               -- 3
 
 ## POS
 
-```
-   ╭──────╮  ┌────────┐  ╭───╮  ┌──────────┐  ╭───╮                                      ╭───╮
-▸▸─┤ POS( ├──┤ needle ├──┤ , ├──┤ haystack ├──┤ , ├─┬───────────┬──┬───────────────────┬─┤ ) ├─▸◂
-   ╰──────╯  └────────┘  ╰───╯  └──────────┘  ╰───╯ │ ┌───────┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
-                                                    └─┤ start ├─┘  └─┤ , ├──┤ length ├─┘
-                                                      └───────┘      ╰───╯  └────────┘
-```
+![Diagram for the POS BIF](img/BIF_POS.svg)
 
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _haystack_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or a TEXT string, respectively. If necessary, _needle_ is converted to the type of _haystack_. 
@@ -400,11 +364,7 @@ Pos('FF'X,haystack)                               -- Syntax error ("FF"X is ill-
 
 ## REVERSE
 
-```
-   ╭──────────╮  ┌────────┐  ╭───╮
-▸▸─┤ REVERSE( ├──┤ string ├──┤ ) ├─▸◂
-   ╰──────────╯  └────────┘  ╰───╯
-```
+![Diagram for the REVERSE BIF](img/BIF_REVERSE.svg)
 
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or a TEXT string, respectively.
@@ -424,13 +384,7 @@ Say string == REVERSE(string)                     -- 1, since LENGTH(string) == 
 
 ## RIGHT 
 
-```
-   ╭────────╮  ┌────────┐  ╭───╮  ┌────────┐                    ╭───╮
-▸▸─┤ RIGHT( ├──┤ string ├──┤ , ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
-   ╰────────╯  └────────┘  ╰───╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
-                                             └─┤ , ├──┤ pad ├─┘
-                                               ╰───╯  └─────┘
-```
+![Diagram for the RIGHT BIF](img/BIF_RIGHT.svg)
 
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length,
@@ -504,13 +458,8 @@ _pad_ is first converted, if necessary, to the type of _string_. If this convers
 
 ## UPPER
 
-```
-   ╭────────╮  ┌────────┐  ╭───╮                                  ╭───╮
-▸▸─┤ UPPER( ├──┤ string ├──┤ , ├─┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
-   ╰────────╯  └────────┘  ╰───╯ │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
-                                 └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
-                                   └───┘      ╰───╯  └────────┘
-```
+![Diagram for the UPPER BIF](img/BIF_UPPER.svg)
+
 Works as the standard BIF does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether _string_ is a BYTES string,
 a CODEPOINTS string, or a GRAPHEMES or a TEXT string, respectively. When operating on CODEPOINTS, GRAPHEMES or TEXT strings, it implements the ``toUppercase(X)`` definition,
 as defined in rule __R1__ of section "Default Case Conversion" of [_The Unicode Standard, Version 15.0 – Core Specification_](https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf):
