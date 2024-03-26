@@ -1,3 +1,10 @@
+/* OPTIONS */
+
+options_defaultstring ::= "OPTIONS" "DEFAULTSRING" ("TEXT" | "GRAPHEMES" | "CODEPOINTS" | "BYTES" | "NONE")
+
+options_coercions ::= "OPTIONS" "COERCIONS" ("PROMOTE" | "DEMOTE" | "LEFT" | "RIGHT" | "NONE")
+
+
 /* TUTOR BIMS */
 
 bytes_c2u ::= "c2u(" format? ")"
@@ -29,6 +36,18 @@ bytes_substr ::= "substr(" n "," length? ("," pad)? ")"
 bytes_upper ::= "upper(" n? ("," length)? ")"
 
 bytes_uc2 ::= "u2c"
+
+/* Utility classes */
+
+MultiStageTable_compress ::= "compress(" buffer ("," chunk_size)? ")"
+
+MultiStageTable_index ::= "[" n "]"
+
+MultiStageTable_class_new ::= "new(" offset "," chunks "," table_size? "," chunk_size? "," width? "," big_values? ")"
+
+PersistentStringTable_load ::= "load(" source ")"
+
+PersistentStringTable_save ::= "save(" target ")"
 
 /* TUTOR BIFS */
 
