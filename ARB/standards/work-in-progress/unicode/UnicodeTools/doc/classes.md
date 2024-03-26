@@ -161,14 +161,7 @@ C2X("(Man)"U)                            -- "F09F91A8"
 
 ### center/centre
 
-```
-     ╭─────────╮   ┌────────┐                   ╭───╮
-▸▸─┬─┤ center( ├─┬─┤ length ├─┬───────────────┬─┤ ) ├─▸◂
-   │ ╰─────────╯ │ └────────┘ │ ╭───╮ ┌─────┐ │ ╰───╯
-   │ ╭─────────╮ │            └─┤ , ├─┤ pad ├─┘
-   └─┤ centre( ├─┘              ╰───╯ └─────┘
-     ╰─────────╯
-```
+![Diagram for the center BIM](img/bytes_center.svg)
 
 Returns a string of length _length_ with the receiving string centered in it. The _pad_ characters are added
 as necessary to make up _length_. The _length_ must be a positive whole number or zero. The default
@@ -180,11 +173,7 @@ This method works as the standard method does, but it operates on bytes, codepoi
 
 ### copies
 
-```
-     ╭─────────╮  ┌───┐  ╭───╮
-▸▸───┤ copies( ├──┤ n ├──┤ ) ├─▸◂
-     ╰─────────╯  └───┘  ╰───╯
-```
+![Diagram for the copies BIM](img/bytes_copies.svg)
 
 Returns _n_ concatenated copies of the receiving string. The _n_ must be a positive whole number or zero.
 
@@ -192,13 +181,7 @@ This method works as the standard method does, but it operates on bytes, codepoi
 
 ### datatype
 
-```
-   ╭───────────╮               ╭───╮
-▸▸─┤ datatype( ├──┬──────────┬─┤ ) ├─▸◂
-   ╰───────────╯  │ ┌──────┐ │ ╰───╯
-                  └─┤ type ├─┘
-                    └──────┘
-```
+![Diagram for the datatype BIM](img/bytes_datatype.svg)
 
 A new _type_ is admitted, __C__, for uni__C__ode. ``"String"~datatype("C")`` returns __1__ if and only if ``"String"`` follows the Unicode string format, namely, if it consists of a blank-separated series of:
 
@@ -223,23 +206,13 @@ __Examples:__
 
 ### left
 
-```
-   ╭───────╮  ┌────────┐                    ╭───╮
-▸▸─┤ left( ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
-   ╰───────╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
-                         └─┤ , ├──┤ pad ├─┘
-                           ╰───╯  └─────┘
-```
+![Diagram for the left BIM](img/bytes_left.svg)
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
 
 ### length
 
-```
-   ╭────────╮             
-▸▸─┤ length ├──▸◂
-   ╰────────╯  
-```
+![Diagram for the length BIM](img/bytes_length.svg)
 
 When the receiving string is a BYTES string, it returns the number of bytes in the string. When the receiving string is a CODEPOINTS string, it returns the number of codepoints in the string. When the receiving string is a TEXT string, it returns the number of extended grapheme clusters in the string.
 
@@ -256,13 +229,7 @@ __Examples:__
 
 ### lower
 
-```
-   ╭────────╮                                   ╭───╮
-▸▸─┤ lower( ├──┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
-   ╰────────╯  │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
-               └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
-                 └───┘      ╰───╯  └────────┘
-```
+![Diagram for the lower BIM](img/bytes_lower.svg)
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toLowercase(X)`` definition, as defined in rule R2 of section "Default Case Conversion" of
 _(The Unicode Standard, Version 15.0 – Core Specification)[https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf]_:
@@ -286,13 +253,7 @@ __Examples:__
 
 ### pos
 
-```
-   ╭──────╮  ┌────────┐  ╭───╮                                      ╭───╮
-▸▸─┤ pos( ├──┤ needle ├──┤ , ├─┬───────────┬──┬───────────────────┬─┤ ) ├─▸◂
-   ╰──────╯  └────────┘  ╰───╯ │ ┌───────┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
-                               └─┤ start ├─┘  └─┤ , ├──┤ length ├─┘
-                                 └───────┘      ╰───╯  └────────┘
-```
+![Diagram for the pos BIM](img/bytes_pos.svg)
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. If necessary, _needle_ is converted to the type of the receiving string. If this conversion fails, a syntax error is raised.
 
@@ -314,11 +275,7 @@ haystack~pos('FF'X)                               -- Syntax error ("FF"X is ill-
 
 ### reverse
 
-```
-   ╭─────────╮             
-▸▸─┤ reverse ├──▸◂
-   ╰─────────╯  
-```
+![Diagram for the reverse BIM](img/bytes_reverse.svg)
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively.
 
@@ -337,25 +294,13 @@ Say string == string~reverse                      -- 1, since LENGTH(string) == 
 
 ### right
 
-```
-   ╭────────╮  ┌────────┐                    ╭───╮
-▸▸─┤ right( ├──┤ length ├─┬────────────────┬─┤ ) ├─▸◂
-   ╰────────╯  └────────┘ │ ╭───╮  ┌─────┐ │ ╰───╯
-                          └─┤ , ├──┤ pad ├─┘
-                            ╰───╯  └─────┘
-```
+![Diagram for the right BIM](img/bytes_right.svg)
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
 
 ### stringtype
 
-```
-   ╭─────────────╮               ╭───╮
-▸▸─┤ stringtype( ├──┬──────────┬─┤ ) ├─▸◂
-   ╰─────────────╯  │ ┌──────┐ │ ╰───╯
-                    └─┤ type ├─┘
-                      └──────┘
-```
+![Diagram for the stringtype BIM](img/bytes_stringtype.svg)
 
 If you specify no argument, this method returns __BYTES__ when receiving string is a BYTES string,
 __CODEPOINTS__ when receiving string is a CODEPOINTS string,
@@ -367,25 +312,13 @@ __.true__ when the receiving string class matches _type_, and __.false__ otherwi
 
 ### substr
 
-```
-   ╭─────────╮  ┌───┐  ╭───╮                                    ╭───╮
-▸▸─┤ SUBSTR( ├──┤ n ├──┤ , ├─┬────────────┬──┬────────────────┬─┤ ) ├─▸◂
-   ╰─────────╯  └───┘  ╰───╯ │ ┌────────┐ │  │ ╭───╮  ┌─────┐ │ ╰───╯
-                             └─┤ length ├─┘  └─┤ , ├──┤ pad ├─┘
-                               └────────┘      ╰───╯  └─────┘
-```
+![Diagram for the substr BIM](img/bytes_substr.svg)
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. Before ensuring that the _pad_ character is one character in length, _pad_ is first converted, if necessary, to the type of the receiving string. If this conversion fails, a syntax error is raised.
 
 ### upper
 
-```
-   ╭────────╮                                   ╭───╮
-▸▸─┤ upper( ├──┬───────┬──┬───────────────────┬─┤ ) ├─▸◂
-   ╰────────╯  │ ┌───┐ │  │ ╭───╮  ┌────────┐ │ ╰───╯
-               └─┤ n ├─┘  └─┤ , ├──┤ length ├─┘
-                 └───┘      ╰───╯  └────────┘
-```
+![Diagram for the upper BIM](img/bytes_upper.svg)
 
 Works as the standard method does, but it operates on bytes, codepoints or extended grapheme clusters depending of whether the receiving string is a BYTES string, a CODEPOINTS string, or a TEXT string, respectively. When operating on CODEPOINTS or TEXT strings, it implements the ``toUppercase(X)`` definition, as defined in rule R1 of section "Default Case Conversion" of _(The Unicode Standard, Version 15.0 – Core Specification)[https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandard-15.0.pdf]_:
 
@@ -405,6 +338,8 @@ __Examples:__
 ```
 
 ### u2c (Unicode codepoints to Character)
+
+![Diagram for the u2c BIM](img/bytes_u2c.svg)
 
 ```
    ╭─────╮             
