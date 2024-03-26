@@ -4,7 +4,7 @@
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
 │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
 │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
-│ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+│ Copyright © 2023, 2024 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                     │
 │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ``` 
@@ -136,7 +136,11 @@ To satisfy (1), we will be introducing new suffixes, to specify the _type_ of a 
 a string is classic in a Unicode-first program, and that a string is Unicode in a compatibility program. The exact form
 of these suffixes will be discussed below, when some further questions about Unicode will have been addressed.
 
-To satisfy (2), we will be introducing a new BIF called STRINGTYPE. ``STRINGTYPE(string)`` will return different values depending
+To satisfy (2), we will be introducing a new BIF called STRINGTYPE. 
+
+![Diagram for the STRINGTYPE BIF](img/BIF_STRINGTYPE.svg)
+
+``STRINGTYPE(string)`` will return different values depending
 on the type of the string; these values will be specified later.
 
 ## Scalars and grapheme clusters: CODEPOINTS, GRAPHEMES and TEXT
@@ -155,20 +159,18 @@ that might be useful if your application is generally limited to the Basic Multi
 are Extended Grapheme Clusters, you may lose some efficiency, but you will gain a better conformance with the standard,
 more expressive power, and (it is hoped) a better experience, both for the programmers and for the end-users.
 
-The RXU Rexx Preprocessor for Unicode implements both definitions, i.e., it has a data type for unicode scalars,
-called CODEPOINTS, and another data type for Extended Grapheme Clusters, called TEXT.
+TUTOR implements both definitions, i.e., it has a data type for unicode scalars,
+called CODEPOINTS, and two data types for Extended Grapheme Clusters, called GRAPHEMES and TEXT. TEXT automatically normalizes
+strings to the NFC Unicode normalization form, while GRAPHEMES leaves strings as they are.
 
 This may seem somewhat redundant, but it has its benefits. TEXT is supposed to be the default string type for Unicode-enabled Rexx programs, 
-and, in this sense, CODEPOINTS would always be a secondary, technically-oriented, type. But CODEPOINTS strings offers compatibility
+and, in this sense, CODEPOINTS and GRAPHEMES would always be a secondary, technically-oriented, type. But CODEPOINTS strings offers compatibility
 with Java (and with all the other languages that have opted to implement characters as scalars, instead of graphemes, which at the moment
 of this writing is the absolute majority of languages), and they may be useful when you have to manage streams that are not normalized, 
 or (by using an additional, special, switch) contains ill-formed sequences, like Windows file names, that may contain UTF-16 sequences with ill-formed surrogates (WTF-16). 
-TEXT strings, for example, can be normalized at string creation time, while CODEPOINTS strings will never be automatically normalized; and so on.
-
-Indeed, there are situations in which one would need grapheme-based strings which are automatically normalized, and some other situations where
-such automatic normalization would be undesirable. RXU thus defines an intermediate data type, called GRAPHEMES. A GRAPHEMES string is composed of graphemes,
-but it does not have to be normalized; a TEXT string, on the other hand, is guaranteed to be NFC-normalized. It is expected that most users will
-prefer to manage TEXT strings, but GRAPHEMES strings may come handy for specialized applications.
+GRAPHEMES strings, on the other hand, are useful when, while wanting to manage Unicode as grapheme clusters, you want to have
+complete control over the real data you are getting; this control is somehow lost when you accept automatic normalization, which
+is the default with TEXT strings.
 
 ## _Excursus:_ A note about the implementation strategy 
 
@@ -192,48 +194,50 @@ GRAPHEMES and TEXT, will be mandatory? Not at all. BYTES, CODEPOINTS, GRAPHEMES 
 Once we decide that this research is finished, we will be able to decide whether we prefer to keep both concepts or we chose to keep only one. 
 And, regarding the names, they can be changed on-the-fly, if needs arise: we have already changed from RUNES to CODEPOINTS, for example.
 
-## T and, P and Y strings
+## T, G, P and Y strings
 
-Coming back to our main subject: we need a notation to specify that a literal string is a TEXT or a CODEPOINTS string: we have chosen ``"string"T`` for TEXT,
-and ``"string"P`` for CODEPOINTS.
+Coming back to our main subject: we need a notation to specify that a literal string is a TEXT, GRAPHEMES or a CODEPOINTS string: we have chosen ``"string"T`` for TEXT,
+``"string"G`` for GRAPHEMES, and ``"string"P`` for CODEPOINTS.
 
 We will also need a _name_ and a _notation_ for to denote Classic Rexx strings, when we are programming in the Unicode dialect. 
 Let's start with the _name_ first: we will say that these strings are BYTES strings: a string will now be either a BYTES string, 
-or a CODEPOINTS string, or a TEXT string, and there are no more possibilities. As we mentioned before, We will also introduce a new BIF, 
-called STRINGTYPE. ``STRINGTYPE(string)`` will return precisely __BYTES__, __CODEPOINTS__ or __TEXT__, 
+or a CODEPOINTS string, or a GRAPHEMES string, or a TEXT string, and there are no more possibilities. As we mentioned before, We will also introduce a new BIF, 
+called STRINGTYPE. ``STRINGTYPE(string)`` will return precisely __BYTES__, __CODEPOINTS__, __GRAPHEMES__ or __TEXT__, 
 depending on the type of _string_ (please refer to [_New built-in functions_](new-functions.md) for more details about the STRINGTYPE BIF).
 
 We also need a _notation_ for BYTES strings. We will use the "Y" suffix for that. "Y" comes from "bYtes": it would be nice to be able
 to use "B", but it was already taken (for "Binary" strings). 
 
-## BYTES, CODEPOINTS and TEXT as BIFs
+## BYTES, CODEPOINTS, GRAPHEMES and TEXT as BIFs
 
-The names BYTES, CODEPOINTS and TEXT are also names of built-in functions. These built-in functions promote or demote strings in
-the type hierarchy. A BYTES string can be _promoted_ to CODEPOINTS or to TEXT, if it contains well-formed UTF-8; a CODEPOINTS
-string can be _demoted_ to BYTES, or _promoted_ to TEXT; a TEXT string can be _demoted_ to BYTES or to CODEPOINTS (please
+The names BYTES, CODEPOINTS, GRAPHEMES and TEXT are also names of built-in functions. These built-in functions promote or demote strings in
+the type hierarchy. A BYTES string can be _promoted_ to CODEPOINTS, GRAPHEMES or to TEXT, if it contains well-formed UTF-8; a CODEPOINTS
+string can be _demoted_ to BYTES, or _promoted_ to GRAPHEMES or to TEXT; a GRAPHEMES string can be _demoted_ to BYTES or to CODEPOINTS, or _promoted_
+to TEXT; a TEXT string can be _demoted_ to BYTES, to CODEPOINTS, or to GRAPHEMES (please
 refer to [_New built-in functions_](new-functions.md) for more details abouy these functions).
 
 Suffix notation, like ``"string"T`` or ``"string"Y``, is appropiate when you are specifying string literals; BIF notation, like
 ``BYTES(var)`` or ``TEXT(expression)``, should be used when you want to promote or demote the value of a variable or the
-result of an expression. In general terms, ``TEXT("string")`` is the same as ``"string"T``, ``CODEPOINTS("string")`` is the
+result of an expression. In general terms, ``TEXT("string")`` is the same as ``"string"T``, ``GRAPHEMES("string")`` is the same
+as ``"string"G``, ``CODEPOINTS("string")`` is the
 same as ``"string"P``, and ``BYTES("string")`` is the same as ``"string"Y``.
 
 ## Default string type
 
 What should an unsuffixed string literal, ``"string"``, refer to? In the Unicode-first dialect, it should refer to an
-Unicode string, but we now have _two_ types of Unicode strings, CODEPOINTS and TEXT; in the compatibility dialect, it should refer to
+Unicode string, but we now have _three_ types of Unicode strings, namely CODEPOINTS, GRAPHEMES and TEXT; in the compatibility dialect, it should refer to
 a classic rexx string, i.e., to a BYTES string.
 
-The RXU Rexx Preprocessor for Unicode does not force you to choose. It implements an experimental OPTIONS instruction,
+TUTOR does not force you to choose. It implements an experimental OPTIONS instruction,
 
 ```
 OPTIONS DEFAULTSTRING default
 ```
 
-where _default_ can be ``BYTES``, ``CODEPOINTS`` or ``TEXT``. The semantics for this instructions should be obvious: ``OPTIONS
+where _default_ can be ``BYTES``, ``CODEPOINTS``, ``GRAPHEMES`` or ``TEXT``. The semantics for this instructions should be obvious: ``OPTIONS
 DEFAULTSTRING TEXT``, for example, guarantees that all occurences of unsuffixed strings will be interpreted as TEXT strings.
 
-__Implementation restriction__. Please note that the current implementation of the OPTIONS DEFAULTSTRING instruction
+__Implementation restriction__. Please note that the current implementation of the ``OPTIONS DEFAULTSTRING`` instruction
 has the following limitation: the value for the default string type _is stored globally_. This means that you
 can change its value in an internal routine, in an external routine, or in a method. We don't recommend doing that,
 of course, unless you know exactly what you are doing.
@@ -243,7 +247,7 @@ of course, unless you know exactly what you are doing.
 There has been some discussion about whether Rexx should implement escape sequences in strings, that is, special
 combinations of characters that are translated to other characters, like ``"\r"`` for the carriage return character, ``"0D"X``,
 or ``"\n"`` for the line feed character, ``"0A"X``. Many languages implement these escape sequences, including NetRexx, and it
-would probably be a good idea that Rexx implemented them too. The problem is, again, compatibility with existing
+would probably be a good idea if Rexx implemented them too. The problem is, again, compatibility with existing
 programs: classic Rexx, as it is well known, does not implement escape sequences; if you want
 special characters, you have to resort to hexadecimal (or binary) strings.
 
@@ -254,7 +258,7 @@ strings could not contain escape sequences in the compatibility dialect, but the
 would be allowed in other types of string.
 
 Since all this is quite controversial and there is no clear consensus about this problem,
-the RXU Rexx Preprocessor for Unicode has opted for a conservative approach. It does not allow the use of escape sequences, 
+TUTOR has opted for a conservative approach. It does not allow the use of escape sequences, 
 but it defines a new type of low-level string, the _Unicode string_, similar to hexadecimal and
 binary strings. Unicode strings are terminated by a "U" character. They can contain blank-separated Unicode codepoints (with or without
 the "U+" prefix that many languages use), and Unicode codepoint names, alias or labels, written between parentheses, 
@@ -296,7 +300,7 @@ If condition Then Signal "(Bell)"U
 
 ## In summary...
 
-The RXU Rexx Preprocessor for Unicode implements, in addition to the classical Rexx strings,  the following additional types of strings:
+TUTOR implements, in addition to the classical Rexx strings,  the following additional types of strings:
 
 * ``"string"Y`` strings, composed of bytes (octets). A character is one byte. They are suitable to store binary data.
 * ``"string"P`` strings, composed of Unicode codepoints. A character is a single Unicode codepoint. The ``"string"`` should
@@ -308,7 +312,7 @@ The RXU Rexx Preprocessor for Unicode implements, in addition to the classical R
 * ``"string"U`` strings, composed of Unicode codepoints, specified using their hexadecimal representation, preceded or not by "U+", or as names,
   alias or labels between parentheses, as defined in the Unicode Character Database. U strings are BYTES strings.
 
-Additionally, RXU also implements four new built-in functions: STRINGTYPE (returns __BYTES__, __CODEPOINTS__ or __TEXT__, depending on the string type),
-BYTES (transforms to the BYTES type), CODEPOINTS (transforms to the CODEPOINTS type) and TEXT (transforms to the TEXT type).
+Additionally, TUTOR also implements four new built-in functions: STRINGTYPE (returns __BYTES__, __CODEPOINTS__, __GRAPHEMES__ or __TEXT__, depending on the string type),
+BYTES (transforms to the BYTES type), CODEPOINTS (transforms to the CODEPOINTS type), GRAPHEMES (transforms to the GRAPHEMES type) and TEXT (transforms to the TEXT type).
 
 For more details about these built-in functions, please refer to the accompanying document, [_New built-in functions_](new-functions.md).
