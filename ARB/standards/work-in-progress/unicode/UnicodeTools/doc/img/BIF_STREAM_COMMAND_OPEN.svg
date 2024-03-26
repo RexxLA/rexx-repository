@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="771" height="157">
+         <defs>
+            <style type="text/css">
+               @namespace "http://www.w3.org/2000/svg";
+               .line                 {fill: none; stroke: #1F1F1F;}
+               .bold-line            {stroke: #0A0A0A; shape-rendering: crispEdges; stroke-width:
+               2; }
+               .thin-line            {stroke: #0F0F0F; shape-rendering: crispEdges}
+               .filled               {fill: #1F1F1F; stroke: none;}
+               text.terminal         {font-family: Verdana, Sans-serif;
+               font-size: 12px;
+               fill: #0A0A0A;
+               font-weight: bold;
+               }
+               text.nonterminal      {font-family: Verdana, Sans-serif; font-style: italic;
+               font-size: 12px;
+               fill: #0D0D0D;
+               }
+               text.regexp           {font-family: Verdana, Sans-serif;
+               font-size: 12px;
+               fill: #0F0F0F;
+               }
+               rect, circle, polygon {fill: #1F1F1F; stroke: #1F1F1F;}
+               rect.terminal         {fill: #CCCCCC; stroke: #1F1F1F;}
+               rect.nonterminal      {fill: #E3E3E3; stroke: #1F1F1F;}
+               rect.text             {fill: none; stroke: none;}
+               polygon.regexp        {fill: #EFEFEF; stroke: #1F1F1F;}
+
+            </style>
+         </defs>
+
+         <polygon points="9 17 1 13 1 21"/>
+         <polygon points="17 17 9 13 9 21"/>
+         <rect x="31" y="3" width="56" height="32" rx="10"/>
+         <rect x="29" y="1" width="56" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="39" y="21">Open</text>
+         <rect x="147" y="35" width="54" height="32" rx="10"/>
+         <rect x="145" y="33" width="54" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="155" y="53">BOth</text>
+         <rect x="147" y="79" width="58" height="32" rx="10"/>
+         <rect x="145" y="77" width="58" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="155" y="97">Write</text>
+         <rect x="265" y="35" width="72" height="32" rx="10"/>
+         <rect x="263" y="33" width="72" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="273" y="53">APpend</text>
+         <rect x="265" y="79" width="74" height="32" rx="10"/>
+         <rect x="263" y="77" width="74" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="273" y="97">REPlace</text>
+         <rect x="127" y="123" width="54" height="32" rx="10"/>
+         <rect x="125" y="121" width="54" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="135" y="141">REAd</text>
+         <polygon points="399 19 406 3 548 3 555 19 548 35 406 35"/>
+         <polygon points="397 17 404 1 546 1 553 17 546 33 404 33" class="regexp"/>
+         <text class="regexp" x="412" y="21">OPTIONS - fragment</text>
+         <polygon points="575 19 582 3 736 3 743 19 736 35 582 35"/>
+         <polygon points="573 17 580 1 734 1 741 17 734 33 580 33" class="regexp"/>
+         <text class="regexp" x="588" y="21">ENCODING - fragment</text>
+         <path class="line" d="m17 17 h2 m0 0 h10 m56 0 h10 m20 0 h10 m0 0 h242 m-272 0 h20 m252 0 h20 m-292 0 q10 0 10 10 m272 0 q0 -10 10 -10 m-282 10 v12 m272 0 v-12 m-272 12 q0 10 10 10 m252 0 q10 0 10 -10 m-242 10 h10 m54 0 h10 m0 0 h4 m-98 0 h20 m78 0 h20 m-118 0 q10 0 10 10 m98 0 q0 -10 10 -10 m-108 10 v24 m98 0 v-24 m-98 24 q0 10 10 10 m78 0 q10 0 10 -10 m-88 10 h10 m58 0 h10 m40 -44 h10 m72 0 h10 m0 0 h2 m-114 0 h20 m94 0 h20 m-134 0 q10 0 10 10 m114 0 q0 -10 10 -10 m-124 10 v24 m114 0 v-24 m-114 24 q0 10 10 10 m94 0 q10 0 10 -10 m-104 10 h10 m74 0 h10 m-242 -54 v20 m272 0 v-20 m-272 20 v68 m272 0 v-68 m-272 68 q0 10 10 10 m252 0 q10 0 10 -10 m-262 10 h10 m54 0 h10 m0 0 h178 m20 -120 h10 m156 0 h10 m0 0 h10 m168 0 h10 m3 0 h-3"/>
+         <polygon points="761 17 769 13 769 21"/>
+         <polygon points="761 17 753 13 753 21"/>
+</svg>
