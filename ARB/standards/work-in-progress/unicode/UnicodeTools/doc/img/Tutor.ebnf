@@ -48,6 +48,14 @@ BIF_REVERSE ::= "REVERSE(" string ")"
 
 BIF_RIGHT ::= "RIGHT(" string "," length (| "," pad) ")"
 
+BIF_STREAM ::= "STREAM(" name "," '"Command"' "," stream_command ")"
+
+BIF_STREAM_COMMAND_OPEN ::= "Open" (| (("BOth" | "Write") ("APpend" | "REPlace")) | "REAd") (OPTIONS - fragment) (ENCODING - fragment)
+
+BIF_STREAM_COMMAND_OPEN_ENCODING ::= (| "ENCODING" encoding (| "TEXT" | "GRAPHEMES" | "CODEPOINTS") (| "REPLACE" | "SYNTAX"))
+
+BIF_STREAM_QUERY_ENCODING ::= "Query" "ENCODING" (| "NAME" | "TARGET" | "ERROR" | "LASTERROR")
+
 BIF_STRINGTYPE ::= "STRINGTYPE(" string ( | "," type) ")"
 
 BIF_SUBSTR ::= "SUBSTR(" string "," n "," (| length) (| "," pad) ")"
