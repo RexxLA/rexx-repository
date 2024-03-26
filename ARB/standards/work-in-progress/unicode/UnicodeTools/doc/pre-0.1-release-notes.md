@@ -1,5 +1,14 @@
 # A toy ooRexx implementation of the General_Category Unicode property (20230711)
 
+```
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
+│ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
+│ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
+│ Copyright © 2023, 2024 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                     │
+│ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
 I have written a toy, pure ooRexx, implementation of the General_Category Unicode property.
 
 General_Category (abbr: gc) can be found as the third column of UnicodeData.txt 
