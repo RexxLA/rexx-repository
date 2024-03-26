@@ -11,6 +11,8 @@
 
 ## OPTIONS DEFAULTSTRING
 
+![Diagram for the OPTIONS DEFAULTSTRING instruction](img/options_defaultstring.svg)
+
 ``OPTIONS DEFAULTSTRING`` _default_, where _default_ can be one of __BYTES__, __CODEPOINTS__, __GRAPHEMES__, __TEXT__ or __NONE__. 
 This affects the semantics of numbers and unsuffixed strings, i.e., ``"string"``, without an explicit B, X, Y, P, T or U suffix. 
 If _default_ is NONE, numbers and strings are not converted (i.e., they are handled as default Rexx numbers and strings). 
@@ -44,6 +46,8 @@ RXU translates an unsuffixed string ``"string"`` to the following expression:
 !DS is a helper routine defined in ``Unicode.cls``; DS stands for Default String. !DS implements the current OPTIONS DEFAULTSTRING setting.
 
 ## OPTIONS COERCIONS
+
+![Diagram for the OPTIONS COERCIONS instruction](img/options_coercions.svg)
 
 ``OPTIONS COERCIONS`` _behaviour_, where _behaviour_ can be one of __PROMOTE__, __DEMOTE__, __LEFT__, __RIGHT__ or __NONE__. This instruction determines
 the behaviour of the language processor when a binary operation is attempted in which the operators are of different string types, for example,
