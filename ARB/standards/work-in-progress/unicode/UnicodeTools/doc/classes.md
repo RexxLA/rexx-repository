@@ -341,12 +341,6 @@ __Examples:__
 
 ![Diagram for the u2c BIM](img/bytes_u2c.svg)
 
-```
-   ╭─────╮             
-▸▸─┤ u2c ├──▸◂
-   ╰─────╯  
-```
-
 This method inspects the target string for validity (see below). If valid,
 it translates the corresponding codepoints to UTF8, and then returns the translated string.
 If not valid, a Syntax condition is raised.
