@@ -4,7 +4,7 @@
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐  
 │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
 │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
-│ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+│ Copyright © 2023, 2024 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                     │
 │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
 └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ``` 
@@ -116,13 +116,7 @@ Finally, the "*" method of the .String class is invoked, and the result is coerc
 
 ### c2u (Character to Unicode codepoints)
 
-```
-   ╭──────╮                 ╭───╮
-▸▸─┤ c2u( ├──┬────────────┬─┤ ) ├─▸◂
-   ╰──────╯  │ ┌────────┐ │ ╰───╯
-             └─┤ format ├─┘
-               └────────┘
-```
+![Diagram for the c2u BIM](img/bytes_c2u.svg)
 
 Returns a <code>BYTES</code> string such that if a <code>U</code> were appended to it
 and it was inserted as a literal in a Rexx source program it would have
@@ -149,11 +143,7 @@ __Examples:__
 
 ### c2x (Character to Hexadecimal)
 
-```
-   ╭─────╮             
-▸▸─┤ c2x ├──▸◂
-   ╰─────╯  
-```
+![Diagram for the c2x BIM](img/bytes_c2x.svg)
 
 Returns a BYTES string that represents the receiving string converted to hexadecimal.
 
