@@ -397,12 +397,14 @@ In this version, ENCODING should be the last option specified, and it can not be
 
 ### New options for the OPEN command
 
-```
-▸▸─ STREAM( name , "Command" , "Open" options "ENCODING" encoding >─┬────────────────┬──┬─────────────┬─> ) ─▸◂
-                                                                    ├  "TEXT"        ┤  ├  "REPLACE"  ┤
-                                                                    ├─ "GRAPHEMES" ──┤  └─ "SYNTAX"  ─┘
-                                                                    └─ "CODEPOINTS" ─┘
-```
+A new ENCODING fragment is added to the STREAM OPEN COMMAND:
+
+![Diagram for the STREAM COMMAND OPEN BIF](img/BIF_STREAM_COMMAND_OPEN.svg)
+
+The format of the ENCODING fragment is the following:
+
+![Diagram for the ENCODING options of the STREAM COMMAND OPEN BIF](img/BIF_STREAM_COMMAND_OPEN_ENCODING.svg)
+
 The encoding options are as follows:
 
 * __ENCODING__ _encoding_ specifies that the file is encoded (for reading) or is to be encoded (for writing) using the _encoding_ encoding.
@@ -411,7 +413,9 @@ The encoding options are as follows:
 * Only one of __SYNTAX__ or __REPLACE__ can be specified; __REPLACE__ is the default. When __REPLACE__ is specified, ill-formed byte sequences
   are replaced by the Unicode Replacement Character (``U+FFFD``); when __SYNTAX__ is specified, any ill-formed byte sequence raises a Syntax condition.
 
-### New QUERY commands
+### New QUERY ENCODING commands
+
+![Diagram for the QUERY ENCODING STREAM COMMAND BIF](img/BIF_STREAM_QUERY_ENCODING.svg)
 
 * __QUERY ENCODING__ returns a string consisting of three words, or a null string if no _encoding_ was specified.
   If the returned string is not empty, it will contain the official _encoding_ name, the _encoding_ target (that is, __TEXT__, __GRAPHEMES__ or __CODEPOINTS__), and the encoding _error_handling_ (that is, __SYNTAX__ or __REPLACE__).
