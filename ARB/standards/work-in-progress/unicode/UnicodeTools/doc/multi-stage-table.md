@@ -21,13 +21,7 @@ _width_ copies of "00"X.
 
 ### compress (Class method)
 
-```
-   ╭───────────╮  ┌────────┐  ╭───╮                      ╭───╮
-▸▸─┤ compress( ├──┤ buffer ├──┤ , ├──┬────────────────┬──┤ ) ├─▸◂
-   ╰───────────╯  └────────┘  ╰───╯  │ ┌────────────┐ │  ╰───╯
-                                     └─┤ chunk_size ├─┘ 
-                                       └────────────┘   
-```
+![Diagram for the MultiStageTable compress method](img/MultiStageTable_compress.svg)
 
 The _compress_ method compresses a _buffer_ and returns two smaller, compressed, tables, "chunks" and "offsets" (see below). The _chunk_size_ argument, if specified, should be a power of two and a divisor of the length of
 the buffer; _chunk_size_ defaults to 256.
@@ -44,24 +38,14 @@ __Note:__ To allow for maximum compression, we are supposing that the quantity o
 
 ### []
 
-```
-   ╭───╮  ┌───┐  ╭───╮
-▸▸─┤ [ ├──┤ n ├──┤ ] ├─▸◂
-   ╰───╯  └───┘  ╰───╯
-```
+![Diagram for the MultiStageTable [] method](img/MultiStageTable_index.svg)
 
 Returns the _n_-th element of the multi-stage table, when 0 < _n_ <= _table_size_, or a string containing _width_ copies of ``"00"X``, when _n_ > _table_size_. 
 Negative or non-numeric values of _n_ will raise a Syntax error.
 
 ### new
 
-```
-   ╭──────╮  ┌────────┐  ╭───╮  ┌────────┐  ╭───╮                                                                                          ╭───╮
-▸▸─┤ new( ├──┤ offset ├──┤ , ├──┤ chunks ├──┤ , ├─┬────────────────┬─┬──────────────────────┬─┬─────────────────┬─┬──────────────────────┬─┤ ) ├─▸◂
-   ╰──────╯  └────────┘  ╰───╯  └────────┘  ╰───╯ │ ┌────────────┐ │ │ ╭───╮ ┌────────────┐ │ │ ╭───╮ ┌───────┐ │ │ ╭───╮ ┌────────────┐ │ ╰───╯
-                                                  └─┤ table_size ├─┘ └─┤ , ├─┤ chunk_size ├─┘ └─┤ , ├─┤ width ├─┘ └─┤ , ├─┤ big_values ├─┘
-                                                    └────────────┘     ╰───╯ └────────────┘     ╰───╯ └───────┘     ╰───╯ └────────────┘
-```
+![Diagram for the MultiStageTable new class method](img/MultiStageTable_class_new.svg)
 
 Creates a new multi-stage table. This will be a two-stage table when _big_values_ is not specified or has the ``.Nil`` value (the default), 
 and a three-stage table when _big_values_ is specified as a non-nil value.
