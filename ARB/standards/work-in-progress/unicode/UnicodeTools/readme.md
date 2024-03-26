@@ -84,6 +84,7 @@ There are currently two components of TUTOR which can be used independently of T
 
 ## \[Cumulative change log since release 0.5\]
 
+* 20240326 &mdash; Update all BIF railroad diagrams, add some new for STREAM ENCODING
 * 20240325 &mdash; Update tokenizer constants, in preparation for clauser
 * 20240325 &mdash; Start working on new railroad diagrams, using the same tools as in rexxref. First document migrated: new BIFS
 * 20240323 &mdash; Fix https://github.com/RexxLA/rexx-repository/issues/7
