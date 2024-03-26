@@ -42,21 +42,13 @@ Format of the binary file:
 
 ## load
 
-```
-     ╭───────╮  ┌────────┐  ╭───╮
-▸▸───┤ load( ├──┤ source ├──┤ ) ├─▸◂
-     ╰───────╯  └────────┘  ╰───╯
-```
+![Diagram for the PersistentStringTable load method](img/PersistentStringTable_load.svg)
 
 Loads the PersistentStringTable contents from the _source_ file.
 
 ## save
 
-```
-     ╭───────╮  ┌────────┐  ╭───╮
-▸▸───┤ save( ├──┤ target ├──┤ ) ├─▸◂
-     ╰───────╯  └────────┘  ╰───╯
-```
+![Diagram for the PersistentStringTable save method](img/PersistentStringTable_save.svg)
 
 Saves the PersistentStringTable contents to the _target_ file. Checks are made to ensure that
 
