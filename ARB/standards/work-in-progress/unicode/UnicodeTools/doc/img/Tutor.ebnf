@@ -1,4 +1,36 @@
-/* TUTOR NEW BIFS */
+/* TUTOR BIMS */
+
+bytes_c2u ::= "c2u(" format? ")"
+
+bytes_c2x ::= "c2u(" encoding? ")"
+
+bytes_center ::= ( "center(" | "centre(" ) length ( "," pad)? ")"
+
+bytes_copies ::= "copies(" n ")"
+
+bytes_datatype ::= "datatype(" type? ")"
+
+bytes_left ::= "left(" length ( "," pad)? ")"
+
+bytes_length ::= "length"
+
+bytes_lower ::= "lower(" n? ("," length)? ")"
+
+bytes_pos ::= "pos(" needle "," start? ("," length)? ")"
+
+bytes_reverse ::= "reverse"
+
+bytes_right ::= "right(" length ( "," pad)? ")"
+
+bytes_stringtype ::= "stringtype(" type? ")"
+
+bytes_substr ::= "substr(" n "," length? ("," pad)? ")"
+
+bytes_upper ::= "upper(" n? ("," length)? ")"
+
+bytes_uc2 ::= "u2c"
+
+/* TUTOR BIFS */
 
 BIF_BYTES ::= "BYTES(" string ")"
 
