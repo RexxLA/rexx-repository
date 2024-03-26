@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="603" height="177">
+         <defs>
+            <style type="text/css">
+               @namespace "http://www.w3.org/2000/svg";
+               .line                 {fill: none; stroke: #1F1F1F;}
+               .bold-line            {stroke: #0A0A0A; shape-rendering: crispEdges; stroke-width:
+               2; }
+               .thin-line            {stroke: #0F0F0F; shape-rendering: crispEdges}
+               .filled               {fill: #1F1F1F; stroke: none;}
+               text.terminal         {font-family: Verdana, Sans-serif;
+               font-size: 12px;
+               fill: #0A0A0A;
+               font-weight: bold;
+               }
+               text.nonterminal      {font-family: Verdana, Sans-serif; font-style: italic;
+               font-size: 12px;
+               fill: #0D0D0D;
+               }
+               text.regexp           {font-family: Verdana, Sans-serif;
+               font-size: 12px;
+               fill: #0F0F0F;
+               }
+               rect, circle, polygon {fill: #1F1F1F; stroke: #1F1F1F;}
+               rect.terminal         {fill: #CCCCCC; stroke: #1F1F1F;}
+               rect.nonterminal      {fill: #E3E3E3; stroke: #1F1F1F;}
+               rect.text             {fill: none; stroke: none;}
+               polygon.regexp        {fill: #EFEFEF; stroke: #1F1F1F;}
+
+            </style>
+         </defs>
+
+         <polygon points="9 5 1 1 1 9"/>
+         <polygon points="17 5 9 1 9 9"/>
+         <rect x="51" y="23" width="94" height="32" rx="10"/>
+         <rect x="49" y="21" width="94" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="59" y="41">ENCODING</text><a xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#encoding" xlink:title="encoding">
+            <rect x="165" y="23" width="78" height="32"/>
+            <rect x="163" y="21" width="78" height="32" class="nonterminal"/>
+            <text class="nonterminal" x="173" y="41">encoding</text></a><rect x="283" y="55" width="54" height="32" rx="10"/>
+         <rect x="281" y="53" width="54" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="291" y="73">TEXT</text>
+         <rect x="283" y="99" width="104" height="32" rx="10"/>
+         <rect x="281" y="97" width="104" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="291" y="117">GRAPHEMES</text>
+         <rect x="283" y="143" width="112" height="32" rx="10"/>
+         <rect x="281" y="141" width="112" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="291" y="161">CODEPOINTS</text>
+         <rect x="455" y="55" width="80" height="32" rx="10"/>
+         <rect x="453" y="53" width="80" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="463" y="73">REPLACE</text>
+         <rect x="455" y="99" width="74" height="32" rx="10"/>
+         <rect x="453" y="97" width="74" height="32" class="terminal" rx="10"/>
+         <text class="terminal" x="463" y="117">SYNTAX</text>
+         <path class="line" d="m17 5 h2 m20 0 h10 m0 0 h514 m-544 0 h20 m524 0 h20 m-564 0 q10 0 10 10 m544 0 q0 -10 10 -10 m-554 10 v12 m544 0 v-12 m-544 12 q0 10 10 10 m524 0 q10 0 10 -10 m-534 10 h10 m94 0 h10 m0 0 h10 m78 0 h10 m20 0 h10 m0 0 h122 m-152 0 h20 m132 0 h20 m-172 0 q10 0 10 10 m152 0 q0 -10 10 -10 m-162 10 v12 m152 0 v-12 m-152 12 q0 10 10 10 m132 0 q10 0 10 -10 m-142 10 h10 m54 0 h10 m0 0 h58 m-142 -10 v20 m152 0 v-20 m-152 20 v24 m152 0 v-24 m-152 24 q0 10 10 10 m132 0 q10 0 10 -10 m-142 10 h10 m104 0 h10 m0 0 h8 m-142 -10 v20 m152 0 v-20 m-152 20 v24 m152 0 v-24 m-152 24 q0 10 10 10 m132 0 q10 0 10 -10 m-142 10 h10 m112 0 h10 m40 -120 h10 m0 0 h90 m-120 0 h20 m100 0 h20 m-140 0 q10 0 10 10 m120 0 q0 -10 10 -10 m-130 10 v12 m120 0 v-12 m-120 12 q0 10 10 10 m100 0 q10 0 10 -10 m-110 10 h10 m80 0 h10 m-110 -10 v20 m120 0 v-20 m-120 20 v24 m120 0 v-24 m-120 24 q0 10 10 10 m100 0 q10 0 10 -10 m-110 10 h10 m74 0 h10 m0 0 h6 m43 -108 h-3"/>
+         <polygon points="593 5 601 1 601 9"/>
+         <polygon points="593 5 585 1 585 9"/>
+</svg>

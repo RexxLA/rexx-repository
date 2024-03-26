@@ -121,9 +121,9 @@
     ( REMAINDER                    , "*" ), -  -- "//"  -- Clauser only
     ( XOR                          , "*" ), -  -- "&&"  -- Clauser only
                                             -
-    ( NOT_STRICTLY_EQUAL           , "*" ), -  -- "\==" -- Clauser only
-    ( NOT_STRICTLY_LESS            , "*" ), -  -- "\<<" -- Clauser only
-    ( NOT_STRICTLY_GREATER         , "*" ), -  -- "\>>" -- Clauser only
+    ( STRICTLY_NOT_EQUAL           , "*" ), -  -- "\==" -- Clauser only
+    ( STRICTLY_NOT_LESS            , "*" ), -  -- "\<<" -- Clauser only
+    ( STRICTLY_NOT_GREATER         , "*" ), -  -- "\>>" -- Clauser only
     ( STRICTLY_EQUAL               , "*" ), -  -- "=="  -- Clauser only
     ( STRICTLY_LESS                , "*" ), -  -- "<<"  -- Clauser only
     ( STRICTLY_LESS_EQUAL          , "*" ), -  -- "<<=" -- Clauser only
