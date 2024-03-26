@@ -1,5 +1,7 @@
 # Reply to Jean Louis Faucher review of the TUTOR article
 
+(Original document date, 20240323)
+
 I am replying in markdown format, because pdf is not very useable to have a dialog.
 
 Please note that the version you have reviewed is not the final one. I have uploaded the final, published, versions of the articles in the Unicode/publications/35 subdirectory.
