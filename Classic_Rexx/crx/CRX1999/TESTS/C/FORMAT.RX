@@ -128,7 +128,7 @@
  say 'FORMAT OK'
   exit
 /* Intercept builtin before before builtin. */
-/* Change name, eg Format => Formatx, to get native builtin results. */
+/* Change name of following procedure, eg Format => Formatx, to get native builtin results. */
 FORMAT:procedure
   do while queued()>0; pull . ;end
   queue 'FORMAT'
@@ -141,4 +141,4 @@ FORMAT:procedure
    if arg(j,'E') then queue arg(j)
    end
 /* Use an external to run the ANSI code. */
-  return AnsiBifs()
+  return "ANSIBIFS.WAS"()
