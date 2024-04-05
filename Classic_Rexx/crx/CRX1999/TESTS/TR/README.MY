@@ -1,0 +1,4 @@
+A place for Trace and Interactive tests.
+CRX makes a poor show of SCBTRACE.CMD but I have not debugged because
+it uses d2c(0).  Is that the null string (as ANSI says) or a byte with
+zeroes (as IBM original)?

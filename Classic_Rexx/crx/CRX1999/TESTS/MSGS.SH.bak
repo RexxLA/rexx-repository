@@ -1,0 +1,78 @@
+#!/bin/bash
+# To run each of the possible pre-execution messages.
+# 0.1 is first line of other messages.
+# Can anything in DOS produce a message 2.n?
+# 3.1 comes when file to be rexxed doesn't exist.
+$INT NonExist.rx >t.t 2>&1
+echo ================================================================ >> t.t
+#em %mys%crx %myt%501.rx >>t.t
+bash PROGMSG.SH 601
+bash PROGMSG.SH 602
+bash PROGMSG.SH 603
+bash PROGMSG.SH 701
+bash PROGMSG.SH 702
+bash PROGMSG.SH 801
+bash PROGMSG.SH 802
+bash PROGMSG.SH 901
+bash PROGMSG.SH 902
+bash PROGMSG.SH 1001
+bash PROGMSG.SH 1002
+bash PROGMSG.SH 1003
+bash PROGMSG.SH 1004
+bash PROGMSG.SH 1005
+bash PROGMSG.SH 1006
+bash PROGMSG.SH 1301
+bash PROGMSG.SH 1401
+bash PROGMSG.SH 1402
+bash PROGMSG.SH 1403
+bash PROGMSG.SH 1404
+bash PROGMSG.SH 1501
+bash PROGMSG.SH 1502
+bash PROGMSG.SH 1503
+bash PROGMSG.SH 1504
+bash PROGMSG.SH 1801
+bash PROGMSG.SH 1802
+bash PROGMSG.SH 1901
+bash PROGMSG.SH 1902
+bash PROGMSG.SH 1903
+bash PROGMSG.SH 1904
+bash PROGMSG.SH 1906
+bash PROGMSG.SH 1907
+bash PROGMSG.SH 2001
+bash PROGMSG.SH 2002
+bash PROGMSG.SH 2101
+# 2201 can't come from ASCII.
+bash PROGMSG.SH 2501
+bash PROGMSG.SH 2502
+bash PROGMSG.SH 2503
+bash PROGMSG.SH 2504
+bash PROGMSG.SH 2505
+bash PROGMSG.SH 2506
+bash PROGMSG.SH 2507
+bash PROGMSG.SH 2508
+bash PROGMSG.SH 2509
+bash PROGMSG.SH 2511
+bash PROGMSG.SH 2512
+bash PROGMSG.SH 2513
+bash PROGMSG.SH 2514
+bash PROGMSG.SH 2515
+bash PROGMSG.SH 2516
+bash PROGMSG.SH 2517
+bash PROGMSG.SH 2701
+bash PROGMSG.SH 3001
+bash PROGMSG.SH 3002
+bash PROGMSG.SH 3101
+bash PROGMSG.SH 3102
+bash PROGMSG.SH 3103
+bash PROGMSG.SH 3501
+bash PROGMSG.SH 3600
+bash PROGMSG.SH 3701
+bash PROGMSG.SH 3702
+bash PROGMSG.SH 3801
+bash PROGMSG.SH 3802
+bash PROGMSG.SH 3803
+bash PROGMSG.SH 4601
+bash PROGMSG.SH 5001
+bash PROGMSG.SH 5101
+bash PROGMSG.SH 5301
+bash PROGMSG.SH 5302

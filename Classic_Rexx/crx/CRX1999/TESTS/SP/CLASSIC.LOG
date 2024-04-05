@@ -1,0 +1,9 @@
+On REXXSAA 4.00 14 May 1997
+100 million countdown.
+22.18 seconds
+10 million string assignments.
+7.67 seconds
+10 million small integer comparisons.
+27.29 seconds
+A million concatenations. (Not 10 thousand) 
+202.32 seconds

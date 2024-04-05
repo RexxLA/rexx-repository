@@ -1,0 +1,41 @@
+On REXX 5.00
+100 million countdown.
+3.35 seconds
+10 million string assignments.
+1.92 seconds
+10 million small integer comparisons.
+3.52 seconds
+A million concatenations. (Not 10 thousand)
+0.60 seconds
+
+With 'C' code compiled on DOS:
+100 million countdown.
+2.31 seconds
+10 million string assignments.
+5.11 seconds
+10 million string assignments, recoded
+8.40 seconds
+10 million small integer comparisons.
+0.28 seconds
+10 thousand concatenations.
+3.07 seconds
+
+On REXXSAA 4.00 14 May 1997
+100 million countdown.
+22.18 seconds
+10 million string assignments.
+7.67 seconds
+10 million small integer comparisons.
+27.29 seconds
+A million concatenations. (Not 10 thousand)
+202.32 seconds
+
+On OBJREXX 6.00 3 Dec 1996
+100 million countdown.
+28.69 seconds
+10 million string assignments.
+6.43 seconds
+10 million small integer comparisons.
+9.82 seconds
+A million concatenations. (Not 10 thousand)
+80.15 seconds

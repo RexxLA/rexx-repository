@@ -1,0 +1,193 @@
+
+
+ say delword(1)
+Error 40.3 running C:\TESTS\40\9P3P10A.RX, line 1: Not enough arguments in
+ invocation of DELWORD; minimum expected is 2
+
+ say delword(1,2,3,4)
+Error 40.4 running C:\TESTS\40\9P3P10B.RX, line 1: Too many arguments in
+ invocation of DELWORD; maximum expected is 3
+
+ say delword(1,0,3)
+Error 40.14 running C:\TESTS\40\9P3P10C.RX, line 1: DELWORD argument 2 must be
+ positive; found "0"
+
+ say delword(1,0,'!')
+Error 40.14 running C:\TESTS\40\9P3P10D.RX, line 1: DELWORD argument 2 must be
+ positive; found "0"
+
+ say insert(1)
+Error 40.3 running C:\TESTS\40\9P3P11A.RX, line 1: Not enough arguments in
+ invocation of INSERT; minimum expected is 2
+
+ say insert(1,2,3,4,5,6)
+Error 40.4 running C:\TESTS\40\9P3P11B.RX, line 1: Too many arguments in
+ invocation of INSERT; maximum expected is 5
+
+ say insert(1,2,'!',4,5)
+Error 40.12 running C:\TESTS\40\9P3P11C.RX, line 1: INSERT argument 3 must be a
+ whole number; found "!"
+
+ say insert(1,2,3,'!',5)
+Error 40.12 running C:\TESTS\40\9P3P11D.RX, line 1: INSERT argument 4 must be a
+ whole number; found "!"
+
+ say insert(1,2,3,4,'  ')
+Error 40.23 running C:\TESTS\40\9P3P11E.RX, line 1: INSERT argument 5 must be a
+ single character; found "  "
+
+ say lastpos(1)
+Error 40.3 running C:\TESTS\40\9P3P12A.RX, line 1: Not enough arguments in
+ invocation of LASTPOS; minimum expected is 2
+
+ say lastpos(1,2,3,4)
+Error 40.4 running C:\TESTS\40\9P3P12B.RX, line 1: Too many arguments in
+ invocation of LASTPOS; maximum expected is 3
+
+ say lastpos(1,2,0)
+Error 40.14 running C:\TESTS\40\9P3P12C.RX, line 1: LASTPOS argument 3 must be
+ positive; found "0"
+
+ say left(1)
+Error 40.3 running C:\TESTS\40\9P3P13A.RX, line 1: Not enough arguments in
+ invocation of LEFT; minimum expected is 2
+
+ say left(1,2,3,4)
+Error 40.4 running C:\TESTS\40\9P3P13B.RX, line 1: Too many arguments in
+ invocation of LEFT; maximum expected is 3
+
+ say left(1,'!',3)
+Error 40.12 running C:\TESTS\40\9P3P13C.RX, line 1: LEFT argument 2 must be a
+ whole number; found "!"
+
+ say left(1,2,'xx')
+Error 40.23 running C:\TESTS\40\9P3P13D.RX, line 1: LEFT argument 3 must be a
+ single character; found "xx"
+
+ say length()
+Error 40.3 running C:\TESTS\40\9P3P14A.RX, line 1: Not enough arguments in
+ invocation of LENGTH; minimum expected is 1
+
+ say length(1,2)
+Error 40.4 running C:\TESTS\40\9P3P14B.RX, line 1: Too many arguments in
+ invocation of LENGTH; maximum expected is 1
+
+ say overlay(1)
+Error 40.3 running C:\TESTS\40\9P3P15A.RX, line 1: Not enough arguments in
+ invocation of OVERLAY; minimum expected is 2
+
+ say overlay(1,2,3,4,5,6)
+Error 40.4 running C:\TESTS\40\9P3P15B.RX, line 1: Too many arguments in
+ invocation of OVERLAY; maximum expected is 5
+
+ say overlay(1,2,0,4,5)
+Error 40.14 running C:\TESTS\40\9P3P15C.RX, line 1: OVERLAY argument 3 must be
+ positive; found "0"
+
+ say overlay(1,2,3,'!',5)
+Error 40.12 running C:\TESTS\40\9P3P15D.RX, line 1: OVERLAY argument 4 must be a
+ whole number; found "!"
+
+ say overlay(1,2,3,4,'hh')
+Error 40.23 running C:\TESTS\40\9P3P15E.RX, line 1: OVERLAY argument 5 must be a
+ single character; found "hh"
+
+ say abbrev(TooFew)
+Error 40.3 running C:\TESTS\40\9P3P1A.RX, line 1: Not enough arguments in
+ invocation of ABBREV; minimum expected is 2
+
+ say abbrev(1,2,3,TooMany)
+Error 40.4 running C:\TESTS\40\9P3P1B.RX, line 1: Too many arguments in
+ invocation of ABBREV; maximum expected is 3
+
+  say abbrev(1,2,'!')
+Error 40.12 running C:\TESTS\40\9P3P1C.RX, line 1: ABBREV argument 3 must be a
+ whole number; found "!"
+
+ say center(TooFew)
+Error 40.3 running C:\TESTS\40\9P3P2A.RX, line 1: Not enough arguments in
+ invocation of CENTER; minimum expected is 2
+
+ say center(1,2,3,TooMany)
+Error 40.4 running C:\TESTS\40\9P3P2B.RX, line 1: Too many arguments in
+ invocation of CENTER; maximum expected is 3
+
+ say center(1,'!')
+Error 40.12 running C:\TESTS\40\9P3P2C.RX, line 1: CENTER argument 2 must be a
+ whole number; found "!"
+
+ say center(1,0,'no')
+Error 40.23 running C:\TESTS\40\9P3P2D.RX, line 1: CENTER argument 3 must be a
+ single character; found "no"
+
+ say centre(1,0,'no')
+Error 40.23 running C:\TESTS\40\9P3P3A.RX, line 1: CENTRE argument 3 must be a
+ single character; found "no"
+
+ say changestr(1,2)
+Error 40.3 running C:\TESTS\40\9P3P4A.RX, line 1: Not enough arguments in
+ invocation of CHANGESTR; minimum expected is 3
+
+ say changestr(1,2,3,4)
+Error 40.4 running C:\TESTS\40\9P3P4B.RX, line 1: Too many arguments in
+ invocation of CHANGESTR; maximum expected is 3
+
+ say compare(1)
+Error 40.3 running C:\TESTS\40\9P3P5A.RX, line 1: Not enough arguments in
+ invocation of COMPARE; minimum expected is 2
+
+ say compare(1,2,3,4)
+Error 40.4 running C:\TESTS\40\9P3P5B.RX, line 1: Too many arguments in
+ invocation of COMPARE; maximum expected is 3
+
+ say compare(1,2,'xxx')
+Error 40.23 running C:\TESTS\40\9P3P5C.RX, line 1: COMPARE argument 3 must be a
+ single character; found "xxx"
+
+ say copies(1,)
+Error 40.3 running C:\TESTS\40\9P3P6A.RX, line 1: Not enough arguments in
+ invocation of COPIES; minimum expected is 2
+
+ say copies(1,2,3)
+Error 40.4 running C:\TESTS\40\9P3P6B.RX, line 1: Too many arguments in
+ invocation of COPIES; maximum expected is 2
+
+ say copies(1,'x')
+Error 40.12 running C:\TESTS\40\9P3P6C.RX, line 1: COPIES argument 2 must be a
+ whole number; found "x"
+
+ say countstr(1)
+Error 40.3 running C:\TESTS\40\9P3P7A.RX, line 1: Not enough arguments in
+ invocation of COUNTSTR; minimum expected is 2
+
+ say countstr(1,2,3)
+Error 40.4 running C:\TESTS\40\9P3P7B.RX, line 1: Too many arguments in
+ invocation of COUNTSTR; maximum expected is 2
+
+ say datatype()
+Error 40.3 running C:\TESTS\40\9P3P8A.RX, line 1: Not enough arguments in
+ invocation of DATATYPE; minimum expected is 1
+
+ say datatype(1,2,3)
+Error 40.4 running C:\TESTS\40\9P3P8B.RX, line 1: Too many arguments in
+ invocation of DATATYPE; maximum expected is 2
+
+ say datatype(1,'C')
+Error 40.28 running C:\TESTS\40\9P3P8C.RX, line 1: DATATYPE argument 2, option
+ must start with one of "ABLMNSUWX"; found "C"
+
+ say delstr(1)
+Error 40.3 running C:\TESTS\40\9P3P9A.RX, line 1: Not enough arguments in
+ invocation of DELSTR; minimum expected is 2
+
+ say delstr(1,2,3,4)
+Error 40.4 running C:\TESTS\40\9P3P9B.RX, line 1: Too many arguments in
+ invocation of DELSTR; maximum expected is 3
+
+ say delstr(1,0,3)
+Error 40.14 running C:\TESTS\40\9P3P9C.RX, line 1: DELSTR argument 2 must be
+ positive; found "0"
+
+ say delstr(1,1,'!')
+Error 40.12 running C:\TESTS\40\9P3P9D.RX, line 1: DELSTR argument 3 must be a
+ whole number; found "!"

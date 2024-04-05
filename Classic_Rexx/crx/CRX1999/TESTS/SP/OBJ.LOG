@@ -1,0 +1,9 @@
+On OBJREXX 6.00 3 Dec 1996
+100 million countdown.
+28.69 seconds
+10 million string assignments.
+6.43 seconds
+10 million small integer comparisons.
+9.82 seconds
+A million concatenations. (Not 10 thousand) 
+80.15 seconds

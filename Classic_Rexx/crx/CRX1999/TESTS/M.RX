@@ -1,0 +1,877 @@
+  say "Expect 'Done' before message 5.1 at end."
+/* Messages 0.n are parts of other messages. */
+/* Messages 2.n and 3.n need not occur. (But are available by ERRORTEXT) */
+/* Message 5 is last in this test. */
+/* INTERPRET is used to allow continuation after "compile" errors */
+ PoolName = 'DOS' /* The 'environment' pool */
+/*  6.1 */
+ signal on syntax name p6p1
+ interpret " /*  "
+ exit
+p6p1:if .MN \== '6.1' then exit; say condition('D')
+
+/*  6.2 */
+ signal on syntax name p6p2
+ interpret " ' "
+ exit
+p6p2:if .MN \== '6.2' then exit; say condition('D')
+
+/*  6.3 */
+ signal on syntax name p6p3
+ interpret ' " '
+ exit
+p6p3:if .MN \== '6.3' then exit; say condition('D')
+
+/*  7.1 */
+ signal on syntax name p7p1
+ interpret "  select;  end "
+ exit
+p7p1:if .MN \== '7.1' then exit; say condition('D')
+
+/*  7.2 */
+ signal on syntax name p7p2
+ interpret "  select;  when 7=8 then nop;    > "
+ exit
+p7p2:if .MN \== '7.2' then exit; say condition('D')
+
+/*  7.3 */
+ signal on syntax name p7p3
+ select;when 0 then nop;end
+ exit
+p7p3:if .MN \== '7.3' then exit; say condition('D')
+
+/*  8.1 */
+ signal on syntax name p8p1
+ interpret " then "
+ exit
+p8p1:if .MN \== '8.1' then exit; say condition('D')
+
+/*  8.2 */
+ signal on syntax name p8p2
+ interpret " else "
+ exit
+p8p2:if .MN \== '8.2' then exit; say condition('D')
+
+/*  9.1 */
+ signal on syntax name p9p1
+ interpret " when "
+ exit
+p9p1:if .MN \== '9.1' then exit; say condition('D')
+
+/*  9.2 */
+ signal on syntax name p9p2
+ interpret " otherwise "
+ exit
+p9p2:if .MN \== '9.2' then exit; say condition('D')
+
+/*  10.1 */
+ signal on syntax name p10p1
+ interpret " end "
+ exit
+p10p1:if .MN \== '10.1' then exit; say condition('D')
+
+/*  10.2 */
+ signal on syntax name p10p2
+ interpret " do j=1 to 10;   nop;  end k "
+ exit
+p10p2:if .MN \== '10.2' then exit; say condition('D')
+
+/*  10.3 */
+ signal on syntax name p10p3
+ interpret " do;  end k "
+ exit
+p10p3:if .MN \== '10.3' then exit; say condition('D')
+
+/*  10.4 */
+ signal on syntax name p10p4
+ interpret " select;    when 7=8 then nop;  end j "
+ exit
+p10p4:if .MN \== '10.4' then exit; say condition('D')
+
+/*  10.5 */
+ signal on syntax name p10p5
+ interpret " if 7=7 then end "
+ exit
+p10p5:if .MN \== '10.5' then exit; say condition('D')
+
+/*  10.6 */
+ signal on syntax name p10p6
+ interpret " if 7=8 then nop;else end "
+ exit
+p10p6:if .MN \== '10.6' then exit; say condition('D')
+
+/*  13.1 */
+ signal on syntax name p13p1
+ interpret " ^ "
+ exit
+p13p1:if .MN \== '13.1' then exit; say condition('D')
+
+/*  14.1 */
+ signal on syntax name p14p1
+ interpret " nop; do "
+ exit
+p14p1:if .MN \== '14.1' then exit; say condition('D')
+
+/*  14.2 */
+ signal on syntax name p14p2
+ interpret "  nop;  select;    when 1 then nop "
+ exit
+p14p2:if .MN \== '14.2' then exit; say condition('D')
+
+/*  14.3 */
+ signal on syntax name p14p3
+ interpret "  nop;  if 1 then "
+ exit
+p14p3:if .MN \== '14.3' then exit; say condition('D')
+
+/*  14.4 */
+ signal on syntax name p14p4
+ interpret "  nop;  if 0 then nop;       else "
+ exit
+p14p4:if .MN \== '14.4' then exit; say condition('D')
+
+/* 15.1 */
+ signal on syntax name p15p1
+ interpret "Wrong=' AA'X"
+ exit
+p15p1:if .MN \== '15.1' then exit; say condition('D')
+
+/* 15.1 */
+ signal on syntax name p15p1A
+ interpret "Wrong='A A AA'X"
+ exit
+p15p1A:if .MN \== '15.1' then exit; say condition('D')
+
+/* 15.2 */
+ signal on syntax name p15p2
+ interpret " Wrong='11 'B "
+ exit
+p15p2:if .MN \== '15.2' then exit; say condition('D')
+
+/* 15.3 */
+ signal on syntax name p15p3
+ interpret " Wrong='EFG'X "
+ exit
+p15p3:if .MN \== '15.3' then exit; say condition('D')
+
+/* 15.4 */
+ signal on syntax name p15p4
+ interpret " Wrong='012'B "
+ exit
+p15p4:if .MN \== '15.4' then exit; say condition('D')
+
+/* 16.1 */
+ signal on syntax name p16p1
+ signal NoSuchLabel
+ exit
+p16p1:if .MN \== '16.1' then exit; say condition('D')
+
+/* 16.2 */
+ signal on syntax name p16p2
+ signal TraceOnly
+ if 1 then nop
+TraceOnly:else nop
+ exit
+p16p2:if .MN \== '16.2' then exit; say condition('D')
+
+/* 16.3 */
+ signal on syntax name p16p3
+ call TraceOnlyDo
+ do
+TraceOnlyDo:nop
+ end
+ exit
+p16p3:if .MN \== '16.3' then exit; say condition('D')
+
+/* 17.1 */
+ signal on syntax name p17p1
+abc:procedure
+ exit
+p17p1:if .MN \== '17.1' then exit; say condition('D')
+
+/* 18.1 */
+ signal on syntax name p18p1
+ interpret " if abc \ "
+ exit
+p18p1:if .MN \== '18.1' then exit; say condition('D')
+
+/* 18.1 */
+ signal on syntax name p18p1B
+ interpret " if 7=8;;;abc "
+ exit
+p18p1B:if .MN \== '18.1' then exit; say condition('D')
+
+/* 18.2 */
+ signal on syntax name p18p2
+ interpret " select;    when 7 \;  end "
+ exit
+p18p2:if .MN \== '18.2' then exit; say condition('D')
+
+/*  19.1 */
+ signal on syntax name p19p1
+ interpret " address >7 "
+ exit
+p19p1:if .MN \== '19.1' then exit; say condition('D')
+
+/*  19.2 */
+ signal on syntax name p19p2
+ interpret " call *7 "
+ exit
+p19p2:if .MN \== '19.2' then exit; say condition('D')
+
+/*  19.3 */
+ signal on syntax name p19p3
+ interpret " call on notready name * "
+ exit
+p19p3:if .MN \== '19.3' then exit; say condition('D')
+
+/*  19.4 */
+ signal on syntax name p19p4
+ interpret " signal >7 "
+ exit
+p19p4:if .MN \== '19.4' then exit; say condition('D')
+
+/*  19.6 */
+ signal on syntax name p19p6
+ interpret " trace >7 "
+ exit
+p19p6:if .MN \== '19.6' then exit; say condition('D')
+
+/*  19.7 */
+ signal on syntax name p19p7
+ interpret " parse version ( +7 ) "
+ exit
+p19p7:if .MN \== '19.7' then exit; say condition('D')
+
+/*  20.1 */
+ signal on syntax name p20p1
+ interpret " drop 77 "
+ exit
+p20p1:if .MN \== '20.1' then exit; say condition('D')
+
+/*  20.2 */
+ signal on syntax name p20p2
+ interpret " leave >7 "
+ exit
+p20p2:if .MN \== '20.2' then exit; say condition('D')
+
+/*  21.1 */
+ signal on syntax name p21p1
+ interpret " select 7 "
+ exit
+p21p1:if .MN \== '21.1' then exit; say condition('D')
+
+/* 22 & 23 cannot happen with 8 bit ASCII */
+
+/*  24.1 */
+ signal on syntax name p24p1
+ trace 'Z'
+ exit
+p24p1:if .MN \== '24.1' then exit; say condition('D')
+
+/*  25.1 */
+ signal on syntax name p25p1
+ interpret " call on ready "
+ exit
+p25p1:if .MN \== '25.1' then exit; say condition('D')
+
+/*  25.2 */
+ signal on syntax name p25p2
+ interpret " call off dogs "
+ exit
+p25p2:if .MN \== '25.2' then exit; say condition('D')
+
+/*  25.3 */
+ signal on syntax name p25p3
+ interpret "  signal on duty "
+ exit
+p25p3:if .MN \== '25.3' then exit; say condition('D')
+
+/*  25.4 */
+ signal on syntax name p25p4
+ interpret " signal off duty "
+ exit
+p25p4:if .MN \== '25.4' then exit; say condition('D')
+
+/*  25.5 */
+ signal on syntax name p25p5
+ interpret " address x y with z "
+ exit
+p25p5:if .MN \== '25.5' then exit; say condition('D')
+
+/*  25.6 */
+ signal on syntax name p25p6
+ interpret " address x y with input stack "
+ exit
+p25p6:if .MN \== '25.6' then exit; say condition('D')
+
+/*  25.7 */
+ signal on syntax name p25p7
+ interpret " address x y with output stack "
+ exit
+p25p7:if .MN \== '25.7' then exit; say condition('D')
+
+/*  25.8 */
+ signal on syntax name p25p8
+ interpret " address x y with output append "
+ exit
+p25p8:if .MN \== '25.8' then exit; say condition('D')
+
+/*  25.9 */
+ signal on syntax name p25p9
+ interpret " address x y with output replace "
+ exit
+p25p9:if .MN \== '25.9' then exit; say condition('D')
+
+/*  25.11 */
+ signal on syntax name p25p11
+ interpret " numeric form croft "
+ exit
+p25p11:if .MN \== '25.11' then exit; say condition('D')
+
+/*  25.12 */
+ signal on syntax name p25p12
+ interpret " parse sentence "
+ exit
+p25p12:if .MN \== '25.12' then exit; say condition('D')
+
+/*  25.13 */
+ signal on syntax name p25p13
+ interpret " parse upper class "
+ exit
+p25p13:if .MN \== '25.13' then exit; say condition('D')
+
+/*  25.14 */
+ signal on syntax name p25p14
+ interpret " address x y with error whatever "
+ exit
+p25p14:if .MN \== '25.14' then exit; say condition('D')
+
+/*  25.15 */
+ signal on syntax name p25p15
+ interpret " numeric data "
+ exit
+p25p15:if .MN \== '25.15' then exit; say condition('D')
+
+/*  25.16 */
+ signal on syntax name p25p16
+ interpret " do forever and a day "
+ exit
+p25p16:if .MN \== '25.16' then exit; say condition('D')
+
+/*  25.17 */
+ signal on syntax name p25p17
+ interpret " procedure hide a b c "
+ exit
+p25p17:if .MN \== '25.17' then exit; say condition('D')
+
+/*  26.2 */
+ signal on syntax name p26p2
+ do 11223344556677; end
+ exit
+p26p2:if .MN \== '26.2' then exit; say condition('D')
+
+/*  26.3 */
+ signal on syntax name p26p3
+ do j=1 for 3.3 ; end
+ exit
+p26p3:if .MN \== '26.3' then exit; say condition('D')
+
+/*  26.4 */
+ signal on syntax name p26p4
+  parse version 4.4 abc
+ exit
+p26p4:if .MN \== '26.4' then exit; say condition('D')
+
+/*  26.5 */
+ signal on syntax name p26p5
+  numeric digits 5.5
+ exit
+p26p5:if .MN \== '26.5' then exit; say condition('D')
+
+/*  26.6 */
+ signal on syntax name p26p6
+  numeric fuzz 6.6
+ exit
+p26p6:if .MN \== '26.6' then exit; say condition('D')
+
+/*  26.7 */
+ signal on syntax name p26p7
+   trace 7.7
+ exit
+p26p7:if .MN \== '26.7' then exit; say condition('D')
+
+/*  26.8 */
+ signal on syntax name p26p8
+ say 9 ** 1.1
+ exit
+p26p8:if .MN \== '26.8' then exit; say condition('D')
+
+/*  26.11 */
+ signal on syntax name p26p11
+ say 100000 % 0.00001
+ exit
+p26p11:if .MN \== '26.11' then exit; say condition('D')
+
+/*  26.12 */
+ signal on syntax name p26p12
+ say 100000 // 0.00001
+ exit
+p26p12:if .MN \== '26.12' then exit; say condition('D')
+
+/*  27.1 */
+ signal on syntax name p27p1
+ interpret " do j=7 by 1 by 2 "
+ exit
+p27p1:if .MN \== '27.1' then exit; say condition('D')
+
+/*  28.1 */
+ signal on syntax name p28p1
+ interpret " leave "
+ exit
+p28p1:if .MN \== '28.1' then exit; say condition('D')
+
+/*  28.2 */
+ signal on syntax name p28p2
+ interpret " iterate "
+ exit
+p28p2:if .MN \== '28.2' then exit; say condition('D')
+
+/*  28.3 */
+ signal on syntax name p28p3
+ interpret " do j=7 by 1; leave k "
+ exit
+p28p3:if .MN \== '28.3' then exit; say condition('D')
+
+/*  28.4 */
+ signal on syntax name p28p4
+ interpret " do j=7 by 1; iterate k "
+ exit
+p28p4:if .MN \== '28.4' then exit; say condition('D')
+
+/* 29 only needed if there is a restriction on environment name length. */
+
+/*  30.1 */
+ signal on syntax name p30p1
+ a = 250 /* Replace this by your symbol length limit. */
+ aa = copies('a',a)
+ bb = copies('b',a+1)
+ interpret aa"="bb
+ exit
+p30p1:if .MN \== '30.1' then exit; say condition('D')
+
+/*  30.2 */
+ signal on syntax name p30p2
+ a = 250 /* Replace this by your literal length limit. */
+ aa = copies('a',a)
+ bb = copies('b',a+1)
+ interpret aa"='"bb"' "
+ exit
+p30p2:if .MN \== '30.2' then exit; say condition('D')
+
+/*  31.1 */
+ signal on syntax name p31p1
+ interpret " 7 = 7 "
+ exit
+p31p1:if .MN \== '31.1' then exit; say condition('D')
+
+/*  31.2 */
+ signal on syntax name p31p2
+ interpret " 7abc = 7 "
+ exit
+p31p2:if .MN \== '31.2' then exit; say condition('D')
+
+/*  31.3 */
+ signal on syntax name p31p3
+ interpret " .rc = 7 "
+ exit
+p31p3:if .MN \== '31.3' then exit; say condition('D')
+
+/*  33.1 */
+ signal on syntax name p33p1
+ numeric digits 9;numeric fuzz 8;numeric digits 7
+ exit
+p33p1:if .MN \== '33.1' then exit; say condition('D')
+
+/*  33.2 */
+ signal on syntax name p33p2
+ numeric digits 100000
+ exit
+p33p2:if .MN \== '33.2' then exit; say condition('D')
+
+/*  33.3 */
+ signal on syntax name p33p3
+ drop form;numeric form (form)
+ exit
+p33p3:if .MN \== '33.3' then exit; say condition('D')
+
+/*  34.1 */
+ signal on syntax name p34p1
+ if 2 then nop
+ exit
+p34p1:if .MN \== '34.1' then exit; say condition('D')
+
+/*  34.2 */
+ signal on syntax name p34p2
+ select;when 2 then nop;end
+ exit
+p34p2:if .MN \== '34.2' then exit; say condition('D')
+
+/*  34.3 */
+ signal on syntax name p34p3
+ do while 2;end
+ exit
+p34p3:if .MN \== '34.3' then exit; say condition('D')
+
+/*  34.4 */
+ signal on syntax name p34p4
+ do until 2;end
+ exit
+p34p4:if .MN \== '34.4' then exit; say condition('D')
+
+/*  34.5 */
+ signal on syntax name p34p5
+ say 2 & 3
+ exit
+p34p5:if .MN \== '34.5' then exit; say condition('D')
+
+/*  34.6 */
+ signal on syntax name p34p6
+ say 1 & 3
+ exit
+p34p6:if .MN \== '34.6' then exit; say condition('D')
+
+/*  35.1 */
+ signal on syntax name p35p1
+ interpret " > 7 "
+ exit
+p35p1:if .MN \== '35.1' then exit; say condition('D')
+
+/*  36 */
+ signal on syntax name p36
+ interpret " ( abc "
+ exit
+p36:if .MN \== '36' then exit; say condition('D')
+
+/*  37.1 */
+ signal on syntax name p37p1
+ interpret " x = (7,) "
+ exit
+p37p1:if .MN \== '37.1' then exit; say condition('D')
+
+/*  37.2 */
+ signal on syntax name p37p2
+ interpret " x=7) "
+ exit
+p37p2:if .MN \== '37.2' then exit; say condition('D')
+
+/*  38.1 */
+ signal on syntax name p38p1
+ interpret " arg >7 "
+ exit
+p38p1:if .MN \== '38.1' then exit; say condition('D')
+
+/*  38.2 */
+ signal on syntax name p38p2
+ interpret " parse version +abc "
+ exit
+p38p2:if .MN \== '38.2' then exit; say condition('D')
+
+/*  38.3 */
+ signal on syntax name p38p3
+ interpret " parse value 7 "
+ exit
+p38p3:if .MN \== '38.3' then exit; say condition('D')
+
+/* 40.1 needs an external routine that fails. */
+
+/*  40.3 */
+ signal on syntax name p40p3
+ say abbrev(TooFew)
+ exit
+p40p3:if .MN \== '40.3' then exit; say condition('D')
+
+/*  40.4 */
+ signal on syntax name p40p4
+ say abbrev(1,2,3,TooMany)
+ exit
+p40p4:if .MN \== '40.4' then exit; say condition('D')
+
+/*  40.5 */
+ signal on syntax name p40p5
+ say copies(,1)
+ exit
+p40p5:if .MN \== '40.5' then exit; say condition('D')
+
+/*  40.9 */
+ signal on syntax name p40p9
+ say abs(1e1000000000)
+ exit
+p40p9:if .MN \== '40.9' then exit; say condition('D')
+
+/*  40.11 */
+ signal on syntax name p40p11
+ say abs('n')
+ exit
+p40p11:if .MN \== '40.11' then exit; say condition('D')
+
+/*  40.12 */
+ signal on syntax name p40p12
+ say copies('a',1.1)
+ exit
+p40p12:if .MN \== '40.12' then exit; say condition('D')
+
+/*  40.13 */
+ signal on syntax name p40p13
+ say copies('a',-1)
+ exit
+p40p13:if .MN \== '40.13' then exit; say condition('D')
+
+/*  40.14 */
+ signal on syntax name p40p14
+ say substr('a', 0)
+ exit
+p40p14:if .MN \== '40.14' then exit; say condition('D')
+
+/*  40.17 */
+ signal on syntax name p40p17
+ say errortext(99)
+ exit
+p40p17:if .MN \== '40.17' then exit; say condition('D')
+
+/*  40.18 */
+ signal on syntax name p40p18
+ say date('N',"1 Jan 10000",'N')
+ exit
+p40p18:if .MN \== '40.18' then exit; say condition('D')
+
+/*  40.19 */
+ signal on syntax name p40p19
+ say date('N',"Wrong",'N')
+ exit
+p40p19:if .MN \== '40.19' then exit; say condition('D')
+
+/*  40.21 */
+ signal on syntax name p40p21
+ say date('')
+ exit
+p40p21:if .MN \== '40.21' then exit; say condition('D')
+
+/*  40.23 */
+ signal on syntax name p40p23
+ say centre('*',3,'Wrong')
+ exit
+p40p23:if .MN \== '40.23' then exit; say condition('D')
+
+/*  40.24 */
+ signal on syntax name p40p24
+ say b2x('Wrong')
+ exit
+p40p24:if .MN \== '40.24' then exit; say condition('D')
+
+/*  40.25 */
+ signal on syntax name p40p25
+ say x2b('Wrong')
+ exit
+p40p25:if .MN \== '40.25' then exit; say condition('D')
+
+/*  40.26 */
+ signal on syntax name p40p26
+ say value('*')
+ exit
+p40p26:if .MN \== '40.26' then exit; say condition('D')
+
+/* 40.27 is operating system dependent. */
+
+/*  40.28 */
+ signal on syntax name p40p28
+ say date('*')
+ exit
+p40p28:if .MN \== '40.28' then exit; say condition('D')
+
+/*  40.29 */
+ signal on syntax name p40p29
+ say time('E',"10:10:10",'N')
+ exit
+p40p29:if .MN \== '40.29' then exit; say condition('D')
+
+/*  40.31 */
+ signal on syntax name p40p31
+ say random(100001)
+ exit
+p40p31:if .MN \== '40.31' then exit; say condition('D')
+
+/*  40.32 */
+ signal on syntax name p40p32
+ say random(1,100002)
+ exit
+p40p32:if .MN \== '40.32' then exit; say condition('D')
+
+/*  40.33 */
+ signal on syntax name p40p33
+ say random(1,0)
+ exit
+p40p33:if .MN \== '40.33' then exit; say condition('D')
+
+/*  40.34 */
+ signal on syntax name p40p34
+ say sourceline(999999)
+ exit
+p40p34:if .MN \== '40.34' then exit; say condition('D')
+
+/*  40.35 */
+ signal on syntax name p40p35
+ say x2d('FFFFFFFFFFFFFFFFFFFF')
+ exit
+p40p35:if .MN \== '40.35' then exit; say condition('D')
+
+/*  40.36 */
+ signal on syntax name p40p36
+ say value('Probably-not-there',,PoolName)
+ exit
+p40p36:if .MN \== '40.36' then exit; say condition('D')
+
+/*  40.37 */
+ signal on syntax name p40p37
+ say value('aa',,'Wrong')
+ exit
+p40p37:if .MN \== '40.37' then exit; say condition('D')
+
+/*  40.38 */
+ signal on syntax name p40p38
+ say format('123',2)
+ exit
+p40p38:if .MN \== '40.38' then exit; say condition('D')
+
+/*  40.39 */
+ signal on syntax name p40p39
+ say linein('',2,2)
+ exit
+p40p39:if .MN \== '40.39' then exit; say condition('D')
+
+/* 41 Stream position */
+/* 42 position transient */
+
+/*  41.1 */
+ signal on syntax name p41p1
+ say 'Wrong' + 99
+ exit
+p41p1:if .MN \== '41.1' then exit; say condition('D')
+
+/*  41.2 */
+ signal on syntax name p41p2
+ say 99 + 'Wrong'
+ exit
+p41p2:if .MN \== '41.2' then exit; say condition('D')
+
+/*  41.3 */
+ signal on syntax name p41p3
+ say - 'Wrong'
+ exit
+p41p3:if .MN \== '41.3' then exit; say condition('D')
+
+/*  41.4 */
+ signal on syntax name p41p4
+ do j = 1 to 'Wrong';end
+ exit
+p41p4:if .MN \== '41.4' then exit; say condition('D')
+
+/*  41.5 */
+ signal on syntax name p41p5
+ do j = 1 by 'Wrong';end
+ exit
+p41p5:if .MN \== '41.5' then exit; say condition('D')
+
+/*  41.6 */
+ signal on syntax name p41p6
+ do j = 'Wrong' by 1;end
+ exit
+p41p6:if .MN \== '41.6' then exit; say condition('D')
+
+/*  41.7 */
+ signal on syntax name p41p7
+ j = +1e1000000000
+ exit
+p41p7:if .MN \== '41.7' then exit; say condition('D')
+
+/*  42.1 */
+ signal on syntax name p42p1
+ j = 1e999999999 * 10
+ exit
+p42p1:if .MN \== '42.1' then exit; say condition('D')
+
+/*  42.2 */
+ signal on syntax name p42p2
+ j = 1e-999999999 / 10
+ exit
+p42p2:if .MN \== '42.2' then exit; say condition('D')
+
+/*  42.3 */
+ signal on syntax name p42p3
+ j = 1e-999999999 / 0
+ exit
+p42p3:if .MN \== '42.3' then exit; say condition('D')
+
+/*  43.1 */
+ signal on syntax name p43p1
+ call ProbablyNotThere
+ exit
+p43p1:if .MN \== '43.1' then exit; say condition('D')
+
+/* Need an external to get 44.1 */
+
+/*  45.1 */
+ signal on syntax name p45p1
+ aa = MyFtn()
+ exit
+MyFtn:return
+p45p1:if .MN \== '45.1' then exit; say condition('D')
+
+/*  46.1 */
+ signal on syntax name p46p1
+ interpret "parse version (j+1) aa "
+ exit
+p46p1:if .MN \== '46.1' then exit; say condition('D')
+
+/*  47.1 */
+ signal on syntax name p47p1
+ interpret " abc:nop "
+ exit
+p47p1:if .MN \== '47.1' then exit; say condition('D')
+
+/* 48 & 49 are system troubles */
+
+/*  50.1 */
+ signal on syntax name p50p1
+ interpret " .Wrong "
+ exit
+p50p1:if .MN \== '50.1' then exit; say condition('D')
+
+/*  51.1 */
+ signal on syntax name p51p1
+ interpret " Wrong.() "
+ exit
+p51p1:if .MN \== '51.1' then exit; say condition('D')
+
+/* 52 depends on the linkage to externals */
+
+/*  53.1 */
+ signal on syntax name p53p1
+ interpret " address value "DOS" with output stream 99"
+ exit
+p53p1:if .MN \== '53.1' then exit; say condition('D')
+
+/*  53.2 */
+ signal on syntax name p53p2
+ interpret " address value "DOS" with output stem 99"
+ exit
+p53p2:if .MN \== '53.2' then exit; say condition('D')
+
+ say "Done"
+
+/*  5.1 Deliberately not honouring signal on */
+ signal on syntax name p5p1
+ do forever; t = t t; end
+ exit
+p5p1: say "Wrong"
+

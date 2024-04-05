@@ -1,0 +1,51 @@
+Todo - Add cost of index into the calculation.
+Make MSGC.RAW from Standard text?
+Stop when no gain, eg extra byte when 255 crossed.
+Compute code points taken for the originals.
+Keep first instance in the string.
+Code displayer in 'C' first?
+Lookaside on the freq stuff.
+Could the chains be one-way?
+
+MSGC is a utility to convert text strings to a compressed format for use as
+messages.
+
+The idea is to invent a new set of code points:
+
+ - Low numbers for controls, eg end-of-message or insert-here.
+
+ - Middle numbers for individual characters of original message.
+
+ - Higher numbers to refer to fragments - those fragments being longer
+   than one character and encoded in the new set of code points.
+
+Implementation:
+
+The choice of fragments is heuristic - initially the fragments chosen for
+replacement are the pairs of characters that occur most frequently.
+
+This gives rise to two sets (chains) of pairs; those that have been
+replaced in the compressed string and those that have not.
+
+Choosing pairs to become 'in' the target string is done in passes,
+each pass making non-overlapping chances to the target string.
+
+It may evolve that a pair chosen to be 'in' proves a bad choice in the
+sense that it becomes absorbed in one or more other fragments and its
+frequency in the target drops low.  In that case it does not justify
+the code point and index space that a separate fragment entails.
+Such pairs are expanded away again.
+
+We now have lots of trial and error experience in this algorithm. (See
+source mc.c)
+
+The tool Msgc will:
+
+Read in the input.
+
+Show progress messages to system output.
+
+Write the tables for the compressed messages on the outputfile.
+
+'Msgc' is invoked by Msgc Inputfile Outputfile
+

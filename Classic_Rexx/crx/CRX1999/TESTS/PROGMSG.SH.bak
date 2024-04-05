@@ -1,0 +1,8 @@
+#!/bin/bash
+# Type the program and check that return code is part of its name.
+export REGINA_OPTIONS=STRICT_ANSI
+echo >> t.t
+echo ================================================================ >> t.t
+cat $1$2.RX  >> t.t
+echo ---------------------------------------------------------------- >> t.t
+regina $1$2.RX >> t.t 2>&1

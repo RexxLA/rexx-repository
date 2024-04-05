@@ -1,0 +1,1 @@
+ilink32 -v -LC:\bc5\Lib -Tpe -ap -c -x C:\bc5\lib\c0x32.obj all2inc.obj show.obj wal.obj bits.obj, all2inc.exe,,c:\bc5\lib\bidsfi.lib C:\bc5\lib\import32.lib c:\bc5\lib\cw32i.lib

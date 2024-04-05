@@ -1,0 +1,6 @@
+We have to have separate programs to illustrate msgs.
+The 40. ones are in this directory
+rx.bat results go to t.log
+These are execution messages about error 40.
+
+Run rx.bat after any necessary adjustment of rx1.bat to what you are testing.  Results in T.LOG

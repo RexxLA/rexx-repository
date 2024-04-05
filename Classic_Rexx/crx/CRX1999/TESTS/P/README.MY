@@ -1,0 +1,8 @@
+
+Curses, cannot remember why this was made.  It is some subset of the test
+cases.
+30.1 and 30.2 to be made genuine some time. 250+
+
+I'll use this one for testcases of things that crop up in development.
+
+Prob001 is typical of failures due to manual coding of AOE stack access.

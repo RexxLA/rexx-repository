@@ -1,0 +1,2444 @@
+
+STRUCTS For personal use of those I give it to - BLM Nov 92
+ReadIn:  Grammar read in.
+Shift Expr 0
+Shift Expr 2
+ Shift msg & reduce 6, extras 1
+Shift Expr 9
+ Shift msg & reduce 9, extras 1
+Shift Expr 13
+ Shift msg & reduce 13, extras 1
+Shift Expr 14
+Shift Expr 15
+ Shift msg & reduce 16, extras 1
+ Shift msg & reduce 17, extras 1
+Shift Expr 20
+Shift Expr 25
+ Shift msg & reduce 25, extras 1
+Shift Expr 26
+ Shift msg & reduce 26, extras 1
+Shift Expr 27
+ Shift msg & reduce 27, extras 1
+Shift Expr 28
+ Shift msg & reduce 28, extras 1
+ Shift msg & reduce 32, extras 1
+Shift Expr 40
+ Shift msg & reduce 40, extras 2
+ Shift msg & reduce 45, extras 1
+Shift Expr 60
+Shift Expr 76
+ Shift msg & reduce 76, extras 1
+ Shift msg & reduce 83, extras 1
+ Shift msg & reduce 86, extras 1
+Shift Expr 111
+Shift Expr 116
+ Shift msg & reduce 116, extras 1
+Shift Expr 122
+ Shift msg & reduce 122, extras 1
+ Shift msg & reduce 133, extras 1
+Shift Expr 136
+Shift Expr 138
+ Shift msg & reduce 143, extras 1
+Shift Expr 152
+ Shift msg & reduce 152, extras 1
+ Shift msg & reduce 153, extras 1
+Shift Expr 154
+ Shift msg & reduce 154, extras 1
+ Shift msg & reduce 168, extras 1
+Shift Expr 171
+Shift Expr 187
+ Shift msg & reduce 203, extras 2
+ Shift msg & reduce 208, extras 1
+Shift Expr 236
+Shift Expr 246
+ Shift msg & reduce 246, extras 2
+Shift Expr 282
+Shift Expr 283
+Shift Expr 284
+ Shift msg & reduce 305, extras 1
+Shift Expr 306
+ Shift msg & reduce 325, extras 1
+Shift Expr 336
+ Shift msg & reduce 336, extras 2
+Shift Expr 341
+Shift Expr 342
+Shift Expr 429
+ Shift msg & reduce 429, extras 2
+xxx70 6{6 }
+xxx70 6[0 40 76 236 341 342 429 ]
+xxx51 7[0 40 76 236 341 342 429 ]
+xxx28 16[0 40 76 236 341 342 429 ]
+xxx28 17[0 40 76 236 341 342 429 ]
+xxx2 18[0 40 76 236 341 342 429 ]
+xxx26 23[0 40 76 236 341 342 429 ]
+xxx52 24[0 40 76 236 341 342 429 ]
+xxx2 42[0 40 76 236 341 342 429 ]
+xxx90 43[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 236 246 282 283 284 306 336 341 342 429 ]
+xxx2 44[0 40 76 236 341 342 429 ]
+xxx91 46[0 40 76 236 341 342 429 ]
+xxx2 47[0 40 76 236 341 342 429 ]
+xxx91 48[0 40 76 236 341 342 429 ]
+xxx30 51[0 40 76 236 341 342 429 ]
+xxx2 55[0 40 76 236 341 342 429 ]
+xxx2 56[0 40 76 236 341 342 429 ]
+xxx3 58[0 40 76 236 341 342 429 ]
+xxx22 64[0 40 76 236 341 342 429 ]
+xxx2 67[0 40 76 236 341 342 429 ]
+xxx2 68[0 40 76 236 341 342 429 ]
+xxx91 71[0 40 76 236 341 342 429 ]
+xxx2 72[0 40 76 236 341 342 429 ]
+xxx2 77[0 40 76 236 341 342 429 ]
+xxx2 78[0 40 76 236 341 342 429 ]
+xxx2 79[0 40 76 236 341 342 429 ]
+xxx2 82[0 40 76 236 341 342 429 ]
+xxx2 85[0 40 76 236 341 342 429 ]
+xxx2 87[0 40 76 236 341 342 429 ]
+xxx2 88[0 40 76 236 341 342 429 ]
+xxx90 94[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 236 246 282 283 284 306 336 341 342 429 ]
+xxx2 97[0 40 76 236 341 342 429 ]
+xxx2 98[0 40 76 236 341 342 429 ]
+xxx2 100[0 40 76 236 341 342 429 ]
+xxx2 104[0 40 76 236 341 342 429 ]
+xxx11 109{3 }
+xxx11 109[0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429 ]
+xxx11 110{4 }
+xxx11 110[0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429 ]
+xxx70 116{116 }
+xxx70 116{6 }
+xxx70 116[0 40 76 236 341 342 429 ]
+xxx70 117{6 }
+xxx70 117[0 40 76 236 341 342 429 ]
+xxx75 118[6 ]
+xxx75 119[6 ]
+xxx62 120[8 30 ]
+xxx44 122{122 }
+xxx44 122[8 ]
+xxx18 127[8 ]
+xxx36 128[9 ]
+xxx37 129[9 133 134 ]
+xxx37 130[9 133 134 ]
+xxx33 131{131 }
+xxx33 131[9 ]
+xxx33 139[9 ]
+xxx91 148{14 }
+xxx91 148[0 40 76 236 341 342 429 ]
+xxx29 150[0 40 76 236 341 342 429 ]
+xxx29 151[0 40 76 236 341 342 429 ]
+xxx80 155[0 40 76 236 341 342 429 ]
+xxx80 156[0 40 76 236 341 342 429 ]
+xxx80 157[0 40 76 236 341 342 429 ]
+xxx56 163[22 ]
+xxx6 164[22 172 ]
+xxx50 167[22 172 ]
+xxx50 169[22 172 ]
+xxx50 170[22 172 ]
+xxx11 185{34 }
+xxx11 185[0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429 ]
+xxx18 186[0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429 ]
+xxx55 195[45 86 168 203 208 305 325 ]
+xxx58 196[45 86 168 207 208 305 325 ]
+xxx55 197[45 86 168 203 208 305 325 ]
+xxx55 198[45 86 168 203 208 305 325 ]
+xxx57 203{203 }
+xxx57 203[45 86 168 208 305 325 ]
+xxx53 204[45 86 168 203 208 305 325 ]
+xxx53 205[45 86 168 203 208 305 325 ]
+xxx31 233[51 ]
+xxx43 242{60 }
+xxx43 242[0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429 ]
+xxx41 243[60 122 246 336 ]
+xxx20 247[63 248 309 382 ]
+xxx21 251[64 ]
+xxx22 252[0 40 76 236 341 342 429 ]
+xxx18 268[0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429 ]
+xxx70 273{116 }
+xxx70 273{6 }
+xxx70 273[0 40 76 236 341 342 429 ]
+xxx61 275[121 126 178 179 ]
+xxx61 276[121 126 178 179 ]
+xxx61 277[121 126 178 179 ]
+xxx61 278[121 126 178 179 ]
+xxx60 279{121 }
+xxx60 279[8 ]
+xxx45 280{122 }
+xxx45 280[8 ]
+xxx60 281{126 }
+xxx60 281[8 ]
+xxx33 286{131 }
+xxx33 286[9 ]
+xxx35 291{136 }
+xxx35 291[9 133 134 ]
+xxx34 292{138 }
+xxx34 292[9 133 134 ]
+xxx61 310[178 179 ]
+xxx61 311[178 179 ]
+xxx61 312[178 179 ]
+xxx1 317{187 }
+xxx1 317[0 9 40 76 236 341 342 429 ]
+xxx10 318{192 }
+xxx10 318[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 193 230 236 241 246 282 283 284 306 336 341 342 429 231 232 ]
+xxx10 319{193 }
+xxx10 319[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 236 246 282 283 284 306 336 341 342 429 241 ]
+xxx12 327{230 }
+xxx12 327[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 236 241 246 282 283 284 306 336 341 342 429 193 ]
+xxx10 328{231 }
+xxx10 328[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 193 236 241 246 282 283 284 306 336 341 342 429 230 ]
+xxx10 329{232 }
+xxx10 329[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 193 236 241 246 282 283 284 306 336 341 342 429 230 ]
+xxx91 332[236 334 ]
+xxx32 333{236 }
+xxx32 333{54 }
+xxx32 333[0 40 76 236 341 342 429 ]
+xxx10 335{241 }
+xxx10 335[0 9 13 14 15 20 25 26 27 28 40 76 111 116 136 138 152 154 171 187 236 282 283 284 306 341 342 429 2 60 122 246 336 ]
+xxx41 336{336 }
+xxx41 336[244 ]
+xxx43 338{60 }
+xxx43 338[0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429 ]
+xxx10 343{259 }
+xxx10 343[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 193 230 231 232 236 241 246 282 283 284 306 336 341 342 429 192 ]
+xxx10 345{262 }
+xxx10 345[0 2 9 13 14 15 20 25 26 27 28 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 282 283 284 306 336 341 342 429 259 ]
+xxx70 351{272 }
+xxx70 351{116 }
+xxx70 351{6 }
+xxx70 351[0 40 76 236 341 342 429 ]
+xxx70 356{274 }
+xxx70 356{6 }
+xxx70 356[0 40 76 236 341 342 429 ]
+xxx382 358{282 }
+xxx382 358[131 287 288 365 369 ]
+xxx383 359{283 }
+xxx383 359[131 285 288 362 367 ]
+xxx381 360{284 }
+xxx381 360[131 285 287 361 364 ]
+xxx91 373{306 }
+xxx91 373[177 308 378 ]
+xxx91 375[307 ]
+xxx23 376{177 }
+xxx23 376{29 }
+xxx23 376[0 40 76 236 341 342 429 ]
+xxx91 377[308 378 ]
+xxx25 383{309 }
+xxx25 383[177 308 378 ]
+xxx32 387{334 }
+xxx32 387{236 }
+xxx32 387{54 }
+xxx32 387[0 40 76 236 341 342 429 ]
+xxx74 395[348 350 ]
+xxx73 402[348 ]
+xxx71 404[349 ]
+xxx71 406[349 ]
+xxx72 408[350 ]
+xxx70 418{355 }
+xxx70 418{116 }
+xxx70 418{6 }
+xxx70 418[0 40 76 236 341 342 429 ]
+xxx60 419{357 }
+xxx60 419{121 }
+xxx60 419[8 ]
+xxx24 429{429 }
+xxx24 429{379 }
+xxx24 429[308 378 ]
+xxx25 430{382 }
+xxx25 430{309 }
+xxx25 430[177 308 378 ]
+xxx24 442{429 }
+xxx24 442{379 }
+xxx24 442[308 378 ]
+AboveAction 2: 0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429
+AboveAction 3: 0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429
+AboveAction 4: 0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429
+AboveAction 6: 0 40 76 236 341 342 429
+AboveAction 8: 0 40 76 236 341 342 429
+AboveAction 9: 0 40 76 236 341 342 429
+AboveAction 13: 0 40 76 236 341 342 429
+AboveAction 14: 0 40 76 236 341 342 429
+AboveAction 15: 0 40 76 236 341 342 429
+AboveAction 20: 0 40 76 236 341 342 429
+AboveAction 22: 0 40 76 236 341 342 429
+AboveAction 25: 0 40 76 236 341 342 429
+AboveAction 26: 0 40 76 236 341 342 429
+AboveAction 27: 0 40 76 236 341 342 429
+AboveAction 28: 0 40 76 236 341 342 429
+AboveAction 29: 0 40 76 236 341 342 429
+AboveAction 30: 0 40 76 236 341 342 429
+AboveAction 32: 0 40 76 236 341 342 429
+AboveAction 34: 0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429
+AboveAction 40: 0 76 236 429
+AboveAction 45: 0 40 76 236 341 342 429
+AboveAction 51: 0 40 76 236 341 342 429
+AboveAction 54: 0 40 76 236 341 342 429
+AboveAction 60: 0 2 3 4 9 13 14 15 20 25 26 27 28 34 40 60 76 111 116 122 136 138 152 154 171 187 192 193 230 231 232 236 241 246 259 262 282 283 284 306 336 341 342 429
+AboveAction 63: 0 40 76 236 341 342 429
+AboveAction 64: 0 40 76 236 341 342 429
+AboveAction 76: 0
+AboveAction 86: 0 40 76 236 341 342 429
+AboveAction 111: 6 30 32 153
+AboveAction 116: 6
+AboveAction 121: 8
+AboveAction 122: 8
+AboveAction 126: 8
+AboveAction 131: 9
+AboveAction 133: 9
+AboveAction 134: 9
+AboveAction 136: 9 133 134
+AboveAction 138: 9 133 134
+AboveAction 152: 19
+AboveAction 153: 19
+AboveAction 154: 19
+AboveAction 168: 22
+AboveAction 171: 22 172
+AboveAction 172: 22
+AboveAction 177: 29
+AboveAction 178: 30
+AboveAction 179: 30
+AboveAction 187: 38
+AboveAction 192: 41 328 329
+AboveAction 193: 43 335
+AboveAction 203: 45 86 168 208 305 325
+AboveAction 207: 45 86 168 208 305 325
+AboveAction 208: 45 86 168 208 305 325
+AboveAction 230: 49 319
+AboveAction 231: 50 327
+AboveAction 232: 50 327
+AboveAction 236: 54
+AboveAction 241: 57 108 244
+AboveAction 244: 60 122 246 336
+AboveAction 246: 60 122 246 336
+AboveAction 248: 63
+AboveAction 250: 63 248 309 382
+AboveAction 253: 64
+AboveAction 259: 75 318
+AboveAction 262: 80 343
+AboveAction 272: 116
+AboveAction 274: 117
+AboveAction 282: 131 287 288 365 369
+AboveAction 283: 131 285 288 362 367
+AboveAction 284: 131 285 287 361 364
+AboveAction 285: 131
+AboveAction 287: 131
+AboveAction 288: 131
+AboveAction 305: 172
+AboveAction 306: 177 308 378
+AboveAction 307: 177
+AboveAction 308: 177
+AboveAction 309: 177 308 378
+AboveAction 325: 207
+AboveAction 334: 236
+AboveAction 336: 244
+AboveAction 341: 250
+AboveAction 342: 253
+AboveAction 348: 272 274 353 354 355 414 417
+AboveAction 349: 272 274 352 354 355 411 416
+AboveAction 350: 272 274 352 353 355 410 413
+AboveAction 352: 272 274 355
+AboveAction 353: 272 274 355
+AboveAction 354: 272 274 355
+AboveAction 355: 273
+AboveAction 361: 285
+AboveAction 362: 285
+AboveAction 364: 287
+AboveAction 365: 287
+AboveAction 367: 288
+AboveAction 369: 288
+AboveAction 378: 308
+AboveAction 379: 308 378
+AboveAction 382: 309
+AboveAction 410: 352
+AboveAction 411: 352
+AboveAction 413: 353
+AboveAction 414: 353
+AboveAction 416: 354
+AboveAction 417: 354
+AboveAction 429: 379
+0 becomes 0, as do old:
+1 becomes 1, as do old: 264
+2 becomes 2, as do old:
+3 becomes 3, as do old: 4 34
+5 becomes 4, as do old: 188
+6 becomes 5, as do old:
+7 becomes 6, as do old:
+8 becomes 7, as do old:
+9 becomes 8, as do old:
+10 becomes 9, as do old: 263
+11 becomes 10, as do old:
+12 becomes 11, as do old: 254 260 344
+13 becomes 12, as do old: 25 26 27 28
+14 becomes 13, as do old:
+15 becomes 14, as do old: 20
+16 becomes 15, as do old: 17
+18 becomes 16, as do old: 42 44 47 55 56 67 68 72 77 78 79 82 85 87 88 97 98 100 104
+19 becomes 17, as do old:
+21 becomes 18, as do old:
+22 becomes 19, as do old:
+23 becomes 20, as do old:
+24 becomes 21, as do old:
+29 becomes 22, as do old:
+30 becomes 23, as do old:
+31 becomes 24, as do old:
+32 becomes 25, as do old:
+33 becomes 26, as do old:
+35 becomes 27, as do old: 36
+37 becomes 28, as do old: 102
+38 becomes 29, as do old:
+39 becomes 30, as do old:
+40 becomes 31, as do old:
+41 becomes 32, as do old:
+43 becomes 33, as do old:
+45 becomes 34, as do old: 86
+46 becomes 35, as do old: 48 71
+49 becomes 36, as do old:
+50 becomes 37, as do old:
+51 becomes 38, as do old:
+52 becomes 39, as do old: 99 234
+53 becomes 40, as do old:
+54 becomes 41, as do old:
+57 becomes 42, as do old:
+58 becomes 43, as do old:
+59 becomes 44, as do old:
+60 becomes 45, as do old:
+61 becomes 46, as do old:
+62 becomes 47, as do old:
+63 becomes 48, as do old:
+64 becomes 49, as do old:
+65 becomes 50, as do old:
+66 becomes 51, as do old:
+69 becomes 52, as do old: 70 73 74
+75 becomes 53, as do old:
+76 becomes 54, as do old:
+80 becomes 55, as do old:
+81 becomes 56, as do old: 95
+83 becomes 57, as do old:
+84 becomes 58, as do old:
+89 becomes 59, as do old:
+90 becomes 60, as do old:
+91 becomes 61, as do old:
+92 becomes 62, as do old:
+93 becomes 63, as do old:
+94 becomes 64, as do old:
+96 becomes 65, as do old: 103
+101 becomes 66, as do old:
+105 becomes 67, as do old: 106 347
+107 becomes 68, as do old:
+108 becomes 69, as do old:
+109 becomes 70, as do old: 110 185
+111 becomes 71, as do old:
+112 becomes 72, as do old: 113 114 115
+116 becomes 73, as do old:
+117 becomes 74, as do old:
+118 becomes 75, as do old:
+119 becomes 76, as do old:
+120 becomes 77, as do old:
+121 becomes 78, as do old:
+122 becomes 79, as do old:
+123 becomes 80, as do old: 124 125 145 147 149 158 173 174 175 176 180 181 182 183 184 209 265 346
+126 becomes 81, as do old:
+127 becomes 82, as do old:
+128 becomes 83, as do old:
+129 becomes 84, as do old:
+130 becomes 85, as do old:
+131 becomes 86, as do old:
+132 becomes 87, as do old:
+133 becomes 88, as do old:
+134 becomes 89, as do old:
+135 becomes 90, as do old: 137
+136 becomes 91, as do old:
+138 becomes 92, as do old:
+139 becomes 93, as do old:
+140 becomes 94, as do old:
+141 becomes 95, as do old:
+142 becomes 96, as do old:
+143 becomes 97, as do old:
+144 becomes 98, as do old: 146
+148 becomes 99, as do old:
+150 becomes 100, as do old: 151
+152 becomes 101, as do old: 154
+153 becomes 102, as do old:
+155 becomes 103, as do old: 156 157
+159 becomes 104, as do old: 160 161 162 166
+163 becomes 105, as do old:
+164 becomes 106, as do old:
+165 becomes 107, as do old:
+167 becomes 108, as do old: 169 170
+168 becomes 109, as do old:
+171 becomes 110, as do old:
+172 becomes 111, as do old:
+177 becomes 112, as do old:
+178 becomes 113, as do old:
+179 becomes 114, as do old:
+186 becomes 115, as do old: 268
+187 becomes 116, as do old:
+189 becomes 117, as do old:
+190 becomes 118, as do old: 191
+192 becomes 119, as do old:
+193 becomes 120, as do old:
+194 becomes 121, as do old:
+195 becomes 122, as do old: 197 198
+196 becomes 123, as do old:
+199 becomes 124, as do old: 200 211
+201 becomes 125, as do old: 210
+202 becomes 126, as do old:
+203 becomes 127, as do old:
+204 becomes 128, as do old: 205
+206 becomes 129, as do old:
+207 becomes 130, as do old:
+208 becomes 131, as do old:
+212 becomes 132, as do old: 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229
+230 becomes 133, as do old:
+231 becomes 134, as do old: 232
+233 becomes 135, as do old:
+235 becomes 136, as do old: 266 330
+236 becomes 137, as do old:
+237 becomes 138, as do old: 240
+238 becomes 139, as do old:
+239 becomes 140, as do old: 270
+241 becomes 141, as do old:
+242 becomes 142, as do old: 338
+243 becomes 143, as do old:
+244 becomes 144, as do old:
+245 becomes 145, as do old:
+246 becomes 146, as do old:
+247 becomes 147, as do old:
+248 becomes 148, as do old:
+249 becomes 149, as do old:
+250 becomes 150, as do old:
+251 becomes 151, as do old:
+252 becomes 152, as do old:
+253 becomes 153, as do old:
+255 becomes 154, as do old: 256 257 258
+259 becomes 155, as do old:
+261 becomes 156, as do old:
+262 becomes 157, as do old:
+267 becomes 158, as do old:
+269 becomes 159, as do old:
+271 becomes 160, as do old:
+272 becomes 161, as do old: 355
+273 becomes 162, as do old:
+274 becomes 163, as do old:
+275 becomes 164, as do old: 276 277 278
+279 becomes 165, as do old:
+280 becomes 166, as do old:
+281 becomes 167, as do old:
+282 becomes 168, as do old:
+283 becomes 169, as do old:
+284 becomes 170, as do old:
+285 becomes 171, as do old:
+286 becomes 172, as do old:
+287 becomes 173, as do old:
+288 becomes 174, as do old:
+289 becomes 175, as do old: 290
+291 becomes 176, as do old:
+292 becomes 177, as do old:
+293 becomes 178, as do old:
+294 becomes 179, as do old:
+295 becomes 180, as do old: 298 300
+296 becomes 181, as do old: 297 299
+301 becomes 182, as do old: 303 371
+302 becomes 183, as do old:
+304 becomes 184, as do old:
+305 becomes 185, as do old:
+306 becomes 186, as do old:
+307 becomes 187, as do old:
+308 becomes 188, as do old:
+309 becomes 189, as do old:
+310 becomes 190, as do old: 311 312
+313 becomes 191, as do old: 315
+314 becomes 192, as do old:
+316 becomes 193, as do old:
+317 becomes 194, as do old:
+318 becomes 195, as do old:
+319 becomes 196, as do old:
+320 becomes 197, as do old:
+321 becomes 198, as do old:
+322 becomes 199, as do old: 324
+323 becomes 200, as do old:
+325 becomes 201, as do old:
+326 becomes 202, as do old:
+327 becomes 203, as do old:
+328 becomes 204, as do old: 329
+331 becomes 205, as do old:
+332 becomes 206, as do old:
+333 becomes 207, as do old:
+334 becomes 208, as do old:
+335 becomes 209, as do old:
+336 becomes 210, as do old:
+337 becomes 211, as do old:
+339 becomes 212, as do old: 388
+340 becomes 213, as do old:
+341 becomes 214, as do old:
+342 becomes 215, as do old:
+343 becomes 216, as do old:
+345 becomes 217, as do old:
+348 becomes 218, as do old:
+349 becomes 219, as do old:
+350 becomes 220, as do old:
+351 becomes 221, as do old: 418
+352 becomes 222, as do old:
+353 becomes 223, as do old:
+354 becomes 224, as do old:
+356 becomes 225, as do old:
+357 becomes 226, as do old:
+358 becomes 227, as do old:
+359 becomes 228, as do old:
+360 becomes 229, as do old:
+361 becomes 230, as do old:
+362 becomes 231, as do old:
+363 becomes 232, as do old: 366 368
+364 becomes 233, as do old:
+365 becomes 234, as do old:
+367 becomes 235, as do old:
+369 becomes 236, as do old:
+370 becomes 237, as do old:
+372 becomes 238, as do old:
+373 becomes 239, as do old:
+374 becomes 240, as do old:
+375 becomes 241, as do old:
+376 becomes 242, as do old:
+377 becomes 243, as do old:
+378 becomes 244, as do old:
+379 becomes 245, as do old:
+380 becomes 246, as do old:
+381 becomes 247, as do old:
+382 becomes 248, as do old:
+383 becomes 249, as do old:
+384 becomes 250, as do old:
+385 becomes 251, as do old:
+386 becomes 252, as do old:
+387 becomes 253, as do old:
+389 becomes 254, as do old:
+390 becomes 255, as do old:
+391 becomes 256, as do old:
+392 becomes 257, as do old:
+393 becomes 258, as do old:
+394 becomes 259, as do old:
+395 becomes 260, as do old:
+396 becomes 261, as do old: 403
+397 becomes 262, as do old:
+398 becomes 263, as do old:
+399 becomes 264, as do old:
+400 becomes 265, as do old:
+401 becomes 266, as do old:
+402 becomes 267, as do old:
+404 becomes 268, as do old: 406
+405 becomes 269, as do old:
+407 becomes 270, as do old:
+408 becomes 271, as do old:
+409 becomes 272, as do old: 412 415
+410 becomes 273, as do old:
+411 becomes 274, as do old:
+413 becomes 275, as do old:
+414 becomes 276, as do old:
+416 becomes 277, as do old:
+417 becomes 278, as do old:
+419 becomes 279, as do old:
+420 becomes 280, as do old: 421
+422 becomes 281, as do old: 423
+424 becomes 282, as do old: 425
+426 becomes 283, as do old:
+427 becomes 284, as do old:
+428 becomes 285, as do old:
+429 becomes 286, as do old:
+430 becomes 287, as do old:
+431 becomes 288, as do old:
+432 becomes 289, as do old: 435
+433 becomes 290, as do old: 434
+436 becomes 291, as do old: 437
+438 becomes 292, as do old: 439
+440 becomes 293, as do old: 441
+442 becomes 294, as do old:
+Post RedSw thin.
+0 is SFE35.1 ['':1]['(':2]['+':3]['-':3][';':4]
+['ADDRESS':5]['ARG':6]['CALL':7]['DO':8]['DROP':9]['ELSE':10]
+['END':11]['EXIT':12]['IF':13]['INTERPRET':14]['ITERATE':15]['LEAVE':15]
+['NOP':16]['NUMERIC':17]['OPTIONS':14]['OTHERWISE':18]['PARSE':19]['PROCEDURE':20]
+['PULL':21]['PUSH':12]['QUEUE':12]['RETURN':12]['SAY':12]['SELECT':22]
+['SIGNAL':23]['THEN':24]['TRACE':25]['WHEN':26]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:29]
+
+1 is S ['.':67]
+
+2 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+3 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+4 is R30 
+5 is SR16X70FE19.1 ['VALUE':71][CONST_SYMBOL:72][NUMBER:72][STRING:72][VAR_SYMBOL:72]
+[';':0]
+
+6 is R34X51 
+7 is SFE19.2 ['OFF':77]['ON':78][CONST_SYMBOL:72][NUMBER:72][STRING:72]
+[VAR_SYMBOL:72]
+
+8 is SR41FE35.1 ['(':2]['+':3]['-':3]['FOREVER':83]['UNTIL':84]
+['WHILE':85]['\':3][CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:29]
+[';':0]
+
+9 is SFE20.1 ['(':94][VAR_SYMBOL:95]
+
+10 is E8.2 
+11 is E10.1 
+12 is SR16FE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68][';':0]
+
+13 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+14 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+15 is SR52X28E20.2 [VAR_SYMBOL:100][';':0]
+
+16 is R35X2 
+17 is SE25.15 ['DIGITS':101]['FORM':102]['FUZZ':101]
+
+18 is E9.2 
+19 is SFE25.12 ['ARG':104]['LINEIN':104]['PULL':104]['SOURCE':104]['UPPER':105]
+['VALUE':106]['VAR':107]['VERSION':104]
+
+20 is R57X26 
+21 is R34X52 
+22 is SFE21.1 [';':4]
+
+23 is SFE19.4 ['OFF':77]['ON':113]['VALUE':71][CONST_SYMBOL:72][NUMBER:72]
+[STRING:72][VAR_SYMBOL:72]
+
+24 is E8.1 
+25 is SR16FE19.6 ['VALUE':71][CONST_SYMBOL:72][NUMBER:72][STRING:72][VAR_SYMBOL:72]
+[';':0]
+
+26 is E9.1 
+27 is R28|| 
+28 is SR65|| ['(':115]
+
+29 is SR28|| ['$':116]
+
+30 is SR286 [';':4]
+{0:54}{22:112}{39:136}{41:137}{48:148}{66:158}{150:214}
+{153:215}{189:248}{245:286}
+31 is SR294F ['(':2]['+':3]['-':3]['ADDRESS':5]['ARG':6]
+['CALL':7]['DO':8]['DROP':9]['ELSE':10]['EXIT':12]['IF':13]
+['INTERPRET':14]['ITERATE':15]['LEAVE':15]['NOP':16]['NUMERIC':17]['OPTIONS':14]
+['OTHERWISE':18]['PARSE':19]['PROCEDURE':20]['PULL':21]['PUSH':12]['QUEUE':12]
+['RETURN':12]['SAY':12]['SELECT':22]['SIGNAL':23]['THEN':24]['TRACE':25]
+['WHEN':26]['\':3][CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:29]
+['':0]['END':0]
+{0:51}{54:156}{137:208}{286:294}
+32 is SR37|| ['+':118]['-':118]
+{133:203}
+33 is SR42X90 ['&':120]
+{2:69}{45:144}{79:144}{146:144}{210:144}
+34 is SR16FE38.1 ['(':121]['+':122][',':123]['-':122]['=':122]
+[NUMBER:124][STRING:124][VAR_SYMBOL:125][';':0]
+
+35 is R66X91 
+36 is SR33 ['<':132]['<<':132]['<<=':132]['<=':132]['<>':132]
+['=':132]['==':132]['>':132]['><':132]['>=':132]['>>':132]
+['>>=':132]['\<':132]['\<<':132]['\=':132]['\==':132]['\>':132]
+['\>>':132]
+{141:209}
+37 is SR36|| [' ':134]['||':134]
+{120:196}
+38 is SR39X30 [VAR_SYMBOL:135]
+
+39 is SFE21.1 [';':4]
+
+40 is R41 
+41 is SFE27.1 [';':4]
+
+42 is SR43 ['&&':138][')':139][',':140]['|':138]
+{8:93}{13:99}{71:160}{73:162}{91:176}{92:177}{101:180}
+{110:184}{116:194}{168:227}{169:228}{170:229}{186:239}{12:80}{14:80}
+43 is R35X3 
+44 is R65|| 
+45 is SFE35.1 ['(':2][')':142]['+':3][',':143]['-':3]
+['\':3][CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+46 is R50 {31:117}{214:256}{215:259}
+47 is R46 
+48 is SFE18.1 [';':4]['THEN':147]
+
+49 is SR47X22 ['ELSE':151]
+
+50 is R31 
+51 is SR58 ['END':11]
+
+52 is R16 
+53 is SR32|| ['%':154]['*':154]['/':154]['//':154]
+{134:204}
+54 is SR58FE35.1 ['(':2]['+':3]['-':3]['ADDRESS':5]['ARG':6]
+['CALL':7]['DO':8]['DROP':9]['ELSE':10]['END':11]['EXIT':12]
+['IF':13]['INTERPRET':14]['ITERATE':15]['LEAVE':15]['NOP':16]['NUMERIC':17]
+['OPTIONS':14]['OTHERWISE':18]['PARSE':19]['PROCEDURE':20]['PULL':21]['PUSH':12]
+['QUEUE':12]['RETURN':12]['SAY':12]['SELECT':22]['SIGNAL':23]['THEN':24]
+['TRACE':25]['WHEN':26]['\':3][CONST_SYMBOL:27][NUMBER:27][STRING:28]
+[VAR_SYMBOL:29]['':0]
+
+55 is SR53|| ['**':157]
+{119:195}
+56 is R55|| {155:216}
+57 is SR16E25.17 ['EXPOSE':9][';':0]
+
+58 is SE35.1 ['':1]
+
+59 is R32|| {134:204}
+60 is R33 {141:209}
+61 is R36 {120:196}
+62 is R37|| {133:203}
+63 is R53|| {119:195}
+64 is R42X90 {2:69}{45:144}{79:144}{146:144}{210:144}
+65 is R56|| {3:70}{157:217}
+66 is SFE21.1 [';':4]
+
+67 is  
+68 is R28|| 
+69 is SE36.0 ['&&':138][')':159][',':140]['|':138]
+
+70 is P1R65X11|| 
+71 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+72 is R80 {5:75}{7:82}{226:279}{250:288}
+73 is SP1R16X70FE35.1 ['(':2]['+':3]['-':3]['WITH':161]['\':3]
+[CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:68][';':0]
+
+74 is SP1R16X70 ['WITH':163]
+
+75 is R73X75 
+76 is R74X75 
+77 is R114X62 {7:81}{23:114}
+78 is SFE25.1 ['ERROR':164]['FAILURE':164]['HALT':164]['NOTREADY':164]
+
+79 is SR80X44FE35.1 ['(':2]['+':3][',':143]['-':3]['\':3]
+[CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:68][';':0]
+
+80 is P1R16 
+81 is SFE25.2 ['ERROR':164]['FAILURE':164]['HALT':164]['NOTREADY':164]
+
+82 is R79X18 
+83 is R88X36 
+84 is R91X37 
+85 is R92X37 
+86 is SR89X33F ['BY':168]['FOR':169]['TO':170]
+
+87 is P1R40 
+88 is SP1R40FE25.16 ['UNTIL':84]['WHILE':85][';':0]
+
+89 is SP1R40F ['UNTIL':84]['WHILE':85]
+
+90 is R175 {8:87}
+91 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+92 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+93 is R89X33 
+94 is SFE20.1 [VAR_SYMBOL:95]
+
+95 is R98 {94:178}{107:182}
+96 is R97 
+97 is SR80FE20.1 ['(':94][VAR_SYMBOL:95][';':0]
+
+98 is R179 {9:96}{97:179}
+99 is P1R48X91 
+100 is R52X29 
+101 is SR103FE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68][';':0]
+
+102 is SR103FE25.11 ['ENGINEERING':181]['SCIENTIFIC':181]['VALUE':71][';':0]
+
+103 is R16X80 
+104 is R108 
+105 is R111X56 
+106 is R110X6 
+107 is SFE20.1 [VAR_SYMBOL:95]
+
+108 is R185X50 {19:109}{111:185}
+109 is SP1R16FE38.1 ['(':121]['+':122][',':123]['-':122]['=':122]
+[NUMBER:124][STRING:124][VAR_SYMBOL:125][';':0]
+
+110 is SFE35.1 ['(':2]['+':3]['-':3]['WITH':182]['\':3]
+[CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+111 is SFE25.13 ['ARG':104]['LINEIN':104]['PULL':104]['SOURCE':104]['VALUE':106]
+['VAR':107]['VERSION':104]
+
+112 is SFE7.1 ['WHEN':186]
+
+113 is SFE25.3 ['ERROR':164]['FAILURE':164]['HALT':164]['LOSTDIGITS':190]['NOTREADY':164]
+['NOVALUE':190]['SYNTAX':190]
+
+114 is SFE25.4 ['ERROR':164]['FAILURE':164]['HALT':164]['LOSTDIGITS':190]['NOTREADY':164]
+['NOVALUE':190]['SYNTAX':190]
+
+115 is R45X18 
+116 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+117 is P1R31 
+118 is R119 
+119 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+120 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+121 is SE19.7 [VAR_SYMBOL:197]
+
+122 is R129X55 
+123 is R131X58 {130:201}
+124 is R128 
+125 is R126 {127:198}
+126 is R127 
+127 is SR130X57FE38.1 ['(':121]['+':122]['-':122]['=':122][NUMBER:124]
+[STRING:124][VAR_SYMBOL:125][',':0][';':0]
+
+128 is R125X53 
+129 is SFE38.2 ['(':121][NUMBER:199]
+
+130 is SR252F [',':123]
+{34:80}{109:183}{131:202}{185:238}{201:252}
+131 is SR252FE38.1 ['(':121]['+':122][',':123]['-':122]['=':122]
+[NUMBER:124][STRING:124][VAR_SYMBOL:125][';':0]
+{34:80}{109:183}{131:202}{185:238}{201:252}
+132 is R133 
+133 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+134 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+135 is R39X31 
+136 is P1R46 
+137 is SFE35.1 ['':205]['(':2]['+':3]['-':3]['ADDRESS':5]
+['ARG':6]['CALL':7]['DO':8]['DROP':9]['ELSE':10]['END':206]
+['EXIT':12]['IF':13]['INTERPRET':14]['ITERATE':15]['LEAVE':15]['NOP':16]
+['NUMERIC':17]['OPTIONS':14]['OTHERWISE':18]['PARSE':19]['PROCEDURE':20]['PULL':21]
+['PUSH':12]['QUEUE':12]['RETURN':12]['SAY':12]['SELECT':22]['SIGNAL':23]
+['THEN':24]['TRACE':25]['WHEN':26]['\':3][CONST_SYMBOL:27][NUMBER:27]
+[STRING:28][VAR_SYMBOL:29]
+
+138 is R141 
+139 is E37.2 
+140 is E37.1 
+141 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+142 is P1R44X43|| 
+143 is R146X41 
+144 is SR212 ['&&':138][',':210]['|':138]
+{45:145}{79:166}
+145 is SE36.0 [')':142]
+
+146 is SR212FE35.1 ['(':2]['+':3][',':143]['-':3]['\':3]
+[CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:68][')':0][';':0]
+{45:145}{79:166}
+147 is R150X20 
+148 is SFE18.1 ['THEN':147]
+
+149 is P1R49 
+150 is SFE21.1 [';':4]
+
+151 is R153X21 
+152 is R47X22 
+153 is SFE21.1 [';':4]
+
+154 is R155 
+155 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+156 is SP1R58 ['END':11]
+
+157 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+158 is P1R50 {31:117}{214:256}{215:259}
+159 is P1R65|| 
+160 is P1R80 {5:76}{102:181}
+161 is SFE25.5 ['ERROR':218]['INPUT':219]['OUTPUT':220]
+
+162 is SP2R16X70 ['WITH':161]
+
+163 is SFE25.5 ['ERROR':218]['INPUT':219]['OUTPUT':220]
+
+164 is R191X61 {78:165}{81:167}
+165 is SP1R80X60 ['NAME':226]
+
+166 is P1R80X45 
+167 is P1R80X60 
+168 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+169 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+170 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+171 is SR172F ['FOR':169]['TO':170]
+
+172 is P1R89X33 
+173 is SR172F ['BY':168]['TO':170]
+
+174 is SR172F ['BY':168]['FOR':169]
+
+175 is P2R40 
+176 is P1R90X35 
+177 is P1R90X34 
+178 is SE46.1 [')':237]
+
+179 is P1R97 
+180 is P1R103 
+181 is R180 
+182 is P1R108 
+183 is P2R16 
+184 is SE38.3 ['WITH':182]
+
+185 is SP2R16FE38.1 ['(':121]['+':122][',':123]['-':122]['=':122]
+[NUMBER:124][STRING:124][VAR_SYMBOL:125][';':0]
+
+186 is SFE35.1 ['(':2]['+':3]['-':3]['\':3][CONST_SYMBOL:27]
+[NUMBER:27][STRING:28][VAR_SYMBOL:68]
+
+187 is SE7.2 ['':240]['END':241]
+
+188 is SR187F ['OTHERWISE':243]['WHEN':186]
+
+189 is SFE18.2 [';':4]['THEN':147]
+
+190 is R191X61 
+191 is R193 {113:192}{114:193}
+192 is SP1R80 ['NAME':250]
+
+193 is P1R80 
+194 is P1R35X1 {8:86}
+195 is SP1R59X10|| ['%':154]['*':154]['/':154]['//':154]
+
+196 is SP1R60X10 ['<':132]['<<':132]['<<=':132]['<=':132]['<>':132]
+['=':132]['==':132]['>':132]['><':132]['>=':132]['>>':132]
+['>>=':132]['\<':132]['\<<':132]['\=':132]['\==':132]['\>':132]
+['\>>':132]
+
+197 is SE46.1 [')':251]
+
+198 is P1R127 
+199 is R200 
+200 is P1R128 
+201 is SP1R252FE38.1 ['(':121]['+':122][',':123]['-':122]['=':122]
+[NUMBER:124][STRING:124][VAR_SYMBOL:125][';':0]
+{34:80}{109:183}{131:202}{185:238}{201:252}
+202 is P1R252 {34:80}{109:183}{131:202}{185:238}{201:252}
+203 is SP1R61X12|| [' ':134]['||':134]
+
+204 is SP1R62X10|| ['+':118]['-':118]
+
+205 is E14.1 
+206 is R253X91 {137:207}{208:253}
+207 is P2R38X32 
+208 is SFE35.1 ['':205]['END':206]
+
+209 is SP1R64X10 ['&':120]
+
+210 is SR211X41FE35.1 ['(':2]['+':3][',':143]['-':3]['\':3]
+[CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:68][')':0][';':0]
+
+211 is R212 {45:145}{79:166}
+212 is P1R212 {45:145}{79:166}
+213 is P2R49 
+214 is SFE35.1 ['':254]['(':2]['+':3]['-':3]['ADDRESS':5]
+['ARG':6]['CALL':7]['DO':8]['DROP':9]['ELSE':10]['END':255]
+['EXIT':12]['IF':13]['INTERPRET':14]['ITERATE':15]['LEAVE':15]['NOP':16]
+['NUMERIC':17]['OPTIONS':14]['OTHERWISE':18]['PARSE':19]['PROCEDURE':20]['PULL':21]
+['PUSH':12]['QUEUE':12]['RETURN':12]['SAY':12]['SELECT':22]['SIGNAL':23]
+['THEN':24]['TRACE':25]['WHEN':26]['\':3][CONST_SYMBOL:27][NUMBER:27]
+[STRING:28][VAR_SYMBOL:29]
+
+215 is SFE35.1 ['':257]['(':2]['+':3]['-':3]['ADDRESS':5]
+['ARG':6]['CALL':7]['DO':8]['DROP':9]['ELSE':10]['END':258]
+['EXIT':12]['IF':13]['INTERPRET':14]['ITERATE':15]['LEAVE':15]['NOP':16]
+['NUMERIC':17]['OPTIONS':14]['OTHERWISE':18]['PARSE':19]['PROCEDURE':20]['PULL':21]
+['PUSH':12]['QUEUE':12]['RETURN':12]['SAY':12]['SELECT':22]['SIGNAL':23]
+['THEN':24]['TRACE':25]['WHEN':26]['\':3][CONST_SYMBOL:27][NUMBER:27]
+[STRING:28][VAR_SYMBOL:29]
+
+216 is SP1R63X10|| ['**':157]
+
+217 is P1R56X10|| 
+218 is SFE25.14 ['APPEND':260]['NORMAL':261]['REPLACE':262]['STEM':263]['STREAM':264]
+
+219 is SFE25.6 ['NORMAL':268]['STEM':263]['STREAM':264]
+
+220 is SFE25.7 ['APPEND':260]['NORMAL':261]['REPLACE':262]['STEM':263]['STREAM':264]
+
+221 is P3R16X70 
+222 is SR225F ['INPUT':219]['OUTPUT':220]
+{161:221}{163:225}
+223 is SR225F ['ERROR':218]['OUTPUT':220]
+{161:221}{163:225}
+224 is SR225F ['ERROR':218]['INPUT':219]
+{161:221}{163:225}
+225 is P2R16X70 
+226 is SFE19.3 [CONST_SYMBOL:72][NUMBER:72][STRING:72][VAR_SYMBOL:72]
+
+227 is P1R282X382 {86:171}{173:233}{174:235}{234:281}{236:282}
+228 is P1R282X383 {86:173}{171:230}{174:236}{231:280}{235:282}
+229 is P1R281X381 {86:174}{171:231}{173:234}{230:280}{233:281}
+230 is SR232F ['TO':170]
+
+231 is SR232F ['FOR':169]
+
+232 is P1R172 
+233 is SR232F ['TO':170]
+
+234 is SR232F ['BY':168]
+
+235 is SR232F ['FOR':169]
+
+236 is SR232F ['BY':168]
+
+237 is P1R98 
+238 is P3R16 
+239 is P1R189X91 
+240 is E14.2 
+241 is SR242X91 [VAR_SYMBOL:283]
+
+242 is P2R39X23 
+243 is R245X91 
+244 is SP1R187F ['OTHERWISE':243]['WHEN':186]
+
+245 is SFE21.1 [';':4]
+
+246 is P1R187 
+247 is R244 
+248 is SFE18.2 ['THEN':147]
+
+249 is P1R285X25 {112:188}{188:247}{244:285}
+250 is SFE19.3 [CONST_SYMBOL:72][NUMBER:72][STRING:72][VAR_SYMBOL:72]
+
+251 is R124 {129:199}
+252 is P2R252 {34:80}{109:183}{131:202}{185:238}{201:252}
+253 is P3R38X32 
+254 is E14.3 
+255 is E10.5 
+256 is P2R287 {48:149}{148:213}{189:249}{248:287}
+257 is E14.4 
+258 is E10.6 
+259 is P2R152 
+260 is R265X74 
+261 is R271 {218:267}{220:271}
+262 is SFE25.9 ['STEM':263]['STREAM':264]
+
+263 is SE53.2 [VAR_SYMBOL:290]
+
+264 is SE53.1 [VAR_SYMBOL:290]
+
+265 is SFE25.8 ['STEM':263]['STREAM':264]
+
+266 is P1R222 {223:275}{224:277}{276:292}{278:293}
+267 is R266X73 
+268 is R269X71 
+269 is P1R223 {222:273}{224:278}{274:291}{277:293}
+270 is P1R224 {222:274}{223:276}{273:291}{275:292}
+271 is R270X72 
+272 is P1R225 {161:221}{163:225}
+273 is SR272F ['OUTPUT':220]
+
+274 is SR272F ['INPUT':219]
+
+275 is SR272F ['OUTPUT':220]
+
+276 is SR272F ['ERROR':218]
+
+277 is SR272F ['INPUT':219]
+
+278 is SR272F ['ERROR':218]
+
+279 is P2R80X60 
+280 is P1R232 
+281 is P1R232 
+282 is P1R232 
+283 is E10.4 
+284 is P2R187 
+285 is P1R244 
+286 is SP1R284X24F ['(':2]['+':3]['-':3]['ADDRESS':5]['ARG':6]
+['CALL':7]['DO':8]['DROP':9]['ELSE':10]['EXIT':12]['IF':13]
+['INTERPRET':14]['ITERATE':15]['LEAVE':15]['NOP':16]['NUMERIC':17]['OPTIONS':14]
+['OTHERWISE':18]['PARSE':19]['PROCEDURE':20]['PULL':21]['PUSH':12]['QUEUE':12]
+['RETURN':12]['SAY':12]['SELECT':22]['SIGNAL':23]['THEN':24]['TRACE':25]
+['WHEN':26]['\':3][CONST_SYMBOL:27][NUMBER:27][STRING:28][VAR_SYMBOL:29]
+['':0]['END':0]
+{188:246}{244:284}
+287 is P2R285X25 {112:188}{188:247}{244:285}
+288 is P2R80 
+289 is P1R271 {218:267}{220:271}
+290 is R289 {219:268}{218:261}{220:261}
+291 is P1R272 
+292 is P1R272 
+293 is P1R272 
+294 is P2R284X24 {188:246}{244:284}
+106 atoms
+ GroupMember 0,Eos
+ GroupMember 1,Abut
+ GroupMember 1,Cat
+ GroupMember 2,Assign
+ GroupMember 3,Percent
+ GroupMember 3,Mul
+ GroupMember 3,Div
+ GroupMember 3,Rem
+ GroupMember 4,Xor
+ GroupMember 4,Or
+ GroupMember 5,And
+ GroupMember 6,Lparen
+ GroupMember 7,Rparen
+ GroupMember 8,Power
+ GroupMember 9,Plus
+ GroupMember 9,Minus
+ GroupMember 10,Comma
+ GroupMember 11,Dot
+ GroupMember 12,Semi
+ GroupMember 13,Lt
+ GroupMember 13,Slt
+ GroupMember 13,Sle
+ GroupMember 13,Le
+ GroupMember 13,Seq
+ GroupMember 13,Gt
+ GroupMember 13,Ge
+ GroupMember 13,Sgt
+ GroupMember 13,Sge
+ GroupMember 13,Ne
+ GroupMember 13,Sne
+ GroupMember 14,Eq
+ GroupMember 15,BY
+ GroupMember 16,END
+ GroupMember 17,FOR
+ GroupMember 18,THEN
+ GroupMember 19,TO
+ GroupMember 20,UNTIL
+ GroupMember 21,VALUE
+ GroupMember 22,WHILE
+ GroupMember 23,WITH
+ GroupMember 24,Not
+ GroupMember 25,CONST_SYMBOL
+ GroupMember 26,NUMBER
+ GroupMember 27,STRING
+ GroupMember 28,VAR_SYMBOL
+ GroupMember 29,ADDRESS
+ GroupMember 30,APPEND
+ GroupMember 31,ARG
+ GroupMember 32,CALL
+ GroupMember 33,DIGITS
+ GroupMember 33,FUZZ
+ GroupMember 34,DO
+ GroupMember 35,DROP
+ GroupMember 36,ELSE
+ GroupMember 37,ENGINEERING
+ GroupMember 37,SCIENTIFIC
+ GroupMember 38,ERROR
+ GroupMember 39,EXIT
+ GroupMember 39,PUSH
+ GroupMember 39,QUEUE
+ GroupMember 39,RETURN
+ GroupMember 39,SAY
+ GroupMember 40,EXPOSE
+ GroupMember 41,FAILURE
+ GroupMember 41,HALT
+ GroupMember 41,NOTREADY
+ GroupMember 42,FOREVER
+ GroupMember 43,FORM
+ GroupMember 44,IF
+ GroupMember 45,INPUT
+ GroupMember 46,INTERPRET
+ GroupMember 46,OPTIONS
+ GroupMember 47,ITERATE
+ GroupMember 47,LEAVE
+ GroupMember 48,LINEIN
+ GroupMember 48,SOURCE
+ GroupMember 48,VERSION
+ GroupMember 49,LOSTDIGITS
+ GroupMember 49,NOVALUE
+ GroupMember 49,SYNTAX
+ GroupMember 50,NAME
+ GroupMember 51,NOP
+ GroupMember 52,NORMAL
+ GroupMember 53,NUMERIC
+ GroupMember 54,OFF
+ GroupMember 55,ON
+ GroupMember 56,OTHERWISE
+ GroupMember 57,OUTPUT
+ GroupMember 58,PARSE
+ GroupMember 59,PROCEDURE
+ GroupMember 60,PULL
+ GroupMember 61,REPLACE
+ GroupMember 62,SELECT
+ GroupMember 63,SIGNAL
+ GroupMember 64,STEM
+ GroupMember 65,STREAM
+ GroupMember 66,TRACE
+ GroupMember 67,UPPER
+ GroupMember 68,VAR
+ GroupMember 69,WHEN
+Sj 31 29'ADDRESS''ARG''CALL''DO''DROP''ELSE''EXIT''IF''INTERPRET''ITERATE''LEAVE''NOP''NUMERIC''OPTIONS''OTHERWISE''PARSE''PROCEDURE''PULL''PUSH''QUEUE''RETURN''SAY''SELECT''SIGNAL''THEN''TRACE''WHEN''END'
+Sj 286 29'ADDRESS''ARG''CALL''DO''DROP''ELSE''EXIT''IF''INTERPRET''ITERATE''LEAVE''NOP''NUMERIC''OPTIONS''OTHERWISE''PARSE''PROCEDURE''PULL''PUSH''QUEUE''RETURN''SAY''SELECT''SIGNAL''THEN''TRACE''WHEN''END'
+Sj 0 28'ADDRESS''ARG''CALL''DO''DROP''ELSE''END''EXIT''IF''INTERPRET''ITERATE''LEAVE''NOP''NUMERIC''OPTIONS''OTHERWISE''PARSE''PROCEDURE''PULL''PUSH''QUEUE''RETURN''SAY''SELECT''SIGNAL''THEN''TRACE''WHEN'
+Sj 54 28'ADDRESS''ARG''CALL''DO''DROP''ELSE''END''EXIT''IF''INTERPRET''ITERATE''LEAVE''NOP''NUMERIC''OPTIONS''OTHERWISE''PARSE''PROCEDURE''PULL''PUSH''QUEUE''RETURN''SAY''SELECT''SIGNAL''THEN''TRACE''WHEN'
+Sj 137 28'ADDRESS''ARG''CALL''DO''DROP''ELSE''END''EXIT''IF''INTERPRET''ITERATE''LEAVE''NOP''NUMERIC''OPTIONS''OTHERWISE''PARSE''PROCEDURE''PULL''PUSH''QUEUE''RETURN''SAY''SELECT''SIGNAL''THEN''TRACE''WHEN'
+Sj 214 28'ADDRESS''ARG''CALL''DO''DROP''ELSE''END''EXIT''IF''INTERPRET''ITERATE''LEAVE''NOP''NUMERIC''OPTIONS''OTHERWISE''PARSE''PROCEDURE''PULL''PUSH''QUEUE''RETURN''SAY''SELECT''SIGNAL''THEN''TRACE''WHEN'
+Sj 215 28'ADDRESS''ARG''CALL''DO''DROP''ELSE''END''EXIT''IF''INTERPRET''ITERATE''LEAVE''NOP''NUMERIC''OPTIONS''OTHERWISE''PARSE''PROCEDURE''PULL''PUSH''QUEUE''RETURN''SAY''SELECT''SIGNAL''THEN''TRACE''WHEN'
+Sj 19 8'ARG''LINEIN''PULL''SOURCE''UPPER''VALUE''VAR''VERSION'
+Sj 111 7'ARG''LINEIN''PULL''SOURCE''VALUE''VAR''VERSION'
+Sj 113 7'ERROR''FAILURE''HALT''LOSTDIGITS''NOTREADY''NOVALUE''SYNTAX'
+Sj 114 7'ERROR''FAILURE''HALT''LOSTDIGITS''NOTREADY''NOVALUE''SYNTAX'
+Sj 218 5'APPEND''NORMAL''REPLACE''STEM''STREAM'
+Sj 220 5'APPEND''NORMAL''REPLACE''STEM''STREAM'
+Sj 78 4'ERROR''FAILURE''HALT''NOTREADY'
+Sj 81 4'ERROR''FAILURE''HALT''NOTREADY'
+Sj 8 3'FOREVER''UNTIL''WHILE'
+Sj 17 3'DIGITS''FORM''FUZZ'
+Sj 23 3'OFF''ON''VALUE'
+Sj 86 3'BY''FOR''TO'
+Sj 102 3'ENGINEERING''SCIENTIFIC''VALUE'
+Sj 161 3'ERROR''INPUT''OUTPUT'
+Sj 163 3'ERROR''INPUT''OUTPUT'
+Sj 219 3'NORMAL''STEM''STREAM'
+Sj 7 2'OFF''ON'
+Sj 88 2'UNTIL''WHILE'
+Sj 89 2'UNTIL''WHILE'
+Sj 171 2'FOR''TO'
+Sj 173 2'BY''TO'
+Sj 174 2'BY''FOR'
+Sj 188 2'OTHERWISE''WHEN'
+Sj 222 2'INPUT''OUTPUT'
+Sj 223 2'ERROR''OUTPUT'
+Sj 224 2'ERROR''INPUT'
+Sj 244 2'OTHERWISE''WHEN'
+Sj 262 2'STEM''STREAM'
+Sj 265 2'STEM''STREAM'
+Sj 5 1'VALUE'
+Sj 25 1'VALUE'
+Sj 48 1'THEN'
+Sj 49 1'ELSE'
+Sj 51 1'END'
+Sj 57 1'EXPOSE'
+Sj 73 1'WITH'
+Sj 74 1'WITH'
+Sj 110 1'WITH'
+Sj 112 1'WHEN'
+Sj 148 1'THEN'
+Sj 156 1'END'
+Sj 162 1'WITH'
+Sj 165 1'NAME'
+Sj 184 1'WITH'
+Sj 187 1'END'
+Sj 189 1'THEN'
+Sj 192 1'NAME'
+Sj 208 1'END'
+Sj 230 1'TO'
+Sj 231 1'FOR'
+Sj 233 1'TO'
+Sj 234 1'BY'
+Sj 235 1'FOR'
+Sj 236 1'BY'
+Sj 248 1'THEN'
+Sj 273 1'OUTPUT'
+Sj 274 1'INPUT'
+Sj 275 1'OUTPUT'
+Sj 276 1'ERROR'
+Sj 277 1'INPUT'
+Sj 278 1'ERROR'
+MaxMap 530
+0 is SFE35.1K14 [0:1][6:2][9:3][28:29][12:4]
+[29:5][31:6][32:7][34:8][35:9][36:10]
+[16:11][39:12][44:13][46:14][47:15][66:25]
+[51:16][53:17][69:26][56:18][58:19][59:20]
+[60:21][27:28][26:27][25:27][24:3][62:22]
+[63:23][18:24]
+
+1 is S [11:67]
+
+2 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+3 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+4 is R30 
+5 is SR16X70FE19.1K259 [21:71][25:72][26:72][27:72][28:72]
+[12:0]
+
+6 is R34X51 
+7 is SFE19.2K416 [54:77][55:78][25:72][26:72][27:72]
+[28:72]
+
+8 is SR41FE35.1K366 [6:2][9:3][12:0][42:83][20:84]
+[22:85][24:3][25:27][26:27][27:28][28:29]
+
+9 is SFE20.1 [6:94][28:95]
+
+10 is E8.2 
+11 is E10.1 
+12 is SR16FE35.1 [6:2][9:3][12:0][24:3][25:27]
+[26:27][27:28][28:68]
+
+13 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+14 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+15 is SR52X28E20.2 [28:100][12:0]
+
+16 is R35X2 
+17 is SE25.15K389 [33:101][43:102]
+
+18 is E9.2 
+19 is SFE25.12K211 [31:104][48:104][60:104][68:107][67:105]
+[21:106]
+
+20 is R57X26 
+21 is R34X52 
+22 is SFE21.1 [12:4]
+
+23 is SFE19.4K409 [54:77][55:113][21:71][25:72][26:72]
+[27:72][28:72]
+
+24 is E8.1 
+25 is SR16FE19.6K259 [21:71][25:72][26:72][27:72][28:72]
+[12:0]
+
+26 is E9.1 
+27 is R28|| 
+28 is SR65|| [6:115]
+
+29 is SR28|| [2:116]
+
+30 is SR286 [12:4]
+{0:54}{22:112}{39:136}{41:137}{48:148}{66:158}{150:214}
+{153:215}{189:248}{245:286}
+31 is SR294FK14 [6:2][9:3][16:0][29:5][31:6]
+[32:7][34:8][35:9][36:10][39:12][44:13]
+[46:14][47:15][24:3][51:16][53:17][25:27]
+[56:18][58:19][59:20][60:21][0:0][28:29]
+[27:28][26:27][62:22][63:23][18:24][66:25]
+[69:26]
+{0:51}{54:156}{137:208}{286:294}
+32 is SR37|| [9:118]
+{133:203}
+33 is SR42X90 [5:120]
+{2:69}{45:144}{79:144}{146:144}{210:144}
+34 is SR16FE38.1 [6:121][9:122][10:123][12:0][14:122]
+[26:124][27:124][28:125]
+
+35 is R66X91 
+36 is SR33 [13:132][14:132]
+{141:209}
+37 is SR36|| [1:134]
+{120:196}
+38 is SR39X30 [28:135]
+
+39 is SFE21.1 [12:4]
+
+40 is R41 
+41 is SFE27.1 [12:4]
+
+42 is SR43 [4:138][7:139][10:140]
+{8:93}{13:99}{71:160}{73:162}{91:176}{92:177}{101:180}
+{110:184}{116:194}{168:227}{169:228}{170:229}{186:239}{12:80}{14:80}
+43 is R35X3 
+44 is R65|| 
+45 is SFE35.1 [6:2][7:142][9:3][10:143][28:68]
+[24:3][25:27][26:27][27:28]
+
+46 is R50 {31:117}{214:256}{215:259}
+47 is R46 
+48 is SFE18.1K478 [12:4][18:147]
+
+49 is SR47X22K472 [36:151]
+
+50 is R31 
+51 is SR58K467 [16:11]
+
+52 is R16 
+53 is SR32|| [3:154]
+{134:204}
+54 is SR58FE35.1K14 [6:2][9:3][0:0][29:5][31:6]
+[32:7][34:8][35:9][36:10][16:11][39:12]
+[44:13][46:14][47:15][69:26][51:16][53:17]
+[24:3][56:18][58:19][59:20][60:21][28:29]
+[27:28][26:27][25:27][62:22][63:23][18:24]
+[66:25]
+
+55 is SR53|| [8:157]
+{119:195}
+56 is R55|| {155:216}
+57 is SR16E25.17K447 [40:9][12:0]
+
+58 is SE35.1 [0:1]
+
+59 is R32|| {134:204}
+60 is R33 {141:209}
+61 is R36 {120:196}
+62 is R37|| {133:203}
+63 is R53|| {119:195}
+64 is R42X90 {2:69}{45:144}{79:144}{146:144}{210:144}
+65 is R56|| {3:70}{157:217}
+66 is SFE21.1 [12:4]
+
+67 is  
+68 is R28|| 
+69 is SE36.0 [4:138][7:159][10:140]
+
+70 is P1R65X11|| 
+71 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+72 is R80 {5:75}{7:82}{226:279}{250:288}
+73 is SP1R16X70FE35.1K455 [6:2][9:3][12:0][23:161][24:3]
+[25:27][26:27][27:28][28:68]
+
+74 is SP1R16X70K455 [23:163]
+
+75 is R73X75 
+76 is R74X75 
+77 is R114X62 {7:81}{23:114}
+78 is SFE25.1K295 [38:164][41:164]
+
+79 is SR80X44FE35.1 [6:2][9:3][10:143][12:0][24:3]
+[25:27][26:27][27:28][28:68]
+
+80 is P1R16 
+81 is SFE25.2K295 [38:164][41:164]
+
+82 is R79X18 
+83 is R88X36 
+84 is R91X37 
+85 is R92X37 
+86 is SR89X33FK1 [15:168][17:169][19:170]
+
+87 is P1R40 
+88 is SP1R40FE25.16K375 [20:84][22:85][12:0]
+
+89 is SP1R40FK375 [20:84][22:85]
+
+90 is R175 {8:87}
+91 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+92 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+93 is R89X33 
+94 is SFE20.1 [28:95]
+
+95 is R98 {94:178}{107:182}
+96 is R97 
+97 is SR80FE20.1 [6:94][28:95][12:0]
+
+98 is R179 {9:96}{97:179}
+99 is P1R48X91 
+100 is R52X29 
+101 is SR103FE35.1 [6:2][9:3][12:0][24:3][25:27]
+[26:27][27:28][28:68]
+
+102 is SR103FE25.11K530 [37:181][12:0][21:71]
+
+103 is R16X80 
+104 is R108 
+105 is R111X56 
+106 is R110X6 
+107 is SFE20.1 [28:95]
+
+108 is R185X50 {19:109}{111:185}
+109 is SP1R16FE38.1 [6:121][9:122][10:123][12:0][14:122]
+[26:124][27:124][28:125]
+
+110 is SFE35.1K455 [6:2][9:3][28:68][23:182][24:3]
+[25:27][26:27][27:28]
+
+111 is SFE25.13K218 [31:104][48:104][60:104][68:107][21:106]
+
+112 is SFE7.1K205 [69:186]
+
+113 is SFE25.3K266 [38:164][41:164][49:190]
+
+114 is SFE25.4K266 [38:164][41:164][49:190]
+
+115 is R45X18 
+116 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+117 is P1R31 
+118 is R119 
+119 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+120 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+121 is SE19.7 [28:197]
+
+122 is R129X55 
+123 is R131X58 {130:201}
+124 is R128 
+125 is R126 {127:198}
+126 is R127 
+127 is SR130X57FE38.1 [6:121][9:122][12:0][14:122][26:124]
+[27:124][28:125][10:0]
+
+128 is R125X53 
+129 is SFE38.2 [6:121][26:199]
+
+130 is SR252F [10:123]
+{34:80}{109:183}{131:202}{185:238}{201:252}
+131 is SR252FE38.1 [6:121][9:122][10:123][12:0][14:122]
+[26:124][27:124][28:125]
+{34:80}{109:183}{131:202}{185:238}{201:252}
+132 is R133 
+133 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+134 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+135 is R39X31 
+136 is P1R46 
+137 is SFE35.1K14 [0:205][6:2][9:3][28:29][29:5]
+[31:6][32:7][34:8][35:9][36:10][16:206]
+[39:12][44:13][46:14][47:15][66:25][51:16]
+[53:17][69:26][56:18][58:19][59:20][60:21]
+[27:28][26:27][25:27][24:3][62:22][63:23]
+[18:24]
+
+138 is R141 
+139 is E37.2 
+140 is E37.1 
+141 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+142 is P1R44X43|| 
+143 is R146X41 
+144 is SR212 [4:138][10:210]
+{45:145}{79:166}
+145 is SE36.0 [7:142]
+
+146 is SR212FE35.1 [6:2][9:3][10:143][12:0][24:3]
+[25:27][26:27][27:28][28:68][7:0]
+{45:145}{79:166}
+147 is R150X20 
+148 is SFE18.1K478 [18:147]
+
+149 is P1R49 
+150 is SFE21.1 [12:4]
+
+151 is R153X21 
+152 is R47X22 
+153 is SFE21.1 [12:4]
+
+154 is R155 
+155 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+156 is SP1R58K467 [16:11]
+
+157 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+158 is P1R50 {31:117}{214:256}{215:259}
+159 is P1R65|| 
+160 is P1R80 {5:76}{102:181}
+161 is SFE25.5K425 [38:218][45:219][57:220]
+
+162 is SP2R16X70K455 [23:161]
+
+163 is SFE25.5K425 [38:218][45:219][57:220]
+
+164 is R191X61 {78:165}{81:167}
+165 is SP1R80X60K461 [50:226]
+
+166 is P1R80X45 
+167 is P1R80X60 
+168 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+169 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+170 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+171 is SR172FK5 [17:169][19:170]
+
+172 is P1R89X33 
+173 is SR172FK522 [15:168][19:170]
+
+174 is SR172FK513 [15:168][17:169]
+
+175 is P2R40 
+176 is P1R90X35 
+177 is P1R90X34 
+178 is SE46.1 [7:237]
+
+179 is P1R97 
+180 is P1R103 
+181 is R180 
+182 is P1R108 
+183 is P2R16 
+184 is SE38.3K455 [23:182]
+
+185 is SP2R16FE38.1 [6:121][9:122][10:123][12:0][14:122]
+[26:124][27:124][28:125]
+
+186 is SFE35.1 [6:2][9:3][28:68][24:3][25:27]
+[26:27][27:28]
+
+187 is SE7.2K467 [0:240][16:241]
+
+188 is SR187FK194 [56:243][69:186]
+
+189 is SFE18.2K478 [12:4][18:147]
+
+190 is R191X61 
+191 is R193 {113:192}{114:193}
+192 is SP1R80K461 [50:250]
+
+193 is P1R80 
+194 is P1R35X1 {8:86}
+195 is SP1R59X10|| [3:154]
+
+196 is SP1R60X10 [13:132][14:132]
+
+197 is SE46.1 [7:251]
+
+198 is P1R127 
+199 is R200 
+200 is P1R128 
+201 is SP1R252FE38.1 [6:121][9:122][10:123][12:0][14:122]
+[26:124][27:124][28:125]
+{34:80}{109:183}{131:202}{185:238}{201:252}
+202 is P1R252 {34:80}{109:183}{131:202}{185:238}{201:252}
+203 is SP1R61X12|| [1:134]
+
+204 is SP1R62X10|| [9:118]
+
+205 is E14.1 
+206 is R253X91 {137:207}{208:253}
+207 is P2R38X32 
+208 is SFE35.1K467 [0:205][16:206]
+
+209 is SP1R64X10 [5:120]
+
+210 is SR211X41FE35.1 [6:2][9:3][10:143][12:0][24:3]
+[25:27][26:27][27:28][28:68][7:0]
+
+211 is R212 {45:145}{79:166}
+212 is P1R212 {45:145}{79:166}
+213 is P2R49 
+214 is SFE35.1K14 [0:254][6:2][9:3][28:29][29:5]
+[31:6][32:7][34:8][35:9][36:10][16:255]
+[39:12][44:13][46:14][47:15][66:25][51:16]
+[53:17][69:26][56:18][58:19][59:20][60:21]
+[27:28][26:27][25:27][24:3][62:22][63:23]
+[18:24]
+
+215 is SFE35.1K14 [0:257][6:2][9:3][28:29][29:5]
+[31:6][32:7][34:8][35:9][36:10][16:258]
+[39:12][44:13][46:14][47:15][66:25][51:16]
+[53:17][69:26][56:18][58:19][59:20][60:21]
+[27:28][26:27][25:27][24:3][62:22][63:23]
+[18:24]
+
+216 is SP1R63X10|| [8:157]
+
+217 is P1R56X10|| 
+218 is SFE25.14K327 [30:260][52:261][61:262][64:263][65:264]
+
+219 is SFE25.6K344 [52:268][64:263][65:264]
+
+220 is SFE25.7K327 [30:260][52:261][61:262][64:263][65:264]
+
+221 is P3R16X70 
+222 is SR225FK432 [45:219][57:220]
+{161:221}{163:225}
+223 is SR225FK498 [38:218][57:220]
+{161:221}{163:225}
+224 is SR225FK484 [38:218][45:219]
+{161:221}{163:225}
+225 is P2R16X70 
+226 is SFE19.3 [25:72][26:72][27:72][28:72]
+
+227 is P1R282X382 {86:171}{173:233}{174:235}{234:281}{236:282}
+228 is P1R282X383 {86:173}{171:230}{174:236}{231:280}{235:282}
+229 is P1R281X381 {86:174}{171:231}{173:234}{230:280}{233:281}
+230 is SR232FK10 [19:170]
+
+231 is SR232FK517 [17:169]
+
+232 is P1R172 
+233 is SR232FK10 [19:170]
+
+234 is SR232FK526 [15:168]
+
+235 is SR232FK517 [17:169]
+
+236 is SR232FK526 [15:168]
+
+237 is P1R98 
+238 is P3R16 
+239 is P1R189X91 
+240 is E14.2 
+241 is SR242X91 [28:283]
+
+242 is P2R39X23 
+243 is R245X91 
+244 is SP1R187FK194 [56:243][69:186]
+
+245 is SFE21.1 [12:4]
+
+246 is P1R187 
+247 is R244 
+248 is SFE18.2K478 [18:147]
+
+249 is P1R285X25 {112:188}{188:247}{244:285}
+250 is SFE19.3 [25:72][26:72][27:72][28:72]
+
+251 is R124 {129:199}
+252 is P2R252 {34:80}{109:183}{131:202}{185:238}{201:252}
+253 is P3R38X32 
+254 is E14.3 
+255 is E10.5 
+256 is P2R287 {48:149}{148:213}{189:249}{248:287}
+257 is E14.4 
+258 is E10.6 
+259 is P2R152 
+260 is R265X74 
+261 is R271 {218:267}{220:271}
+262 is SFE25.9K352 [64:263][65:264]
+
+263 is SE53.2 [28:290]
+
+264 is SE53.1 [28:290]
+
+265 is SFE25.8K352 [64:263][65:264]
+
+266 is P1R222 {223:275}{224:277}{276:292}{278:293}
+267 is R266X73 
+268 is R269X71 
+269 is P1R223 {222:273}{224:278}{274:291}{277:293}
+270 is P1R224 {222:274}{223:276}{273:291}{275:292}
+271 is R270X72 
+272 is P1R225 {161:221}{163:225}
+273 is SR272FK439 [57:220]
+
+274 is SR272FK491 [45:219]
+
+275 is SR272FK439 [57:220]
+
+276 is SR272FK320 [38:218]
+
+277 is SR272FK491 [45:219]
+
+278 is SR272FK320 [38:218]
+
+279 is P2R80X60 
+280 is P1R232 
+281 is P1R232 
+282 is P1R232 
+283 is E10.4 
+284 is P2R187 
+285 is P1R244 
+286 is SP1R284X24FK14 [6:2][9:3][16:0][29:5][31:6]
+[32:7][34:8][35:9][36:10][39:12][44:13]
+[46:14][47:15][24:3][51:16][53:17][25:27]
+[56:18][58:19][59:20][60:21][0:0][28:29]
+[27:28][26:27][62:22][63:23][18:24][66:25]
+[69:26]
+{188:246}{244:284}
+287 is P2R285X25 {112:188}{188:247}{244:285}
+288 is P2R80 
+289 is P1R271 {218:267}{220:271}
+290 is R289 {219:268}{218:261}{220:261}
+291 is P1R272 
+292 is P1R272 
+293 is P1R272 
+294 is P2R284X24 {188:246}{244:284}
+
+70 2252 295 29
+0 1 6 2 9 3 28 29 12 4 29 5 31 6 32 7 34 8 35 9 36 10 16 11 39 12 44 13 46 14 47 15 66 25 51 16 53 17 69 26 56 18 58 19 59 20 60 21 27 28 26 27 25 27 24 3 62 22 63 23 18 24 
+11 67 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+0 30 22 30 39 30 41 30 48 30 66 30 150 30 153 30 189 30 245 30 
+21 71 25 72 26 72 27 72 28 72 12 0 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+0 34 31 34 54 34 137 34 214 34 215 34 286 34 
+54 77 55 78 25 72 26 72 27 72 28 72 
+6 2 9 3 12 0 42 83 20 84 22 85 24 3 25 27 26 27 27 28 28 29 0 41 31 41 54 41 137 41 214 41 215 41 286 41 
+6 94 28 95 
+6 2 9 3 12 0 24 3 25 27 26 27 27 28 28 68 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+28 100 12 0 0 52 31 52 54 52 137 52 214 52 215 52 286 52 
+0 35 31 35 54 35 137 35 214 35 215 35 286 35 
+33 101 43 102 
+31 104 48 104 60 104 68 107 67 105 21 106 
+0 57 31 57 54 57 137 57 214 57 215 57 286 57 
+0 34 31 34 54 34 137 34 214 34 215 34 286 34 
+12 4 
+54 77 55 113 21 71 25 72 26 72 27 72 28 72 
+21 71 25 72 26 72 27 72 28 72 12 0 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+0 28 2 28 3 28 8 28 12 28 13 28 14 28 31 28 45 28 54 28 71 28 73 28 79 28 91 28 92 28 101 28 110 28 116 28 119 28 120 28 133 28 134 28 137 28 141 28 146 28 155 28 157 28 168 28 169 28 170 28 186 28 210 28 214 28 215 28 286 28 
+6 115 0 65 2 65 3 65 8 65 12 65 13 65 14 65 31 65 45 65 54 65 71 65 73 65 79 65 91 65 92 65 101 65 110 65 116 65 119 65 120 65 133 65 134 65 137 65 141 65 146 65 155 65 157 65 168 65 169 65 170 65 186 65 210 65 214 65 215 65 286 65 
+2 116 0 28 8 28 31 28 54 28 137 28 214 28 215 28 286 28 
+12 4 0 54 22 112 39 136 41 137 48 148 66 158 150 214 153 215 189 248 245 286 
+6 2 9 3 16 0 29 5 31 6 32 7 34 8 35 9 36 10 39 12 44 13 46 14 47 15 24 3 51 16 53 17 25 27 56 18 58 19 59 20 60 21 0 0 28 29 27 28 26 27 62 22 63 23 18 24 66 25 69 26 0 51 54 156 137 208 286 294 
+9 118 133 203 0 37 2 37 8 37 12 37 13 37 14 37 31 37 45 37 54 37 71 37 73 37 79 37 91 37 92 37 101 37 110 37 116 37 120 37 137 37 141 37 146 37 168 37 169 37 170 37 186 37 210 37 214 37 215 37 286 37 
+5 120 2 69 45 144 79 144 146 144 210 144 0 42 8 42 12 42 13 42 14 42 31 42 54 42 71 42 73 42 91 42 92 42 101 42 110 42 116 42 137 42 168 42 169 42 170 42 186 42 214 42 215 42 286 42 
+6 121 9 122 10 123 12 0 14 122 26 124 27 124 28 125 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+0 66 31 66 54 66 137 66 214 66 215 66 286 66 
+13 132 14 132 141 209 0 33 2 33 8 33 12 33 13 33 14 33 31 33 45 33 54 33 71 33 73 33 79 33 91 33 92 33 101 33 110 33 116 33 137 33 146 33 168 33 169 33 170 33 186 33 210 33 214 33 215 33 286 33 
+1 134 120 196 0 36 2 36 8 36 12 36 13 36 14 36 31 36 45 36 54 36 71 36 73 36 79 36 91 36 92 36 101 36 110 36 116 36 137 36 141 36 146 36 168 36 169 36 170 36 186 36 210 36 214 36 215 36 286 36 
+28 135 0 39 31 39 54 39 137 39 214 39 215 39 286 39 
+12 4 
+0 41 31 41 54 41 137 41 214 41 215 41 286 41 
+12 4 
+4 138 7 139 10 140 8 93 13 99 71 160 73 162 91 176 92 177 101 180 110 184 116 194 168 227 169 228 170 229 186 239 12 80 14 80 0 43 31 43 54 43 137 43 214 43 215 43 286 43 
+0 35 31 35 54 35 137 35 214 35 215 35 286 35 
+0 65 2 65 3 65 8 65 12 65 13 65 14 65 31 65 45 65 54 65 71 65 73 65 79 65 91 65 92 65 101 65 110 65 116 65 119 65 120 65 133 65 134 65 137 65 141 65 146 65 155 65 157 65 168 65 169 65 170 65 186 65 210 65 214 65 215 65 286 65 
+6 2 7 142 9 3 10 143 28 68 24 3 25 27 26 27 27 28 
+31 117 214 256 215 259 0 50 54 50 137 50 286 50 
+0 46 31 46 54 46 137 46 214 46 215 46 286 46 
+12 4 18 147 
+36 151 0 47 31 47 54 47 137 47 214 47 215 47 286 47 
+0 31 54 31 137 31 286 31 
+16 11 0 58 
+0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+3 154 134 204 0 32 2 32 8 32 12 32 13 32 14 32 31 32 45 32 54 32 71 32 73 32 79 32 91 32 92 32 101 32 110 32 116 32 120 32 133 32 137 32 141 32 146 32 168 32 169 32 170 32 186 32 210 32 214 32 215 32 286 32 
+6 2 9 3 0 0 29 5 31 6 32 7 34 8 35 9 36 10 16 11 39 12 44 13 46 14 47 15 69 26 51 16 53 17 24 3 56 18 58 19 59 20 60 21 28 29 27 28 26 27 25 27 62 22 63 23 18 24 66 25 0 58 
+8 157 119 195 0 53 2 53 8 53 12 53 13 53 14 53 31 53 45 53 54 53 71 53 73 53 79 53 91 53 92 53 101 53 110 53 116 53 120 53 133 53 134 53 137 53 141 53 146 53 168 53 169 53 170 53 186 53 210 53 214 53 215 53 286 53 
+155 216 0 55 2 55 8 55 12 55 13 55 14 55 31 55 45 55 54 55 71 55 73 55 79 55 91 55 92 55 101 55 110 55 116 55 119 55 120 55 133 55 134 55 137 55 141 55 146 55 168 55 169 55 170 55 186 55 210 55 214 55 215 55 286 55 
+40 9 12 0 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+0 1 
+134 204 0 32 2 32 8 32 12 32 13 32 14 32 31 32 45 32 54 32 71 32 73 32 79 32 91 32 92 32 101 32 110 32 116 32 120 32 133 32 137 32 141 32 146 32 168 32 169 32 170 32 186 32 210 32 214 32 215 32 286 32 
+141 209 0 33 2 33 8 33 12 33 13 33 14 33 31 33 45 33 54 33 71 33 73 33 79 33 91 33 92 33 101 33 110 33 116 33 137 33 146 33 168 33 169 33 170 33 186 33 210 33 214 33 215 33 286 33 
+120 196 0 36 2 36 8 36 12 36 13 36 14 36 31 36 45 36 54 36 71 36 73 36 79 36 91 36 92 36 101 36 110 36 116 36 137 36 141 36 146 36 168 36 169 36 170 36 186 36 210 36 214 36 215 36 286 36 
+133 203 0 37 2 37 8 37 12 37 13 37 14 37 31 37 45 37 54 37 71 37 73 37 79 37 91 37 92 37 101 37 110 37 116 37 120 37 137 37 141 37 146 37 168 37 169 37 170 37 186 37 210 37 214 37 215 37 286 37 
+119 195 0 53 2 53 8 53 12 53 13 53 14 53 31 53 45 53 54 53 71 53 73 53 79 53 91 53 92 53 101 53 110 53 116 53 120 53 133 53 134 53 137 53 141 53 146 53 168 53 169 53 170 53 186 53 210 53 214 53 215 53 286 53 
+2 69 45 144 79 144 146 144 210 144 0 42 8 42 12 42 13 42 14 42 31 42 54 42 71 42 73 42 91 42 92 42 101 42 110 42 116 42 137 42 168 42 169 42 170 42 186 42 214 42 215 42 286 42 
+3 70 157 217 0 56 2 56 8 56 12 56 13 56 14 56 31 56 45 56 54 56 71 56 73 56 79 56 91 56 92 56 101 56 110 56 116 56 119 56 120 56 133 56 134 56 137 56 141 56 146 56 155 56 168 56 169 56 170 56 186 56 210 56 214 56 215 56 286 56 
+12 4 
+2 28 3 28 12 28 13 28 14 28 45 28 71 28 73 28 79 28 91 28 92 28 101 28 110 28 116 28 119 28 120 28 133 28 134 28 141 28 146 28 155 28 157 28 168 28 169 28 170 28 186 28 210 28 
+4 138 7 159 10 140 
+0 65 2 65 3 65 8 65 12 65 13 65 14 65 31 65 45 65 54 65 71 65 73 65 79 65 91 65 92 65 101 65 110 65 116 65 119 65 120 65 133 65 134 65 137 65 141 65 146 65 155 65 157 65 168 65 169 65 170 65 186 65 210 65 214 65 215 65 286 65 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+5 75 7 82 226 279 250 288 23 80 25 80 
+6 2 9 3 12 0 23 161 24 3 25 27 26 27 27 28 28 68 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+23 163 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+5 73 
+5 74 
+7 81 23 114 
+38 164 41 164 
+6 2 9 3 10 143 12 0 24 3 25 27 26 27 27 28 28 68 7 80 
+0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+38 164 41 164 
+7 79 
+8 88 
+8 91 88 91 89 91 
+8 92 88 92 89 92 
+15 168 17 169 19 170 8 89 
+0 40 31 40 54 40 137 40 214 40 215 40 286 40 
+20 84 22 85 12 0 0 40 31 40 54 40 137 40 214 40 215 40 286 40 
+20 84 22 85 0 40 31 40 54 40 137 40 214 40 215 40 286 40 
+8 87 88 175 89 175 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+8 89 
+28 95 
+94 178 107 182 9 98 97 98 
+9 97 
+6 94 28 95 12 0 9 80 
+9 96 97 179 
+0 48 31 48 54 48 137 48 214 48 215 48 286 48 
+0 52 31 52 54 52 137 52 214 52 215 52 286 52 
+6 2 9 3 12 0 24 3 25 27 26 27 27 28 28 68 17 103 
+37 181 12 0 21 71 17 103 
+0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+19 108 111 108 
+19 111 
+19 110 111 110 
+28 95 
+19 109 111 185 
+6 121 9 122 10 123 12 0 14 122 26 124 27 124 28 125 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+6 2 9 3 28 68 23 182 24 3 25 27 26 27 27 28 
+31 104 48 104 60 104 68 107 21 106 
+69 186 
+38 164 41 164 49 190 
+38 164 41 164 49 190 
+0 45 2 45 3 45 8 45 12 45 13 45 14 45 31 45 45 45 54 45 71 45 73 45 79 45 91 45 92 45 101 45 110 45 116 45 119 45 120 45 133 45 134 45 137 45 141 45 146 45 155 45 157 45 168 45 169 45 170 45 186 45 210 45 214 45 215 45 286 45 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+0 31 54 31 137 31 286 31 
+32 119 204 119 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+28 197 
+34 129 109 129 127 129 131 129 185 129 201 129 
+130 201 34 131 109 131 131 131 185 131 201 131 
+34 128 109 128 127 128 131 128 185 128 201 128 
+127 198 34 126 109 126 131 126 185 126 201 126 
+34 127 109 127 131 127 185 127 201 127 
+6 121 9 122 12 0 14 122 26 124 27 124 28 125 10 0 34 130 109 130 131 130 185 130 201 130 
+34 125 109 125 127 125 131 125 185 125 201 125 
+6 121 26 199 
+10 123 34 80 109 183 131 202 185 238 201 252 
+6 121 9 122 10 123 12 0 14 122 26 124 27 124 28 125 34 80 109 183 131 202 185 238 201 252 
+36 133 196 133 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+38 39 
+0 46 31 46 54 46 137 46 214 46 215 46 286 46 
+0 205 6 2 9 3 28 29 29 5 31 6 32 7 34 8 35 9 36 10 16 206 39 12 44 13 46 14 47 15 66 25 51 16 53 17 69 26 56 18 58 19 59 20 60 21 27 28 26 27 25 27 24 3 62 22 63 23 18 24 
+42 141 69 141 144 141 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+0 44 2 44 3 44 8 44 12 44 13 44 14 44 31 44 45 44 54 44 71 44 73 44 79 44 91 44 92 44 101 44 110 44 116 44 119 44 120 44 133 44 134 44 137 44 141 44 146 44 155 44 157 44 168 44 169 44 170 44 186 44 210 44 214 44 215 44 286 44 
+45 146 79 146 146 146 210 146 
+4 138 10 210 45 145 79 166 146 212 210 212 
+7 142 
+6 2 9 3 10 143 12 0 24 3 25 27 26 27 27 28 28 68 7 0 45 145 79 166 146 212 210 212 
+48 150 148 150 189 150 248 150 
+18 147 
+0 49 31 49 54 49 137 49 214 49 215 49 286 49 
+12 4 
+49 153 
+0 47 31 47 54 47 137 47 214 47 215 47 286 47 
+12 4 
+53 155 195 155 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+16 11 0 58 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+31 117 214 256 215 259 0 50 54 50 137 50 286 50 
+0 65 2 65 3 65 8 65 12 65 13 65 14 65 31 65 45 65 54 65 71 65 73 65 79 65 91 65 92 65 101 65 110 65 116 65 119 65 120 65 133 65 134 65 137 65 141 65 146 65 155 65 157 65 168 65 169 65 170 65 186 65 210 65 214 65 215 65 286 65 
+5 76 102 181 23 80 25 80 
+38 218 45 219 57 220 
+23 161 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+38 218 45 219 57 220 
+78 165 81 167 113 191 114 191 
+50 226 7 80 
+7 80 
+7 80 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+17 169 19 170 86 172 
+8 89 
+15 168 19 170 86 172 
+15 168 17 169 86 172 
+0 40 31 40 54 40 137 40 214 40 215 40 286 40 
+8 90 88 90 89 90 
+8 90 88 90 89 90 
+7 237 
+9 97 
+17 103 
+102 180 
+19 108 111 108 
+0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+23 182 
+6 121 9 122 10 123 12 0 14 122 26 124 27 124 28 125 0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+6 2 9 3 28 68 24 3 25 27 26 27 27 28 
+0 240 16 241 
+56 243 69 186 112 187 
+12 4 18 147 
+113 191 114 191 
+113 192 114 193 
+50 250 23 80 
+23 80 
+8 86 0 35 31 35 54 35 137 35 214 35 215 35 286 35 
+3 154 0 59 2 59 8 59 12 59 13 59 14 59 31 59 45 59 54 59 71 59 73 59 79 59 91 59 92 59 101 59 110 59 116 59 120 59 133 59 134 59 137 59 141 59 146 59 168 59 169 59 170 59 186 59 210 59 214 59 215 59 286 59 
+13 132 14 132 0 60 2 60 8 60 12 60 13 60 14 60 31 60 45 60 54 60 71 60 73 60 79 60 91 60 92 60 101 60 110 60 116 60 137 60 141 60 146 60 168 60 169 60 170 60 186 60 210 60 214 60 215 60 286 60 
+7 251 
+34 127 109 127 131 127 185 127 201 127 
+129 200 
+34 128 109 128 127 128 131 128 185 128 201 128 
+6 121 9 122 10 123 12 0 14 122 26 124 27 124 28 125 34 80 109 183 131 202 185 238 201 252 
+34 80 109 183 131 202 185 238 201 252 
+1 134 0 61 2 61 8 61 12 61 13 61 14 61 31 61 45 61 54 61 71 61 73 61 79 61 91 61 92 61 101 61 110 61 116 61 120 61 137 61 141 61 146 61 168 61 169 61 170 61 186 61 210 61 214 61 215 61 286 61 
+9 118 0 62 2 62 8 62 12 62 13 62 14 62 31 62 45 62 54 62 71 62 73 62 79 62 91 62 92 62 101 62 110 62 116 62 120 62 133 62 137 62 141 62 146 62 168 62 169 62 170 62 186 62 210 62 214 62 215 62 286 62 
+137 207 208 253 
+0 38 31 38 54 38 137 38 214 38 215 38 286 38 
+0 205 16 206 
+5 120 0 64 2 64 8 64 12 64 13 64 14 64 31 64 45 64 54 64 71 64 73 64 79 64 91 64 92 64 101 64 110 64 116 64 137 64 146 64 168 64 169 64 170 64 186 64 210 64 214 64 215 64 286 64 
+6 2 9 3 10 143 12 0 24 3 25 27 26 27 27 28 28 68 7 0 144 211 
+45 145 79 166 146 212 210 212 
+45 145 79 166 146 212 210 212 
+0 49 31 49 54 49 137 49 214 49 215 49 286 49 
+0 254 6 2 9 3 28 29 29 5 31 6 32 7 34 8 35 9 36 10 16 255 39 12 44 13 46 14 47 15 66 25 51 16 53 17 69 26 56 18 58 19 59 20 60 21 27 28 26 27 25 27 24 3 62 22 63 23 18 24 
+0 257 6 2 9 3 28 29 29 5 31 6 32 7 34 8 35 9 36 10 16 258 39 12 44 13 46 14 47 15 66 25 51 16 53 17 69 26 56 18 58 19 59 20 60 21 27 28 26 27 25 27 24 3 62 22 63 23 18 24 
+8 157 0 63 2 63 8 63 12 63 13 63 14 63 31 63 45 63 54 63 71 63 73 63 79 63 91 63 92 63 101 63 110 63 116 63 119 63 120 63 133 63 134 63 137 63 141 63 146 63 168 63 169 63 170 63 186 63 210 63 214 63 215 63 286 63 
+0 56 2 56 8 56 12 56 13 56 14 56 31 56 45 56 54 56 71 56 73 56 79 56 91 56 92 56 101 56 110 56 116 56 119 56 120 56 133 56 134 56 137 56 141 56 146 56 155 56 168 56 169 56 170 56 186 56 210 56 214 56 215 56 286 56 
+30 260 52 261 61 262 64 263 65 264 
+52 268 64 263 65 264 
+30 260 52 261 61 262 64 263 65 264 
+0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+45 219 57 220 161 221 163 225 
+38 218 57 220 161 221 163 225 
+38 218 45 219 161 221 163 225 
+0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+25 72 26 72 27 72 28 72 
+86 171 173 233 174 235 234 281 236 282 
+86 173 171 230 174 236 231 280 235 282 
+86 174 171 231 173 234 230 280 233 281 
+19 170 171 232 
+17 169 171 232 
+86 172 
+19 170 173 232 
+15 168 173 232 
+17 169 174 232 
+15 168 174 232 
+9 98 97 98 
+0 16 31 16 54 16 137 16 214 16 215 16 286 16 
+112 189 188 189 244 189 
+28 283 187 242 
+0 39 31 39 54 39 137 39 214 39 215 39 286 39 
+188 245 244 245 
+56 243 69 186 112 187 
+12 4 
+112 187 
+188 244 
+18 147 
+112 188 188 247 244 285 
+25 72 26 72 27 72 28 72 
+129 199 34 124 109 124 127 124 131 124 185 124 201 124 
+34 80 109 183 131 202 185 238 201 252 
+0 38 31 38 54 38 137 38 214 38 215 38 286 38 
+48 149 148 213 189 249 248 287 
+49 152 
+218 265 220 265 
+218 267 220 271 
+64 263 65 264 
+28 290 
+28 290 
+64 263 65 264 
+223 275 224 277 276 292 278 293 161 222 163 222 
+218 266 
+219 269 
+222 273 224 278 274 291 277 293 161 223 163 223 
+222 274 223 276 273 291 275 292 161 224 163 224 
+220 270 
+161 221 163 225 
+57 220 222 272 
+45 219 222 272 
+57 220 223 272 
+38 218 223 272 
+45 219 224 272 
+38 218 224 272 
+7 80 
+171 232 
+173 232 
+174 232 
+112 187 
+188 244 
+6 2 9 3 16 0 29 5 31 6 32 7 34 8 35 9 36 10 39 12 44 13 46 14 47 15 24 3 51 16 53 17 25 27 56 18 58 19 59 20 60 21 0 0 28 29 27 28 26 27 62 22 63 23 18 24 66 25 69 26 188 246 244 284 
+112 188 188 247 244 285 
+23 80 
+218 267 220 271 
+219 268 218 261 220 261 262 289 265 289 
+222 272 
+223 272 
+224 272 
+188 246 244 284 
+8961 0 0 1 14 0 0 31 0 0
+0 0 0 0 0 0 31 32 0 0
+8961 0 0 1 0 0 32 39 0 0
+8961 0 0 1 0 0 39 46 0 0
+0 0 0 0 0 0 0 0 46 56
+4865 70 0 1 259 0 56 62 62 69
+0 51 0 0 0 0 0 0 69 76
+4866 0 0 1 416 0 76 82 0 0
+8961 0 0 1 366 0 82 93 93 100
+5121 0 0 1 0 0 100 102 0 0
+2050 0 0 0 0 0 0 0 0 0
+2561 0 0 0 0 0 0 0 0 0
+8961 0 0 1 0 0 102 110 110 117
+8961 0 0 1 0 0 117 124 0 0
+8961 0 0 1 0 0 124 131 0 0
+5122 28 0 0 0 0 131 133 133 140
+0 2 0 0 0 0 0 0 140 147
+6415 0 0 0 389 0 147 149 0 0
+2306 0 0 0 0 0 0 0 0 0
+6412 0 0 1 211 0 149 155 0 0
+0 26 0 0 0 0 0 0 155 162
+0 52 0 0 0 0 0 0 162 169
+5377 0 0 1 0 0 169 170 0 0
+4868 0 0 1 409 0 170 177 0 0
+2049 0 0 0 0 0 0 0 0 0
+4870 0 0 1 259 0 177 183 183 190
+2305 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 1 0 0 190 225
+0 0 0 0 0 1 225 226 226 261
+0 0 0 0 0 1 261 262 262 270
+0 0 0 0 0 0 270 271 271 281
+0 0 0 1 14 0 281 311 311 315
+0 0 0 0 0 1 315 316 316 346
+0 90 0 0 0 0 346 347 347 374
+9729 0 0 1 0 0 374 382 382 389
+0 91 0 0 0 0 0 0 389 396
+0 0 0 0 0 0 396 398 398 426
+0 0 0 0 0 1 426 427 427 456
+0 30 0 0 0 0 456 457 457 464
+5377 0 0 1 0 0 464 465 0 0
+0 0 0 0 0 0 0 0 465 472
+6913 0 0 1 0 0 472 473 0 0
+0 0 0 0 0 0 473 476 476 498
+0 3 0 0 0 0 0 0 498 505
+0 0 0 0 0 1 0 0 505 540
+8961 0 0 1 0 0 540 549 0 0
+0 0 0 0 0 0 0 0 549 556
+0 0 0 0 0 0 0 0 556 563
+4609 0 0 1 478 0 563 565 0 0
+0 22 0 0 472 0 565 566 566 573
+0 0 0 0 0 0 0 0 573 577
+0 0 0 0 467 0 577 578 578 579
+0 0 0 0 0 0 0 0 579 586
+0 0 0 0 0 1 586 587 587 618
+8961 0 0 1 14 0 618 648 648 649
+0 0 0 0 0 1 649 650 650 682
+0 0 0 0 0 1 0 0 682 715
+6417 0 0 0 447 0 715 717 717 724
+8961 0 0 0 0 0 724 725 0 0
+0 0 0 0 0 1 0 0 725 756
+0 0 0 0 0 0 0 0 756 784
+0 0 0 0 0 0 0 0 784 813
+0 0 0 0 0 1 0 0 813 843
+0 0 0 0 0 1 0 0 843 875
+0 90 0 0 0 0 0 0 875 902
+0 0 0 0 0 1 0 0 902 937
+5377 0 0 1 0 0 937 938 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 1 0 0 938 965
+9216 0 0 0 0 0 965 968 0 0
+0 11 1 0 0 1 0 0 968 1003
+8961 0 0 1 0 0 1003 1010 0 0
+0 0 0 0 0 0 0 0 1010 1016
+8961 70 1 1 455 0 1016 1025 1025 1032
+0 70 1 0 455 0 1032 1033 1033 1040
+0 75 0 0 0 0 0 0 1040 1041
+0 75 0 0 0 0 0 0 1041 1042
+0 62 0 0 0 0 0 0 1042 1044
+6401 0 0 1 295 0 1044 1046 0 0
+8961 44 0 1 0 0 1046 1055 1055 1056
+0 0 1 0 0 0 0 0 1056 1063
+6402 0 0 1 295 0 1063 1065 0 0
+0 18 0 0 0 0 0 0 1065 1066
+0 36 0 0 0 0 0 0 1066 1067
+0 37 0 0 0 0 0 0 1067 1070
+0 37 0 0 0 0 0 0 1070 1073
+0 33 0 1 1 0 1073 1076 1076 1077
+0 0 1 0 0 0 0 0 1077 1084
+6416 0 1 1 375 0 1084 1087 1087 1094
+0 0 1 1 375 0 1094 1096 1096 1103
+0 0 0 0 0 0 0 0 1103 1106
+8961 0 0 1 0 0 1106 1113 0 0
+8961 0 0 1 0 0 1113 1120 0 0
+0 33 0 0 0 0 0 0 1120 1121
+5121 0 0 1 0 0 1121 1122 0 0
+0 0 0 0 0 0 0 0 1122 1126
+0 0 0 0 0 0 0 0 1126 1127
+5121 0 0 1 0 0 1127 1130 1130 1131
+0 0 0 0 0 0 0 0 1131 1133
+0 91 1 0 0 0 0 0 1133 1140
+0 29 0 0 0 0 0 0 1140 1147
+8961 0 0 1 0 0 1147 1155 1155 1156
+6411 0 0 1 530 0 1156 1159 1159 1160
+0 80 0 0 0 0 0 0 1160 1167
+0 0 0 0 0 0 0 0 1167 1169
+0 56 0 0 0 0 0 0 1169 1170
+0 6 0 0 0 0 0 0 1170 1172
+5121 0 0 1 0 0 1172 1173 0 0
+0 50 0 0 0 0 0 0 1173 1175
+9729 0 1 1 0 0 1175 1183 1183 1190
+8961 0 0 1 455 0 1190 1198 0 0
+6413 0 0 1 218 0 1198 1203 0 0
+1793 0 0 1 205 0 1203 1204 0 0
+6403 0 0 1 266 0 1204 1207 0 0
+6404 0 0 1 266 0 1207 1210 0 0
+0 18 0 0 0 0 0 0 1210 1245
+8961 0 0 1 0 0 1245 1252 0 0
+0 0 1 0 0 0 0 0 1252 1256
+0 0 0 0 0 0 0 0 1256 1258
+8961 0 0 1 0 0 1258 1265 0 0
+8961 0 0 1 0 0 1265 1272 0 0
+4871 0 0 0 0 0 1272 1273 0 0
+0 55 0 0 0 0 0 0 1273 1279
+0 58 0 0 0 0 0 0 1279 1285
+0 0 0 0 0 0 0 0 1285 1291
+0 0 0 0 0 0 0 0 1291 1297
+0 0 0 0 0 0 0 0 1297 1302
+9729 57 0 1 0 0 1302 1310 1310 1315
+0 53 0 0 0 0 0 0 1315 1321
+9730 0 0 1 0 0 1321 1323 0 0
+0 0 0 1 0 0 1323 1324 1324 1329
+9729 0 0 1 0 0 1329 1337 1337 1342
+0 0 0 0 0 0 0 0 1342 1344
+8961 0 0 1 0 0 1344 1351 0 0
+8961 0 0 1 0 0 1351 1358 0 0
+0 31 0 0 0 0 0 0 1358 1359
+0 0 1 0 0 0 0 0 1359 1366
+8961 0 0 1 14 0 1366 1396 0 0
+0 0 0 0 0 0 0 0 1396 1399
+9474 0 0 0 0 0 0 0 0 0
+9473 0 0 0 0 0 0 0 0 0
+8961 0 0 1 0 0 1399 1406 0 0
+0 43 1 0 0 1 0 0 1406 1441
+0 41 0 0 0 0 0 0 1441 1445
+0 0 0 0 0 0 1445 1447 1447 1451
+9216 0 0 0 0 0 1451 1452 0 0
+8961 0 0 1 0 0 1452 1462 1462 1466
+0 20 0 0 0 0 0 0 1466 1470
+4609 0 0 1 478 0 1470 1471 0 0
+0 0 1 0 0 0 0 0 1471 1478
+5377 0 0 1 0 0 1478 1479 0 0
+0 21 0 0 0 0 0 0 1479 1480
+0 22 0 0 0 0 0 0 1480 1487
+5377 0 0 1 0 0 1487 1488 0 0
+0 0 0 0 0 0 0 0 1488 1490
+8961 0 0 1 0 0 1490 1497 0 0
+0 0 1 0 467 0 1497 1498 1498 1499
+8961 0 0 1 0 0 1499 1506 0 0
+0 0 1 0 0 0 0 0 1506 1513
+0 0 1 0 0 1 0 0 1513 1548
+0 0 1 0 0 0 0 0 1548 1552
+6405 0 0 1 425 0 1552 1555 0 0
+0 70 2 0 455 0 1555 1556 1556 1563
+6405 0 0 1 425 0 1563 1566 0 0
+0 61 0 0 0 0 0 0 1566 1570
+0 60 1 0 461 0 1570 1571 1571 1572
+0 45 1 0 0 0 0 0 1572 1573
+0 60 1 0 0 0 0 0 1573 1574
+8961 0 0 1 0 0 1574 1581 0 0
+8961 0 0 1 0 0 1581 1588 0 0
+8961 0 0 1 0 0 1588 1595 0 0
+0 0 0 1 5 0 1595 1597 1597 1598
+0 33 1 0 0 0 0 0 1598 1599
+0 0 0 1 522 0 1599 1601 1601 1602
+0 0 0 1 513 0 1602 1604 1604 1605
+0 0 2 0 0 0 0 0 1605 1612
+0 35 1 0 0 0 0 0 1612 1615
+0 34 1 0 0 0 0 0 1615 1618
+11777 0 0 0 0 0 1618 1619 0 0
+0 0 1 0 0 0 0 0 1619 1620
+0 0 1 0 0 0 0 0 1620 1621
+0 0 0 0 0 0 0 0 1621 1622
+0 0 1 0 0 0 0 0 1622 1624
+0 0 2 0 0 0 0 0 1624 1631
+9731 0 0 0 455 0 1631 1632 0 0
+9729 0 2 1 0 0 1632 1640 1640 1647
+8961 0 0 1 0 0 1647 1654 0 0
+1794 0 0 0 467 0 1654 1656 0 0
+0 0 0 1 194 0 1656 1658 1658 1659
+4610 0 0 1 478 0 1659 1661 0 0
+0 61 0 0 0 0 0 0 1661 1663
+0 0 0 0 0 0 0 0 1663 1665
+0 0 1 0 461 0 1665 1666 1666 1667
+0 0 1 0 0 0 0 0 1667 1668
+0 1 1 0 0 0 0 0 1668 1676
+0 10 1 0 0 1 1676 1677 1677 1708
+0 10 1 0 0 0 1708 1710 1710 1738
+11777 0 0 0 0 0 1738 1739 0 0
+0 0 1 0 0 0 0 0 1739 1744
+0 0 0 0 0 0 0 0 1744 1745
+0 0 1 0 0 0 0 0 1745 1751
+9729 0 1 1 0 0 1751 1759 1759 1764
+0 0 1 0 0 0 0 0 1764 1769
+0 12 1 0 0 1 1769 1770 1770 1799
+0 10 1 0 0 1 1799 1800 1800 1830
+3585 0 0 0 0 0 0 0 0 0
+0 91 0 0 0 0 0 0 1830 1832
+0 32 2 0 0 0 0 0 1832 1839
+8961 0 0 1 467 0 1839 1841 0 0
+0 10 1 0 0 0 1841 1842 1842 1869
+8961 41 0 1 0 0 1869 1879 1879 1880
+0 0 0 0 0 0 0 0 1880 1884
+0 0 1 0 0 0 0 0 1884 1888
+0 0 2 0 0 0 0 0 1888 1895
+8961 0 0 1 14 0 1895 1925 0 0
+8961 0 0 1 14 0 1925 1955 0 0
+0 10 1 0 0 1 1955 1956 1956 1988
+0 10 1 0 0 1 0 0 1988 2021
+6414 0 0 1 327 0 2021 2026 0 0
+6406 0 0 1 344 0 2026 2029 0 0
+6407 0 0 1 327 0 2029 2034 0 0
+0 70 3 0 0 0 0 0 2034 2041
+0 0 0 1 432 0 2041 2043 2043 2045
+0 0 0 1 498 0 2045 2047 2047 2049
+0 0 0 1 484 0 2049 2051 2051 2053
+0 70 2 0 0 0 0 0 2053 2060
+4867 0 0 1 0 0 2060 2064 0 0
+0 382 1 0 0 0 0 0 2064 2069
+0 383 1 0 0 0 0 0 2069 2074
+0 381 1 0 0 0 0 0 2074 2079
+0 0 0 1 10 0 2079 2080 2080 2081
+0 0 0 1 517 0 2081 2082 2082 2083
+0 0 1 0 0 0 0 0 2083 2084
+0 0 0 1 10 0 2084 2085 2085 2086
+0 0 0 1 526 0 2086 2087 2087 2088
+0 0 0 1 517 0 2088 2089 2089 2090
+0 0 0 1 526 0 2090 2091 2091 2092
+0 0 1 0 0 0 0 0 2092 2094
+0 0 3 0 0 0 0 0 2094 2101
+0 91 1 0 0 0 0 0 2101 2104
+3586 0 0 0 0 0 0 0 0 0
+0 91 0 0 0 0 2104 2105 2105 2106
+0 23 2 0 0 0 0 0 2106 2113
+0 91 0 0 0 0 0 0 2113 2115
+0 0 1 1 194 0 2115 2117 2117 2118
+5377 0 0 1 0 0 2118 2119 0 0
+0 0 1 0 0 0 0 0 2119 2120
+0 0 0 0 0 0 0 0 2120 2121
+4610 0 0 1 478 0 2121 2122 0 0
+0 25 1 0 0 0 0 0 2122 2125
+4867 0 0 1 0 0 2125 2129 0 0
+0 0 0 0 0 0 0 0 2129 2136
+0 0 2 0 0 0 0 0 2136 2141
+0 32 3 0 0 0 0 0 2141 2148
+3587 0 0 0 0 0 0 0 0 0
+2565 0 0 0 0 0 0 0 0 0
+0 0 2 0 0 0 0 0 2148 2152
+3588 0 0 0 0 0 0 0 0 0
+2566 0 0 0 0 0 0 0 0 0
+0 0 2 0 0 0 0 0 2152 2153
+0 74 0 0 0 0 0 0 2153 2155
+0 0 0 0 0 0 0 0 2155 2157
+6409 0 0 1 352 0 2157 2159 0 0
+13570 0 0 0 0 0 2159 2160 0 0
+13569 0 0 0 0 0 2160 2161 0 0
+6408 0 0 1 352 0 2161 2163 0 0
+0 0 1 0 0 0 0 0 2163 2169
+0 73 0 0 0 0 0 0 2169 2170
+0 71 0 0 0 0 0 0 2170 2171
+0 0 1 0 0 0 0 0 2171 2177
+0 0 1 0 0 0 0 0 2177 2183
+0 72 0 0 0 0 0 0 2183 2184
+0 0 1 0 0 0 0 0 2184 2186
+0 0 0 1 439 0 2186 2187 2187 2188
+0 0 0 1 491 0 2188 2189 2189 2190
+0 0 0 1 439 0 2190 2191 2191 2192
+0 0 0 1 320 0 2192 2193 2193 2194
+0 0 0 1 491 0 2194 2195 2195 2196
+0 0 0 1 320 0 2196 2197 2197 2198
+0 60 2 0 0 0 0 0 2198 2199
+0 0 1 0 0 0 0 0 2199 2200
+0 0 1 0 0 0 0 0 2200 2201
+0 0 1 0 0 0 0 0 2201 2202
+2564 0 0 0 0 0 0 0 0 0
+0 0 2 0 0 0 0 0 2202 2203
+0 0 1 0 0 0 0 0 2203 2204
+0 24 1 1 14 0 2204 2234 2234 2236
+0 25 2 0 0 0 0 0 2236 2239
+0 0 2 0 0 0 0 0 2239 2240
+0 0 1 0 0 0 0 0 2240 2242
+0 0 0 0 0 0 0 0 2242 2247
+0 0 1 0 0 0 0 0 2247 2248
+0 0 1 0 0 0 0 0 2248 2249
+0 0 1 0 0 0 0 0 2249 2250
+0 24 2 0 0 0 0 0 2250 2252
+2252
+STRUCTS finished normally.

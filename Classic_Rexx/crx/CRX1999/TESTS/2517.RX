@@ -1,0 +1,4 @@
+/*  25.17 */
+  call ab
+ab: procedure hide abc
+  exit

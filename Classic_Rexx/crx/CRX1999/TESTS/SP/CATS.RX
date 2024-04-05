@@ -1,0 +1,10 @@
+/* */
+  str='';j=50000;
+  call time('R')
+  do 10
+    str=''
+    do while(length(str)<j)
+      str=str'+'
+      end
+    end
+  say time('E')

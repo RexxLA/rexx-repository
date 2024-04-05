@@ -1,0 +1,21 @@
+A place to hold RX tests created for CRX project.
+
+PROGMSG PROGRC are BATs not used directly from command line.
+
+These test only messages:
+
+CAPACITY
+MSGS
+MSGSMORE
+MIDDLE
+
+This one was made to have an example of all Pcode variants.
+
+PCODE.RX
+
+30.1 and 30.2 to be made genuine some time. 250+
+
+Some subdirectories. [40] msgs 40.x  [Sp] speed tests [Sz] size tests [p]?
+[AR] Arithmetic, [C] to go to RexxLa.
+
+

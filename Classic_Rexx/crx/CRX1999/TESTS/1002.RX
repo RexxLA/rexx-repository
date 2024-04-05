@@ -1,0 +1,9 @@
+/*  10.2 */
+  do j=1 to 10
+   nop
+  end j
+/* ClauseLine at following DO */
+  do j=1 to 10
+   nop
+/* For this wrong END */
+  end k

@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EnTable", "EnTable\EnTable.vcxproj", "{E8BFDF9D-ABB6-432A-A108-EDD4B2DDD4D4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EnTableBF", "EnTableBF\EnTableBF.vcxproj", "{AE2251D0-831C-4BFA-8917-D0E0E6010917}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PackC", "PackC\PackC.vcxproj", "{5FB29D0D-775E-4B5B-8F90-54BD8A8E9C2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8BFDF9D-ABB6-432A-A108-EDD4B2DDD4D4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8BFDF9D-ABB6-432A-A108-EDD4B2DDD4D4}.Debug|Win32.Build.0 = Debug|Win32
+		{E8BFDF9D-ABB6-432A-A108-EDD4B2DDD4D4}.Release|Win32.ActiveCfg = Release|Win32
+		{E8BFDF9D-ABB6-432A-A108-EDD4B2DDD4D4}.Release|Win32.Build.0 = Release|Win32
+		{AE2251D0-831C-4BFA-8917-D0E0E6010917}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AE2251D0-831C-4BFA-8917-D0E0E6010917}.Debug|Win32.Build.0 = Debug|Win32
+		{AE2251D0-831C-4BFA-8917-D0E0E6010917}.Release|Win32.ActiveCfg = Release|Win32
+		{AE2251D0-831C-4BFA-8917-D0E0E6010917}.Release|Win32.Build.0 = Release|Win32
+		{5FB29D0D-775E-4B5B-8F90-54BD8A8E9C2D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5FB29D0D-775E-4B5B-8F90-54BD8A8E9C2D}.Debug|Win32.Build.0 = Debug|Win32
+		{5FB29D0D-775E-4B5B-8F90-54BD8A8E9C2D}.Release|Win32.ActiveCfg = Release|Win32
+		{5FB29D0D-775E-4B5B-8F90-54BD8A8E9C2D}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

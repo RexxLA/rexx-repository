@@ -1,0 +1,13 @@
+
+on KEYS.INC - 3 lines at the top, three other labels. Top lines to match
+those lower in group nos (not taken from KEYSWAS.INC). If copied from below,
+lose FOREVER and change length field from 21 to 5.
+This by is.kwa => keys.inc
+
+At least one State number in Actions.inc
+
+KeysBase to adjust groups to 0-63 range.
+
+Check groups.inc versus sr.t
+
+

@@ -1,0 +1,130 @@
+----- REXXCPS 2.1 -- Measuring REXX clauses/second -----
+ REXX version is: REXX 5.00 8 May 1998
+       System is: DosCrx1.0
+       Averaging: 1 measures of 3000 iterations
+
+     Performance: 867052 REXX clauses per second
+
+1       exit
+0       interp
+7       say
+42002   then
+84000   when
+84001   jump
+336003  nop
+0       raise
+261007  asgncon
+84006   asgn
+207000  dotasn
+582000  catdot
+375000  tailed
+0       not
+0       neg
+0       pos
+1       bool
+546002  eq
+0       ne
+168000  lt
+0       le
+0       ge
+84000   gt
+45000   Seq
+0
+0
+0
+0
+0
+0       intdiv
+81000   mult
+4       div
+0       rem
+0       xor
+0       or
+0       and
+84001   sub
+126002  add
+252000  abut
+168010  cat
+0       poer
+0       drop
+0       expo
+0       dropli
+0       expoli
+42000   address
+0       stem
+0       stream
+0       norm
+42000   envname
+0       command
+5       bif
+210002  bif2
+84000   bif2x
+0       bifg
+84000   length
+0       max
+0       min
+0       digits
+0       form
+0       fuzz
+1       version
+1       source
+42000   with
+0       linein
+0       pull
+252000  var
+42000   arg
+42000   parseup
+42000   pos+
+0       pos-
+1       pos=
+378002  posrest
+168000  pattern
+42000   tcomma
+0       adp
+42000   call
+0       invoke
+42000   return
+0       returns
+2       result
+0       interp
+0       options
+0       push
+0       q
+42002   trace
+0       sigoff
+1       sigon
+0       signal
+0       sigV
+0       callon
+45002   number
+42002   rep
+0       repw
+0       for
+45002   to
+42000   by
+0       iterate
+48000   iteraterep
+126002  iterateCV
+0       while
+0       until
+0       leave
+0        undo
+45002   CV
+0       CVw
+0       DCV
+0       DCVw
+0
+CatDot 582000 was top, going with 375000 tailed and 207000 dotasgn.
+Reprogrammed to use space with stem rather than CatDot first but not much
+improvement - proves that Compaction not a burden.
+
+Try the 546000 Eqs.  Quick test of both binary brought in 0.5%
+Maybe a set of operators to go straight to char where compile time says?
+Lost 1%, back to 963, when I noticed I wasn't stripping the second argument
+of string compare. Gain 2%, up to 984, by code to bypass stripping.
+
+Consider 378002 PosRest. Can bypass some of 336003 Nops that end parse but
+no noticeable effect.
+
+Breakthrough!  A macro instead of the loop instruction.  1Meg on boxing day.
+Still have compile time work in reserve.

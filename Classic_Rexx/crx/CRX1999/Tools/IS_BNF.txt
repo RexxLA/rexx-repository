@@ -1,0 +1,214 @@
+starter:=x3j18
+/* 10 series actions conventionally for operators */
+/* 20 series actions conventionally for branching */
+/* 30 series actions conventionally for DO */
+/* 40 series actions conventionally for lists. */
+/* 50 series actions conventionally for parsing. */
+/* 60 series actions conventionally for conditions. */
+/* 70 series actions conventionally for ADDRESS */
+/* 80 series actions conventionally for NUMERIC. */
+/* 90 series actions conventionally for trace. */
+/* We want '.' to be a token that can't appear anywhere, since in a template
+we preprocess a dot to a special variable.  Hence trick as after Eos. */
+x3j18:=program ('' ['.']| Msg35.1 )
+program           := [ncl] [instruction_list] ['END' Msg10.1]
+/* Not much point in passing labels through the syntax since they can
+be acted on at first sight.
+  ncl             := null_clause+ | Msg21.1
+    null_clause   := ';' [label_list]
+      label_list  := (LABEL ';')+
+*/
+  ncl             := ';'+ | Msg21.1
+  instruction_list:= instruction+
+    instruction   := group | single_instruction.91 ncl
+single_instruction.91:= assignment.1 | keyword_instruction.2 | command.3
+  assignment.1    := VAR_SYMBOL '$' expression
+/* Checks special cased.
+                  | NUMBER '$' Msg31.1
+                  | CONST_SYMBOL '$' (Msg31.2 | Msg31.3)
+*/
+  keyword_instruction.2:= address.70 | arg | call | drop | exit
+                  | interpret | iterate | leave
+                  | nop | numeric.80 | options
+                  | parse | procedure | pull | push
+                  | queue | return | say | signal | trace
+                  | 'THEN' Msg8.1 | 'ELSE' Msg8.2
+                  | 'WHEN' Msg9.1 | 'OTHERWISE' Msg9.2
+  command.3       := expression
+group  := do_check.30 ncl | do.32 do_check.31 ncl | if.22 | select.23 ncl
+  do_check.30     := do.32
+  do.32           := do_specification (ncl | Msg21.1 | Msg27.1)
+                  [instruction_list] do_end.91
+    do_end.91     := 'END' | '' Msg14.1 | Msg35.1
+      do_check.31 := VAR_SYMBOL
+  if.22           := ifthen [else]
+    ifthen        := ifexpr.91 [ncl] (then | Msg18.1)
+      ifexpr.91   := 'IF' expression
+    then          := thenskip.20 ncl (instruction | '' Msg14.3 | 'END' Msg10.5)
+      thenskip.20 := 'THEN'
+    else          := elseskip.21 ncl (instruction | '' Msg14.4 | 'END' Msg10.6)
+      elseskip.21 := 'ELSE'
+  select.23       := 'SELECT' ncl select_body select_end.91
+    select_end.91 := ('END' [VAR_SYMBOL Msg10.4] | '' Msg14.2 | Msg7.2)
+    select_body   := (when.25 | Msg7.1) [when.25+] [otherwise.24]
+      when.25     := whenexpr.91 [ncl] (then | Msg18.2)
+        whenexpr.91  := 'WHEN' expression
+      otherwise.24:= other.91 ncl [instruction_list]
+        other.91  := 'OTHERWISE'
+
+/*
+Note:  The next part concentrates on the instructions.
+It leaves unspecified the various forms of symbol, template
+and expression.
+*/
+
+address.70        := 'ADDRESS' [(envcon.75 [expression]
+                  | Msg19.1 | envvar.75)  [ 'WITH' connection]]
+  envcon.75       := taken_constant
+  envvar.75       := valueexp
+  taken_constant  := STRING | VAR_SYMBOL | CONST_SYMBOL | NUMBER
+  valueexp        := 'VALUE' expression
+  connection      := error [adio] | input [adeo]
+                  | output [adei] | Msg25.5
+    adio          := input [output] | output [input]
+      input       := 'INPUT' (resourcei.71 | Msg25.6)
+        resourcei.71 := resources | 'NORMAL'
+      output   := 'OUTPUT' (r.72 | Msg25.7)
+        r.72      := resourceo
+        resourceo := append.74 (resources | Msg25.8)
+                  | 'REPLACE' (resources | Msg25.9)
+                  | resources | 'NORMAL'
+          append.74:='APPEND'
+    adeo          := error [output] | output [error]
+      error    := 'ERROR' (r.73 | Msg25.14)
+        r.73      := resourceo
+    adei          := error [input] | input [error]
+resources         := 'STREAM' (VAR_SYMBOL | Msg53.1)
+                  | 'STEM' (VAR_SYMBOL | Msg53.2)
+  vref            := '(' var_symbol (')' | Msg46.1)
+    var_symbol    := VAR_SYMBOL | Msg20.1
+arg               := argverb.51  [template_list]
+  argverb.51      := 'ARG'
+call              := 'CALL' (callon_spec.60 | callinvoke.44 | callinvoke.45)
+  callinvoke.44   := call.18
+  callinvoke.45   := call.18 expression_list
+    call.18       := taken_constant|Msg19.2
+  callon_spec.60  := 'ON' (callable_condition.61 | Msg25.1)
+                  ['NAME' (taken_constant | Msg19.3)]
+                  | off.62 (callable_condition.61 | Msg25.2)
+    off.62        := 'OFF'
+    callable_condition.61:= 'ERROR' | 'FAILURE' | 'HALT' | 'NOTREADY'
+  expression_list := expr [',' expression_list]
+                  | omitted.41 [expression_list]
+                  | expr omitted.41
+    omitted.41    := ','
+do_specification  := 'DO' | do_repetitive
+  do_repetitive   := 'DO' dorep.33 | 'DO' docond
+                  | 'DO' dorep.33 docond
+                  | 'DO' doforever.36 [docond | Msg25.16]
+    doforever.36  := 'FOREVER'
+  docond          := dow.34 | dou.35
+    dow.34        := dow.37 expression
+      dow.37      := 'WHILE'
+    dou.35        := dou.37 expression
+      dou.37      := 'UNTIL'
+  dorep.33        := assignment.1 [docount] | repexpr
+    repexpr       := expression
+    docount       := dot.381 [dobf] | dob.382 [dotf] | dof.383 [dotb]
+      dobf        := dob.382 [dof.383] | dof.383 [dob.382]
+      dotf        := dot.381 [dof.383] | dof.383 [dot.381]
+      dotb        := dot.381 [dob.382] | dob.382 [dot.381]
+      dot.381      := 'TO' expression
+      dob.382      := 'BY' expression
+      dof.383      := 'FOR' expression
+drop              := 'DROP' variable_list
+  variable_list   := (vref | var_symbol)+
+exit              := 'EXIT' [expression]
+interpret         := 'INTERPRET' expression
+iterate           := iterate.28 | iterate.29
+  iterate.28      := 'ITERATE'
+  iterate.29      := 'ITERATE' (VAR_SYMBOL | Msg20.2)
+leave             := leave.28 | leave.29
+  leave.28        := 'LEAVE'
+  leave.29        := 'LEAVE' (VAR_SYMBOL | Msg20.2)
+nop               := 'NOP'
+numeric.80        := 'NUMERIC' (numeric_digits | numeric_form
+                  | numeric_fuzz | Msg25.15)
+  numeric_digits  := 'DIGITS' [expression]
+  numeric_form    := 'FORM' [numeric_form_suffix]
+    numeric_form_suffix:= ('ENGINEERING' | 'SCIENTIFIC' | valueexp | Msg25.11)
+  numeric_fuzz    := 'FUZZ' [expression]
+options           := 'OPTIONS' expression
+parse             := 'PARSE'(parse_type.50 | Msg25.12) [template_list]
+                  | 'PARSE' upperkey.56 (parse_type.50 | Msg25.13)
+                  [template_list]
+  upperkey.56     := 'UPPER'
+  parse_type.50   := parse_key | parse_value | parse_var
+    parse_key     := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'
+                  | 'VERSION'
+    parse_value   := parsevalue.6 [expression] ('WITH' | Msg38.3)
+    parsevalue.6  := 'VALUE'
+    parse_var     := 'VAR' var_symbol
+procedure         := procedure.26 ['EXPOSE' variable_list | Msg25.17]
+  procedure.26    := 'PROCEDURE'
+pull              := pullverb.52  [template_list]
+  pullverb.52     := 'PULL'
+push              := 'PUSH' [expression]
+queue             := 'QUEUE' [expression]
+return            := 'RETURN' [expression]
+say               := 'SAY' [expression]
+signal            := 'SIGNAL' (signal_spec
+                  | valueexp | taken_constant | Msg19.4)
+  signal_spec     := 'ON' (condition | Msg25.3)
+                  ['NAME' (taken_constant | Msg19.3)]
+                  | off.62 (condition | Msg25.4)
+    condition     := callable_condition.61 | other_condition.61
+      other_condition.61:= 'NOVALUE' | 'SYNTAX' | 'LOSTDIGITS'
+trace             := 'TRACE'
+                  [(taken_constant | Msg19.6) | valueexp]
+
+/* Note:  The next describes templates. */
+template_list     := template.57 | [template.57] template.58 [template_list]
+  template.58     := ','
+  template.57     := (trigger.53 | VAR_SYMBOL | Msg38.1)+
+   trigger.53     := pattern | positional
+     pattern      := STRING | vrefp
+       vrefp      := '(' (VAR_SYMBOL  | Msg19.7) (')' | Msg46.1)
+/* Changed to put =+- together */
+     positional   := NUMBER | relative.55 position
+       relative.55:= ('+' | '-' | '=')
+       position   := (NUMBER | vrefp | Msg38.2)
+
+/* Note: The final part specifies the various forms of symbol, and
+expression. */
+symbol            := VAR_SYMBOL | CONST_SYMBOL | NUMBER
+expression        := expr [(',' Msg37.1) | (')' Msg37.2 )]
+  expr            := expr_alias.90
+    expr_alias.90 := and_expression | realor.10
+      realor.10   := expr_alias.90 or_operator and_expression
+      or_operator := '|' | '&&'
+      and_expression := comparison | realand.10
+        realand.10:= and_expression '&' comparison
+comparison        := concatenation | realcompare.12
+  realcompare.12  := comparison comparison_operator concatenation
+  comparison_operator:= '=' | '\=' | '<>' | '><' | '>' | '<' | '>='
+                  | '<=' | '\>' | '\<'
+                  |  '==' | '\==' | '>>' | '<<' | '>>=' | '<<='
+                  | '\>>' | '\<<'
+concatenation     := addition | realconcat.10
+  realconcat.10   := concatenation (' ' | '||') addition
+addition          := multiplication | realaddition.10
+  realaddition.10 := addition additive_operator multiplication
+  additive_operator:= '+' | '-'
+multiplication    := power_expression | realmult.10
+  realmult.10      := multiplication multiplicative_operator power_expression
+  multiplicative_operator:= '*' | '/' | '//' | '%'
+power_expression  := prefix_expression | realpower.10
+  realpower.10    := power_expression '**' prefix_expression
+  prefix_expression := realprefix.11 | term | Msg35.1
+    realprefix.11 := ('+' | '-' | '\') prefix_expression
+    term          := symbol | STRING | function.43
+                  | '(' expr_alias.90 (',' Msg37.1 | ')' | Msg36)
+      function.43 := functionname.18   [expression_list]
+                  (')' | Msg36)
+        functionname.18 := (symbol | STRING) '('
