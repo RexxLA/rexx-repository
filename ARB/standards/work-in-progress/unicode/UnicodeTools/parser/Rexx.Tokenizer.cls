@@ -3,7 +3,7 @@
  ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
  │ This file is part of The Unicode Tools Of Rexx (TUTOR).                                                       │
  │ See https://github.com/RexxLA/rexx-repository/tree/master/ARB/standards/work-in-progress/unicode/UnicodeTools │
- │ Copyright © 2023 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                           │
+ │ Copyright © 2023, 2024 Josep Maria Blasco <josep.maria.blasco@epbcn.com>.                                     │
  │ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0).                                    │
  └───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
@@ -37,6 +37,7 @@
  *    <tr><td>00.4a <td>JMB <td>20230901<td>Move most of the external documentation to readme.md
  *    <tr><td>00.5  <td>JMB <td>20231016<td>Add G strings
  *    <tr><td>00.6  <td>JMB <td>20240323<td>SPECIAL -> COMMA
+ *    <tr><td>00.6  <td>JMB <td>20240402<td>Add array form to getSimpleToken
  *  </table>
  *
  */
@@ -168,7 +169,7 @@
   ( RESOURCE_DELIMITER             , "*" ), -  -- End delimiter, ends resource
   ( RESOURCE_IGNORED               , "*" ), -  -- After "::Resource name ;" or "::END delimiter"
   ( END_OF_SOURCE                  , "*" ), -
-  ( BEGIN_OF_CLAUSE                , "*" ), -  -- Used by the clauser
+  ( CLAUSE                         , "*" ), -  -- Used by the clauser
   ( END_OF_CLAUSE                  , "*" ), -
     ( BEGIN_OF_SOURCE              , "*" ), -  -- Dummy and inserted. Very convenient for simplification
     ( END_OF_LINE                  , "*" ), -  -- Implied semicolon
@@ -197,22 +198,31 @@
     (CALL_ON_INSTRUCTION           , "*" ), -  -- Includes the ON  sub-keyword
     (CALL_OFF_INSTRUCTION          , "*" ), -  -- Includes the OFF sub-keyword
     (DO_INSTRUCTION                , "*" ), -  --
+    (DO_CLAUSE                     , "*" ), -  --
     (DROP_INSTRUCTION              , "*" ), -  --
-    (ELSE_INSTRUCTION              , "*" ), -  -- Inserts a ";" after
+    (ELSE_INSTRUCTION              , "*" ), -  -- Inserts a ";" after; ELSE instruction
+    (ELSE_CLAUSE                   , "*" ), -  -- ELSE
     (END_INSTRUCTION               , "*" ), -  --
+    (END_CLAUSE                    , "*" ), -  --
     (EXIT_INSTRUCTION              , "*" ), -  --
     (EXPOSE_INSTRUCTION            , "*" ), -  --
     (FORWARD_INSTRUCTION           , "*" ), -  --
     (GUARD_INSTRUCTION             , "*" ), -  --
     (IF_INSTRUCTION                , "*" ), -  --
+    (IF_CLAUSE                     , "*" ), -  -- IF expression
+    (IF_THEN_CONSTRUCT             , "*" ), -  -- IF expression THEN
+    (IF_THEN_INSTRUCTION           , "*" ), -  -- IF expression THEN instruction
+    (IF_THEN_ELSE_CONSTRUCT        , "*" ), -  -- IF expression THEN instruction; ELSE
     (INTERPRET_INSTRUCTION         , "*" ), -  --
     (ITERATE_INSTRUCTION           , "*" ), -  --
     (LEAVE_INSTRUCTION             , "*" ), -  --
     (LOOP_INSTRUCTION              , "*" ), -  --
+    (LOOP_CLAUSE                   , "*" ), -  --
     (NOP_INSTRUCTION               , "*" ), -  --
     (NUMERIC_INSTRUCTION           , "*" ), -  --
     (OPTIONS_INSTRUCTION           , "*" ), -  --
     (OTHERWISE_INSTRUCTION         , "*" ), -  -- Inserts a ";" after
+    (OTHERWISE_CLAUSE              , "*" ), -  -- OTHERWISE
     (PARSE_INSTRUCTION             , "*" ), -  -- Includes UPPER, LOWER and CASELESS (as attributes too)
     (PROCEDURE_INSTRUCTION         , "*" ), -  --
     (PUSH_INSTRUCTION              , "*" ), -  --
@@ -223,14 +233,20 @@
     (RETURN_INSTRUCTION            , "*" ), -  --
     (SAY_INSTRUCTION               , "*" ), -  --
     (SELECT_INSTRUCTION            , "*" ), -  --
+    (SELECT_CLAUSE                 , "*" ), -  -- SELECT ...
+    (SELECT_WHEN_CONSTRUCT         , "*" ), -  -- SELECT ...; WHEN expression
+    (SELECT_WHEN_THEN_CONSTRUCT    , "*" ), -  -- SELECT ...; WHEN expression THEN
     (SIGNAL_INSTRUCTION            , "*" ), -  --
     (SIGNAL_ON_INSTRUCTION         , "*" ), -  -- Includes SIGNAL ON
     (SIGNAL_OFF_INSTRUCTION        , "*" ), -  -- Includes SIGNAL OFF
-    (THEN_INSTRUCTION              , "*" ), -  -- Inserts a ";" before and after
+    (THEN_INSTRUCTION              , "*" ), -  -- Inserts a ";" before and after; THEN instruction
+    (THEN_CLAUSE                   , "*" ), -  -- THEN
     (TRACE_INSTRUCTION             , "*" ), -  --
     (UPPER_INSTRUCTION             , "*" ), -  -- Regina only, no ANSI
     (USE_INSTRUCTION               , "*" ), -  --
     (WHEN_INSTRUCTION              , "*" ), -  --
+    (WHEN_CLAUSE                   , "*" ), -  -- WHEN expression
+    (WHEN_THEN_CONSTRUCT           , "*" ), -  -- WHEN expression THEN
   ( ASSIGNMENT_INSTRUCTION         , "*" ), -  -- Variable assignments, not message assignments
   ( COMMAND_OR_MESSAGE_INSTRUCTION , "*" ), -  -- Cannot determine without arbitrarily large context
                                             -  -- End of CLAUSE SUPPORT
@@ -1067,7 +1083,9 @@ Return
 
 ::Method getSimpleToken
   Use Local
-  Use Strict Arg
+  Use Strict Arg array = 0
+  
+  If array Then Signal Array
 
   token = getAToken()
   newClass = token[class]
@@ -1082,6 +1100,32 @@ Return
   lastClass = newClass
 
 Return token
+
+Array:
+  TokenArray = .Array~new
+
+  ENDING_CONDITIONS        = END_OF_SOURCE || SYNTAX_ERROR
+
+  Loop
+    token = getAToken()
+    -- (Create a linked list)
+    -- If \TokenArray~isEmpty Then TokenArray~lastItem["NEXT"] = token
+    TokenArray~append( token )
+    token["INDEX"] = result
+  If token[class]~matchChar( 1, ENDING_CONDITIONS ) Then Leave
+    newClass = token[class]
+
+    If .ooRexx Then Do
+      -- Resource context starts with a new clause
+      If resourceContext  == -1, lastClass = END_OF_CLAUSE Then resourceContext =  0
+      -- We have a mini-automaton to detect resources
+      If resourceContext \== -1 Then Call Check_for_resource
+    End
+
+    lastClass = newClass
+    
+  End
+Return TokenArray
 
 getLine:
   If line  >= maxLines Then Return 0
@@ -1648,7 +1692,7 @@ Missing_resource_end_marker:
   Return self~Syntax_error( 99.943, resourceDirectiveStart, resourceDirectiveEnd, resourceDelimiter, resourceName )
 
 Token: Procedure Expose thisLine line start pos
-  t. = .Stem~new
+  t. = ""
   Use Arg ,
     t.class,,
     t.subclass = ( t.class ),,
@@ -1668,10 +1712,10 @@ Token: Procedure Expose thisLine line start pos
   Else                                Return token.location
 
 ::Routine ThisTokenIsA Private
-  Use Strict Arg token.,classes
+  Use Strict Arg token., classes
   Return Pos(token.class,classes) > 0
 
-::Routine errorMessage Private -- Public
+::Routine errorMessage Public
 -- List of error messages, with substitutions
 --
 -- When the messages for ooRexx and Regina are new or different, there is
@@ -1687,9 +1731,26 @@ Token: Procedure Expose thisLine line start pos
   Regina.6.1     = "Unmatched comment delimiter (""/*"")."
   errMsg.6.2     = "Unmatched single quote (')."
   errMsg.6.3     = "Unmatched double quote ("")."
+  errMsg.7       = "WHEN or OTHERWISE expected."
+  errMsg.7.1     = "SELECT on line &1 requires WHEN."
+  errMsg.7.2     = "SELECT on line &1 requires WHEN, OTHERWISE, or END."
+  errMsg.8       = "Unexpected THEN or ELSE."
+  errMsg.8.1     = "THEN has no corresponding IF or WHEN clause."
+  errMsg.8.2     = "ELSE has no corresponding THEN clause."
+  errMsg.9       = "Unexpected WHEN or OTHERWISE."
+  errMsg.9.1     = "WHEN has no corresponding SELECT."
+  errMsg.9.2     = "OTHERWISE has no corresponding SELECT."
+  errMsg.10      = "Unexpected or unmatched END."
+  errMsg.10.1    = "END has no corresponding DO, LOOP, or SELECT."
   errMsg.13      = "Invalid character in program."
   errMsg.13.1    = "Incorrect character in program ""&1"" ('&2'X)."
   Regina.13.1    = "Invalid character in program ""('&1'X)""."
+  errMsg.14      = "Incomplete DO/LOOP/SELECT/IF."
+  errMsg.14.1    = "DO instruction on line &1 requires matching END."
+  errMsg.14.2    = "SELECT instruction on line &1 requires matching END."
+  errMsg.14.3    = "THEN on line 1 must be followed by an instruction."
+  Regina.14.3    = "THEN requires a following instruction"
+  errMsg.14.5    = "LOOP instruction on line &1 requires matching END."
   errMsg.15      = "Invalid hexadecimal or binary string."
   Unicode.15     = "Invalid Unicode, hexadecimal or binary string."
   errMsg.15.1    = "Incorrect location of whitespace character in position &1 in hexadecimal string."
@@ -1702,6 +1763,9 @@ Token: Procedure Expose thisLine line start pos
   Regina.15.4    = "Only 0, 1, and blank are valid in a binary string; found ""&1""."
   errMsg.15.5    = "Hexadecimal strings must be grouped in units that are multiples of two characters."
   errMsg.15.6    = "Binary strings must be grouped in units that are multiples of four characters."
+  errMsg.18      = "THEN expected."
+  errMsg.18.1    = "IF instruction on line &1 requires matching THEN clause."
+  errMsg.18.2    = "WHEN instruction on line &1 requires matching THEN clause."
   errMsg.19      = "String or symbol expected."
   errMsg.19.909  = "String or symbol expected after tilde (~)."
   errMsg.20      = "Symbol expected."
@@ -1720,6 +1784,7 @@ Token: Procedure Expose thisLine line start pos
   errMsg.31.3    = "Variable symbol must not start with a "".""; found ""&1""."
   errMsg.35      = "Invalid expression."
   errMsg.35.1    = "Incorrect expression detected at ""&1""."
+  errMsg.35.929  = "Missing expression in logical expression list."
   errMsg.36      = "Unmatched ""("" or ""["" in expression."
   Regina.36      = "Unmatched ""("" in expression."
   errMsg.36.1    = "Unmatched ""("" in expression."
