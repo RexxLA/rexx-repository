@@ -1,0 +1,398 @@
+31-08-97 Decided on a new document for the actual pcode format.
+
+Will do some statistical analysis of programs probably but I expect we
+are heading for something like this:
+
+One byte with 4 bits to give instruction group.
+              2 bits to give subcode
+              2 bits of operand lengths.
+ Binops
+1) Abut    Cat
+   Arith1
+2)  Percent    Mul    Div    Rem
+   Logic
+3)  Xor    Or    And
+   Arith2
+4)  Power    Plus    Minus
+   Compare
+5&6)     Lt Slt  Sle  Le  Seq  Gt  Ge  Sgt  Sge  Ne  Sne  Eq
+ Unaryops
+7)  Not
+ Frequent verbs
+8) CALL
+9) RETURN
+10)SAY (Default operand made explicit)
+11)PARSE
+    LINEIN
+    SOURCE
+    VERSION
+    UPPER
+    VAR
+ Special
+  EXPOSE
+12) Assign
+13) Lparen  Function call
+14) Dot
+  Semi?
+ Infrequent verbs
+15)  ADDRESS PULL DROP  EXIT  PUSH  QUEUE  TRACE
+  INTERPRET NOP  SIGNAL  OPTIONS  PROCEDURE
+ Fields setup for verbs
+  ERROR  INPUT  OUTPUT
+  STEM  STREAM
+  NAME
+ Changed to assignment or branching or PARSE
+    IF BY END  FOR  THEN  TO UNTIL WHILE WITH ARG DIGITS FUZZ DO ELSE
+    ENGINEERING  SCIENTIFIC    ITERATE  LEAVE WHEN    NUMERIC    VALUE
+    OTHERWISE  FOREVER FORM  SELECT COMMA
+ Absorbed in operand specification.
+  CONST_SYMBOL NUMBER  STRING  VAR_SYMBOL
+ Flags
+  OFF  ON
+  FAILURE  HALT  LOSTDIGITS  NOVALUE  SYNTAX  ERROR  NOTREADY
+  NORMAL  REPLACE APPEND
+
+Need to get jumps somewhere.
+  JUMP
+    always if0 if1
+
+Whether to collect display subscripts before opcode?  Could do it
+by having reverse-subtract and changing binaries so that mixtures
+of length were always '10'B.  Then this code to mean not-two-address.
+Might be faster than having call from each operator for its operands.
+(Need reverse-divide etc also)
+Do some of the type checks prior to the switch, on basis of the
+opcode?
+Maybe subscripts before opcode by test of opcode.  Ordering like:
+(Assume PARSE clauses expanded)
+
+   Arith1
+   Arith2
+   Comp1
+   Comp2
+   Catops
+   LogicOps
+
+   jumps
+   Parse
+
+   Dot
+   Function
+
+   CALL
+   OtherVerbs
+   PARSE (eoc)
+   RETURN
+   Assign
+   SAY
+
+That would put two address low, one address high (Assign is one
+source), and none-or-later middling.
+However, if checking, would need extra info about the operation, eg
+errorcode to use and hence taking data from the operations switch.
+
+Pick up opcode. Deduce Switch address. Use switch address for how many
+operands. Use opcode to pick up subscripts and advance over.
+Use switch to do type checks.
+Switch on switch address. (If otherverbs process repeats one byte on.)
+
+What is switch size?  Almost two bytes for address.
+
+What are we doing about Unary with constant, eg -27
+Simplest is to let the operation happen.
+Will need some way to get Msg41.3   (34.6 for Not)
+
+Msg41.1 for things on left, 41.2 on the right, except Power 26.1 (Type 'W')
+Msg34.5 and 34.6 for logics.
+
+Strings have to be constructed for exact compares (except same internal
+types?)
+
+Operand setups.  +ve for variables, -ve for constants, using different
+segments.  Put labels in with constants.  Arguments are fetched by
+PARSE ARG which can use special mechanism.  Argument setting maybe needs
+a variant of Assign.  Others like BY etc also need special Assign?
+Processor variables of both program and procedure types at low end of
+segments, respectively.
+
+Temps are probably best as like arguments. After args are pushed, enough
+space pushed.  Need an Assign load&store to offset from Tos.
+
+Maybe pcode could decide for itself whether e-o-c implied.  Then
+ordering wouldn't be needed to say that.  Use ordering for whether
+2-1-0 indices to setup.
+
+Two:   Arith1   Arith2   Comp1   Comp2   Catops   LogicOps
+       Dot
+One:  CALL Function RETURN Assign SAY PUSH EXIT QUEUE TRACE DROP
+        INTERPRET SIGNAL OPTIONS
+        PushArgFirst  PushArg
+
+None: jumps RETURN PULL (+assign) ADDRESS NOP SIGNAL PROCEDURE
+      Bif  BifChecked AssignFromReg
+
+Bif operand is a number in the program-scope display. Not obviously
+different from internal call. May want one that absorbs PushArgFirst.
+(Difference is in segment register used.)
+
+Register sources seem common. Perhaps 5 bits of opcode to allow a set
+that are one-less-operand (because already in register).
+
+Add/Sub FirstArg/PushArg Assign '<' '<=' '=' '>=' '>' (With strict
+as variant) Mult/Div Percent/Rem Abut/Cat Or/And Xor/Power Plus/Minus
+returnwith --- thats 15 and we still have to address temps.
+But Percent/Rem and Xor/Power could use prefix.
+
+One distinquished operand for ToS will do temporaries for expressions.
+But "setting up" ones like BY need an opcode with data.
+
+Maybe bits from somewhere is better:
+  - do 1 byte index
+  - do 2 byte index
+  - load register from index
+  - do second 1 byte index
+  - do second 2 byte index
+  - load register from Tos
+
+Still trying variants.
+a)Opcode range for 2 address - 4:2:2 Opcode,Subcode,IndexSize
+b)Opcode range for reg+address - 4:2:1:1 Opcode,Subcode,WhichReg,IndexSize
+c)Opcode range for 1 address - 4:3:1 Opcode,Subcode,IndexSize
+d)Opcode range for reg - 4:3:1 Opcode,Subcode,WhichReg
+e)Opcode range for none - 4:4 Opcode,Subcode
+
+a)b) Add/Sub/Mult/Div
+     '<' '<=' '>=' '>'
+     '<' '<=' '>=' '>' strict
+     Abut/Cat/Or/And
+     Percent/Rem/Xor/Power
+     Assign,Dot,'='
+c)d) Plus/Minus/returnwith/FirstArg/PushArg
+     CALL Function SAY
+     PUSH EXIT QUEUE TRACE DROP INTERPRET SIGNAL OPTIONS
+e)   jmp if0 if1
+
+Depends whether we want to say both lhs-is-reg and rhs-is-reg.
+If both split 16 as 3*3 + 2*2 + 3*1
+But having to prefix half the binary ops is poor news.
+Maybe better to prefix the rhs-is-reg cases
+
+(Although that interacts with prospect of reducing compare types by
+operand swapping)
+
+That way 4*2 of(4) + 3*2 of(8) + 2*1 of(16)
+Or       5*2 of(4) + 2*2 of(8) + 2*1 of(16)
+
+a)b) Add/Sub/Mult/Div
+     Abut/Cat/Assign/Dot
+     '<' '<=' '=' '=='
+     '<<' '<<=' Or And
+    [ Percent/Rem/Xor/Power ]  prefixed?
+
+c)d) Plus/Minus/returnwith/FirstArg/PushArg SAY
+     CALL Function bifcall biffunction bifcChkd biffChkd SIGNAL
+     [PUSH EXIT QUEUE TRACE DROP INTERPRET OPTIONS]
+
+e)   jmp if0 if1
+     RETURN PULL (+assign) ADDRESS NOP SIGNAL PROCEDURE
+
+Treating more bits as switch is faster than subcodes.
+Test bits - This is 2 address or not.
+If two address, further bit for reg or not, switch on 5 bits, leaves 1 flag.
+                                                              WRONG!!
+If not two address further bit for one address.
+If one address further bit for reg or not, switch on 5 bits. (Or 4 & flag)
+Or maybe 0-3 is 0,1,2,1&R operands.
+
+         AASSSSSF
+
+8-09-97 Now working on engine.inc with 3-5 split (Could be 2-5-1) where
+five is opcode and 3 are for what symbols in the pcode.
+
+Add Sub Mult Div Abut Cat Assign Dot '<' '<=' '=' '>=' '>'
+ '<<' '<<=' '==' '>>=' '>>' Or And
+    [ Percent/Rem/Xor/Power ]  prefixed?
+
+What useful common functions pre-switch?
+  NoValue test
+  Fetch 8 bytes
+  Test for Arith with convert. 41.1 41.2 41.3 etc
+  Test for Integer  26.x
+  Logical value test  34.5 and 34.6  Also 34.1 to 34.4 which need to know op.
+
+Maybe just the common ones, ie Fetch8+NoValue, 41.1, 41.2.  Save some space.
+We don't need to get 8 when already a register except maybe Dot
+result.  Dot for value can go all the way to fetching the value, just
+like an ordinary operator. (Not quite since stem argument not pursued
+to value)   Dot for LHS should yield an address.
+So DotLHS and Assign will be the cases?
+A.J=9 will give reg as target arg, not normally the case. Contrast K=K+2
+Perhaps Assign testing a flag is best. If Assign always follows
+DotLHS, why are they not combined.  DotLhs Tail Rhs Stem
+
+Extra level of indirection on a stem.  At the first level can't hold
+both default value and address of collection.
+
+DotVal Tail Stem since tail can be computed. Oh Dear, need a concat
+with dot and absence of NOVALUE.  Because of indirection it won't be
+wrong to pick up the 8 bytes for a stem.
+
+So it looks like we can always go to 8 except for Assign target. But
+some don't have NOVALUE.  Not sure original plan for NOVALUE works.
+Procedure level starts with all marked dropped. Fetch detects that and
+uses the lookup array acquire a value (NOVALUE detected).  But can we
+chain these undropped ones within the level?  No we can't but wasn't
+the plan to push the list someplace?  That list on the hardware stack
+or it confuses with soft stack. Careful about all this - better not be
+on a hardware call when pushing the UnDropped.
+
+Maybe trick Assign as one arg.  So pickup can always go to the 8.
+
+Add Sub Mult Abut Cat Tail Dot DotLHS  '<' '<=' '=' '>=' '>'
+ '<<' '<<=' '==' '>>=' '>>' Or And                               (20)
+[ Percent Rem Xor Power Div ]  prefixed?
+
+ Fetch FirstArg PushArg say call ftn bifcall minus not assign    (5*2)
+[ plus signal push exit queue trace drop interpret options]
+
+ jmp if0 if1 loopbump to by for
+[ return pull address nop procedure ]
+
+The 3 bit field for the two arg range.
+
+000 NoSymbol
+001 NoSymbol
+010 OneSymbol & Length
+011 OneSymbol & Length
+100 TwoSymbol & Lengths
+101 TwoSymbol & Lengths
+110 TwoSymbol & Lengths
+111 TwoSymbol & Lengths
+
+The 3 bit field for the one arg range.
+
+000 NoSymbol
+001 NoSymbol
+010 OneSymbol & Length
+011 OneSymbol & Length
+100 NoSymbol                *  Paired opcode.
+101 NoSymbol                *
+110 OneSymbol & Length      *
+111 OneSymbol & Length      *
+
+The 3 bit field for the one arg range.
+
+0xx Notjump            **  Quadruple opcode.
+0xx Notjump            **
+0xx Notjump            **
+0xx Notjump            **
+10x Offset1            **  Binary
+10x Offset1            **
+11x Offset2            **
+11x Offset2            **
+
+Can make bifcall more direct if willing to scan for bifname on error.
+Use of GS prefix would allow burden of prefix to be taken by users of
+prefix only.
+
+So that unused come at end of switch (for prefix) best to have 2-arg
+at high opcode values.
+
+Assuming that compare will program out to branching on gt eq lt, each
+of these better be a bit in the opcode.
+Maybe it is worth an extra test of the compares on range, although
+only saving would be 24 bytes in the switch.
+
+10000
+10001  >>
+10010  ==
+10011  >>=
+10100  <<
+10101  <>=
+10110  <<=
+10111
+
+11000  Add
+11001  >
+11010  =
+11011  >=
+11100  <
+11101  <>
+11110  <=
+11111  Sub
+
+01000  *
+01001  ||
+01010  Cat
+01011  Tail
+01100  Dot
+01101  DotLHS
+01110  Or
+01111  And
+
+00000
+00001
+00010
+00011
+00100 for
+00101 to by
+00110 if loop
+00111 if0 if1
+
+ Fetch FirstArg PushArg say call ftn bifcall minus not assign    (5*2)
+[ plus signal push exit queue trace drop interpret options]
+
+All this needs redoing if it isn't worth having any one-byte operands.
+
+Try with even/odd bit distinquishing Operand/Operator.
+
+Divide on opcode value for Can-have-loads-before and All-args-beyond.
+(Latter eg branches.)
+
+Branches: [if when while until] Mask long/short
+{Expensive on bits 2+3+1. Maybe will have to synch source for error message.}
+
+Specials: OmittedArg Drop Exit Return KillDo Nop procedure pull
+  otherwisemissing signal parsee
+
+One arg ("touched") ops: FirstArg PushArg Asgn(target) minus not call
+function return bifcall say signal parse exit length push queue trace
+interp options drop plus numeric1/2/3 substr1
+SpecialAssign(to by for rep doasgn)
+
+Two touched: * strict nonstrict cat abut dot and or add sub percent xor power
+
+To avoid remapping numbers from syntax time we could (after isolating
+compares) take opcode as 2*$num+1.  Means moving some operators below
+compares, to get them in range.
+
+Tricky stuff mapping group numbers to pcodes but some solution found.
+
+Comparison+Then+Target is clumsy at 4 bytes.  Could be that most would
+fit in 16 bits: 2 of opcode, 3 to cover = <> > >= <= == \==, and 11 for
+branches. (3 of 11 are alignment of target).  One pass so must choose
+before knowing distance of branch.  Could be good, but size of pcode not
+an urgent problem.
+
+Nov 98.  Pcodes is made more challenging by desire to keep ops used by
+bifs in a narrow range. I'm going to collect together the restraints.
+Percent,Asterisk,Slash,Rem,Xor,Or,,And
+Digits,Fuzz,,,Engineering,Scientific,,Form
+$NOP to $TRACE a set.
+Percent thru Power binaries.
+Negate Positive Not unaries.
+With thru Arg subject of parse
+Stem,Stream,Normal
+Digits thru Form
+Drop Expose
+LEAVE ITERATE
+So many constraints that using a table to re-order seems best.
+
+Dec 98.   It looks as if having a separate codes for one-dot and many-dot
+tails makes sense.  In the former case one can avoid a move by lookup between
+keys and in-situ tail (unless not already there).  In the latter case there will
+be moves to do the concats so best to concat into new-key position before
+lookup. (Well yes but NYI)
+
+Dec 99.  Using the modulo 8 on references, eg to flag assignment w/o assignment
+opcode.

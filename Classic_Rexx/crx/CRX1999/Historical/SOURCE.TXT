@@ -1,0 +1,71 @@
+
+This is a guide to the design of the HRX Rexx interpreter.
+
+The design is described in terms of objects, although there is no
+inheritance of methods involved.
+
+The design components are:
+
+API           - which describes non-Rexx access.
+Pools         - which describes variable pools.
+Configuration - the code which sits closest to the operating system.
+Source        - the code which manages reading and showing the source code
+                of the program being interpreted.
+Messages      - the code which contains and shows the messages.
+Tokens        - which finds tokens in the source
+Syntax        - which checks syntax and generates a "pseudo-code" version of
+                the program.
+
+The Standard requires an API by which non-Rexx code (in this case code
+written in 'C') can access features of Rexx - to start a program, to
+access the program's variables, and to monitor its progress.
+This is described by the API object, implementing sections $5.2.1,
+$5.12 and $5.13
+
+The program's variables are held in pools, implementing $7.1, $7.2 and
+$7.3.
+
+THE API OBJECT
+
+Organization
+
+The stable piece of code is a 32 byte anchor.  This is always present
+when a Rexx program is running (and also at other times if CRXTSR is
+used).  It serves the purposes of:
+
+Pointing to the REXX stack.
+Holding a flag to record when 'break' on the keyboard is pressed. (The
+HALT condition.)
+Pointing to the internal stack. (Same as the hardware stack segment)
+
+The internal stack is present when any Rexx program is running.  There
+may be more than one program running, if one has called another, and
+they share the stack.  (ie there is a single thread)
+
+The segment which contains the stack also has a pointer to root code,
+that is code capable of loading more code from the library as
+necessary.  (There is no significance to the anchor being pointed at
+the internal stack rather than the root code. Both stack and root code
+are in the DOS memory when any Rexx program is running.)
+
+The root code segment also contains a segment list - listing objects
+which can be spilled from DOS memory.
+Pointing to the current variable pool. (Needed by the API)
+Holding the file handle for the library
+
+USE OF REGISTERS
+
+The code stays where it was loaded, with CS to address it.  The stack may need
+to expand, so SS can change, but rarely. Normally DS=ES=SS to easily
+exploit the instructions like LODS that assume specific segment registers.
+When using tables this changes to DS=CS.
+
+It is a characteristic of the hardware that displacements occupying less than
+two bytes in the object code are possible only when a base or index is used in
+the address calculation; addressing with just segment register and offset needs
+a two byte offset.  So using base or index when it isn't needed can make code
+shorter.  The use of LOCAL variables in the assembler allows displacement off BP
+to be implied but only for 128 bytes.  We set up BP so that -128 to +127 can
+cover variables.
+
+

@@ -1,0 +1,23 @@
+Arithmetic is not easy to test because the Standard has (with Mike Cowlishaw's blessing) made the rules for default representation of numbers as character strings 
+different from the original specifications.
+
+
+There is a lot of data (like J18AR200.DAT) showing what results should be under the original rules. (Thanks to Walter Pachl and colleagues, I believe).
+
+
+(OTT.CMD seems to show CRX failing FUZZ test, for me) 
+
+The original intent of ARITHOP.CMD and ANSIBIFS.CMD was to run the code from the emerging Standard under a trusted (not CRX) Rexx interpreter, so as to debug the 
+code in the Standard.  Eventually they may have been run under CRX it is not clear in 2011 how to do that.
+
+The data is part of a big file of examples of what should happen in
+arithmetic.  (Big file made by Vienna folk)
+J18Bild2 reads that line by line and checks whether the code from the
+Standard give the same result. (When run as rexx code by CRXD).  So
+more a test of the Standard than a test of CRX.)
+
+Dec 1999.  Making CRX do the J18Bilda that Warp does.
+
+j18bild2.cmd works on just first 200 of data. Included arith, not external.
+  April 2000 J18ar200 default data - OK.
+j18bilda.cmd works on just first 200 of data. Uses externals.

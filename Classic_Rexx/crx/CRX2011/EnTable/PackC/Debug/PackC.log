@@ -1,0 +1,135 @@
+﻿Build started 20/12/2011 17:16:30.
+     1>Project "C:\Users\Admin\documents\visual studio 2010\Projects\EnTable\PackC\PackC.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\PackC.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt PackC.c
+         PackC.c
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(2143): error C2628: 'LONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(2143): error C2628: 'LONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(2143): error C2208: 'long' : no members defined using this type
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3649): error C2628: 'LONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3649): error C2628: 'LONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3655): error C2628: 'LONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3655): error C2628: 'LONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3661): error C2628: 'LONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3661): error C2628: 'LONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3667): error C2628: 'LONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3667): error C2628: 'LONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3673): error C2628: 'LONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3673): error C2628: 'LONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3679): error C2628: 'LONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3679): error C2628: 'LONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3818): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3818): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3823): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3823): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3828): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3828): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3833): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3833): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3839): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3839): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3845): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3845): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3864): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3864): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3869): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3869): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3875): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3875): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3880): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3880): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3886): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3886): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3891): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(3891): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(8756): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(8756): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(8756): error C2208: 'unsigned long' : no members defined using this type
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(14087): error C2628: 'LARGE_INTEGER' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(14087): error C2628: 'LARGE_INTEGER' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(14108): error C2628: 'LARGE_INTEGER' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winnt.h(14108): error C2628: 'LARGE_INTEGER' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winbase.h(247): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winbase.h(247): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winbase.h(247): error C2208: 'unsigned long' : no members defined using this type
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\rpcndr.h(634): warning C4114: same type qualifier used more than once
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\rpcndr.h(634): error C2632: 'long' followed by 'short' is illegal
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\rpcndr.h(634): error C2208: 'unsigned long' : no members defined using this type
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5327): error C2628: 'DWORDLONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5327): error C2628: 'DWORDLONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5327): error C2208: 'ULONGLONG' : no members defined using this type
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5384): error C2628: 'DWORDLONG' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5384): error C2628: 'DWORDLONG' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5384): error C2208: 'ULONGLONG' : no members defined using this type
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5636): error C2628: 'LARGE_INTEGER' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5636): error C2628: 'LARGE_INTEGER' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5964): error C2628: 'DWORD' followed by 'unsigned' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5964): error C2628: 'DWORD' followed by 'short' is illegal (did you forget a ';'?)
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\winioctl.h(5964): error C2208: 'unsigned long' : no members defined using this type
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\packc.c(32): error C2371: 'main' : redefinition; different basic types
+                 c:\users\admin\documents\visual studio 2010\projects\entable\packc\packc.c(7) : see declaration of 'main'
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(376): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(460): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(472): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(520): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(605): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(696): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(786): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(792): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(799): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(809): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(810): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(813): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(814): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(837): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1146): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1149): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1171): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1175): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1182): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1225): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1232): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1240): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1359): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1459): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1517): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1545): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1575): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1616): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1844): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(1965): warning C4244: '=' : conversion from 'float' to 'unsigned short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2028): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2057): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2065): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2069): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2177): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2209): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2278): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2367): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2416): warning C4013: 'QryFlag' undefined; assuming extern returning int
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2428): warning C4013: 'SetFlag' undefined; assuming extern returning int
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2543): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2568): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2625): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2682): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2684): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2685): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2695): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2721): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2743): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2921): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(2930): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(3048): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(3061): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(3084): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(3136): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(3229): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(3432): warning C4305: 'function' : truncation from 'int' to 'char'
+     1>c:\users\admin\documents\visual studio 2010\projects\entable\packc\pai.h(3574): warning C4244: '=' : conversion from 'long' to 'short', possible loss of data
+     1>Done Building Project "C:\Users\Admin\documents\visual studio 2010\Projects\EnTable\PackC\PackC.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.29

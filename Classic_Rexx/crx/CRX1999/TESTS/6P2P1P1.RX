@@ -1,0 +1,10 @@
+/* Not Radix if certain followers... */
+  say "G"X1 "G"XX "G"X.rc "G"X.9
+  say "G"B1 "G"BB "G"B.rc "G"B.9
+/* Not Exponent in certains cases */
+/* Can't check this w/o execution? */
+/* Not Continuation at Eos */
+  nop, /*
+  */,
+  ;
+  nop,

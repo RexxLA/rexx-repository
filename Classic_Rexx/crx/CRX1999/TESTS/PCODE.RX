@@ -1,0 +1,200 @@
+ exit
+ do
+ if 1&&1 | 0&0 | 1=0 | 1\=1 | 1<>1 | 1><1 | 0>1 | 1<0 | 1<=0 | 0>=1 | 1\>0,
+ | 0\<1 | 1==0 | 1\==1 | 0>>1 | 1<<0 | 1<<=0 | 0>>=1 | 1\>>0 | 0\<<1,
+  then signal bad
+ end
+ do 1
+ end
+ do j=1
+ end
+ signal bad
+ do j=1 to 1
+ end j
+ signal bad
+ do j=1 to 1 by 1
+ end j
+ signal bad
+ do j=1 to 1 for 1
+  iterate
+  leave
+  do k=1 by 1
+   iterate j
+   leave j
+  end
+ end j
+ signal bad
+ do j=1 by 1 for 1
+ end
+ signal bad
+ do j=1 for 1
+ end
+ signal bad
+ do j=1 for 1 by 1 to 1
+ end
+ signal bad
+ do while 0
+ end
+ signal bad
+ do until 1
+ end
+ signal bad
+ do 99 while 0
+ end
+ signal bad
+ do forever while 0
+ end
+ do 99 until 1
+ end
+ do j=1 until 1
+ end
+ signal bad
+ do a.b=1
+ end
+ signal bad
+ do a.b=1 until 1
+ end
+ signal bad
+ do forever until 1
+ end
+ signal bad
+ do forever
+ end
+ if 0 then nop
+  else nop
+ signal bad
+ select
+  when 1 then nop
+ end
+ signal bad
+ select
+  when 0 then nop
+  when 1 then nop
+ end
+ signal bad
+ select
+  when 1 then nop
+  otherwise
+ end
+ signal bad
+ select
+  when 0 then nop
+  when 0 then nop
+  otherwise nop
+ end
+ a=1'1' 1||1;if a<>"11 11" then signal bad
+ a.b=1+1-1;if a.b<>1 then signal bad
+ a.b.c=1*1/1//1%1;if a.b.c then signal bad
+ if \(--1**++1) then signal bad
+ a=1+substr(1,1,1)
+ "DIR"
+ signal bad
+ address
+ address value a
+ address a
+ signal bad
+ address 'a' "dir"
+ address (a) with error replace stem b
+ address a with input normal
+ address a "dir" with output normal
+ address (a) with error normal output append stem b
+ address a with input stem e error replace stem b
+ address a "dir" with output stream c input stream d
+ address a with output stream c input stem b error append stream d
+ arg
+ arg a
+ arg a .
+ arg a 3
+ arg a +3
+ arg a -3
+ arg . 'xx' =3
+ arg (c) a,b
+ arg ,a b =(c)
+ arg ,+(c) -(c)
+ signal bad
+ call "ABC"
+ signal bad
+ call ABC
+ call ABC a
+ call ABC a,b
+ signal bad
+ call on error
+ signal bad
+ call on failure name abc
+ signal bad
+ call off halt
+ call off notready
+ signal bad
+ drop a (b)
+ signal bad
+ drop a.b
+ signal bad
+ drop a.b.c
+ signal bad
+ interpret "nop"
+ signal bad
+ numeric form engineering
+ numeric form scientific
+ numeric form (a)
+ numeric fuzz
+ numeric fuzz 2
+ numeric digits
+ numeric digits 9
+ options ""
+ parse arg
+ push
+ signal bad
+ parse upper pull
+ signal bad
+ parse source .
+ signal bad
+ parse upper linein .
+ signal bad
+ parse version
+ signal bad
+ parse var a
+ signal bad
+/* 2011 Line removed in preference to debugging :-)
+ parse value with
+*/
+ parse value '' with
+ signal bad
+ push "abc"
+ queue
+ queue "abc"
+ signal bad
+ do 3; pull .;end
+ signal on syntax
+ signal on lostdigits name here
+ signal bad
+ signal off novalue
+ signal value here
+ signal here
+ signal bad
+here:
+ trace
+ trace \a
+ trace 99
+ signal bad
+ say
+ say 'Done'
+ exit 99
+p:procedure
+p:procedure expose a
+return
+p:procedure expose a (d)
+return
+p:procedure expose a.b
+return
+p:procedure expose a.b.c
+return 99
+abc:return
+bad:say "Failed"
+ substr(x,1,2) /* prechecked bif */
+ signal bad
+ substr(x,y,z) /* general bif */
+ signal bad
+ condition(x)
+ condition('S') /* prechecked with option */
+ signal bad
+ condition('state')

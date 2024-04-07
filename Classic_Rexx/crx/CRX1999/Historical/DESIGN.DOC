@@ -1,0 +1,998 @@
+10-28-1993 Some notes on the 'real thing'. (Copied from July paper
+notes)
+Pcode need not be executable, if we are going to do Ecode anyway to
+take advantage of "Alarmed machine code" idea to exploit 32 bit
+integer arithmetic.  Pcode ought to be tight; maybe versions for pools
+with less then 256 variables in the variable pool.  The compact
+numbering of variables has to be able to reach the "datatype" info and
+also to reach (first-level) data offset.
+
+The lexical stuff is prototyped.  A "co-ordinating cursor" will record
+progress through source, Pcode, and recognition (in conjunction with
+the AOE stack).
+
+Structure for the name lookups isn't obvious.  If actual names
+interleaved with binary tree then no compact numbering.  Perhaps one
+wallet, with both parts expanding within it; although separating
+yields more capacity.
+
+Five bytes seems right for first level.  We need four for 9 digit
+binary or for segment&offset.  One needed(?) for attributes (eg
+is-arith) and dropped flag.  Also literal-flag?  Dropped might be
+encoded as a segment value.  Don't want to scan these when a segment
+spills so nothing at this level says 'spilled'.
+
+There may be a case for more types eg short-string.  Also something
+other than plain string by indirection, such as float binary.
+
+Maybe nine would be better than five - it would hold all digits9
+numbers and a lot of short strings.
+
+Call through VarPool API will have to do lookup, then unspill maybe,
+then conversion maybe (eg if held binary).  Because of external calls
+and so on we will have to check the the attribute flags regularly.
+(probably need a broken-by-external feedback)
+
+Tried to think of way of dynamically establishing "locked-in" lists of
+variables so that whole loops could run without checks for spilled
+data.  It is complicated; maybe better to pay price of a check on
+every load.
+
+Current pool locator is part of the execution state.  Ecode used will
+have pool associated so could need to be remade because of pool
+change. That is true of Pcode as well - when Pcode section entered
+with 'wrong' varpool we need new Pcode which uses the right operand
+numbers for the actual pool. So what Pcode numbering do we use when
+making Pcode prior to execution?  It will have to be a guess but it
+can be a good guess based on reachability from previous procedure.
+
+Names and data look the same, ie 2 byte length ahead.
+
+What about reuse of Varpool when RETURN has in principle discarded it?
+We want reuse because we don't want to build name lookup on next entry
+so everything will have to be dropped at return.  Maybe something with
+copy of expose-list to avoid rescanning that on each call. (Or maybe
+time-stamped variable)
+
+Compounds would have the stem as the Pcode-numbered part. There are
+various wallets involved - for the index, for the tail values, for the
+locators and for the data.
+
+Memory management is the topic that most needs thought.
+
+ 02-26-1994
+
+The idea of a persistent store of segments along with the source seems
+right for keeping ecode and for checkpointing.  A virtual segment
+table will describe the segments, pinning them to storage between
+executions and pinning to memory during execution.  The 8086
+architecture says code, data, and stack segments will need to be
+in-memory, at least.  They become unpinned when memory requests are
+made.
+
+One byte virtual segment number gives millions of bytes
+addressability per program. A byte of flags would suffice - residency,
+user data or lib, touched for write,...  However that doesn't do
+anything about ageing.  Ageing info, along with length and
+stored-copy-length would be in the actual segment.
+
+When there is a persistent, it will be at the end of the file.
+Put the persistent store in aligned 256 chunks.
+Hence no need to look for virtual segment table unless length fits.
+Read in chunks while testing for confirmation. (CRX in header?)
+
+Somewhere has to be anchor.  Looks like SS would be reasonable.
+
+There is a static allocation problem - register v virtual segment.
+Positive action in the code locks in / unlocks up to four at once.
+
+Need some reserve to avoid choking? Some re-readable
+
+Search for space: (1) Scan DOS chain. If enough total spare then
+relocate a segment and retry. (2) Drop non-recent disk-copied.
+(3) Write back in place.  (Although simply emptying memory
+would get ultimate gallon-in-pint-bottle.)
+
+Spill file doesn't have to be with program.  Ramdisk for example.
+
+VIRTUAL SEGMENT INTERFACE 03-15-1994
+
+Resize AL,CX returns AX paragraph address.
+
+Pin AL, Unpin AL  (Perhaps can live without this one.)
+
+Connect AL, Disconnect AL.  (Ensures it is in, maybe not at same
+place.)
+
+Save everything for checkpoint.
+
+Assure AX:CX,BX Assure BX piece and total memory available.
+
+Assisted far calls - To main code by call to address in stack. Change
+return address from segment to vsegment.  Unpin caller, pin callee.
+ ABOUT PCODE 03-15-1994
+
+Neatest is stacking plus two-address move and compare. Operands to be
+one or two bytes. Perhaps need room for saying one operand is
+immediate. So maybe split like 3 bits to describe operands, 1 bit to
+distinguish branching, 4 bits for operation.  Or maybe better to do
+cases of two byte operands with a prefix.
+
+Stack will have BP for local data, SP for pushes and calls, and header
+for data (with SS prefix used).
+
+'main' will need Header, Language profile, persistence algorithm, call
+assistance.  One-off at end to be jettisoned.
+
+Natural working-set breaks: (Messages) (Tokenizer+Keys+Aoe) ()...
+
+Msg API - show msgn where n is compact numbering. (There will be a
+macro for converting Msgx.y. Inserts of various sorts. 'keywords'
+uses an API on the parser.  So does 'keyword'. General insert may be
+long address in pinned segment.
+
+Parsing API.  Source file handle in panel. pcode segment will be
+connected, and a label index.  Output to STDOUT & STDERR.  Scope
+started at each PROCEDURE.  We assume most vars are initialized so
+re-synch with source if we need the names later. (Or maybe not - could
+just let the names part of the variables drift out.)  Looks like
+literals per scope with a per-scope segment for them.  So NameArray,
+NamesFolded, LiteralsArray, LiteralsFolded per scope.
+
+Arrangement of CRX.LIB would be to put the early code at the beginning, along
+with an index to the rest.
+
+API_Start: How is 'COMMAND', Source comes from command line,
+Environment is 'DOS', Streams are '' and '', traps would have to be
+linked with CRX.EXE
+
+Extra letters set by CRXA.  Needs about 20?  Maybe variable length possible
+if table last thing in CRX.
+Other blank selected by name in CRXA
+Extra-negators selected by name in CRXA
+
+
+IMPLEMENT
+
+Only the old CPUs lose time on effective address calculation so heavy
+use of stack looks better on the new ones.  DS will still be good for
+constants.
+
+Tried fiddling with linker options etc but couldn't get EXEHDR to say
+what I wanted. So looks like load then 4A needed to get prog in smallest
+memory space.  Also .OBJ shows a 512 header although PSP is only 256 bytes.
+Better see if I can do memory allocation dump.
+
+Kernel needs to do 4A, then allocate for stack & switch to it.
+Open CRX.LIB
+Test length, look for VST.
+Load or make VST, addressed from stack base.
+
+An aside - looks like Simplify done twice may be better than
+Simplify done once since expansion of '+' makes some identity
+productions.
+
+Some things are on a per-system basis.  We will have CRXTSR install on
+the 'break' interrupt. Same thing temporarily otherwise.
+Does this work??
+
+More on pcodes. $7 beyond varpool.
+Call.  I've forgotten plan for args. I guess it is a pool for the
+invocation. So arglist start and arglist end.
+Unary +, -, \
+** {datatype checks  NUM 'W'} hence ArithOp
+Multiplicative Additive Concat Comparison (can use real flags?)
+{Store the bits for the opcode needed?}
+And Or Xor
+
+From $8.  Routine Init.  Clause Init.
+
+Some thoughts from M15 time.
+group=select
+* Stack to have #Identity #StartValue repexpr@ byexp@ toexpr@ forexpr@
+* #Once (Have to leave target marked if expanding Pcode later)
+* #IterateLabel before UNTIL code.  #LeaveLabel
+* untilexpr @ only
+* Need to force some code out ahead of the WHILE, not ahead of the
+* UNTIL.
+
+Need a plan about buffers for reading source, expanding messages...
+Maybe top of External Queue will do.  Couldn't hold that over an Exit
+but probably only needed at syntax time. Maybe ask for biggest space
+and take 16th for readin.  Expand if long tokens.
+
+Where are we going to put the Rexx file associates?  Do these have
+buffers?  I think we need space recovery.  Flushes the buffers and
+frees prior to external call.
+
+scasb 7 cycles. rep prefix 5+8n. cmp 6. je 7+m inc 2 lds 7
+
+inc si cmp al,[si] je @B 2+6+7+2=17 per cycle
+rep scasb 7+8=15 per cycle
+
+Unless the CX counting element is important, scasb doesn't gain a lot.
+So not use it for blank or comment scanning.
+
+Scopes are determined by the last PROCEDURE executed, qualified by the
+caller if there was EXPOSE.  Following the Standard model would mean
+having symbols as character strings in the pcode.  Better to have
+a symbol dictionary for all symbols so that symbols are identified by
+number.  The lookup-in-scope will then use the number for the key.
+
+This second lookup yields the numbers for the pcode references to
+operands. It would be reasonable to restrict to 256 per scope. But the
+symbol number is still needed (for value of uninitialized variable).
+
+So scope to have compact numbering, indexing table which gives
+accessor for the value, initially set to the symbol ID.
+
+Segments during translate:  We want one for the symbol table, one for
+the Pcode, one for the Zone (unless all working variables can be on
+the stack). One for the scope. One for buffers. Sharing has difficulty.
+I'll start with a set of them accessed from cs:.
+
+When Rex calls Rex we want to use the same interpreter & bifs code,
+accessed via TSR.  Maybe we don't even do a 4Bh?  Anyway presumably
+need a new stack etc.  Maybe use of Zone is too simple; one part is
+needed to run the interpreter, another part to capture subject program
+status. Maybe we can keep DS free by using CS override for interpreter
+variables, BP fiddling for the fixed size program ones.
+
+Constants are like variables that never get initialized (except for
+conversion to internal form on first sight.)
+
+Use of the Attribute shadow, a byte derived from the incoming
+character by XLAT.  Maybe sign bit distinguishes between what can
+appear in ids and what can't.  Rest could then be uppercase of letter
+or re-numbering of specials. (In general extra-letters won't have
+7-bit uppercase but it wouldn't be hard to do two XLATs and get more
+attributes.) Tabular uppercasing isn't necessary except for extra
+letters. Maybe better to have three bits for the quick discrimination:
+White,Letter, DigitDot, Special, Quote, Slash...
+
+There are 16 variations of jmp after Test has masked the relevant bits
+but they can't be fully exploited.  With just two bits tested:
+jz=00=1st test. Now have 10,01,11. jp second case. Now have 10,01. js
+third case leaves 01 4th.
+
+Wonder what four cases in interpreting byte code.  Maybe Operand,
+Operator, Biflike, Modifier.  Modifier allowing first 64 variables in
+one byte and 16000 in two.
+
+About the Cursor-on-Source scheme.  I want the reads to be 2048 bytes
+which fits with file system. (Although could have scheme for adaptive
+bigger.) The Cursor for anything will be 3 (or 4) byte number.
+Refill should take the position and read from prior 256 boundary.
+
+I've been torn between economy of treating the source like any other
+Rexx file and the ease of special treatment from doing special I/O for
+it.  It now looks like latter is best, with a fixed buffer on the
+stack. Have to support 250 byte literal *after* encoding. Because of blank
+spacing that is 250*8*5/4+3 (or thereabouts) in source form.  So perhaps
+read 2048 but have 512 on top of that in case.  That doesn't work - might
+have retain of 2503. Looks like we need 2502+2048 buffer?  We could
+then choose between read of 2048 and 4096 on the basis of Retain.
+
+We need to re-read the source and synchronize with pcode for TRACE,
+and for <token> inserts which are no longer in the buffer when the
+error is detected.  Simplest is to synchronize by restarting from the
+beginning of the source so as to relate a pcode offset to a
+clause in the souce.  When source offset is known, Refill can bring it
+to the buffer.  The scan needs to test (between units recognized) "is
+this the one being looked for".
+
+Which letters to allow? All of #@$!? perhaps.
+Conventions - #! no good in assembler and @F @B @@ in use. Only leaves
+$ and ? for use. I like $ as in $7.1.1 paragraph notation but also need
+something to pick out constants.
+
+When we are doing trace, are we doing identifier lookups again?  Presumably
+not. Its just 'an id' as far as shadowing is concerned.  But we will need
+keyword lookup.  Labels that are 'hidden' by an earlier labels may have
+nothing in the pcode.  However, we can tell 'hidden' by comparing pcode
+offset.
+
+So I think labels can go in the literal pool. I think I decided the
+arrangement was that scopes would have a one-byte numbering and a
+readonly part that gave the two-byte literal offsets.
+
+Literal pool is example of a wallet.  Each wallet has length & used
+fields at the front.  Need to work on whether length can come from
+DOS.
+
+About the middle layer.  KeyList is zero or points to simple list.
+Literals is a wallet for both literals and initial values.
+Call token. If non-symbol feed it on to Aoe and goto body state.
+if symbol... (1) Get the symbol back for msg, after scan to next
+non-blank or (2) save the symbol, or (3) give resources msg if it wont
+stay in the buffer, or (4) keep it in the buffer by retention scheme.
+It really ought to be (4). So TokenLen to be used. Also need to have
+TokenLine set.
+
+On the basis of terminator: colon - look it up, send off semicolon
+which must be non-error at this point. (Why send anything?)
+Assignment - look it up, send off VAR_SYMBOL.
+Other - Set Keylist for verbs, send off via key lookup.
+
+Body is loop of get Token, feed via Key lookup to Aoe.
+Aoe uses its list of keywords only if KeyList zero. (Ideally we would
+have dropped Aoe ones at table making time. Probably can do this
+since we know keywords involved - UNTIL BY etc.)
+
+Keyword lookup has special effects.  If DO rekindle the 'assign'
+effect. IF/WHEN set keylist. ADDRESS sets WITH. DO sets UNTIL/WHILE
+
+Aoe-to-middle. End of dorep has to turn a middle keyword list off.
+Something turns off WITH
+
+Keyword table think-again.  The zero-marker technique requires length as
+initial byte of element and that prevents neat packing of length with
+other info in two bytes.  Also a problem because of the way generator
+built - keyword names not around when shift array index known.
+Maybe change to using right bit as end-of-list marker.
+Note that Msgc uses the keyword table, via tables.c, so have to make
+non-asm output of Structs as well as asm.
+Choices seem to be: (1) keep keywordID as the thing in messages, make sure it
+it is unique for the purpose and get it in tables.c, (2) use keywordoffset
+as the thing in messages (saves a bit in CRXMSG). To get keywordoffset
+into a byte we would either have to introduce alignment bytes or (better)
+note that length fields are distinguishable from letters.
+So keyword format changes to (data,length,letters). Give up on 'C' version
+except to feed MSGC. Offset doubled is to letters except that if the '40' bit
+is off it is one below that.
+No - for compressed msgs enough to stop when current >= doubled.
+Needed to sort the lists of the Keywords table before message references
+came in the first 512 bytes.
+
+1-09-96  Where is the AOE stack kept?  A separate segment is clumsy.
+Low end of stack segment a possibility with work in SegAssure.
+High end of stack segment a possibility but because it must be
+extendable there has to be above the AOE call (or returning to that
+would lose AOE stack.)  I'm going to try the 'AOE-calls everything else'
+approach.  That implies a small buffer of tokens generated.
+
+I worked through the buffer of tokens adjacent to the zone so that BP+DI
+addressed it. (Then Tok.PosEtc for reference, with Tok expanding.)
+All very elegant but it consumes di and really not necessary.  Buffer can
+only have one symbol in it (since otherwise first not available for messages)
+and what can go with that is only synthesized tokens (which can be handled
+as flags).
+
+The array that converts from TokNum to TokData would be shortest if it
+only had the unique values of TokData in it.  That can be (nearly)
+achieved by splitting the TokNum to five bits for addressing the array
+and three bits for distinction.
+
+24-02-97
+
+There wasn't enough room for parse data in the keyword table so the TokData
+array has to have entires for the keywords and the keyword table just
+gives the TokNum.  This isn't so inefficient because the TokData
+elements are big enough to give the Aimed for state resulting from
+that keyword.
+
+I have split the TokNum with six left bits to index the TokData (when
+number doubled)  and 2 bits for semantic distinction.
+For keywords this number comes from QueryKey-ing.  For most other
+types it comes from mov in the code.  It would be efficient to pick up
+some with the translate table.  % ( ) + - ;
+If these are numbered low in the translate table, the groups.inc will
+have to match.
+Turns out +- in same group so make minus special.
+
+Still thinking on scopes.  I want one-byte operand numbering in the pcode.
+Make this index to table of words for Dropped value and table of data space
+for values. Scopes start at PROCEDURE and increase by reachability but
+signalling means scopes won't stay tight.  Simplest would be all variables
+in all scopes.
+
+Do we put the fields that organise the symbols (and literals) in with them?
+Alternative is another level of indirection, giving fixed size elements
+in the lookup.
+
+If the lengths are with the symbols then INTERPRET could use a linear
+lookup method.
+
+If the lengths are not with the symbols the lookup is fast but lookup
+info can't be discarded.
+
+Constants are like dropped symbols, converted on first sight.
+
+Explicit labels are a different domain.
+
+Simplest is all pcode in one segment, INTERPRETS stack at the end.
+
+Labels using different entry point to lookup means taking scarce number
+space.  However we do it, chain the labels and resolve later.
+
+TRACE by concept of engines (equivalent own stacks).
+
+Probably should map the sub-expressions as extra variables.
+
+About lookups.  One comparison by repe cmps is essential per lookup
+anyway.  Hash is probably best performer but hash width would have to
+adapt.  The adaptive binary that I've used before will have some bad
+cases (array filled upwards then used upwards?) but isn't bad for
+lookups generally.  One seg devoted to write-once, and I'll put a byte
+of length there. (Will I regret not word of length when run time?
+Maybe not since length part of stack record then.)
+One seg for labels, one for other symbols, with fixed size elements.
+(Using same seg, two anchors, would not give two compact numberings.)
+Initialize the symbols one with .MN etc so as message for bad symbols
+can have correct line number.  Not so obvious about bif names.
+There has to be a list somewhere.  Install early would be easy but
+isn't good in the sense that trivial programs will have all bifs in
+their runtime. Double lookup maybe - first the labels as they are
+found, then those against bifs (or vice versa).  Might then pack the
+bifs info tighter.
+
+range '2' to 'Z' is 50-90 dec. 00110010 to 01011010. Suppose not too
+hard to get 2:6 bit split.  Its 3-5 as hex first digit.  Annoying hard
+when 2 is the only digit used. Probably best to subtract 32 from byte
+in symbols.
+
+Anyway flags to say 'matched' (If source runs out here), 'hasupper',
+'haslower'. Avoid haslower if search alphabetic.
+AuBuBuREVeSeDuDRESSeRGeBuIuTAuNDeOuReXOre
+
+May97.  Symbol lookup is working but...  I intended to leave dots in
+something like ABC.DEF and look up the components later.
+(The check do a.j=1 to n;end a.j requires compare over whole - don't
+want to stack all the pieces. Anyway this case a bit awkward since
+can't discard the A.J symbol even if A and J used previously. Maybe
+can do this broken up by stacking a reference to icode.)
+Problem is that the DEF bit doesn't get a length that way, and there
+is no easy way to insert it later.
+Doesn't look as if run time messages (except trace) need the symbol.
+So maybe try dissect at first sight, although that's wrong for labels.
+Maybe need to leave it till late and then make the extra space.
+Each piece has to be a symbol - abc.88 is not the same as abc.088
+It is messy anyway.  I'll try keeping as one symbol until after
+decision whether it is a label.  Then turn it to a sequence of
+symbols with lengths. Lots of sliding because some new and some not.
+At least one byte spare needed on physical symbol space.
+
+I'm still unsure what is best.  It interferes with icode generation if
+the lookup is done too early, eg the reduction for ifthen is
+conditional on ELSE v VAR_SYMBOL.  Although code could be made on the
+ifthen reduction and fixed up by ELSE.  This would allow operands to
+be dropped onto code early, provided unconditional reduces were done
+before getting next token.
+
+So suppose lookup of operand (& dump to icode) can be done at first
+sight.  We could (1) put it down on symbolsseg until we know if it is
+a label or not, or (2) lookup each element as encountered.  Former
+means lots of sliding depending on whether symbol new or not, latter
+means means reconstruct from Token if a label.
+
+Thinking about icode, dropping operands to icode on first sight may
+not be best. Now considering putting dotted things on the label space
+until it can be seen if colon follows.
+
+About runtime. Thinking about a very simple machine for icode
+interpret.  For strings, the only binary ops are concat-like so
+perhaps first operand can always be handled as a copy to the frontier
+of space being allocated.  Conversions can be prefix and not load in
+the default way for the type.  Standard argument loading for string
+might be into (ds,si,cx).
+
+Garbage: Rely on there not being too many long variables.  Sort them
+on address and copy to compact.  Two level with quick version only
+processing variables new since last quick.
+
+INTERPRET "LEAVE A.B.C" is a challenge.  Oh no it doesn't, see TRL p57.
+No need to make it do what LEAVE A.B.C would do in that place.
+
+Un-named variables, for temporaries and for arguments, pose something of
+a problem.  Don't want to restrict the number of arguments.  Unless we
+have a field spare to chain them, will need compact numbering for
+arg(n).
+
+What are the fields in the fixed part?  What are the little sequences that
+the interpretation runs?
+
+Tried solutions with just a Boolean for un-init but they have
+complicated stacking.  Looks like plausible compromise is a 'display'
+per level of call with 8 bytes per program-unique-name.
+
+2 bytes for ptr to the name (needed when un-init)
+4 for far pointer to long string, alternatively integer value.
+(Could make this 3 at expense of array of seg ptrs)
+(Would like 2 byte length so that SUBSTR w/o copy)
+A few bits for type.
+Maybe fit some exponents in?
+Save two bytes by scan of names when un-init needed?  Assumes this is
+rare usage.  Also need to distinquish vars/constants in pool.
+Nice to have field for sort at garbage-collect.
+Perhaps display could be initialized to have the value fields of the
+elements initialized to address the name.  Let's assume we don't need
+more than the flag for un-init.
+
+So worst case is 6 byte Farp+Len. (+type etc)
+How many bits is 999,999,999?  30 bits and then a sign.
+So worst may be to do all floating at digits 9 - needs nearly 4 bytes
+for integer part and nearly 4 for exponent.
+So perhaps no sign on first double is type float.
+(Perhaps not too bad to have integers this way just as exponent=0.
+Sign plus parity at top is contained string.  Length could be in same
+byte giving us shorts up to 7 chars?
+
+Can the display used for initializing be the same as the one used for
+lookup?.  4 bytes for up/down lookup.  Enough room but layouts
+compatible?  Maybe should pay the price on lookup so that up/down
+overlays the integer field.
+
+What is the code for element number to element content? Pickup byte,
+test as operand, shift 3, pickup double (zero offset?), test flags,
+follow if EXPOSED, ....
+
+So returning to arguments, it seems expensive to take a slot for
+chaining unless we need a chain anyway to refresh the un-init on
+RETURN from procedure. If we take a chain then no hope to get full
+float in 8 bytes.  Flags could be with chain so strings still
+reasonable, and integers.
+
+Arguments go on non-procedure call as well.  Are we starting a new
+display for those?  Surely not, so maybe args have a compact
+numbering, and a supply of 'dope-vector' info.
+
+But putting args elsewhere doesn't solve how to do refresh of display
+without a chain.  Refresh whole thing means move 8*AllNames bytes on
+the smallest call. (Or at least scan)  I suppose it is roughly 64
+times better if Booleans used.  Or maybe push on one of the stacks
+to produce list of need-refresh?
+
+I like the push idea.  Would it work for the arguments as well?  Guess
+so. Maybe also for the garbage collect.
+
+More on the layout of the element. RETURN will be popping offsets and
+resetting Display.  How many bytes to copy from Master Display?
+Can't see how to avoid it being 8 unless the flag means 'get it from
+master'.
+
+Is it 128 vars + 64 constants + 64 operations in base byte?
+
+How EXPOSE?  Have Displays for all the levels.  Easiest maybe an
+EXPOSED flag.  At time that flag set can fill in Display segment ptr.
+Copy down & back ought to work but complex wrt EXPOSED in further
+subroutines (?)
+
+Is our pcode using the stack for temps? Or allocating at compile time?
+Latter allows treatment like variables.  First temp could be EAX:EDX
+say.  DS:SI:CX when string.
+
+About a TSR.  Quercus has RXINTMGR - needed for interprogram. Interrupt 60
+hex default and will LOADHIGH.  Uses 2K of memory.
+
+Quercus has REXX myprog (default extension REX) to load REXX (160K) and
+myprog.  Also REXX /R makes it resident; then RX myprog.  Quercus options,
+eg /O to precede program name.
+
+In passing note that a new copy of command shell is used for COPY etc.
+
+BIFS again. 66 of 'em so maybe 7 bits if compact.  Alternative is to
+pick up an address, say 12 bits.  Need 0-3 and 0-5 for argument number
+tests, that's 5 bits. Maybe 11 bits = 2K would do since could be
+further calls from that code. Is a native/pcode distinction needed also?
+That looks cramped but anyway use address and if necessary put more data
+at that address.
+
+No need to store length in BIFS table.
+
+Entry names and constants both go in the program-scope display. Content
+of the former would be irrelevant if we wanted the pcode to directly
+address the subject but that would have expenses (recovery of
+bifname?)  So assume the indirection, like other operands.
+
+Content then becomes (a) address of target. (b) address of the name.
+Since not used as a "normal" operand, we don't have to keep the
+stringlength or a segment pointer.  2 for target, 2 for name.
+Target==0 say for external.
+
+In general it looks like the program-scope display will have to be 12
+bytes per element.  (Alternative is to keep a read-only copy as we do
+for local-scope template.)  Maybe that is best - 6 bytes per name,
+Same index as the 8 bytes per name one.
+
+Two-byte CALL is a problem - how do we chain the appearences and also
+track how many arguments at each appearence?  Maybe not too bad to
+have arg count there.  Can't see how else - can't reasonably scan the
+pcode or predict what will be ahead/after.  But it hurts to have
+expansive pcode.  Maybe two sorts of call, one used only first-time
+and it sets up the other non-testing sort (or replaces call with
+SIGNAL ERROR).
+
+Where does a routine get its stack pointer from?  There will be a
+variable number of pushed arguments.  We probably needed a "start
+invoke" pcode before the arguments.  Note there is nesting.
+StartInvoke could push stack frame ptr before adopting new one.
+Maybe StartInvoke can normally be absorbed as a variety of
+PushArgument (used for first arg).
+
+Good idea to assume bifness from spelling - if that turns out wrong
+start the whole translate again.
+
+Using the stack for temps in expressions looks good - doesn't need
+bits in opcode since we can treat the register as a pushdown (stack
+from reg op when reg already in use.)
+
+Stack for control blocks - DO at least - seems good since bits of
+DO loop (ie bump) then become single byte op.
+
+There is a difficulty in ensuring left to right for NOVALUE and in
+ensuring copies when side-effects might otherwise give wrong answer.
+
+We will need a "touch" operation that gets *A onto the stack in a case
+like A+2*B.  And we will need a copy of A if it is A+F(). For these
+copies we can invent variables to hold the copies. =1,=2,...
+(See later, unneeded)
+
+Often the touching will get combined into another operation, eg A*B
+will just be a 2-address op.
+
+This pre-fetching of terms, coupled with soft stack, puts the RHOperand
+in reg, LHO on stack (in memory) in case like (x) op (y). That is
+contrary to what would happen to (x) op var. Maybe that is OK - it
+only affects the both-in-regs case.  Can still say that if only one
+reg then that is LHO.
+
+For constants, we have access to both the original and converted
+values, by using the symbol number on the lookup and constants arrays.
+
+For variables, we have varsym and level arrays so can reach names but
+doesn't look like we can have binary arith value as well as character
+value. In many cases the character will be derivable from the binary
+but not always.  So rule is probably to hold binary wherever possible.
+
+Non-strict compares have this rule that compare is character if either
+is non-arith. So need a test for arith without creating value?
+Probably no such thing since arithness means arith and within range.
+DATATYPE()=='NUM'
+
+If we are going to SIGNAL (eg NOVALUE) then we will want to reset the
+stack as it was at the beginning of the routine.  Looks like we don't
+need to know what part of that was due to the current clause.  We do
+need to know what regs are in play before an invoke, so as to make
+necessary copies.  That could be done by counting in execution or by
+having a pcode opcode for copy-if-needbe.
+
+Data flags.
+
+NotYetTyped
+NotPlainArith   Has to be tested first. Is next to sign.
+NotArith
+NotYetSet
+Long
+3 for length of short.
+
+Oct 97.  The soft stack carries an array of values.  Seems this could
+be the 8-form value or maybe something on the way to that, a soft
+pointer - segment+offset.  At least the top one is shadowed in the
+hardware registers.  Something like eax+edx for the 8-form.  If the
+next-to-top is just a pointer there may be room in the registers for
+that also.
+
+Odd-parity in first two bits of 8-form specifies absence of fullnumber.
+
+Need to count arguments at compile time if checking BIFs etc.
+At runtime need a count so as to make copies if an invoke is
+encountered. Or maybe there is a Pcode for this?
+If count of args part of invoke pcode then no need for pcode with the
+arguments - "isolating" can be part of invoke action. ("isolating" is
+not needed for BIFs; they can't have side-effects)
+But that still leaves question of how terms of the expression get
+isolated for the invoke.  Maybe we know Z.Temps (effectively) for runtime
+by arithmetic on stack markers.
+
+DO stack at compile time is causing a problem; too much data to hold
+in the hard stack parser elements.  (But use of softstack may make
+TRACE synching hard.)
+
+Standard says:-
+
+Setup
+goto BeginLabel
+IterateLabel:
+UntilCode
+Bump
+BeginLabel:
+Leavings
+WhileCode
+Body
+goto IterateLabel
+LeaveLabel:
+
+Transform for efficiency (1).
+Setup+Leavings
+goto BeginLabel
+IterateLabel:
+UntilCode
+Bump+Leavings
+BeginLabel:
+WhileCode
+Body
+goto IterateLabel
+LeaveLabel:
+
+Transform if no until code.
+Setup+Leavings   {Taking LeaveLabel as argument}
+BeginLabel:
+WhileCode
+Body
+IterateLabel:
+Bump+Leavings+goto BeginLabel
+LeaveLabel:
+
+(This is neat code. Some complication if control variable is tailed.
+Best then to change the assignment last thing in setup to have special
+opcode, allowing the tailing code to be used as a thunk after the
+first time through. But ClauseLine for msgs a problem.)
+
+Playing with until case:-
+Setup+Leavings
+BeginLabel:
+Body
+IterateLabel:
+UntilCode     Requires all of UNTIL code held over Body generation.
+               Shifting code about hard and disrupts synching.
+Bump+Leavings+goto BeginLabel
+LeaveLabel:
+
+Playing with until case:-
+Setup+Leavings
+goto BeginLabel
+routine UntilCode
+BeginLabel:
+Body
+IterateLabel:
+call UntilCode
+Bump+Leavings+goto BeginLabel
+LeaveLabel:
+
+Playing with until case:-  (Back to where we started.)
+Setup+Leavings
+goto BeginLabel
+IterateLabel:
+UntilCode
+Bump+Leavings
+BeginLabel:
+Body
+goto IterateLabel
+LeaveLabel:
+
+Even in this case we can find the IterateLabel from the LeaveLabel so
+OK if setup just raises latter.
+It is questionable whether to have an opcode for 'new do level' or to
+have a flag in TO etc for it. Assume the flag. Will need this flag on
+variety of assignment. Actually, the standard requires us to save away
+the CV rhs and assign it after the TO/BY expressions.
+If we could assume some bits cleared in execution at clause boundary then
+we wouldn't need this. We need one for DATE/TIME so little cost to have many.
+
+So opcodes needed are:
+  TO/BY/FOR(&rep) setting up do block.
+  Setup - Flags for 'with UNTIL', 'tailed CV', 'No arith leaving',
+          'forever(making block)'
+  Bump&Leaving - Flags for 'drop thru', 'no bump', 'no leaving'
+
+And to make checks and generate compile time needs:
+  Exits to make CV= TO etc.
+    CV= to record type of CV and where it is. ClauseLine
+  Exit for DO spec to supply defaults, make Setup.
+  Every time tailed code made, store where it starts.
+
+More accurately, the CVassign/rep/FOREVER will have extra arg for LeaveLabel.
+That way WHILE, UNTIL, LEAVE won't need need an arg.
+If there is CV then Bump opcode will precede LeaveLabel so giving IterateLabel.
+If there is no CV then IterateLabel is after the loop setup, except when
+there is an UNTIL when it is inside the jmp around the UNTIL.
+
+PARSE requires the break, eg =(c), to be evaluated before any of the
+assignments.  We should reorder the template to show that.  Scan needs
+to know these are LHS-type lookups.  Right messy because there could
+be several tailed, eg a.b a.c ':'
+
+So perhaps a 'backfill' approach.  But that isn't easy if the break is
+tailed, eg a.b a.c  =(a.f)
+
+Looks like need to generalize the LHS mechanism so as to allow several
+on the soft stack. No, chose to put targets after the pattern.
+
+22-10-98 Where msgs have a <description> insert we put the various inserts as
+subcodes of Msg55.  In the case of "Resources Exhausted", 5.1, there are a set
+that correspond to reaching the segment limit on Consts, Vars, etc. These
+correspond to an array in the Zone.  (But stride of subcodes has to be three to
+avoid a divide.)
+
+The Power operation means that even with default DIGITS we can need
+arithmetic at 19 digits. That can mean a divide by 10**19 to isolate
+what has to be truncated.  I suppose we could do two divides if we
+wanted to stick with our present table of constants.
+
+So 32bit * 32bit multiply giving 64bit. Divide by 10**n (maybe
+piecemeal.)
+
+But after first step there could be 64 * 64 multiply. We can do that
+piecemeal. How to pick out n digits of result?
+
+Knuth has a fast divide algorithm.
+
+Dec 98. I think it will pay to maintain a copy of the top-of-stack during
+expression evaluation in registers.  This comes free when the latest is an
+operand just loaded.  When it is a result there may be a cost to putting in
+registers but that is outweighed by gain.  The gain is mostly when one argument
+to a binary can be tested&used without reference to V.
+
+Also I think I shall put the effort into changing which end of the eight bytes
+is addressed, making Dtype the byte that needs no offset, rather than String.
+But maybe the idea above reduces the motivation for that.
+
+Jan 99 first assembly with Bcode.  24172 bytes goes to 31000 odd.  Clearly
+32K target is not possible.  (although 64K Zone trick may be worth a bit)
+
+BCODE down to 6257 with aliasing arguments and using fragments. Not using
+_Store for that.
+
+There is a flaw in compaction logic because sort-space is done by allocation
+count but a SUBSTR can introduce something extra to be sorted.
+One day use overlay of code space for code doing the compaction, as next
+resort if not otherwise room to sort. Approach of linearizing to a temporary
+file might be needed.
+
+Maybe should be putting out compaction statistics.
+
+Maybe could make heavier use of the CapitalLetter-Dot notation and couple it
+with conditional generation so that different register schemes possible for
+different versions.
+
+A utility could do the MASM bug thing - probably with an environment variable
+to hold the relevant line numbers.
+
+Looks like we need a DosCache to avoid looking up external names repeatedly.
+For an external routine it goes something like "if no dot, try with .CMD and
+.EXE". Anyway 3DH Open uses fully qualified zero terminated string. So little
+chance of using the original symbol in-place. (Maybe should use the early
+spare in Progscope for the 00h byte.)  If it is an EXE (or COM?) then let DOS
+run it with 4BH. (Needs memory handling). Maybe don't need DosCache in this
+case - enough room in Progscope for addressing fully qualified name. (Plus
+Rexx flag) However, there can be generations of the routine. Also need to
+keep ProgramSegment. Maybe this can be done without DosCache but it is not
+good when A and B both call C. If DosCache, perhaps two-stage - Symbol to
+fully qualified then fully qualified to value.
+
+For a file, 19H current disk, 47H gets current directory, hence fully
+qualified. Now 3DH gets handle. DosCache as a stem with name as key, handle
+as value. Also room in value for the cursors.
+
+If we are keeping compiled versions of external routines we need the pickup
+stage of compaction to recognise the relevant entry constants.
+
+For Varscopes we need a chain - perhaps relayout our segment headers or
+perhaps take a Varscope slot.
+
+For an external call the arguments get copied into the new stack.
+
+Still not obvious whether responsibility count or traceback is best way of
+determining activeness.
+
+Notes on Line-by-line.  Call parser with LBL flag. Hence not bounds on Pcode
+made. Also Source as previous-upto-now.  Run code under TCycle which can exit
+on CursorSI = relevant. If not jump then same again.  If jump ahead then
+parse to limit and cycle. If jump back reset and parse to limit. (Simplest
+but less clumsy possible).
+
+Not sure why, but I changed from prefixing the source in the buffer to doing
+the Reserved constants/vars as a separate use of the parser.
+
+Some snags are emerging with compile time data typeing.
+
+It is natural with Rexx to divide an operation into two parts - checking for
+number and types of arguments, then computing a result.  Because it will
+often be possible to check arguments at compile time (because they are
+constants or results of other operations) it will be efficient to have
+a Pcode point for the computing and another for checking+computing.
+
+When the checking is done it will have the side effect of data type
+conversion, for example char-to-number for an arithmetic argument.
+The snag is when the argument has been checked at compile time but simply
+loaded for the calculation.  It may then be a string in a number position
+(" 2 "), or number as string (0 as a pad).
+
+This is normally OK because where a string is required the code will do
+ToDsSiCx to set the value into registers and this has the side effect of
+converting. Similarly loading the registers with a number.
+
+So benefits of compile time test are not in avoiding tests for simple
+operations but in pre-selecting the type of comparison and in value
+range check avoidance. (The latter particularly for builtins.)
+
+[If we were to arrange that a constant could be held in both forms, eg
+1 and "1", there might be extra benefit arising from the possibility
+that just loading to stack (of last operand) would ensure registers
+were loaded as needed.]
+
+The "Option Letter" on a builtin is a special case, usually it is a constant.
+To avoid the letter lookup at execution, there is an extra code point $pBifqx
+for "Bif, no checks, encoded letter as Pcode byte".
+
+But I haven't worked out how to use this with the Rexx-making-Bcode
+approach to builtins.  The Rexx from the standard uses tests of the
+letter.  This doesn't work with $pBifqx since nothing uppercases the option
+argument. This can be "solved" by using the checking version $pBif instead.
+This is ugly, particularly in the Bcode itself because the ANSI source
+can be assumed to have no type-failures.
+
+As well as uppercasing, there is question of whether omitted option should
+be replaced by 'N' (or whatever).
+
+A bit better would be to use $pBif when uppercasing was required and $pBifqx
+(or $pBifq) when the option was already uppercase.
+
+A bit better still would involve making the uppercased constant at compile
+time and substituting the option operand.
+
+Maybe either the builtins have to do the uppercasing themselves or they have
+to test the numeric option (that comes in CX) rather than the letter.
+
+Testing CX is noticeably faster for builtins implemented in ASM but not
+for Bcode ones.  Anyway speed probably doesn't matter except for
+ARG DATATYPE STRIP VERIFY.
+
+Overall, I'm inclined to drop all the Letter-to-numeric mechanism. Substitute
+the new-version-of-constant method when option is say 't' or 'BOTH'.
+
+For now, leave CRX failing when Bifq used and option not uppercase letter or
+omitted. Downside is that DATATYPE already written using numeric option.
+Checking with letter may actually be faster because order can be chosen, but
+fails to exploit shortness of ASM 'loop'.
+
+I changed to remove numeric-for-letter and to use replacement constant as
+needed for options.
+
+Because currently can only load constants as strings (or 0,1), I have to
+leave some ToDsSiCx and ToNumber calls in the main code although if we
+fully exploited replacement constant potential they could be avoided.
+
+About precisions for bifs and ArithOp.  We don't used a new level block when
+BCycleStart because that would be a high overhead.  But we need changes of
+precision - most bifs don't use user's digits(), Date uses 18, AithOp recurses
+with extra.  I suppose we could save/restore user's value in BCycle frame.
+Also could change to what Bif requires. That still leaves ArithOp recursion
+changes to handle. We can bracket the recursion with change&restore or we
+can make precision an extra argument.  The latter avoids Bcode having to set
+numeric digits but would add work to implementation uses of ArithOp.
+
+Also thought needed on how numbers-as-strings (or AwayNumber format) are used.
+Do we test early whether digits()>9 and use strings+ArithOp even though the
+actual numbers for particular operation are in range?  More efficient to
+depend on the values.  So start on operation, go general as necessary.
+As necessary will start with conversions of inputs to binary failing to fit
+our format. If that happens we could apply LOSTDIGITS then (which would be
+valuable if digits()<=9) or just go ArithOp.
+
+Also what to do with digits()<9.  The fast code will work if we keep track
+of the limitnumbers that correspond to precision.  But simpler just to go
+general.
+
+May 99.  We should change the reservation algorithm for compaction to using
+the SerialSpace.  We have to have a temp file in reserve for emergency.
+Rather than try to make all of soft stack look like variables (eg even the level
+blocks), I would rather Compaction finds the variables (as now).  Still needs to
+know how much at ToS is variables.  StackDi won't hack it. StackDi plus a fixed
+amount isn't safe. Only thing I can see now is a Z.Top maintained by XCycle.
+Yes, call it Z.Stack and keep it current as a bound.  Works for compile time
+also.
+
+Jun 99.  Thinking about externals.  By making Level block bigger, it could
+cater for retaining external between calls. Goes with need for SystemLinks, the
+cache that prevents going back to DOS whenever there is use of a DOS name.
+Since it is open ended, perhaps best is a stem in the Zone. Probably have to
+copy in/out of callers FS: space to make it work. The keys would have to be
+fully qualified DOS names and more. Value for an external could be Pcode,
+Symbols, Vars and Consts, with Varscope & ProgScope remade. Probably have to
+introduce a new datatype - array of segments - so that Compaction would find
+them.
+
+Aug99 Maybe rebuild so that opcodes are actually same numbers in Bcode & Pcode.
+About 55 shared odds. 16 Config + 24 BcodeOnly + frags.
+Evens 2*43 locals 2*11 SystemVar + 16 bcode procs.

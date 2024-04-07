@@ -1,0 +1,2 @@
+BIFLINEOUT db 6*8+3,Frag19,Arg2-20,CONFIG_STREAM_CHAROUT,Zero
+ db _RetB,Arg3-20,_RetB

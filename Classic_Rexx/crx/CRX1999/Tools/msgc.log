@@ -1,0 +1,819 @@
+
+MSGC For personal use of those I give it to - BLM Aug 93
+ Reading input...Tail 26 255 20006
+314 for HALT
+205 for WHEN
+194 for OTHERWISE
+172 for SELECT
+205 for WHEN
+172 for SELECT
+205 for WHEN
+194 for OTHERWISE
+50 for END
+205 for WHEN
+172 for SELECT
+194 for OTHERWISE
+188 for THEN
+44 for ELSE
+188 for THEN
+61 for IF
+205 for WHEN
+44 for ELSE
+188 for THEN
+205 for WHEN
+194 for OTHERWISE
+205 for WHEN
+172 for SELECT
+194 for OTHERWISE
+172 for SELECT
+50 for END
+50 for END
+34 for DO
+172 for SELECT
+50 for END
+34 for DO
+50 for END
+34 for DO
+50 for END
+172 for SELECT
+50 for END
+188 for THEN
+50 for END
+44 for ELSE
+34 for DO
+172 for SELECT
+61 for IF
+34 for DO
+50 for END
+172 for SELECT
+50 for END
+188 for THEN
+44 for ELSE
+180 for SIGNAL
+61 for IF
+172 for SELECT
+34 for DO
+61 for IF
+172 for SELECT
+34 for DO
+129 for PROCEDURE
+129 for PROCEDURE
+28 for CALL
+188 for THEN
+61 for IF
+188 for THEN
+205 for WHEN
+188 for THEN
+14 for ADDRESS
+28 for CALL
+461 for NAME
+180 for SIGNAL
+115 for TRACE
+115 for TRACE
+115 for TRACE
+28 for CALL
+421 for ON
+28 for CALL
+416 for OFF
+180 for SIGNAL
+421 for ON
+180 for SIGNAL
+416 for OFF
+14 for ADDRESS
+455 for WITH
+432 for INPUT
+439 for OUTPUT
+327 for APPEND
+335 for REPLACE
+97 for NUMERIC
+397 for FORM
+122 for PARSE
+211 for UPPER
+320 for ERROR
+97 for NUMERIC
+366 for FOREVER
+129 for PROCEDURE
+447 for EXPOSE
+389 for DIGITS
+34 for DO
+5 for FOR
+34 for DO
+97 for NUMERIC
+389 for DIGITS
+97 for NUMERIC
+403 for FUZZ
+115 for TRACE
+97 for NUMERIC
+389 for DIGITS
+97 for NUMERIC
+389 for DIGITS
+34 for DO
+34 for DO
+85 for LEAVE
+76 for ITERATE
+85 for LEAVE
+34 for DO
+76 for ITERATE
+34 for DO
+85 for LEAVE
+34 for DO
+76 for ITERATE
+34 for DO
+97 for NUMERIC
+389 for DIGITS
+97 for NUMERIC
+403 for FUZZ
+97 for NUMERIC
+389 for DIGITS
+97 for NUMERIC
+397 for FORM
+61 for IF
+205 for WHEN
+382 for WHILE
+375 for UNTIL
+122 for PARSE
+259 for VALUE
+455 for WITH
+10 for TO
+34 for DO
+1 for BY
+34 for DO
+34 for DO
+159 for RETURN
+159 for RETURN
+65 for INTERPRET
+358 for STREAM
+352 for STEM
+352 for STEM
+352 for STEM
+352 for STEM
+34 for DO
+ 10799 after keywords. Last message has number 55.4
+Msg0 equ 1
+Msg1 equ 2
+Msg2 equ 3
+Msg3 equ 4
+Msg100 equ 5
+Msg200 equ 6
+Msg201 equ 7
+Msg300 equ 8
+Msg301 equ 9
+Msg400 equ 10
+Msg401 equ 11
+Msg500 equ 12
+Msg501 equ 13
+Msg600 equ 14
+Msg601 equ 15
+Msg602 equ 16
+Msg603 equ 17
+Msg700 equ 18
+Msg701 equ 19
+Msg702 equ 20
+Msg703 equ 21
+Msg800 equ 22
+Msg801 equ 23
+Msg802 equ 24
+Msg900 equ 25
+Msg901 equ 26
+Msg902 equ 27
+Msg1000 equ 28
+Msg1001 equ 29
+Msg1002 equ 30
+Msg1003 equ 31
+Msg1004 equ 32
+Msg1005 equ 33
+Msg1006 equ 34
+Msg1100 equ 35
+Msg1200 equ 36
+Msg1300 equ 37
+Msg1301 equ 38
+Msg1400 equ 39
+Msg1401 equ 40
+Msg1402 equ 41
+Msg1403 equ 42
+Msg1404 equ 43
+Msg1500 equ 44
+Msg1501 equ 45
+Msg1502 equ 46
+Msg1503 equ 47
+Msg1504 equ 48
+Msg1600 equ 49
+Msg1601 equ 50
+Msg1602 equ 51
+Msg1603 equ 52
+Msg1700 equ 53
+Msg1701 equ 54
+Msg1800 equ 55
+Msg1801 equ 56
+Msg1802 equ 57
+Msg1900 equ 58
+Msg1901 equ 59
+Msg1902 equ 60
+Msg1903 equ 61
+Msg1904 equ 62
+Msg1905 equ 63
+Msg1906 equ 64
+Msg1907 equ 65
+Msg2000 equ 66
+Msg2001 equ 67
+Msg2002 equ 68
+Msg2100 equ 69
+Msg2101 equ 70
+Msg2200 equ 71
+Msg2201 equ 72
+Msg2300 equ 73
+Msg2301 equ 74
+Msg2400 equ 75
+Msg2401 equ 76
+Msg2500 equ 77
+Msg2501 equ 78
+Msg2502 equ 79
+Msg2503 equ 80
+Msg2504 equ 81
+Msg2505 equ 82
+Msg2506 equ 83
+Msg2507 equ 84
+Msg2508 equ 85
+Msg2509 equ 86
+Msg2510 equ 87
+Msg2511 equ 88
+Msg2512 equ 89
+Msg2513 equ 90
+Msg2514 equ 91
+Msg2515 equ 92
+Msg2516 equ 93
+Msg2517 equ 94
+Msg2600 equ 95
+Msg2601 equ 96
+Msg2602 equ 97
+Msg2603 equ 98
+Msg2604 equ 99
+Msg2605 equ 100
+Msg2606 equ 101
+Msg2607 equ 102
+Msg2608 equ 103
+Msg2609 equ 104
+Msg2610 equ 105
+Msg2611 equ 106
+Msg2612 equ 107
+Msg2700 equ 108
+Msg2701 equ 109
+Msg2800 equ 110
+Msg2801 equ 111
+Msg2802 equ 112
+Msg2803 equ 113
+Msg2804 equ 114
+Msg2900 equ 115
+Msg2901 equ 116
+Msg3000 equ 117
+Msg3001 equ 118
+Msg3002 equ 119
+Msg3100 equ 120
+Msg3101 equ 121
+Msg3102 equ 122
+Msg3103 equ 123
+Msg3200 equ 124
+Msg3300 equ 125
+Msg3301 equ 126
+Msg3302 equ 127
+Msg3303 equ 128
+Msg3400 equ 129
+Msg3401 equ 130
+Msg3402 equ 131
+Msg3403 equ 132
+Msg3404 equ 133
+Msg3405 equ 134
+Msg3406 equ 135
+Msg3500 equ 136
+Msg3501 equ 137
+Msg3600 equ 138
+Msg3700 equ 139
+Msg3701 equ 140
+Msg3702 equ 141
+Msg3800 equ 142
+Msg3801 equ 143
+Msg3802 equ 144
+Msg3803 equ 145
+Msg3900 equ 146
+Msg4000 equ 147
+Msg4001 equ 148
+Msg4002 equ 149
+Msg4003 equ 150
+Msg4004 equ 151
+Msg4005 equ 152
+Msg4006 equ 153
+Msg4007 equ 154
+Msg4008 equ 155
+Msg4009 equ 156
+Msg4010 equ 157
+Msg4011 equ 158
+Msg4012 equ 159
+Msg4013 equ 160
+Msg4014 equ 161
+Msg4015 equ 162
+Msg4016 equ 163
+Msg4017 equ 164
+Msg4018 equ 165
+Msg4019 equ 166
+Msg4020 equ 167
+Msg4021 equ 168
+Msg4022 equ 169
+Msg4023 equ 170
+Msg4024 equ 171
+Msg4025 equ 172
+Msg4026 equ 173
+Msg4027 equ 174
+Msg4028 equ 175
+Msg4029 equ 176
+Msg4030 equ 177
+Msg4031 equ 178
+Msg4032 equ 179
+Msg4033 equ 180
+Msg4034 equ 181
+Msg4035 equ 182
+Msg4036 equ 183
+Msg4037 equ 184
+Msg4038 equ 185
+Msg4039 equ 186
+Msg4040 equ 187
+Msg4041 equ 188
+Msg4042 equ 189
+Msg4100 equ 190
+Msg4101 equ 191
+Msg4102 equ 192
+Msg4103 equ 193
+Msg4104 equ 194
+Msg4105 equ 195
+Msg4106 equ 196
+Msg4107 equ 197
+Msg4200 equ 198
+Msg4201 equ 199
+Msg4202 equ 200
+Msg4203 equ 201
+Msg4300 equ 202
+Msg4301 equ 203
+Msg4400 equ 204
+Msg4401 equ 205
+Msg4500 equ 206
+Msg4501 equ 207
+Msg4600 equ 208
+Msg4601 equ 209
+Msg4700 equ 210
+Msg4701 equ 211
+Msg4800 equ 212
+Msg4801 equ 213
+Msg4900 equ 214
+Msg4901 equ 215
+Msg5000 equ 216
+Msg5001 equ 217
+Msg5100 equ 218
+Msg5101 equ 219
+Msg5200 equ 220
+Msg5300 equ 221
+Msg5301 equ 222
+Msg5302 equ 223
+Msg5303 equ 224
+Msg5400 equ 225
+Msg5401 equ 226
+Msg5500 equ 227
+Msg5501 equ 228
+Msg5502 equ 229
+Msg5503 equ 230
+Msg5504 equ 231
+ 61 Unique original characters.
+Goal 299
+ Now requirement is 11177+0+6=11183 using 107 codes, 746 pairs
+ Two->One. Max merit 224
+ Now requirement is 10372+0+14=10386 using 111 codes, 891 pairs
+ Two->One. Max merit 150
+ Now requirement is 10073+0+18=10091 using 113 codes, 934 pairs
+ Two->One. Max merit 129
+ Now requirement is 9571+0+26=9597 using 117 codes, 1006 pairs
+ Two->One. Max merit 123
+ Now requirement is 9326+0+30=9356 using 119 codes, 1024 pairs
+ Two->One. Max merit 118
+ Now requirement is 8895+0+38=8933 using 123 codes, 1093 pairs
+ Two->One. Max merit 91
+ Now requirement is 8804+0+40=8844 using 124 codes, 1101 pairs
+ Two->One. Max merit 89
+ Now requirement is 8384+0+50=8434 using 129 codes, 1151 pairs
+ Two->One. Max merit 81
+ Now requirement is 8223+0+54=8277 using 131 codes, 1178 pairs
+ Two->One. Max merit 80
+ Now requirement is 7989+0+60=8049 using 134 codes, 1247 pairs
+ Two->One. Max merit 72
+ Now requirement is 7703+0+68=7771 using 138 codes, 1341 pairs
+ Two->One. Max merit 69
+ Now requirement is 7315+0+80=7395 using 144 codes, 1448 pairs
+ Two->One. Max merit 60
+ Now requirement is 7143+0+86=7229 using 147 codes, 1502 pairs
+ Two->One. Max merit 50
+ Now requirement is 6995+0+90=7085 using 149 codes, 1548 pairs
+ Two->One. Max merit 49
+ Now requirement is 6756+0+100=6856 using 154 codes, 1595 pairs
+ Two->One. Max merit 47
+ Now requirement is 6709+0+100=6809 using 154 codes, 1601 pairs
+ Two->One. Max merit 47
+ Now requirement is 6353+0+112=6465 using 160 codes, 1736 pairs
+ Two->One. Max merit 42
+ Now requirement is 6192+0+118=6310 using 163 codes, 1800 pairs
+ Two->One. Max merit 39
+ Now requirement is 5857+0+136=5993 using 172 codes, 1907 pairs
+ Two->One. Max merit 34
+ Now requirement is 5789+0+138=5927 using 173 codes, 1954 pairs
+ Two->One. Max merit 33
+ Now requirement is 5499+0+156=5655 using 182 codes, 2118 pairs
+ Two->One. Max merit 31
+ Now requirement is 5318+0+168=5486 using 188 codes, 2177 pairs
+ Two->One. Max merit 30
+ Now requirement is 5203+0+176=5379 using 192 codes, 2237 pairs
+ Two->One. Max merit 27
+ Now requirement is 5076+0+184=5260 using 196 codes, 2292 pairs
+ Two->One. Max merit 24
+ Now requirement is 4921+0+198=5119 using 203 codes, 2366 pairs
+ Two->One. Max merit 21
+ Now requirement is 4801+0+210=5011 using 209 codes, 2445 pairs
+ Two->One. Max merit 19
+ Now requirement is 4655+0+226=4881 using 217 codes, 2517 pairs
+ Two->One. Max merit 18
+ Now requirement is 4619+0+230=4849 using 219 codes, 2533 pairs
+ Two->One. Max merit 18
+ Now requirement is 4487+0+242=4729 using 225 codes, 2611 pairs
+ Two->One. Max merit 16
+ Now requirement is 4336+0+258=4594 using 233 codes, 2716 pairs
+ Two->One. Max merit 15
+ Now requirement is 4306+0+258=4564 using 233 codes, 2732 pairs
+ Two->One. Max merit 15
+ Now requirement is 4291+0+256=4547 using 232 codes, 2746 pairs
+ Two->One. Max merit 15
+ Now requirement is 4178+0+268=4446 using 238 codes, 2826 pairs
+ Two->One. Max merit 14
+ Now requirement is 4053+0+282=4335 using 245 codes, 2929 pairs
+ Two->One. Max merit 13
+ Now requirement is 3932+0+298=4230 using 253 codes, 2999 pairs
+ Two->One. Max merit 12
+ Now requirement is 3908+0+300=4208 using 254 codes, 3012 pairs
+ Two->One. Max merit 12
+ Now requirement is 3830+0+308=4138 using 258 codes, 3076 pairs
+ Two->One. Max merit 11
+ Now requirement is 3819+0+308=4127 using 258 codes, 3081 pairs
+ Two->One. Max merit 11
+ Now requirement is 3728+0+324=4052 using 266 codes, 3157 pairs
+ Two->One. Max merit 10
+ Now requirement is 3546+0+362=3908 using 285 codes, 3316 pairs
+ Two->One. Max merit 9
+ Now requirement is 3510+0+364=3874 using 286 codes, 3333 pairs
+ Two->One. Max merit 9
+ Now requirement is 3357+0+396=3753 using 302 codes, 3456 pairs
+ Two->One. Max merit 8
+ Now requirement is 3301+0+404=3705 using 306 codes, 3496 pairs
+ Two->One. Max merit 8
+ Now requirement is 3131+0+446=3577 using 327 codes, 3634 pairs
+ Two->One. Max merit 7
+ Now requirement is 3075+0+452=3527 using 330 codes, 3684 pairs
+ Two->One. Max merit 7
+ Now requirement is 2881+0+502=3383 using 355 codes, 3878 pairs
+ Two->One. Max merit 6
+ Now requirement is 2821+0+502=3323 using 355 codes, 3938 pairs
+ Two->One. Max merit 6
+ Now requirement is 2809+0+492=3301 using 350 codes, 3948 pairs
+ Two->One. Max merit 6
+ Now requirement is 2590+0+574=3164 using 391 codes, 4188 pairs
+ Two->One. Max merit 5
+ Now requirement is 2505+0+598=3103 using 403 codes, 4282 pairs
+ Two->One. Max merit 5
+ Now requirement is 2296+0+666=2962 using 437 codes, 4530 pairs
+ Two->One. Max merit 4
+ Now requirement is 2208+0+700=2908 using 454 codes, 4625 pairs
+ Two->One. Max merit 4
+ Now requirement is 2176+0+674=2850 using 441 codes, 4666 pairs
+ Two->One. Max merit 4
+ Now requirement is 1984+0+780=2764 using 494 codes, 4940 pairs
+ Two->One. Max merit 3
+ Now requirement is 1906+0+800=2706 using 504 codes, 5058 pairs
+ Two->One. Max merit 3
+ Now requirement is 1891+0+764=2655 using 486 codes, 5080 pairs
+ Two->One. Max merit 3
+ Now requirement is 1888+0+748=2636 using 478 codes, 5084 pairs
+ Two->One. Max merit 2
+ Checking
+ MeritCheck
+ FreqCheck
+ One->Two, unit cost 0
+ Now requirement is 1888+0+744=2632 using 476 codes, 5084 pairs
+ One->Two, unit cost 0
+ Now requirement is 1888+0+744=2632 using 476 codes, 5084 pairs
+ One->Two, unit cost 1
+ Now requirement is 1915+0+690=2605 using 449 codes, 5096 pairs
+ One->Two, unit cost 2
+ Now requirement is 2006+0+598=2604 using 403 codes, 5131 pairs
+ One->Two, unit cost 3
+ Now requirement is 2132+0+514=2646 using 361 codes, 5155 pairs
+ One->Two, unit cost 4
+ Now requirement is 2232+0+464=2696 using 336 codes, 5175 pairs
+ One->Two, unit cost 5
+ Now requirement is 2287+0+442=2729 using 325 codes, 5189 pairs
+ One->Two, unit cost 6
+ Now requirement is 2443+0+390=2833 using 299 codes, 5217 pairs
+Code Freq Length Offset Gain
+  0  142  1     0    0 [ ]
+  1   38  1     0    0 ["]
+  2    2  1     0    0 [%]
+  3    1  1     0    0 [']
+  4   11  1     0    0 [(]
+  5   13  1     0    0 [)]
+  6    4  1     0    0 [*]
+  7    3  1     0    0 [,]
+  8    4  1     0    0 [-]
+  9    6  1     0    0 [.]
+ 10    7  1     0    0 [/]
+ 11    7  1     0    0 [0]
+ 12    8  1     0    0 [1]
+ 13    5  1     0    0 [2]
+ 14    3  1     0    0 [3]
+ 15    4  1     0    0 [5]
+ 16   11  1     0    0 [9]
+ 17    4  1     0    0 [:]
+ 18   10  1     0    0 [;]
+ 19   14  1     0    0 [<]
+ 20    7  1     0    0 [>]
+ 21    2  1     0    0 [A]
+ 22    1  1     0    0 [C]
+ 23    6  1     0    0 [E]
+ 24    2  1     0    0 [F]
+ 25    1  1     0    0 [H]
+ 26    1  1     0    0 [I]
+ 27    1  1     0    0 [L]
+ 28    2  1     0    0 [N]
+ 29    2  1     0    0 [O]
+ 30    2  1     0    0 [R]
+ 31    2  1     0    0 [S]
+ 32    2  1     0    0 [T]
+ 33    0  1     0    0 [X]
+ 34    1  1     0    0 []]
+ 35   34  1     0    0 [a]
+ 36   13  1     0    0 [b]
+ 37   40  1     0    0 [c]
+ 38   32  1     0    0 [d]
+ 39   47  1     0    0 [e]
+ 40   25  1     0    0 [f]
+ 41   17  1     0    0 [g]
+ 42    7  1     0    0 [h]
+ 43   52  1     0    0 [i]
+ 44    2  1     0    0 [k]
+ 45   36  1     0    0 [l]
+ 46   33  1     0    0 [m]
+ 47   10  1     0    0 [n]
+ 48   41  1     0    0 [o]
+ 49   22  1     0    0 [p]
+ 50    4  1     0    0 [q]
+ 51   38  1     0    0 [r]
+ 52   53  1     0    0 [s]
+ 53   45  1     0    0 [t]
+ 54   25  1     0    0 [u]
+ 55   12  1     0    0 [v]
+ 56   10  1     0    0 [w]
+ 57    3  1     0    0 [x]
+ 58    8  1     0    0 [y]
+ 59    3  1     0    0 [z]
+ 60    1  1     0    0 [{]
+ 61   19  1     0    0 [!]
+ 62   73  1     0    0 [!]
+ 63    0  1     0    0 [!]
+ 64    3  5  2868    8 [return]
+ 65    3  8  2740   14 [arithmetic overflow]
+ 66    3  5  2386    8 [stream]
+ 67    3  5  1868    8 [ ("<value>") must not exceed ]
+ 68    3  5  1732    8 [; found "<name>"!]
+ 69    3  7  1636   12 [ ("<token>")]
+ 70    3  4  1519    6 [ould ]
+ 71    3  8  1916   14 [ keyword must be exactly "0" or "1"; found "<value>"!value of expression following ]
+ 72    3  7  1389   12 [zero or a positive ]
+ 73    3  4  1728    6 [0 characters]
+ 74    3  5   875    8 [label "<name>" ]
+ 75    3  4  1976    6 [detected at "<token]
+ 76    3  6   317   10 [  on line <linenumber> ]
+ 77    3  6  2712   10 [numeric]
+ 78    3  4  2296    6 [versi]
+ 79    3  5  2785    8 [result ]
+ 80    3  6  1506   10 [result of ]
+ 81    3 11   459   20 [ corresponding to ]
+ 82    3  6  2164   10 [<argnumber> ]
+ 83    3  6   775   10 [position]
+ 84    4  5  2940   12 [variable referen]
+ 85    4  7  1797   18 [start with ]
+ 86    4  5  1616   12 [  loop]
+ 87    4  5  1384   12 [expression in   instruction must be ]
+ 88    4  5   870   12 [found!]
+ 89    3 15  2648   28 [non-numeric value ("<value>")]
+ 90    1  8   736    0 [hexadecim]
+ 91    4  5   548   12 [because ]
+ 92    4  6   205   15 [system]
+ 93    4  6   128   15 [alization]
+ 94    4  6  2063   15 [routine ]
+ 95    3  4  2399    6 [option]
+ 96    4  6  1089   15 [parsing ]
+ 97    4  3  2375    6 [; found "<value>"!<bif> argument 1 must be a ]
+ 98    4  5  2184   12 [exponent ]
+ 99    4  3  1134    6 [data ]
+100    4  3   700    6 [ matching ]
+101    4  3  1493    6 [operator ]
+102    4  4  2201    9 [!<bif> argument <argnumber>]
+103    2  8  2759    7 [detected at ]
+104    5  5  1953   16 ["<operator]
+105    5  5  1722   16 [exceeds ]
+106    5  6  1352   20 [current ]
+107    5  6  1055   20 [string or symbol expected after ]
+108    2  5   512    4 [trol ]
+109    2  4  2216    3 [zero or ]
+110    5  5   412   16 [ clause]111a
+111    4  8  2190   21 [9 digits]111b111c112a
+112    4  4   762    9 [blank]112b
+113    4  3  1655    6 [e of a ]
+114    4  7   746   18 [binary string]
+115    5  4  2239   12 [!<bif> argument 1]
+116    5  9   688   32 [instruction ]
+117    4  3  1705    6 [too]
+118    4  6   120   15 [failure during ]
+119    5  4  1221   12 [; found "<value>"!]
+120    4 13   655   36 ['<hex-encoding>'X]
+121    4  4    19    9 [ource]
+122    4  6  1017   15 [requires]
+123    3  9  2669   16 [arithmetic ]
+124    6  6   986   25 [function ]
+125    6  2  1403    5 [whole number; found "<value>"!]
+126    6  3     7   10 [<value> ]
+127    2  5  1648    4 [ match]
+128    4  7   767   18 [position ]
+129    6 14   139   65 [: <description>!]
+130    6  4  1041   15 [; found "<token>"!]
+131    4  6  1418   15 [must be ]
+132    6  4   482   15 [have ]
+133    3  8   720   14 [instruction]
+134    3  8  1936   14 [exactly "0" or "1"]
+135    7  3    47   12 [inter]
+136    6  3   381   10 [!unexpected ]
+137    3  6  1426   10 [    ]
+138    1  7  1903    0 ["0" or "1"]
+139    4  4  1432    9 [value ]
+140    7  2   569    6 [le]
+141    7  4  1063   18 [ keyword; found "<token>"!]
+142    7  2   636    6 [ in ]
+143    3  4   802    6 [only ]
+144    5  5  1840   16 [ ("<value>")]
+145    5  3    52    8 [tive ]
+146    8  2  1101    7 [name ]
+147    8  2   639    7 [!invalid ]
+148    4  4   251    9 [quot]
+149    3  5   973    8 [after ]
+150    5  8   517   28 [variable ]
+151    5  5   323   16 [require]
+152    6  2  1371    5 [; found "<value>"!value of ]
+153    6  4  2069   15 ["<name]
+154    4  3   697    6 [requires a]
+155    9  2   899    8 [an ]
+156    2  4  1164    3 [string]
+157    3 10   559   18 [ control variab]
+158    9  3   179   16 [ed!]
+159    4  3  1367    6 [<value>]
+160    5  7  1817   24 [expression ]
+161    6  7   354   30 [expression]
+162    7  5   631   24 [character]
+163    6  6  2119   25 [<argnumber>]
+164    5  5  1045   16 [string ]
+165    6  2  1472    5 [ must be a ]
+166    5 15   392   56 [ has no corresponding ]
+167    3  5  1095    8 [pattern]
+168    8  3   494   14 [ following ]
+169    5  6  1337   20 [whole number]
+170    7  2   499    6 [at ]
+171   11  2   629   10 [!invalid ]
+172    3  6  1895   10 [logical ]
+173    8  3  2207   14 [; found "<value>"!<bif> argument ]
+174    3  4   647    6 [char]
+175   10  2   540    9 [ must not ]
+176    3  3   784    4 [hexadecimal string]
+177    4  3   221    6 [aus]
+178    7  2  2314    6 [00]
+179    2  7  2986    6 [failure ]
+180   11  4   757   30 [ation ]
+181    3  5   585    8 [ follow]
+182    3 12  2096   22 [in invocation of <bif>]
+183    9  2   981    8 [al ]
+184   15  2    24   14 [, ]
+185    6  5  1830   20 [value of ]
+186   14  3  1238   26 [ must be followed by one of the keywords <keywords>; found "<token>"!]
+187    7  3   470   12 [  ]
+188    1 12  1298    0 [ must be followed by one of the keywords <keywords]
+189    3  5   862    8 [label]
+190   13  3    85   24 [to ]
+191    8  3  1475   14 [oper]
+192    2  4  2350    3 [ed by ]
+193    1  8  1318    0 [ must be followed by ]
+194    7  3  2329   12 ["<value]
+195   15  2   556   14 [is ]
+196   13  6   488   60 [symbol]
+197    7  2    58    6 [ce]
+198    8  2  1086    7 [expected ]
+199    3  4  1373    6 [repeti]
+200   10  2   473    9 [on ]
+201    3  3   882    4 [cannot ]
+202    6  5   311   20 [expect]
+203    5  3  2392    8 [nam]
+204    7  2  1160    6 [invalid ]
+205    8  3   191   14 [with]
+206   13  2   868   12 [not ]
+207   13  2   818   12 [an]
+208    3  6  1481   10 [right of ]
+209    5  7   166   24 [program]
+210    6  5  1454   20 [number]
+211    6  5  2177   20 [<bif> ]
+212   10  3  2157   18 [argument ]
+213   10  3   331   18 [; found "<token>"!]
+214   17  2   508   16 [the ]
+215   20  2   249   19 [ or ]
+216    4  4   826    9 [valid ]
+217    6  3  2198   10 [; found "<value>"!]
+218    2  5  2088    4 [argum]
+219    3  7  1411   12 [template ]
+220    3  4   949    6 [ is valid only ]
+221    6 11    26   50 [line <linenumber]
+222    7  2   502    6 [at]
+223   20  2    45   19 [in ]
+224   11  3  1204   20 [ must be ]
+225    9  2   527    8 [no]
+226   22  2   486   21 [a ]
+227    7  5  1008   24 [keywor]
+228    9  2   781    8 [> ]
+229    6  4  1115   15 [token]
+230    8  2     5    7 [or ]
+231   17  3   362   32 [of ]
+232    9  2    14    8 [ing]
+233   10  5   477   36 [ must ]
+234   15  2   497   14 [th]
+235   20  2   216   19 [s ]
+236    3  4  2776    6 [value]
+237   19  2   189   18 [ed ]
+238    8  2   840    7 [>"!]
+239    9  2   218    8 [ex]
+240    2  6   833    5 [; found "<]
+241   13  2   156   12 [ti]
+242   14  2   212   13 [re]
+243    7  6   239   30 [unmatched ]
+244    4  3  2425    6 [ fo]
+245    7  2  2041    6 [or]
+246   15  2    11   14 [un]
+247   20  2   651   19 [>"]
+248   19  2    88   18 [en]
+249   24  2     2   23 [er]
+250   27  2   110   26 [on]
+251    7  2   347    6 [al]
+252   18  2   263   17 [t ]
+253   18  2   113   17 [in]
+254   19  2    90   18 [d ]
+255   35  2    78   34 [e ]
+256    1  1     0    0 [ ] 230
+257    2  1     0    0 [ ] 227
+258    1  1     0    0 [ ] 223
+259    1  1     0    0 [ ] 219
+260    1  1     0    0 [ ] 216
+261    2  1     0    0 [ ] 210
+262    2  1     0    0 [$] 208
+263    2  1     0    0 [ ] 201
+264    2  1     0    0 [ ] 198
+265    3  1     0    0 [ ] 194
+266    1  1     0    0 [ ] 191
+267    1  1     0    0 [ ] 187
+268    1  1     0    0 [ ] 183
+269    1  1     0    0 [ ] 179
+270    4  1     0    0 [ ] 176
+271    1  1     0    0 [ ] 167
+272    1  1     0    0 [ ] 163
+273    1  1     0    0 [ ] 160
+274    1  1     0    0 [ ] 157
+275    1  1     0    0 [ ] 129
+276    1  1     0    0 [ ] 105
+277    9  1     0    0 [ ] 102
+278    5  1     0    0 [ ] 97
+279    8  1     0    0 [ ] 94
+280    4  1     0    0 [ ] 90
+281    8  1     0    0 [ ] 86
+282    2  1     0    0 [ ] 79
+283    3  1     0    0 [ ] 64
+284    2  1     0    0 [ ] 61
+285    4  1     0    0 [ ] 57
+286    7  1     0    0 [ ] 48
+287    3  1     0    0 [ ] 42
+288    3  1     0    0 [ ] 38
+289    1  1     0    0 [ ] 32
+290    6  1     0    0 [ ] 30
+291   10  1     0    0 [ ] 25
+292    4  1     0    0 [ ] 22
+293    4  1     0    0 [ ] 17
+294    4  1     0    0 [ ] 14
+295    2  1     0    0 [ ] 7
+296    1  1     0    0 [ ] 5
+297    1  1     0    0 [ ] 2
+298    1  1     0    0 [ ]
+ Total 2443+683=3126
+MSGC finished normally.

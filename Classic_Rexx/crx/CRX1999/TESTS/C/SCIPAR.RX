@@ -1,0 +1,840 @@
+/* parse test */
+ say "Look for 'parse OK'"
+v="bbAA BB  a x y z   b  u v w "
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **x*y z   **u*v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **x*y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **x*y z   **b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **x*y z   b  u v w **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **x*y z   b  u v w **AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x**y*z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **B* a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "a" v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****w*<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "*" v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   **u*v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   **b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x**y*z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **B* a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 10 v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  **a*x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****w*<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 40 v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   **u*v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   **b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   b  u v w **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   b  u v w **AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x***y*z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   b  u v w **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   b  u v w **x*y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 +10 v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a**x*y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****bAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   **b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bb***AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbA***A*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 -12 v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****bAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   **b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bb***AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbA***A*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 0 v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****w*<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 101 v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****w*<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w *****bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "XXX" v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">bbAA*BB  a x y z   b  u v w ******<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***A*BB  a x y z   **u*v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***A*BB  a x y z   b  u v w ***<",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***A*BB  a x y z   **b* u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***A*BB  **a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***A*BB  a x y z   b  u v w **AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***bAA***BB* a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***bAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***bAA*BB  a x y z   b  u v w **bAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***bAA*BB  a x y z   b  u v w **bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v3 v4 v5 v6
+parse Var v v1 v2 "bA" v3 v4 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<'\==">b***bAA*BB  a x y z   b  u v w ***<",
+ then signal Fail
+cnt.=0; v3=3; v4=4
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**u*v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**y*z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**B* a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "a" +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**w*<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "*" +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**u*v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**y*z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**B* a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 10 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**w*<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 40 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**u*v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**y*z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**x*y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**x*y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 +10 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a**3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**A*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 -12 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**A*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 0 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**w*<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 101 +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" "b" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" "*" v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" 20 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**b* u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" 10 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**a*x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" 3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**AA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" +3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" -3 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**w*<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" +0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" -0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" 0 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" -100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4**bbAA*BB  a x y z   b  u v w <",
+ then signal Fail
+drop v1 v2 v5 v6
+parse Var v v1 v2 "XXX" +100 v5 v6
+if '>'v1'*'v2'**'v3'*'v4'**'v5'*'v6'<' \== ">bbAA*BB  a x y z   b  u v w **3*4***<",
+ then signal Fail
+ say "parse OK"
+ exit
+Fail: say "Mismatch" SIGL
+ exit

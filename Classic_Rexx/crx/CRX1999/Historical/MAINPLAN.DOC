@@ -1,0 +1,123 @@
+
+SIMPLIFY and sy.   BNF to simple BNF
+STATES and sd and rd set. Determines states.
+REGEXP and re set.  Regular expressions, not very well.
+PLAY Just a shell
+HRX Assembler start of 'real'
+ENCODE and en. Run after REGEXP to generate code.
+TIDY and ti.  Parses by AOE method.
+MSGC and mc. Makes compressed messages.
+KEYNUM Tries for hash of verbs.
+STRUCTS and sr. Makes the 'C' structures corresponding to states.
+FORM and fo. Pretty source from Tidy output.  Doesn't work now.
+FLAY and fl. A variation of FORM?
+LIB goes with HRX and is not much.
+SRNEW and srn.  Maker of C structures with compact tables.
+SRPK includes srnew.c!?
+LINEAR Linear programming algorithm.
+
+Dec 95. C:\BLM\TODO.DOC covers house etc.
+ H.DOC is historical of this project and cook-book for tools.
+ AOEPCODE.DOC is about pcode and AOE table compaction. (Some numbers here)
+ DESIGN.DOC is about pcode, persistent store and Intel coding.
+ AOE.DOC is the AOE algorithm summarized.
+ Others about particular tools.
+
+We will get the actual standard and run the tools.
+However, we know "Flattening" didn't work and we got lost in Linear
+Programming.  So what is doable?
+
+Start again with C++ on Warp, doing the switch compaction tool.
+We don't have a good interface to do this.  Perhaps re-implement SRN
+but that means RD as well.
+Then re-strategy for compacting.
+We are trying to find a numbering for State + ReferenceState (mod n)
+yields TargetState.  Different states are different sizes.
+So we could have a list of the (Sx Sy Sz) constraints, and a list of
+the order we tried to allocate Sj. (Maybe one ordered list?)
+Maybe separate lists for things with one fixed and none fixed.
+Choose randomly which to allocate when nothing compelling.  When
+failure, move failing relation to top of the list and restart.
+
+That still leaves lots unworked out.  Making states the same because
+their actions are the same.  Making actual pcode from the standard.
+Subroutine recognition in that pcode.  Also should look at INFOZIP
+source to see relevance.  How exits are specified.
+
+Lets get the C++ and see how easy it is to restart.
+
+Also must get clean on BURG as well.  Look to do the unpacking at work.
+
+SIMPLIFY splits off well; the simple form can be useful itself.
+STATES then can do the general thing, although we are probably forced
+to some specializing for error mechanism of classic.
+Maybe then some RESOLVE to sort out the ambiguities and add exits.
+
+We will be co-routining the "Defining code" with the pcode, using
+hand-crafted at the junction.  Main plan will be postfix on the
+pcode but that isn't always the order that dcode needs the info.
+To make it right sometimes the pcode will need extra at clause start.
+
+Merging States with SAMES seems to be going OK.  Exits have been
+introduced (dot notation) but using them is a bit unclear because
+relevant token may not be the latest.  Need to look at tokenizing to
+see how little look-ahead is necessary.
+
+Feb 96. Need alternative production of keywords, with bits for specials,
+and superceded lists removed from Aoe tables.  Named constants for the
+middle layer lists.
+
+Got 32-bit going under Warp.  Combine SR and SRN there for the new SR.C
+
+April 96.  Mapping for tight state tables is OK, as PACK. We need to do a
+cycle of flaw correction - BNF is flawed for state 0; PACK is flawed over
+what Direct means.  Reduce-to-reduce chaining ought to be looked at
+as an improvement some time. Keyword table production need to incorporate
+picking up more token data.
+
+May 96. CRXMSG assembler coding runs as
+Redesign of keyword tables.
+
+Oct 96. Restart work on CRXMSG, using assembler in OS2 dos box.
+
+Feb 97. Next restart. F:NMAKE MK.MK is nop. syn.inc and cmp.inc up-to-date.
+        Looks like tables.c as part of that.  is.kwa for hand alter to
+        keys.inc.
+Need to ENABLE the DPMI of DOS sessions. (via proporties)
+Even that doesn't get CV to work. Have to use native DOS for that.
+Lost time on a couple of subtle bugs - one was meshing loops when Reference
+should have been computed before Prune, and the other was not distinquishing
+states that differed only in prune.
+Aug 97. CRXMSG now works - all the compile time error msgs. Next stages are:
+     Design work on Rexx arguments/calls.
+     More design work on the Pcode.
+     Making pcode from J18ALL and processing it offline for scopes.
+     Variable Pool, as a separate exercise driven from 'C'.
+     Garbage collect.
+Oct 97. Pick up on this project again.  Some statistics needed on
+number of names in a program; are one byte operand numbers sensible?
+We are going to process the Rexx from the standard.  Need to know if
+variables involve arithmetic or not.  So utility that works on Pcode
+from CRX must find all operands and operators; it does
+pseudo-execution to match them.  Hence essentially code generation has
+to be done before overlay of vars in the standard can be done.
+Dec 97. Generated pcode seems several times smaller than Object Rexx makes.
+Jan 98. Fast loop is fast.  Bif arg checks done but could be improved.
+March 98. Got RexxCPS going. Much rework to do.
+May 98. Post-symposium plans for break to modules, OS2 version, Palm etc.
+Nothing done through Summer.  Start end of Oct98 with the laptop.
+Rework to allow Pcodes to have chosen values.
+Dec 98. Made to 1.05 mega on REXXCPS using lots of pcodes for compare.
+Nothing done around world trip.
+Aim for Bcode by Symposium time, maybe external loading also.
+Maybe better to use suffix .CMD in place of .RX
+May 99 Did Bcode for symposium.  Now looks like I should plan on completeness
+and Psion for next year.
+June 99  Broke into modules with link-edit.
+Aug 99 Digits()>9 by Bcode, hence DATE and TIME at numeric digits 18.
+  First of DOS interface - file names.
+Oct 99 Remaking with subcodes so fewer opcodes.
+Nov 99 Speedup by the "Snippet shuffling" programs.
+Feb 00 External calls.
+May 02 !! Start rebuild with ObjRexx as the builder, Borland for the 'C', all
+       on new hardware.

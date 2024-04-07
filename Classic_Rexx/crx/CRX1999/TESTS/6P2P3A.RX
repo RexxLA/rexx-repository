@@ -1,0 +1,17 @@
+/* WHILE is keyword anywhere in DO except for WHILE= */
+ do while=1 while 0
+ end
+/* FOREVER is keyword only after DO */
+ do forever while forever=1
+ end
+/* When the dorep is complete the TO/BY/FOR are no longer keywords. */
+ do j=1 to 9 until for=to
+ end
+/* WITH is no longer keyword once reached. */
+ address abc with output stream with
+/* PARSE introduces WITH if VALUE. */
+ parse value x+1 with . with
+ parse var with
+/* Labels allowed strange places but not just anywhere. */
+ L1:if 1 then L2:nop;else L3:nop
+ x=L4:y

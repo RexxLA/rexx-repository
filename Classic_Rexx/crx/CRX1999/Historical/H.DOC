@@ -1,0 +1,84 @@
+See also README.MY
+
+June 92, about to do some C programming.  Thought I'd make another pass
+over maximising the use of the PE2 editor that I'm used to.
+
+So I need some little BATs to set the right profiles into E:
+
+EC to set the editor for C
+
+There are various levels of 'includes' used in such C programs.
+\PRO\S for those of wide applicability.
+
+Collected the materials for a parser generator - see HBNF.TXT
+
+June 10 1992 - Simplify working.
+June 18 1992 - Simplify really working!
+Aug 2 1992 - Starters part of States working.
+Aug 9 1992 - States developer working, on C grammar.
+Sep 6 1992 - States has proved most useful for ANSI.  Starting a REGEXP for
+             regular expressions.
+Sept 25 1992 - Adding some options to make States neater.
+Nov 15 1992 - Moved to Zenon. REGEXP is done.  MKs are SIMPLIFY STATES
+REGEXP ENCODE TIDY
+Nov 28 1992 - TIDY can do tokenizing based on the output of REGEXP and
+ENCODE.  Now start STRUCTS to make 'C' structures encoding STATES output.
+Dec 1992 - Made good progress making and using STRUCTS.
+Mar 1993 - Back to it to pick up on problem of using the keyword tables
+at the correct point in parsing.
+     Got formatting to work, with flaws.
+Aug 1993 Pushing Meet10 syntax through. Recap Simplify /:= x.bnf x.sim > x.val;
+  States /# x.sim x.sta; Structs x.sim x.sta x.c; Edit ti.c for #defines with
+  values from x.val;copy x.c tables.c;nmake tidy.mk;tidy t.cmd t.a;
+  Must have got Msgc working here sometime.
+Dec 93 Try again with Meet 11 syntax.
+Jan 94 Try again with Meet 12 syntax.
+Must fix - error at state 59 will give missing 'end' msg when Msg35 wanted.
+Notes from library book. \a is a bell  /Fc for mixed asm list
+April 94 - rework with M13/M14 syntax, new keyword rules.
+May 94 - rework with M14A. Nowadays need to get M14A.C onto TABLES.C before
+MSGC making M14A.cmp for msgc.cmp which goes into tidy.
+July 94 - Syntax test cases OK now.
+Sept 94 - rework Arith and Parse, test.
+Oct 94 - After meet 14, rebuild.
+  Note Filter.Rex will abstract Msgs from .STA
+Aug 95 - restart, trying with approved standard.  Looks like some Msg35
+conflicts as well as the IF ELSE conflict but perhaps doesn't matter.
+Wont match with values used in ti.c unless comparison operators separated.
+KEYNUM is an unsuccessful effort to get a algorithm to hash the verbs
+directly to a number range.
+FORM & FLAY seem to be pretty-print things now obsolete.
+LIB is to do with Assembler.
+SRNEW is a variation of STRUCTS for packed but it makes nul for my m16 now.
+SRPK doesn't make sense - it includes srnew.c
+Looks like STRUCTS was kept so as TIDY remained viable; SRNEW is going to
+make smaller tables but we don't have an engine for those.
+Start AOE.DOC for an account of table making.
+Dec 95 - Can't find the main plan joining TODO.DOC DESIGN.DOC AOE.DOC etc.
+Start a MAINPLAN.DOC
+Some progress with Keynum, constructing a hash. Also HASHING prog.  But
+actually binary search may be better.
+Msgc x.msg x.cmp; copy x.cmp cmp.c for tidy.mk
+Tidy x.rex x.ana > x.out
+Remember Tidy uses cmp.c.  Hence tidy on Msgs.rex
+Got some exits going.  Start new stage of SAMES for same states.
+Jan96 Assembler infrastructure and msg unpacking.
+Feb96 Msgs going, some tokenizing through J18ALL.
+May96 32 bit versions of STRUCTS and PACK.
+Aug96 Structs (run on Warp) run once is /a, once without, to make is.kwa
+      and is.kwc which are copied to c:\h\s\keys.inc for assembly and to
+      c:\h\s\tables.c for inclusion in MSGC. KEYS.INC needs hand labelling.
+Oct96 Assembler running under OS/2 DOS box so stuff moved to D:
+Mar97 WARP4 and new machine makes it F: and C: that are relevant.
+Dec97 Pcode made.
+Oct 98 Restart on Dell portable.  Never got MASM61 to work in OS2 DOS
+box so work will be in multiboot mode - Warp for 32 bit utility
+programs in 'C' and MS DOS for assemblys.
+Mar 99 recap. A variation in crx.inc means crx.exe made in version tailored
+to making special Pcode from CRX.RX (which is Rexx code from the standard.)
+(CRXB.EXE)
+The D.T that results is processed by BF.EXE (see D:\h\s\bf.mk) to produce
+BF.T (and other info on its sysout).  BF.T, when copied back to C:\h\s,
+is processed by ALL2INC to make the yyy.inc files that are Bcode for the
+various builtins.
+Jun 2002 Put into one MAKEFILE.  Some names above change.

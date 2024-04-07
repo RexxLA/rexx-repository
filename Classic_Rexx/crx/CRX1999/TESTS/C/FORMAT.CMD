@@ -1,0 +1,128 @@
+/* FORMAT */
+  say 'Look for FORMAT OK'
+/* These from the Rexx book. */
+  if format('3',4) \== '   3'             then exit
+  if format('1.73',4,0) \== '   2'        then exit
+  if format('1.73',4,3) \== '   1.730'    then exit
+  if format('-.76',4,1) \== '  -0.8'      then exit
+  if format('3.03',4) \== '   3.03'       then exit
+  if format(' - 12.73',,4) \== '-12.7300' then exit
+  if format(' - 12.73') \== '-12.73'      then exit
+  if format('0.000') \== '0'              then exit
+  if format('12345.73',,,2,2) \== '1.234573E+04' then exit
+  if format('12345.73',,3,,0) \== '1.235E+4' then exit
+  if format('1.234573',,3,,0) \== '1.235' then exit
+  if format('123.45',,3,2,0) \== '1.235E+02' then exit
+  if format('1.2345',,3,2,0) \== '1.235    ' then exit
+  if format('12345.73',,,3,6) \== '12345.73' then exit
+  if format('1234567e5',,3,0) \== '123456700000.000' then exit
+/* These from Mark Hessling. */
+ if format(12.34) \== '12.34' then exit
+ if format(12.34,4) \== '  12.34' then exit
+ if format(12.34,4,4) \== '  12.3400' then exit
+ if format(12.34,4,1) \== '  12.3' then exit
+ if format(12.35,4,1) \== '  12.4' then exit
+ if format(12.34,,4) \== '12.3400' then exit
+ if format(12.34,4,0) \== '  12' then exit
+ if format(99.995,3,2) \== '100.00' then exit
+ if format(0.111,,4) \== '0.1110' then exit
+ if format(0.0111,,4) \== '0.0111' then exit
+ if format(0.00111,,4) \== '0.0011' then exit
+ if format(0.000111,,4) \== '0.0001' then exit
+ if format(0.0000111,,4) \== '0.0000' then exit
+ if format(0.00000111,,4) \== '0.0000' then exit
+ if format(0.555,,4) \== '0.5550' then exit
+ if format(0.0555,,4) \== '0.0555' then exit
+ if format(0.00555,,4) \== '0.0056' then exit
+ if format(0.000555,,4) \== '0.0006' then exit
+ if format(0.0000555,,4) \== '0.0001' then exit
+ if format(0.00000555,,4) \== '0.0000' then exit
+ if format(0.999,,4) \== '0.9990' then exit
+ if format(0.0999,,4) \== '0.0999' then exit
+ if format(0.00999,,4) \== '0.0100' then exit
+ if format(0.000999,,4) \== '0.0010' then exit
+ if format(0.0000999,,4) \== '0.0001' then exit
+ if format(0.00000999,,4) \== '0.0000' then exit
+ if format(0.455,,4) \== '0.4550' then exit
+ if format(0.0455,,4) \== '0.0455' then exit
+ if format(0.00455,,4) \== '0.0046' then exit
+ if format(0.000455,,4) \== '0.0005' then exit
+ if format(0.0000455,,4) \== '0.0000' then exit
+ if format(0.00000455,,4) \== '0.0000' then exit
+ if format(1.00000045,,6) \== '1.000000' then exit
+ if format(1.000000045,,7) \== '1.0000001' then exit
+ if format(1.0000000045,,8) \== '1.00000000' then exit
+ if format(12.34,,,,0) \== '1.234E+1' then exit
+ if format(12.34,,,3,0) \== '1.234E+001' then exit
+ if format(12.34,,,3,) \== '12.34' then exit
+ if format(1.234,,,3,0) \== '1.234     ' then exit
+ if format(12.34,3,,,0) \== '  1.234E+1' then exit
+ if format(12.34,,2,,0) \== '1.23E+1' then exit
+ if format(12.34,,3,,0) \== '1.234E+1' then exit
+ if format(12.34,,4,,0) \== '1.2340E+1' then exit
+ if format(12.345,,3,,0) \== '1.235E+1' then exit
+ if format(99.999,,,,) \== '99.999' then exit
+ if format(99.999,,2,,) \== '100.00' then exit
+ if format(99.999,,2,,2) \== '1.00E+2' then exit
+ if format(.999999,,4,2,2) \== '1.0000' then exit
+ if format(.999999,,5,2,2) \== '1.00000' then exit
+ if format(.9999999,,5,2,2) \== '1.00000' then exit
+ if format(.999999,,6,2,2) \== '0.999999' then exit
+ if format(90.999,,0) \== '91' then exit
+ if format(0099.999,5,3,,) \== '   99.999' then exit
+ if format(0.0000000000000000001,4) \== '   1E-19' then exit
+ if format(0.0000000000000000001,4,4) \== '   1.0000E-19' then exit
+ if format(0.0000001,4,,,3) \== '   1E-7' then exit
+ if format(0.0000001,4,4,,3) \== '   1.0000E-7' then exit
+ if format(0.000001,4,4,,3) \== '   0.0000' then exit
+ if format(0.0000001,4,5,,2) \== '   1.00000E-7' then exit
+ if format(0.0000001,4,4,4,3) \== '   1.0000E-0007' then exit
+ if format(1000,4,4,,3) \== '   1.0000E+3' then exit
+ if format(0.0000000000000000000001) \== '1E-22' then exit
+ if format(0.0000000000000000000001,,,0,) \== '0.0000000000000000000001' then exit
+ if format(0.0000001,,,0,3) \== '0.0000001' then exit
+ if format('.00001',,,2,9) \== '0.00001' then exit
+ if format('.000001',,,2,9) \== '0.000001' then exit
+ if format('.0000001',,,2,9) \== '1E-07' then exit
+ if format('.00000001',,,2,9) \== '1E-08' then exit
+/* These from Kurt Maerker */
+ if format(99.999,,2,,2) \== '1.00E+2' then exit
+ if format(.999999,,4,2,2) \== '1.0000' then exit
+ if format(.9999999,,5,2,2) \== '1.00000' then exit
+ if format('.0000001',,,2,9) \== '1E-07' then exit
+ if format('.00000001',,,2,9) \== '1E-08' then exit
+ if format(9.9999999,1,10,1,1) \== '9.9999999000' then exit
+ if format(9.9999999,1,10,1,2) \== '9.9999999000' then exit
+ if format(9.9999999,1,10,2,1) \== '9.9999999000' then exit
+ if format(9.9999999,1,10,2,2) \== '9.9999999000' then exit
+ if format(9.9999999,1,10,2,3) \== '9.9999999000' then exit
+ if format(9.9999999,1,10,4,3) \== '9.9999999000' then exit
+ if format(9.9999999,1,8,1,1) \== '9.99999990' then exit
+ if format(9.9999999,1,8,1,2) \== '9.99999990' then exit
+ if format(9.99999999,1,10,1,1) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,1,2) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,1,3) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,2,1) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,2,2) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,2,3) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,3,1) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,3,2) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,3,3) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,4,3) \== '9.9999999900' then exit
+ if format(9.99999999,1,10,5,3) \== '9.9999999900' then exit
+ if format(9.99999999,1,8,1,1) \== '9.99999999' then exit
+ if format(9.99999999,1,8,1,2) \== '9.99999999' then exit
+ if format(9.99999999,1,8,2,1) \== '9.99999999' then exit
+ if format(9.99999999,1,8,2,2) \== '9.99999999' then exit
+/* These cropped from elsewhere. */
+ if format(76546754654.87658765) \=='7.65467547E+10' then exit
+ if format(76546754654.87658765,11,3) \== '          7.655E+10' then exit
+ if format(76546754654.87658765,11,4) \== '          7.6547E+10' then exit
+ if format(76546754654.87658765,11,5) \== '          7.65468E+10' then exit
+ if format(76546754654.87658765,12,3) \== '           7.655E+10' then exit
+ if format(76546754654.87658765,12,4) \== '           7.6547E+10' then exit
+ if format(76546754654.87658765,12,5) \== '           7.65468E+10' then exit
+ if format(76546754654.87658765,13,3) \== '            7.655E+10' then exit
+ if format(76546754654.87658765,13,4) \== '            7.6547E+10' then exit
+ if format(76546754654.87658765,13,5) \== '            7.65468E+10' then exit
+ say 'FORMAT OK'

@@ -1,0 +1,138 @@
+    59 *-*     flag=0;
+       >>>       "0"
+    59 *-*     p0='b'
+       >>>       "b"
+    60 *-*     do loop=1 to 14
+       >>>         "1"
+    62 *-*       key1='Key Bee'
+       >>>         "Key Bee"
+    63 *-*       acompound.key1.loop=substr(1234"5678",6,2)
+       >>>         "12345678"
+       >>>         "6"
+       >>>         "2"
+       >>>         "67"
+    64 *-*       if flag=acompound.key1.loop
+       >>>         "0"
+    65 *-*       do j=1.1 to 2.2 by 1.1   /* executed 28 times */
+       >>>           "1.1"
+    66 *-*         if j>acompound.key1.loop
+       >>>           "0"
+    67 *-*         if 17<length(j)-1
+       >>>           "1.1"
+       >>>           "0"
+    68 *-*         if j='foobar'
+       >>>           "0"
+    69 *-*         if substr(1234,1,1)=9
+       >>>           "1234"
+       >>>           "1"
+       >>>           "1"
+       >>>           "0"
+    70 *-*         if word(key1,1)='?'
+       >>>           "Key Bee"
+       >>>           "1"
+       >>>           "0"
+    71 *-*         if j<5
+       >>>           "1"
+    71 *-*           then
+    71 *-*             do   /* This path taken */
+    72 *-*             acompound.key1.loop=acompound.key1.loop+1
+       >>>               "68"
+    73 *-*             if j=2
+       >>>               "0"
+    74 *-*           end
+    75 *-*       iterate
+    65 *-*       do j=1.1 to 2.2 by 1.1   /* executed 28 times */
+ 27 times removed
+    65 *-*       do j=1.1 to 2.2 by 1.1   /* executed 28 times */
+       >>>           "2.2"
+       >>>           "3.3"
+    77 *-*       avar.=1.0''loop
+       >>>         "1.014"
+    78 *-*       select
+    79 *-*         when flag='string'
+       >>>           "0"
+    80 *-*         when avar.flag.2=0
+       >>>           "0"
+    81 *-*         when flag=5+99.7
+       >>>           "0"
+    82 *-*         when flag
+       >>>           "1"
+    82 *-*           then
+    82 *-*             avar.1.2=avar.1.2*1.1
+       >>>               "1.1154"
+    85 *-*       if 1
+       >>>         "1"
+    85 *-*         then
+    85 *-*           flag=1
+       >>>             "1"
+    86 *-*       select
+    87 *-*         when flag=='ring'
+       >>>           "0"
+    88 *-*         when avar.flag.3=0
+       >>>           "0"
+    89 *-*         when flag
+       >>>           "1"
+    89 *-*           then
+    89 *-*             avar.1.2=avar.1.2*1.1
+       >>>               "1.22694"
+    92 *-*       parse value 'Foo Bar' with v1 +5 v2 .
+       >>>         "Foo Bar"
+       >>>         "5"
+       >>>         "Foo B"
+       >>>         "ar"
+    93 *-*       trace value trace();
+       >>>         "R"
+    93 *-*       address value address()
+       >>>         "CMD"
+    94 *-*       call subroutine 'with' 2 'args', '(This is the second)'1''1
+       >>>         "with 2 args"
+       >>>         "(This is the second)11"
+   131 *-*       parse upper arg a1 a2 a3 ., a4
+       >>>         "WITH"
+       >>>         "2"
+       >>>         "ARGS"
+       >>>         "(THIS IS THE SECOND)11"
+   132 *-*       parse var a3 b1 b2 b3 .
+       >>>         "ARGS"
+       >>>         ""
+       >>>         ""
+   133 *-*       do 1;
+       >>>           "1"
+   133 *-*         rc=a1 a2 a3;
+       >>>           "WITH 2 ARGS"
+   133 *-*         parse var rc c1 c2 c3;
+       >>>           "WITH"
+       >>>           "2"
+       >>>           "ARGS"
+   133 *-*       end
+   133 *-*       do 1;
+   134 *-*       return
+    95 *-*       rc='This is an awfully boring program';
+       >>>         "This is an awfully boring program"
+    95 *-*       parse var rc p1 (p0) p5
+       >>>         "b"
+       >>>         "This is an awfully "
+       >>>         "oring program"
+    96 *-*       rc='is an awfully boring program This';
+       >>>         "is an awfully boring program This"
+    96 *-*       parse var rc p2 (p0) p6
+       >>>         "b"
+       >>>         "is an awfully "
+       >>>         "oring program This"
+    97 *-*       rc='an awfully boring program This is';
+       >>>         "an awfully boring program This is"
+    97 *-*       parse var rc p3 (p0) p7
+       >>>         "b"
+       >>>         "an awfully "
+       >>>         "oring program This is"
+    98 *-*       rc='awfully boring program This is an';
+       >>>         "awfully boring program This is an"
+    98 *-*       parse var rc p4 (p0) p8
+       >>>         "b"
+       >>>         "awfully "
+       >>>         "oring program This is an"
+    99 *-*     end loop
+    60 *-*     do loop=1 to 14
+       >>>         "14"
+       >>>         "15"
+   101 *-*     exit

@@ -1,0 +1,11 @@
+/* Binary ops don't imply VALUE. */
+/* ADDRESS FORM SIGNAL TRACE are contexts. */
+  x='e'
+  numeric form value (x)
+  y=0
+  trace -y
+  signal +99
+99:
+  ADDRESS \y
+/* Msg25.11  (Would be 35.1 if VALUE implied) */
+  numeric form =1

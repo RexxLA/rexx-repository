@@ -1,0 +1,168 @@
+
+;Generated matrix for accept-by-this-state, state*token. 30*22
+AcceptBits dword 0 dup(?)
+ dword 00100000000000000000001000000001y;  0
+ dword 00000000000000000000000000000000y;  1
+ dword 00000001000000000001000000000000y;  2
+ dword 00000010110100011010011001110011y;  3
+ dword 00000010000000000011000000000000y;  4
+ dword 00000010010000011010011001010011y;  5
+ dword 00000011000000010011010000000000y;  6
+ dword 00000010001101011100010011010101y;  7
+ dword 00000000000000000000100000000000y;  8
+ dword 00000000000000000000110000000000y;  9
+ dword 00011000000000100000000000000000y;  10
+ dword 00010100000000100000000000000000y;  11
+ dword 00000000000000000100001000000001y;  12
+ dword 00001100000000100000000000000000y;  13
+ dword 00000000000011000000000000010000y;  14
+ dword 00000000001000000000000100000100y;  15
+ dword 00000000010000001000000000000000y;  16
+ dword 00000010010000011010001001010011y;  17
+ dword 00000010010000011010001101011111y;  18
+ dword 00000010110000011010011101011111y;  19
+ dword 00000010010000011010011101011111y;  20
+ dword 00000010010100011010011111111111y;  21
+;Equates for which token groups use which row.
+$Grp0ndxb equ 1
+$Grp1ndxb equ 2
+$Grp2ndxb equ 2
+$Grp3ndxb equ 2
+$Grp4ndxb equ 3
+$Grp5ndxb equ 2
+$Grp6ndxb equ 4
+$Grp7ndxb equ 5
+$Grp8ndxb equ 2
+$Grp9ndxb equ 6
+$Grp10ndxb equ 7
+$Grp11ndxb equ 2
+$Grp12ndxb equ 8
+$Grp13ndxb equ 9
+$Grp14ndxb equ 10
+$Grp15ndxb equ 11
+$Grp16ndxb equ 1
+$Grp17ndxb equ 12
+$Grp18ndxb equ 13
+$Grp19ndxb equ 14
+$Grp20ndxb equ 15
+$Grp21ndxb equ 16
+$Grp22ndxb equ 15
+$Grp23ndxb equ 17
+$Grp24ndxb equ 18
+$Grp25ndxb equ 19
+$Grp26ndxb equ 20
+$Grp27ndxb equ 21
+$Grp28ndxb equ 22
+$Grp29ndxb equ 0
+$Grp30ndxb equ 0
+$Grp31ndxb equ 0
+$Grp32ndxb equ 0
+$Grp33ndxb equ 0
+$Grp34ndxb equ 0
+$Grp35ndxb equ 0
+$Grp36ndxb equ 0
+$Grp37ndxb equ 0
+$Grp38ndxb equ 0
+$Grp39ndxb equ 0
+$Grp40ndxb equ 0
+$Grp41ndxb equ 0
+$Grp42ndxb equ 0
+$Grp43ndxb equ 0
+$Grp44ndxb equ 0
+$Grp45ndxb equ 0
+$Grp46ndxb equ 0
+$Grp47ndxb equ 0
+$Grp48ndxb equ 0
+$Grp49ndxb equ 0
+$Grp50ndxb equ 0
+$Grp51ndxb equ 0
+$Grp52ndxb equ 0
+$Grp53ndxb equ 0
+$Grp54ndxb equ 0
+$Grp55ndxb equ 0
+$Grp56ndxb equ 0
+$Grp57ndxb equ 0
+$Grp58ndxb equ 0
+$Grp59ndxb equ 0
+$Grp60ndxb equ 0
+$Grp61ndxb equ 0
+$Grp62ndxb equ 0
+$Grp63ndxb equ 0
+$Grp64ndxb equ 0
+$Grp65ndxb equ 0
+$Grp66ndxb equ 0
+$Grp67ndxb equ 0
+$Grp68ndxb equ 0
+$Grp69ndxb equ 0
+;Equates for which token groups use which column of sparse.
+$Grp0ndx equ 0
+$Grp1ndx equ 3
+$Grp2ndx equ 4
+$Grp3ndx equ 5
+$Grp4ndx equ 2
+$Grp5ndx equ 6
+$Grp6ndx equ 7
+$Grp7ndx equ 1
+$Grp8ndx equ 8
+$Grp9ndx equ 9
+$Grp10ndx equ 10
+$Grp11ndx equ 0
+$Grp12ndx equ 0
+$Grp13ndx equ 0
+$Grp14ndx equ 0
+$Grp15ndx equ 0
+$Grp16ndx equ 0
+$Grp17ndx equ 0
+$Grp18ndx equ 0
+$Grp19ndx equ 0
+$Grp20ndx equ 0
+$Grp21ndx equ 0
+$Grp22ndx equ 0
+$Grp23ndx equ 0
+$Grp24ndx equ 0
+$Grp25ndx equ 0
+$Grp26ndx equ 0
+$Grp27ndx equ 0
+$Grp28ndx equ 0
+$Grp29ndx equ 0
+$Grp30ndx equ 0
+$Grp31ndx equ 0
+$Grp32ndx equ 0
+$Grp33ndx equ 0
+$Grp34ndx equ 0
+$Grp35ndx equ 0
+$Grp36ndx equ 0
+$Grp37ndx equ 0
+$Grp38ndx equ 0
+$Grp39ndx equ 0
+$Grp40ndx equ 0
+$Grp41ndx equ 0
+$Grp42ndx equ 0
+$Grp43ndx equ 0
+$Grp44ndx equ 0
+$Grp45ndx equ 0
+$Grp46ndx equ 0
+$Grp47ndx equ 0
+$Grp48ndx equ 0
+$Grp49ndx equ 0
+$Grp50ndx equ 0
+$Grp51ndx equ 0
+$Grp52ndx equ 0
+$Grp53ndx equ 0
+$Grp54ndx equ 0
+$Grp55ndx equ 0
+$Grp56ndx equ 0
+$Grp57ndx equ 0
+$Grp58ndx equ 0
+$Grp59ndx equ 0
+$Grp60ndx equ 0
+$Grp61ndx equ 0
+$Grp62ndx equ 0
+$Grp63ndx equ 0
+$Grp64ndx equ 0
+$Grp65ndx equ 0
+$Grp66ndx equ 0
+$Grp67ndx equ 0
+$Grp68ndx equ 0
+$Grp69ndx equ 0
+$Grp70ndx equ 0

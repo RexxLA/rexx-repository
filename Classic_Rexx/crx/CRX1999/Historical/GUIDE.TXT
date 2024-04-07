@@ -1,0 +1,63 @@
+
+SIMPLEST OPERATION
+==================
+
+The simplest operation of this interpreter is to run CRXNOLIB.EXE with
+an argument which is the program to be interpreted.  For example, make
+the CRX directory the current directory and do
+
+CRXNOLIB Millen
+
+to find out how long to 1st Jan 2000.
+
+You could also try
+
+CRXNOLIB CrxTry to try out single statements of your own.
+
+A drive letter and path can be part of the argument.  An extension of
+.RX is assumed if none is provided.  Hence the following could be the
+same as CRXNOLIB CrxTry:
+
+CRXNOLIB C:\CRX\CrxTry.Rx
+
+Arguments beyond the first are arguments to the program being run.
+Try WeekDay with the year, month and day of your birthday, perhaps:
+
+CRXNOLIB WeekDay 60, 12, 25
+
+
+
+RUNNING LARGER PROGRAMS, OR WITH MORE DATA IN VARIABLES
+=======================================================
+
+Using CRX instead of CRXNOLIB will allow more memory to be devoted to
+programs and data, and allow those to be spilled to temporary disk
+storage.  It requires use of a library (\CRX\CRX.LIB is used unless
+"SET CRXLIB=Somelib" has been done to specify the library) and it
+requires use of a temporary file (\CRX\T.TMP unless TMP in the
+environment has been set to somewhere else).
+
+If your system has sufficient extended memory it will be efficient to
+have the temporary file on a "virtual disk drive" in extended memory.
+
+
+PERSONALIZING THE REXX LANGUAGE
+===============================
+
+If staying exactly with the Standardized language is not important to
+you, you can modify the language accepted by CRX.  To do this you make
+a modified version of the library. Run the program CRXLIB to modify a
+copy of the original library, CRX.LIB.
+
+
+USING STACKS AND THE APPLICATION PROGRAMMING INTERFACE
+======================================================
+
+If the program CRXTSR is run (normally from your AUTOEXEC.BAT) prior
+to using CRX, the REXX stack will be retained even when no REXX
+program is running.  This stack can be shared between REXX programs
+running at different times, or between REXX and non-REXX programs.
+
+Non-REXX programs (ie programs not written in the REXX language) can
+access some REXX features through the API.  See the program CRXAPI.C
+for more detail.

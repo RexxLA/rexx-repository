@@ -1,0 +1,453 @@
+For each reduction we work out what could be top of the stack after
+the reduction and what state each of them will lead to.
+
+When Sj reduced, Set1 element on stack means goto corresponding Set2
+state.  Set2 is a bag. We work out how many of each differing value in
+Set2.
+
+If all targets are the same it is a special case.
+If the complete switch is the same as for some other case it is special.
+If only two alternatives it is a special case.
+Other cases will need an actual switch in the tables produced.
+
+The switch works by shifting the top-of-stack state right by some
+positions (the FLATTEN of the reducing state) to develop an index to
+the switch.  (At least, earlier stuff worked that way)
+
+The FLATTEN shifts are developed optimistically, starting with hope of
+zero and then repeated testing all pairs of states to see where they
+appear in the same switch with same target and hence need flattening.
+
+Even if the maximum FLATTEN stays reasonable, we may need to do more
+to get a numbering of states that works.
+
+19-02-96 After work on minimising number of states.  We have some states
+left that look very similar but investigation shows that they are
+reference states and need to be different, in order to record
+different behaviour after their reduction.
+
+The keyword index number is maximum 588.  There are 53 different messages,
+out of about 100 message references. (25 of Msg35.1).  Index (by bump) of
+highest (53.2) is 223.
+
+Tokens that sometimes are same, sometimes not, are (CONSTANT_SYMBOL, NUMBER,
+VAR_SYMBOL), ('+','\'), (ARG, LINEIN), ('=','<'), (ERROR, FAILURE).
+
+There are some cases where the items of one of these sets (only noticed
+it for the first set) appear with different targets (as opposed to
+being allowed/disallowed).
+
+So it looks like we could have a SwitchingNumber which merged each group
+and a BoolIndex which didn't. SwitchingNumber would have spare couple
+of bits to be used in switches which distinguished (CONSTANT_SYMBOL,
+NUMBER, VAR_SYMBOL).
+
+How about this design:  Sign bit one for switch part. Switch is normally
+one bit to say whether symbols distinguished, five bits of bool index,
+and nine bits delta. Reserved value of index says there is a second word.
+When second word, the key index (nine or ten bits) and bool index come from
+there.{Haven't yet worked on deltas for shifts.}
+(See later - it is better than this.)
+{And Reference bit to fit in.}
+Switch part may be null.
+ReducePart follows: code 01 and prune count in a byte. ( 23-02-96 don't
+know prune maximum).  Series of tests follow. (a) Mandatory. (b) Vector.
+(c) Conditional with pair of words. (d) Branch to other tests.
+{Condition should allow > test or = test. Maybe 3 bytes is enough. }
+{Maybe also code 01x where x distinguishes a 16bit mandatory, 3 of prune
+and 10 target.}
+Reduce part may be null.
+Action part precedes switch part: code 01 and code offset.
+Action part may be null. And will be null if reduce part is.
+Error part code 00 replaces Reduce part. (No need to compress MsgNo)
+
+About token numbering: The initial numberings are ad-hoc, eg picked up
+from XLAT table for specials like parentheses.  For keywords, the low byte
+of the offset may suffice to identify keywords used in the messaging system.
+More uniform is the TokenData, two bytes with more than one field.
+TokenDataAccept is a field indicating if the token is dealt with by some
+state.  In the simple cases the state contains a matching number.  Else
+TokenDataAccept picks up a bit strip from which the state selects a bit.
+TokenData and its bool matrix form a problem that can be solved in isolation.
+
+There is detail to fix on the Acceptance algorithm.  Are there enough
+keys-only states to justify a test for that, or should there just be a
+column of zeros in the matrix?  Order of tests might be:(1) can it accept,
+(2) are any keywords acceptable (& look for 'em) (3), is it direct,
+matrix look. I think that best, don't bother with keywords only mechanism.
+
+Vectoring for shifts had great troubles because of the 'terminator' tokens
+like eof and ';' which went peculiar place when the rest of the list was
+normal.  Nine out would remove obvious problems.
+
+Without vectoring, the array for for the shifts was 29*29 and sparse, even
+after merges.  With vectoring, 7*10 with 22 spare. (Worse if columns merged
+first). (on  4-03-96 its now 9*9)
+
+Given vectoring plus an array, it is a choice about whether to do flattening
+of 'symbol' types for some states (and some duplication of error states),
+or to make more tokens non-arith.
+
+If we do no flatten, the array (now 8*9) goes to 9*13.  The tradeoff is a bit
+in the state and some code.
+
+(Should explore the possibility of hash table in place of array, one day)
+
+Tue 19-03-96. Have a loose mapping. Need decisions on physical.
+18 different non-key atoms with direct.
+
+There are no Directs combined with FlatSym so OK to have a bit for Direct and
+encode FlatSym in the array index.  So detect shift and do acceptance
+always six bits.  (Depends on direct atoms being less than 32)
+(Vectoring?)
+
+Atom says (as a bit?) whether aiming (other than direct) is by arith or not.
+If arith then Delta field completes the job. If non-arith the delta is an
+index. (Plenty of room - supports the hashing theory.)
+
+So all of shift always in two bytes, looks like.
+Ah, but reference bit.  Also errors.
+Looks like all reference shifts are combined with errors.
+So maybe if we did a gather first.
+Maybe Direct targets onto a higher boundary?
+
+Can't see now why exit before shift data is better. More natural to put
+it after. (Exit before prune?)  00 for Exit
+That just leaves 01 for attached reduce w/o exit.
+Prune count max was 2 in just syntax check but take 3 bits.
+But still need DirectR and SubsetR. We are going to have to take one of the
+prune count values to say 'subset' and hope that doesn't cost subsetting much.
+(There are potential subsets with different pruning.)
+So two bits prefix,1 for Direct,3 prune/subset, 9 for related state.
+Additionals. Same prefix as attached reduce?
+
+Looked at the worst case which is shift needing to accept and then to
+either Arith or Array depending on the token.  Considered whether the
+aiming could be done with data at the atom rather than the state for
+the Array part.  Looks like some potential, but the distribution of
+targets for some tokens (eg 12,7) is not helpful; would need to use
+extra ranking.
+
+Maybe now it is enough to just get something reasonable, with 4 bytes
+for harder cases.
+
+Recap: Use of Direct cuts accept matrix from 46*26 to 27*22 which seems
+worthwhile since easy rotate when <33.  There are 52+2 unique combinations
+of state-is-reference, state-is-flatsym, state-is-direct+token,
+state-uses-array+line, state-uses-vector.  Do we have enough to say
+reduce-alone and error-alone also? (And will error go in 9 for this case?)
+
+As an algorithm:
+
+Take off reference bit.
+Take off low for shift
+  Shift direct with given token (18 values), locator.
+  Do acceptance with given rotation. (28 values, inc Flatsym info)
+  if token is vector type, vector on locator+token info.
+  else shift array with locator as index. (10 values)
+Take off high for reduction etc.(16 from 64)
+  Is two bits prune count, 4 styles
+    subset
+    common target
+    Vector with locator
+    Other
+      Pick up next word. Will be;
+        a) If reference gt locator2 go to locator1.
+           else pick up 2 and cycle style.
+        b) If reference eq locator2 go to locator2
+           else pick up 2 and cycle style.
+
+Remainder values for Error number in locator, Call exit.
+
+For the tokens, local numbering for the Direct comparison, locator
+and acceptance picked up along the way.  (Array index in locator space?)
+
+I seem to have had a block about keyoffset.
+Also haven't fitted shift-Sames into the above. Probably because I don't
+intend to use them.  But may be relying on it to make the numbering come out.
+
+11-04-96 Doing better on mapping - looks like 512 may be possible.
+
+So yet another go at the algorithm and state-layout.
+
+Check bit for whether more words of this state follow. Hence know length
+of state.
+Take off reference bit. (It is not correlated enough to mix with anything.)
+(probably no advantage to ever move it elsewhere than first word.)
+If just one word, turns out to be just direct reduce or all vectoring:
+  Locator 9 bits. Don't think prune ever non-zero but could be.
+  (Also mock shift on EOF)
+If two words nearly always shift so maybe the other state (213) could be
+given a shift that accepts no tokens. Acceptance is either by Direct
+(18 values) or by bit matrix (28 values including FlatSym detection).
+Seems best to pack the first word with continuation flag, reference flag,
+a locator and a 5 bit index.  Second word says how to interpret these.
+(Turns out no keywords on the 2 lengths provided state 0 is sorted.)
+So test some values of second word for Direct. If not direct use index
+for acceptance.  After Direct acceptance, direct shift.  After non-Direct
+acceptance shift is by array or arith.  If token is nonArray, vector on
+locator and tokeninfo. (Error/Reduction fields won't be used)
+If token is array we need 10 values. (4 bits & spare values).
+After non-acceptance, I just can't pack in prune count and some codes
+so next effort is simplifying experiments.
+
+Making everything UseArray results in a 38 x 13 shift array with some
+ugly duplication (186/308). Selective UseArray was 9*10, 48/42.
+DirectAim by the token makes it 12*13 98/58.
+
+Note some possibilities where the shift part of state is same and reduce
+different. These could share the two-word shift.
+
+There are two ways of using "Direct".  If presence of the keyword field
+is used to test acceptance of keywords then Direct means "at most one
+non-keyword".  Alternatively Direct could mean "only one token" acceptable.
+Currently we are doing the former, so aiming has to allow for more than
+one target. (Need to rework UseArray).
+
+Had to introduce "Remap" mechanism to table builder before the case
+without arith shifts would solve.
+
+So how would the states look if no arith shifts?  The one word forms
+would be direct reductions and arith reductions and errors. None
+reference.  So one bit continuation, 9 bit locator, leaves enough for
+prune & codes.
+The two-word forms lose one bit for continuation, one for reference.
+All include a shift, and no keyword.  Acceptance by bit matrix, five bits.
+Aim by (token test then) array, four bits.
+Second word is error or reduce, same as one word case.
+The three-word forms are either like the two-word but with keyword, or
+a reduce with particular case followed by one word reduce.
+All the four-word forms have a filter, after which they are like two word.
+The fives are either two compares plus vector or filter with a three word.
+The sixes are two compares plus vector and shift.
+
+So maybe without explicit continuation. Bit in first word says whether
+there is shift. Then comfortable for reduce with locator, prune count,
+and codes filter/compare/direct/vector/error. Comfortable for shift with
+two indexes, a reference, keyword flag, direct flag.
+
+With around 500 words actually used, mapping on to 512 doesn't always work,
+and in any case doesn't allow for the 100 from the sparse aiming array.
+It's nice to use a power of 2 but we don't have to.
+
+Now that Direct only applies to acceptance, the full array (when no
+arithmetic shifts) comes to 20x15, 139/161 (using DirectAim from tokens).
+
+Now that Direct only applies to acceptance, the small array (when some
+arithmetic shifts) comes to 10x11, 57/53 (No DirectAim from tokens).
+
+Probably should make a decision on whether to pursue arithmetic shifts as
+opposed to bigger array:
+
+ - Either arith of DirectAim mean two byte atom info, so thats a wash.
+ - Either way, looks like 512 words total impossible, hence 10 bit
+   locators to consider.
+ - Arith saves about 80 words, provided the arith contribution can go in
+   8 bits.
+ - Arith saves the DirectAim mechanism, Array saves the arith-shift mechanism.
+ - More programming to do for Arith, and no guarantee of a mapping in the end.
+
+16-04-96 go for bigger array.
+
+Need to merge array into the mapping.
+
+1. Take biggest contiguous bit outside. (Not essential in 10 bit form)
+   And if we are no doing this the multiplying for the array access can be
+   done by shifts.
+2. Pre-allocate onto Taken.
+3. Adjust the bounds of ranks.
+
+We are not currently using the possibility that a switch may become subset
+once a filter test is done (are we?).
+
+4-05-96 latest on layout.  Left bit is Reference, which gets shifted to Carry.
+Save rightmost 11 bits. Shift again.
+Now carry bit is RedAlone. If RedAlone goto alpha.
+Sign bit is whether keywords. Next bit is whether whole state an error.
+Then Direct&Value or BitArray&Index.  5 bits for shift array.
+Now at Error or Reduce. Left bit is Reduce, otherwise do error. Shift.
+RedAlone: Take out prune count. Select on two bits, Arith/Subset/Direct/More
+In case of more, take Arith/Subset/Direct from next.
+If no More, goto Beta.
+Do two-word test. Test code comes in prunect position. Whether last comes in
+leftmost bit.  Repeat through two-word tests.
+Beta: do Arith/Subset/Direct.
+Syn.inc made to that spec.
+
+Think again about tokens.
+There is an AliasTo mechanism that says when tokens are mergable after
+acceptance. That isn't of use when there is no token arithmetic.
+The Group# goes to 67 but by key/nonkey knowledge six bits will do.
+However, that number is not crucial; what gets used is
+the number for DirectAim, which is 43 pointers to states; the number for
+Direct acceptance, which is 19 choices currently ranging 0-31; and the
+TokenAccept which has range 22 (and only 26 non-key anyway);token shift
+index which is range 20.
+
+Keywords are duplicated in the keyword table so would be best to just
+pick up compact numbering from there except that length&compact makes 10
+bits so shift index could go there also.
+
+DirectAim is costing 43 pointers but probably is worth it for reducing
+Array content and bounds.
+
+I wonder if same targets as DirectAim appear in the array someplace;
+answer is zero or almost zero overlap.
+
+Looks best to renumber the DirectAim tokens for easy test of which they are,
+and compact table.
+
+11-05-96. Some of the numbers above dubious because IsKey not done right.
+Now 24x20 acceptance.
+
+DirectAim for keywords could be packed with the keyword table.  Only 7 words
+for DirectAim then.
+
+9-08-96 Looks like we did PACK /u tt.t t.t > ttt.t on D: and the t.t
+becomes C:\h\s\syn.inc
+
+26-08-96 Not clear what I settled on because above says DirectAim was
+valuable but the tables seem to be made with U option.
+For pure keywords, we only need the shiftarray index for parsing, but
+the message mechanism needs to identify individual keywords.  There is
+room for length, end-list flag, array index and some disambiguator.
+(Max 5 keywords in group)
+
+(In principle that data in the keyword table could be used as identifier
+for the keyword, a one byte number that the compressed msgs could use.
+However, MsgWords in SR.I plus QueryKey in MC.C says there is a mechanism
+so that offset in keyword table (halved) will serve as identifier for the
+msg mechanism.)
+
+For tokens not pure keyword, we need index to the Bool array as well.
+These also need disambiguation when we come to code generation (except
+six special cases like <> \=) so choices are (a) pickup two bytes as we
+detect tokens in tokenizing and (b) pickup a local number during tokenizing
+and use it to index a table of data for AOE.
+
+If (a) cost us nothing but extra bytes in the assembler code it would be
+some 50 bytes cheaper.  But it's not that simple; can't exploit the
+first level char lookup.  I'm going for (b).  It gives us a freedom in
+the local number that will be exploitable.
+
+One byte with word in keyword table cant be made to work.  Given two,
+there is room for length, lastoneflag, shiftarrayindex, IDwithin group.
+4+1+4+3 doesn't leave room for a Boolarrayindex in general but it does
+for the range of BoolArrayIndex on the keywords that need acceptance
+test; ELSE WHEN etc. (Another 3 bits)  That still leaves a bit for 'special',
+the set that imply a semicolon.  And we can squeeze another bit for
+implied-VALUE-follows (by only 2 for IDwithin.)
+
+Taking labels out of the BNF left a problem about what to do with colon in
+the wrong place.  Best seemed to be to put it back.
+
+Changing order of bits.  Keywords-accepted used early so made leftmost.
+Think again reduction layout. Are there going to be exits on reduce-onlys?
+
+I think I could make parse mill work without storing Z.State if the Arith
+reduction argument was made relative to the test rather than relative to
+the state.  But not doing that now.
+
+Looks like PACK is very sensitive.  When SIMPLIFY was changed to expand
+away the Program = (null) the packing failed.  With non-expand, works
+with 408 states and 651 slots packed.
+
+Had to change algorithm to get a packing of the new setup, in 665 slots.
+
+Debugging shows I forgot something.  The program uses DirectAim for tokens
+even when U option is used; if it didn't then 5 bits wouldn't be enough
+to index the shift array.  But where DirectAim applies, the target state
+needs to be specified, which takes 10 bits.
+
+If nothing of DirectAim goes to the shift array, the array is 21*15 156+180
+If DirectAim pure keywords not in array, it is 31*16 169+327
+If all DirectAims in array, it is 54*16 259+605.
+There are about 40 pure keywords involved with DirectAim.
+
+I don't want to add to the data held with each keyword instance in the
+table.  After length, flag, specials, there is really no more than room
+for Group#, 6 bits.
+
+So it looks like there is a Groups Table with two bytes for every group.
+The element in that should have 5 bits to index the Boolean acceptance
+and ten bits for DirectAim.  If not DirectAim then index to switch table.
+
+Something like 1024*$Grpxxndxb+4*$Grpxxndx+$GrpxxAim
+
+The problem of choosing an error had to be revisited.  We need to say
+"Reduce only on these tokens" in some states, to avoid msg after reduce.
+The plan is to develop the state in normal way, put with extra shift
+cases for the relevant tokens.  The engine to turn that shift into a
+reduce.
+
+Also need this 'explicit reduce' for END keyword.
+
+Implicit concatenation remains a problem.  We can develop a bit at table
+making time about whether '||' is in the shift+reduce lists but (1) we
+don't have much room for it in the state and (2) appearence in the reduce
+list only says it *might* be allowed, eg after taken_constant.
+
+Tests in Middle logic only go so far - they cannot deal with CALL A B.
+
+Problem (2) has been solved by removing 'taken_constant' from IS.BNF; all
+marked states are now ones that are some part of 'expression'.
+
+There are about a dozen with shift on ||, and a dozen with reduce on ||.
+
+Reduce is real hard - we now have 1 bit for reduce, 2 bits for test type,
+3 bits for prune and 10 for aim.  We already have one prune of 4.
+And have to detect semantics somehow.
+
+We are around 720 words so 90 bytes+code to do with extra table.
+
+Unlikely to be able to use, for example, even/oddness of state address.
+
+Perhaps give them all exits, use exit space for the flag.
+
+Recap:  HasShift takes a bit.
+        Error is next bit because 14 needed for msg.
+        Hence 14 left in shift, 15 in reduce.
+        Putting reduce-type next gives a clean 3 left bits: reduce+type,
+          shift+keys, error+number.
+        If next 3 are prune/push count that is also neat.
+        Zero prunect in reduce would be easy test for presence of exit prior,
+        but prunect would have to be elsewhere. Better to take a value for
+        six bits that differs from all non-exit, 10x111.  The x could then be
+        the || flag.
+        Actually shifts are in trouble if PushCt goes to 3 bits. Currently
+        states need 27 values for acceptance Boolean, 21 distinct values
+        of Direct, and 16 values for the Array. Just works in ten bits,
+        although not tried yet.  No room here for || but there is no
+        shift-without-reduce that takes ||.  Would those reduces also
+        naturally have exits?
+        Basically we will have a 6 bit code for 'extra word'.
+
+        Actually Shift+Key would be enough to distinquish exit, if exits
+        before the main state word.
+
+        Also, || prospects might be done best by a flag that said what
+        states shift on 'expression'.
+
+Thought of improvement.  Mapping of ErrorAlone state could map to within
+a state that had an error.  Not much gain.
+Consider putting single word states into the shift array directly.
+
+Another way of doing || problem would be to do 'explicit reduce' for
+||.  That would mean that possibility of implied || could be tested
+using the same Bool aceptance mechanism as is already in place.
+
+Before adding such reduces, the Boolean array is 27 state by 22 token
+hence 88 bytes.  After it seems to be 33x27.  (There are 32 states that
+acquire the explicit reduce for ||.)  This is more blowup than I expected;
+maybe cause is that Direct no longer used as much.  Of course, 33 is a bad
+size since it blows 5 bits.  We could go to 6 bits and drop Direct mechanism
+but code to handle Direct seems to be just 14 bytes.
+
+I'll go to the flag-for-expression method.
+
+Still problems with keywords.  The ELSE made me go over to a keyword
+lookup at clause start.  But then logic in parser wrong where it
+assumes any keyword acceptance will be by lookup at that point.
+
+Nov 97. Some problems avoided by trial and error, eg when signal.61
+        - sort this if we ever go back to the theory.

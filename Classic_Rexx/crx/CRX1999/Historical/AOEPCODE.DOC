@@ -1,0 +1,276 @@
+ 09-22-1994 plan to experiment with compact pcode.
+
+Rules for the subset. Operations known to be integer or exact.
+(SIGN not done that way)
+
+We could probably do a mock-up implementation in C, along the lines of
+Tidy, by acting on state numbers encountered.  Is it worth it, or
+should we be trying to do the real thing?
+
+Perhaps first of all put together the major bits of code, Arith Parse
+Address ChipLind, and make sure Tidy can cope.  "Home" for these is
+now PageMaker?
+
+Pcode will have to expand the DO's and SELECTSs.
+
+Advantage of real-thing approach would be the AOE reference stack
+which would serve to hold operand stack.
+
+Recap AOE. M#NEXT is the key, works out set of states that can be on
+stack after reduce. Had some trouble with renumbering for reduce
+switches until I introduced Taken_Constant which made STRING^ a
+simpler reduce.
+
+Oct 94 Bool matrix for shifts.  Still need to program (a) removal of
+duplication caused by testing atom-with-only-one-state after testing
+state with only one atom.  Also try (b) partitioning to take advantage
+of row/col renum on the Bool matrix so that low col and low row
+implies zeros.  To gain from the space saved may be tricky - make saving
+16 bits wide or fashion the non zero part of the array into a different
+rectangle?
+
+Possible algorithm - Choose target area, count 1s in it.  Do best row
+exchange that will reduce 1's, best col exchange. (Cycle the candidates for
+leaving, scan for best replacements?)  If empty of 1s, increase target
+area (in "easiest" direction?).
+
+On the non-Bool shift array, it is not obvious that compaction is too
+important, since maybe the unaccessed slots could be filled with
+something useful anyway.
+
+Physical design for tables.  Bit0 to be has shift. Bit1 has reduce.
+Then for shifts, ExpectedToken and Target in 13 bits (looks hard).
+Maybe Target by addition?  Otherwise Srow from word & token to Boolean
+array for whether to shift; if shift then take a value on the symbol
+- may be enough or may be second index to go with index from word.
+
+If reduce decided then ...
+(1) Join, a link
+(2) Same as another switch, a link.
+(3) Test, a state and two links.  (Maybe not bother with this?)
+(4) Switch, a mask and a link.
+
+Also need a byte+ for the message number, when no reduce or
+reduce-in-shift-list.
+
+Varieties of shift, of reduce.
+
+ call
+assign
+if
+bif
+>=
+==
+return
+%
+&
+>
+do i=...
+\==
+do n
+\
+||
+//
+<>
++
+-
+**
+
+Perhaps think about pcode generation before J18 fixes syntax. Could
+actions be codified in the syntax tables without using exits?
+
+True exits for the operands - they have to be looked up.
+Are we making Polish or 3-address? 3-address avoids stack handling.
+Anyway the operator should be post, so this maybe just drop-a-byte.
+
+Need exits to sort out branching for the compounds.
+Some flag setting for end-of-clause, eg callable_condition:='FAILURE'
+
+Are we going to be able to process distinct original states that
+aren't distinct when action taken into account?
+
+Marking the bnf seems to be - @ (say) means exits and exit names are
+lhs, lhs2... No exit if production has message.
+
+A code for 'drop the token' in the prod, maybe.
+(But that would put comparison='<>' at the wrong time. Such operators
+need stacking.  Maybe all need stacking.)
+A code for 'drop null string then drop the token' in the prod, maybe.
+May need early action, as in "DROP variable_list"
+If we intersperse this action stuff it will be hard work to avoid it
+during the generation.  Maybe use @drop=:='DROP' production.
+Maybe action stuff should be after the prod in the bnf.
+
+Must do some work on states merging because actions the same.
+
+Sorts of actions - Pcode a few bytes using a template and insert keyword
+code from global.  Pcode assignment to a state variable.  Setup branch
+to be filled later.  Fill branch.  Compiletime flag setting because
+keyword encountered. (But even APPEND REPLACE can be twice per clause)
+Pcode could evaluate symbols by default, those
+not to be evaluated have a keyword ahead of them in pcode.
+
+Need to map some sort of dope-vector in dynamic/safe place to pass args
+to external.  For internal, each #Level to have own space, expandable
+at the end with args.  Also space there for each static DO loop, holding
+BYnn etc.  Same problems with intermediate results.  I wonder if ordinary
+pool attached to #Level might work more simply.
+
+Does VAR_SYMBOL always leave result in the same position of the stack?
+We are going to need printout of what is known about the stack.  Try it
+showing just the reference items to start with.
+
+
+Compiling template list by compiling FindNextBreak into assignments to
+BreakEnd etc., while moving targets to a wordparse list.  (Maybe targets
+onto stack?)  Special case when template item is just an id, as ARG ABC.
+
+Static analysis of NUMERIC settings may be practical.
+
+The story on Msgs.
+ADDRESS >7 we have 19 instead of 35.
+DROP 77    we have 20 instead of 31
+SIGNAL >7  we have 19 instead of 35
+TRACE >7   we have 19 instead of 35
+We need to try DO 7 BY on the products.  I think draft may be wrong.
+           we have 19 instead of 46 when vref subject not right.
+DO FOREVER BY 1 we have special, Msg25
+IF ABC \   we have 18 instead of 35
+NUMERIC FORM grot we have 25 instead of 35.
+PARSE VALUE>7 we have doubtful 38
+X=7*)      we give 35, not 37, since ')' wouldn't put it right.
+X=f(*)     we give 36, which is poor.
+
+So make 38.3 lose to 35.1
+So make 36   lose to 35.1
+That done.
+Note that ADDRESS abc WITH ERROR NORMAL ERROR NORMAL will give 21, not
+a keyword choice. Maybe suggest a 21 with keyword list?
+Doesn't look as if t->Type==Number is ever used.
+
+First try a bit matrix for shift gives 56 x 37 is 259 bytes.
+Full shift packed 12 x 22 is 528 bytes.  (Density about half)
+105 atoms.
+So logic may be:
+
+Bit for this state some shift(s)
+Bit for this state only shifts on one atom.
+  Field7 for Atom Fieldn for Target.
+  or
+  Field6 for Bool index (In conjuction with Field6 from the atom)
+    Field4 for Target index (In conjunction with Field5 from the atom)
+We should find out how easy to fill gaps in the shift array; it might pay
+to have no mapping from atom numbers to cols of array.
+Bit for some reduces
+Bit for hasexit
+Bit for SameTarget (Fieldn for target) (+ prune)
+Bit for SameReduce (Fieldn for base)
+Field4 for flattening.
+Fieldn for switchbase.
+Filedn for stack prune.
+
+Maybe word ahead for exit.  Main word does flags plus row maps.  By
+ordering the atoms & targets we might get "expected atom & target".
+But probably another word for the target.  But that is sad if general
+case only uses one word.
+
+Maybe flags in two bits by 00=sr 01=s 10=r 11=ex (Test the word that
+might be exit.)
+
+Probably can do "Prune+target" in the main word (if no shift there) or
+in next word.  Certainly can do SameReduce.
+
+Maybe "Flattening+Switch"?   3+10
+A lot depends on the numbering for switches.
+
+Recap the numbering task.  States will be identified by address
+(offset of base+offset). Some states allow reduce.  Reduce target is
+another state, either known from this state, or determined by the
+state on the stack.  In latter case we want to use the algorithm
+"Take reference state (as offset) and use left bits as a nunber
+indexing into an array. Value from array is target state".
+
+So reference states with the same target (in a particular switch) need
+the same left bits, those with a different target need different left
+bits.
+
+So we might start by numbering in the left bits, although we wouldn't
+know best order to put things.  Then take the sames and find a switch
+where they are different, complete some less-left bits.
+
+Have MaxFlat of 13 which is 8000 units.  That is State 36, after
+reduction STRING^.  Presumably lots in that switch so a significant
+multiple of 8000 needed for highest offset. I'm going to have to find
+another trick.
+
+About half the reference states have only one target, so maybe it
+would help to leave them out of the switches - but maybe it wouldn't
+since these aren't problem ones anyway. eg Taken_Constant usually
+reduces to Term but a few times doesn't.  So state 36 has to flatten
+44 ref states, which uses lots of bits.
+
+Algorithm: Note Dominance relation, where two things in Sk go same
+place and in Sj go different place. Number Sj first, then shift before
+numbering news in Sk.
+
+If not enough shifting room, there will just be duplicates in the
+shift table.
+
+For one day:  We could make the Bool cover some of the atoms that
+cause reduce.  The followup data (first word of which in main array)
+would shortcut over several states on the basis of atom&refstate.
+
+Making all comparison ops one in BNF saved states but didn't help MAXFLAT.
+
+How big will it be?
+Messages                           3000
+If average 2 slots per state       1600
+Full shift                          528 (Half reuse)
+Bool                                260
+Reduce switches                     266 (if full flattten)
+keyword table
+
+8K total would mean 4K greatest number.
+With a maximum shift of 9 this would distinguish 8 things. (Not
+enough)
+12 bits to address across, 11 for word boundary.
+
+Since there don't seem to be enough bits for the shift technique to
+work well, maybe we could take advantage of the switch characteristics
+by doing:  If refstate<limit then goto limit else goto
+sw(refstate+state).  Or even goto mod(refstate+state,tablesize)
+
+How to work out a numbering?  I can get an ordering showing Group1 has
+to be lower valued than Group2 which is lower valued than Group3...
+
+So might well be a pragmatic solution which guesses the values by
+spreading uniformly and then commits according to some "difficult
+first" algorithm.
+
+Also maybe mathematics (discrete linear programming) may be possible
+on the problem.  It is in the necessary form of constraints:
+
+x.1>=0 x.2>=0 ....
+x.n+x.m-x.l=0   (Although that doesn't allow for modulus)
+x.a-x.b>=1
+We could make the objective function anything since only a feasible
+vector required. (eg -X.0)
+Would also need x.j<=512 (Taking 512 as the table size)
+Maybe we can do the modulus thing as x.n+x.m-x.l=512 with the 512s
+tried combinatorially.
+
+"Numerical Recipes" Press et al, Cambridge has something but not much
+on discrete case. Requiring integer results presumably makes the
+problem harder since it is extra constraint.
+
+This didn't work out.
+
+I think I'll have to move SRPK and SRNEW stuff to \old and start again.
+
+Nov 98 Nors of the "Third Cycle", used for Bifs essentially.
+Utility BF will make Pcode with one byte operands.
+  - Say odds for constants, evens for vars.
+Build the constants into the constants pool as low-numbered. (Even though a
+particular program won't use them.)
+  - Operations.  We have used up freedoms so ????
+

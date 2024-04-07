@@ -1,0 +1,4 @@
+/*  7.2 */
+  select
+    when 7=8 then nop
+    >

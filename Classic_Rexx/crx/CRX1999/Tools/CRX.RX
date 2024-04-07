@@ -1,0 +1,2176 @@
+/* This is altered from the standard, to be just bits to be implemented as Rexx
+*/
+/* Restricted Rexx:
+   - No events. (Except as hidden with Config_ routines)
+   - if a Return, all from that routine are Return
+   - if a Returns (with result), all from that routine are Returns
+   - if a Return, only Called
+   - if a Returns, only used as a function.
+   - System (ie global) variables start with #.
+   - Convention, routine name starts with underscore if no locals.
+   - Convention, routine name starts non-underscore if locals. (Like procedure)
+   - Routine with non-underscore name has only local and system variables, and
+     arguments.
+   - Routine with underscore name has no arguments.
+   - Calls to top level routines here are functions. (Mostly builtins)
+   - Calls to non-top level routines are consistent in number of arguments.
+     (Not true for _Raise, in that case the early arguments determine
+      the number of arguments.)
+   - Added code for Qualify
+*/
+/* ANSI avoids using ARG(n) to mimimise bif calls within bifs definition but
+there is no real need to do that. */
+/* Routines not coded to use just locals and system variables are marked with
+leading underscore. */
+/* #Time => #Response. */
+/* #Response = is implied by Config_ so not explicit. */
+/* Config_Stream... routines implicitly have #Stream as first argument. */
+/* Elide .#Stream, it is implied. */
+/* C2B, B2C Stream_Charin made consistent about call-or-function. */
+/* Use Config_Raise40 to raise conditions - the 40 and Bif arguments
+ become implicit. Subcode last argument for variable number args reasons. */
+ exit
+/* Config_Upper cannot fail so make it a function. */
+/* Change names in Time2Date2, Leap, and ReRadix to avoid PROCEDURE */
+/* Do PowerFailed as external, without Signal. */
+/* Simple references were done by Assembler. */
+/* $7.4.10: Arithmetic operations */
+
+   ArithOp:
+/* Make ArithOp like a Bif. */
+  Number1=arg(1);Number2=arg(2);Operator=arg(3);Digits=arg(4)
+/* The Operator will be applied to Number1 and Number2 under the numeric
+settings #Digits, #FORM , #FUZZ.  Here Digits form() fuzz() */
+
+/* The result is the result of the operation, or the raising of a 'SYNTAX' or
+'LOSTDIGITS' condition.  */
+
+/* Variables with digit 1 in their names refer to the first argument of the
+operation. Variables with digit 2 refer to the second argument. Variables
+with digit 3 refer to the result. */
+
+/*  The quotations and page numbers are from the first reference in
+Annex C of this standard.  */
+
+/* The operands are prepared first. (Page 130)  Function Prepare does this,
+ separating sign, mantissa and exponent. */
+
+ tt = Prepare(Number1,Digits)
+ parse var tt Sign1 Mantissa1 Exponent1
+
+ tt = Prepare(Number2,Digits)
+ parse var tt Sign2 Mantissa2 Exponent2
+
+/* The calculation depends on the operator. The routines set Sign3
+Mantissa3 and Exponent3. */
+
+/*
+Comparator = ''
+*/
+select
+ when Operator == '*'  then call _Multiply
+ when Operator == '/'  then call _DivType
+ when Operator == '**' then call _Power
+ when Operator == '%'  then call _DivType
+ when Operator == '//' then call _DivType
+ otherwise call _AddSubComp
+ end
+
+ call _PostOp  /* Assembles Number3 */
+
+/* Conversion to Boolean is more easily done outside of ArithOp
+ if Comparator \== '' then do
+
+/* Comparison requires the result of subtraction made into a logical    */
+/* value.                                                               */
+
+  tt = '0'
+  select
+   when left(Number3,1) == '-' then
+     if wordpos(Comparator,'< <= <> >< \= \>') > 0 then tt = '1'
+   when Number3 \== '0' then
+     if wordpos(Comparator,'> >= <> >< \= \<') > 0 then tt = '1'
+   otherwise
+     if wordpos(Comparator,'>= = =< \< \>')    > 0 then tt = '1'
+   end
+  Number3 = tt
+  end
+*/
+
+  return Number3      /* From ArithOp */
+
+
+/* Activity before every operation:                                     */
+
+Prepare:  /* Returns Sign Mantissa and Exponent */
+/* Preparation of operands, Page 130 */
+/* "...terms being operated upon have leading zeros removed (noting the
+position of any decimal point, and leaving just one zero if all the digits in
+the number are zeros) and are then truncated to DIGITS+1 significant digits
+(if necessary)..." */
+
+/*  arg Number, Digits   Avoid need for TemplateComma in Bcode. */
+  Number=arg(1);p_Digits=arg(2)
+
+  /* Blanks are not significant. */
+  /* The exponent is separated */
+  parse upper value space(Number,0) with Mantissa 'E' Exponent
+  if Exponent == '' then Exponent = '0'
+
+  /* The sign is separated and made explicit. */
+  Sign = '+' /* By default */
+  if left(Mantissa,1) == '-' then Sign = '-'
+  if verify(left(Mantissa,1),'+-') = 0 then Mantissa = substr(Mantissa,+2)
+
+  /* Make the decimal point implicit; remove any actual Point from the
+  mantissa. */
+  p_p = pos('.',Mantissa)
+  if p_p > 0 then Mantissa = delstr(Mantissa,p_p,1)
+             else p_p = 1+length(Mantissa)
+
+  /* Drop the leading zeros */
+  do p_q = 1 to length(Mantissa) - 1
+   if substr(Mantissa,p_q,1) \== '0' then leave
+   p_p = p_p - 1
+   end p_q
+  Mantissa = substr(Mantissa,p_q)
+
+  /* Combine exponent with decimal point position, Page 127 */
+  /* "Exponential notation means that the number includes a power of ten
+  following an 'E' that indicates how the decimal point will be shifted. Thus
+  4E9 is just a shorthand way of writing 4000000000 "   */
+  /* Adjust the exponent so that decimal point would be at right of
+  the Mantissa. */
+  Exponent = Exponent - (length(Mantissa) - p_p + 1)
+
+  /* Detect if Mantissa suggests more significant digits than DIGITS
+  caters for.   BLM change to round. Also comes after p_p absorbed */
+  do jj = p_Digits+1 to length(Mantissa)
+    if substr(Mantissa,jj,1) \== '0' then do
+ /* This call will do nothing if LOSTDIGITS disabled, otherwise not return.
+      call Config_Raise 'LOSTDIGITS', Number
+ */
+      Exponent = Exponent + length(Mantissa) - p_Digits
+      p_t = substr(Mantissa,p_Digits+1,1)
+      Mantissa = left(Mantissa,p_Digits)
+      if p_t >= '5' then Mantissa = Mantissa + 1
+      leave jj
+      end
+    end jj
+  if length(Mantissa) > p_Digits then do
+    Exponent = Exponent + length(Mantissa) - p_Digits
+    Mantissa = left(Mantissa,p_Digits)
+    end
+
+  if Mantissa == '0' then Exponent = 0
+
+return Sign Mantissa Exponent
+
+
+/* Activity after every operation.                                      */
+/* The parts of the value are composed into a single string, Number3.   */
+
+_PostOp:
+ /* Page 130 */
+ /* 'traditional' rounding */
+ tt = length(Mantissa3) - Digits
+ if tt > 0 then do
+    /* 'traditional' rounding */
+    /* BLM change since add often avoidable. */
+    if substr(Mantissa3,Digits+1,1) > '4' then do
+      Mantissa3 = left(Mantissa3,Digits) + 1
+      if length(Mantissa3) > Digits then
+         /* There was 'carry' */
+         Exponent3 = Exponent3 + 1
+      end
+    Mantissa3 = left(Mantissa3,Digits)
+    Exponent3 = Exponent3 + tt
+   end
+ /* "A result of zero is always expressed as a single character '0' "*/
+ /* BLM, change saves long jump. */
+ if verify(Mantissa3,'0') = 0 then do
+   Number3 = '0'
+   return
+   end
+   if Operator == '/' | Operator == '**' then do
+     /* Page 130 "For division, insignificant trailing zeros are removed
+     after rounding." */
+     /* Page 133 "... insignificant trailing zeros are removed." */
+     do zz = length(Mantissa3) by -1 to 2
+       if substr(Mantissa3,zz,1) \== '0' then leave
+       Exponent3 = Exponent3 + 1
+       end zz
+     Mantissa3 = substr(Mantissa3,1,zz)
+     end
+
+    if _Floating() == 'E' then do  /* Exponential format */
+
+      Exponent3 = Exponent3 + (length(Mantissa3)-1)
+
+      /* Page 136 "Engineering notation causes powers of ten to expressed as a
+      multiple of 3 - the integer part may therefore range from 1 through
+      999." */
+      a_x = 1
+      if form() == 'E' then do
+      /* Adjustment to make exponent a multiple of 3 */
+      /* BLM replaced this
+        a_x = Exponent3//3   /* Recursively using ArithOp as
+                           an external routine. */
+      */
+        a_x = ArithOp(Exponent3, 3, "//",length(Exponent3))
+        if a_x < 0 then a_x = a_x + 3
+        Exponent3 = Exponent3 - a_x
+        a_x = a_x + 1
+        if length(Mantissa3) < a_x then
+           Mantissa3 = left(Mantissa3,a_x,'0')
+        end  /* Engineering */
+
+      /* Exact check on the exponent. */
+      if Exponent3 > 999999999 /* #Limit_ExponentDigits */ then
+        call Config_Raise 'SYNTAX', 42.1, Number1, Operator, Number2
+      if -999999999 /*#Limit_ExponentDigits*/ > Exponent3 then
+        call Config_Raise 'SYNTAX', 42.2, Number1, Operator, Number2
+
+      /* Insert any decimal point. */
+      if length(Mantissa3) \= a_x then Mantissa3 = insert('.',Mantissa3,a_x)
+      /* Insert the E */
+      if Exponent3 >= 0 then Number3 = Mantissa3'E+'Exponent3
+                        else Number3 = Mantissa3'E'Exponent3
+      end /* Exponent format */
+    else do /* 'pure number' notation */
+      a_y = length(Mantissa3) + Exponent3 /* Position of the point within
+                                        Mantissa  */
+      /* Add extra zeros needed on the left of the point. */
+      if a_y < 1 then do
+        Mantissa3 = copies('0',1 - a_y)||Mantissa3
+        a_y = 1
+        end
+      /* Add needed zeros on the right. */
+      if a_y > length(Mantissa3) then
+         Mantissa3 = Mantissa3||copies('0',a_y-length(Mantissa3))
+      /* Format with decimal point. */
+      Number3 = Mantissa3
+      if a_y < length(Number3) then Number3 = insert('.',Mantissa3,a_y)
+                             else Number3 = Mantissa3
+      end /* pure */
+    if Sign3 == '-' then Number3 = '-'Number3
+ return
+
+
+/* This tests whether exponential notation is needed.
+*/
+
+_Floating:
+ /* The rule in the reference has been improved upon. */
+  tt = ''
+  if Exponent3+length(Mantissa3) > Digits then tt = 'E'
+
+  if length(Mantissa3) + Exponent3 < -5 then tt = 'E'
+  return tt
+
+
+/* Add, Subtract and Compare.                                           */
+
+_AddSubComp:  /* Page 130 */
+ /* This routine is used for comparisons since comparison is
+ defined in terms of subtraction. Page 134 */
+ /* "Numeric comparison is affected by subtracting the two numbers (calculating
+ the difference) and then comparing the result with '0'." */
+ NowDigits = Digits
+ if Operator \=='+' & Operator \== '-' then do
+/*
+   Comparator = Operator
+*/
+   /* Page 135 "The effect of NUMERIC FUZZ is to temporarily reduce the value
+   of NUMERIC DIGITS by the NUMERIC FUZZ value for each numeric comparison" */
+/* Flaw in Standard.  Digits change should be before Prepare
+   NowDigits = NowDigits - fuzz()
+*/
+   Operator = '-' /* BLM helps later */
+   end
+ /* Page 130 "If either number is zero then the other number ... is used as
+ the result (with sign adjustment as appropriate). */
+ if Mantissa2 == '0' then do  /* Result is the 1st operand */
+  Sign3=Sign1; Mantissa3 = Mantissa1; Exponent3 = Exponent1
+  return
+  end
+
+ if Mantissa1 == '0' then do  /* Result is the 2nd operand */
+  Sign3 = Sign2; Mantissa3 = Mantissa2; Exponent3 = Exponent2
+  if Operator \== '+' then if Sign3 == '+' then Sign3 = '-'
+                                           else Sign3 = '+'
+  return
+  end
+
+/* The numbers may need to be shifted into alignment. */
+/* Change to make the exponent to reflect a decimal point on the left,
+so that right truncation/extension of mantissa doesn't alter exponent. */
+  Exponent1 = Exponent1 + length(Mantissa1)
+  Exponent2 = Exponent2 + length(Mantissa2)
+/* Deduce the implied zeros on the left to provide alignment. */
+  Align1 = 0
+  Align2 = Exponent1 - Exponent2
+  if Align2 > 0 then do /* Arg 1 provides a more significant digit */
+    Align2 = min(Align2,NowDigits+1) /* No point in shifting further. */
+    /* Shift to give Arg2 the same exponent as Arg1 */
+    Mantissa2 = copies('0',Align2) || Mantissa2
+    Exponent2 = Exponent1
+    end
+  if Align2 < 0 then do /* Arg 2 provides a more significant digit */
+    /* Shift to give Arg1 the same exponent as Arg2 */
+    Align1 = -Align2
+    Align1 = min(Align1,NowDigits+1) /* No point in shifting further. */
+    Align2 = 0
+    Mantissa1 = copies('0',Align1) || Mantissa1
+    Exponent1 = Exponent2
+    end
+
+/* Maximum working digits is NowDigits+1.  Footnote 41. */
+
+ SigDigits = max(length(Mantissa1),length(Mantissa2))
+ SigDigits = min(SigDigits,NowDigits+1)
+
+/* Extend a mantissa with right zeros, if necessary. */
+ Mantissa1 = left(Mantissa1,SigDigits,'0')
+ Mantissa2 = left(Mantissa2,SigDigits,'0')
+
+/* The exponents are adjusted so that
+the working numbers are integers, i.e. decimal point on the right. */
+ Exponent3 = Exponent1-SigDigits
+ Exponent1 = Exponent3
+ Exponent2 = Exponent3
+
+/* BLM - the Standard assumes signed integer arithmetic for long numbers is
+understood by the reader/system.  We can relax that to one digit unsigned.
+*/
+/* BLM - First we change the Operator or result sign to what they need to
+be for Sign1 and Sign2 to be '+' */
+ Sign3='+' /* Postulated */
+ if Sign1 == '-' then do
+                if Sign2 == '+' then if Operator == '+' then Operator='-'
+                                                        else Operator='+'
+                Sign3='-'
+                end
+ else if Sign2 == '-' then if Operator == '+' then Operator='-'
+                                              else Operator='+'
+
+ /* We can arrange that Mantissa1 is the larger one, for subtract. */
+   if Operator == '-' then if Mantissa1 << Mantissa2 then do
+     aa = Mantissa1 /* Used as temp. */
+     Mantissa1 = Mantissa2
+     Mantissa2 = aa
+     if Sign3 == '+' then Sign3='-'
+                     else Sign3='+'
+     end
+ /* Now develop answer from the right. */
+ /* This can be done by reducing to single digit adds but a CONFIG_ to do
+ it looks better. (Performance and digits()=1 problems)
+   Mantissa3=''
+   Sign1=0 /* Used for Carry */
+   do tt=length(Mantissa1) by -1 to 1
+     if Operator == '+' then do
+       aa=substr(Mantissa1,tt,1)+substr(Mantissa2,tt,1)+Sign1
+       Sign1 = 0
+       if aa>9 then do
+                       Sign1=1
+                       aa=aa-10
+                       end
+       end
+     else do
+       aa=substr(Mantissa1,tt,1)-substr(Mantissa2,tt,1)-Sign1
+       Sign1 = 0
+       if aa<0 then do
+                      Sign1=1
+                      aa=aa+10
+                      end
+       end
+     Mantissa3=aa||Mantissa3
+     end tt
+   if Sign1>0 then Mantissa3='1'Mantissa3
+   do while left(Mantissa3,1)=='0' & length(Mantissa3)>1
+     Mantissa3=substr(Mantissa3,+2)
+     end
+ That was expanded add. */
+
+ Mantissa3 = Config_Arith(Mantissa1,Mantissa2,Operator)
+
+   do while left(Mantissa3,1)=='0' & length(Mantissa3)>1
+     Mantissa3=substr(Mantissa3,+2)
+     end
+
+ /* "The result is then rounded to NUMERIC DIGITS digits if necessary,
+ taking into account any extra (carry) digit on the left after addition,
+ but otherwise counting from the position corresponding to the most
+ significant digit of the terms being added or subtracted." */
+
+ if length(Mantissa3) > SigDigits then SigDigits = SigDigits+1
+ aa = SigDigits - NowDigits   /* Digits to drop. */
+ if aa <= 0 then return
+ tt = length(Mantissa3) - aa  /* Digits to keep. */
+ /* Page 130. "values of 5 through 9 are rounded up, values of 0 through 4 are
+ rounded down." */
+ if tt > 0 then do
+    /* 'traditional' rounding */
+    /* BLM change since add often avoidable. */
+    if substr(Mantissa3, tt + 1, 1) > '4' then do
+      Mantissa3 = left(Mantissa3, tt) + 1
+      if length(Mantissa3) > tt then
+         /* There was 'carry' */
+         /* Keep the extra digit unless it takes us over the limit. */
+         if tt < NowDigits then tt = tt+1
+                          else Exponent3 = Exponent3+1
+      Mantissa3 = left(Mantissa3,tt)
+      end
+    Exponent3 = Exponent3 + aa - 1
+    end /* Rounding */
+ else Mantissa3 = '0'
+ return  /* From _AddSubComp */
+
+
+/* Multiply operation:  */
+
+_Multiply:      /* p 131 */
+ /* Note the sign of the result */
+ if Sign1 == Sign2 then Sign3 = '+'
+                   else Sign3 = '-'
+ /* Note the exponent */
+ Exponent3 = Exponent1 + Exponent2
+ if Mantissa1 == '0' then do
+   Mantissa3 = '0'
+   return
+   end
+ /* Multiply the Mantissas */
+ Mantissa3 = ''
+ do zz=1 to length(Mantissa2)
+  Mantissa3 = Mantissa3'0'
+  do substr(Mantissa2,zz,1)
+ /*  Mantissa3 = Mantissa3 + Mantissa1  Avoid this recursion */
+    tt = length(Mantissa1)-length(Mantissa3)
+    if tt > 0 then Mantissa3 = right(Mantissa3,length(Mantissa1),'0')
+    if tt < 0 then Mantissa1 = right(Mantissa1,length(Mantissa3),'0')
+    Mantissa3 = Config_Arith(Mantissa3,Mantissa1,'+')
+    if left(Mantissa3,1)='0' then Mantissa3 = substr(Mantissa3,+2)
+    end
+  end zz
+ return /* From _Multiply */
+
+
+/* Types of Division:  */
+
+_DivType:       /* p 131 */
+ /* Check for divide-by-zero */
+ /* BLM give such calls four args */
+ if Mantissa2 == '0' then call Config_Raise 'SYNTAX', 42.3, 0,0,0
+ /* Note the exponent of the result  */
+ Exponent3 = Exponent1 - Exponent2
+ /* Compute (one less than) how many digits will be in the integer
+part of the result. */
+ IntDigits = length(Mantissa1) - Length(Mantissa2) + Exponent3
+ /* In some cases, the result is known to be zero. */
+ if Mantissa1 = 0 | (IntDigits < 0 & Operator == '%') then do
+   Mantissa3 = 0
+   Sign3 = '+'
+   Exponent3 = 0
+   return
+   end
+ /* In some cases, the result is known to be to be the first argument. */
+ if IntDigits < 0 & Operator == '//' then do
+   Mantissa3 = Mantissa1
+   Sign3 = Sign1
+   Exponent3 = Exponent1
+   return
+   end
+ /* Note the sign of the result. */
+ if Sign1 == Sign2 then Sign3 = '+'
+                   else Sign3 = '-'
+ aa = 0
+/*
+ /* Make Mantissa1 at least as large as Mantissa2 so Mantissa2 can be
+  subtracted without causing leading zero to result. Page 131 */
+ do while Mantissa2 > Mantissa1
+   Mantissa1 = Mantissa1'0'
+   Exponent3 = Exponent3 - 1
+   aa = aa + 1
+   end
+*/
+ /* Traditional divide */
+ Mantissa3 = ''
+ /* Subtract from part of Mantissa1 that has length of Mantissa2 */
+ a_x = left(Mantissa1,length(Mantissa2))
+ a_y = substr(Mantissa1,length(Mantissa2)+1)
+ do forever
+   /* Develop a single digit in zz by repeated subtraction. */
+   zz = 0
+   do forever
+     a_x = a_x - Mantissa2
+     if left(a_x,1) == '-' then leave
+     zz = zz + 1
+     end
+   a_x = a_x + Mantissa2   /* Recover from over-subtraction */
+   /* The digit becomes part of the result */
+   Mantissa3 = Mantissa3 || zz
+   if Mantissa3 == '0' then Mantissa3 = '' /* A single leading
+                                           zero can happen.  */
+   /* a_x||a_y is the current residue */
+   if a_y == '' then if a_x = 0 then leave /* Remainder is zero */
+   if length(Mantissa3) > Digits then leave /* Enough digits
+                                                     in the result */
+   /* Check type of division */
+   if Operator \== '/' then do
+     if IntDigits = 0 then leave
+     IntDigits = IntDigits - 1
+     end
+   /* Prepare for next digit */
+   /* Digits come from a_y, until that is exhausted. */
+   /* When a_y is exhausted an extra zero is added to Mantissa1 */
+   if a_y == '' then do
+     a_y = '0'
+     Exponent3 = Exponent3 - 1
+     aa = aa + 1
+     end
+   a_x = a_x || left(a_y,1)
+   a_y = substr(a_y,+2)
+   end /* Iterate for next digit. */
+ if Mantissa3 = '' then Mantissa3 = '0'
+ zz /*Remainder*/ = a_x || a_y
+ Exponent3 = Exponent3 + length(a_y)  /* The loop may have been left early. */
+ /* Leading zeros are taken off the Remainder. */
+ do while length(zz /*Remainder*/) > 1 & Left(zz /*Remainder*/,1) == '0'
+   zz /*Remainder*/ = substr(zz /*Remainder*/,+2)
+   end
+ if Operator \== '/' then do
+   /* Check whether % would fail, even if operation is // */
+   /* Page 133.  % could fail by needing exponential notation */
+   if _Floating() == 'E' then do
+     if Operator == '%' then tt /*MsgNum*/ = 26.11
+                        else tt /*MsgNum*/ = 26.12
+     call Config_Raise 'SYNTAX', tt /*MsgNum*/, Number1 , Number2, Digits
+     end
+   end
+ if Operator == '//' then do
+    /* We need the remainder */
+    Sign3 = Sign1
+    Mantissa3 = zz /*Remainder*/
+    Exponent3 = Exponent1 - aa
+    end
+ return  /* From _DivType */
+
+/* The Power operation:  */
+
+_Power:       /* page 132 */
+/* The second argument should be an integer */
+/* Not clear why _WholeNumber2 was needed.
+ if \datatype(Number2,'W') then call Config_Raise 'SYNTAX', 26.8, Number2
+BLM test now in caller */
+/* Lhs to power zero is always 1 */
+ if Mantissa2 == '0' then do
+    Sign3 = '+'
+    Mantissa3 = '1'
+    Exponent3 = '0'
+    return
+    end
+
+ /* Pages 132-133 The Power algorithm */
+ Rhs = left(Mantissa2,length(Mantissa2)+Exponent2,'0')/* Explicit
+                                                  integer form */
+ a_x /* L */ = length(Rhs)
+ a_y /* Binary */ = X2B(D2X(Rhs)) /* Makes Rhs in binary notation */
+ /* Ignore initial zeros */
+ do zz = 1 by 1
+   if substr(a_y /* Binary */,zz,1) \== '0' then leave
+   end zz
+ aa = 1
+ do forever
+ /* Page 133 "Using a precision of DIGITS+L+1" */
+  if substr(a_y /* Binary */,zz,1) == '1' then do
+   aa = ArithOp(aa,Sign1 || Mantissa1'E'Exponent1,'*',Digits + a_x /* L */ +1)
+/*
+    if left(aa,2) == 'MN' then call _PowerFailed
+*/
+    end
+  /* Check for finished */
+  if zz = length(a_y /* Binary */) then leave
+  /* Square aa */
+  aa = ArithOp(aa,aa,'*',Digits + a_x /* L */ +1)
+/*
+  if left(aa,2) == 'MN' then call _PowerFailed
+*/
+  zz = zz + 1
+ end
+ /* Divide into one for negative power */
+ if Sign2 == '-' then do
+    Sign2 = '+'
+    aa = ArithOp(1,aa,'/',Digits + a_x /* L */ +1)
+/*
+    if left(aa,2) == 'MN' then call _PowerFailed
+*/
+   end
+ /* Split the value up so that _PostOp can put it together with rounding */
+  Parse value Prepare(aa,Digits+a_x /* L */+1) with Sign3 Mantissa3 Exponent3
+  return
+/* Not clear why _WholeNumber2 was needed.
+_WholeNumber2:
+   numeric digits digits()
+   if form() == 'S' then numeric form scientific
+                    else numeric form engineering
+   return datatype(Number2,'W')
+*/
+
+/* BLM Specialized mechanism in CRX
+  signal on syntax name Overflowed
+Overflowed:
+  return 'MN '.MN
+_PowerFailed:
+/* Distinguish overflow and underflow */
+  RcWas = substr(a,4)
+  if Sign2 == '-' then if RcWas == '42.1' then RcWas = '42.2'
+                                         else RcWas = '42.1'
+  call Config_Raise 'SYNTAX', RcWas, Number1, '**', Number2
+  /* No return */
+*/
+/* Invokes, initials done by Assembler */
+/* ADDRESS excised */
+/* ARG CALL excised */
+
+/* We don't need several verbs. */
+/* Excise Commands */
+/* Excise NUMERIC */
+/* Excise OPTIONS */
+/* PARSE by ASM. */
+/* PROCEDURE not suitable */
+/* Excise some verbs */
+/* Excise SELECT */
+/* Excise $8.4.1: Raising of conditions. Too much system. */
+
+/* Excise CALL action for delayed CONDITION */
+
+/* Messaging done by Assembler. */
+/* $9.2.2:  Date calculations */
+Time2Date:
+   if arg(1) < 0 then
+     call Config_Raise40 +18
+   if arg(1) >= 315537897600000000 then
+     call Config_Raise40 +18
+   return Time2Date2(arg(1))
+
+Time2Date2:
+   /*  Convert a timestamp to a date.
+   Argument is a timestamp (the number of microseconds relative to
+   0001 01 01 00:00:00.000000)
+   Returns a date in the form
+     year month day hour minute second microsecond base days     */
+/* This can be the setting for DATE bif as a whole.
+   numeric digits 18
+*/
+   /* Adjust to the virtual date 0001 01 01 00:00:00.000000 */
+   y_Time=arg(1)
+
+   y_Second = y_Time   % 1000000    ;
+ y_Microsecond = y_Time   // 1000000
+   y_Minute = y_Second %      60    ; y_Second      = y_Second //      60
+   y_Hour   = y_Minute %      60    ; y_Minute      = y_Minute //      60
+   y_Day    = y_Hour   %      24    ; y_Hour        = y_Hour   //      24
+   /* At this point, the days are the days since the 0001 base date. */
+   y_BaseDays = y_Day
+   y_Day = y_Day + 1
+   /* Compute either the fitting year, or some year not too far earlier.
+   Compute the number of days left on the first of January of this
+   year. */
+   y_Year   = y_Day % 366
+   y_Day    = y_Day - (y_Year*365 + y_Year%4 - y_Year%100 + y_Year%400)
+   y_Year   = y_Year + 1
+   /* Now if the number of days left is larger than the number of days
+   in the year we computed, increment the year, and decrement the
+   number of days accordingly. */
+   do while y_Day > (365 + Leap(y_Year))
+     y_Day = y_Day - (365 + Leap(y_Year))
+     y_Year = y_Year + 1
+   end
+   /* At this point, the days left pertain to this year. */
+   y_YearDays = y_Day
+   /* Now step through the months, increment the number of the month,
+   and decrement the number of days accordingly (taking into
+   consideration that in a leap year February has 29 days), until
+   further reducing the number of days and incrementing the month
+   would lead to a negative number of days */
+   y_Days = '31 28 31 30 31 30 31 31 30 31 30 31'
+   do y_Month = 1 to words(y_Days)
+     y_ThisMonth = word(y_Days, y_Month) + (y_Month = 2) * Leap(y_Year)
+     if y_Day <= y_ThisMonth then leave
+     y_Day = y_Day - y_ThisMonth
+   end
+
+return,
+ y_Year y_Month y_Day y_Hour y_Minute y_Second y_Microsecond y_BaseDays y_YearDays
+
+Leap:
+   /* Return 1 if the year given as argument is a leap year, or 0
+   otherwise. */
+   Return (arg(1)//4 = 0) & ((arg(1)//100 \= 0) | (arg(1)//400 = 0))
+
+/* $9.2.3: Radix conversion */
+
+ReRadix: /* Converts Arg(1) from radix Arg(2) to radix Arg(3) */
+  numeric digits 999
+  rr_Subject=arg(1)
+  rr_FromRadix=arg(2)
+  rr_ToRadix=arg(3)
+  /* Radix range is 2-16.  Conversion is via decimal */
+  rr_Integer=0
+  do rr_j=1 to length(rr_Subject)
+    /* Individual digits have already been checked for range. */
+rr_Integer=rr_Integer*rr_FromRadix+pos(substr(rr_Subject,rr_j,1),'0123456789ABCDEF')-1
+    end
+  rr_r = ''
+  if rr_ToRadix = 10 then if rr_Integer=0 then rr_r='0'
+  do while rr_Integer>0
+    rr_r = substr('0123456789ABCDEF',1 + rr_Integer // rr_ToRadix, 1) || rr_r
+    rr_Integer = rr_Integer % rr_ToRadix
+    end
+  /* When between 2 and 16, there is no zero suppression. */
+    if rr_FromRadix = 2 & rr_ToRadix = 16 then
+      rr_r=right(rr_r, (length(rr_Subject)+3) % 4, '0')
+    else if rr_FromRadix = 16 & rr_ToRadix = 2 then
+      rr_r=right(rr_r, length(rr_Subject) * 4, '0')
+  return rr_r
+
+/* $9.2.4: Raising the SYNTAX condition */
+
+/* Specialize Raise anyway
+ Raise:
+/* These 40.nn messages always include the built-in name as an insert.*/
+    call Config_Raise 'SYNTAX', arg(1), #Bif, arg(2), arg(3), arg(4)
+*/
+    /* _Raise does not return. */
+
+/* CheckArgs removed from all the BIFs */
+/* $9.3:  Character built-in functions */
+/* $9.3.1: */ BifABBREV:
+
+    Subject = arg(1)
+    Subj    = arg(2)
+    if arg(3,'E') then Length_ = arg(3)
+                  else Length_ = length(Subj)
+    Cond1 = length(Subject) >= length(Subj)
+    Cond2 = length(Subj) >= Length_
+    Cond3 = substr(Subject, 1, length(Subj)) == Subj
+    return Cond1 & Cond2 & Cond3
+
+
+/* $9.3.2: */ BifCENTER:
+
+
+    String = arg(1)
+    c_Length = arg(2)
+    if arg(3,'E') then Pad = arg(3)
+                  else Pad = ' '
+
+    Trim = length(String) - c_Length
+
+    if Trim > 0 then
+       return substr(String, Trim % 2 + 1, c_Length)
+
+    return overlay(String, copies(Pad, c_Length), -Trim % 2 + 1)
+
+/* $9.3.4: */ BifCHANGESTR:
+
+    Output = ''
+    Position = 1
+    do forever
+      FoundPos = pos(arg(1), arg(2), Position)
+      if FoundPos = 0 then leave
+      Output = Output || substr(arg(2), Position, FoundPos - Position),
+               || arg(3)
+      Position = FoundPos + length(arg(1))
+      end
+    return Output || substr(arg(2), Position)
+
+/* $9.3.5: */ BifCOMPARE:
+
+    Str1 = arg(1)
+    Str2 = arg(2)
+    if arg(3,'E') then c_Pad = arg(3)
+                  else c_Pad = ' '
+
+    /* Compare the strings from left to right one character at a time */
+    if length(Str1) > length(Str2) then do
+      co_Length = length(Str1)
+      Str2=left(Str2,co_Length,c_Pad)
+      end
+    else do
+      co_Length = length(Str2)
+      Str1=left(Str1,co_Length,c_Pad)
+      end
+
+    do c_i = 1 to co_Length
+      if substr(Str1, c_i, 1) \== substr(Str2, c_i, 1) then return c_i
+      end
+    return 0
+
+/* Excise $9.3.6:  COPIES in ASM, although algorithm in REXX not bad. */
+
+/* $9.3.7: */ BifCOUNTSTR:
+
+    c_Output = 0
+    c_Position = pos(arg(1),arg(2))
+    do while c_Position > 0
+      c_Output = c_Output + 1
+      c_Position = pos(arg(1), arg(2), c_Position + length(arg(1)))
+      end
+    return c_Output
+
+/* Excise $9.3.8:  DATATYPE ASM for bif arg checking. */
+
+/* $9.3.9: */ BifDELSTR:
+
+    d_String = arg(1)
+    Num    = arg(2)
+    if arg(3,'E') then Len = arg(3)
+
+    if Num > length(d_String) then return d_String
+
+    d_Output = substr(d_String, 1, Num - 1)
+    if arg(3,'E') then
+      if Num + Len <= length(d_String) then
+        d_Output = d_Output || substr(d_String, Num + Len)
+    return d_Output
+
+/* $9.3.10: */ BifDELWORD:
+
+
+    dw_String = arg(1)
+    dw_Num    = arg(2)
+    if arg(3,'E') then dw_Len = arg(3)
+
+    if dw_Num > words(dw_String) then return dw_String
+
+    EndLeft = wordindex(dw_String, dw_Num) - 1
+    dw_Output = left(dw_String, EndLeft)
+    if arg(3,'E') then do
+       BeginRight = wordindex(dw_String, dw_Num + dw_Len)
+       if BeginRight>0 then
+          dw_Output = dw_Output || substr(dw_String, BeginRight)
+       end
+    return dw_Output
+
+/* $9.3.11: */ BifINSERT:
+
+    New    = arg(1)
+    Target = arg(2)
+    if arg(3,'E') then i_Num = arg(3)
+                        else i_Num = 0
+    if arg(4,'E') then i_Length = arg(4)
+                        else i_Length = length(New)
+    if arg(5,'E') then i_Pad = arg(5)
+                        else i_Pad = ' '
+
+    return left(Target, i_Num, i_Pad),        /* To left of insert   */
+       || left(New, i_Length, i_Pad),         /* New string inserted */
+       || substr(Target, i_Num + 1)         /* To right of insert  */
+
+/* $9.3.12: */ BifLASTPOS:
+
+    Needle   = arg(1)
+    Haystack = arg(2)
+    Start = length(Haystack)
+    if arg(3,'E') then Start = min(arg(3),Start)
+
+    NeedleLength = length(Needle)
+    if NeedleLength = 0 then return 0
+    Start = Start - NeedleLength + 1
+    do ii = Start by -1 while ii > 0
+      if substr(Haystack, ii, NeedleLength) == Needle then return ii
+      end ii
+    return 0
+
+/* Excise $9.3.13: LEFT was ASMed */
+
+/* Excise $9.3.14: LENGTH was ASMed */
+
+/* $9.3.15: */ BifOVERLAY:
+
+    o_New    = arg(1)
+    o_Target = arg(2)
+    if arg(3,'E') then o_Num = arg(3)
+                        else o_Num = 1
+    if arg(4,'E') then o_Length = arg(4)
+                        else o_Length = length(o_New)
+    if arg(5,'E') then o_Pad = arg(5)
+                        else o_Pad = ' '
+
+    return left(o_Target, o_Num - 1, o_Pad),    /* To left of overlay  */
+       || left(o_New, o_Length, o_Pad),         /* New string overlaid */
+       || substr(o_Target, o_Num + o_Length)    /* To right of overlay */
+
+/* $9.3.16: */ BifPOS:
+
+    p_Needle   = arg(1)
+    p_Haystack = arg(2)
+    if arg(3,'E') then p_Start = arg(3)
+                        else p_Start = 1
+
+    if length(p_Needle) = 0 then return 0
+    do p_i = p_Start to length(o_Haystack)+1-length(p_Needle)
+      if substr(p_Haystack, p_i, length(p_Needle)) == p_Needle then return p_i
+      end p_i
+    return 0
+
+/* Excise $9.3.17: REVERSE Poor algorithm. */
+
+/* $9.3.18: */ BifRIGHT:
+
+    r_String = arg(1)
+    r_Length = arg(2)
+    if arg(3,'E') then r_Pad = arg(3)
+                  else r_Pad = ' '
+
+    r_Trim = length(r_String) - r_Length
+    if r_Trim >= 0 then return substr(r_String,r_Trim + 1)
+    return copies(r_Pad, -r_Trim) || r_String    /* Pad string on the left */
+
+/* $9.3.19: */ BifSPACE:
+
+    s_String = arg(1)
+    if arg(2,'E') then s_Num = arg(2)
+                        else s_Num = 1
+    if arg(3,'E') then s_Pad  = arg(3)
+                        else s_Pad = ' '
+
+    Padding = copies(s_Pad, s_Num)
+    s_Output = subword(s_String, 1, 1)
+    do s_i = 2 to words(s_String)
+       s_Output = s_Output || Padding || subword(s_String, s_i, 1)
+       end
+    return s_Output
+
+/* $9.3.20: */ BifSTRIP:
+
+    st_String = arg(1)
+    if arg(2,'E') then Option_ = arg(2)
+                  else Option_ = 'B'
+    if arg(3,'E') then Unwanted = arg(3)
+                  else Unwanted = "090A0B0C0D20"x
+
+    if Option_ == 'L' | Option_ == 'B' then do
+       /* Strip leading characters */
+       do while st_String \== '' & pos(left(st_String, 1), Unwanted) > 0
+         st_String = substr(st_String,+2)
+         end
+       end
+
+    if Option_ == 'T' | Option_ == 'B' then do
+       /* Strip trailing characters */
+       do while st_String \== '' & pos(right(st_String, 1), Unwanted) > 0
+         st_String = left(st_String, length(st_String)-1)
+         end   /* of while */
+       end
+    return st_String
+
+/* Excise $9.3.21: SUBSTR ASMed */
+
+/* $9.3.22: */ BifSUBWORD:
+
+    sw_String = arg(1)
+    sw_Num    = arg(2)
+    if arg(3,'E') then s_Length = arg(3)
+                  else s_Length = length(sw_String) /* Avoids call  */
+                                                     /*  to WORDS() */
+    if s_Length = 0 then return ''
+    /* Find position of first included word */
+    s_Start = wordindex(sw_String,sw_Num)
+    if s_Start = 0 then return ''                   /* Start is beyond end */
+
+    /* Find position of first excluded word */
+    End_ = wordindex(sw_String,sw_Num+s_Length)
+    if End_ = 0 then End_ = length(sw_String)+1
+
+    sw_Output=substr(sw_String,s_Start,End_-s_Start)
+
+    /* Drop trailing blanks */
+    do while sw_Output \== ''
+      if pos(right(sw_Output,1),"090A0B0C0D20"x) = 0 then leave
+      sw_Output = left(sw_Output,length(sw_Output)-1)
+      end
+    return sw_Output
+
+/* $9.3.23: */ BifTRANSLATE:
+
+    t_String = arg(1)
+    /* If neither input nor output tables, uppercase. */
+    if \arg(2,'E') & \arg(3,'E') then return Config_Upper(t_String)
+    /* The input table defaults to all characters. */
+    if \arg(3,'E') then do
+/* Original was:
+      call Config_Xrange
+      Tablei = #Outcome
+*/
+      Tablei = xrange();
+      end
+    else Tablei = arg(3)
+    /* The output table defaults to null */
+    if arg(2,'E') then Tableo = arg(2)
+                  else Tableo = ''
+    /* The tables are made the same length */
+    if arg(4,'E') then t_Pad = arg(4)
+                  else t_Pad = ' '
+    Tableo=left(Tableo,length(Tablei),t_Pad)
+
+    t_Output=''
+    do t_j=1 to length(t_String)
+      t_c=substr(t_String,t_j,1)
+      kk = pos(t_c,Tablei)
+      if kk=0 then t_Output=t_Output||t_c
+              else t_Output=t_Output||substr(Tableo,kk,1)
+      end t_j
+    return t_Output
+
+/* $9.3.24: */ BifVERIFY:
+
+    v_String    = arg(1)
+    Reference = arg(2)
+    if arg(3,'E') then v_Option = arg(3)
+                  else v_Option = 'N'
+    if arg(4,'E') then v_Start = arg(4)
+                        else v_Start = 1
+
+    Last = length(v_String)
+    if v_Start > Last then return 0
+    if Reference == '' then
+       if v_Option == 'N' then return v_Start
+                        else return 0
+
+    do v_i = v_Start to Last
+       v_t = pos(substr(v_String, v_i, 1), Reference)
+       if v_Option == 'N' then do
+         if v_t = 0 then return v_i  /* Return position of NoMatch character. */
+         end
+       else
+         if v_t > 0 then return v_i  /* Return position of Matched character. */
+       end v_i
+    return 0
+
+/* $9.3.25: */ BifWORD:
+
+    return subword(arg(1), arg(2), 1)
+
+/* $9.3.26: */ BifWORDINDEX:
+
+    w_String = arg(1)
+    w_Num    = arg(2)
+
+    /* Find starting position */
+    w_Start = 1
+    Count = 0
+    do forever
+       w_Start = verify(w_String, "090A0B0C0D20"x, 'N', w_Start)  /* Find
+non-blank */
+       if w_Start = 0 then return 0                   /* Start is beyond end */
+       Count = Count + 1                                /* Words found */
+       if Count = w_Num then leave
+       w_Start = verify(w_String, "090A0B0C0D20"x, 'M', w_Start + 1) /* Find
+blank */
+       if w_Start = 0 then return 0                 /* Start is beyond end */
+       end
+    return w_Start
+
+/* $9.3.27: */ BifWORDLENGTH:
+
+    return length(subword(arg(1), arg(2), 1))
+
+/* $9.3.28: */ BifWORDPOS:
+
+    Phrase = arg(1)
+    wp_String = arg(2)
+    if arg(3,'E') then r_Start = arg(3)
+                  else r_Start = 1
+
+    Phrase = space(Phrase)
+    PhraseWords = words(Phrase)
+    if PhraseWords = 0 then return 0
+    wp_String = space(wp_String)
+    StringWords = words(wp_String)
+    do WordNumber = r_Start to StringWords - PhraseWords + 1
+      if Phrase == subword(wp_String, WordNumber, PhraseWords) then
+        return WordNumber
+      end WordNumber
+    return 0
+
+/* $9.3.29: */ BifWORDS:
+/* Was
+    do s_Count = 0 by 1
+      if subword(arg(1), s_Count + 1) == '' then return s_Count
+      end s_Count
+  Avoid rescan: */
+
+    s_Part=arg(1)
+    s_Count=0
+    do while s_Part \= ''
+      s_Count=s_Count+1
+      parse var s_Part . s_Part
+      end
+    return s_Count
+
+/* Excise $9.3.30: XRANGE Only use of Config_Xrange  */
+/* Not so - it is in TRANSLATE */
+
+/* $9.4.1: ABS ASM trivial */
+
+/* $9.4.2: */ BifFORMAT:
+
+    if arg(2,'E') then Before = arg(2)
+    if arg(3,'E') then After  = arg(3)
+    if arg(4,'E') then Expp   = arg(4)
+    if arg(5,'E') then Expt   = arg(5)
+                  else Expt   = digits()
+    /* In the simplest case the first is the only argument. */
+    f_Number=arg(1)
+    if arg() < 2 then return f_Number
+    /* Dissect the Number. It is in the normal Rexx format. */
+    parse var f_Number f_Mantissa 'E' f_Exponent
+    if f_Exponent == '' then f_Exponent = 0
+    f_Sign = 0
+    if left(f_Mantissa,1) == '-' then do
+      f_Sign = 1
+      f_Mantissa = substr(f_Mantissa,+2)
+      end
+    /* We are interested in the value of the number, not the input format.
+    So we can put it in the form of an integer Mantissa and an Exponent. */
+    parse var f_Mantissa Befo '.' Afte
+    f_Mantissa = Befo||Afte
+    f_Exponent=f_Exponent - length(Afte)
+    /* Leading zeros could have come from 0.01 for example. */
+    do while length(f_Mantissa)>1 & left(f_Mantissa,1)=='0'
+      f_Mantissa=substr(f_Mantissa,+2)
+      end
+    Point = length(f_Mantissa)
+    /* f_Sign f_Mantissa and f_Exponent now reflect the f_Number. */
+
+    /* Decide whether exponential form to be used, setting ShowExp. */
+    /* These tests have to be on the number before any rounding since
+    decision on whether to have exponent affects what digits surround
+    the decimal point. */
+    /* Only after this decision can Before and After arguments be checked. */
+    ShowExp = 0
+    /* There is a test about maximum number of digits in the part before
+    the decimal point, if non-exponential is to be used. */
+    /* eg 123.4E+3 becomes 1234E+2 by point removal, 123400 non-floating */
+    if (length(f_Mantissa) + f_Exponent) > Expt then ShowExp = 1
+    /* Also a test on digits after the point. */
+    /* If the f_Exponent is negative at this point in the calculation there
+    is a possibility that the non-exponential form would have too many
+    zeros after the decimal point. */
+    /* For classic this test is:
+    if !NotJ18 then if -f_Exponent > 2*Expt then
+                         if -f_Exponent >= length(f_Mantissa) then ShowExp = 1
+    /* For modern it is: */
+    /* The non-exponential value needs to be at least a millionth. */
+ if \!NotJ18 then */ if (-f_Exponent - length(f_Mantissa)) >= 6 then ShowExp = 1
+    /* An over-riding rule for exponential form: */
+    if arg(4,'E') then if Expp = 0 then ShowExp = 0
+
+    /* ShowExp now indicates whether to show an exponent. */
+    if ShowExp then do
+      /* Construct the exponential part of the result. */
+      /* f_Exponent at this point in the calculation reflects an integer
+      mantissa.  It has to be changed to reflect a decimal point at
+      Point from the left. */
+      Point = 1 /* As required for 'SCIENTIFIC' */
+      f_Exponent = f_Exponent + length(f_Mantissa) - 1
+      if form() == 'ENGINEERING' then
+      do while f_Exponent//3  \=  0
+        Point = Point + 1
+        f_Exponent = f_Exponent-1
+        f_Mantissa=f_Mantissa'0'
+        end
+      end
+    else do /* Force the exponent to zero for non-exponential format. */
+      Point = length(f_Mantissa)
+      do while f_Exponent>0
+        f_Mantissa=f_Mantissa'0'
+        Point=Point+1
+        f_Exponent=f_Exponent-1
+        end
+      do while f_Exponent<0
+        Point=Point-1
+        if Point < 1 then do
+          f_Mantissa='0'f_Mantissa
+          Point = Point + 1
+          end
+        f_Exponent=f_Exponent+1
+        end
+      /* Now f_Exponent is Zero and f_Mantissa with Point reflects f_Number */
+      end
+
+    /* Deal with right of decimal point first since that can affect the
+    left. Ensure the requested number of digits there. */
+    Afters = length(f_Mantissa)-Point
+    if arg(3,'E') = 0 then After = Afters  /* Note default. */
+    /* Make Afters match the requested After */
+    do while Afters < After
+      Afters = Afters+1
+      f_Mantissa = f_Mantissa'0'
+      end
+    if Afters > After then do
+      /* Round by adding 5 at the right place. */
+      f_r=substr(f_Mantissa, Point + After + 1, 1)
+      f_Mantissa = left(f_Mantissa, Point + After)
+      MantLen = length(f_Mantissa)
+
+      if f_r >= '5' then f_Mantissa = f_Mantissa + 1
+      /* This can leave the result zero. */
+      if f_Mantissa = 0 then f_Sign = 0
+      /* This rounding could have made the mantissa shorter. */
+      if length(f_Mantissa) < MantLen then
+         f_Mantissa = copies('0',MantLen-length(f_Mantissa))||f_Mantissa
+      /* The case when rounding makes the mantissa longer is an awkward
+      one. The exponent will have to be adjusted. */
+      if length(f_Mantissa) > MantLen then do
+        Point = Point+1
+        if Point>Expt then ShowExp = 1
+        end
+      if ShowExp = 1 then do
+         f_Exponent=f_Exponent + (Point - 1)
+         Point = 1 /* As required for 'SCIENTIFIC' */
+         if form() == 'ENGINEERING' then
+           do while f_Exponent//3  \=  0
+             Point = Point+1
+             f_Exponent = f_Exponent-1
+             end
+         end
+      end /* Rounded */
+    /* Right part is final now.  Set it into Afte */
+    if After > 0 then Afte = '.'||substr(f_Mantissa,Point+1,After)
+                 else Afte = ''
+
+    /* Now deal with the part of the result before the decimal point. */
+    f_Mantissa = left(f_Mantissa,Point)
+    if arg(2,'E') =  0 then Before  =  Point + f_Sign /* Note default. */
+    /* Make Point match Before */
+    if Point > Before - f_Sign then call Config_Raise40 +2, arg(1),+38
+    do while Point<Before
+       Point = Point+1
+       f_Mantissa = '0'f_Mantissa
+       end
+
+    /* Find the Sign position and blank leading zeroes. */
+    f_r = ''
+    Triggered = 0
+    do f_z = 1 to length(f_Mantissa)
+      Digit = substr(f_Mantissa,f_z,1)
+      /* Triggered is set when sign inserted or blanking finished. */
+      if Triggered = 1 then do
+        f_r = f_r||Digit
+        iterate
+        end
+      /* If before sign insertion point then blank out zero. */
+      if Digit = '0' then
+         if substr(f_Mantissa,f_z+1,1) = '0' & f_z+1<length(f_Mantissa) then do
+           f_r = f_r||' '
+           iterate
+           end
+      /* f_z is the sign insertion point. */
+      if Digit = '0' & f_z \= length(f_Mantissa) then Digit = ' '
+      if f_Sign = 1 then Digit = '-'
+      f_r = f_r||Digit
+      Triggered = 1
+      end f_z
+    f_Number = f_r||Afte
+
+    if ShowExp = 1 then do
+      /* Format the exponent. */
+      Expart = ''
+      SignExp = 0
+      if f_Exponent<0 then do
+        SignExp = 1
+        f_Exponent = -f_Exponent
+        end
+      /* Make the exponent to the requested width. */
+      if arg(4,'E') = 0 then Expp = length(f_Exponent)
+      if length(f_Exponent) > Expp then
+        call Config_Raise40  +4, arg(1), +38
+      f_Exponent=right(f_Exponent,Expp,'0')
+      if f_Exponent = 0 then do
+        if arg(4,'E') then Expart = copies(' ',Expp+2)
+        end
+      else if SignExp = 0 then Expart = 'E+'f_Exponent
+                            else Expart = 'E-'f_Exponent
+      f_Number = f_Number||Expart
+      end
+    return f_Number
+
+/* $9.4.3: */ BifMAX:
+    Next = 1 /* Ugly fix for BLM problem. */
+    Max = arg(Next)
+    do i_m = 2 to arg() by 1
+      Next = arg(i_m)
+      if Max < Next then Max = Next
+      end i_m
+    return Max
+
+/* $9.4.4: */ BifMIN:
+
+    _Next = 1 /* Ugly fix for BLM problem. */
+    Min = arg(_Next)
+    do i_n = 2 to arg() by 1
+      _Next = arg(i_n)
+      if Min > _Next then Min = _Next
+      end i_n
+    return Min
+
+/* Excise $9.4.5: SIGN Easier in ASM */
+
+/* $9.4.6: */ BifTRUNC:
+
+
+    t_Number = arg(1)
+    if arg(2,'E') then t_Num = arg(2)
+                  else t_Num = 0
+
+    t_Integer =(10**t_Num  * t_Number)%1
+    if t_Num=0 then return t_Integer
+
+    t_t=length(t_Integer)-t_Num
+    if t_t<=0 then return '0.'right(t_Integer,t_Num,'0')
+              else return insert('.',t_Integer,t_t)
+
+/* Excise $9.5.1: ADDRESS: Mostly system. */
+
+/* Excise $9.5.2: ARG: Only use of user args as opposed bif args.*/
+
+/* $9.5.3:  CONDITION: */
+/* Doubt this one also
+    /* Values are null if this is not following a condition. */
+    if #Condition#Level == '' then do
+       #ConditionDescription#Level = ''
+       #ConditionExtra#Level = ''
+       #ConditionInstruction = ''
+       end
+
+    c_Option=arg(1)
+    if c_Option=='C' then return #Condition#Level
+    if c_Option=='D' then return #ConditionDescription#Level
+    if c_Option=='E' then return #ConditionExtra#Level
+    if c_Option=='I' then return #ConditionInstruction#Level
+    /* State is the current state. */
+    if #Condition#Level = '' then return ""
+    return #Enabling#Condition#Level
+end doubtful. */
+
+/* Excise $9.5.4: DIGITS easy ASM */
+
+/* $9.5.5: Argument checked as far as Number. */  BifERRORTEXT:
+
+    Msgcode = arg(1)
+/* Option is error checked but not used. */
+    e_Option = 'N'
+    if arg(2,'E') then e_Option = arg(2)
+    Major=Msgcode % 1
+    Minor=MsgCode - Major
+    if Major < 0 | Major > 90 | Minor > .9 | pos('E',MsgCode)>0 then
+        call Config_Raise40  arg(1), +17
+    if Minor>0 then Minor=substr(Minor,+3)
+    return Config_Msg(256*Major+Minor)
+
+/* Excise $9.5.6: FORM easy ASM */
+
+/* Excise $9.5.7: FUZZ easy ASM */
+
+/* Excise $9.5.8: SOURCELINE ANSI uses stem. */
+
+/* TRACE by ASM. */
+
+/* $9.6.1: */ BifB2X:
+
+    b_String = space(arg(1),0)
+    return ReRadix(b_String,2,16)
+
+/* $9.6.2: */ BifBITAND:
+
+    String1 = arg(1)
+    if arg(2,'E') then String2 = arg(2)
+                        else String2 = ''
+
+    /* Presence of a pad implies character strings. */
+    if arg(3,'E') then
+      if length(String1) > length(String2) then
+        String2=left(String2,length(String1),arg(3))
+      else
+        String1=left(String1,length(String2),arg(3))
+
+    /* Change to manifest bit representation. */
+    call Config_C2B String1
+    String1=#Outcome
+    call Config_C2B String2
+    String2=#Outcome
+    /* Exchange if necessary to make shorter second. */
+    if length(String1)<length(String2) then do
+      b_t=String1
+      String1=String2
+      String2=b_t
+      end
+
+    /* Operate on common length of those bit strings. */
+    b_r=''
+    do b_j=1 to length(String2)
+      b1=substr(String1,b_j,1)
+      b2=substr(String2,b_j,1)
+      select
+        when #Bif=='BITAND' then
+          b1=b1&b2
+        when #Bif=='BITOR' then
+          b1=b1|b2
+        when #Bif=='BITXOR' then
+          b1=b1&&b2
+        end
+      b_r=b_r||b1
+      end b_j
+    b_r=b_r || right(String1,length(String1)-length(String2))
+
+    /* Convert back to coded string. */
+    call Config_B2C b_r
+    return #Outcome
+
+/* $9.6.5: */ BifC2D:
+
+    if length(arg(1))=0 then return 0
+    c_max = 10 ** digits() - 1
+    numeric digits 999
+    if arg(2,'E') then do
+      /* Size specified */
+      Size_ = arg(2)
+      if Size_ = 0 then return 0
+      /* Pad will normally be zeros */
+      c_t=right(arg(1),Size_,left(xrange(),1))
+      /* Convert to manifest bit */
+      call Config_C2B c_t
+      /* And then to signed decimal. */
+      c_Sign = Left(#Outcome,1)
+      #Outcome = substr(#Outcome,+2)
+      c_t=ReRadix(#Outcome,2,10)
+      /* Sign indicates 2s-complement. */
+      if c_Sign then c_t=c_t-2**length(#Outcome)
+      if abs(c_t) > c_max then call Config_Raise40  c_t, +35
+      return c_t
+      end
+    /* Size not specified. */
+    call Config_C2B arg(1)
+    c_t = ReRadix(#Outcome,2,10)
+    if c_t > c_max then call Config_Raise40  c_t, +35
+    return c_t
+
+/* $9.6.6: */ BifC2X:
+
+    if length(arg(1)) = 0 then return ''
+    call Config_C2B arg(1)
+    return ReRadix(#Outcome,2,16)
+
+/* $9.6.7: */ BifD2C:
+    numeric digits 999
+    /* Convert to manifest binary */
+    d_Subject = abs(arg(1))
+    d_r = ReRadix(d_Subject,10,2)
+    /* Make length a multiple of 8, as required for Config_B2C */
+    d_Length = length(d_r)
+    do while d_Length//8 \= 0
+       d_Length = d_Length+1
+       end
+    /* 2s-complement for negatives. */
+    if arg(1)<0 then do
+      d_Subject = 2**d_Length-d_Subject
+      d_r = ReRadix(d_Subject,10,2)
+      d_Length = length(d_r)
+      do while d_Length//8 \= 0
+         d_Length = d_Length+1
+         end
+      end
+    d_r = right(d_r,d_Length,'0')
+    /* Convert to characters */
+    call Config_B2C d_r
+    dc_Output = #Outcome
+    if \arg(2,'E') then return dc_Output
+
+    /* Adjust the length with appropriate characters. */
+    if arg(1)>=0 then return right(dc_Output,arg(2),left(xrange(),1))
+                 else return right(dc_Output,arg(2),right(xrange(),1))
+
+/* $9.6.8: */ BifD2X:
+    numeric digits 999
+    /* Convert to manifest hexadecimal */
+    x_Subject = abs(arg(1) )
+    x_r = ReRadix(x_Subject,10,16)
+    /* Twos-complement for negatives */
+    if arg(1)<0 then do
+      x_Subject = 16**length(x_r)-x_Subject
+      x_r = ReRadix(x_Subject,10,16)
+      end
+    if \arg(2,'E') then return x_r
+    /* Adjust the length with appropriate characters. */
+    if arg(1)>=0 then return right(x_r,arg(2),'0')
+                 else return right(x_r,arg(2),'F')
+
+/* $9.6.9: */ BifX2B:
+
+   xb_Subject = arg(1)
+   if xb_Subject == '' then return ''
+   /* Blanks were checked by CheckArgs, here they are ignored. */
+   xb_Subject = space(xb_Subject,0)
+   return ReRadix(translate(xb_Subject),16,2)
+
+/* $9.6.10: */ BifX2C:
+
+   xc_Subject = arg(1)
+   if xc_Subject == '' then return ''
+   xc_Subject = space(xc_Subject,0)
+   /* Convert to manifest binary */
+   xc_r = ReRadix(translate(xc_Subject),16,2)
+   /* Convert to character */
+   xc_Length = 8*((length(xc_Subject)+1)%2)
+   call Config_B2C right(xc_r,xc_Length,'0')
+   return #Outcome
+
+/* $9.6.11: */ BifX2D:
+   xd_max = 10 ** digits() - 1
+   numeric digits 999
+   xd_Subject = arg(1)
+   if xd_Subject == '' then return '0'
+
+   xd_Subject = translate(space(xd_Subject,0))
+   if arg(2,'E') then do
+     /* BLM - arg(2) large makes the code slow. */
+     xd_r = min(arg(2),length(xd_Subject)+1)
+     xd_Subject = right(xd_Subject,xd_r,'0')
+     end
+   if xd_Subject =='' then return '0'
+   /* Note the sign */
+   if arg(2,'E') then SignBit = left(x2b(xd_Subject),1)
+                 else SignBit = '0'
+   /* Convert to decimal */
+   xd_r = ReRadix(xd_Subject,16,10)
+   /* Twos-complement */
+   if SignBit then xd_r = xd_r - 2**(4*arg(2))
+   if abs(xd_r) > xd_max then call Config_Raise40 xd_Subject, +35
+   return xd_r
+
+/* $9.7.1: */ BifCHARIN:
+
+    if arg(1,'E') then #Stream  = arg(1)
+                  else #Stream  = ''
+    #StreamState = ''
+    /* Argument 2 is positioning. */
+    if arg(2,'E') then do
+      call Config_Stream_Position 'CHARIN',arg(2)
+      if left(#Response, 1) == 'R' then call Config_Raise40 +2, arg(2), +41
+      if left(#Response, 1) == 'T' then call Config_Raise40 #Stream, +42
+      end
+    /* Argument 3 is how many. */
+    if arg(3,'E') then c_Count = arg(3)
+                  else c_Count = 1
+    if c_Count = 0 then do
+      call Config_Stream_Charin 'NULL' /* "Touch" the stream */
+      return ''
+      end
+    /* The unit may be eight bits (as characters) or one character. */
+    call Config_Stream_Query
+    Mode = #Outcome
+    c_r = ''
+    do until c_Count = 0
+      call Config_Stream_Charin 'CHARIN'
+      if left(#Response, 1) \== 'N' then do
+        if left(#Response, 1) == 'E' then #StreamState = 'ERROR'
+        /* This call will return. */
+        call Config_Raise 'NOTREADY', #Stream, substr(#Response,+2)
+        leave
+        end
+      c_r = c_r||#Outcome
+      c_Count = c_Count-1
+      end
+  if Mode == 'B' then do
+    call Config_B2C c_r
+    c_r = #Outcome
+    end
+  return c_r
+
+/* $9.7.2: */ BifCHAROUT:
+
+    if arg(1,'E') then #Stream  = arg(1)
+                  else #Stream  = ''
+
+    #StreamState = ''
+    if \arg(2,'E')  &  \arg(3,'E') then do
+      /* Position to end of stream. */
+      call Config_Stream_Close
+      if left(#Response,1) == 'T' then call Config_Raise40 #Stream, +42
+      return 0
+      end
+ /*????????????????????????????????????????????*/
+    if arg(3,'E') then do
+      /* Explicit positioning. */
+      call Config_Stream_Position 'CHAROUT', arg(3)
+      if left(#Response, 1) == 'T' then call Config_Raise40 #Stream, +42
+      if left(#Response, 1) == 'R' then call Config_Raise40 +3, arg(3), +41
+      end
+
+    if \arg(2,'E')  | arg(2) == '' then do
+      call Config_Stream_Charout 'NULL' /* "Touch" the stream */
+      return 0
+      end
+
+    c_String = arg(2)
+    call Config_Stream_Query
+    o_Mode = #Outcome
+    if o_Mode == 'B' then do
+      call Config_C2B c_String
+      c_String = #Outcome
+      Stride = 8
+      Residue = length(c_String)/8
+      end
+    else do
+      Stride = 1
+      Residue = length(c_String)
+      end
+
+    Cursor = 1
+    do while Residue>0
+      Piece = substr(c_String,Cursor,Stride)
+      Cursor = Cursor+Stride
+      call Config_Stream_Charout Piece
+       if left(#Response, 1) \== 'N' then do
+         if left(#Response, 1) == 'E' then #StreamState = 'ERROR'
+       call Config_Raise 'NOTREADY', #Stream, substr(#Response,+2)
+       return Residue
+       end
+      Residue = Residue - 1
+      end
+    return 0
+
+/* $9.7.3: */ BifCHARS:
+
+    if arg(1,'E') then #Stream = arg(1)
+                  else #Stream = ''
+    if arg(2,'E') then h_Option = arg(2)
+                  else h_Option = 'N'
+
+    return Config_Stream_Count('CHARS', h_Option)
+
+/* $9.7.4: */ BifLINEIN:
+
+  if arg(1,'E') then #Stream = arg(1)
+                else #Stream = ''
+  #StreamState = ''
+  if arg(2,'E') then do
+    call Config_Stream_Position 'LINEIN', arg(2)
+    if left(#Response, 1) == 'T' then call Config_Raise40 #Stream, +42
+    if left(#Response, 1) == 'R' then call Config_Raise40 +2, arg(2), +41
+    end
+  if arg(3,'E') then l_Count = arg(3)
+                else l_Count = 1
+  if l_Count>1 then call Config_Raise40 l_Count, +39
+  if l_Count = 0 then do
+      call Config_Stream_Charin 'NULL' /* "Touch" the stream */
+      return ''
+      end
+  /* A configuration may recognise lines even in 'binary' mode. */
+/* No need for Binary streams
+  call Config_Stream_Query
+  l_Mode = #Outcome
+*/
+/* No need to test #Linein_Position since Config_Stream_Charin 'LINEIN'
+ will get a line.
+  l_r = ''
+  l_t = #Linein_Position
+*/
+  /* Config_Stream_Charin will alter #Linein.Position. */
+/*
+  do until l_t \= #Linein_Position
+*/
+      call Config_Stream_Charin 'LINEIN'
+      if left(#Response, 1) \== 'N' then do
+        if left(#Response, 1) == 'E' then #StreamState = 'ERROR'
+        call Config_Raise 'NOTREADY', #Stream, substr(#Response,+2)
+/*
+        leave
+*/
+        end
+/*
+     l_r = l_r||#Outcome
+     end
+*/
+/* No need for Binary streams
+  if l_Mode == 'B' then do
+    call Config_B2C l_r
+    l_r = #Outcome
+    end
+*/
+  return #Outcome /*l_r*/
+
+/* $9.7.5: */ BifLINEOUT:
+
+    if arg(1,'E') then #Stream  = arg(1)
+                  else #Stream  = ''
+
+    #StreamState = ''
+    call Config_Stream_Charout arg(2)
+    return 0
+
+/* But must reference arg(3) to get count right. */    
+    return arg(3)
+
+/* 2012 Cut down as LINEIN was, to make simplest case (only) work.  */
+
+/*
+    if \arg(2,'E')  &  \arg(3,'E') then do
+      /* Position to end of stream. */
+      call Config_Stream_Close
+      if left(#Response,1) == 'T' then call Config_Raise40 #Stream, +42
+      return 0
+      end
+
+    if arg(3,'E') then do
+      call Config_Stream_Position 'LINEOUT', arg(3)
+      if left(#Response, 1) == 'T' then call Config_Raise40 #Stream, +42
+      if left(#Response, 1) == 'R' then call Config_Raise40 +3, arg(3), +41
+      end
+
+    if \arg(2,'E')  then do
+      call Config_Stream_Charout '' /* "Touch" the stream */
+      return 0
+      end
+
+    l_String = arg(2)
+*/
+
+/*   
+    l_Stride = 1
+    call Config_Stream_Query
+    lo_Mode = #Outcome
+    if lo_Mode == 'B' then do
+      call Config_C2B l_String
+      l_String = #Outcome
+      l_Stride = 8
+      l_Residue = length(l_String)/8
+      end
+    else do
+       l_Stride = 1
+       l_Residue = length(l_String)
+       end
+    l_Cursor = 1
+    do while l_Residue > 0
+      l_Piece = substr(l_String,l_Cursor,l_Stride)
+      l_Cursor = l_Cursor+l_Stride
+      call Config_Stream_Charout l_Piece
+      if left(#Response, 1) \== 'N' then do
+        if left(#Response, 1) == 'E' then #StreamState = 'ERROR'
+        call Config_Raise 'NOTREADY', #Stream, substr(#Response,+2)
+        return 1
+        end
+      l_Residue = l_Residue-1
+      end
+    call Config_Stream_Charout 'EOL'
+    return 0
+*/
+
+/* $9.7.6: */ BifLINES:
+
+
+    if arg(1,'E') then #Stream = arg(1)
+                  else #Stream = ''
+    if arg(2,'E') then n_Option = arg(2)
+                  else n_Option = 'N'
+
+    return Config_Stream_Count('LINES', n_Option)
+
+/* $9.7.7: */ BifQUALIFY:
+
+    if arg(1,'E') then #Stream  = arg(1)
+                  else #Stream  = ''
+    return Config_Stream_Qualified('',0)
+
+/* $9.7.8: */ BifSTREAM:
+
+    #Stream = arg(1)
+
+    if arg(2,'E') then Operation = arg(2)
+                  else Operation = 'S'
+
+    if arg(3,'E') & Operation \== 'C' then
+      call Config_Raise40  +2, +4
+
+   Select
+     when Operation == 'C' then do
+       call Config_Stream_Command arg(3)
+       return #Outcome
+       end
+     when Operation == 'D' then do
+       call Config_Stream_State
+       return substr(#Response,+2)
+       end
+     when Operation == 'S' then do
+       if #StreamState == 'ERROR' then return 'ERROR'
+       call Config_Stream_State
+       if left(#Response, 1) == 'N' then return 'READY'
+       if left(#Response, 1) == 'U' then return 'UNKNOWN'
+       return 'NOTREADY'
+       end
+     end
+
+/* $9.8.1: */ BifDATE:
+
+   numeric digits 18
+
+    /* If the third argument is given then the second is mandatory. */
+    if arg(3,'E') & \arg(2,'E') then
+      call Config_Raise40  '', arg(3), +19
+
+    if arg(1,'E') then d_Option = arg(1)
+                  else d_Option = 'N'
+
+    /* The date/time is 'frozen' throughout a clause. */
+    if #ClauseTime == '' then do
+      #ClauseTime = DOS_Time(Config_Time())
+      #ClauseLocal = #ClauseTime /* + #Outcome */
+      end
+    /* English spellings are used, even if messages not in English are
+used. */
+    #Months = 'January February March April May June July',
+             'August September October November December'
+    #WeekDays = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
+    /* If there is no second argument, the current date is returned. */
+    if \arg(2,'E') then
+      return DateFormat(#ClauseLocal, d_Option)
+
+    /* If there is a second argument it provides the date to be
+    converted. */
+    Value = arg(2)
+    if arg(3,'E') then InOption = arg(3)
+                  else InOption = 'N'
+    /* First try for Year Month Day */
+    Logic = 'NS'
+    select
+      when InOption == 'N' then do
+        parse var Value Day MonthIs Year
+        do Month = 1 to 12
+          if left(word(#Months, Month),+3) == MonthIs then leave
+          end Month
+        end
+      when InOption == 'S' then parse var Value Year +4 Month +2 Day
+      otherwise Logic = 'EOU' /* or BD */
+      end
+    /* Next try for year without century */
+    if logic == 'EOU' then
+    Select
+      when InOption == 'E' then parse var Value Day '/' Month '/' YY
+      when InOption == 'O' then parse var Value YY '/' Month '/' Day
+      when InOption == 'U' then parse var Value Month '/' Day '/' YY
+      otherwise Logic = 'BD'
+      end
+    if Logic == 'EOU' then do
+      /* The century is assumed, on the basis of the current year. */
+      if \datatype(YY,'W') then
+        call Config_Raise40 Value, InOption, +19
+      parse value Time2Date(#ClauseLocal) with YearNow .
+      Year = YY
+      do while Year < YearNow-50
+        Year = Year + 100
+        end
+      end /* Century assumption */
+    if Logic \== 'BD' then do
+      /* Convert Month & Day to Days of year. */
+      if \datatype(Month,'W') | \datatype(Day,'W') | \datatype(Year,'W') then
+        call Config_Raise40 Value, InOption, +19
+
+      Days = word('0 31 59 90 120 151 181 212 243 273 304 334 0',Month)
+      /* 0 above avoids
+      if Days = '' then
+        call Config_Raise40 Value, InOption, +19
+      */
+      Days = Days + (Month>2)*Leap(Year) + Day-1
+      end
+    else
+      if \datatype(Value,'W') then
+        call Config_Raise40 Value, InOption, +19
+    if InOption == 'D' then do
+      parse value Time2Date(#ClauseLocal) with Year .
+      Days = Value - 1 /* 'D' includes current day */
+      end
+    /* Convert to BaseDays */
+    if InOption \== 'B' then
+      BaseDays = (Year-1)*365 + (Year-1)%4 - (Year-1)%100 + (Year-1)%400 + Days
+    else Basedays = Value
+    /* Convert to microseconds from 0001 */
+    Micro = BaseDays * 864e8
+    /* Reconvert to check the original. (eg for Month = 99) */
+    if DateFormat(Micro,InOption) \== Value then
+      call Config_Raise40 Value, InOption, +19
+    return DateFormat(Micro, d_Option)
+/* BLM
+    end /* Conversion */
+*/
+
+DateFormat:
+    /* Convert from microseconds to given format. */
+    parse value Time2Date(arg(1)) with,
+    d_Year d_Month d_Day d_Hour D_Minute d_Second d_Microsecond d_Base d_Days
+     select
+      when arg(2) == 'B' then
+        return d_Base
+      when arg(2) == 'D' then
+        return d_Days
+      when arg(2) == 'E' then
+        return right(d_Day,+2,'0')'/'right(d_Month,+2,'0')'/'right(d_Year,+2,'0')
+      when arg(2) == 'M' then
+        return word(#Months,+d_Month)
+      when arg(2) == 'N' then
+        return d_Day left(word(#Months,+d_Month),+3) right(d_Year,+4,'0')
+      when arg(2) == 'O' then
+        return right(d_Year,+2,'0')'/'right(d_Month,+2,'0')'/'right(d_Day,+2,'0')
+      when arg(2) == 'S' then
+        return right(d_Year,+4,'0')||right(d_Month,+2,'0')||right(d_Day,+2,'0')
+      when arg(2) == 'U' then
+        return right(d_Month,+2,'0')'/'right(d_Day,+2,'0')'/'right(d_Year,+2,'0')
+      otherwise /* arg(2) == 'W' */
+        return word(#WeekDays,1+d_Base//7)
+      end
+
+/* Excise $9.8.2: QUEUED, only use. */
+
+/* Excise $9.8.3:  RANDOM Only use of _Random */
+
+/* $9.8.5: */ BifTIME:
+
+   numeric digits 18
+
+    /* If the third argument is given then the second is mandatory. */
+    if arg(3,'E') & \arg(2,'E') then
+      call Config_Raise40 '', arg(3), +19
+
+    if arg(1,'E') then t_Option = arg(1)
+                  else t_Option = 'N'
+
+    /* The date/time is 'frozen' throughout a clause. */
+    if #ClauseTime == '' then do
+      #ClauseTime = DOS_Time(Config_Time())
+      #ClauseLocal = #ClauseTime /* + #Outcome */
+      end
+
+    /* If there is no second argument, the current time is returned. */
+    if \arg(2,'E') then
+      return TimeFormat(#ClauseLocal, t_Option)
+
+    /* If there is a second argument it provides the time to be
+    converted. */
+    if pos(t_Option, 'ERO') > 0 then
+      call Config_Raise40 t_Option, +29
+    InValue = arg(2)
+    if arg(3,'E') then t_InOption = arg(3)
+                        else t_InOption = 'N'
+    HH = 0
+    MM = 0
+    SS_ = 0
+    HourAdjust = 0
+    select
+    when t_InOption == 'C' then do
+      parse var InValue HH ':' +1 MM +2 XX
+  /*    parse var InValue HH ':' . +1 MM +2 XX  */
+      if HH=12 then HH=0
+      if XX == 'pm' then HourAdjust = 12
+      end
+      when t_InOption == 'H' then HH = InValue
+      when t_InOption == 'L' | t_InOption == 'N' then
+        parse var InValue HH ':' MM ':' SS_
+      when t_InOption == 'M' then MM = InValue
+      otherwise SS_ = InValue
+      end
+    if \datatype(HH,'W') | \datatype(MM,'W') | \datatype(SS_,'N') then
+      call Config_Raise40 InValue, t_InOption, +19
+    HH = HH + HourAdjust
+    /* Convert to microseconds */
+    t_Micro = trunc((((HH * 60) + MM) * 60 + SS_) * 1000000)
+    if t_Micro<0 | t_Micro > 24*3600*1000000 then
+      call Config_Raise40 InValue, t_InOption, +19
+    /* Reconvert to check the original. (eg for hour = 99) */
+    if TimeFormat(t_Micro,t_InOption) \== InValue then
+      call Config_Raise40 InValue, t_InOption, +19
+    return TimeFormat(t_Micro, t_Option)
+/* BLM
+    end /* Conversion */
+*/
+TimeFormat:
+    /* Convert from microseconds to given format. */
+    parse value Time2Date(arg(1)) with,
+         .    .     .   t_Hour t_Minute t_Second t_MicroSecond .
+    select
+      when arg(2) == 'C' then
+       select
+         when t_Hour>12 then return t_Hour-12':'right(t_Minute,+2,'0')'pm'
+         when t_Hour=12 then return '12:'right(t_Minute,+2,'0')'pm'
+         when t_Hour>0  then return t_Hour':'right(t_Minute,+2,'0')'am'
+         when t_Hour=0  then return '12:'right(t_Minute,+2,'0')'am'
+         end
+      when arg(2) == 'E' | arg(2) == 'R' then do
+         /* Special case first time */
+         if #StartTime == '' then do
+            #StartTime = #ClauseTime
+            return '0'
+            end
+         tf_Output = #ClauseTime-#StartTime
+         if arg(2) == 'R' then
+           #StartTime = #ClauseTime
+         return tf_Output * 1E-6
+         end  /* E or R */
+      when arg(2) == 'H' then return t_Hour
+      when arg(2) == 'L' then
+         return right(t_Hour,+2,'0')':'right(t_Minute,+2,'0')':'right(t_Second,+2,'0'),
+            || '.'right(t_Microsecond,+6,'0')
+      when arg(2) == 'M' then return 60*t_Hour+t_Minute
+      when arg(2) == 'N' then
+         return right(t_Hour,+2,'0')':'right(t_Minute,+2,'0')':'right(t_Second,+2,'0')
+      when arg(2) == 'O' then
+         return trunc((#ClauseLocal - #ClauseTime) / 1E+6)
+      otherwise /* arg(2) == 'S' */
+        return 3600*t_Hour+60*t_Minute+t_Second
+      end
+
+/* VALUE removed */
+
+DOS_Time:/* Convert from DOS time information to microseconds. */
+  tv = arg(1);
+  Dt_Year = 1980 + C2D(substr(tv,+7,1))
+  Dt_Month = C2D(substr(tv,+6,1))
+  Dt_Day = C2D(substr(tv,+5,1))
+  /* Convert Dt_Month & Dt_Day to Dt_Days of year. */
+  Dt_Days = word('0 31 59 90 120 151 181 212 243 273 304 334',+Dt_Month) +,
+        (Dt_Month>2)*Leap(Dt_Year) + Dt_Day-1
+  Dt_BaseDays = (Dt_Year-1)*365 + (Dt_Year-1)%4 - (Dt_Year-1)%100 + (Dt_Year-1)%400 + Dt_Days
+  return Dt_BaseDays * 864e8 ,
+   +36e8 * C2D(substr(tv,+4,1))  /* Hour */ ,
+   +6e7 * C2D(substr(tv,+3,1))   /* Min */  ,
+   +1e6 * C2D(substr(tv,+2,1))   /* Sec */  ,
+   +1e4 * C2D(left(tv,1))       /* Sec/100 */
+
+/* The following routines are part of the CRX implementation.  They are
+run with the SpecialInterpret flag on, so they can do things that
+ordinary Rexx cannot. Their arguments have been checked in advance. */
+
+B4VALUE1:/* Bif VALUE with one argument. */
+  interpret arg(1) /* Not really a command, just to load stack. */
+  return
+
+B4VALUE2:/* Bif VALUE with two arguments. */
+  B4V = value(arg(1))
+  #Outcome = arg(2)
+  interpret arg(1)"= 'QUEUED'()" /* Not really QUEUED, a way to get #OUTCOME */
+  return B4V
+
+B4DROP:/* When there is a DROP list. */
+  interpret "DROP" arg(1)
+  return
+
+B4EXPOSE:/* When there is a EXPOSE list. */
+  interpret "PROCEDURE EXPOSE" arg(1)
+  return
+
+StreamQualify:
+/* The first time a file is used it may need Dos to supply the full name. */
+    q_t = #Stream
+    /* Take off specified drive letter, or use current drive.  */
+    if substr(q_t,+2,1)==':' then do
+      parse var q_t q_drive ':' q_t
+      end
+    else q_Drive = Config_Stream_Qualified('',1)
+    /* Separate file name from any path given. */
+    q_j = lastpos('\',q_t)
+    if q_j = 0 then do
+      q_Name = q_t; q_Path = ''
+      end
+    else do
+      q_Name = substr(q_t,q_j+1); q_Path = left(q_t,q_j)
+      end
+    /* Add current path unless full path given. */
+    if left(q_Path,1) \== '\' then
+      q_Path = '\'Config_Stream_Qualified(q_Drive,+2)'\'q_Path
+    q_t = Config_Upper(q_Drive':'q_Path||q_Name)
+    q_t = Config_Stream_Qualified(q_t,+3)
+    return
+
+PathQualify:/* eg CALL ABC or call "D:DEF\ABC.CMD", where and what is ABC? */
+  pq_t = Config_Upper(arg(1))
+  pq_HaveEnv = 0 /* It may not be necessary to look at the environment. */
+  /* Separate off any specified drive letter.  */
+  pq_Drive = ''
+  if substr(pq_t,+2,1)==':' then do
+    parse var pq_t pq_Drive ':' pq_t
+    end
+  /* Separate specified file name from any path given in the remainder. */
+  pq_j = lastpos('\',pq_t)
+  if pq_j = 0 then do
+    pq_Name = pq_t
+    pq_Path = ''
+    end
+  else do
+    pq_Name = substr(pq_t,pq_j+1)
+    pq_Path = left(pq_t,pq_j)
+    end
+  /* Separate the extension, if any, from the name. */
+  parse var pq_Name pq_Name '.' pq_Exten
+
+  pq_Exists = 0 /* Perhaps */
+/* Drive, Name, Path, Exten came from the argument and are not altered. */
+/* Various things are tried to supply missing parts. */
+/* Letter is the drive being searched. Start with current drive. */
+  pq_Letter = Config_Stream_Qualified('',1)
+/* Prefix is the default path current for that letter. */
+  pq_Prefix = '\'Config_Stream_Qualified(pq_Letter,+2)
+/* Dir is the user given part of the path; it may or may not be complete. */
+  pq_Dir = pq_Path
+  do forever
+  /* There maybe a conflict on the drive, so this is not a possible solution. */
+  if pq_Drive == '' | pq_Drive == pq_Letter then do
+    /* Add current path to trial unless full path given by user. */
+    pq_t = pq_Dir
+    if left(pq_Dir,1) \== '\' then
+      pq_t = pq_Prefix'\'pq_Dir
+    /* There may be a conflict on the two paths, making this try a non-winner.*/
+      if right(pq_t,length(pq_Path)) == pq_Path then do
+        /* Try given extension or some others. */
+        pq_t = pq_Letter':'pq_t||pq_Name'.'
+        if pq_Exten \== '' then do
+          pq_r = pq_t||pq_Exten
+          pq_Exists = Config_Stream_Qualified(pq_r,+4)
+          end
+        else do pq_j = 1 to 5
+          pq_r=pq_t||word("COM EXE REX CMD BAT",pq_j)
+          pq_Exists = Config_Stream_Qualified(pq_r,+4)
+          if pq_Exists then leave pq_j
+          end pq_j
+        if pq_Exists then leave /* the forever */
+        end /* partial path match */
+      end /* Drive match */
+  /* Try some other directories. */
+  if pq_HaveEnv = 0 then do
+    pq_HaveEnv = 1
+    pq_Rest = value("PATH",,"DOS")
+    end
+  parse var pq_Rest pq_Dir ';' pq_Rest
+  /* I think the rules require the trailing semicolon on a path. */
+  if pq_Dir == '' then leave /* the forever */
+  /* The delimiter that precedes the Name is treated as part of the path. */
+  pq_Dir = pq_Dir'\'
+  if substr(pq_Dir,+2,1)==':' then do
+    parse var pq_Dir pq_Letter ':' pq_Dir
+    pq_Prefix = '\'Config_Stream_Qualified(pq_Letter,+2)
+    end
+  end /* forever */
+  if pq_Exists = 0 then pq_r = ''
+  pq_r = Config_Stream_Qualified(pq_r,+3)
+  return
+
+/* Divide the command line which user wrote as CRX THEIRFILE THEIRPARMS and
+from which DOS has dropped the CRX bit. */
+LineSplit: ls_t=arg(1)
+  parse var ls_t ls_n ls_p
+  strip(ls_p) /* Not really a command - a way of returning this value. */
+  return ls_n
+
+/* We implement a use of DOS by giving the user's command a prefix and postfix then sending it to COMMAND.EXE */
+CommandWrap: cw_t = arg(1) 
+return d2c(length(cw_t)+4)||"/C "arg(1)||'0D'x 

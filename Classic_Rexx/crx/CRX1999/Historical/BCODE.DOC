@@ -1,0 +1,75 @@
+
+Using all the scopes in CRX.RX left us with 142 variables, even after aliasing.
+That assumes no locals, but many of the routines are written as if they were
+procedures.  Propose we mark the two types. Then B-Compiler can work out how
+many locals.  They can then be put on the stack where the parameters to the call
+are.  (Callee will have to initialize, for fear of compaction.)
+
+The alternative is to map onto the Zone, perhaps serially reusing the source
+buffer. That is better addressibility but won't handle recursion of ArithOp.
+In the long run we won't have ArithOp as Bcode.
+
+Mapping on the Zone would use a lot more of the 256 codepoints Bcode has.
+The Bcode interpreter could probably keep an index on the Locals&Parameters.
+
+The Bcode interpreter will have to be:
+  Pick up a byte.
+    If some code then load constant from Bcode to Tos.
+    If (some range) then load Tos from Arg/Var.  Tos at di.
+    If (some range) then load from ProgScope.
+    If (some range) then hardware call.
+           Config_ will set ProgScope values and result Tos.
+           Operators w/o arguments will be to Pcode actions.
+           Operators with arguments will need to fix up for one byte args.
+    else Bcode call.  Pick up and call the interpreter.
+
+Only reasonable way to use locals requires knowledge of number of args at
+compile time.
+
+Figures are ObjRexx 100 bytes per Rexx line.
+            CRX Pcode 10 bytes per Rexx line.
+            CRX Bcode 3.3 bytes per Rexx line.
+
+18,648 of Pcode to 6600 with full works.
+
+Some structural problems.  Loading locals off StackDi means accounting what
+non-local stuff is put there since.  That is static answerable but amount from
+DO may be large.  Code point space has to be reserved to cover all that.
+Double the code point space because load/store distinction done within byte.
+
+Arguments can be accessed as locals but the offset won't be consistent for,
+say, Arg(2).  Won't know in BCycle when we are fetching an argument so won't be
+able to use store-to-argument as ArgExists test.  So need an Exists Bcode.
+
+About DO loops in Bcode:
+
+Something is needed on the stack when there is a loop running.  If a Pcode type
+block was used it would take 5 variable spaces.  It looks like we could afford
+this - currently have Args+Locals+Delta=32, top Frag at 162, and 162+64=226
+leaves 30 points free.
+
+Using the same codepoints as Pcode is hard to manage since the implementation
+uses CurrentDO and Stak altered at DO boundaries.  CurrentDO is used by
+compaction to find the temporaries.  If a DO block was made to look like
+five variables then compaction could work off Z.Level.  Technically this
+is probably a better approach. (Although block has to be initialized)
+However, CurrentDO used also by ADDRESS EXPOSE CALL & Debug to determine
+number of arguments, by INTERPRET for a reset. These things could be done
+other ways if Pcode changed.
+
+Z.Stak is used for checking space between the stacks. I think it is
+sufficient to reset it at compile/execute transitions.  (But harmless what
+happens now)
+
+ControlVar$$ has to be different from Pcode anyway, since it assigns.
+
+Choices seem to be:
+
+A) Use a different DO block and different To$$ etc for Bcode.
+b) Use the 5-var DO block and different TO$$ etc.
+c) Use the 5-var DO block,use same routines, put dynamic tests in the
+   routines.
+d) Use the 5-var DO block,use same routines, fixup CurrentDO and Stak around
+   Bcode.
+e) Use the 5-var DO block,use same routines, reprogram to avoid
+   CurrentDO and Stak.

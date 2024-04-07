@@ -1,0 +1,10 @@
+ Some stuff about speed.
+ See \a\s\perf*.* for "C" versions.
+
+ REXXCPS.CMD is .CMD so as to suit Warp.  It is 30000 x 1000 cluases executed.
+ REXXCPS.RX is the same.
+ REXXCPST.RX is the same but 3000 x 1000.
+ OBJTRACE.LOG shows Warp trace of what happens in REXXCPS.
+ Perf.rx and Perf.cmd are the same - primitives in Rexx.
+ 200.log shows the answers on a 200MHz machine.
+ Perf30.rx is adjusted because Personal Rexx wouldn't run Perf.rx

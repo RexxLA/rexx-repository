@@ -1,0 +1,28 @@
+   do 100000000 /* A hundred million */
+   end
+000000007.520000
+About 13 mega Rexx-Clauses-Per-Second on my 200MHz Pentium Pro.
+Rough equivalent 'C', while(j--), is 2.5 times faster compiled for Dos
+Object Rexx on Warp is about xxx MegaCPS.
+
+You might think adding a NOP in the loop would tell us how long NOP takes.
+
+000000024.610000
+But the total time much more than doubles on my machine.
+NOP has less work to do than ITERATE, so how come?
+Presumably the smaller loop takes more advantage of hardware cacheing.
+Suppose we make the an outer loop 20 and use 9 NOP's, getting 20 million
+executions of ITERATE plus 180 million of NOP. (Versus 100 plus 100)
+000000010.380000
+That is quicker, reflecting that NOPs really are cheaper than ITERATEs.
+The lesson is that only rough measurement meaningful, about 10 MegaCPS
+for the minimal clause.
+An assignment implies noticeably more data access and movement.
+Here are 10 million assigns of a variable.
+000000003.460000
+Here are 10 million assigns of a constant.
+000000004.170000
+j = 1 to ten million involves assignment to j.
+000000005.440000
+Here are 10 million integer additions.
+000000005.660000

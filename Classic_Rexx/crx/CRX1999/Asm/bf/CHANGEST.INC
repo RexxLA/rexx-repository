@@ -1,0 +1,8 @@
+BIFCHANGESTR db 3*8+3,Null,OUTPUT-Tgt,One,POSITION-Tgt,$pRepEver
+ dw $+31
+db Arg1-14-10,Arg2-14-12,POSITION-14,$pBifq,2*$BifPOS+128,FOUNDPOS-Tgt-10
+ db FOUNDPOS-10,Zero,_Eq,+2,$pLeave,OUTPUT-10,Arg2-14-12,POSITION-14
+ db FOUNDPOS-16,POSITION-18,$pSubtract,$pBifq,2*$BifSUBSTR+128
+ db $pAbut,Arg3-14-12,$pAbut,OUTPUT-Tgt-10,FOUNDPOS-10,Arg1-14-12
+ db $pLength,$pAdd,POSITION-Tgt-10,$pIterate,OUTPUT,Arg2-14-2
+ db POSITION-4,$pBifq,2*$BifSUBSTR,$pAbut,_RetB

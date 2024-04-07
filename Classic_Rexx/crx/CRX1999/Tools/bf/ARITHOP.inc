@@ -1,0 +1,258 @@
+ARITHOP$$ db 25*8+4,NUMBER1,DIGITS-2,PREPARE,TT-Tgt,TT,$pParse
+ db 00h,022h,SIGN1-2,MANTISSA1-2,EXPONENT1-2,01ah,NUMBER2,DIGITS-2
+ db PREPARE,TT-Tgt,TT,$pParse,00h,022h,SIGN2-2,MANTISSA2-2,EXPONENT2-2
+ db 01ah,OPERATOR,String1,"*",_Seq,+4,_MULTIPLY,_Jump,+36,OPERATOR
+ db String1,"/",_Seq,+4,_DIVTYPE,_Jump,+28,OPERATOR,String2,"**"
+ db _Seq,+4,_POWER,_Jump,+19,OPERATOR,String1,"%",_Seq,+4,_DIVTYPE
+ db _Jump,+11,OPERATOR,String2,"//",_Seq,+4,_DIVTYPE,_Jump,+2
+ db _ADDSUBCOMP,_POSTOP,NUMBER3,_RetB
+
+PREPARE$$ db 9*8+2,NUMBER,Zero,$pBifq,2*$BifSPACE+128,$pParse
+ db 02h,0ah,String1,"E",02ah,MANTISSA-2,022h,EXPONENT-2,01ah
+ db EXPONENT,Null,_Seq,+3,Zero,EXPONENT-Tgt,String1,"+",SIGN-Tgt
+ db MANTISSA,One,$pBifq,2*$BifLEFT,String1,"-",_Seq,+4,String1
+ db "-",SIGN-Tgt,MANTISSA,One,$pBifq,2*$BifLEFT,String2,"+-"
+ db $pBifq,2*$BifVERIFY,Zero,_Eq,+8,MANTISSA,String1,"2",$pPositive
+ db $pBifq,2*$BifSUBSTR,MANTISSA-Tgt,String1,".",MANTISSA-2,$pBifq
+ db 2*$BifPOS,P_P-Tgt,P_P,Zero,_Gt,+9,MANTISSA,P_P-2,One,$pBifq
+ db 2*$BifDELSTR+128,MANTISSA-Tgt,_Jump,+6,One,MANTISSA-2,$pLength
+ db $pAdd,P_P-Tgt,One,$pNumber,MANTISSA-10,$pLength,One,$pSubtract
+ db $pTo,$pControlVar,P_Q-10
+ dw $+16
+db MANTISSA-10,P_Q-12,One,$pBifq,2*$BifSUBSTR+128,Zero,_Sne,+2
+ db $pLeave,P_P-10,One,$pSubtract,P_P-Tgt-10,_IterCV,MANTISSA
+ db P_Q-2,$pBifq,2*$BifSUBSTR,MANTISSA-Tgt,EXPONENT,MANTISSA-2
+ db $pLength,P_P-4,$pSubtract,One,$pAdd,$pSubtract,EXPONENT-Tgt
+ db P_DIGITS,One,$pAdd,$pNumber,MANTISSA-10,$pLength,$pTo,$pControlVar
+ db JJ-10
+ dw $+41
+db MANTISSA-10,JJ-12,One,$pBifq,2*$BifSUBSTR+128,Zero,_Sne,+31
+ db EXPONENT-10,MANTISSA-12,$pLength,$pAdd,P_DIGITS-12,$pSubtract
+ db EXPONENT-Tgt-10,MANTISSA-10,P_DIGITS-12,One,$pAdd,One,$pBifq
+ db 2*$BifSUBSTR+128,P_T-Tgt-10,MANTISSA-10,P_DIGITS-12,$pBifq
+ db 2*$BifLEFT,MANTISSA-Tgt-10,P_T-10,String1,"5",_Ge,+5,MANTISSA-10
+ db One,$pAdd,MANTISSA-Tgt-10,$pLeave,_IterCV,MANTISSA,$pLength
+ db P_DIGITS-2,_Gt,+13,EXPONENT,MANTISSA-2,$pLength,$pAdd,P_DIGITS-2
+ db $pSubtract,EXPONENT-Tgt,MANTISSA,P_DIGITS-2,$pBifq,2*$BifLEFT
+ db MANTISSA-Tgt,MANTISSA,Zero,_Seq,+3,Zero,EXPONENT-Tgt,SIGN
+ db MANTISSA-2,$pCat,EXPONENT-2,$pCat,_RetB
+
+_POSTOP$$ db 0*8+0,MANTISSA3,$pLength,DIGITS-2,$pSubtract,TT-Tgt
+ db TT,Zero,_Gt,+37,MANTISSA3,DIGITS-2,One,$pAdd,One,$pBifq,2*$BifSUBSTR+128
+ db String1,"4",_Gt,+17,MANTISSA3,DIGITS-2,$pBifq,2*$BifLEFT
+ db One,$pAdd,MANTISSA3-Tgt,MANTISSA3,$pLength,DIGITS-2,_Gt,+5
+ db EXPONENT3,One,$pAdd,EXPONENT3-Tgt,MANTISSA3,DIGITS-2,$pBifq
+ db 2*$BifLEFT,MANTISSA3-Tgt,EXPONENT3,TT-2,$pAdd,EXPONENT3-Tgt
+ db MANTISSA3,Zero,$pBifq,2*$BifVERIFY,Zero,_Eq,+4,Zero,NUMBER3-Tgt
+ db _RetBc,OPERATOR,String1,"/",_Seq,00h,OPERATOR-2,String2,"**"
+ db _Seq,00h,$pOr,_Then,+34,MANTISSA3,$pLength,$pNumber,One,$pNegate
+ db $pBy,String1,"2",$pTo,$pControlVar,ZZ-10
+ dw $+16
+db MANTISSA3-10,ZZ-12,One,$pBifq,2*$BifSUBSTR+128,Zero,_Sne,+2
+ db $pLeave,EXPONENT3-10,One,$pAdd,EXPONENT3-Tgt-10,_IterCV,MANTISSA3
+ db One,ZZ-4,$pBifq,2*$BifSUBSTR+128,MANTISSA3-Tgt,_FLOATING
+ db String1,"E",_Seq,+154,EXPONENT3,MANTISSA3-2,$pLength,One
+ db $pSubtract,$pAdd,EXPONENT3-Tgt,One,A_X-Tgt,$pBifq,2*$BifFORM
+ db String1,"E",_Seq,+39,EXPONENT3,String1,"3",String2,"//",EXPONENT3-6
+ db $pLength,ARITHOP,A_X-Tgt,A_X,Zero,_Lt,+6,A_X,String1,"3"
+ db $pAdd,A_X-Tgt,EXPONENT3,A_X-2,$pSubtract,EXPONENT3-Tgt,A_X
+ db One,$pAdd,A_X-Tgt,MANTISSA3,$pLength,A_X-2,_Lt,+7,MANTISSA3
+ db A_X-2,Zero,$pBifq,2*$BifLEFT+128,MANTISSA3-Tgt,EXPONENT3
+ db String,9,"999999999",_Gt,+19,String,6,"SYNTAX",String,4,"42.1"
+ db NUMBER1-4,OPERATOR-6,NUMBER2-8,CONFIG_RAISE,String,9,"999999999"
+ db $pNegate,EXPONENT3-2,_Gt,+19,String,6,"SYNTAX",String,4,"42.2"
+ db NUMBER1-4,OPERATOR-6,NUMBER2-8,CONFIG_RAISE,MANTISSA3,$pLength
+ db A_X-2,_Ne,+8,String1,".",MANTISSA3-2,A_X-4,$pBifq,2*$BifINSERT+128
+ db MANTISSA3-Tgt,EXPONENT3,Zero,_Ge,+11,MANTISSA3,String2,"E+"
+ db $pAbut,EXPONENT3-2,$pAbut,NUMBER3-Tgt,_Jump,+8,MANTISSA3
+ db String1,"E",$pAbut,EXPONENT3-2,$pAbut,NUMBER3-Tgt,_Jump,+54
+ db MANTISSA3,$pLength,EXPONENT3-2,$pAdd,A_Y-Tgt,A_Y,One,_Lt
+ db +12,Zero,One,A_Y-4,$pSubtract,$pBifq,2*$BifCOPIES,MANTISSA3-2
+ db $pAbut,MANTISSA3-Tgt,One,A_Y-Tgt,A_Y,MANTISSA3-2,$pLength
+ db _Gt,+11,MANTISSA3,Zero,A_Y-4,MANTISSA3-6,$pLength,$pSubtract
+ db $pBifq,2*$BifCOPIES,$pAbut,MANTISSA3-Tgt,MANTISSA3,NUMBER3-Tgt
+ db A_Y,NUMBER3-2,$pLength,_Lt,+10,String1,".",MANTISSA3-2,A_Y-4
+ db $pBifq,2*$BifINSERT+128,NUMBER3-Tgt,_Jump,+3,MANTISSA3,NUMBER3-Tgt
+ db SIGN3,String1,"-",_Seq,+6,String1,"-",NUMBER3-2,$pAbut,NUMBER3-Tgt
+ db _RetBc
+
+_FLOATING$$ db 0*8+0,Null,TT-Tgt,EXPONENT3,MANTISSA3-2,$pLength
+ db $pAdd,DIGITS-2,_Gt,+4,String1,"E",TT-Tgt,MANTISSA3,$pLength
+ db EXPONENT3-2,$pAdd,String1,"5",$pNegate,_Lt,+4,String1,"E"
+ db TT-Tgt,TT,_RetB
+
+_ADDSUBCOMP$$ db 0*8+0,DIGITS,NOWDIGITS-Tgt,OPERATOR,String1
+ db "+",_Sne,00h,OPERATOR-2,String1,"-",_Sne,00h,$pAnd,_Then
+ db +4,String1,"-",OPERATOR-Tgt,MANTISSA2,Zero,_Seq,+8,SIGN1
+ db SIGN3-Tgt,MANTISSA1,MANTISSA3-Tgt,EXPONENT1,EXPONENT3-Tgt
+ db _RetBc,MANTISSA1,Zero,_Seq,+14,SIGN2,SIGN3-Tgt,MANTISSA2
+ db MANTISSA3-Tgt,EXPONENT2,EXPONENT3-Tgt,OPERATOR,String1,"+"
+ db _Sne,+2,Frag7,_RetBc,EXPONENT1,MANTISSA1-2,$pLength,$pAdd
+ db EXPONENT1-Tgt,EXPONENT2,MANTISSA2-2,$pLength,$pAdd,EXPONENT2-Tgt
+ db Zero,ALIGN1-Tgt,EXPONENT1,EXPONENT2-2,$pSubtract,ALIGN2-Tgt
+ db ALIGN2,Zero,_Gt,+17,ALIGN2,NOWDIGITS-2,One,$pAdd,$pMin,01h
+ db ALIGN2-Tgt,Zero,ALIGN2-2,$pBifq,2*$BifCOPIES,MANTISSA2-2
+ db $pAbut,MANTISSA2-Tgt,EXPONENT1,EXPONENT2-Tgt,ALIGN2,Zero
+ db _Lt,+22,ALIGN2,$pNegate,ALIGN1-Tgt,ALIGN1,NOWDIGITS-2,One
+ db $pAdd,$pMin,01h,ALIGN1-Tgt,Zero,ALIGN2-Tgt,Zero,ALIGN1-2
+ db $pBifq,2*$BifCOPIES,MANTISSA1-2,$pAbut,MANTISSA1-Tgt,EXPONENT2
+ db EXPONENT1-Tgt,MANTISSA1,$pLength,MANTISSA2-2,$pLength,$pMax
+ db 01h,SIGDIGITS-Tgt,SIGDIGITS,NOWDIGITS-2,One,$pAdd,$pMin,01h
+ db SIGDIGITS-Tgt,MANTISSA1,SIGDIGITS-2,Zero,$pBifq,2*$BifLEFT+128
+ db MANTISSA1-Tgt,MANTISSA2,SIGDIGITS-2,Zero,$pBifq,2*$BifLEFT+128
+ db MANTISSA2-Tgt,EXPONENT1,SIGDIGITS-2,$pSubtract,EXPONENT3-Tgt
+ db EXPONENT3,EXPONENT1-Tgt,EXPONENT3,EXPONENT2-Tgt,String1,"+"
+ db SIGN3-Tgt,SIGN1,String1,"-",_Seq,+10,SIGN2,String1,"+",Frag15
+ db String1,"-",SIGN3-Tgt,_Jump,+5,SIGN2,String1,"-",Frag15,OPERATOR
+ db String1,"-",_Seq,+12,MANTISSA1,MANTISSA2-2,_Slt,+8,MANTISSA1
+ db AA-Tgt,MANTISSA2,MANTISSA1-Tgt,AA,MANTISSA2-Tgt,Frag7,MANTISSA1
+ db MANTISSA2-2,OPERATOR-4,CONFIG_ARITH,MANTISSA3-Tgt,$pRepEver
+ dw $+24
+db MANTISSA3-10,One,$pBifq,2*$BifLEFT,Zero,_Seq,00h,MANTISSA3-12
+ db $pLength,One,_Gt,00h,$pAnd,$pWhile,MANTISSA3-10,String1,"2"
+ db $pPositive,$pBifq,2*$BifSUBSTR,MANTISSA3-Tgt-10,$pIterate
+ db MANTISSA3,$pLength,SIGDIGITS-2,_Gt,+5,SIGDIGITS,One,$pAdd
+ db SIGDIGITS-Tgt,SIGDIGITS,NOWDIGITS-2,$pSubtract,AA-Tgt,AA
+ db Zero,_Le,+2,_RetBc,MANTISSA3,$pLength,AA-2,$pSubtract,TT-Tgt
+ db TT,Zero,_Gt,+51,MANTISSA3,TT-2,One,$pAdd,One,$pBifq,2*$BifSUBSTR+128
+ db String1,"4",_Gt,+32,MANTISSA3,TT-2,$pBifq,2*$BifLEFT,One
+ db $pAdd,MANTISSA3-Tgt,MANTISSA3,$pLength,TT-2,_Gt,+15,TT,NOWDIGITS-2
+ db _Lt,+7,TT,One,$pAdd,TT-Tgt,_Jump,+5,EXPONENT3,One,$pAdd,EXPONENT3-Tgt
+ db MANTISSA3,TT-2,$pBifq,2*$BifLEFT,MANTISSA3-Tgt,EXPONENT3
+ db AA-2,$pAdd,One,$pSubtract,EXPONENT3-Tgt,_Jump,+3,Zero,MANTISSA3-Tgt
+ db _RetBc
+
+_MULTIPLY$$ db 0*8+0,SIGN1,SIGN2-2,_Seq,+6,String1,"+",SIGN3-Tgt
+ db _Jump,+4,String1,"-",SIGN3-Tgt,EXPONENT1,EXPONENT2-2,$pAdd
+ db EXPONENT3-Tgt,MANTISSA1,Zero,_Seq,+4,Zero,MANTISSA3-Tgt,_RetBc
+ db Null,MANTISSA3-Tgt,One,$pNumber,MANTISSA2-10,$pLength,$pTo
+ db $pControlVar,ZZ-10
+ dw $+64
+db MANTISSA3-10,Zero,$pAbut,MANTISSA3-Tgt-10,MANTISSA2-10,ZZ-12
+ db One,$pBifq,2*$BifSUBSTR+128,$pRep
+ dw $+51
+db MANTISSA1-20,$pLength,MANTISSA3-22,$pLength,$pSubtract,TT-Tgt-20
+ db TT-20,Zero,_Gt,+8,MANTISSA3-20,MANTISSA1-22,$pLength,Zero
+ db $pBifq,2*$BifRIGHT+128,MANTISSA3-Tgt-20,TT-20,Zero,_Lt,+8
+ db MANTISSA1-20,MANTISSA3-22,$pLength,Zero,$pBifq,2*$BifRIGHT+128
+ db MANTISSA1-Tgt-20,MANTISSA3-20,MANTISSA1-22,String1,"+",CONFIG_ARITH
+ db MANTISSA3-Tgt-20,MANTISSA3-20,One,$pBifq,2*$BifLEFT,Zero
+ db _Eq,+8,MANTISSA3-20,String1,"2",$pPositive,$pBifq,2*$BifSUBSTR
+ db MANTISSA3-Tgt-20,$pIterRep,_IterCV,_RetBc
+
+_DIVTYPE$$ db 0*8+0,MANTISSA2,Zero,_Seq,+19,String,6,"SYNTAX"
+ db String,4,"42.3",Zero,Zero,Zero,CONFIG_RAISE,EXPONENT1,EXPONENT2-2
+ db $pSubtract,EXPONENT3-Tgt,MANTISSA1,$pLength,MANTISSA2-2,$pLength
+ db $pSubtract,EXPONENT3-2,$pAdd,INTDIGITS-Tgt,MANTISSA1,Zero
+ db _Eq,00h,INTDIGITS-2,Zero,_Lt,00h,OPERATOR-4,String1,"%",_Seq
+ db 00h,$pAnd,$pOr,_Then,+9,Zero,MANTISSA3-Tgt,String1,"+",SIGN3-Tgt
+ db Zero,EXPONENT3-Tgt,_RetBc,INTDIGITS,Zero,_Lt,00h,OPERATOR-2
+ db String2,"//",_Seq,00h,$pAnd,_Then,+8,MANTISSA1,MANTISSA3-Tgt
+ db SIGN1,SIGN3-Tgt,EXPONENT1,EXPONENT3-Tgt,_RetBc,SIGN1,SIGN2-2
+ db _Seq,+6,String1,"+",SIGN3-Tgt,_Jump,+4,String1,"-",SIGN3-Tgt
+ db Zero,AA-Tgt,Null,MANTISSA3-Tgt,MANTISSA1,MANTISSA2-2,$pLength
+ db $pBifq,2*$BifLEFT,A_X-Tgt,MANTISSA1,MANTISSA2-2,$pLength
+ db One,$pAdd,$pBifq,2*$BifSUBSTR,A_Y-Tgt,$pRepEver
+ dw $+97
+db Zero,ZZ-Tgt-10,$pRepEver
+ dw $+20
+db A_X-20,MANTISSA2-22,$pSubtract,A_X-Tgt-20,A_X-20,One,$pBifq
+ db 2*$BifLEFT,String1,"-",_Seq,+2,$pLeave,ZZ-20,One,$pAdd,ZZ-Tgt-20
+ db $pIterate,A_X-10,MANTISSA2-12,$pAdd,A_X-Tgt-10,MANTISSA3-10
+ db ZZ-12,$pAbut,MANTISSA3-Tgt-10,MANTISSA3-10,Zero,_Seq,+3,Null
+ db MANTISSA3-Tgt-10,A_Y-10,Null,_Seq,+6,A_X-10,Zero,_Eq,+2,$pLeave
+ db MANTISSA3-10,$pLength,DIGITS-12,_Gt,+2,$pLeave,OPERATOR-10
+ db String1,"/",_Sne,+10,INTDIGITS-10,Zero,_Eq,+2,$pLeave,INTDIGITS-10
+ db One,$pSubtract,INTDIGITS-Tgt-10,A_Y-10,Null,_Seq,+11,Zero
+ db A_Y-Tgt-10,EXPONENT3-10,One,$pSubtract,EXPONENT3-Tgt-10,AA-10
+ db One,$pAdd,AA-Tgt-10,A_X-10,A_Y-12,One,$pBifq,2*$BifLEFT,$pAbut
+ db A_X-Tgt-10,A_Y-10,String1,"2",$pPositive,$pBifq,2*$BifSUBSTR
+ db A_Y-Tgt-10,$pIterate,MANTISSA3,Null,_Eq,+3,Zero,MANTISSA3-Tgt
+ db A_X,A_Y-2,$pAbut,ZZ-Tgt,EXPONENT3,A_Y-2,$pLength,$pAdd,EXPONENT3-Tgt
+ db $pRepEver
+ dw $+12
+db Frag8,$pWhile,ZZ-10,String1,"2",$pPositive,$pBifq,2*$BifSUBSTR
+ db ZZ-Tgt-10,$pIterate,OPERATOR,String1,"/",_Sne,+42,_FLOATING
+ db String1,"E",_Seq,+37,OPERATOR,String1,"%",_Seq,+11,String
+ db 5,"26.11",TT-Tgt,_Jump,+9,String,5,"26.12",TT-Tgt,String
+ db 6,"SYNTAX",TT-2,NUMBER1-4,NUMBER2-6,DIGITS-8,CONFIG_RAISE
+ db OPERATOR,String2,"//",_Seq,+9,SIGN1,SIGN3-Tgt,ZZ,MANTISSA3-Tgt
+ db EXPONENT1,AA-2,$pSubtract,EXPONENT3-Tgt,_RetBc
+
+_POWER$$ db 0*8+0,MANTISSA2,Zero,_Seq,+9,String1,"+",SIGN3-Tgt
+ db One,MANTISSA3-Tgt,Zero,EXPONENT3-Tgt,_RetBc,MANTISSA2,MANTISSA2-2
+ db $pLength,EXPONENT2-4,$pAdd,Zero,$pBifq,2*$BifLEFT+128,RHS-Tgt
+ db RHS,$pLength,A_X-Tgt,RHS,$pBifq,2*$BifD2X,$pBifq,2*$BifX2B
+ db A_Y-Tgt,One,$pNumber,One,$pBy,$pControlVar,ZZ-10
+ dw $+12
+db A_Y-10,ZZ-12,One,$pBifq,2*$BifSUBSTR+128,Zero,_Sne,+2,$pLeave
+ db _IterCV,One,AA-Tgt,$pRepEver
+ dw $+50
+db A_Y-10,ZZ-12,One,$pBifq,2*$BifSUBSTR+128,One,_Seq,+19,AA-10
+ db SIGN1-12,MANTISSA1-14,$pAbut,String1,"E",$pAbut,EXPONENT1-14
+ db $pAbut,String1,"*",DIGITS-16,A_X-18,$pAdd,One,$pAdd,ARITHOP
+ db AA-Tgt-10,ZZ-10,A_Y-12,$pLength,_Eq,+2,$pLeave,AA-10,AA-12
+ db String1,"*",DIGITS-16,A_X-18,$pAdd,One,$pAdd,ARITHOP,AA-Tgt-10
+ db ZZ-10,One,$pAdd,ZZ-Tgt-10,$pIterate,SIGN2,String1,"-",_Seq
+ db +15,String1,"+",SIGN2-Tgt,One,AA-2,String1,"/",DIGITS-6,A_X-8
+ db $pAdd,One,$pAdd,ARITHOP,AA-Tgt,AA,DIGITS-2,A_X-4,$pAdd,One
+ db $pAdd,PREPARE,$pParse,02h,022h,SIGN3-2,MANTISSA3-2,EXPONENT3-2
+ db 01ah,_RetBc
+
+TIME2DATE$$ db 0*8+1,Arg1-4,Zero,_Lt,+6,String2,"18",$pPositive
+ db CONFIG_RAISE40,Arg1-4,String,18,"315537897600000000",_Ge
+ db +6,String2,"18",$pPositive,CONFIG_RAISE40,Arg1-4,TIME2DATE2
+ db _RetB
+
+TIME2DATE2$$ db 12*8+1,Y_TIME,String,7,"1000000",$pIntDivide
+ db Y_SECOND-Tgt,Y_TIME,String,7,"1000000",$pRemainder,Y_MICROSECOND-Tgt
+ db Y_SECOND,String2,"60",$pIntDivide,Y_MINUTE-Tgt,Y_SECOND,String2
+ db "60",$pRemainder,Y_SECOND-Tgt,Y_MINUTE,String2,"60",$pIntDivide
+ db Y_HOUR-Tgt,Y_MINUTE,String2,"60",$pRemainder,Y_MINUTE-Tgt
+ db Y_HOUR,String2,"24",$pIntDivide,Y_DAY-Tgt,Y_HOUR,String2
+ db "24",$pRemainder,Y_HOUR-Tgt,Y_DAY,Y_BASEDAYS-Tgt,Y_DAY,One
+ db $pAdd,Y_DAY-Tgt,Y_DAY,String,3,"366",$pIntDivide,Y_YEAR-Tgt
+ db Y_DAY,Y_YEAR-2,String,3,"365",$pMultiply,Y_YEAR-4,String1
+ db "4",$pIntDivide,$pAdd,Y_YEAR-4,String,3,"100",$pIntDivide
+ db $pSubtract,Y_YEAR-4,String,3,"400",$pIntDivide,$pAdd,$pSubtract
+ db Y_DAY-Tgt,Y_YEAR,One,$pAdd,Y_YEAR-Tgt,$pRepEver
+ dw $+30
+db Y_DAY-10,String,3,"365",Y_YEAR-14,LEAP,$pAdd,_Gt,00h,$pWhile
+ db Y_DAY-10,String,3,"365",Y_YEAR-14,LEAP,$pAdd,$pSubtract,Y_DAY-Tgt-10
+ db Y_YEAR-10,One,$pAdd,Y_YEAR-Tgt-10,$pIterate,Y_DAY,Y_YEARDAYS-Tgt
+ db String,35,"31 28 31 30 31 30 31 31 30 31 30 31",Y_DAYS-Tgt
+ db One,$pNumber,Y_DAYS-10,$pBifq,2*$BifWORDS,$pTo,$pControlVar
+ db Y_MONTH-10
+ dw $+26
+db Y_DAYS-10,Y_MONTH-12,$pBifq,2*$BifWORD,Y_MONTH-12,String1
+ db "2",_Eq,00h,Y_YEAR-14,LEAP,$pMultiply,$pAdd,Y_THISMONTH-Tgt-10
+ db Y_DAY-10,Y_THISMONTH-12,_Le,+2,$pLeave,Y_DAY-10,Y_THISMONTH-12
+ db $pSubtract,Y_DAY-Tgt-10,_IterCV,Y_YEAR,Y_MONTH-2,$pCat,Y_DAY-2
+ db $pCat,Y_HOUR-2,$pCat,Y_MINUTE-2,$pCat,Y_SECOND-2,$pCat,Y_MICROSECOND-2
+ db $pCat,Y_BASEDAYS-2,$pCat,Y_YEARDAYS-2,$pCat,_RetB
+
+LEAP$$ db 0*8+1,Arg1-4,String1,"4",$pRemainder,Zero,_Eq,00h,Arg1-4-2
+ db String,3,"100",$pRemainder,Zero,_Ne,00h,Arg1-4-4,String,3
+ db "400",$pRemainder,Zero,_Eq,00h,$pOr,$pAnd,_RetB
+
+RERADIX$$ db 6*8+3,String,3,"999",$pNumeric,00h,Arg1-20,RR_SUBJECT-Tgt
+ db Arg2-20,RR_FROMRADIX-Tgt,Arg3-20,RR_TORADIX-Tgt,Zero,RR_INTEGER-Tgt
+ db One,$pNumber,RR_SUBJECT-10,$pLength,$pTo,$pControlVar,RR_J-10
+ dw $+35
+db RR_INTEGER-10,RR_FROMRADIX-12,$pMultiply,RR_SUBJECT-12,RR_J-14
+ db One,$pBifq,2*$BifSUBSTR+128,String,16,"0123456789ABCDEF"
+ db $pBifq,2*$BifPOS,$pAdd,One,$pSubtract,RR_INTEGER-Tgt-10,_IterCV
+ db Null,RR_R-Tgt,RR_TORADIX,String2,"10",_Eq,+7,RR_INTEGER,Zero
+ db _Eq,+3,Zero,RR_R-Tgt,$pRepEver
+ dw $+41
+db RR_INTEGER-10,Zero,_Gt,00h,$pWhile,String,16,"0123456789ABCDEF"
+ db One,RR_INTEGER-14,RR_TORADIX-16,$pRemainder,$pAdd,One,$pBifq
+ db 2*$BifSUBSTR+128,RR_R-12,$pAbut,RR_R-Tgt-10,RR_INTEGER-10
+ db RR_TORADIX-12,$pIntDivide,RR_INTEGER-Tgt-10,$pIterate,RR_FROMRADIX
+ db String1,"2",_Eq,00h,RR_TORADIX-2,String2,"16",_Eq,00h,$pAnd
+ db _Then,+16,RR_R,RR_SUBJECT-2,$pLength,String1,"3",$pAdd,String1
+ db "4",$pIntDivide,Zero,$pBifq,2*$BifRIGHT+128,RR_R-Tgt,_Jump
+ db +25,RR_FROMRADIX,String2,"16",_Eq,00h,RR_TORADIX-2,String1
+ db "2",_Eq,00h,$pAnd,_Then,+11,RR_R,RR_SUBJECT-2,$pLength,String1
+ db "4",$pMultiply,Zero,$pBifq,2*$BifRIGHT+128,RR_R-Tgt,RR_R
+ db _RetB
