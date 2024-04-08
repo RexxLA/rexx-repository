@@ -1528,17 +1528,22 @@ INTERPRET instruction, and function invocation, displayed in reverse order of ex
 of `'+++'`.
 
 ### USE
+
 For a definition of the syntax of this instruction, see nnn.
+
 The USE instruction assigns the values of arguments to variables.
-Better not say copies since COPY method has different semantics.
+
+_Better not say copies since COPY method has different semantics._
+
 The optional VAR_SYMBOL positions, positions 1, 2, ..., of the instruction are considered from left to
 right. If the position has a VAR_SYMBOL then its value is assigned to:
 
+```rexx
 if #ArgExists.Position then
 call Value VAR_SYMBOL, #Arg.Position
 else
-
-Messy because VALUE bif won't DROP and var_drop needs to know if compound.
+```
+_Messy because VALUE bif won't DROP and var_drop needs to know if compound._
 
 ## Conditions and Messages
 
@@ -1548,8 +1553,6 @@ decimal parts of the error number. Subcodes beginning or ending in zero are not 
 
 Error codes in the range 1 to 90 and error subcodes up to .9 are reserved for errors described here and
 for future extensions of this standard.
-
-concatenated with #RC
 
 Error number 3 is available to report error conditions occuring during the initialization phase; error
 number 2 is available to report error conditions during the termination phase. These are error conditions
@@ -1563,89 +1566,87 @@ When messages are issued any message inserts are replaced by actual values.
 
 The notation for detection of a condition is:
 
+```rexx
 call #Raise Condition, Arg2, Arg3, Arg4, Arg5, Arg6é
+```
 
 Some of the arguments may be omitted. In the case of condition 'SYNTAX' the arguments are the
 message number and the inserts for the message. In other cases the argument is a further description of
 the condition.
 
-The action of the program as a result of a condition is dependent on any signa/_spec and callon_spec in
+The action of the program as a result of a condition is dependent on any _signal_spec_ and _callon_spec_ in
 the program.
 
 ### Raising of conditions
 
-The routine #Raise corresponds to raising a condition. In the following definition, the instructions
+The routine `#Raise` corresponds to raising a condition. In the following definition, the instructions
 containing SIGNAL VALUE and INTERPRET denote transfers of control in the program being
 processed. The instruction EXIT denotes termination. If not at an interactive pause, this will be
-termination of the program, see nnn, and there will be output by Config_Trace_Output of the message
-(with prefix _ see nnn) and tracing (see nnn). If at an interactive pause (#AtPause \= 0), this will be
-termination of the interpretation of the interactive input; there will be output by Config_Trace_Output of
+termination of the program, see nnn, and there will be output by `Config_Trace_Output` of the message
+(with prefix \_ see nnn) and tracing (see nnn). If at an interactive pause (`#AtPause \= 0`), this will be
+termination of the interpretation of the interactive input; there will be output by `Config_Trace_Output` of
 the message (without traceback) before continuing. The description of the continuation is in nnn after
-the "interpret #Outcome” instruction.
+the `"interpret #Outcome”` instruction.
 
-The instruction “interpret 'CALL' #TrapName.#Condition.#Level" below does not set the variables
+The instruction `“interpret 'CALL' #TrapName.#Condition.#Level"` below does not set the variables
 RESULT and .RESULT; any result returned is discarded.
 
+```rexx
 #Raise:
 /* If there is no argument, this is an action which has been delayed from the time the
 condition occurred until an appropriate clause boundary. */
 if \arg(1,'E') then do
-Description = #PendingDescription. #Condition. #Level
-Extra = #PendingExtra.#Condition. #Level
-
-end
+     Description = #PendingDescription. #Condition. #Level
+     Extra = #PendingExtra.#Condition. #Level
+     end
 else do
-#Condition = arg(1)
-if #Condition \== 'SYNTAX' then do
-
-Description = arg(2)
-Extra = arg(3)
-end
-else do
-Description = #Message(arg(2),arg(3),arg(4),arg(5))
-call Var Set #ReservedPool, '.MN', 0, arg(2)
-Extra = '!
-end
-end
+  #Condition = arg(1)
+  if #Condition \== 'SYNTAX' then do
+    Description = arg(2)
+    Extra = arg(3)
+    end
+  else do
+    Description = #Message(arg(2),arg(3),arg(4),arg(5))
+    call Var Set #ReservedPool, '.MN', 0, arg(2)
+    Extra = '!
+    end
+  end
 
 /* The events for disabled conditions are ignored or cause termination. */
-
 if #Enabling.#Condition.#Level == 'OFF' | #AtPause \= 0 then do
-if #Condition \== 'SYNTAX' & #Condition \== 'HALT' then
-return /* To after use of #Raise. */
-if #Condition == 'HALT' then Description = #Message(4.1, Description)
-exit /* Terminate with Description as the message. */
-end
+  if #Condition \== 'SYNTAX' & #Condition \== 'HALT' then
+     return /* To after use of #Raise. */
+  if #Condition == 'HALT' then Description = #Message(4.1, Description)
+    exit /* Terminate with Description as the message. */
+  end
 
 /* SIGNAL actions occur as soon as the condition is raised. */
-
 if #Instruction.#Condition.#Level == '"SIGNAL' then do
-#ConditionDescription.#Level = Description
-#ConditionExtra.#Level = Extra
-#ConditionInstruction.#Level = 'SIGNAL'
-#Enabling.#Condition.#Level = 'OFF'
-signal value #TrapName.#Condition.#Level
-end
+  #ConditionDescription.#Level = Description
+  #ConditionExtra.#Level = Extra
+  #ConditionInstruction.#Level = 'SIGNAL'
+  #Enabling.#Condition.#Level = 'OFF'
+  signal value #TrapName.#Condition.#Level
+  end
 
 /* All CALL actions are initially delayed until a clause boundary. */
-
 if arg(1,'E') then do
-/* Events within the handler are not stacked up, except for one
-extra HALT while a first is being handled. */
-EventLevel = #Level
-if #Enabling.#Condition.#Level == 'DELAYED' then do
-if #Condition \== 'HALT' then return
-EventLevel = #EventLevel.#Condition. #Level
-if #PendingNow.#Condition.EventLevel then return
-/* Setup a HALT to come after the one being handled. */
-end
-/* Record a delayed event. */
-#PendingNow.#Condition.EventLevel = '1'
-#PendingDescription.#Condition.EventLevel = Description
-#PendingExtra.#Condition.EventLevel = Extra
-#Enabling.#Condition.EventLevel = 'DELAYED'
-return
-end
+   /* Events within the handler are not stacked up, except for one
+   extra HALT while a first is being handled. */
+   EventLevel = #Level
+   if  #Enabling.#Condition.#Level == 'DELAYED' then do
+      if #Condition \== 'HALT' then return
+      EventLevel = #EventLevel.#Condition. #Level
+      if #PendingNow.#Condition.EventLevel then return
+      /* Setup a HALT to come after the one being handled. */
+      end
+   /* Record a delayed event. */
+   #PendingNow.#Condition.EventLevel = '1'
+   #PendingDescription.#Condition.EventLevel = Description
+   #PendingExtra.#Condition.EventLevel = Extra
+   #Enabling.#Condition.EventLevel = 'DELAYED'
+   return
+   end
 /* Here for CALL action after delay. */
 /* Values for the CONDITION built-in function. */
 #Condition.#NewLevel = #Condition
@@ -1655,39 +1656,38 @@ end
 interpret 'CALL' #TrapName.#Condition.#Level
 #Enabling.#Condition.#Level = 'ON'
 return /* To clause termination */
+```
 
 ### Messages during execution
 
-The state function #Message corresponds to constructing a message.
+The state function `#Message` corresponds to constructing a message.
 
 This definition is for the message text in nnn. Translations in which the message inserts are in a different
 order are permitted.
 
-In addition to the result defined below, the values of MsgNumber and #LineNumber shall be shown when
+In addition to the result defined below, the values of `MsgNumber` and `#LineNumber` shall be shown when
 a message is output. Also there shall be an indication of whether the error occurred in code executed at
 an interactive pause, see nnn.
 
 Messages are shown by writing them to the default error stream.
 
+```rexx
 #Message:
-MsgNumber = arg(1)
-if #NoSource then MsgNumber = MsgNumber % 1 /* And hence no inserts */
-Text = #ErrorText.MsgNumber
-Expanded = ''
+    MsgNumber = arg(1)
+    if #NoSource then MsgNumber = MsgNumber % 1 /* And hence no inserts */
+    Text = #ErrorText.MsgNumber
+    Expanded = ''
 
-do Index = 2
-parse var Text Begin '<' Insert '>' +1 Text
+    do Index = 2
+       parse var Text Begin '<' Insert '>' +1 Text
+       if Insert = '' then leave
+       Insert = arg(Index)
+       if length(Insert) > #Limit MessageInsert then
+         Insert = left(Insert,#Limit MessageInsert)'...'
+       Expanded = Expanded || Begin || Insert
+    end
 
-if Insert = '' then leave
-Insert = arg(Index)
-if length(Insert) > #Limit MessageInsert then
-Insert = left(Insert,#Limit MessageInsert)'...'
-
-Expanded = Expanded || Begin || Insert
-
-end
-
-Expanded = Expanded || Begin
-
-say Expanded
+    Expanded = Expanded || Begin
+  say Expanded
 return
+```
