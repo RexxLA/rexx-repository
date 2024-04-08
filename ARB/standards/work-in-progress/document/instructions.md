@@ -1385,6 +1385,7 @@ call Config_Termination
 ```
 
 The processing of the program is complete. See nnn for what `API_Start` returns as the result.
+
 ### SAY
 
 For a definition of the syntax of this instruction, see nnn.
@@ -1405,8 +1406,7 @@ For a definition of the syntax of this instruction, see nnn.
 The SELECT instruction is used to conditionally execute one of several alternative instructions.
 When tracing, the clause containing the keyword SELECT is traced at this point.
 
-The `#Contains(`_`select_body, when`_`)` test in the following description refers to the items of the optional
-_when_ repetition in order:
+The `#Contains(`_`select_body, when`_`)` test in the following description refers to the items of the optional _when_ repetition in order:
 
 ```rexx
 LineNum = #LineNumber
@@ -1469,7 +1469,7 @@ If there was a _signal_spec_ this complete the processing of the signal instruct
 ```
 
 The Name matches the first LABEL in the program which has that value. The comparison is made with
-the '=="' operator.
+the `'=='` operator.
 
 If no label matches then a condition is raised:
 
@@ -1555,18 +1555,16 @@ If `#InhibitTrace` is greater than zero, `#TraceSource` does nothing except decr
 Otherwise, unless the current clause is a null clause, `#TraceSource` outputs all lines of the source
 program which contain any part of the current clause, with any characters in those lines which are not
 part of the current clause and not `other_blank_characters` replaced by blank characters. The possible
-replacement of `other_blank_characters` is defined by the configuration. The tag is `'*-*'`, or if the line is not
-the first line of the clause. `'*,*'`.
+replacement of `other_blank_characters` is defined by the configuration. The tag is `'*-*'`, or if the line is not the first line of the clause. `'*,*'`.
 
 `#Trace` output also has a clause identifier and has a tag which is the argument to the `#Trace` invocation.
 The data is truncated, if necessary, to `#Limit_TraceData` characters. The data is enclosed by quotation
 marks and the quoted data preceded by two blanks. If the data is truncated, the trailing quote has the
 three characters `'...'` appended.
 
-* when `#Tracing.#Level` is 'C' or 'E' or 'F' or 'N' or ‘A’ and the tag is `'>>>'` then the data is the value of
-  the command passed to the environment;
+* when `#Tracing.#Level` is `'C'` or `'E'` or `'F'` or `'N'` or `'A'` and the tag is `'>>>'` then the data is the value of the command passed to the environment;
 * when the tag is `'+++'` then the data is the four characters `'RC "'` concatenated with the character `'"'`;
-* when `#Tracing.#Level` is 'l' or 'R' the data is the most recently evaluated value.
+* when `#Tracing.#Level` is `'l'` or `'R'` the data is the most recently evaluated value.
 
 Trace output can also appear as the result of a'SYNTAX' condition occurring, irrespective of the trace
 setting. If a'SYNTAX' condition occurs and it is not trapped by SIGNAL ON SYNTAX, then the clause in
@@ -1590,6 +1588,7 @@ if #ArgExists.Position then
 call Value VAR_SYMBOL, #Arg.Position
 else
 ```
+
 _Messy because VALUE bif won't DROP and var_drop needs to know if compound._
 
 ## Conditions and Messages
