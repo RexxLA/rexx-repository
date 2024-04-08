@@ -44,67 +44,71 @@ do t=1 to 7
   #EventLevel.Condition.#NewLevel = #EventLevel.Condition.#Level
   end t
 ```
-If this invocation is not caused by a condition occurring, see nnn, the state variables for the CONDITION
-
-built-in function are copied.
+If this invocation is not caused by a condition occurring, see nnn, the state variables for the CONDITION built-in function are copied.
+```rexx
 #Condition.#NewLevel = #Condition.#Level
 #ConditionDescription.#NewLevel = #ConditionDescription.#Level
 #ConditionExtra.#NewLevel = #ConditionExtra.#Level
 #ConditionInstruction.#NewLevel = #ConditionInstruction.#Level
+```
 Execution of the initialized routine continues at the new level of invocation.
+```rexx
 #Level = #NewLevel
 #NewLevel = #Level + 1
+```
 
 ## Clause initialization
 
 The clause is traced before execution:
+```rexx
 if pos(#Tracing.#Level, 'AIR') > 0 then call #TraceSource
-
+```
 The time of the first use of DATE or TIME will be retained throughout the clause.
-
+```rexx
 #ClauseTime.#Level = ''
-The state variable #LineNumber is set to the line number of the clause, see nnn.
+```
+The state variable ``#LineNumber`` is set to the line number of the clause, see nnn.  
 A clause other than a null clause or label or procedure instruction sets:
-
+```rexx
 #AllowProcedure.#Level = '0' /* See message 17.1 */
+```
 
 ## Clause termination
 
+```rexx
 if #InhibitTrace > 0 then #InhibitTrace = #InhibitTrace - 1
+```
 Polling for a HALT condition occurs:
-
+```rexx
 #Response = Config Halt Query ()
-
 if #0utcome == 'Yes' then do
-call Config Halt Reset
-
-call #Raise 'HALT', substr(#Response,2) /* May return */
-end
-
+  call Config Halt Reset
+  call #Raise 'HALT', substr(#Response,2) /* May return */
+  end
+```
 At the end of each clause there is a check for conditions which occurred and were delayed. It is acted on
-
 if this is the clause in which the condition arose.
+```rexx
 do t=1 to 4
-#Condition=WORD('HALT FAILURE ERROR NOTREADY',t)
-/* HALT can be established during HALT handling. */
-do while #PendingNow.#Condition.#Level
-#PendingNow.#Condition.#Level = '0'
-call #Raise
-end
-end
-
+  #Condition=WORD('HALT FAILURE ERROR NOTREADY',t)
+  /* HALT can be established during HALT handling. */
+  do while #PendingNow.#Condition.#Level
+     #PendingNow.#Condition.#Level = '0'
+     call #Raise
+     end
+  end
+```
 Interactive tracing may be turned on via the configuration. Only a change in the setting is significant.
+```rexx
 call Config Trace Query
-
 if #AtPause = 0 & #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
-/* External request for Trace '?R!' */
-#Interactive.#Level = '1'
-#Tracing.#Level = 'R'
-end
-
+  /* External request for Trace '?R!' */
+  #Interactive.#Level = '1'
+  #Tracing.#Level = 'R'
+  end
 #TraceQueryPrior = #Outcome
-
-Tracing just not the same with NetRexx.
+```
+_Tracing just not the same with NetRexx._
 
 When tracing interactively, pauses occur after the execution of each clause except for CALL, DO the
 second or subsequent time through the loop, END, ELSE, EXIT, ITERATE, LEAVE, OTHERWISE,
@@ -126,46 +130,41 @@ instruction is executed within the string, the language processor simply pauses 
 the program.
 
 At a pause point:
+
+```rexx
 if #AtPause = 0 & #Interactive.#Level & #InhibitTrace = 0 then do
-if #InhibitPauses > 0 then #InhibitPauses = #InhibitPauses-1
-else do
-#TraceInstruction = '0'
-do forever
+  if #InhibitPauses > 0 then #InhibitPauses = #InhibitPauses-1
+  else do
+  #TraceInstruction = '0'
+  do forever
+    call Config Trace Query
+    if #Outcome == 'No' & #Trace QueryPrior == 'Yes' then do
+      /* External request to stop tracing. */
+      #Trace_QueryPrior=#Outcome
+      #Interactive.#Level = '0'
+      #Tracing.#Level = 'N'
+      leave
+      end
+    if #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
+      /* External request for Trace '?R!' */
+      #Trace QueryPrior = #Outcome
+      #Interactive.#Level = '1'
+      #Tracing.#Level = 'R'
+      leave
+      end
+    if \#Interactive.#Level | #TraceInstruction then leave
 
-call Config Trace Query
-
-if #Outcome == 'No' & #Trace QueryPrior == 'Yes' then do
-/* External request to stop tracing. */
-#Trace_QueryPrior=#Outcome
-#Interactive.#Level = '0'
-#Tracing.#Level = 'N'
-leave
+    /* Accept input for immediate execution. */
+    call Config Trace Input
+    if length(#0utcome) = 0  |  #0Outcome == '=' then leave
+    #AtPause = #Level
+    interpret #Outcome
+    #AtPause = 0
+    end /* forever loop */
+  if #Outcome == '=' then call #Retry /* With no return */
+  end
 end
-
-if #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
-/* External request for Trace '?R!' */
-#Trace QueryPrior = #Outcome
-#Interactive.#Level = '1'
-#Tracing.#Level = 'R'
-leave
-end
-
-if \#Interactive.#Level | #TraceInstruction then leave
-
-/* Accept input for immediate execution. */
-
-call Config Trace Input
-
-if length(#0utcome) = 0 | #0Outcome == '=' then leave
-#AtPause = #Level
-
-interpret #Outcome
-
-#AtPause = 0
-end /* forever loop */
-if #Outcome == '=' then call #Retry /* With no return */
-end
-end
+```
 
 ## Instruction
 
