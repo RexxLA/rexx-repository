@@ -3,14 +3,15 @@
 This clause describes the execution of instructions, and how the sequence of execution can vary from the
 normal execution in order of appearance in the program.
 
-Execution of the program begins with its first clause.  
+Execution of the program begins with its first clause.
+
 _If we left Routine initialization to here we can leave method initialization._
 
 ## Method initialization
 
 There is a pool for local variables.
 ```rexx
-call Config ObjectNew
+call Config_ObjectNew
 #Pool = #Outcome
 ```
 _Set self and super_
@@ -67,10 +68,11 @@ The time of the first use of DATE or TIME will be retained throughout the clause
 ```rexx
 #ClauseTime.#Level = ''
 ```
-The state variable ``#LineNumber`` is set to the line number of the clause, see nnn.  
+The state variable ``#LineNumber`` is set to the line number of the clause, see nnn.
+
 A clause other than a null clause or label or procedure instruction sets:
 ```rexx
-#AllowProcedure.#Level = '0' /* See message 17.1 */
+#AllowProcedure.#Level = '0'    /* See message 17.1 */
 ```
 
 ## Clause termination
@@ -83,7 +85,7 @@ Polling for a HALT condition occurs:
 #Response = Config Halt Query ()
 if #0utcome == 'Yes' then do
   call Config Halt Reset
-  call #Raise 'HALT', substr(#Response,2) /* May return */
+  call #Raise 'HALT', substr(#Response,2)   /* May return */
   end
 ```
 At the end of each clause there is a check for conditions which occurred and were delayed. It is acted on
@@ -179,9 +181,9 @@ command should be sent.
 I/O can be redirected when submitting commands to an external environment. The submitted command's
 input stream can be taken from an existing stream or from a set of compound variables with a common
 stem. In the latter case (that is, when a stem is specified as the source for the commands input stream)
-whole number tails are used to order input for presentation to the submitted command. Stem.0 must
-contain a whole number indicating the number of compound variables to be presented, and stem. 1
-through stem.n (where n=stem.0) are the compound variables to be presented to the submitted
+whole number tails are used to order input for presentation to the submitted command. `Stem.0` must
+contain a whole number indicating the number of compound variables to be presented, and `stem. 1`
+through `stem.n` (where `n=stem.0`) are the compound variables to be presented to the submitted
 command.
 
 Similarly, the submitted command's output stream can be directed to a stream, or to a set of compound
@@ -201,11 +203,12 @@ active environment, which includes the specified I/O redirection.
 
 The redirections specified on the ADDRESS instruction may not be possible. If the configuration is aware
 that the command processor named does not perform I/O in a manner compatible with the request, the
-value of #Env_Type. may be set to 'UNUSED' as an alternative to 'STEM' and 'STREAM' where those
+value of `#Env_Type.` may be set to `'UNUSED'` as an alternative to `'STEM'` and `'STREAM'` where those
 values are assigned in the following code.
 
-In the following code the particular use of ``#Contains(address, expression)`` refers to an expression
-immediately contained in the address.
+In the following code the particular use of `#Contains(address, expression)` refers to an expression
+immediately contained in the _address_.
+
 ```rexx
 Addrinstr:
  /* If ADDRESS keyword alone, environments are swapped. */
@@ -327,6 +330,7 @@ redirections. */
 ```
 
 ### ARG
+
 For a definition of the syntax of this instruction, see nnn.
 
 The ARG instruction is a shorter form of the equivalent instruction:  
@@ -341,10 +345,13 @@ see nnn.
 
 If the _VAR_SYMBOL_ does not contain a period, or contains only one period as its last character, the
 value is associated with the _VAR_SYMBOL_:
+
 ```rexx
 call Var Set #Pool,VAR SYMBOL, '0',Value
 ```
+
 Otherwise, a name is derived, see nnn. The value is associated with the derived name:
+
 ```rexx
 call Var Set #Pool,Derived Name,'1',Value
 ```
@@ -356,18 +363,22 @@ For a definition of the syntax of this instruction, see nnn.
 The CALL instruction is used to invoke a routine, or is used to control trapping of conditions.
 
 lf a _vref_ is specified that value is the name of the routine to invoke:
+
 ```rexx
 if #Contains (call, vref) then
   Name = #Evaluate(vref, var_symbol)
 ```
 
-If a _taken\_constant_ is specified, that name is used.
+If a _taken_constant_ is specified, that name is used.
+
 ```rexx
 if #Contains (call, taken constant) then
 Name = #Instance(call, taken constant)
 ```
+
 The name is used to invoke a routine, see nnn. If that routine does not return a result the RESULT and
 .RESULT variables become uninitialized:
+
 ```rexx
 call Var Drop #Pool, 'RESULT', '0!
 call Var Drop #ReservedPool, '.RESULT', '0'
@@ -376,10 +387,10 @@ call Var Drop #ReservedPool, '.RESULT', '0'
 If the routine does return a result that value is assigned to RESULT and .RESULT. See nnn for an
 exception to assigning results.
 
-If the routine returns a result and the trace setting is 'R' or 'I' then a trace with that result and a tag '>>>"
-shall be produced, associated with the call instruction.
+If the routine returns a result and the trace setting is `'R'` or `'I'` then a trace with that result and a tag `'>>>'` shall be produced, associated with the call instruction.
 
 If a _callon\_spec_ is specified:
+
 ```rexx
 If #Contains(call,callon spec) then do
   Condition = #Instance(callon_spec,callable condition)
@@ -396,7 +407,9 @@ If #Contains(call,callon spec) then do
   #TrapName.Condition.#Level = Name
   end
 ```
+
 ### Command to the configuration
+
 For a definition of the syntax of a command, see nnn.
 
 A command that is not part of an ADDRESS instruction is processed in the ACTIVE environment.
@@ -408,7 +421,9 @@ if #Tracing.#Level == 'C' | #Tracing.#Level == 'A' then
 call EnvAssign TRANSIENT, #Level, ACTIVE, #Level
 call CommandiIssue Command
 ```
+
 `Commandlssue` is also used to describe the ADDRESS instruction:
+
 ```rexx
 CommandIssue:
   parse arg Cmd
@@ -536,8 +551,8 @@ Executing a _do_simple_ has the same effect as executing a _nop_, except in its 
 _do_ending_ associated with a _do_simple_ has the same effect as executing a _nop_, except in its trace
 output.
 
-A _do_instruction_ that does not contain a _do_simple_ is equivalent, except for trace output, to a sequence of
-instructions in the following order.
+A _do_instruction_ that does not contain a _do_simple_ is equivalent, except for trace output, to a sequence of instructions in the following order.
+
 ```rexx
 #Loop = #Loop+1
 #Iterate.#Loop = #Clause (IterateLabel)
@@ -563,8 +578,8 @@ if #Contains (do specification,assignment) then do
    end
 ```
 
-The following three assignments are made in the order in which 'TO'", 'BY' and 'FOR' appear in _docount_;
-see nnn.
+The following three assignments are made in the order in which `'TO'`, `'BY'` and `'FOR'` appear in _docount_; see nnn.
+
 ```rexx
 if #Contains (do specification, toexpr) then do
    if datatype(toexpr) \== 'NUM' then
@@ -645,11 +660,13 @@ be shown once per execution of the DO instruction; others shall be shown dependi
 the tests.
 
 The code in the DO description:
+
 ```rexx
    t = value (#Identity. #Loop)
    if #Indicator == 'D' then call #Raise 'NOVALUE', #Identity.#Loop
    call value #Identity.#Loop, t + #By.#Loop
 ```
+
 represents updating the control variable of the loop. That assignment is subject to tracing, and other
 expressions involving state variables are not. When tracing intermediates, the BY value will have a tag of
 `'>+>'`.
@@ -665,26 +682,34 @@ The words of the _variable_list_ are processed from left to right.
 A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable to be dropped. If
 VAR_SYMBOL does not contain a period, or has only a single period as its last character, the variable
 associated with VAR_SYMBOL by the variable pool is dropped:
+
 ```rexx
 #Response = Var Drop (#Pool,VAR_ SYMBOL, '0')
 ```
+
 If VAR_SYMBOL has a period other than as the last character, the variable associated with
 VAR_SYMBOL by the variable pool is dropped by:
+
 ```rexx
 #Response = Var Drop (#Pool,VAR SYMBOL, '1')
 ```
+
 If the word of the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the value of the
 VAR_SYMBOL is processed. The value is considered in uppercase:
+
 ```rexx
 #Value = Config Upper (#Value)
 ```
+
 Each word in that value found by the WORD built-in function, from left to right, is subjected to this
 process:
 
 If the word does not have the syntax of VAR_SYMBOL a condition is raised:
+
 ```rexx
 call #Raise 'SYNTAX', 20.1, word
 ```
+
 Otherwise the VAR_SYMBOL indicated by the word is dropped, as if that VAR_SYMBOL were a word of
 the _variable_list_.
 
