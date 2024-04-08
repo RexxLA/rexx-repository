@@ -11,94 +11,128 @@ Some notation functions allow reference to syntax constructs defined in nnn. Whi
 syntax construct in the program is being referred to is implied; it is the one for which the semantics are
 being specified.
 
-The BNF_primary referenced may be directly in the production or in some component referenced in the
+The `BNF_primary` referenced may be directly in the production or in some component referenced in the
+_production_, recursively. The components are considered in left to right order.
 
-production, recursively. The components are considered in left to right order.
+```rexx
 #Contains (Identifier, BNF primary)
+```
 
 where:
 
-Identifier is an identifier in a production (see nnn) defined in nnn.
+* Identifier is an _identifier_ in a _production_ (see nnn) defined in nnn.
+* `BNF_primary` is a _bnf_primary_ (see nnn) in a _production_ defined in nnn.
 
-BNF_primary is a bnf_primary (see nnn) in a production defined in nnn.
-Return '1' if the production identitied by identifier contained a bnf_primary identified by BNF_primary,
-otherwise return '0'.
+Return `'1'` if the _production_ identitied by _Identifier_ contained a _bnf_primary_ identified by `BNF_primary`, otherwise return `'0'`.
 
+```rexx
 #Instance (Identifier, BNF primary)
-where:
-Identifier is an identifier in a production defined in nnn.
-BNF_primary is a Onf_primary in a production defined in nnn.
-Returns the content of the particular instance of the BNF_primary. If the BNF_primary is a
-VAR_SYMBOL this is referred to as the symbol "taken as a constant.”
+```
 
+where:
+
+* `Identifier` is an _identifier_ in a _production_ defined in nnn.
+* `BNF_primary` is a _bnf_primary_ in a _production_ defined in nnn.
+
+Returns the content of the particular instance of the `BNF_primary`. If the `BNF_primary` is a
+`VAR_SYMBOL` this is referred to as the symbol "taken as a constant."
+
+```rexx
 #Evaluate (Identifier, BNF primary)
-where:
-Identifier is an identifier in a production defined in nnn.
-BNF_primary is a Onf_primary in a production defined in nnn.
-Return the value of the BNF_primary in the production identified by Identifier.
+```
 
+where:
+
+* `Identifier` is an _identifier_ in a _production_ defined in nnn.
+* `BNF_primary` is a _bnf_primary_ in a _production_ defined in nnn.
+* 
+Return the value of the `BNF_primary` in the _production_ identified by `Identifier`.
+
+```rexx
 #Execute (Identifier, BNF primary)
-where:
-Identifier is an identifier in a production defined in nnn.
-BNF_primary is a Onf_primary in a production defined in nnn.
-Perform the instructions identified by the BNF_primary in the production identified by Identifier.
+```
 
+where:
+
+* `Identifier` is an _identifier_ in a _production_ defined in nnn.
+* `BNF_primary` is a _bnf_primary_ in a _production_ defined in nnn.
+
+Perform the instructions identified by the `BNF_primary` in the _production_ identified by `Identifier`.
+
+```rexx
 #Parses (Value, BNF primary)
-where:
-Value is a string
-BNF_primary is a Onf_primary in a production defined in nnn.
-Return '1' if Value matches the definition of the BNF_primary, by the rules of clause 6, '0' otherwise.
+```
 
-#Clause (Label)
 where:
-Label is a label in code used by this standard to describe processing.
-Return an identification of that label. The value of this identification is used only by the #Goto notation
+
+* `Value` is a string
+* `BNF_primary` is a _bnf_primary_ in a _production_ defined in nnn.
+
+Return `'1'` if Value matches the definition of the `BNF_primary`, by the rules of clause 6, `'0'` otherwise.
+
+```rexx
+#Clause (Label)
+```
+
+where:
+
+* `Label` is a label in code used by this standard to describe processing.
+
+Return an identification of that label. The value of this identification is used only by the `#Goto` notation
 function.
 
+```rexx
 #Goto (Value)
+```
+
 where:
 
-Value identifies a label in code used by this standard to describe processing.
+* `Value` identifies a label in code used by this standard to describe processing.
+
 The description of processing continues at the identified label.
 
+```rexx
 #Retry ()
+```
 
 This notation is used in the description of interactive tracing to specify re-execution of the clause just
 previously executed. It has the effect of transferring execution to the beginning of that clause, with state
-variable #Loop set to the value it had when that clause was previously executed.
+variable `#Loop` set to the value it had when that clause was previously executed.
 
 ## Initializing
 
-Some of the initializing, now grouped in classic section 8.2.1 will have to come here so that we have picked up
-anything from the START_API that needs to be passed on to the execution of REQUIRES subject.
-
-We will be using some operations that are forward reference to what was section nnn.
+_Some of the initializing, now grouped in classic section 8.2.1 will have to come here so that 
+we have picked up anything from the `START_API` that needs to be passed on to the execution
+of REQUIRES subject. We will be using some operations that are forward reference to what was section nnn._
 
 ### Program initialization and message texts
 
-Processing of a program begins when API_Start is executed. A pool becomes current for the reserved
-
+Processing of a program begins when `API_Start` is executed. A pool becomes current for the reserved
 variables.
+
+```rexx
 call Config ObjectNew
 #ReservedPool = #Outcome
 #Pool = #ReservedPool
-Is it correct to make the reserved variables and the builtin objects in the same pool?
+```
 
-Some of the values which affect processing of the program are parameters of API_ Start:
+_Is it correct to make the reserved variables and the builtin objects in the same pool?_
 
-#Howlnvoked is set to ‘COMMAND’, 'FUNCTION' or 'SUBROUTINE' according to the first parameter of
-APL Start.
+Some of the values which affect processing of the program are parameters of `API_Start`:
+`#Howlnvoked` is set to `'COMMAND'`, `'FUNCTION'` or `'SUBROUTINE'` according to the first parameter of
+`API_Start`.
 
-#Source is set to the value of the second parameter of API_ Start.
+`#Source` is set to the value of the second parameter of `API_Start`.
 
-The third parameter of API_Start is used to determine the initial active environment.
+The third parameter of `API_Start` is used to determine the initial active environment.
 
-The fourth parameter of API Start is used to determine the arguments. For each argument position
-#ArgExists.1.ArgNumber is set '1' if there is an argument present, '0' if not. ArgNumber is the number of
-the argument position, counting from 1. If #ArgExists.1.ArgNumber is '1' then #Arg.1.ArgNumber is set to
-the value of the corresponding argument. If #ArgExists.1.ArgNumber is '0' then #Arg.1.Arg is set to the
-null string. #ArgExists.1.0 is set to the largest n for which #ArgExists.1.n is '1', or to zero if there is no
-such value of n.
+The fourth parameter of `API_Start` is used to determine the arguments. For each argument position
+`#ArgExists.1.ArgNumber` is set `'1'` if there is an argument present, `'0'` if not. 
+`ArgNumber` is the number of the argument position, counting from `1`. If `#ArgExists.1.ArgNumber` 
+is `'1'` then `#Arg.1.ArgNumber` is set to the value of the corresponding argument. 
+If `#ArgExists.1.ArgNumber` is `'0'` then `#Arg.1.Arg` is set to the null string. 
+`#ArgExists.1.0` is set to the largest `n` for which `#ArgExists.1.n` is `'1'`, or to zero if there is no
+such value of `n`.
 
 Some of the values which affect processing of the program are provided by the configuration:
 call Config OtherBlankCharacters
