@@ -398,151 +398,131 @@ If #Contains(call,callon spec) then do
 ```
 ### Command to the configuration
 For a definition of the syntax of a command, see nnn.
+
 A command that is not part of an ADDRESS instruction is processed in the ACTIVE environment.
 
+```rexx
 Command = #Evaluate(command, expression)
-
 if #Tracing.#Level == 'C' | #Tracing.#Level == 'A' then
-call #Trace '>>>!'
-
+   call #Trace '>>>!'
 call EnvAssign TRANSIENT, #Level, ACTIVE, #Level
-
 call CommandiIssue Command
-
-Commandlssue is also used to describe the ADDRESS instruction:
-
+```
+`Commandlssue` is also used to describe the ADDRESS instruction:
+```rexx
 CommandIssue:
-parse arg Cmd
-/* Issues the command, requested environment is TRANSIENT */
-/* This description does not require the command processor to understand
-stems, so it uses an altered environment. */
-call EnvAssign PASSED, #Level, TRANSIENT, #Level
-EnvTail = 'TRANSIENT.'#Level
+  parse arg Cmd
+  /* Issues the command, requested environment is TRANSIENT */
+  /* This description does not require the command processor to understand
+  stems, so it uses an altered environment. */
+  call EnvAssign PASSED, #Level, TRANSIENT, #Level
+  EnvTail = 'TRANSIENT.'#Level
 
-/* Note the command input. */
-if #Env_Type.I.EnvTail = 'STEM' then do
-/* Check reasonableness of the stem. */
-Stem = #Env_Resource.I.EnvTail
-Lines = value(Stem'0')
-if \datatype(Lines,'W') then
-call #Raise 'SYNTAX',54.1,Stem'0', Lines
-if Lines<0 then
-call #Raise 'SYNTAX',54.1,Stem'0', Lines
-/* Use a stream for the stem */
-#Env_ Type.I.PASSED.#Level = 'STREAM'
-call Config Stream Unique
-InputStream = #Outcome
-#Env_Resource.1I.PASSED.#Level = InputStream
-call charout InputStream , vl
-do j = 1 to Lines
-call lineout InputStream, value(Stem || j)
-end j
-call lineout InputStream
-end
+  /* Note the command input. */
+  if #Env_Type.I.EnvTail = 'STEM' then do
+      /* Check reasonableness of the stem. */
+      Stem = #Env_Resource.I.EnvTail
+      Lines = value(Stem'0')
+      if \datatype(Lines,'W') then
+        call #Raise 'SYNTAX',54.1,Stem'0', Lines
+      if Lines<0 then
+        call #Raise 'SYNTAX',54.1,Stem'0', Lines
+      /* Use a stream for the stem */
+      #Env_ Type.I.PASSED.#Level = 'STREAM'
+      call Config Stream Unique
+      InputStream = #Outcome
+      #Env_Resource.1I.PASSED.#Level = InputStream
+      call charout InputStream , ,l
+      do j = 1 to Lines
+        call lineout InputStream, value(Stem || j)
+        end j
+      call lineout InputStream
+      end
 
-/* Note the command output. */
+  /* Note the command output. */
+  if #Env_Type.O.EnvTail = 'STEM' then do
+     Stem = #Env_Resource.O.EnvTail
+     if #Env_Position.O.EnvTail == 'APPEND' then do
+       /* Check that Stem.0 will accept incrementing. */
+       Lines=value (Stem'0');
+       if \datatype(Lines,'W') then
+         call #Raise 'SYNTAX',54.1,Stem'0', Lines
+       if Lines<0 then
+         call #Raise 'SYNTAX',54.1,Stem'0', Lines
+       end
+     else call value Stem'0',O
+     /* Use a stream for the stem */
+     #Env_Type.O.PASSED.#Level = 'STREAM'
+     call Config Stream Unique
+     #Env_Resource.O.PASSED.#Level = #Outcome
+     end
 
-if #Env_Type.O.EnvTail = 'STEM' then do
-Stem = #Env_Resource.O.EnvTail
-if #Env_Position.O.EnvTail == 'APPEND' then do
+    /* Note the command error stream. */
+    if #Env_Type.E.EnvTail = 'STEM' then do
+       Stem = #Env_Resource.E.EnvTail
+       if #Env_Position.E.EnvTail == 'APPEND' then do
+         /* Check that Stem.0 will accept incrementing. */
+         Lines=value (Stem'0');
+         if \datatype(Lines,'W') then
+           call #Raise 'SYNTAX',54.1,Stem'0', Lines
+         if Lines<0 then
+           call #Raise 'SYNTAX',54.1,Stem'0', Lines
+       end
+     else call value Stem'0',0O
+     /* Use a stream for the stem */
+     #Env_ Type.E.PASSED.#Level = 'STREAM'
+     call Config Stream Unique
+     #Env_Resource.E.PASSED.#Level = #Outcome
+     end
 
-/* Check that Stem.0 will accept incrementing. */
-Lines=value (Stem'0');
-if \datatype(Lines,'W') then
-call #Raise 'SYNTAX',54.1,Stem'0', Lines
-if Lines<0 then
-call #Raise 'SYNTAX',54.1,Stem'0', Lines
-end
-else call value Stem'0',O
-/* Use a stream for the stem */
-#Env_Type.O.PASSED.#Level = 'STREAM'
-call Config Stream Unique
-#Env_Resource.O.PASSED.#Level = #Outcome
-end
-
-/* Note the command error stream. */
-
-if #Env_Type.E.EnvTail = 'STEM' then do
-Stem = #Env_Resource.E.EnvTail
-if #Env_Position.E.EnvTail == 'APPEND' then do
-
-/* Check that Stem.0 will accept incrementing. */
-Lines=value (Stem'0');
-if \datatype(Lines,'W') then
-call #Raise 'SYNTAX',54.1,Stem'0', Lines
-if Lines<0 then
-call #Raise 'SYNTAX',54.1,Stem'0', Lines
-
-end
-else call value Stem'0',0O
-/* Use a stream for the stem */
-#Env_ Type.E.PASSED.#Level = 'STREAM'
-call Config Stream Unique
-#Env_Resource.E.PASSED.#Level = #Outcome
-end
-
-#API Enabled = '1'
-
-call Var_Reset #Pool
-
-/* Specifying PASSED here implies all the
-
-components of that environment. */
-
-#Response = Config Command (PASSED, Cmd)
-#Indicator = left (#Response,1)
-Description = substr (#Response, 2)
-
-#API Enabled = '0'
-
-/* Recognize success and failure. */
+ #API Enabled = '1'
+  call Var_Reset #Pool
+  /* Specifying PASSED here implies all the
+     components of that environment. */
+ #Response = Config Command (PASSED, Cmd)
+ #Indicator = left (#Response,1)
+ Description = substr (#Response, 2)
+ #API Enabled = '0'
+ /* Recognize success and failure. */
 if #AtPause = 0 then do
-
-call value 'RC', #RC
-
-call var Set 0, '.RC', 0, #RC
-end
-
+  call value 'RC', #RC
+  call var Set 0, '.RC', 0, #RC
+  end
 select
-when #Indicator=='N' then Temp=0
-
-when #Indicator=='F' then Temp=-1 /* Failure */
-when #Indicator=='E' then Temp=1 /* Error */
-end
+  when #Indicator=='N' then Temp=0
+  when #Indicator=='F' then Temp=-1 /* Failure */
+  when #Indicator=='E' then Temp=1 /* Error */
+  end
 call Var Set 0, '.RS', 0, Temp
 /* Process the output */
-if #Env_Type.O.EnvTail='STEM' then do /* get output into stem. */
-Stem = #Env_Resource.0O.EnvTail
-OutputStream = #Env_Resource.0O.PASSED.#Level
-do while lines (OutputStream) > 0
-call value Stem'0O',value(Stem'0')4+1
-call value Stem| |value(Stem'0'),linein (OutputStream)
-end
-end /* Stemmed Output */
+if #Env_Type.O.EnvTail='STEM' then do   /* get output into stem. */
+  Stem = #Env_Resource.0O.EnvTail
+  OutputStream = #Env_Resource.0O.PASSED.#Level
+  do while lines (OutputStream) > 0
+    call value Stem'0O',value(Stem'0')4+1
+    call value Stem| |value(Stem'0'),linein (OutputStream)
+    end
+  end /* Stemmed Output */
 if #Env_Type.E.EnvTail='STEM' then do /* get error output into stem. */
-Stem = #Env_Resource.E.EnvTail
-OutputStream = #Env_Resource.E.PASSED.#Level
-do while lines (OutputStream) > 0
-call value Stem'0O',value(Stem'0')4+1
-call value Stem| |value(Stem'0'),linein (OutputStream)
-
-end
-end /* Stemmed Error output */
+  Stem = #Env_Resource.E.EnvTail
+  OutputStream = #Env_Resource.E.PASSED.#Level
+  do while lines (OutputStream) > 0
+    call value Stem'0O',value(Stem'0')4+1
+    call value Stem| |value(Stem'0'),linein (OutputStream)
+    end
+  end /* Stemmed Error output */
 if #Indicator \== 'N' & pos(#Tracing.#Level, 'CAIR') > 0 then
-call #Trace '+++'
+   call #Trace '+++'
 if (#Indicator \== 'N' & #Tracing.#Level=='E'),
-| (#Indicator=='F' & (#Tracing.#Level=='F' | #Tracing.#Level=='N')) then do
-
-call #Trace '>>>!'
-call #Trace '+++!'
-
-end
+ | (#Indicator=='F' & (#Tracing.#Level=='F' | #Tracing.#Level=='N')) then do
+   call #Trace '>>>!'
+   call #Trace '+++!'
+   end
 #Condition='FAILURE'
-if #Indicator='F' & #Enabling.#Condition.#Level \== 'OFF' then call #Raise 'FAILURE'
-, Cmd
+if #Indicator='F' & #Enabling.#Condition.#Level \== 'OFF' then call #Raise 'FAILURE', Cmd
 else if #Indicator='E' | #Indicator='F' then call #Raise 'ERROR', Cmd
-
 return /* From CommandIssue */
+```
 
 The configuration may choose to perform the test for message 54.1 before or after issuing the command.
 
