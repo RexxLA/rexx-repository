@@ -204,143 +204,127 @@ that the command processor named does not perform I/O in a manner compatible wit
 value of #Env_Type. may be set to 'UNUSED' as an alternative to 'STEM' and 'STREAM' where those
 values are assigned in the following code.
 
-In the following code the particular use of #Contains(address, expression) refers to an expression
+In the following code the particular use of ``#Contains(address, expression)`` refers to an expression
 immediately contained in the address.
-
+```rexx
 Addrinstr:
-/* If ADDRESS keyword alone, environments are swapped. */
-if \#Contains (address, taken constant),
-& \#Contains (address,valueexp),
-& \#Contains (address, 'WITH') then do
-call EnvAssign TRANSIENT, #Level, ACTIVE, #Level
-call EnvAssign ACTIVE, #Level, ALTERNATE, #Level
-call EnvAssign ALTERNATE, #Level, TRANSIENT, #Level
-return
-end
-/* The environment name will be explicitly specified. */
-if #Contains(address,taken constant) then
-Name = #Instance(address, taken _ constant)
-else
-Name = #Evaluate(valueexp, expression)
-if length(Name) > #LimitEnvironmentName then
-call #Raise 'SYNTAX', 29.1, Name
+ /* If ADDRESS keyword alone, environments are swapped. */
+ if \#Contains (address, taken constant),
+  & \#Contains (address,valueexp),
+  & \#Contains (address, 'WITH') then do
+    call EnvAssign TRANSIENT, #Level, ACTIVE, #Level
+    call EnvAssign ACTIVE, #Level, ALTERNATE, #Level
+    call EnvAssign ALTERNATE, #Level, TRANSIENT, #Level
+    return
+    end
+ /* The environment name will be explicitly specified. */
+ if #Contains(address,taken constant) then
+   Name = #Instance(address, taken _ constant)
+ else
+   Name = #Evaluate(valueexp, expression)
+ if length(Name) > #LimitEnvironmentName then
+   call #Raise 'SYNTAX', 29.1, Name
 
-if #Contains(address,expression) then do
-/* The command is evaluated (but not issued) at this point. */
-Command = #Evaluate (address, expression)
+ if #Contains(address,expression) then do
+   /* The command is evaluated (but not issued) at this point. */
+   Command = #Evaluate (address, expression)
+   if #Tracing.#Level == 'C'  |  #Tracing.#Level == 'A' then do
+      call #Trace '>>>!
+      end
+   end
 
-if #Tracing.#Level == 'C' | #Tracing.#Level == 'A' then do
-call #Trace '>>>!
-end
+ call AddressSetup /* Note what is specified on the ADDRESS instruction. */
+ /* If there is no command, the persistent environment is being set. */
+ if \#Contains(address,expression) then do
+    call EnvAssign ACTIVE, #Level, TRANSIENT, #Level
+    return
+    end
 
-end
+ call CommandIssue Command /* See nnn */
 
-call AddressSetup /* Note what is specified on the ADDRESS instruction. */
-/* If there is no command, the persistent environment is being set. */
-if \#Contains(address,expression) then do
-
-call EnvAssign ACTIVE, #Level, TRANSIENT, #Level
-
-return
-
-end
-
-call CommandIssue Command /* See nnn */
-return /* From Addrinstr */
+ return /* From Addrinstr */
 
 AddressSetup:
-/* Note what is specified on the ADDRESS instruction,
-into the TRANSIENT environment. */
-EnvTail = 'TRANSIENT. '#Level
-/* Initialize with defaults. */
-#Env_Name.EnvTail = ''
+ /* Note what is specified on the ADDRESS instruction,
+ into the TRANSIENT environment. */
+ EnvTail = 'TRANSIENT. '#Level
+ /* Initialize with defaults. */
+ #Env_Name.EnvTail = ''
+ #Env_ Type.I.EnvTail = 'NORMAL'
+ #Env_ Type.O.EnvTail = 'NORMAL'
+ #Env_ Type.E.EnvTail = 'NORMAL'
+ #Env_Resource.I.EnvTail = ''
+ #Env_Resource.O.EnvTail = '!
+ #Env_Resource.E.EnvTail = ''
+ /* APPEND / REPLACE does not apply to input. */
+ #Env_Position.I.EnvTail = 'INPUT'
+ #Env_Position.O.EnvTail = 'REPLACE'
+ #Env_Position.E.EnvTail = 'REPLACE'
 
-#Env_ Type.I.EnvTail = 'NORMAL'
-#Env_ Type.O.EnvTail = 'NORMAL'
-#Env_ Type.E.EnvTail = 'NORMAL'
+ /* If anything follows ADDRESS, it will include the command processor name.*/
+ #Env_Name.EnvTail = Name
 
-#Env_Resource.I.EnvTail = ''
-#Env_Resource.O.EnvTail = '!
-#Env_Resource.E.EnvTail = ''
-/* APPEND / REPLACE does not apply to input. */
+ /* Connections may be explicitly specified. */
+ if #Contains (address, connection) then do
+   if #Contains(connection,input) then do /* input redirection */
+     if #Contains (resourcei, 'STREAM') then do
+       #Env_Type.I.EnvTail = 'STREAM'
+       #Env_Resource.1.EnvTail=#Evaluate(resourcei, VAR_SYMBOL)
+       end
+     if #Contains (resourcei, 'STEM') then do
+       #Env_Type.I.EnvTail = 'STEM'
+       Temp=#Instance (resourcei,VAR_SYMBOL)
+       if \#Parses(Temp, stem /* See nnn */) then
+         call #Raise 'SYNTAX', 53.3, Temp
+       #Env_Resource.I.EnvTail=Temp
+       end
+     end /* Input */
 
-#Env_Position.I.EnvTail = 'INPUT'
-#Env_Position.O.EnvTail = 'REPLACE'
-#Env_Position.E.EnvTail = 'REPLACE'
+   if #Contains(connection,output) then /* output redirection */
+     call NoteTarget O
 
-/* If anything follows ADDRESS, it will include the command processor name.*/
-#Env_Name.EnvTail = Name
-
-/* Connections may be explicitly specified. */
-if #Contains (address, connection) then do
-
-if #Contains(connection,input) then do /* input redirection */
-if #Contains (resourcei, 'STREAM') then do
-#Env_Type.I.EnvTail = 'STREAM'
-#Env_Resource.1.EnvTail=#Evaluate(resourcei, VAR_SYMBOL)
-end
-if #Contains (resourcei, 'STEM') then do
-#Env_Type.I.EnvTail = 'STEM'
-
-Temp=#Instance (resourcei,VAR_SYMBOL)
-if \#Parses(Temp, stem /* See nnn */) then
-call #Raise 'SYNTAX', 53.3, Temp
-#Env_Resource.I.EnvTail=Temp
-end
-end /* Input */
-
-if #Contains(connection,output) then /* output redirection */
-call NoteTarget O
-
-if #Contains(connection,error) then /* error redirection */
-/* The prose on the description of #Contains specifies that the
-relevant resourceo is used in NoteTarget. */
-call NoteTarget E
-
-end /* Connection */
+   if #Contains(connection,error) then /* error redirection */
+     /* The prose on the description of #Contains specifies that the
+     relevant resourceo is used in NoteTarget. */
+     call NoteTarget E
+   end /* Connection */
 
 return /* from AddressSetup */
 
 NoteTarget:
-
-/* Note the characteristics of an output resource. */
-
-arg Which /* O or E */
-
-if #Contains (resourceo, 'STREAM') then do
-#Env_Type.Which.EnvTail='STREAM'
-#Env_Resource.Which.EnvTail=#Evaluate(resourceo, VAR_SYMBOL)
-end
-
-if #Contains(resourceo,'STEM') then do
-#Env_Type.Which.EnvTail='STEM'
-Temp=#Instance (resourceo, VAR_SYMBOL)
-if \#Parses(Temp, stem /* See nnn */) then
-
-call #Raise 'SYNTAX', 53.3, Temp
-
-#Env_Resource.Which.EnvTail=Temp
-end
-
-if #Contains (resourceo,append) then
-#Env_Position.Which.EnvTail='APPEND'
+  /* Note the characteristics of an output resource. */
+  arg Which /* O or E */
+  if #Contains (resourceo, 'STREAM') then do
+    #Env_Type.Which.EnvTail='STREAM'
+    #Env_Resource.Which.EnvTail=#Evaluate(resourceo, VAR_SYMBOL)
+    end
+  if #Contains(resourceo,'STEM') then do
+    #Env_Type.Which.EnvTail='STEM'
+    Temp=#Instance (resourceo, VAR_SYMBOL)
+    if \#Parses(Temp, stem /* See nnn */) then
+      call #Raise 'SYNTAX', 53.3, Temp
+    #Env_Resource.Which.EnvTail=Temp
+    end
+  if #Contains (resourceo,append) then
+    #Env_Position.Which.EnvTail='APPEND'
 return /* From NoteTarget */
 
 EnvAssign:
 /* Copy the values that name an environment and describe its
 redirections. */
-arg Lhs, LhsLevel, Rhs, RhsLevel
-#Env_Name.Lhs.LhsLevel = #Env_Name.Rhs.RhsLevel
-#Env_ Type.I.Lhs.LhsLevel = #Env_Type.I.Rhs.RhsLevel
-#Env_ Resource.I.Lhs.LhsLevel = #Env_Resource.I.Rhs.RhsLevel
-#Env_Position.I.Lhs.LhsLevel = #Env_Position.I.Rhs.RhsLevel
-#Env_ Type.O.Lhs.LhsLevel = #Env_Type.O.Rhs.RhsLevel
-#Env_Resource.O.Lhs.LhsLevel = #Env_Resource.O.Rhs.RhsLevel
-#Env_Position.O.Lhs.LhsLevel = #Env_Position.O.Rhs.RhsLevel
-#Env_ Type.E.Lhs.LhsLevel = #Env_Type.E.Rhs.RhsLevel
-#Env_Resource.E.Lhs.LhsLevel #Env_Resource.E.Rhs.RhsLevel
-#Env_Position.E.Lhs.LhsLevel #Env_Position.E.Rhs.RhsLevel
-return
+  arg Lhs, LhsLevel, Rhs, RhsLevel
+  #Env_Name.Lhs.LhsLevel = #Env_Name.Rhs.RhsLevel
+  #Env_ Type.I.Lhs.LhsLevel = #Env_Type.I.Rhs.RhsLevel
+  #Env_ Resource.I.Lhs.LhsLevel = #Env_Resource.I.Rhs.RhsLevel
+  #Env_Position.I.Lhs.LhsLevel = #Env_Position.I.Rhs.RhsLevel
+  #Env_ Type.O.Lhs.LhsLevel = #Env_Type.O.Rhs.RhsLevel
+  #Env_Resource.O.Lhs.LhsLevel = #Env_Resource.O.Rhs.RhsLevel
+  #Env_Position.O.Lhs.LhsLevel = #Env_Position.O.Rhs.RhsLevel
+  #Env_ Type.E.Lhs.LhsLevel = #Env_Type.E.Rhs.RhsLevel
+  #Env_Resource.E.Lhs.LhsLevel #Env_Resource.E.Rhs.RhsLevel
+  #Env_Position.E.Lhs.LhsLevel #Env_Position.E.Rhs.RhsLevel
+  return
+```
 
 ### ARG
 For a definition of the syntax of this instruction, see nnn.
