@@ -135,103 +135,79 @@ If `#ArgExists.1.ArgNumber` is `'0'` then `#Arg.1.Arg` is set to the null string
 such value of `n`.
 
 Some of the values which affect processing of the program are provided by the configuration:
-call Config OtherBlankCharacters
 
+```rexx
+call Config OtherBlankCharacters
 #A11Blanks<Index "#Al1Blanks" # "" > = ' '#Outcome /* "Real" blank concatenated with
 others */
-
 #Bif Digits. = 9
-
 call Config Constants
+.true = '1'
+.false = '0'
+```
+_Objects in our model are only distinquished by the values within their pool so we can construct the builtin classes incomplete and then complete them with directives._
 
--true = '1'
+_Can we initialize the methods of .nil by directives?_
 
--false = '0O'
-
-Objects in our model are only distinquished by the values within their pool so we can construct the builtin classes
-incomplete and then complete them with directives.
-
-Can we initialize the methods of .nil by directives?
-
-call Config ObjectNew
-
--List = #Outcome
-
+```rexx
+call Config_ObjectNew
+.List = #Outcome
 call var_set .List, #IsClass, '0', '1'
-
 call var_set .List, #ID, '0', 'List'
+```
 
 Some of the state variables set by this call are limits, and appear in the text of error messages. The
 relation between message numbers and message text is defined by the following list, where the message
+number appears immediately before an `'='` and the message text follows in quotes.
 
-number appears immediately before an '=' and the message text follows in quotes.
-
-#ErrorText. stl
+```rexx
+#ErrorText.    = ''
 
 #ErrorText.0.1 = 'Error <value> running <source>, line <linenumber>: '
-
 #ErrorText.0.2 = 'Error <value> in interactive trace: '
-
 #ErrorText.0.3 = 'Interactive trace. "Trace Off" to end debug. ',
-"ENTER to continue.'
-
-#ErrorText.2 = 'Failure during finalization’
-
+                 'ENTER to continue.'
+#ErrorText.2   = 'Failure during finalization’
 #ErrorText.2.1 = 'Failure during finalization: <description>'
 
-#ErrorText.3
-#ErrorText.3.1
+#ErrorText.3   = 'Failure during initialization'
+#ErrorText.3.1 = 'Failure during initialization: <description>'
 
-'Failure during initialization’
-'Failure during initialization: <description>'
+#ErrorText.4   = 'Program interrupted'
+#ErrorText.4.1 = 'Program interrupted with HALT condition: <description>'
 
-#ErrorText.4
-#ErrorText.4.1
+#ErrorText.5   = 'System resources exhausted'
+#ErrorText.5.1 = 'System resources exhausted: <description>'
 
-'Program interrupted’
-'Program interrupted with HALT condition: <description>'
+#ErrorText.6   = 'Unmatched "/*" or quote'
+#ErrorText.6.1 = 'Unmatched comment delimiter ("/*")'
+#ErrorText.6.2 = "Unmatched single quote (')"
+#ErrorText.6.3 = 'Unmatched double quote (")'
 
-#ErrorText.5
-#ErrorText.5.1
-
-'System resources exhausted'
-'System resources exhausted: <description>'
-
-#ErrorText.6
-#ErrorText.6.1
-
-‘Unmatched "/*" or quote!
-‘Unmatched comment delimiter ("/*")!
-
-#ErrorText.6.2
-#ErrorText.6.3
-
-#ErrorText.7 =
-#ErrorText.7.1 =
-
-#ErrorText.7.2 =
-
+#ErrorText.7   = 'WHEN or OTHERWISE expected'
+#ErrorText.7.1 = 'SELECT on line <linenumber> requires WHEN;',
+                 'found "<token>"'
+#ErrorText.7.2 = 'SELECT on line <linenumber> requires WHEN, OTHERWISE,'.
+                 'or END; found "<token>"'
 #ErrorText.7.3 =
 
-#ErrorText.8 =
-#ErrorText.8.1
-#ErrorText.8.2
+#ErrorText.8   =
+#ErrorText.8.1 =
+#ErrorText.8.2 =
 
-#ErrorText.9 =
-#ErrorText.9.1
-#ErrorText.9.2
+#ErrorText.9   =
+#ErrorText.9.1 =
+#ErrorText.9.2 =
 
-#ErrorText.10
+#ErrorText.10  =
 #ErrorText.10.1=
 #ErrorText.10.2=
-
 #ErrorText.10.3=
-
 #ErrorText.10.4=
 #ErrorText.10.5=
 #ErrorText.10.6=
 
-#ErrorText.13 =
+#ErrorText.13  =
 #ErrorText.13.1=
 
 #ErrorText.14 =
@@ -262,17 +238,6 @@ number appears immediately before an '=' and the message text follows in quotes.
 
 #ErrorText.18.2=
 
-"Unmatched single quote (')"
-‘Unmatched double quote (")'
-
-'WHEN or OTHERWISE expected'
-"SELECT on line <linenumber>
-'found "<token>"'
-
-"SELECT on line <linenumber>
-‘or END; found "<token>"'!
-
-requires WHEN;',
 
 'All WHEN expressions of SELECT on line <linenumber> are',
 
