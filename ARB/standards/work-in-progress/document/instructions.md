@@ -531,115 +531,107 @@ The configuration may choose to perform the test for message 54.1 before or afte
 For a definition of the syntax of this instruction, see nnn.
 
 The DO instructions is used to group instructions together and optionally to execute them repeatedly.
-Executing a do_simple has the same effect as executing a nop, except in its trace output. Executing the
-do_ending associated with a do_simple has the same effect as executing a nop, except in its trace
+
+Executing a _do_simple_ has the same effect as executing a _nop_, except in its trace output. Executing the
+_do_ending_ associated with a _do_simple_ has the same effect as executing a _nop_, except in its trace
 output.
 
-A do_instruction that does not contain a do_simple is equivalent, except for trace output, to a sequence of
+A _do_instruction_ that does not contain a _do_simple_ is equivalent, except for trace output, to a sequence of
 instructions in the following order.
-
+```rexx
 #Loop = #Loop+1
 #Iterate.#Loop = #Clause (IterateLabel)
 #Once.#Loop = #Clause (OnceLabel)
 #Leave.#Loop = #Clause (LeaveLabel)
 if #Contains (do specification,assignment) then
-#Identity.#Loop = #Instance(assignment, VAR SYMBOL)
+     #Identity.#Loop = #Instance(assignment, VAR SYMBOL)
 if #Contains (do specification, repexpr) then
-if \datatype(repexpr,'W') then
-call #Raise 'SYNTAX', 26.2,repexpr
-else do
-#Repeat.#Loop = repexpr+0
-if #Repeat.#Loop<0 then
-call #Raise 'SYNTAX',26.2,#Repeat.#Loop
-end
+   if \datatype(repexpr,'W') then
+       call #Raise 'SYNTAX', 26.2,repexpr
+   else do
+       #Repeat.#Loop = repexpr+0
+       if #Repeat.#Loop<0 then
+          call #Raise 'SYNTAX',26.2,#Repeat.#Loop
+       end
 if #Contains (do specification,assignment) then do
-#StartValue.#Loop = #Evaluate (assignment, expression)
-if datatype (#StartValue.#Loop) \== 'NUM' then
-call #Raise 'SYNTAX', 41.6, #StartValue.#Loop
-#StartValue.#Loop = #StartValue.#Loop + 0
-if \#Contains (do specification,byexpr) then
-#By.#Loop = 1
-end
+   #StartValue.#Loop = #Evaluate (assignment, expression)
+   if datatype (#StartValue.#Loop) \== 'NUM' then
+       call #Raise 'SYNTAX', 41.6, #StartValue.#Loop
+   #StartValue.#Loop = #StartValue.#Loop + 0
+   if \#Contains (do specification,byexpr) then
+       #By.#Loop = 1
+   end
+```
 
-The following three assignments are made in the order in which 'TO'", 'BY' and 'FOR' appear in docount;
+The following three assignments are made in the order in which 'TO'", 'BY' and 'FOR' appear in _docount_;
 see nnn.
-
+```rexx
 if #Contains (do specification, toexpr) then do
-if datatype(toexpr) \== 'NUM' then
-call #Raise 'SYNTAX', 41.4, toexpr
-#To.#LOop = toexpr+0
+   if datatype(toexpr) \== 'NUM' then
+      call #Raise 'SYNTAX', 41.4, toexpr
+   #To.#LOop = toexpr+0
 if #Contains (do specification, byexpr) then do
-if datatype (byexpr) \=='NUM' then
-call #Raise 'SYNTAX', 41.5, byexpr
-#By.#Loop = byexpr+0
+   if datatype (byexpr) \=='NUM' then
+      call #Raise 'SYNTAX', 41.5, byexpr
+   #By.#Loop = byexpr+0
 if #Contains (do specification, forexpr) then do
-if \datatype(forexpr, 'W') then
-call #Raise 'SYNTAX', 26.3, forexpr
-#For.#Loop = forexpr+0
-if #For.#Loop <0 then
-call #Raise 'SYNTAX', 26.3, #For.#Loop
-end
+   if \datatype(forexpr, 'W') then
+      call #Raise 'SYNTAX', 26.3, forexpr
+   #For.#Loop = forexpr+0
+   if #For.#Loop <0 then
+      call #Raise 'SYNTAX', 26.3, #For.#Loop
+   end
 if #Contains (do specification,assignment) then do
-call value #Identity.#Loop, #StartValue.#Loop
-end
+   call value #Identity.#Loop, #StartValue.#Loop
+   end
 if #Contains (do specification, 'OVER') then do
-Value = #Evaluate(dorep, expression)
-#OverArray.#Loop = Value ~ makearray
-
-#Repeat.#Loop = #OverArray~items /* Count this downwards as if repexpr. */
-#Iidentity.#Loop = #Instance(dorep, VAR SYMBOL)
-end
-
+   Value = #Evaluate(dorep, expression)
+   #OverArray.#Loop = Value ~ makearray
+   #Repeat.#Loop = #OverArray~items /* Count this downwards as if repexpr. */
+   #Iidentity.#Loop = #Instance(dorep, VAR_SYMBOL)
+   end
 call #Goto #Once.#Loop /* to OnceLabel */
-
 IterateLabel:
-
 if #Contains (do specification, untilexpr) then do
-Value = #Evaluate(untilexp, expression)
-
-if Value == '1' then leave
-if Value \== '0' then call #Raise 'SYNTAX', 34.4, Value
-end
-
+  Value = #Evaluate(untilexp, expression)
+  if Value == '1' then leave
+  if Value \== '0' then call #Raise 'SYNTAX', 34.4, Value
+  end
 if #Contains (do specification, assignment) then do
-t = value (#Identity. #Loop)
-
-if #Indicator == 'D' then call #Raise 'NOVALUE', #Identity.#Loop
-call value #Identity.#Loop, t + #By.#Loop
-end
+   t = value (#Identity. #Loop)
+   if #Indicator == 'D' then call #Raise 'NOVALUE', #Identity.#Loop
+   call value #Identity.#Loop, t + #By.#Loop
+   end
 
 OnceLabel:
-
 if #Contains (do specification, toexpr) then do
-if #By.#Loop>=0 then do
-if value(#Identity.#Loop) > #To.#Loop then leave
-end
-else do if value(#Identity.#Loop) < #To.#Loop then leave
-end
-end
-
-if #Contains(dorep, repexpr) | #Contains(dorep, 'OVER') then do
-if #Repeat.#Loop = 0 then leave
-#Repeat.#Loop = #Repeat.#Loop-1
-if #Contains(dorep, 'OVER') then
-call value #Identity.#Loop, #OverArray[#OverArray~items - #Repeat.#Loop]
-end
+   if #By.#Loop>=0 then do
+     if value(#Identity.#Loop) > #To.#Loop then leave
+     end
+   else do if value(#Identity.#Loop) < #To.#Loop then leave
+     end
+  end
+if #Contains(dorep, repexpr)  |  #Contains(dorep, 'OVER') then do
+   if #Repeat.#Loop = 0 then leave
+   #Repeat.#Loop = #Repeat.#Loop-1
+   if #Contains(dorep, 'OVER') then
+      call value #Identity.#Loop, #OverArray[#OverArray~items - #Repeat.#Loop]
+   end
 if #Contains (do specification, forexpr) then do
-if #For.#Loop = 0 then leave
-#For.#Loop = #For.#Loop - 1
-end
+   if #For.#Loop = 0 then leave
+   #For.#Loop = #For.#Loop - 1
+   end
 if #Contains (do specification, whileexpr) then do
-Value = #Evaluate(whileexp, expression)
-
-if Value == '0' then leave
-if Value \== '1' then call #Raise 'SYNTAX', 34.3, Value
-end
-#Execute (do instruction, instruction list)
+  Value = #Evaluate(whileexp, expression)
+  if Value == '0' then leave
+  if Value \== '1' then call #Raise 'SYNTAX', 34.3, Value
+  end
+  #Execute (do instruction, instruction list)
 TraceOfEnd:
 call #Goto #Iterate.#Loop /* to IterateLabel */
 LeaveLabel:
-
 #Loop = #Loop - 1
+```
 
 ### DO loop tracing
 
