@@ -189,147 +189,76 @@ number appears immediately before an `'='` and the message text follows in quote
                  'found "<token>"'
 #ErrorText.7.2 = 'SELECT on line <linenumber> requires WHEN, OTHERWISE,'.
                  'or END; found "<token>"'
-#ErrorText.7.3 =
+#ErrorText.7.3 = 'All WHEN expressions of SELECT on line <linenumber> are',
+                 'false; OTHERWISE expected’
 
-#ErrorText.8   =
-#ErrorText.8.1 =
-#ErrorText.8.2 =
+#ErrorText.8   = 'Unexpected THEN or ELSE'
+#ErrorText.8.1 = 'THEN has no corresponding IF or WHEN clause'
+#ErrorText.8.2 = 'ELSE has no corresponding THEN clause'
 
-#ErrorText.9   =
-#ErrorText.9.1 =
-#ErrorText.9.2 =
+#ErrorText.9   = 'Unexpected WHEN or OTHERWISE'
+#ErrorText.9.1 = 'WHEN has no corresponding SELECT'
+#ErrorText.9.2 = 'OTHERWISE has no corresponding SELECT'
 
-#ErrorText.10  =
-#ErrorText.10.1=
-#ErrorText.10.2=
-#ErrorText.10.3=
-#ErrorText.10.4=
-#ErrorText.10.5=
-#ErrorText.10.6=
+#ErrorText.10  = 'Unexpected or unmatched END'
+#ErrorText.10.1= 'END has no corresponding DO or SELECT'
+#ErrorText.10.2= 'END corresponding to DO on line <linenumber>',
+                 'must have a symbol following that matches',
+                 'the control variable (or no symbol);',
+                 'found "<token>"'
+#ErrorText.10.3= 'END corresponding to DO on line <linenumber>',
+                 'must not have a symbol following it because',
+                 'there is no control variable;',
+                 'found "<token>"'
+#ErrorText.10.4= 'END corresponding to SELECT on line <linenumber>',
+                 'must not have a symbol following;',
+                 'found "<token>"'
+#ErrorText.10.5= 'END must not immediately follow THEN'
+#ErrorText.10.6= 'END must not immediately follow ELSE'
 
-#ErrorText.13  =
-#ErrorText.13.1=
+#ErrorText.13  = 'Invalid character in program'
+#ErrorText.13.1= 'Invalid character "('<hex-encoding>'X)" in program'
 
-#ErrorText.14 =
-#ErrorText.14.1=
-#ErrorText.14.2=
-#ErrorText.14.3=
-#ErrorText.14.4=
+#ErrorText.14  = 'Incomplete DO/SELECT/IF'
+#ErrorText.14.1= 'DO instruction requires a matching END'
+#ErrorText.14.2= 'SELECT instruction requires a matching END'
+#ErrorText.14.3= 'THEN requires a following instruction'
+#ErrorText.14.4= 'ELSE requires a following instruction'
 
-#ErrorText.15 =
-#ErrorText.15.1=
+#ErrorText.15  = 'Invalid hexadecimal or binary string'
+#ErrorText.15.1= 'Invalid location of blank in position',
+                 '<position> in hexadecimal string'
+#ErrorText.15.2= 'Invalid location of blank in position',
+                 '<position> in binary string'
+#ErrorText.15.3= 'Only 0-9, a-f, A-F, and blank are valid in a',
+                 'hexadecimal string; found "<char>"'
+#ErrorText.15.4= 'Only 0, 1, and blank are valid in a',
+                 'binary string; found "<char>"'
 
-#ErrorText.15.2=
-#ErrorText.15.3=
-#ErrorText.15.4=
-#ErrorText.16 =
-#ErrorText.16.1=
-#ErrorText.16.2=
-#ErrorText.16.3=
+#ErrorText.16  = 'Label not found'
+#ErrorText.16.1= 'Label "<name>" not found'
+#ErrorText.16.2= 'Cannot SIGNAL to label "<name>" because it is',
+                 'inside an IF, SELECT or DO group'
+#ErrorText.16.3= 'Cannot invoke label "<name>" because it is',
+                 'inside an IF, SELECT or DO group'
 
-#ErrorText.17 =
-#ErrorText.17.1=
+#ErrorText.17  = 'Unexpected PROCEDURE'
+#ErrorText.17.1= 'PROCEDURE is valid only when it is the first',
+                 'instruction executed after an internal CALL',
+                 'or function invocation'
+#ErrorText.17.2= 'The EXPOSE instruction is valid only when it is the first',
+                 'instruction executed after a method invocation’
 
-#ErrorText.17.2=
+#ErrorText.18  = 'THEN expected'
+#ErrorText.18.1= 'IF keyword on line <linenumber> requires',
+                 'matching THEN clause; found "<token>"'
+#ErrorText.18.2= 'WHEN keyword on line <linenumber> requires',
+                 'matching THEN clause; found "<token>"'
 
-#ErrorText.18 =
-
-#ErrorText.18.1=
-
-#ErrorText.18.2=
+```
 
 
-'All WHEN expressions of SELECT on line <linenumber> are',
 
-'false; OTHERWISE expected’
-
-"Unexpected THEN or ELSE'
-
-'THEN has no corresponding IF or WHEN clause'
-'ELSE has no corresponding THEN clause'
-
-"Unexpected WHEN or OTHERWISE'
-'WHEN has no corresponding SELECT'
-‘OTHERWISE has no corresponding SELECT'
-
-'Unexpected or unmatched END'
-
-'END has no corresponding DO or SELECT'
-
-'END corresponding to DO on line <linenumber>',
-'must have a symbol following that matches',
-'the control variable (or no symbol);',
-
-'found "<token>"'!
-
-'END corresponding to DO on line <linenumber>',
-'must not have a symbol following it because',
-'there is no control variable;',
-
-'found "<token>"'!
-
-'END corresponding to SELECT on line <linenumber>',
-'must not have a symbol following;',
-
-'found "<token>"'!
-
-'END must not immediately follow THEN'
-
-'END must not immediately follow ELSE'
-
-‘Invalid character in program'
-‘Invalid character "('<hex-encoding>'X)" in program'
-
-"Incomplete DO/SELECT/IF'
-
-'DO instruction requires a matching END'
-'SELECT instruction requires a matching END'
-'THEN requires a following instruction’
-'ELSE requires a following instruction’
-
-'Invalid hexadecimal or binary string'
-
-'Invalid location of blank in position',
-'<position> in hexadecimal string'
-
-'Invalid location of blank in position',
-'<position> in binary string'
-
-‘Only 0-9, a-f, A-F, and blank are valid in a',
-"hexadecimal string; found "<char>"'
-
-‘Only 0, 1, and blank are valid in a',
-
-'binary string; found "<char>"'
-
-‘Label not found'
-
-‘Label "<name>" not found'
-
-'Cannot SIGNAL to label "<name>" because it is',
-‘inside an IF, SELECT or DO group'
-
-'Cannot invoke label "<name>" because it is',
-‘inside an IF, SELECT or DO group'
-
-'Unexpected PROCEDURE'
-
-"PROCEDURE is valid only when it is the first',
-‘instruction executed after an internal CALL',
-‘or function invocation'
-
-'The EXPOSE
-‘instruction executed after a method invocation!’
-'THEN expected'
-
-'IF keyword on line <linenumber> requires',
-'matching THEN clause; found "<token>"'
-
-'WHEN keyword on line <linenumber> requires',
-
-requires WHEN, OTHERWISE,',
-
-instruction is valid only when it is the first',
 #ErrorText.19 =
 #ErrorText.19.1=
 
@@ -385,7 +314,6 @@ Unsound now we are using '‘term'?
 
 #ErrorText.25.8=
 
-'matching THEN clause; found "<token>"'
 'String or symbol expected'
 'String or symbol expected after ADDRESS keyword;',
 "found "<token>"!
