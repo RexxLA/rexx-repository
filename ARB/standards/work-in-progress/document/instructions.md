@@ -922,20 +922,22 @@ else if #Contains (numericformsuffix, 'SCIENTIFIC') then
 ```
 #### NUMERIC FUZZ
 For a definition of the syntax of this instruction, see nnn.
-NUMERIC FUZZ controls how many digits, at full precision, will be ignored during a numeric comparison.
 
+NUMERIC FUZZ controls how many digits, at full precision, will be ignored during a numeric comparison.
+```rexx
 If #Contains (numericfuzz,expression) then
-Value = #Evaluate (numericfuzz,expression)
+  Value = #Evaluate (numericfuzz,expression)
 else
-Value = 0
+  Value = 0
 If \datatype(Value,'W') then
-call #Raise 'SYNTAX',26.6,Value
-Value = Value+0
+  call #Raise 'SYNTAX',26.6,Value
+  Value = Value+0
 If Value < 0 then
-call #Raise 'SYNTAX',26.6,Value
+  call #Raise 'SYNTAX',26.6,Value
 If Value >= #Digits.#Level then
-call #Raise 'SYNTAX',33.1,#Digits.#Level,Value
+  call #Raise 'SYNTAX',33.1,#Digits.#Level,Value
 #Fuzz.#Level = Value
+```
 
 #### OPTIONS
 
@@ -943,11 +945,12 @@ For a definition of the syntax of this instruction, see nnn.
 
 The OPTIONS instruction is used to pass special requests to the language processor.
 
-The expression is evaluated and the value is passed to the language processor. The language processor
+The _expression_ is evaluated and the value is passed to the language processor. The language processor
 treats the value as a series of blank delimited words. Any words in the value that are not recognized by
-
 the language processor are ignored without producing an error.
+```rexx
 call Config Options (Expression)
+```
 
 #### PARSE
 
@@ -955,279 +958,225 @@ For a definition of the syntax of this instruction, see nnn.
 
 The PARSE instruction is used to assign data from various sources to variables.
 
-The purpose of the PARSE instruction is to select substrings of the parse_fype under control of the
-template_list. |f the template_list is omitted, or a template in the list is omitted, then a template which is
+The purpose of the PARSE instruction is to select substrings of the _parse_fype_ under control of the
+_template_list_. If the _template_list_ is omitted, or a _template_ in the list is omitted, then a template which is
 the null string is implied.
 
 Processing for the PARSE instruction begins by constructing a value, the source to be parsed.
 
+```rexx
 ArgNum = 0
 select
-when #Contains (parse type, 'ARG') then do
-ArgNum = 1
-ToParse = #Arg.#Level.ArgNum
-end
-when #Contains (parse type, 'LINEIN') then ToParse = linein('')
-when #Contains (parse type, 'PULL') then do
-/* Acquire from external queue or default input. */
-#Response = Config Pull()
-if left(#Response, 1) == 'F' then
-call Config Default Input
-ToParse = #Outcome
-end
-when #Contains (parse type, 'SOURCE') then
-ToParse = #Configuration #HowInvoked #Source
-when #Contains (parse type, 'VALUE') then
-if \#Contains(parse value, expression) then ToParse = ''
-else ToParse = #Evaluate(parse value, expression)
-when #Contains (parse type, 'VAR') then
-ToParse = #Evaluate (parse var, VAR_SYMBOL)
-when #Contains (parse type, 'VERSION') then ToParse = #Version
-end
+  when #Contains (parse type, 'ARG') then do
+        ArgNum = 1
+        ToParse = #Arg.#Level.ArgNum
+        end
+  when #Contains (parse type, 'LINEIN') then ToParse = linein('')
+  when #Contains (parse type, 'PULL') then do
+     /* Acquire from external queue or default input. */
+     #Response = Config Pull()
+     if left(#Response, 1) == 'F' then
+       call Config Default Input
+       ToParse = #Outcome
+       end
+  when #Contains (parse type, 'SOURCE') then
+     ToParse = #Configuration #HowInvoked #Source
+   when #Contains (parse type, 'VALUE') then
+     if \#Contains(parse value, expression) then ToParse = ''
+     else ToParse = #Evaluate(parse value, expression)
+  when #Contains (parse type, 'VAR') then
+    ToParse = #Evaluate (parse var, VAR_SYMBOL)
+  when #Contains (parse type, 'VERSION') then ToParse = #Version
+  end
 Uppering = #Contains(parse, 'UPPER')
+```
+
 The first template is associated with this source. If there are further templates, they are matched against
 null strings unless 'ARG' is specified, when they are matched against further arguments.
-The parsing process is defined by the following routine, ParseData. The template_list is accessed by
-ParseData as a stemmed variable. This variable Template. has elements which are null strings except
 
-for any elements with tails 1,2,3,... corresponding to the tokens of the template_list from left to right.
+The parsing process is defined by the following routine, `ParseData`. The _template_list_ is accessed by
+`ParseDat`a as a stemmed variable. This variable `Template.` has elements which are null strings except
+for any elements with tails 1,2,3,... corresponding to the tokens of the _template_list_ from left to right.
 
+```rexx
 ParseData:
-/* Targets will be flagged as the template is examined. */
-Target.='0'
-/* Token is a cursor on the components of the template,
-moved by FindNextBreak. */
-Token = 1
-/* Tok ig a cursor on the components of the template
-moved through the target variables by routine WordParse. */
-Tok = 1
-
+  /* Targets will be flagged as the template is examined. */
+  Target.='0'
+  /* Token is a cursor on the components of the template,
+  moved by FindNextBreak. */
+  Token = 1
+  /* Tok ig a cursor on the components of the template
+  moved through the target variables by routine WordParse. */
+  Tok = 1
 do forever /* Until commas dealt with. */
-/* BreakStart and BreakEnd indicate the position in the source
-string where there is a break that divides the source. When the break
-is a pattern they are the start of the pattern and the position just
-beyond it. */
-BreakStart =
-BreakEnd = 1
-SourceEnd = length(ToParse) + 1
-If Uppering then ToParse = translate (ToParse)
+  /* BreakStart and BreakEnd indicate the position in the source
+  string where there is a break that divides the source. When the break
+  is a pattern they are the start of the pattern and the position just
+  beyond it. */
+  BreakStart =
+  BreakEnd = 1
+  SourceEnd = length(ToParse) + 1
+  If Uppering then ToParse = translate (ToParse)
 
-do while Template.Tok \== '' & Template.Tok \== ','
+  do while Template.Tok \== '' & Template.Tok \== ','
 
-/* Isolate the data to be processed on this iteration. */
-call FindNextBreak /* Also marks targets. */
+    /* Isolate the data to be processed on this iteration. */
+    call FindNextBreak /* Also marks targets. */
 
-/* Results have been set in DataStart which indicates the start
-of the isolated data and BreakStart and BreakEnd which are ready
-for the next iteration. Tok has not changed. */
+    /* Results have been set in DataStart which indicates the start
+    of the isolated data and BreakStart and BreakEnd which are ready
+    for the next iteration. Tok has not changed. */
 
-/* If a positional takes the break leftwards from the end of the
-previous selection, the source selected is the rest of the string, */
+    /* If a positional takes the break leftwards from the end of the
+    previous selection, the source selected is the rest of the string, */
 
-if BreakEnd <= DataStart then
-DataEnd = SourceEnd
+    if BreakEnd <= DataStart then
+      DataEnd = SourceEnd
+    else
+      DataEnd = BreakStart
 
-else
-DataEnd = BreakStart
-
-/* Isolated data, to be assigned from: */
-
-Data=substr (ToParse,DataStart, DataEnd-DataStart)
-call WordParse /* Does the assignments. */
-
-end /* while */
-if Template.Tok \== ',' then leave
-/* Continue with next source. */
-Token=Token+1
-Tok=Token
-if ArgNum <> 0 then do
-ArgNum = ArgNum+1
-ToParse = #Arg.ArgNum
-end
-else ToParse=''
-end
+    /* Isolated data, to be assigned from: */
+    Data=substr (ToParse,DataStart, DataEnd-DataStart)
+    call WordParse /* Does the assignments. */
+    end /* while */
+  if Template.Tok \== ',' then leave
+  /* Continue with next source. */
+  Token=Token+1
+  Tok=Token
+  if ArgNum <> 0 then do
+     ArgNum = ArgNum+1
+     ToParse = #Arg.ArgNum
+     end
+  else ToParse=''
+  end
 
 return /* from ParseData */
 
 FindNextBreak:
-do while Template.Token \== '' & Template.Token \== ','
+  do while Template.Token \== '' & Template.Token \== ','
+    Type=left (Template.Token,1)
+    /* The source data to be processed next will normally start at the end of
+    the break that ended the previous piece. (However, the relative
+    positionals alter this.) */
+    DataStart = BreakEnd
+    select
 
-Type=left (Template.Token,1)
-/* The source data to be processed next will normally start at the end of
-the break that ended the previous piece. (However, the relative
-positionals alter this.) */
-DataStart = BreakEnd
-select
+      when Type='"' | Type="'" | Type='(' then do
+        if Type='(' then do
+          /* A parenthesis introduces a pattern which is not a constant. */
+          Token = Token+1
+          Pattern = value(Template.Token)
+          if #Indicator == 'D' then call #Raise 'NOVALUE', Template.Token
+          Token = Token+1
+          end
+        else
+          /* The following removes the outer quotes from the
+          literal pattern */
+          interpret "Pattern="Template.Token
+        Token = Token+1
+        /* Is that pattern in the remaining source? */
+        PatternPos=pos (Pattern, ToParse,DataStart)
+        if PatternPos>0 then do
+          /* Selected source runs up to the pattern. */
+          BreakStart=PatternPos
+          BreakEnd=PatternPos+length (Pattern)
+          return
+          end
+        leave /* The rest of the source is selected. */
+        end
 
-when Type='"' | Type="'" | Type='(' then do
-if Type='(' then do
-/* A parenthesis introduces a pattern which is not a constant. */
-Token = Token+1
-Pattern = value(Template.Token)
+      when datatype(Template.Token,'W') | pos(Type,'+-=') > 0 then do
+        /* A positional specifies where the relevant piece of the subject
+        ends. */
+        if pos (Type, '+-=') = 0 then do
+          /* Whole number positional */
+          BreakStart = Template.Token
+          Token = Token+1
+          end
+        else do
+          /* Other forms of positional. */
+          Direction=Template.Token
+          Token = Token + 1
+          /* For a relative positional, the position is relative to the start
+          of the previous trigger, and the source segment starts there. */
+          if Direction \== '=' then
+             DataStart = BreakStart
+          /* The adjustment can be given as a number or a variable in
+          parentheses. */
+          if Template.Token ='(' then do
+             Token=Token + 1
+             BreakStart = value(Template. Token)
+             if #Indicator == 'D' then call #Raise 'NOVALUE', Template.Token
+             Token=Token + 1
+             end
+           else BreakStart = Template.Token
+           if \datatype (BreakStart,'W')
+                 then call #Raise 'SYNTAX', 26.4,BreakStart
+           Token = Token+1
+           If Direction='+'
+             then BreakStart=DataStart+BreakStart
+           else if Direction='-'
+             then BreakStart=DataStart-BreakStart
+           end
+         /* Adjustment should remain within the ToParse */
+         BreakStart = max(1, BreakStart)
+         BreakStart = min(SourceEnd, BreakStart)
+         BreakEnd = BreakStart /* No actual literal marks the boundary. */
+         return
+         end
+       when Template.Token \== '.' & pos(Type, '0123456789.')>0 then
+         /* A number that isn't a whole number. */
+         call #Raise 'SYNTAX', 26.4, Template.Token
+         /* Raise will not return */
 
-if #Indicator == 'D' then call #Raise 'NOVALUE', Template.Token
-Token = Token+1
-end
-
-else
-
-/* The following removes the outer quotes from the
-literal pattern */
-interpret "Pattern="Template.Token
-Token = Token+1
-/* Is that pattern in the remaining source? */
-PatternPos=pos (Pattern, ToParse,DataStart)
-if PatternPos>0 then do
-/* Selected source runs up to the pattern. */
-BreakStart=PatternPos
-BreakEnd=PatternPos+length (Pattern)
-return
-end
-leave /* The rest of the source is selected. */
-end
-
-when datatype(Template.Token,'W') | pos(Type,'+-=') > 0 then do
-/* A positional specifies where the relevant piece of the subject
-ends. */
-if pos (Type, '+-=') = 0 then do
-/* Whole number positional */
-BreakStart = Template.Token
-Token = Token+1
-end
-else do
-/* Other forms of positional. */
-Direction=Template.Token
-Token = Token + 1
-/* For a relative positional, the position is relative to the start
-of the previous trigger, and the source segment starts there. */
-if Direction \== '=' then
-DataStart = BreakStart
-/* The adjustment can be given as a number or a variable in
-parentheses. */
-if Template.Token ='(' then do
-Token=Token + 1
-BreakStart = value(Template. Token)
-if #Indicator == 'D' then call #Raise 'NOVALUE', Template.Token
-Token=Token + 1
-end
-else BreakStart = Template.Token
-
-if
-
-if
-
-el
-
-\datatype (BreakStart,'W')
-
-then call #Raise 'SYNTAX', 26.4,BreakStart
-Token = Token+1
-
-Direction='+'
-
-then BreakStart=DataStart+BreakStart
-se if Direction='-'
-
-then BreakStart=DataStart-BreakStart
-
-end
-/* Adjustment should remain within the ToParse */
-BreakStart = max(1, BreakStart)
-BreakStart = min(SourceEnd, BreakStart)
-BreakEnd = BreakStart /* No actual literal marks the boundary. */
-return
-
-end
-
-when Template.Token \== '.' & pos(Type, '0123456789.')>0 then
-/* A number that isn't a whole number. */
-
-call
-
-#Raise 'SYNTAX', 26.4, Template.Token
-
-/* Raise will not return */
-
-otherwise do /* It is a target, not a pattern */
-Target.Token='1'
-Token = Token+1
-
-end
-
-end /*
-
-select */
-
-end /* while */
-/* When no more explicit breaks, break is at the end of the source. */
-DataStart=BreakEnd
-BreakStart=SourceEnd
-BreakEnd=SourceEnd
-
-return
+       otherwise do /* It is a target, not a pattern */
+         Target.Token='1'
+         Token = Token+1
+         end
+       end /* select */
+     end /* while */
+     /* When no more explicit breaks, break is at the end of the source. */
+     DataStart=BreakEnd
+     BreakStart=SourceEnd
+     BreakEnd=SourceEnd
+     return
 
 WordParse:
 /* The names in the template are assigned blank-delimited values from the
 source string. */
 
-/* From FindNextBreak */
+  do while Target.Tok /* Until no more targets for this data. */
+    /* Last target gets all the residue of the Data.
+    Next Tok = Tok + 1
+    if \Target.NextTok then do
+      call Assign (Data)
+      leave
+      end
+    /* Not 1ast target; assign a word. */
+    Data = strip(Data,'L')
+    if Data == '' then call Assign('')
+    else do
+      Word = word(Data,1)
+      call Assign Word
+      Data = substr(Data,length(Word) + 1)
+      /* The word terminator is not part of the residual data: */
+      if Data \== '' then Data = substr (Data, 2)
+      end
+   Tok = Tok + 1
+   end
+   Tok=Token /* Next time start on new part of template. */
+   return
 
-do while Target.Tok /* Until no more targets for this data. */
-
-/* Last target gets all the residue of the Data.
-
-Next Tok
-
-= Tok + 1
-
-if \Target.NextTok then do
-call Assign (Data)
-
-leave
-end
-/* Not 1
-Data = s
-if Data
-else do
-Word =
-
-ast target; assign a word. */
-trip (Data, 'L')
-== '' then call Assign('')
-
-word (Data,1)
-
-call Assign Word
-
-Data =
-
-substr(Data,length(Word) + 1)
-
-*/
-
-/* The word terminator is not part of the residual data: */
-if Data \== '' then Data = substr (Data, 2)
-
-end
-
-Tok = Tok + 1
-
-*/
-
-end
-Tok=Token /* Next time start on new part of template. */
-return
 Assign:
-if Template.Tok=='.' then Tag='>.>'
-else do
-Tag='>=>'
-call value Template.Tok,arg(1)
-end
-/* Arg(1) is an implied argument of the tracing.
-if #Tracing.#Level == 'R' | #Tracing.#Level == 'I'
-
-return
-
+   if Template.Tok=='.' then Tag='>.>'
+   else do
+     Tag='>=>'
+     call value Template.Tok,arg(1)
+     end
+   /* Arg(1) is an implied argument of the tracing.
+   if #Tracing.#Level == 'R' | #Tracing.#Level == 'I' then call #Trace Tag
+   return
+```
 ### PROCEDURE
 For a definition of the syntax of this instruction, see nnn.
 
