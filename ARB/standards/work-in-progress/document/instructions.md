@@ -635,23 +635,24 @@ LeaveLabel:
 
 ### DO loop tracing
 
-When clauses are being traced by #TraceSource, due to pos(#Tracing.#Level, 'AIR') > 0, the DO
-instruction shall be traced when it is encountered and again each time the IterateLabel (see nnn) is
-encountered. The END instruction shall be traced when the TraceOfEnd label is encountered.
+When clauses are being traced by `#TraceSource`, due to `pos(#Tracing.#Level, 'AIR') > 0`, the DO
+instruction shall be traced when it is encountered and again each time the `IterateLabel` (see nnn) is
+encountered. The END instruction shall be traced when the `TraceOfEnd` label is encountered.
 
 When expressions or intermediates are being traced they shall be traced in the order specified by nnn.
-Hence, in the absence of conditions arising, those executed prior to the first execution of OnceLabel shall
+Hence, in the absence of conditions arising, those executed prior to the first execution of `OnceLabel` shall
 be shown once per execution of the DO instruction; others shall be shown depending on the outcome of
 the tests.
 
 The code in the DO description:
-t = value (#Identity. #Loop)
-if #Indicator == 'D' then call #Raise 'NOVALUE', #Identity.#Loop
-call value #Identity.#Loop, t + #By.#Loop
-
+```rexx
+   t = value (#Identity. #Loop)
+   if #Indicator == 'D' then call #Raise 'NOVALUE', #Identity.#Loop
+   call value #Identity.#Loop, t + #By.#Loop
+```
 represents updating the control variable of the loop. That assignment is subject to tracing, and other
 expressions involving state variables are not. When tracing intermediates, the BY value will have a tag of
-‘>+>',
+`'>+>'`.
 
 ### DROP
 
@@ -659,33 +660,33 @@ For a definition of the syntax of this instruction, see nnn.
 
 The DROP instruction restores variables to an uninitialized state.
 
-The words of the variable_list are processed from left to right.
+The words of the _variable_list_ are processed from left to right.
 
 A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable to be dropped. If
 VAR_SYMBOL does not contain a period, or has only a single period as its last character, the variable
-
 associated with VAR_SYMBOL by the variable pool is dropped:
-
+```rexx
 #Response = Var Drop (#Pool,VAR_ SYMBOL, '0')
-
+```
 If VAR_SYMBOL has a period other than as the last character, the variable associated with
 VAR_SYMBOL by the variable pool is dropped by:
-
+```rexx
 #Response = Var Drop (#Pool,VAR SYMBOL, '1')
-
-If the word of the variable_list is a VAR_SYMBOL enclosed in parentheses then the value of the
-
+```
+If the word of the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the value of the
 VAR_SYMBOL is processed. The value is considered in uppercase:
+```rexx
 #Value = Config Upper (#Value)
-
+```
 Each word in that value found by the WORD built-in function, from left to right, is subjected to this
 process:
 
 If the word does not have the syntax of VAR_SYMBOL a condition is raised:
+```rexx
 call #Raise 'SYNTAX', 20.1, word
-
+```
 Otherwise the VAR_SYMBOL indicated by the word is dropped, as if that VAR_SYMBOL were a word of
-the variable_list.
+the _variable_list_.
 
 ### EXIT
 
@@ -693,19 +694,19 @@ For a definition of the syntax of this instruction, see nnn.
 
 The EXIT instruction is used to unconditionally complete execution of a program.
 
-Any expression is evaluated:
-
+Any _expression_ is evaluated:
+```rexx
 if #Contains(exit, expression) then Value = #Evaluate(exit, expression)
 #Level = 1
-
 #Pool = #Pooll
-
+```
 The opportunity is provided for a final trap.
+```rexx
 #API Enabled = '1'
 call Var_Reset #Pool
 call Config Termination
 #API Enabled = '0'
-
+```
 The processing of the program is complete. See nnn for what API Start returns as the result.
 
 If the normal sequence of execution "falls through" the end of the program; that is, would execute a
@@ -716,65 +717,72 @@ manner as an EXIT instruction with no argument.
 
 The expose instruction identifies variables that are not local to the method.
 
-We need a check that this starts method; similarities with PROCEDURE.
+_We need a check that this starts method; similarities with PROCEDURE._
 
 For a definition of the syntax of this instruction, see nnn.
 
 It is used at the start of a method, after method initialization, to make variables in the receiver's pool
-
 accessible:
+```rexx
 if \#AllowExpose then call #Raise 'SYNTAX', 17.2
-
-The words of the variable_list are processed from left to right.
+```
+The words of the _variable_list_ are processed from left to right.
 
 A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable to be made
 accessible. If VAR_SYMBOL does not contain a period, or has only a single period as its last character,
 the variable associated with VAR_SYMBOL by the variable pool (as a non-tailed name) is given the
-
 attribute 'exposed'.
+```rexx
 call Var_ Expose #Pool, VAR SYMBOL, '0'
-
+```
 If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
-
 in the variable pool ( by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
+```rexx
 call Var_ Expose #Pool, Derived Name, '1'
-
-If the word from the variable_list is a VAR_SYMBOL enclosed in parentheses then the VAR_SYMBOL is
+```
+If the word from the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the VAR_SYMBOL is
 exposed, as if that VAR_SYMBOL was a word in the variable_list. The value of the VAR_SYMBOL is
-
 processed. The value is considered in uppercase:
+```rexx
 #Value = Config Upper (#Value)
-
+```
 Each word in that value found by the WORD built-in function, from left to right, is subjected to this
 process:
 
 If the word does not have the syntax of VAR_SYMBOL a condition is raised:
+```rexx
 call #Raise 'SYNTAX', 20.1, word
-
+```
 Otherwise the VAR_SYMBOL indicated by the word is exposed, as if that VAR_SYMBOL were a word of
-the variable_list.
+the _variable_list_.
 
 ### FORWARD
 
 For a definition of the syntax of this instruction, see nnn.
 
 The FORWARD instruction is used to send a message based on the current message.
+```rexx
 if #Contains (forward, 'ARRAY') & #Contains(forward, 'ARGUMENTS') then
-call #Raise 'SYNTAX', nn.n
+    call #Raise 'SYNTAX', nn.n
+```
 
 ### GUARD
+
 For a definition of the syntax of this instruction, see nnn.
 
 The GUARD instruction is used to conditionally delay the execution of a method.
+
+```rexx
 do forever
-Value = #Evaluate( guard, expression)
+   Value = #Evaluate( guard, expression)
+   if Value == '1' then leave
+   if Value \== '0' then call #Raise 'SYNTAX', 34.7, Value
+```
+_Drop exclusive access and wait for change_
+```rexx
+   end
+```
 
-if Value == '1' then leave
-
-if Value \== '0' then call #Raise 'SYNTAX', 34.7, Value
-Drop exclusive access and wait for change
-
-end
 ### IF
 
 For a definition of the syntax of this instruction, see nnn.
