@@ -3,32 +3,29 @@
 This clause describes the execution of instructions, and how the sequence of execution can vary from the
 normal execution in order of appearance in the program.
 
-Execution of the program begins with its first clause.
-
-If we left Routine initialization to here we can leave method initialization.
+Execution of the program begins with its first clause.  
+_If we left Routine initialization to here we can leave method initialization._
 
 ## Method initialization
 
 There is a pool for local variables.
-
+```rexx
 call Config ObjectNew
-
-#Po00ol = #Outcome
-
-Set self and super
+#Pool = #Outcome
+```
+_Set self and super_
 
 ## Routine initialization
 
-If the routine is invoked as a function, #lsFunction.#NewLevel shall be set to '1', otherwise to '0O'; this
+If the routine is invoked as a function, ``#IsFunction.#NewLevel`` shall be set to ``'1'``, otherwise to ``'0'``; this
 affects the processing of a subsequent RETURN instruction.
-
+```rexx
 #AllowProcedure.#NewLevel = '1'
-
+```
 Many of the initial values for a new invocation are inherited from the caller's values.
+```rexx
 #Digits.#NewLevel = #Digits.#Level
-
 #Form.#NewLevel = #Form.#Level
-
 #Fuzz.#NewLevel = #Fuzz.#Level
 
 #StartTime.#NewLevel = #StartTime.#Level
@@ -40,14 +37,13 @@ call EnvAssign ACTIVE, #NewLevel, ACTIVE, #Level
 call EnvAssign ALTERNATE, #NewLevel, ALTERNATE, #Level
 
 do t=1 to 7
-Condition = word('SYNTAX HALT ERROR FAILURE NOTREADY NOVALUE LOSTDIGITS',t)
-#Enabling.Condition.#NewLevel = #Enabling.Condition.#Level
-
-#Instruction.Condition.#NewLevel = #Instruction.Condition.#Level
-#TrapName.Condition.#NewLevel = #TrapName.Condition.#Level
-#EventLevel.Condition.#NewLevel = #EventLevel.Condition.#Level
-end t
-
+  Condition = word('SYNTAX HALT ERROR FAILURE NOTREADY NOVALUE LOSTDIGITS',t)
+  #Enabling.Condition.#NewLevel = #Enabling.Condition.#Level
+  #Instruction.Condition.#NewLevel = #Instruction.Condition.#Level
+  #TrapName.Condition.#NewLevel = #TrapName.Condition.#Level
+  #EventLevel.Condition.#NewLevel = #EventLevel.Condition.#Level
+  end t
+```
 If this invocation is not caused by a condition occurring, see nnn, the state variables for the CONDITION
 
 built-in function are copied.
