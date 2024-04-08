@@ -1178,88 +1178,103 @@ Assign:
    return
 ```
 ### PROCEDURE
+
 For a definition of the syntax of this instruction, see nnn.
 
-then call #Trace Tag
 The PROCEDURE instruction is used within an internal routine to protect all the existing variables by
 making them unknown to following instructions. Selected variables may be exposed.
 
 It is used at the start of a routine, after routine initialization:
 
+```rexx
 if \#AllowProcedure.#Level then call #Raise 'SYNTAX', 17.1
-
 #AllowProcedure.#Level = 0
-
 /* It introduces a new variable pool: */
-
 call #Config ObjectNew
-
 call var_set (#Outcome,'#UPPER', '0', #Pool) /* Previous #Pool is upper from the new
 #Pool. */
-
-#Pool=#O0Outcome
-
+#Pool=#OOutcome
 IsProcedure.#Level='1'
-
 call Var_Empty #Pool
+```
 
-If there is a variable_list, it provides access to a previous variable pool.
+If there is a _variable_list_, it provides access to a previous variable pool.
 
-The words of the variable_list are processed from left to right.
+The words of the _variable_list_ are processed from left to right.
 
 A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable to be made
 accessible. If VAR_SYMBOL does not contain a period, or has only a single period as its last character,
 the variable associated with VAR_SYMBOL by the variable pool (as a non-tailed name) is given the
-
 attribute 'exposed'.
+
+```rexx
 call Var_ Expose #Pool, VAR SYMBOL, '0'
+```
 
 If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
+in the variable pool (by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
 
-in the variable pool ( by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
+```rexx
 call Var_ Expose #Pool, Derived Name, '1'
+```
 
-If the word from the variable_list is a VAR_SYMBOL enclosed in parentheses then the VAR_SYMBOL is
-exposed, as if that VAR_SYMBOL was a word in the variable_list. Tne value of the VAR_SYMBOL is
-
+If the word from the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the VAR_SYMBOL is
+exposed, as if that VAR_SYMBOL was a word in the _variable_list_. Tne value of the VAR_SYMBOL is
 processed. The value is considered in uppercase:
+
+```rexx
 #Value = Config Upper (#Value)
+```
 
 Each word in that value found by the WORD built-in function, from left to right, is subjected to this
 process:
 
 If the word does not have the syntax of VAR_SYMBOL a condition is raised:
+
+```rexx
 call #Raise 'SYNTAX', 20.1, word
+```
 
 Otherwise the VAR_SYMBOL indicated by the word is exposed, as if that VAR_SYMBOL were a word of
-the variable_list.
+the _variable_list_.
 
 ### PULL
 
 For a definition of the syntax of this instruction, see nnn.
 
 A PULL instruction is a shorter form of the equivalent instruction:
+
+```rexx
 PARSE UPPER PULL template list
+```
 
 ### PUSH
+
 For a definition of the syntax of this instruction, see nnn.
+
 The PUSH instruction is used to place a value on top of the stack.
 
+```rexx
 If #Contains(push,expression) then
-Value = #Evaluate (push, expression)
+  Value = #Evaluate (push, expression)
 else
-Value = ''
+  Value = ''
 call Config Push Value
+```
 
 ### QUEUE
+
 For a definition of the syntax of this instruction, see nnn.
+
 The QUEUE instruction is used to place a value on the bottom of the stack.
 
+```rexx
 If #Contains (queue,expression) then
-Value = #Evaluate (queue, expression)
+  Value = #Evaluate (queue, expression)
 else
-Value = ''
+  Value = ''
 call Config Queue Value
+```
 
 ### RAISE
 
