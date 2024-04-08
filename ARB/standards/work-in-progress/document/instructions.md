@@ -1452,44 +1452,46 @@ The TRACE instruction is used to control the trace setting which in turn control
 of the program.
 
 The TRACE instruction is ignored if it occurs within the program (as opposed to source obtained by
+`Config_Trace_Input`) and interactive trace is requested (`#Interactive.#Level = '1'`). Otherwise:
 
-Config_Trace_Input) and interactive trace is requested (#Interactive.#Level = '1'). Otherwise:
+```rexx
 #TraceInstruction = '1'
 value = ''
 if #Contains(trace, valueexp) then Value = #Evaluate(valueexp, expression)
 if #Contains (trace, taken constant) then Value = #Instance (trace, taken constant)
 if datatype(Value) == 'NUM' & \datatype(Value,'W') then
-call #Raise 'SYNTAX', 26.7, Value
+   call #Raise 'SYNTAX', 26.7, Value
 if datatype(Value,'W') then do
-/* Numbers are used for skipping. */
-if Value>=0 then #InhibitPauses = Value
-else #InhibitTrace = -Value
-end
+   /* Numbers are used for skipping. */
+   if Value>=0 then #InhibitPauses = Value
+               else #InhibitTrace = -Value
+   end
 else do
-if length(Value) = 0 then do
-#Interactive.#Level = '0'
-Value = 'N'
-end
-/* Each question mark toggles the interacting. */
-do while left(Value,1)=='?'
-#Interactive.#Level = \#Interactive.#Level
-Value = substr(Value,2)
-end
-if length(Value) \= 0 then do
-Value = translate( left(Value,1) )
-if verify(Value, 'ACEFILNOR') > 0 then
-call #Raise 'SYNTAX', 24.1, Value
-if Value=='0O' then #Interactive.#Level='0'
-end
-#Tracing.#Level = Value
-end
+    if length(Value) = 0 then do
+      #Interactive.#Level = '0'
+      Value = 'N'
+      end
+    /* Each question mark toggles the interacting. */
+    do while left(Value,1)=='?'
+       #Interactive.#Level = \#Interactive.#Level
+       Value = substr(Value,2)
+       end
+    if length(Value) \= 0 then do
+      Value = translate( left(Value,1) )
+      if verify(Value, 'ACEFILNOR') > 0 then
+        call #Raise 'SYNTAX', 24.1, Value
+      if Value=='0O' then #Interactive.#Level='0'
+      end
+    #Tracing.#Level = Value
+    end
+```
 
 ### Trace output
 
-If #NoSource is '1' there is no trace output.
+If `#NoSource` is `'1'` there is no trace output.
 
-The routines #TraceSource and #Trace specify the output that results from the trace settings. That
-output is presented to the configuration by Config_Trace_Output as lines. Each line has a clause
+The routines `#TraceSource` and `#Trace` specify the output that results from the trace settings. That
+output is presented to the configuration by `Config_Trace_Output` as lines. Each line has a clause
 identifier at the left, followed by a blank, followed by a three character tag, followed by a blank, followed
 by the trace data.
 
@@ -1498,29 +1500,33 @@ program, and no larger. The clause identifier is the source program line number,
 number is the same as the previous line number indicated and no execution with trace Off has occurred
 since. The line number is right-aligned with leading zeros replaced by blank characters.
 
-When input at a pause is being executed (#AtPause \= 0 ), #Trace does nothing when the tag is not '+++'.
+When input at a pause is being executed (`#AtPause \= 0`), `#Trace` does nothing when the tag is not `'+++'`.
 
-When input at a pause is being executed, #TraceSource does nothing.
-If #InhibitTrace is greater than zero, #TraceSource does nothing except decrement #InhibitTrace.
-Otherwise, unless the current clause is a null clause, #TraceSource outputs all lines of the source
+When input at a pause is being executed, `#TraceSource` does nothing.
+
+If `#InhibitTrace` is greater than zero, `#TraceSource` does nothing except decrement `#InhibitTrace`.
+Otherwise, unless the current clause is a null clause, `#TraceSource` outputs all lines of the source
 program which contain any part of the current clause, with any characters in those lines which are not
-part of the current clause and not other_blank_characters replaced by blank characters. The possible
-replacement of other_blank_characters is defined by the configuration. The tag is '*-*", or if the line is not
-the first line of the clause. ™,*’.
-#Trace output also has a clause identifier and has a tag which is the argument to the #Trace invocation.
-The data is truncated, if necessary, to #Limit_TraceData characters. The data is enclosed by quotation
+part of the current clause and not `other_blank_characters` replaced by blank characters. The possible
+replacement of `other_blank_characters` is defined by the configuration. The tag is `'*-*'`, or if the line is not
+the first line of the clause. `'*,*'`.
+
+`#Trace` output also has a clause identifier and has a tag which is the argument to the `#Trace` invocation.
+The data is truncated, if necessary, to `#Limit_TraceData` characters. The data is enclosed by quotation
 marks and the quoted data preceded by two blanks. If the data is truncated, the trailing quote has the
-three characters '...' appended.
-_ when #Tracing.#Level is 'C' or 'E' or 'F' or 'N' or ‘A’ and the tag is '>>>' then the data is the value of
-the command passed to the environment;
-_ when the tag is '+++' then the data is the four characters 'RC
-concatenated with the character "";
-_ when #Tracing.#Level is 'l' or 'R' the data is the most recently evaluated value.
+three characters `'...'` appended.
+
+* when `#Tracing.#Level` is 'C' or 'E' or 'F' or 'N' or ‘A’ and the tag is `'>>>'` then the data is the value of
+  the command passed to the environment;
+* when the tag is `'+++'` then the data is the four characters `'RC "'` concatenated with the character `'"'`;
+* when `#Tracing.#Level` is 'l' or 'R' the data is the most recently evaluated value.
+
 Trace output can also appear as the result of a'SYNTAX' condition occurring, irrespective of the trace
 setting. If a'SYNTAX' condition occurs and it is not trapped by SIGNAL ON SYNTAX, then the clause in
 error shall be traced, along with a traceback. A traceback is a display of each active CALL and
 INTERPRET instruction, and function invocation, displayed in reverse order of execution, each with a tag
-of '+4+'.
+of `'+++'`.
+
 ### USE
 For a definition of the syntax of this instruction, see nnn.
 The USE instruction assigns the values of arguments to variables.
