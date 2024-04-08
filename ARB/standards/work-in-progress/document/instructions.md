@@ -788,8 +788,8 @@ _Drop exclusive access and wait for change_
 For a definition of the syntax of this instruction, see nnn.
 
 The IF instruction is used to conditionally execute an instruction, or to select between two alternatives.
-The expression is evaluated. If the value is neither '0' nor '1' error 34.1 occurs. If the value is '1', the
-instruction in the then is executed. If the value is '0' and e/se is specified, the instruction in the else is
+The _expression_ is evaluated. If the value is neither '0' nor '1' error 34.1 occurs. If the value is '1', the
+_instruction_ in the _then_ is executed. If the value is '0' and _else_ is specified, the instruction in the _else_ is
 executed.
 
 In the former case, if tracing clauses, the clause consisting of the THEN keyword shall be traced in
@@ -805,24 +805,24 @@ For a definition of the syntax of this instruction, see nnn.
 The INTERPRET instruction is used to execute instructions that have been built dynamically by
 evaluating an expression.
 
-The expression is evaluated.
+The _expression_ is evaluated.
 
 The HALT condition is tested for, and may be raised, in the same way it is tested at clause termination,
 see nnn.
 
-The process of syntactic recognition described in clause 6 is applied, with Config_SourceChar obtaining
-its results from the characters of the value, in left-to-right order, without producing any EOL or EOS
-events. When the characters are exhausted, the event EOL occurs, followed by the event EOS.
-
-If that recognition would produce any message then the interpret raises the corresponding 'SYNTAX'
+The process of syntactic recognition described in clause 6 is applied, with `Config_SourceChar` obtaining
+its results from the characters of the value, in left-to-right order, without producing any `EOL` or `EOS`
+events. When the characters are exhausted, the event `EOL` occurs, followed by the event `EOS`.
+If that recognition would produce any message then the _interpret_ raises the corresponding 'SYNTAX'
 condition.
 
-If the program recognized contains any LABELs then the interpret raises a condition:
+If the program recognized contains any LABELs then the _interpret_ raises a condition:
+```rexx
 call #Raise 'SYNTAX',47.1,Label
+```
+where `Label` is the first LABEL in the _program_.
 
-where Label is the first LABEL in the program.
-
-Otherwise the instruction_list in the program is executed.
+Otherwise the _instruction_list_ in the _program_ is executed.
 
 ### ITERATE
 
@@ -830,14 +830,17 @@ For a definition of the syntax of this instruction, see nnn.
 
 The ITERATE instruction is used to alter the flow of control within a repetitive DO.
 For a definition of the nesting correction, see nnn.
-
+```rexx
 #Loop = #Loop - NestingCorrection
 call #Goto #Iterate.#Loop
+```
 
 ### Execution of labels
 
 The execution of a label has no effect, other than clause termination activity and any tracing.
+```rexx
 if #Tracing.#Level=='L' then call #TraceSource
+```
 
 ### LEAVE
 
@@ -845,22 +848,27 @@ For a definition of the syntax of this instruction, see nnn.
 
 The LEAVE instruction is used to immediately exit one or more repetitive DOs.
 For a definition of the nesting correction, see nnn.
-
+```rexx
 #Loop = #Loop - NestingCorrection
 call #Goto #Leave.#Loop
+```
 
 ### Message term
-We can do this by reference to method invokation, just as we do CALL by reference to invoking a function.
+_We can do this by reference to method invokation, just as we do CALL by reference to invoking a function._
 
 ### LOOP
-Shares most of it's definition with repetitive DO.
+
+_Shares most of it's definition with repetitive DO._
 
 ### NOP
 For a definition of the syntax of this instruction, see nnn.
+
 The NOP instruction has no effect other than the effects associated with all instructions.
 
 ### NUMERIC
+
 For a definition of the syntax of this instruction, see nnn.
+
 The NUMERIC instruction is used to change the way in which arithmetic operations are carried out.
 
 #### NUMERIC DIGITS
@@ -870,23 +878,19 @@ For a definition of the syntax of this instruction, see nnn.
 NUMERIC DIGITS controls the precision under which arithmetic operations and arithmetic built-in
 functions will be evaluated.
 
+```rexx
 if #Contains(numericdigits, expression) then
-
-Value = #Evaluate(numericdigits, expression)
+   Value = #Evaluate(numericdigits, expression)
 else Value = 9
-
 if \datatype(Value,'W') then
-
-call #Raise 'SYNTAX',26.5,Value
+    call #Raise 'SYNTAX',26.5,Value
 Value = Value + 0
 if Value<=#Fuzz.#Level then
-
-call #Raise 'SYNTAX',33.1,Value
+    call #Raise 'SYNTAX',33.1,Value
 if Value>#Limit Digits then
-
-call #Raise 'SYNTAX',33.2,Value
+    call #Raise 'SYNTAX',33.2,Value
 #Digits.#Level = Value
-
+```
 #### NUMERIC FORM
 
 For a definition of the syntax of this instruction, see nnn.
@@ -895,27 +899,27 @@ NUMERIC FORM controls which form of exponential notation is to be used for the r
 and arithmetic built-in functions.
 
 The value of form is either taken directly from the SCIENTIFIC or ENGINEERING keywords, or by
+evaluating _valueexp_.
 
-evaluating valueexp .
+```rexx
 if \#Contains (numeric,numericsuffix) then
-
-Value = 'SCIENTIFIC'
+   Value = 'SCIENTIFIC'
 else if #Contains (numericformsuffix, 'SCIENTIFIC') then
-Value = 'SCIENTIFIC'
-else
-if #Contains (numericformsuffix, 'ENGINEERING') then
-Value = 'ENGINEERING'
-else do
-Value = #Evaluate (numericformsuffix,valueexp)
-Value = translate (left (Value,1))
-select
-when Value == 'S' then Value = 'SCIENTIFIC'
-when Value == 'E' then Value = 'ENGINEERING'
-otherwise call #Raise 'SYNTAX',33.3,Value
-end
-end
+           Value = 'SCIENTIFIC'
+        else
+           if #Contains (numericformsuffix, 'ENGINEERING') then
+             Value = 'ENGINEERING'
+           else do
+             Value = #Evaluate (numericformsuffix,valueexp)
+             Value = translate (left (Value,1))
+             select
+                when Value == 'S' then Value = 'SCIENTIFIC'
+                when Value == 'E' then Value = 'ENGINEERING'
+                otherwise call #Raise 'SYNTAX',33.3,Value
+                end
+           end
 #Form.#Level = Value
-
+```
 #### NUMERIC FUZZ
 For a definition of the syntax of this instruction, see nnn.
 NUMERIC FUZZ controls how many digits, at full precision, will be ignored during a numeric comparison.
