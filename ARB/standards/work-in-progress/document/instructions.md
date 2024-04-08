@@ -329,43 +329,49 @@ redirections. */
 ### ARG
 For a definition of the syntax of this instruction, see nnn.
 
-The ARG instruction is a shorter form of the equivalent instruction:
-PARSE UPPER ARG template list
+The ARG instruction is a shorter form of the equivalent instruction:  
+`PARSE UPPER ARG`_`template list`_
 
 ### Assignment
 
 Assignment can occur as the result of executing a clause containing an assignment (see nnn and nnn),
 or as a result of executing the VALUE built-in function, or as part of the execution of a PARSE instruction.
-Assignment involves an expression and a VAR_SYMBOL. The value of the expression is determined;
+Assignment involves an _expression_ and a _VAR_SYMBOL_. The value of the _expression_ is determined;
 see nnn.
 
-If the VAR_SYMBOL does not contain a period, or contains only one period as its last character, the
-
-value is associated with the VAR_SYMBOL:
+If the _VAR_SYMBOL_ does not contain a period, or contains only one period as its last character, the
+value is associated with the _VAR_SYMBOL_:
+```rexx
 call Var Set #Pool,VAR SYMBOL, '0',Value
-
+```
 Otherwise, a name is derived, see nnn. The value is associated with the derived name:
+```rexx
 call Var Set #Pool,Derived Name,'1',Value
+```
 
 ### CALL
 
 For a definition of the syntax of this instruction, see nnn.
 
 The CALL instruction is used to invoke a routine, or is used to control trapping of conditions.
-lf a vrefis specified that value is the name of the routine to invoke:
 
+lf a _vref_ is specified that value is the name of the routine to invoke:
+```rexx
 if #Contains (call, vref) then
-Name = #Evaluate(vref, var_symbol)
+  Name = #Evaluate(vref, var_symbol)
+```
 
-If a taken_constant is specified, that name is used.
+If a _taken\_constant_ is specified, that name is used.
+```rexx
 if #Contains (call, taken constant) then
 Name = #Instance(call, taken constant)
-
+```
 The name is used to invoke a routine, see nnn. If that routine does not return a result the RESULT and
-
--RESULT variables become uninitialized:
+.RESULT variables become uninitialized:
+```rexx
 call Var Drop #Pool, 'RESULT', '0!
 call Var Drop #ReservedPool, '.RESULT', '0'
+```
 
 If the routine does return a result that value is assigned to RESULT and .RESULT. See nnn for an
 exception to assigning results.
@@ -373,26 +379,23 @@ exception to assigning results.
 If the routine returns a result and the trace setting is 'R' or 'I' then a trace with that result and a tag '>>>"
 shall be produced, associated with the call instruction.
 
-If a callon_spec is specified:
+If a _callon\_spec_ is specified:
+```rexx
 If #Contains(call,callon spec) then do
-Condition = #Instance(callon_spec,callable condition)
-
-#Instruction.Condition.#Level = 'CALL'
-If #Contains(callon spec, 'OFF') then
-#Enabling.Condition.#Level = 'OFF'
-else
-#Enabling.Condition.#Level = 'ON'
-
-/* Note whether NAME supplied. */
-If Contains (callon spec,taken constant) then
-Name = #Instance (callable condition, taken_constant)
-
-else
-
-Name = Condition
-#TrapName.Condition.#Level = Name
-end
-
+  Condition = #Instance(callon_spec,callable condition)
+  #Instruction.Condition.#Level = 'CALL'
+  If #Contains(callon spec, 'OFF') then
+    #Enabling.Condition.#Level = 'OFF'
+  else
+    #Enabling.Condition.#Level = 'ON'
+  /* Note whether NAME supplied. */
+  If Contains (callon spec,taken constant) then
+    Name = #Instance (callable condition, taken_constant)
+  else
+    Name = Condition
+  #TrapName.Condition.#Level = Name
+  end
+```
 ### Command to the configuration
 For a definition of the syntax of a command, see nnn.
 A command that is not part of an ADDRESS instruction is processed in the ACTIVE environment.
