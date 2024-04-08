@@ -1285,54 +1285,72 @@ The RAISE instruction returns from the current method or routine and raises a co
 The REPLY instruction is used to allow both the invoker of a method, and the replying method, to
 continue executing.
 
-Must set up for error of expression on subsequent RETURN.
+_Must set up for error of expression on subsequent RETURN._
 ### RETURN
 For a definition of the syntax of this instruction, see nnn.
+
 The RETURN instruction is used to return control and possibly a result from a program or internal routine
 to the point of its invocation.
+
 The RETURN keyword may be followed by an optional expression, which will be evaluated and returned
 as a result to the caller of the routine.
-Any expression is evaluated:
-if #Contains(return,expression) then
-#Outcome = #Evaluate(return, expression)
 
+Any _expression_ is evaluated:
+
+```rexx
+if #Contains(return,expression) then
+   #Outcome = #Evaluate(return, expression)
 else if #IsFunction.#Level then
-call #Raise 'SYNTAX', 45.1, #Name.#Level
+   call #Raise 'SYNTAX', 45.1, #Name.#Level
+```
 
 At this point the clause termination occurs and then the following:
 
 If the routine started with a PROCEDURE instruction then the associated pool is taken out of use:
+
+```rexx
 if #IsProcedure.#Level then #Pool = #Upper
+```
+
 A RETURN instruction which is interactively entered at a pause point leaves the pause point.
+
+```rexx
 if #Level = #AtPause then #AtPause = 0
+```
+
 The activity at this level is complete:
+
+```rexx
 #Level = #Level-1
 #NewLevel = #Level+1
-If #Level is not zero, the processing of the RETURN instruction and the invocation is complete.
+```
+
+If `#Level` is not zero, the processing of the RETURN instruction and the invocation is complete.
 Otherwise processing of the program is completed:
 
 The opportunity is provided for a final trap.
+
+```rexx
 #API Enabled = '1'
-
 call Var_Reset #Pool
-
 call Config Termination
-
 #API Enabled = '0'
+```
 
-The processing of the program is complete. See nnn for what API Start returns as the result.
+The processing of the program is complete. See nnn for what `API_Start` returns as the result.
 ### SAY
 
 For a definition of the syntax of this instruction, see nnn.
 
 The SAY instruction is used to write a line to the default output stream.
 
+```rexx
 If #Contains(say,expression) then
-Value = Evaluate (say, expression)
+  Value = Evaluate (say, expression)
 else
-Value = ''
+  Value = ''
 call Config Default Output Value
-
+```
 ### SELECT
 
 For a definition of the syntax of this instruction, see nnn.
@@ -1340,33 +1358,35 @@ For a definition of the syntax of this instruction, see nnn.
 The SELECT instruction is used to conditionally execute one of several alternative instructions.
 When tracing, the clause containing the keyword SELECT is traced at this point.
 
-The #Contains(select_body, when) test in the following description refers to the items of the optional
-when repetition in order:
+The `#Contains(`_`select_body, when`_`)` test in the following description refers to the items of the optional
+_when_ repetition in order:
 
+```rexx
 LineNum = #LineNumber
 Ending = #Clause (EndLabel)
 Value=#Evaluate (select body, expression) /* In the required WHEN */
 if Value \== '1' & Value \== '0' then
-call #Raise 'SYNTAX',34.2,Value
+  call #Raise 'SYNTAX',34.2,Value
 If Value=='1' then
-call #Execute when, instruction
+  call #Execute when, instruction
 else do
-do while #Contains (select body, when)
-Value = #Evaluate (when, expression)
-If Value=='1' then do
-call #Execute when, instruction
-call #Goto Ending
-end
-if Value \== '0' then
-call #Raise 'SYNTAX', 34.2, Value
-end /* Of each when */
+  do while #Contains (select body, when)
+     Value = #Evaluate (when, expression)
+     If Value=='1' then do
+        call #Execute when, instruction
+        call #Goto Ending
+        end
+     if Value \== '0' then
+        call #Raise 'SYNTAX', 34.2, Value
+     end /* Of each when */
 
-If \#Contains(select body, 'OTHERWISE') then
-call #Raise 'SYNTAX', 7.3, LineNum
-If #Contains (select body, instruction list) then
-call #Execute select body, instruction list
-end
+   If \#Contains(select body, 'OTHERWISE') then
+      call #Raise 'SYNTAX', 7.3, LineNum
+   If #Contains (select body, instruction list) then
+      call #Execute select body, instruction list
+  end
 EndLabel:
+```
 
 When tracing, the clause containing the END keyword is traced at this point.
 
@@ -1377,47 +1397,52 @@ For a definition of the syntax of this instruction, see nnn.
 The SIGNAL instruction is used to cause a change in the flow of control or is used with the ON and OFF
 keywords to control the trapping of conditions.
 
+```rexx
 If #Contains (signal,signal spec) then do
-Condition = #Instance(signal spec,condition)
+  Condition = #Instance(signal spec,condition)
+  #Instruction.Condition.#Level = 'SIGNAL'
+  If #Contains (signal spec, 'OFF') then
+    #Enabling.Condition.#Level = 'OFF'
+  else
+    #Enabling.Condition.#Level = 'ON'
+  If Contains (signal spec,taken constant) then
+    Name = #Instance (condition, taken constant)
+  else
+    Name = Condition
+  #TrapName.Condition.#Level = Name
+  end
+```
 
-#Instruction.Condition.#Level = 'SIGNAL'
-If #Contains (signal spec, 'OFF') then
-#Enabling.Condition.#Level = 'OFF'
-else
-#Enabling.Condition.#Level = 'ON'
+If there was a _signal_spec_ this complete the processing of the signal instruction. Otherwise:
 
-If Contains (signal spec,taken constant) then
-Name = #Instance (condition, taken constant)
-
-else
-
-Name = Condition
-#TrapName.Condition.#Level = Name
-end
-
-If there was a signal_spec this complete the processing of the signal instruction. Otherwise:
-if #Contains (signal, valueexp)
-
-then Name #Evaluate(valueexp, expression)
-
-else Name #Instance(signal,taken constant)
+```rexx
+ if #Contains (signal, valueexp)
+          then Name #Evaluate(valueexp, expression)
+          else Name #Instance(signal,taken constant)
+```
 
 The Name matches the first LABEL in the program which has that value. The comparison is made with
 the '=="' operator.
 
 If no label matches then a condition is raised:
 
+```rexx
 call #Raise 'SYNTAX',16.1, Name
+```
 
 If the name is a trace-only label then a condition is raised:
+
+```rexx
 call #Raise 'SYNTAX', 16.2, Name
+```
 
 If the name matches a label, execution continues at that label after these settings:
+
+```rexx
 #Loop.#Level = 0
-
 /* A SIGNAL interactively entered leaves the pause point. */
-
 if #Level = #AtPause then #AtPause = 0
+```
 
 ### TRACE
 
