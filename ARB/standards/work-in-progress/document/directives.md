@@ -15,18 +15,18 @@ The `BNF_primary` referenced may be directly in the production or in some compon
 _production_, recursively. The components are considered in left to right order.
 
 ```rexx
-#Contains (Identifier, BNF primary)
+#Contains(Identifier, BNF primary)
 ```
 
 where:
 
-* Identifier is an _identifier_ in a _production_ (see nnn) defined in nnn.
+* `Identifier` is an _identifier_ in a _production_ (see nnn) defined in nnn.
 * `BNF_primary` is a _bnf_primary_ (see nnn) in a _production_ defined in nnn.
 
 Return `'1'` if the _production_ identitied by _Identifier_ contained a _bnf_primary_ identified by `BNF_primary`, otherwise return `'0'`.
 
 ```rexx
-#Instance (Identifier, BNF primary)
+#Instance(Identifier, BNF primary)
 ```
 
 where:
@@ -38,18 +38,18 @@ Returns the content of the particular instance of the `BNF_primary`. If the `BNF
 `VAR_SYMBOL` this is referred to as the symbol "taken as a constant."
 
 ```rexx
-#Evaluate (Identifier, BNF primary)
+#Evaluate(Identifier, BNF primary)
 ```
 
 where:
 
 * `Identifier` is an _identifier_ in a _production_ defined in nnn.
 * `BNF_primary` is a _bnf_primary_ in a _production_ defined in nnn.
-* 
+
 Return the value of the `BNF_primary` in the _production_ identified by `Identifier`.
 
 ```rexx
-#Execute (Identifier, BNF primary)
+#Execute(Identifier, BNF primary)
 ```
 
 where:
@@ -60,7 +60,7 @@ where:
 Perform the instructions identified by the `BNF_primary` in the _production_ identified by `Identifier`.
 
 ```rexx
-#Parses (Value, BNF primary)
+#Parses(Value, BNF primary)
 ```
 
 where:
@@ -71,7 +71,7 @@ where:
 Return `'1'` if Value matches the definition of the `BNF_primary`, by the rules of clause 6, `'0'` otherwise.
 
 ```rexx
-#Clause (Label)
+#Clause(Label)
 ```
 
 where:
@@ -82,7 +82,7 @@ Return an identification of that label. The value of this identification is used
 function.
 
 ```rexx
-#Goto (Value)
+#Goto(Value)
 ```
 
 where:
@@ -92,7 +92,7 @@ where:
 The description of processing continues at the identified label.
 
 ```rexx
-#Retry ()
+#Retry()
 ```
 
 This notation is used in the description of interactive tracing to specify re-execution of the clause just
