@@ -10,6 +10,8 @@ The provided classes are defined mainly through code.
 ### Collection Class Routines
 
 These routines are used in the definition of the collection classes
+
+```rexx
 ::routine CommonxXor
 /* Returns a new collection that contains all items from self and
 the argument except that all indexes that appear in both collections
@@ -17,80 +19,71 @@ are removed. */
 /* When the target is a bag, there may be an index in the bag that is
 duplicated and the same value as an index in the argument. Should one
 copy of the index survive in the bag? */
-vel
-if (arg(1)~class==.Set & arg(2)~class==.Bag) then v=2
-if (arg(1)~class==.Table & arg(2)~class==.Bag) then v=2
-if (arg(1)~class==.Table & arg(2)~class==.Relation) then v=2
-if (arg(1)~class==.Directory & arg(2)~class==.Bag) then v=2
-if (arg(1)~class==.Directory & arg(2)~class==.Relation) then v=2
+ v=1
+ if (arg(1)~class==.Set & arg(2)~class==.Bag) then v=2
+ if (arg(1)~class==.Table & arg(2)~class==.Bag) then v=2
+ if (arg(1)~class==.Table & arg(2)~class==.Relation) then v=2
+ if (arg(1)~class==.Directory & arg(2)~class==.Bag) then v=2
+ if (arg(1)~class==.Directory & arg(2)~class==.Relation) then v=2
 /* This version it does: */
-if v=1 then do
-This = arg(1) /* self of caller */
-r=This~class~new
-ab=MayEnBag (arg (2) )
-ss=This~supplier
-do while ss~available
-r[ss~index] =ss~item
-ss~next
-end
-cs=ab~supplier
-do while cs~available
-if r~hasindex(cs~index) then r~remove (cs~index)
-else r[cs~index] =cs~item
-cs~next
-end
-return r
-end
+ if v=1 then do
+  This = arg(1) /* self of caller */
+  r=This~class~new
+  ab=MayEnBag (arg (2) )
+  ss=This~supplier
+  do while ss~available
+    r[ss~index] =ss~item
+    ss~next
+    end
+  cs=ab~supplier
+  do while cs~available
+    if r~hasindex(cs~index) then r~remove (cs~index)
+                            else r[cs~index] =cs~item
+    cs~next
+    end
+  return r
+  end
 
 /* But following matches practice on Set~XOR(bag) etc. */
+ This = arg(1) /* self of caller */
+ r=This~class~new
+ ab=MayEnBag (arg (2) )
+ ss=This~supplier
+ do while ss~available
+   if \ab~hasindex(ss~index) then r[ss~index] =ss~item
+   ss~next
+   end
+ cs=ab~supplier
+ do while cs~available
+   if \This~hasindex(cs~index) then r[cs~index] =cs~item
+   cs-next
+   end
+ return r
 
-This = arg(1) /* self of caller */
-
-r=This~class~new
-
-ab=MayEnBag (arg (2) )
-
-ss=This~supplier
-
-do while ss~available
-if \ab~hasindex(ss~index) then r[ss~index] =ss~item
-ss~next
-end
-
-cs=ab~supplier
-
-do while cs~available
-if \This~hasindex(cs~index) then r[cs~index] =cs~item
-es-next
-end
-
-return r
-
-::routine CommoniIntersect
+::routine CommonIntersect
 /* Returns a new collection of the same class as SELF that
 contains the items from SELF that have indexes also in the
 argument. */
 /* Actually an index in SELF can only be 'matched' with one in the
 argument once. Hence copy and removal. */
-This = arg(1) /* self of caller */
-w= .Bag~new
-sc=This~supplier
-do while sc~available
-wlsc~index] =sc~index
-sc-next
-end
-r=This~class~new
-
-cs=MayEnBag (arg(2))~supplier
-do while cs~available
-i=cs~index
-if w~hasindex(i) then do
-r[i]=This [i]
-w~remove (i)
-end
-cs~next
-end
-return r
+  This = arg(1) /* self of caller */
+  w= .Bag~new
+  sc=This~supplier
+ do while sc~available
+   w[sc~index] =sc~index
+   sc-next
+   end
+ r=This~class~new
+ cs=MayEnBag(arg(2))~supplier
+ do while cs~available
+   i=cs~index
+   if w~hasindex(i) then do
+     r[i]=This[i]
+     w~remove(i)
+     end
+   cs~next
+   end
+ return r
 
 ::routine CommonUnion
 /* Returns a new collection of the same class as SELF that
@@ -98,108 +91,112 @@ contains all the items from SELF and items from the
 argument that have an index not in the first. */
 /* Best to add them all. By adding non-receiver first we ensure that
 receiver takes priority when same indexes. */
-This = arg(1) /* self of caller */
-r=This~class~new
-cs=MayEnBag (arg(2))~supplier
-do while cs~available
-r[cs~index] =cs~item
-cs~next
-end
-cs=This~supplier
-do while cs~available
-r[cs~index] =cs~item
-cs~next
-end
-return r
+  This = arg(1) /* self of caller */
+  r=This~class~new
+  cs=MayEnBag(arg(2))~supplier
+  do while cs~available
+    r[cs~index] =cs~item
+    cs~next
+    end
+  cs=This~supplier
+  do while cs~available
+    r[cs~index] =cs~item
+    cs~next
+    end
+  return r
 
 ::routine CommonDifference
 /* Returns a new collection containing only those index-item pairs from the
-SELF whose indexes the other collection does not contain. */
-This = arg(1) /* self of caller */
-r=This~class~new
-cs=This~supplier
-do while cs~available
-r[cs~index] =cs~item
-es-next
-end
-cs=MayEnBag (arg(2))~supplier
-do while cs~available
-r~remove (cs~index)
-es-next
-end
-return r
+ SELF whose indexes the other collection does not contain. */
+  This = arg(1) /* self of caller */
+  r=This~class~new
+  cs=This~supplier
+  do while cs~available
+    r[cs~index] =cs~item
+    es-next
+    end
+  cs=MayEnBag(arg(2))~supplier
+  do while cs~available
+    r~remove(cs~index)
+    cs~next
+    end
+  return r
 
 ::routine MayEnBag
-
 /* For List and Queue the indexes are dropped. */
-rearg(1)
-if r-clags == .List | r-class == .Queue then r=EnBag(r)
-return r
+  r~arg(1)
+  if r-clags == .List | r-class == .Queue then r=EnBag(r)
+  return r
 
 ::routine EnBag
-r=.Bag~new
-s=arg(1)~supplier
-do while s~available
-if arg(1)~class == .List | arg(1)~class == .Queue then
-r[s~item] =s~item
-else
+  r=.Bag~new
+  s=arg(1)~supplier
+  do while s~available
+    if arg(1)~class == .List | arg(1)~class == .Queue then
+      r[s~item] =s~item
+    else
 /* This case is when the receiver is a Bag. */
-r[s~index] =s~index
-s~-next
-end
+      r[s~index] =s~index
+    s~next
+  end
 return r
+```
 
 ### The collection class
 
-::Cclass 'Collection'
+```rexx
+::class 'Collection'
+```
 
 #### INIT
 
+```rexx
 ::method init
-
-expose a
+  expose a
 /* A collection is modelled as using 3 slots in an array for each element.
 The first slot holds the item, the second the index, and the third is
 used by particular types of collection. This order of slots is arbitary,
 chosen to match order of arguments for PUT and SUPPLIER~NEW. */
 /* The first set of 3 slots is reserved for other purposes, to avoid
 having separate variables which the subclassing would need to access. */
-
 a=.array~new
-
 a[1] /*ItemsCount*/=0
-
 a[2]/*Unique*/=0
-
 return self
+```
 
 #### EXPOSED
 
+```rexx
 ::method exposed private
-expose a
-
+  expose a
 /* This method allows subclasses to get at the implementation of Collection. */
-return a
+  return a
+```
 
 #### FINDINDEX
 
+```rexx
 ::method findindex private
-expose a
+  expose a
 /* Returns array index if the collection contains any item associated with the
 index specified or returns 0 otherwise. */
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if alj+l]==arg(1) then return j
-end j
-return 0
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if alj+l]==arg(1) then return j
+    end j
+  return 0
+```
 
 #### AT
 
-::method at /* vANY */
-expose a
+```rexx
+::method at            /* rANY */
+  expose a
 /* Returns the item associated with the specified index. */
-j=self~findindex(arg(1))
-if j=0 then return .nil
-return a[j]
+  j=self~findindex(arg(1))
+  if j=0 then return .nil
+  return a[j]
+```
 
 #### []
 
