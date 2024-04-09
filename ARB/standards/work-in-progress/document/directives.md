@@ -296,150 +296,78 @@ _Unsound now we are using 'term'?_
 #ErrorText.21.1= 'The clause ended at an unexpected token;',
                  'found "<token>"'
 
+#ErrorText.22  = 'Invalid character string' 
+#ErrorText.22.1= "Invalid character string '<hex-encoding>'X"
+
+#ErrorText.23  = 'Invalid data string'
+#ErrorText.23.1= "Invalid data string '<hex-encoding>'X"
+
+#ErrorText.24  = 'Invalid TRACE request'
+#ErrorText.24.1= 'TRACE request letter must be one of',
+                 '"ACEFILNOR"; found "<value>"'
+
+#ErrorText.25  = 'Invalid sub-keyword found'
+#ErrorText.25.1= 'CALL ON must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.2= 'CALL OFF must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.3= "SIGNAL ON must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.4= 'SIGNAL OFF must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.5= 'ADDRESS WITH must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.6= 'INPUT must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.7= 'OUTPUT must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.8= 'APPEND must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.9= 'REPLACE must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.11='NUMERIC FORM must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.12='PARSE must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.13='UPPER must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.14='ERROR must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.15='NUMERIC must be followed by one of the',
+                 'keywords <keywords>; found "<token>"'
+#ErrorText.25.16='FOREVER must be followed by one of the',
+                 'keywords <keywords> or nothing; found "<token>"'
+#ErrorText.25.17='PROCEDURE must be followed by the keyword',
+                 'EXPOSE or nothing; found "<token>"'
+#ErrorText.25.18='FORWARD must be followed by one of the the keywords',
+                 '<keywords>; found "<token>"'
+
+#ErrorText.26  = 'Invalid whole number'
+#ErrorText.26.1= 'Whole numbers must fit within current DIGITS',
+                 'setting(<value>); found "<value>"'
+#ErrorText.26.2= 'Value of repetition count expression in DO instruction',
+                 'must be zero or a positive whole number;',
+                 'found "<value>"'
+#ErrorText.26.3= 'Value of FOR expression in DO instruction',
+                 'must be zero or a positive whole number;',
+                 'found "<value>"'
+#ErrorText.26.4= 'Positional pattern of parsing template',
+                 'must be a whole number; found "<value>"'
+#ErrorText.26.5= 'NUMERIC DIGITS value',
+                 'must be a positive whole number; found "<value>"'
+#ErrorText.26.6= 'NUMERIC FUZZ value',
+                 'must be zero or a positive whole number;',
+                 'found "<value>"'
+#ErrorText.26.7= 'Number used in TRACE setting',
+                 'must be a whole number; found "<value>"'
+#ErrorText.26.8= 'Operand to right of the power operator ("**")',
+                 'must be a whole number; found "<value>"'
+#ErrorText.26.11='Result of <value> % <value> operation would need',
+                 'exponential notation at current NUMERIC DIGITS <value>'
+#ErrorText.26.12='Result of % operation used for <value> // <value>',
+                 'operation would need',
+                 'exponential notation at current NUMERIC DIGITS <value>'
 ```
-
-#ErrorText.22 =
-#ErrorText.22.1=
-
-#ErrorText.23 =
-#ErrorText.23.1=
-
-#ErrorText.24 =
-#ErrorText.24.1=
-#ErrorText.25 =
-#ErrorText.25.1=
-#ErrorText.25.2=
-#ErrorText.25.3=
-#ErrorText.25.4=
-#ErrorText.25.5=
-#ErrorText.25.6=
-#ErrorText.25.7=
-
-#ErrorText.25.8=
-
-'Invalid
-"Invalid
-
-'Invalid
-"Invalid
-
-'Invalid
-
-character string'
-character string
-
-data string'
-data string
-
-TRACE request'
-
-is valid'
-
-'<hex-encoding>'xX"
-
-'<hex-encoding>'! xX"
-
-'TRACE request letter must be one of',
-
-' "ACEFILNOR";
-
-found
-
-"evalue>"'
-
-‘Invalid sub-keyword found'
-'CALL ON must be followed by one of the',
-
-‘keywords <keywords>;
-
-found
-
-"etoken>"!
-
-'CALL OFF must be followed by one of the',
-
-‘keywords <keywords>;
-
-found
-
-"etoken>"!
-
-"SIGNAL ON must be followed by one of the',
-
-‘keywords <keywords>;
-
-found
-
-"etoken>"!
-
-'SIGNAL OFF must be followed by one of the',
-
-‘keywords <keywords>;
-
-found
-
-"etoken>"!
-
-"ADDRESS WITH must be followed by one of the',
-
-‘keywords <keywords>;
-
-found
-
-"etoken>"!
-
-"INPUT must be followed by one of the',
-
-‘keywords <keywords>;
-‘OUTPUT must be followed by
-‘keywords <keywords>;
-"APPEND must be followed by
-‘keywords <keywords>;
-
-found
-
-found
-
-found
-
-"etoken>"!
-one of the',
-"etoken>"!
-one of the',
-"etoken>"!
-
-
-#ErrorText.25.9=
-
-#ErrorText.25.11=
-#ErrorText.25.12=
-#ErrorText.25.13=
-#ErrorText.25.14=
-#ErrorText.25.15=
-#ErrorText.25.16=
-#ErrorText.25.17=
-
-#ErrorText.25.18=
-
-#ErrorText.26
-#ErrorText.26.1=
-
-#ErrorText.26.2=
-
-#ErrorText.26.3=
-
-#ErrorText.26.4=
-#ErrorText.26.5=
-
-#ErrorText.26.6=
-
-#ErrorText.26.7=
-#ErrorText.26.8=
-
-#ErrorText.26.11
-
-#ErrorText.26.12
-
 #ErrorText.27
 #ErrorText.27.1=
 
@@ -464,93 +392,26 @@ one of the',
 
 #ErrorText.31.3=
 
-"REPLACE must be followed by one of the',
-‘keywords <keywords>; found "<token>"'
-"NUMERIC FORM must be followed by one of the',
-‘keywords <keywords>; found "<token>"'
+'Invalid DO syntax'
+'Invalid use of keyword "<token>" in DO clause'
 
-"PARSE must be followed by one of the',
-‘keywords <keywords>; found "<token>"'
-
-"UPPER must be followed by one of the',
-‘keywords <keywords>; found "<token>"'
-
-"ERROR must be followed by one of the',
-‘keywords <keywords>; found "<token>"'
-"NUMERIC must be followed by one of the',
-‘keywords <keywords>; found "<token>"'
-'FOREVER must be followed by one of the',
-"keywords <keywords> or nothing; found "<token>"'
-"PROCEDURE must be followed by the keyword',
-"EXPOSE or nothing; found "<token>"'
-
-"FORWARD must be followed by one of the the keywords',
-
-'<keywords>; found "<token>"'
-
-'Invalid whole number'
-
-'Whole numbers must fit within current DIGITS',
-'setting(<value>); found "<value>"'
-
-'Value of repetition count expression in DO instruction',
-
-'must be zero or a positive whole number;',
-'found "<value>"'
-
-'Value of FOR expression in DO instruction',
-'must be zero or a positive whole number;',
-'found "<value>"'
-
-"Positional pattern of parsing template',
-'must be a whole number; found "<value>"'
-"NUMERIC DIGITS value',
-
-'must be a positive whole number;
-"NUMERIC FUZZ value',
-
-'must be zero or a positive whole number;',
-
-'found "<value>"'
-
-'Number used in TRACE setting',
-
-'must be a whole number; found "<value>"'
-
-'Operand to right of the power operator ("**")',
-'must be a whole number; found "<value>"'
-
-"Result of <value> % <value> operation would need',
-
-found "<value>"'
-
-‘exponential notation at current NUMERIC DIGITS <value>'
-
-"Result of % operation used for <value> // <value>',
-‘operation would need',
-
-‘exponential notation at current NUMERIC DIGITS <value>'
-
-‘Invalid DO syntax'
-‘Invalid use of keyword "<token>" in DO clause'
-
-‘Invalid LEAVE or ITERATE'
+'Invalid LEAVE or ITERATE'
 
 'LEAVE is valid only within a repetitive DO loop'
 'ITERATE is valid only within a repetitive DO loop'
 'Symbol following LEAVE ("<token>") must',
 
-‘either match control variable of a current',
+'either match control variable of a current',
 
 'DO loop or be omitted'
 
 'Symbol following ITERATE ("<token>") must',
-‘either match control variable of a current',
+'either match control variable of a current',
 
 'DO loop or be omitted'
 
-‘Environment name too long'
-‘Environment name exceeds',
+'Environment name too long'
+'Environment name exceeds',
 
 #Limit EnvironmentName 'characters; found "<name>"'
 'Name or string too long'
@@ -579,7 +440,7 @@ found "<value>"'
 #ErrorText.34 =
 #ErrorText.34.1=
 
-‘Invalid expression result'
+'Invalid expression result'
 'Value of NUMERIC DIGITS ("<value>")',
 
 'must exceed value of NUMERIC FUZZ
@@ -616,12 +477,12 @@ following IF keyword',
 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.5= 'Value of expression to left',
 
-‘of logical operator "<operator>"',
+'of logical operator "<operator>"',
 
 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.6= 'Value of expression to right',
 
-‘of logical operator "<operator>"',
+'of logical operator "<operator>"',
 
 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.35 = 'Invalid expression'
@@ -629,7 +490,7 @@ following IF keyword',
 
 #ErrorText.36
 
-‘Unmatched "(" in expression'
+'Unmatched "(" in expression'
 
 #ErrorText.37 =
 #ErrorText.37.1=
@@ -638,7 +499,7 @@ following IF keyword',
 'Unexpected n a n ny nt
 
 'Unexpected ","!
-‘Unmatched ")" in expression'
+'Unmatched ")" in expression'
 
 or
 
@@ -647,10 +508,10 @@ or
 #ErrorText.38.2=
 #ErrorText.38.3=
 
-‘Invalid template or pattern'
+'Invalid template or pattern'
 
-‘Invalid parsing template detected at "<token>"'
-‘Invalid parsing position detected at "<token>"'
+'Invalid parsing template detected at "<token>"'
+'Invalid parsing position detected at "<token>"'
 "PARSE VALUE instruction requires WITH keyword'
 
 "Incorrect call to routine'
@@ -664,10 +525,10 @@ or
 'maximum expected is <argnumber>'
 
 'Missing argument in invocation of <bif>;',
-‘argument <argnumber> is required'
+'argument <argnumber> is required'
 'ebif> argument <argnumber>',
 
-‘exponent exceeds' #Limit ExponentDigits
+'exponent exceeds' #Limit ExponentDigits
 "found "<value>"'
 
 '<bif> argument <argnumber>',
@@ -704,7 +565,7 @@ or
 "have a year in the range 0001 to 9999!
 #ErrorText.40.19='<bif> argument 2, "<value>", is not in the format',
 
-‘described by argument 3, "<value>"'
+'described by argument 3, "<value>"'
 
 #ErrorText.40.21='<bif> argument <argnumber> must not be null'
 #ErrorText.40.23='<bif> argument <argnumber>',
@@ -724,7 +585,7 @@ or
 'must be a valid stream name; found "<value>"'
 #ErrorText.40.28='<bif> argument <argnumber>,',
 
-‘option must start with one of "<optionslist>";',
+'option must start with one of "<optionslist>";',
 
 'found "<value>"'
 
@@ -732,15 +593,15 @@ or
 #ErrorText.40.31='<bif> argument 1 ("<value>") must not exceed 100000'
 #ErrorText.40.32='<bif> the difference between argument 1 ("<value>") and',
 
-‘argument 2 ("<value>") must not exceed 100000'
+'argument 2 ("<value>") must not exceed 100000'
 #ErrorText.40.33='<bif> argument 1 ("<value>") must be less than',
 
-‘or equal to argument 2 ("<value>")'
+'or equal to argument 2 ("<value>")'
 #ErrorText.40.34='<bif> argument 1 ("<value>") must be less than',
 
-‘or equal to the number of lines',
+'or equal to the number of lines',
 
-‘in the program (<sourceline()>)'
+'in the program (<sourceline()>)'
 #ErrorText.40.35='<bif> argument 1 cannot be expressed as a whole number;',
 
 'found "<value>"'
@@ -754,7 +615,7 @@ or
 'must be the name of a pool; found "<value>"'
 #ErrorText.40.38='<bif> argument <argnumber>',
 
-‘is not large enough to format "<value>"'
+'is not large enough to format "<value>"'
 #ErrorText.40.39='<bif> argument 3 is not zero or one; found "<value>"'
 #ErrorText.40.41='<bif> argument <argnumber>',
 
@@ -782,7 +643,7 @@ or
 'to right of arithmetic operation "<operator>"'
 #ErrorText.41.3= 'Non-numeric value ("<value>")',
 
-‘used with prefix operator "<operator>"'
+'used with prefix operator "<operator>"'
 
 #ErrorText.41.4= 'Value of TO expression in DO instruction',
 'must be numeric; found "<value>"'!
@@ -799,18 +660,18 @@ or
 #ErrorText.42 = 'Arithmetic overflow/underflow'
 #ErrorText.42.1l= 'Arithmetic overflow detected at',
 'Nevalue> <operation> <value>";',
-‘exponent of result requires more than',
+'exponent of result requires more than',
 #Limit ExponentDigits 'digits'
 #ErrorText.42.2= 'Arithmetic underflow detected at',
 'Nevalue> <operation> <value>";',
-‘exponent of result requires more than',
+'exponent of result requires more than',
 #Limit ExponentDigits 'digits'
 "Arithmetic overflow; divisor must not be zero'
 
 #ErrorText.42.3
 
 "Routine not found'
-‘Could not find routine "<name>"'
+'Could not find routine "<name>"'
 
 #ErrorText.43 =
 #ErrorText.43.1=
@@ -820,11 +681,11 @@ or
 
 #ErrorText.45 = 'No data specified on function RETURN'
 #ErrorText.45.1= 'Data expected on RETURN instruction because',
-‘routine "<name>" was called as a function'
+'routine "<name>" was called as a function'
 
 #ErrorText.46 = 'Invalid variable reference'
 #ErrorText.46.1= 'Extra token ("<token>") found in variable',
-‘reference; ")" expected'
+'reference; ")" expected'
 
 #ErrorText.47 = 'Unexpected label'
 #ErrorText.47.1l= 'INTERPRET data must not contain labels;',
@@ -851,14 +712,14 @@ or
 
 #ErrorText.53 = 'Invalid option'
 #ErrorText.53.1l= 'Variable reference expected',
-‘after STREAM keyword; found "<token>"'
+'after STREAM keyword; found "<token>"'
 #ErrorText.53.2= 'Variable reference expected',
-‘after STEM keyword; found "<token>"'
+'after STEM keyword; found "<token>"'
 #ErrorText.53.3= 'Argument to STEM must have one period,',
-‘as its last character; found "<name>"'
+'as its last character; found "<name>"'
 #ErrorText.54 = 'Invalid STEM value'
 #ErrorText.54.1= 'For this use of STEM, the value of "<name>" must be a',
-‘count of lines; found: "<value>"'
+'count of lines; found: "<value>"'
 
 If the activity defined by clause 6 does not produce any error message, execution of the program
 continues.
