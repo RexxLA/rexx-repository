@@ -311,7 +311,7 @@ _Unsound now we are using 'term'?_
                  'keywords <keywords>; found "<token>"'
 #ErrorText.25.2= 'CALL OFF must be followed by one of the',
                  'keywords <keywords>; found "<token>"'
-#ErrorText.25.3= "SIGNAL ON must be followed by one of the',
+#ErrorText.25.3= 'SIGNAL ON must be followed by one of the',
                  'keywords <keywords>; found "<token>"'
 #ErrorText.25.4= 'SIGNAL OFF must be followed by one of the',
                  'keywords <keywords>; found "<token>"'
