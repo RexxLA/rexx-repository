@@ -255,45 +255,48 @@ number appears immediately before an `'='` and the message text follows in quote
 #ErrorText.18.2= 'WHEN keyword on line <linenumber> requires',
                  'matching THEN clause; found "<token>"'
 
+#ErrorText.19  = 'String or symbol expected'
+#ErrorText.19.1= 'String or symbol expected after ADDRESS keyword;',
+                 'found "<token>"'
+#ErrorText.19.2= 'String or symbol expected after CALL keyword;',
+                 'found "<token>"'
+#ErrorText.19.3= 'String or symbol expected after NAME keyword;',
+                 'found "<token>"'
+#ErrorText.19.4= 'String or symbol expected after SIGNAL keyword;',
+                 'found "<token>"'
+#ErrorText.19.6= 'String or symbol expected after TRACE keyword;',
+                 'found "<token>"'
+#ErrorText.19.7= 'Symbol expected in parsing pattern;',
+                 'found "<token>"'
+#ErrorText.19.8= 'String or symbol expected after REQUIRES;',
+                 'found "<token>"'
+#ErrorText.19.9= 'String or symbol expected after METHOD;',
+                 'found "<token>"'
+#ErrorText.19.11='String or symbol expected after ROUTINE;',
+                 'found "<token>"'
+#ErrorText.19.12='String or symbol expected after CLASS;',
+                 'found "<token>"'
+#ErrorText.19.13='String or symbol expected after INHERIT;',
+                 'found "<token>"'
+#ErrorText.19.15='String or symbol expected after METACLASS;',
+                 'found "<token>"'
+#ErrorText.19.16='String or symbol expected after MIXINCLASS;',
+                 'found "<token>"'
+#ErrorText.19.17='String or symbol expected after SUBCLASS;',
+                 'found "<token>"'
 ```
+_Unsound now we are using 'term'?_
+```rexx
+#ErrorText.20  = 'Name expected'
+#ErrorText.20.1= 'Name required; found "<token>"'
+#ErrorText.20.2= 'Found "<token>" where only a name is valid'
+#ErrorText.20.3= 'Found "<token>" where only a name or '(' is valid'
 
+#ErrorText.21  = 'Invalid data on end of clause'
+#ErrorText.21.1= 'The clause ended at an unexpected token;',
+                 'found "<token>"'
 
-
-#ErrorText.19 =
-#ErrorText.19.1=
-
-#ErrorText.19.2=
-#ErrorText.19.3=
-#ErrorText.19.4=
-#ErrorText.19.6=
-#ErrorText.19.7=
-#ErrorText.19.8=
-
-#ErrorText.19.9=
-
-#ErrorText.19.11='String or symbol
-
-#ErrorText.19.12='String or symbol
-
-#ErrorText.19.13=
-
-#ErrorText.19.15='String or symbol
-
-#ErrorText.19.16='String or symbol
-
-#ErrorText.19.17=
-
-Unsound now we are using '‘term'?
-
-65
-
-#ErrorText.20 =
-#ErrorText.20.1=
-#ErrorText.20.2=
-#ErrorText.20.3=
-
-#ErrorText.21
-#ErrorText.21.1
+```
 
 #ErrorText.22 =
 #ErrorText.22.1=
@@ -313,51 +316,6 @@ Unsound now we are using '‘term'?
 #ErrorText.25.7=
 
 #ErrorText.25.8=
-
-'String or symbol expected'
-'String or symbol expected after ADDRESS keyword;',
-"found "<token>"!
-'String or symbol expected after CALL keyword;',
-"found "<token>"!
-'String or symbol expected after NAME keyword;',
-"found "<token>"!
-'String or symbol expected after SIGNAL keyword;',
-"found "<token>"!
-'String or symbol expected after TRACE keyword;',
-"found "<token>"!
-'Symbol expected in parsing pattern;',
-"found "<token>"!
-'String or symbol expected after REQUIRES;',
-"found "<token>"!
-'String or symbol expected after METHOD;',
-"found "<token>"!
-
-expected after ROUTINE;',
-"found "<token>"!
-
-expected after CLASS;',
-"found "<token>"!
-'String or symbol expected after INHERIT;',
-"found "<token>"!
-
-expected after METACLASS;',
-"found "<token>"!
-
-expected after MIXINCLASS;',
-"found "<token>"!
-'String or symbol expected after SUBCLASS;',
-"found "<token>"!
-'Name expected'
-'Name required; found "<token>"'
-
-'Found "<token>" where only a name is valid'
-
-'Found "<token>" where only a name or
-
-'Invalid data on end of clause'
-'The clause ended at an unexpected token;',
-
-'found "<token>"'
 
 'Invalid
 "Invalid
