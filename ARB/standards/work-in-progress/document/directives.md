@@ -513,142 +513,133 @@ _Unsound now we are using 'term'?_
 #ErrorText.41.3= 'Non-numeric value ("<value>")',
                  'used with prefix operator "<operator>"'
 #ErrorText.41.4= 'Value of TO expression in DO instruction',
-                 'must be numeric; found "<value>"'!
-```
+                 'must be numeric; found "<value>"'
 #ErrorText.41.5= 'Value of BY expression in DO instruction',
-'must be numeric; found "<value>"'!
-
+                 'must be numeric; found "<value>"'
 #ErrorText.41.6= 'Value of control variable expression of DO instruction',
-'must be numeric; found "<value>"'!
-
+                 'must be numeric; found "<value>"'
 #ErrorText.41.7= 'Exponent exceeds' #Limit ExponentDigits 'digits;',
-'found "<value>"'
+                 'found "<value>"'
 
-#ErrorText.42 = 'Arithmetic overflow/underflow'
-#ErrorText.42.1l= 'Arithmetic overflow detected at',
-'Nevalue> <operation> <value>";',
-'exponent of result requires more than',
-#Limit ExponentDigits 'digits'
+#ErrorText.42  = 'Arithmetic overflow/underflow'
+#ErrorText.42.1= 'Arithmetic overflow detected at',
+                 '<value> <operation> <value>";',
+                 'exponent of result requires more than',
+                 #Limit_ExponentDigits 'digits'
 #ErrorText.42.2= 'Arithmetic underflow detected at',
-'Nevalue> <operation> <value>";',
-'exponent of result requires more than',
-#Limit ExponentDigits 'digits'
-"Arithmetic overflow; divisor must not be zero'
+                 '<value> <operation> <value>";',
+                 'exponent of result requires more than',
+                 #Limit_ExponentDigits 'digits'
+#ErrorText.42.3= 'Arithmetic overflow; divisor must not be zero'
 
-#ErrorText.42.3
+#ErrorText.43  = 'Routine not found'
+#ErrorText.43.1= 'Could not find routine "<name>"'
 
-"Routine not found'
-'Could not find routine "<name>"'
-
-#ErrorText.43 =
-#ErrorText.43.1=
-#ErrorText.44 = 'Function did not return data'
-
+#ErrorText.44  = 'Function did not return data'
 #ErrorText.44.1= 'No data returned from function "<name>"'
 
-#ErrorText.45 = 'No data specified on function RETURN'
+#ErrorText.45  = 'No data specified on function RETURN'
 #ErrorText.45.1= 'Data expected on RETURN instruction because',
-'routine "<name>" was called as a function'
+                 'routine "<name>" was called as a function'
 
-#ErrorText.46 = 'Invalid variable reference'
+#ErrorText.46  = 'Invalid variable reference'
 #ErrorText.46.1= 'Extra token ("<token>") found in variable',
-'reference; ")" expected'
+                 'reference; ")" expected'
 
-#ErrorText.47 = 'Unexpected label'
-#ErrorText.47.1l= 'INTERPRET data must not contain labels;',
-'found "<name>"!
+#ErrorText.47  = 'Unexpected label'
+#ErrorText.47.1= 'INTERPRET data must not contain labels;',
+                 'found "<name>"
 
-#ErrorText.48 = 'Failure in system service'
+#ErrorText.48  = 'Failure in system service'
 #ErrorText.48.1= 'Failure in system service: <description>'
 
-#ErrorText.49 = 'Interpretation Error'
+#ErrorText.49  = 'Interpretation Error'
 #ErrorText.49.1= 'Interpretation Error: <description>'
-#ErrorText.50 = 'Unrecognized reserved symbol'
 
+#ErrorText.50  = 'Unrecognized reserved symbol'
 #ErrorText.50.1= 'Unrecognized reserved symbol "<token>"'
 
-#ErrorText.51 = 'Invalid function name'
-
+#ErrorText.51  = 'Invalid function name'
 #ErrorText.51.1= 'Unquoted function names must not end with a period;',
-'found "<token>"'
+                 'found "<token>"'
 
-#ErrorText.52
+#ErrorText.52  = 'Result returned by "<name>" is longer than',
+                 #Limit String 'characters'
 
-"Result returned by "<name>" is longer than',
-#Limit String 'characters'
-
-#ErrorText.53 = 'Invalid option'
-#ErrorText.53.1l= 'Variable reference expected',
-'after STREAM keyword; found "<token>"'
+#ErrorText.53  = 'Invalid option'
+#ErrorText.53.1= 'Variable reference expected',
+                 'after STREAM keyword; found "<token>"'
 #ErrorText.53.2= 'Variable reference expected',
-'after STEM keyword; found "<token>"'
+                 'after STEM keyword; found "<token>"'
 #ErrorText.53.3= 'Argument to STEM must have one period,',
-'as its last character; found "<name>"'
-#ErrorText.54 = 'Invalid STEM value'
+                 'as its last character; found "<name>"'
+#ErrorText.54  = 'Invalid STEM value'
 #ErrorText.54.1= 'For this use of STEM, the value of "<name>" must be a',
-'count of lines; found: "<value>"'
+                 'count of lines; found: "<value>"'
+```
 
 If the activity defined by clause 6 does not produce any error message, execution of the program
 continues.
 
+```rexx
 call Config NoSource
+```
 
-If Config_NoSource has set #NoSource to '0' the lines of source processed by clause 6 are copied to
-#SourceLine. , with #SourceLine.O being a count of the lines and #SourceLine.n for n=1 to #SourceLine.0
+If `Config_NoSource` has set `#NoSource` to `'0'` the lines of source processed by clause 6 are copied to
+`#SourceLine.` , with `#SourceLine.O` being a count of the lines and `#SourceLine.n` for `n`=1 to `#SourceLine.0`
 being the source lines in order.
 
-If Config_NoSource has set #NoSource to '1' then #SourceLine.0 is set to 0.
+If `Config_NoSource` has set `#NoSource` to `'1'` then `#SourceLine.0` is set to `0`.
+
 The following state variables affect tracing:
 
+```rexx
 #InhibitPauses = 0
-
 #InhibitTrace = 0
-
 #AtPause = 0 /* Off until interactive input being received. */
-
 #Trace QueryPrior = 'No'
+```
+
 An initial variable pool is established:
 
-call Config ObjectNew
-
-#Pool = #Outcome
-
-#P0011 = #Pool
-
-call Var_Empty #Pool
-
-call Var_Reset #Pool
-
-#Level = 1 /* Level of invocation */
-#NewLevel = 2
-#IsFunction.#Level = (#HowInvoked == 'FUNCTION')
+```rexx
+ call Config ObjectNew
+ #Pool = #Outcome
+#Pool1 = #Pool
+ call Var_Empty #Pool
+ call Var_Reset #Pool
+ #Level = 1 /* Level of invocation */
+ #NewLevel = 2
+ #IsFunction.#Level = (#HowInvoked == 'FUNCTION')
+```
 
 For this first level, there is no previous level from which values are inherited. The relevant fields are
 initialized.
 
+```rexx
 #Digits.#Level = 9 /* Numeric Digits */
 #Form.#Level = 'SCIENTIFIC' /* Numeric Form */
 #Fuzz.#Level = 0 /* Numeric Fuzz */
+
 #StartTime.#Level = '' /* Elapsed time boundary */
 #LineNumber = ''
-
 #Tracing.#Level = 'N'
-
 #Interactive.#Level = '0'
+```
 
-69
-An environment is provided by the API_ Start to become the initial active environment to which commands
+An environment is provided by the `API_Start` to become the initial active environment to which commands
 will be addressed. The alternate environment is made the same:
 
+```rexx
 /* Call the environments ACTIVE, ALTERNATE, TRANSIENT where these are
 never-initialized state variables.
-
 Similarly call the redirections I O and E */
-
 call EnvAssign ALTERNATE, #Level, ACTIVE, #Level
+```
 
 Conditions are initially disabled:
 
+```rexx
 #Enabling.SYNTAX.#Level = 'OFF'
 #Enabling.HALT.#Level = 'OFF'
 #Enabling.ERROR.#Level = 'OFF'
@@ -656,7 +647,6 @@ Conditions are initially disabled:
 #Enabling.NOTREADY.#Level = 'OFF'
 #Enabling.NOVALUE.#Level = 'OFF'
 #Enabling.LOSTDIGITS.#Level = 'OFF'
-
 #PendingNow.HALT.#Level = 0
 #PendingNow.ERROR.#Level = 0
 #PendingNow.FAILURE.#Level = 0
@@ -664,65 +654,73 @@ Conditions are initially disabled:
 /* The following field corresponds to the results from the CONDITION built-in
 function. */
 #Condition.#Level = ''
+```
+
 The opportunity is provided for a trap to initialize the pool.
+
+```rexx
 #API Enabled = '1'
 call Var_Reset #Pool
 call Config Initialization
 #API Enabled = '0'
+```
+
 ## REQUIRES
+
 For each requires in order of appearence:
-A use of Start_API with #instance(requires, taken_constant). Msg40.1 or a new if completion 'E'. Add Provides to an
+
+_A use of Start_API with #instance(requires, taken_constant). Msg40.1 or a new if completion 'E'. Add Provides to an
 ordered collection. Not cyclic because .LIST can be defined without defining REQUIRES but a fairly profound forward
-reference.
+reference._
+
 ## CLASS
 For each class in order of appearence:
+
+```rexx
 #ClassName = #Instance(class, taken constant)
 call var_value #ReservedPool, '#CLASSES.'ClassName, '1'
 if #Indicator == 'D' then do
-call Config ObjectNew
-#Class = #Outcome
-call var_set #ReservedPool, '#CLASSES.'ClassName, '1', #Class
-end
+   call Config ObjectNew
+   #Class = #Outcome
+   call var_set #ReservedPool, '#CLASSES.'ClassName, '1', #Class
+   end
 else call #Raise 'SYNTAX', nn.nn, #ClassName
+```
 
-New instance of CLASS class added to list. Msg "Duplicate ::CLASS directive instruction"(?)
+_New instance of CLASS class added to list. Msg "Duplicate ::CLASS directive instruction"(?)_
 ## METHOD
 
 For each method in order of appearence:
+
+```rexx
 call Config ObjectNew
-#Po00ol = #Outcome
+#Pool = #Outcome
 call Config ObjectSource (#Pool)
 #MethodName = #Instance(method, taken constant)
 call var_value #Class, '#METHODS.'#MethodName, '1'
 if #Indicator == 'D' then
-call var set #Class, '#METHODS.'#MethodName, '1', #Pool
+   call var set #Class, '#METHODS.'#MethodName, '1', #Pool
 else call #Raise 'SYNTAX', nn.nn, #MethodName, #ClassName
+```
 
-GUARDED & public is default. if #contains(method, 'PRIVATE') then m~setprivate; if #contains(method,
-'UNGUARDED)) then m~setunguarded
-
-Why is there a keyword for GUARDED but not for PUBLIC here?
-
-Does CLASS option mean ENHANCE with Class class methods?
-
-#CurrentClass ~class(#instance(method, taken_constant), m)
-
+_GUARDED & public is default. if #contains(method, 'PRIVATE') then m~setprivate; if #contains(method,
+'UNGUARDED)) then m~setunguarded  
+Why is there a keyword for GUARDED but not for PUBLIC here?  
+Does CLASS option mean ENHANCE with Class class methods?  
+#CurrentClass~class(#instance(method, taken_constant), m)  
 For ATTRIBUTE, should we actually construct source for two methods? ATTRIBUTE case needs test of null body.
-OO! doesn't have source (because it actually traps UNKNOWN?).
-
+OOI doesn't have source (because it actually traps UNKNOWN?).  
 For EXTERNAL test for null body. Simon Nash doc says "Accessibility to external methods ... is
 implementation-defined". Left like that it doesn't even tell us about search order. We will need a
-Config_ExternalClass to import the public names of the class.
+Config_ExternalClass to import the public names of the class._
 
 ## ROUTINE
 
 For each routine in order of appearence:
 
-Add name (with duplicate check) to list for this file.
-
+_Add name (with duplicate check) to list for this file.  
 Extra step needed in the invocation search order. Although this is nominally EXTERNAL we presumably wont use
 the external call mechanism. (Except perhaps when the routine was made available by a REQUIRES; in that case
-the PARSE SOURCE answer has to change.)
-
-| have the builtins-defined-by-directives elsewhere; it would make sense if they wound up about here.
+the PARSE SOURCE answer has to change.)  
+I have the builtins-defined-by-directives elsewhere; it would make sense if they wound up about here._
 
