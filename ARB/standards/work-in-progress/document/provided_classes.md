@@ -1181,7 +1181,7 @@ coll.2 = list~of(2, 3, 6)
 coll.3 = .queue~new~~PUSH(2)~~PUSH(3)~~PUSH(7)
 coll.4 = .directory~new~~setentry(1, "eins")~~setentry(3, "drei")
 coll.5 = .bag~new~~put(2)~~put(3)~~put(5)~~put(2)
-coll.6 = .relation~new~~"[J="("zwei", 2)~~"[]="(‘"drei", 3)~~"[J="(‘vier", 8)~~"J="C"drei",3)
+coll.6 = .relation~new~~"[J="("zwei", 2)~~"[]="('"drei", 3)~~"[J="('vier", 8)~~"J="C"drei",3)
 coll.7 = .set~of(2, 3, 9)
 coll.8 = .table~new~~"[]="("zwei", 2)~~"[J="("drei", 3)~~"[T]J="C"vier", 10)
 coll.0 = 8
@@ -1307,6 +1307,9 @@ dump_collection:procedure
 pp: RETURN "[" || ARG(1)~string || "]"
 ```
 
+[The following code looks like a partial duplicate of the previous. Formatting pending -- JMB]
+
+```rexx
 /*==================================================================================*/
 
 /* X3J18 Rexx Language Standard proposal for the Set-like operations on the
@@ -1326,9 +1329,9 @@ This particular program is implementing collections on top of array.
 /* The class Collection is not one builtin, but is used to simplify the
 definition. */
 
-::class ‘Collection’
+::class 'Collection'
 
-:imethod init
+::method init
 expose a
 /* A collection is modelled as using 3 slots in an array for each element.
 The first slot holds the item, the second the index, and the third is
@@ -1366,7 +1369,7 @@ return a[j]
 
 ::method '[]'
 /* Synonym for the AT method. */
-forward message 'AT’
+forward message 'AT'
 
 ::method put /* rANY rANY */
 expose a
@@ -1385,10 +1388,10 @@ a[j+1]=index
 a[j+2]=0
 return /* Error 91 in OOI if context requiring result. */
 
-:method ‘[]='
+:method '[]='
 /* Synonym for the PUT method. */
 
-forward message 'PUT’
+forward message 'PUT'
 
 z:method hasindex /* rANY */
 /* Returns | (true) if the collection contains any item associated with the
@@ -1459,7 +1462,7 @@ expose a
 /* Returns a supplier object for the list. */
 return .supplier~new(self~makearray:.collection,self~makearrayx)
 
-::class ‘List’ subclass Collection
+::class 'List' subclass Collection
 
 zimethod J18 = /* Here to demonstrate .LIST is replaced */
 return
@@ -1497,7 +1500,7 @@ index in the list ordering. */
 /* Tf there was no index given, the new item becomes the last on list. */
 /* mil argument means first */
 
-if arg(2,'E’) then p=arg(2)
+if arg(2,'E') then p=arg(2)
 
 else p=self~last
 
@@ -1602,7 +1605,7 @@ in the receiver list. */
 j=self~findindex(arg(1))
 if j=0 then call Raise 'Syntax',93.918
 r=.list~new /* To build result in. */
-if arg(2,'E’) then s = arg(2)
+if arg(2,'E') then s = arg(2)
 else s = self~items;
 do s
 r~insert(a[j])
@@ -1611,7 +1614,7 @@ if j>1+3*a[1]/*ItemsCount*/ then leave
 end
 retum r
 
-::class ‘Queue’ subclass Collection
+::class 'Queue' subclass Collection
 /* A queue is a sequenced collection with whole-number indexes. The
 indexes specify the position of an item relative to the head (first item) of
 
@@ -1684,7 +1687,7 @@ return r
 /* Returns a single-index array containing the index objects. */
 /* This is different from Collection MAKEARRAY where items rather than indexes
 are in the returned array. */
-forward message 'MAKEARRAYX’
+forward message 'MAKEARRAYX'
 
 ::method union /* rCOLLECTION */
 return CommonUnion(self,arg(1))
@@ -1693,7 +1696,7 @@ return CommonUnion(self,arg(1))
 /* Returns a new collection of the same class as SELF that
 contains the items from SELF that have indexes also in the
 argument. */
-/* Actually an index in SELF can only be ‘matched’ with one in the
+/* Actually an index in SELF can only be 'matched' with one in the
 argument once. */
 
 return self~difference(self~difference(arg(1)))
@@ -1710,7 +1713,7 @@ return CommonDifference(self,arg(1))
 ::method subset = /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
 
-::class ‘Set’ subclass table
+::class 'Set' subclass table
 
 /* A set is a collection that restricts the member items to have a value that is
 the same as the index. Any object can be placed in a set. There can be only
@@ -1720,7 +1723,7 @@ one occurrence of any object in a set. */
 :rmethod put /* rANY oANY */
 /* Makes the object value a member item of the collection and associates it with
 specified index. */
-if arg(2,'E’) then
+if arg(2,'E') then
 if arg(2)\==arg(1) then signal error /* 949 */
 self~put:super(arg(1),arg(1))
 
@@ -1744,7 +1747,7 @@ return CommonXor(self,EnBag(arg(1)))
 ::method difference /* rCOLLECTION */
 return CommonDifference(self,EnBag(arg(1)))
 
-::class ‘Relation’ subclass Collection
+::class 'Relation' subclass Collection
 
 ::method put /* rANY rANY */
 
@@ -1775,7 +1778,7 @@ a=self~exposed
 no index, this method returns the total number of items associated with all
 indexes in the relation. */
 
-if \arg(1,’E’) then return a[1]/*ItemsCount*/
+if \arg(1,'E') then return a[1]/*ItemsCount*/
 
 n=0
 
@@ -1786,7 +1789,7 @@ end j
 retum n
 
 ::method makearray
-forward message 'MAKEARRAYX’
+forward message 'MAKEARRAYX'
 
 zimethod supplier /* oANY */
 a=self~exposed
@@ -1796,7 +1799,7 @@ index. */
 m=.array~new /* For the items */
 r=.array~new  /* For the indexes */
 do j=4 by 3 to 143*a[1]/*ItemsCount*/
-if arg(1,'E’) then
+if arg(1,'E') then
 if arg(1)\==a[j+1] then iterate
 n=r~dimension(1)+1
 m[n]=alj]
@@ -1905,7 +1908,7 @@ end
 end j
 returm r
 
-::class ‘Bag’ subclass relation
+::class 'Bag' subclass relation
 
 /* A bag is a collection that restricts the member items to having a value that
 is the same as the index. Any object can be placed in a bag, and the same
@@ -1923,7 +1926,7 @@ retum r
 /* Committee does away with second argument? */
 /* Makes the object value a member item of the collection and associates it with
 the specified index. If you specify index, it must be the same as value. */
-if arg(2,'E’) then
+if arg(2,'E') then
 if arg(2)\==arg(1) then signal error
 self~put:super(arg(1),arg(1))
 
@@ -1942,7 +1945,7 @@ return CommonXor(self,EnBag(arg(1)))
 ::method difference /* rCOLLECTION */
 return CommonDifference(self,EnBag(arg(1)))
 
-::class ‘Directory’ subclass Collection
+::class 'Directory' subclass Collection
 
 /* Later we take three array elements for each element in the directory, one
 for the item, one to contain the index, one to say if the item is a method
@@ -1962,12 +1965,12 @@ return a[j]
 a=self~exposed
 /* Makes the object value a member item of the collection and associates it with
 the specified index. */
-if \arg(2)~hasmethod(MAKESTRING'’) then call Raise 'Syntax', 93.938
+if \arg(2)~hasmethod(MAKESTRING'') then call Raise 'Syntax', 93.938
 self~put:super(arg(1),arg(2)~makestring)
 return
 
 ::method makearray
-forward message 'MAKEARRAYX’
+forward message 'MAKEARRAYX'
 
 :imethod supplier
 a=self~exposed
@@ -2006,7 +2009,7 @@ name. */
 n=translate(arg(1))
 j=self~findindex(n)
 if j=0 & \arg(2,'E') then return
-if \arg(2,'E’) then do /* Removal */
+if \arg(2,'E') then do /* Removal */
 self~removeit(j)
 returm
 end
@@ -2053,7 +2056,7 @@ method when you access this entry. */
 n=translate(arg(1))
 j=self~findindex(n)
 if j=0 & \arg(2,'E') then return
-if \arg(2,’E’) then do
+if \arg(2,'E') then do
 self~removeit(j)
 returm
 end
@@ -2079,7 +2082,7 @@ return self~entry(arg(1))
 /* 22 Not clear whether second argument is mandatory. */
 t=.nil
 
-if arg(2,'E’) then t=arg(2)[1]
+if arg(2,'E') then t=arg(2)[1]
 self~setentry(left(arg(1),length(arg(1))-1),t)
 
 routine CommonXor
@@ -2200,7 +2203,7 @@ tmpSupp = other~ SUPPLIER /* get supplier from other */
 bIndexUsable = other ~ HASMETHOD( "UNION" )
 
 IF .Debug = .true THEN IF \ bIndexUsable THEN
-SAY" /// index of ‘other’ not usable for setlike-operations”
+SAY" /// index of 'other' not usable for setlike-operations”
 
 /* possible syntax-error, if index and item must have the same value,
 e.g. for sets/bags */
@@ -2219,7 +2222,7 @@ RETURN tmpColl
 INDEX_ONLY : /* this is for index-only collections (e.g. sets, bags) */
 SIGNAL ON SYNTAX
 IF .Debug = .true THEN
-SAY" \\'target’ is an index-only collection (index==item)"
+SAY" \\'target' is an index-only collection (index==item)"
 DO WHILE tmpSupp ~ AVAILABLE
 
 IF bIndexUsable THEN tmpColl[ tmpSupp ~ INDEX ] = tmpSupp ~ INDEX
@@ -2229,6 +2232,7 @@ END
 RETURN tmpColl
 
 SYNTAX: RAISE PROPAGATE /* raise error in caller */
+```
 
 ## The stream class
 
@@ -2321,7 +2325,7 @@ Closes the stream that receives the message.
 
 _There is also CLOSE as command with method COMMAND._
 
-_Semantics are 'seen by other thread’._
+_Semantics are 'seen by other thread'._
 
 ```rexx
 ::method string
