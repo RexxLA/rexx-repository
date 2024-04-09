@@ -367,7 +367,7 @@ _Unsound now we are using 'term'?_
 #ErrorText.26.12='Result of % operation used for <value> // <value>',
                  'operation would need',
                  'exponential notation at current NUMERIC DIGITS <value>'
-```
+
 #ErrorText.27  = 'Invalid DO syntax'
 #ErrorText.27.1= 'Invalid use of keyword "<token>" in DO clause'
 
@@ -704,10 +704,10 @@ else call #Raise 'SYNTAX', nn.nn, #MethodName, #ClassName
 ```
 
 _GUARDED & public is default. if #contains(method, 'PRIVATE') then m~setprivate; if #contains(method,
-'UNGUARDED)) then m~setunguarded  
+'UNGUARDED)) then m\~setunguarded  
 Why is there a keyword for GUARDED but not for PUBLIC here?  
 Does CLASS option mean ENHANCE with Class class methods?  
-#CurrentClass~class(#instance(method, taken_constant), m)  
+#CurrentClass\~class(#instance(method, taken_constant), m)  
 For ATTRIBUTE, should we actually construct source for two methods? ATTRIBUTE case needs test of null body.
 OOI doesn't have source (because it actually traps UNKNOWN?).  
 For EXTERNAL test for null body. Simon Nash doc says "Accessibility to external methods ... is
