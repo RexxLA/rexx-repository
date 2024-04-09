@@ -906,229 +906,257 @@ are removed. */
 ```
 ### The bag class
 
+```rexx
 ::class 'Bag' subclass relation
 
 /* A bag is a collection that restricts the member items to having a value that
-is the same as the index. Any object can be placed in a bag, and the same
-object can be placed in a bag multiple times. */
+ is the same as the index. Any object can be placed in a bag, and the same
+ object can be placed in a bag multiple times. */
+```
 
 #### OF
 
-::method of class /* 1 or more rANYy */
+```rexx
+::method of class     /* 1 or more rANY */
 /* Returns a newly created bag containing the specified value objects. */
-r=self~new
-do j=1 to arg()
-r~put (arg(j))
-end j
-return r
+  r=self~new
+  do j=1 to arg()
+    r~put(arg(j))
+    end j
+  return r
+```
 
 #### PUT
 
-::method put /* vANY oANY */
+```rexx
+::method put          /* rANY oANY */
 /* Committee does away with second argument? */
 /* Makes the object value a member item of the collection and associates it with
-the specified index. If you specify index, it must be the same as value. */
-if arg(2,'E') then
-if arg(2)\=s=arg(1) then signal error
-self~put: super (arg(1),arg(1))
+ the specified index. If you specify index, it must be the same as value. */
+  if arg(2,'E') then
+    if arg(2)\==arg(1) then signal error
+  self~put:super(arg(1),arg(1))
+```
 
 #### UNION
 
-::method union /* rCOLLECTION */
-return CommonUnion (self, EnBag(arg(1)))
+```rexx
+::method union           /* rCOLLECTION */
+  return CommonUnion(self, EnBag(arg(1)))
+```
 
 #### INTERSECTION
 
-::method intersection /* rCOLLECTION */
-return CommoniIntersect (self,EnBag(arg(1)))
+```rexx
+::method intersection         /* rCOLLECTION */
+  return CommoniIntersect(self,EnBag(arg(1)))
+```
 
 #### XOR
 
-::method xor /* rCOLLECTION */
-return CommonXor (self, EnBag(arg(1)))
+```rexx
+::method xor          /* rCOLLECTION */
+  return CommonXor(self, EnBag(arg(1)))
+```
 
 #### DIFFERENCE
 
-::method difference /* rCOLLECTION */
-return CommonDifference (self, EnBag(arg(1)))
+```rexx
+::method difference    /* rCOLLECTION */
+  return CommonDifference(self, EnBag(arg(1)))
+```
 
 ### The directory class
 
+```rexx
 ::class 'Directory' subclass Collection
+```
 
 #### AT
 
-::method at /* vANY */
-a=self~exposed
-
+```rexx
+::method at           /* rANY */
+  a=self~exposed
 /* Returns the item associated with the specified index. */
-j=self~findindex(arg(1))
-
-if j=0 then return .nil
-
+  j=self~findindex(arg(1))
+  if j=0 then return .nil
 /* Run the method if there is one. */
-if a[j+2] then return self~run(a[j])
-return a[j]
+  if a[j+2] then return self~run(a[j])
+  return a[j]
+```
 
 #### PUT
 
-::method put /* vANY rANY */
-a=self~exposed
+```rexx
+::method put          /* rANY rANY */
+  a=self~exposed
 /* Makes the object value a member item of the collection and associates it with
 the specified index. */
-if \arg(2)~hasmethod('MAKESTRING') then call Raise 'Syntax', 93.938
-self~put:super(arg(1),arg(2) ~makestring)
-return
+  if \arg(2)~hasmethod('MAKESTRING') then call Raise 'Syntax', 93.938
+  self~put:super(arg(1),arg(2)~makestring)
+  return
+```
 
 #### MAKEARRAY
 
+```rexx
 ::method makearray
-forward message 'MAKEARRAYX'
+  forward message 'MAKEARRAYX'
+```
 
 #### SUPPLIER
 
+```rexx
 ::method supplier
-a=self~exposed
+  a=self~exposed
 /* Returns a supplier object for the directory. */
 /* Check out what happens to the SETENTRY fields. */
-r=.array~new /* For items */
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-r[r~dimension(1)+1]=a[j]
+  r=.array~new    /* For items */
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    r[r~dimension(1)+1]=a[j]
+    end j
+  return .supplier~new(r,self~makearray)
+```
 
-end j
-return .supplier~new(r,self~makearray)
 #### UNION
-::method union /* rCOLLECTION */
 
-return CommonUnion (self,arg(1))
+```rexx
+::method union         /* rCOLLECTION */
+  return CommonUnion(self,arg(1))
+```
 
 #### INTERSECTION
 
-::method intersection /* rCOLLECTION */
-return CommoniIntersect (self,arg(1))
+```rexx
+::method intersection         /* rCOLLECTION */
+  return CommoniIntersect(self,arg(1))
+```
 
 #### XOR
 
-::method xor /* rCOLLECTION */
-return CommonXor (self,arg(1))
+```rexx
+::method xor        /* rCOLLECTION */
+return CommonXor(self,arg(1))
+```
 
 #### DIFFERENCE
 
-::method difference /* rCOLLECTION */
-return CommonDifference(self,arg(1))
+```rexx
+::method difference   /* rCOLLECTION */
+  return CommonDifference(self,arg(1))
+```
 
 #### SUBSET
 
-::method subset /* rCOLLECTION */
+```rexx
+::method subset     /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
+```
 
 #### SETENTRY
 
-::smethod setentry /* rSTRING oANY */
-
-a=self~exposed
+```rexx
+::method setentry     /* rSTRING oANY */
+  a=self~exposed
 /* Sets the directory entry with the specified name (translated to uppercase) to
-the second argument, replacing any existing entry or method for the specified
-name. */
-
-n=translate(arg(1))
-
-j=self~findindex(n)
-
-if j=0 & \arg(2,'E') then return
-
-if \arg(2,'E') then do /* Removal */
-
-self~removeit (j)
-
-return
-end
-
-if j=0 then do /* It's new */
-a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
-j=1+3*al[1] /*ItemsCount*/
-alj+l]=n
-end
-
-alj]=arg(2)
-
-a[4j+2]=0
-
-return
+ the second argument, replacing any existing entry or method for the specified
+ name. */
+  n=translate(arg(1))
+  j=self~findindex(n)
+  if j=0 & \arg(2,'E') then return
+  if \arg(2,'E') then do /* Removal */
+    self~removeit (j)
+    return
+    end
+  if j=0 then do /* It's new */
+    a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
+    j=1+3*al[1]/*ItemsCount*/
+    a[j+l]=n
+    end
+  a[j]=arg(2)
+  a[j+2]=0
+  return
+```
 
 #### ENTRY
 
-::smethod entry /* rSTRING */
-a=self~exposed
+```rexx
+::method entry        /* rSTRING */
+  a=self~exposed
 /* Returns the directory entry with the specified name (translated to
-uppercase). */
-n=translate(arg(1))
-j=self~findindex(n)
+ uppercase). */
+  n=translate(arg(1))
+  j=self~findindex(n)
 /*if j=0 then signal error according to online */
 /* Online has something about running UNKNOWN. */
-if j=0 then return .nil
-/* If there is an entry decide whether to invoke it. */
-if a~hasindex(j) then do
-if \al[j+2] then return al[j]
-return self~run(al[jl])
-end
+  if j=0 then return .nil
+  /* If there is an entry decide whether to invoke it. */
+  if a~hasindex(j) then do
+    if \a[j+2] then return al[j]
+    return self~run(al[jl])
+    end
+```
 
 #### HASENTRY
 
-::method hasentry /* rSTRING */
+```rexx
+::method hasentry     /* rSTRING */
 /* Returns 1 (true) if the directory has an entry or a method for the specified
 name (translated to uppercase) or 0 (false) otherwise. */
-
-return self~findindex (translate(arg(1)))>0
+  return self~findindex(translate(arg(1)))>0
+```
 
 #### SETMETHOD
 
-::method setmethod /* rSTRING oMETHOD */
-a=self~exposed
+```rexx
+::method setmethod    /* rSTRING oMETHOD */
+  a=self~exposed
 /* Associates entry with the specified name (translated to uppercase) with
-method method. Thus, the language processor returns the result of running
-method when you access this entry. */
+ method method. Thus, the language processor returns the result of running
+ method when you access this entry. */
 /* (Part of METHOD checking converts string or array to actual method.) */
-n=translate(arg(1))
-j=self~findindex(n)
-if j=0 & \arg(2,'E') then return
-if \arg(2,'E') then do
-self~removeit (j)
-return
-end
-if j=0 then do /* It's new */
-a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
-j=1+3*al[1] /*ItemsCount*/
-alj+l]=n
-end
-alj]=arg(2)
-a[j+2]=1
-return
+  n=translate(arg(1))
+  j=self~findindex(n)
+  if j=0 & \arg(2,'E') then return
+  if \arg(2,'E') then do
+    self~removeit (j)
+    return
+    end
+  if j=0 then do /* It's new */
+    a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
+    j=1+3*al[1]/*ItemsCount*/
+    a[j+l]=n
+    end
+  a[j]=arg(2)
+  a[j+2]=1
+  return
+```
 
 #### UNKNOWN
 
-::method unknown /* rSTRING rARRAY */
-
+```rexx
+::method unknown      /* rSTRING rARRAY */
 /* Runs either the ENTRY or SETENTRY method, depending on whether the message
-name supplied ends with an equal sign. If the message name does not end with an
-equal sign, this method runs the ENTRY method, passing the message name as its
-argument. */
+ name supplied ends with an equal sign. If the message name does not end with an
+ equal sign, this method runs the ENTRY method, passing the message name as its
+ argument. */
+  if right(arg(1),1)\=='=' then
+    return self~entry(arg(1))
+  /* ?? Not clear whether second argument is mandatory. */
+  t=.nil
+  if arg(2,'E') then t=arg(2)[1]
+  self~setentry(left(arg(1),length(arg(1))-1),t)
+```
 
-if right (arg(1),1)\=s='=' then
+### The stem class
 
-return self~entry(arg(1))
-/* 2?? Not clear whether second argument is mandatory. */
-t=.nil
+_For some reason, the stem class doesn't have PUT and AT methods, which stops us having a general rule about [] synonyms AT, []= synonyms PUT._
 
-if arg(2,'E') then t=arg(2) [1]
-self~setentry (left (arg(1),length(arg(1))-1),t)
-12.3 The stem class
-For some reason, the stem class doesn't have PUT and AT methods, which stops us having a general rule about []
-synonyms AT, []= synonyms PUT.
-Anyway, committee doing without this class as such.
+_Anyway, committee doing without this class as such._
 
-Here is temporary stuff showing how to use algebra in the collection coding.
+_Here is temporary stuff showing how to use algebra in the collection coding._
 
+```rexx
 /* This 1998 version uses Rony's rules for XOR and INTERSECTION based on
 UNION and DIFFERENCE */
 
@@ -1140,7 +1168,7 @@ UNION and DIFFERENCE */
 between implementations that keep collections in different orders. */
 
 /* Invocation example:
-settest.cmd 1> tmp.res 2> tmp.err
+  settest.cmd 1> tmp.res 2> tmp.err
 */
 
 /* Jnitial verification that new definitions are in effect  */
@@ -1148,165 +1176,138 @@ J18list = .List~new
 if \J18list~hasmethod("J18") then signal error
 
 /* Input collections used for the tests */
-
 coll.1 = .array~of(1, 2,, 4)
-
 coll.2 = list~of(2, 3, 6)
-
 coll.3 = .queue~new~~PUSH(2)~~PUSH(3)~~PUSH(7)
-
 coll.4 = .directory~new~~setentry(1, "eins")~~setentry(3, "drei")
-
 coll.5 = .bag~new~~put(2)~~put(3)~~put(5)~~put(2)
-
 coll.6 = .relation~new~~"[J="("zwei", 2)~~"[]="(‘"drei", 3)~~"[J="(‘vier", 8)~~"J="C"drei",3)
 coll.7 = .set~of(2, 3, 9)
-
 coll.8 = .table~new~~"[]="("zwei", 2)~~"[J="("drei", 3)~~"[T]J="C"vier", 10)
-
 coll.0 = 8
 
 message. 1 = "UNION"
-
-message.2 = "INTERSECTION" __/* index the same in both */
+message.2 = "INTERSECTION"         /* index the same in both */
 message.3 = "DIFFERENCE" /* if index only in Ist collection  */
-message.4 = "XOR" /* unique index among both collections */
+message.4 = "XOR"     /* unique index among both collections */
 message.5 = "SUBSET" /* target is subset of other collection */
-
 message. = 5
 
 target. = coll.
+
 hstart = 4
 istart = |
 jstart = 1
-
 output = 1
 setOfTargets = .set~new
 
 SAY "Test Results of Set Operations on Collection Classes -- dated" date('U')
-
 SAY
 
-DO h= hstart TO target.0 /* loop over target
-targetID = target.h~class~id
-IF \setOfTargets~hasindex(targetID) THEN
-DO
-SAY
-SAY CENTER(" Target:" targetID "", 70, "=")
-setOfTargets~put(targetID)
-output = 1
-END
+DO h= hstart TO target.0        /* loop over target    */
+  targetID = target.h~class~id
+  IF \setOfTargets~hasindex(targetID) THEN
+  DO
+    SAY
+    SAY CENTER(" Target:" targetID "", 70, "=")
+    setOfTargets~put(targetID)
+    output = 1
+  END
 
-DO i= istart TO coll.0 /* loop over other collections
-if output then do
-output = 0
-argumentID = coll.i~class~id
-SAY
-SAY CENTER(" argument:" argumentID "", 65, "=")
-SAY
-SAY "INPUT:"
-SAY "contents of" pp(targetID) "target:"
-CALL dump_collection target.h
-SAY
+  DO i= istart TO coll.0 /* loop over other collections    */
+    if output then do
+      output = 0
+      argumentID = coll.i~class~id
+      SAY
+      SAY CENTER(" argument:" argumentID "", 65, "=")
+      SAY
+      SAY "INPUT:"
+      SAY "contents of" pp(targetID) "target:"
+      CALL dump_collection target.h
+      SAY
 
-SAY "contents of" pp(argumentID) "argument:"
+      SAY "contents of" pp(argumentID) "argument:"
+      CALL dump_collection colli
+      SAY
+      SAY CENTER(" start set operators ", 65, "-")
+    end
 
-CALL dump_collection colli
+    DO j =jstart TO message.0   /* loop over set operators */
+      tmpString | = RIGHT("h" pp(h) "i" ppG) "j" ppG), 65)
+      tmpString2 = pp(targetID "~" message.j || "(" argumentID ")")
+      SAY OVERLAY( tmpString2, tmpString1 )
+                 /* set resume parameter in case of error*/
+      jstart = j+1
+      IF jstart>message.0 THEN DO
+        istart = i+]
 
-SAY
+        IF istart>coll.0 THEN DO
+          hstart = h+1
+          istart = 1
+        END
+        jstart = 1
+        output = 1
+      END
+                      /* process method invocation */
+      IF target.h~hasmethod(message.j) THEN DO
+         tmp = .message~new(target.h, message.j, "I", coll.i)~send
+         if "The String class"=tmp~class~defaultname then do
+           if datatype(tmp,"B") then do
+             if tmp then
+               SAY" Result is TRUE"
+             else
+               SAY" Result is FALSE"
+           end
+         end
+         else CALL dump_collection tmp
+       END
+       ELSE
+         SAY pp(targetID) "does not have method ~" pp(message.j)
 
-SAY CENTER(" start set operators ", 65, "-")
-end
+       SAY LEFT("", 40, "-")
+     END
+     jstart = 1
+   END
+   jstart = 1
+   istart = 1
+   output = 1
+ END
 
-DO j =jstart TO message.0 /* loop over set operators
-tmpString | = RIGHT("h" pp(h) "i" ppG) "j" ppG), 65)
-
-*/
-
-*/
-
-*/
-
-tmpString2 = pp(targetID "~" message.j || "(" argumentID ")")
-
-SAY OVERLAY ( tmpString2, tmpString1 )
-
-/* set resume parameter in case of error*/
-
-jstart = j+1
-IF jstart>message.0 THEN DO
-istart = i+]
-
-IF istart>coll.0 THEN DO
-hstart = h+1
-istart = 1
-
-END
-jstart = 1
-output = |
-END
-/* process method invocation */
-IF target.h~hasmethod(message.j) THEN DO
-tmp = .message~new(target.h, message.j, "I", coll.i)~send
-if "The String class"=tmp~class~defaultname then do
-if datatype(tmp,"B") then do
-
-if tmp then
-SAY" Result is TRUE"
-else
-SAY" Result is FALSE"
-end
-end
-else CALL dump_collection tmp
-END
-ELSE
-
-SAY pp(targetID) "does not have method ~" pp(message.j)
-
-SAY LEFT("", 40, "-")
-END
-jstart = 1
-END
-jstart = 1
-istart = 1
-output = 1
-END
-
-RETURN
+ RETURN
 
 dump_collection:procedure
-USE ARG collection
-k = .array~new
-i= .array~new
-tmpSupp = collection~supplier
-DO WHILE tmpSupp~AVAILABLE
-k[k~dimension(1)+1]=tmpSupp~INDEX
-i{i~dimension(1)+1]=tmpSupp~ITEM
-tmpSupp~NEXT
-END
-do until hope
-hope=1
-do j=1 to k~dimension(1)-1
-if k[j]~string>k[j+1]~string |,
-(k[j]~string=k[j+1]~string & i[j]~string<i[j+1]~string) then do
+  USE ARG collection
+  k = .array~new
+  i = .array~new
+  tmpSupp = collection~supplier
+  DO WHILE tmpSupp~AVAILABLE
+    k[k~dimension(1)+1]=tmpSupp~INDEX
+    i{i~dimension(1)+1]=tmpSupp~ITEM
+    tmpSupp~NEXT
+  END
+  do until hope
+    hope=1
+    do j=1 to k~dimension(1)-1
+      if k[j]~string>k[j+1]~string |,
+        (k[j]~string=k[j+1]~string & i[j]~string<i[j+1]~string) then do
+        t=k[j];k[j]=k[j+1];k[j+1]=t
+        t=i[j];i[j]=i[j+1];i[j+1]=t
+        hope=0
+      end
+    end
+  end
+  if O=collection~items then
+    say" The result is empty!"
+  else
+    do j=1 to k~dimension(1)
+      SAY " " "index" pp(k[j]) "item" ppd[j)
+    end
+  RETURN
+            /* Auxiliary routines */
+pp: RETURN "[" || ARG(1)~string || "]"
+```
 
-t=k[j]sk(jJ=kUj+ 1 )sk[j+1]=t
-t=i[j)siG ]=if+ Usifj+t]=t
-hope=0
-end
-end
-end
-if O=collection~items then
-say" The result is empty!"
-else
-do j=1 to k~dimension(1)
-SAY " " "index" pp(k[j]) "item" ppd[j)
-
-end
-RETURN
-/* Auxiliary routines */
-pp: RETURN "[" || ARG(1)~string || "J"
-[*
+/*==================================================================================*/
 
 /* X3J18 Rexx Language Standard proposal for the Set-like operations on the
 Collection classes */
