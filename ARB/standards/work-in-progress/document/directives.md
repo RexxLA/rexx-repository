@@ -368,286 +368,153 @@ _Unsound now we are using 'term'?_
                  'operation would need',
                  'exponential notation at current NUMERIC DIGITS <value>'
 ```
-#ErrorText.27
-#ErrorText.27.1=
+#ErrorText.27  = 'Invalid DO syntax'
+#ErrorText.27.1= 'Invalid use of keyword "<token>" in DO clause'
 
-#ErrorText.28
-#ErrorText.28.1=
-#ErrorText.28.2=
-#ErrorText.28.3=
+#ErrorText.28  = 'Invalid LEAVE or ITERATE'
+#ErrorText.28.1= 'LEAVE is valid only within a repetitive DO loop'
+#ErrorText.28.2= 'ITERATE is valid only within a repetitive DO loop'
+#ErrorText.28.3= 'Symbol following LEAVE ("<token>") must',
+                 'either match control variable of a current',
+                 'DO loop or be omitted'
+#ErrorText.28.4= 'Symbol following ITERATE ("<token>") must',
+                 'either match control variable of a current',
+                 'DO loop or be omitted'
 
-#ErrorText.28.4=
+#ErrorText.29  = 'Environment name too long'
+#ErrorText.29.1= 'Environment name exceeds',
+                 #Limit_EnvironmentName 'characters; found "<name>"'
 
-#ErrorText.29
-#ErrorText.29.1=
+#ErrorText.30  = 'Name or string too long'
+#ErrorText.30.1= 'Name exceeds' #Limit Name 'characters'
+#ErrorText.30.2= 'Literal string exceeds' #Limit_Literal 'characters'
 
-#ErrorText.30
-#ErrorText.30.1=
-#ErrorText.30.2=
+#ErrorText.31  = 'Name starts with number or "."'!
+#ErrorText.31.1= 'A value cannot be assigned to a number;',
+                 'found "<token>"'
+#ErrorText.31.2= 'Variable symbol must not start with a number;',
+                 'found "<token>"'
+#ErrorText.31.3= 'Variable symbol must not start with a ".";',
+                 'found "<token>"'
 
-#ErrorText.31
-#ErrorText.31.1=
+#ErrorText.33  = 'Invalid expression result'
+#ErrorText.33.1= 'Value of NUMERIC DIGITS ("<value>")',
+                 'must exceed value of NUMERIC FUZZ "(<value>)"'
+#ErrorText.33.2= 'Value of NUMERIC DIGITS ("<value>")',
+                 'must not exceed' #Limit Digits
+#ErrorText.33.3= 'Result of expression following NUMERIC FORM',
+                 'must start with "E" or "S"; found "<value>"'
 
-#ErrorText.31.2=
-
-#ErrorText.31.3=
-
-'Invalid DO syntax'
-'Invalid use of keyword "<token>" in DO clause'
-
-'Invalid LEAVE or ITERATE'
-
-'LEAVE is valid only within a repetitive DO loop'
-'ITERATE is valid only within a repetitive DO loop'
-'Symbol following LEAVE ("<token>") must',
-
-'either match control variable of a current',
-
-'DO loop or be omitted'
-
-'Symbol following ITERATE ("<token>") must',
-'either match control variable of a current',
-
-'DO loop or be omitted'
-
-'Environment name too long'
-'Environment name exceeds',
-
-#Limit EnvironmentName 'characters; found "<name>"'
-'Name or string too long'
-
-'Name exceeds' #Limit Name 'characters'
-"Literal string exceeds' #Limit Literal 'characters'
-'Name starts with number or "."'!
-
-'A value cannot be assigned to a number;',
-
-'found "<token>"'
-
-'Variable symbol must not start with a number;',
-'found "<token>"'
-
-'Variable symbol must not start with a ".";',
-
-'found "<token>"'
-#ErrorText.33 =
-#ErrorText.33.1=
-
-#ErrorText.33.2=
-
-#ErrorText.33.3=
-
-#ErrorText.34 =
-#ErrorText.34.1=
-
-'Invalid expression result'
-'Value of NUMERIC DIGITS ("<value>")',
-
-'must exceed value of NUMERIC FUZZ
-
-"(<¢value>)"'!
-
-'Value of NUMERIC DIGITS ("<value>")',
-
-'must not exceed'
-
-#Limit Digits
-
-"Result of expression following NUMERIC FORM',
-
-'must start with "E"
-
-or "S"; found "<value>"'
-
-"Logical value not "0" or "1"!
-
-'Value of expression
-
-following IF keyword',
-
-'must be exactly "0" or "1"; found "<value>"'
+#ErrorText.34  = "Logical value not "0" or "1"!
+#ErrorText.34.1= 'Value of expression following IF keyword',
+                 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.2= 'Value of expression following WHEN keyword',
-
-'must be exactly "0" or "1"; found "<value>"'
+                 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.3= 'Value of expression following WHILE keyword',
-
-'must be exactly "0" or "1"; found "<value>"'
+                 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.4= 'Value of expression following UNTIL keyword',
-
-'must be exactly "0" or "1"; found "<value>"'
+                 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.5= 'Value of expression to left',
-
-'of logical operator "<operator>"',
-
-'must be exactly "0" or "1"; found "<value>"'
+                 'of logical operator "<operator>"',
+                 'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.6= 'Value of expression to right',
-
-'of logical operator "<operator>"',
-
-'must be exactly "0" or "1"; found "<value>"'
-#ErrorText.35 = 'Invalid expression'
+                 'of logical operator "<operator>"',
+                 'must be exactly "0" or "1"; found "<value>"'
+                 
+#ErrorText.35  = 'Invalid expression'
 #ErrorText.35.1= 'Invalid expression detected at "<token>"'
 
-#ErrorText.36
+#ErrorText.36  = 'Unmatched "(" in expression'
 
-'Unmatched "(" in expression'
+#ErrorText.37  = 'Unexpected "," or ")"'
+#ErrorText.37.1= 'Unexpected ","'
+#ErrorText.37.2= 'Unmatched ")" in expression'
 
-#ErrorText.37 =
-#ErrorText.37.1=
-#ErrorText.37.2=
+#ErrorText.38  = 'Invalid template or pattern'
+#ErrorText.38.1= 'Invalid parsing template detected at "<token>"'
+#ErrorText.38.2= 'Invalid parsing position detected at "<token>"'
+#ErrorText.38.3= 'PARSE VALUE instruction requires WITH keyword'
 
-'Unexpected n a n ny nt
-
-'Unexpected ","!
-'Unmatched ")" in expression'
-
-or
-
-#ErrorText.38 =
-#ErrorText.38.1=
-#ErrorText.38.2=
-#ErrorText.38.3=
-
-'Invalid template or pattern'
-
-'Invalid parsing template detected at "<token>"'
-'Invalid parsing position detected at "<token>"'
-"PARSE VALUE instruction requires WITH keyword'
-
-"Incorrect call to routine'
-
-'External routine "<name>" failed'
-
-'Not enough arguments in invocation of <bif>;',
-'minimum expected is <argnumber>'
-
-'Too many arguments in invocation of <bif>;',
-'maximum expected is <argnumber>'
-
-'Missing argument in invocation of <bif>;',
-'argument <argnumber> is required'
-'ebif> argument <argnumber>',
-
-'exponent exceeds' #Limit ExponentDigits
-"found "<value>"'
-
-'<bif> argument <argnumber>',
-
-'must be a number; found "<value>"'!
-'<bif> argument <argnumber>',
-
-#ErrorText.40 =
-#ErrorText.40.1=
-#ErrorText.40.3=
-#ErrorText.40.4=
-#ErrorText.40.5=
-
-#ErrorText.40.9=
-'digits;',
-
-#ErrorText.40.11=
-
-#ErrorText.40.12=
-
-'must be a whole number; found "<value>"'
+#ErrorText.40 = 'Incorrect call to routine'
+#ErrorText.40.1= 'External routine "<name>" failed'
+#ErrorText.40.3= 'Not enough arguments in invocation of <bif>;',
+                 'minimum expected is <argnumber>'
+#ErrorText.40.4= 'Too many arguments in invocation of <bif>;',
+                 'maximum expected is <argnumber>'
+#ErrorText.40.5= 'Missing argument in invocation of <bif>;',
+                 'argument <argnumber> is required'
+#ErrorText.40.9= '<bif> argument <argnumber>',
+                 'exponent exceeds' #Limit ExponentDigits 'digits;',
+                 'found "<value>"'
+#ErrorText.40.11='<bif> argument <argnumber>',
+                 'must be a number; found "<value>"'
+#ErrorText.40.12='<bif> argument <argnumber>',
+                 'must be a whole number; found "<value>"'
 #ErrorText.40.13='<bif> argument <argnumber>',
-
-'must be zero or positive; found "<value>"'
+                 'must be zero or positive; found "<value>"'
 #ErrorText.40.14='<bif> argument <argnumber>',
-
-'must be positive; found "<value>"'
-
+                 'must be positive; found "<value>"'
 #ErrorText.40.17='<bif> argument 1',
-'must have an integer part in the range 0:90 and a',
-'decimal part no larger than .9; found "<value>"'
+                 'must have an integer part in the range 0:90 and a',
+                 'decimal part no larger than .9; found "<value>"'
 #ErrorText.40.18='<bif> conversion must',
-
-"have a year in the range 0001 to 9999!
+                 'have a year in the range 0001 to 9999'
 #ErrorText.40.19='<bif> argument 2, "<value>", is not in the format',
-
-'described by argument 3, "<value>"'
-
+                 'described by argument 3, "<value>"'
 #ErrorText.40.21='<bif> argument <argnumber> must not be null'
 #ErrorText.40.23='<bif> argument <argnumber>',
-
-'must be a single character; found "<value>"'
+                 'must be a single character; found "<value>"'
 #ErrorText.40.24='<bif> argument 1',
-
-'must be a binary string; found "<value>"'
+                 'must be a binary string; found "<value>"'
 #ErrorText.40.25='<bif> argument 1',
-
-'must be a hexadecimal string; found "<value>"'
+                 'must be a hexadecimal string; found "<value>"'
 #ErrorText.40.26='<bif> argument 1',
-
-'must be a valid symbol; found "<value>"'
+                 'must be a valid symbol; found "<value>"'
 #ErrorText.40.27='<bif> argument 1',
-
-'must be a valid stream name; found "<value>"'
+                 'must be a valid stream name; found "<value>"'
 #ErrorText.40.28='<bif> argument <argnumber>,',
-
-'option must start with one of "<optionslist>";',
-
-'found "<value>"'
-
+                 'option must start with one of "<optionslist>";',
+                 'found "<value>"'
 #ErrorText.40.29='<bif> conversion to format "<value>" is not allowed'
 #ErrorText.40.31='<bif> argument 1 ("<value>") must not exceed 100000'
 #ErrorText.40.32='<bif> the difference between argument 1 ("<value>") and',
-
-'argument 2 ("<value>") must not exceed 100000'
+                 'argument 2 ("<value>") must not exceed 100000'
 #ErrorText.40.33='<bif> argument 1 ("<value>") must be less than',
-
-'or equal to argument 2 ("<value>")'
+                 'or equal to argument 2 ("<value>")'
 #ErrorText.40.34='<bif> argument 1 ("<value>") must be less than',
-
-'or equal to the number of lines',
-
-'in the program (<sourceline()>)'
+                 'or equal to the number of lines',
+                 'in the program (<sourceline()>)'
 #ErrorText.40.35='<bif> argument 1 cannot be expressed as a whole number;',
-
-'found "<value>"'
-
+                 'found "<value>"'
 #ErrorText.40.36='<bif> argument 1',
-'must be the name of a variable in the pool;',
-'found "<value>"'
-
+                 'must be the name of a variable in the pool;',
+                 'found "<value>"'
 #ErrorText.40.37='<bif> argument 3',
-
-'must be the name of a pool; found "<value>"'
+                 'must be the name of a pool; found "<value>"'
 #ErrorText.40.38='<bif> argument <argnumber>',
-
-'is not large enough to format "<value>"'
+                 'is not large enough to format "<value>"'
 #ErrorText.40.39='<bif> argument 3 is not zero or one; found "<value>"'
 #ErrorText.40.41='<bif> argument <argnumber>',
-
-'must be within the bounds of the stream;',
-
-'found "<value>"'
-
+                 'must be within the bounds of the stream;',
+                 'found "<value>"'
 #ErrorText.40.42='<bif> argument 1; cannot position on this stream;',
-'found "<value>"'
+                 'found "<value>"'
 #ErrorText.40.45='<bif> argument <argnumber> must be a single',
-
-'non-alphanumeric character or the null string; ',
-
-' "found <value>"'
-
+                 'non-alphanumeric character or the null string; ',
+                 '"found <value>"'
 #ErrorText.40.46='<bif> argument 3, "<value>", is a format incompatible',
+                 'with separator specified in argument <argnumber>'
 
-'with separator specified in argument <argnumber>'
-
-#ErrorText.41 = 'Bad arithmetic conversion'
+#ErrorText.41 =  'Bad arithmetic conversion'
 #ErrorText.41.1= 'Non-numeric value ("<value>")',
-'to left of arithmetic operation "<operator>"'
-
+                 'to left of arithmetic operation "<operator>"'
 #ErrorText.41.2= 'Non-numeric value ("<value>")',
-'to right of arithmetic operation "<operator>"'
+                 'to right of arithmetic operation "<operator>"'
 #ErrorText.41.3= 'Non-numeric value ("<value>")',
-
-'used with prefix operator "<operator>"'
-
+                 'used with prefix operator "<operator>"'
 #ErrorText.41.4= 'Value of TO expression in DO instruction',
-'must be numeric; found "<value>"'!
-
+                 'must be numeric; found "<value>"'!
+```
 #ErrorText.41.5= 'Value of BY expression in DO instruction',
 'must be numeric; found "<value>"'!
 
