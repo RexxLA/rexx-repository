@@ -167,7 +167,7 @@ number appears immediately before an `'='` and the message text follows in quote
 #ErrorText.0.2 = 'Error <value> in interactive trace: '
 #ErrorText.0.3 = 'Interactive trace. "Trace Off" to end debug. ',
                  'ENTER to continue.'
-#ErrorText.2   = 'Failure during finalization’
+#ErrorText.2   = 'Failure during finalization'
 #ErrorText.2.1 = 'Failure during finalization: <description>'
 
 #ErrorText.3   = 'Failure during initialization'
@@ -190,7 +190,7 @@ number appears immediately before an `'='` and the message text follows in quote
 #ErrorText.7.2 = 'SELECT on line <linenumber> requires WHEN, OTHERWISE,'.
                  'or END; found "<token>"'
 #ErrorText.7.3 = 'All WHEN expressions of SELECT on line <linenumber> are',
-                 'false; OTHERWISE expected’
+                 'false; OTHERWISE expected'
 
 #ErrorText.8   = 'Unexpected THEN or ELSE'
 #ErrorText.8.1 = 'THEN has no corresponding IF or WHEN clause'
@@ -247,7 +247,7 @@ number appears immediately before an `'='` and the message text follows in quote
                  'instruction executed after an internal CALL',
                  'or function invocation'
 #ErrorText.17.2= 'The EXPOSE instruction is valid only when it is the first',
-                 'instruction executed after a method invocation’
+                 'instruction executed after a method invocation'
 
 #ErrorText.18  = 'THEN expected'
 #ErrorText.18.1= 'IF keyword on line <linenumber> requires',
@@ -331,7 +331,7 @@ character string
 data string'
 data string
 
-TRACE request’
+TRACE request'
 
 is valid'
 
@@ -502,7 +502,7 @@ one of the',
 'must be zero or a positive whole number;',
 'found "<value>"'
 
-"Positional pattern of parsing template’,
+"Positional pattern of parsing template',
 'must be a whole number; found "<value>"'
 "NUMERIC DIGITS value',
 
@@ -588,7 +588,7 @@ found "<value>"'
 
 'Value of NUMERIC DIGITS ("<value>")',
 
-'must not exceed’
+'must not exceed'
 
 #Limit Digits
 
@@ -629,7 +629,7 @@ following IF keyword',
 
 #ErrorText.36
 
-‘Unmatched "(" in expression’
+‘Unmatched "(" in expression'
 
 #ErrorText.37 =
 #ErrorText.37.1=
@@ -638,7 +638,7 @@ following IF keyword',
 'Unexpected n a n ny nt
 
 'Unexpected ","!
-‘Unmatched ")" in expression’
+‘Unmatched ")" in expression'
 
 or
 
@@ -653,7 +653,7 @@ or
 ‘Invalid parsing position detected at "<token>"'
 "PARSE VALUE instruction requires WITH keyword'
 
-"Incorrect call to routine’
+"Incorrect call to routine'
 
 'External routine "<name>" failed'
 
@@ -702,7 +702,7 @@ or
 #ErrorText.40.18='<bif> conversion must',
 
 "have a year in the range 0001 to 9999!
-#ErrorText.40.19='<bif> argument 2, "<value>", is not in the format’,
+#ErrorText.40.19='<bif> argument 2, "<value>", is not in the format',
 
 ‘described by argument 3, "<value>"'
 
@@ -790,7 +790,7 @@ or
 #ErrorText.41.5= 'Value of BY expression in DO instruction',
 'must be numeric; found "<value>"'!
 
-#ErrorText.41.6= 'Value of control variable expression of DO instruction’,
+#ErrorText.41.6= 'Value of control variable expression of DO instruction',
 'must be numeric; found "<value>"'!
 
 #ErrorText.41.7= 'Exponent exceeds' #Limit ExponentDigits 'digits;',
@@ -805,26 +805,26 @@ or
 'Nevalue> <operation> <value>";',
 ‘exponent of result requires more than',
 #Limit ExponentDigits 'digits'
-"Arithmetic overflow; divisor must not be zero’
+"Arithmetic overflow; divisor must not be zero'
 
 #ErrorText.42.3
 
-"Routine not found’
+"Routine not found'
 ‘Could not find routine "<name>"'
 
 #ErrorText.43 =
 #ErrorText.43.1=
-#ErrorText.44 = 'Function did not return data’
+#ErrorText.44 = 'Function did not return data'
 
 #ErrorText.44.1= 'No data returned from function "<name>"'
 
 #ErrorText.45 = 'No data specified on function RETURN'
-#ErrorText.45.1= 'Data expected on RETURN instruction because’,
-‘routine "<name>" was called as a function’
+#ErrorText.45.1= 'Data expected on RETURN instruction because',
+‘routine "<name>" was called as a function'
 
-#ErrorText.46 = 'Invalid variable reference’
+#ErrorText.46 = 'Invalid variable reference'
 #ErrorText.46.1= 'Extra token ("<token>") found in variable',
-‘reference; ")" expected’
+‘reference; ")" expected'
 
 #ErrorText.47 = 'Unexpected label'
 #ErrorText.47.1l= 'INTERPRET data must not contain labels;',
@@ -849,7 +849,7 @@ or
 "Result returned by "<name>" is longer than',
 #Limit String 'characters'
 
-#ErrorText.53 = 'Invalid option’
+#ErrorText.53 = 'Invalid option'
 #ErrorText.53.1l= 'Variable reference expected',
 ‘after STREAM keyword; found "<token>"'
 #ErrorText.53.2= 'Variable reference expected',
@@ -943,7 +943,7 @@ call Config Initialization
 #API Enabled = '0'
 ## REQUIRES
 For each requires in order of appearence:
-A use of Start_API with #instance(requires, taken_constant). Msg40.1 or a new if completion 'E’. Add Provides to an
+A use of Start_API with #instance(requires, taken_constant). Msg40.1 or a new if completion 'E'. Add Provides to an
 ordered collection. Not cyclic because .LIST can be defined without defining REQUIRES but a fairly profound forward
 reference.
 ## CLASS
