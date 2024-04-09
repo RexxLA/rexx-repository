@@ -1658,7 +1658,7 @@ a[{1+3*a[1]/*ItemCount*/|=arg(1)
 a[2+3*a[1]/*ItemCount*/|=al[ 1 ]/*ItemCount*/
 return
 
-:imethod peek
+::method peek
 
 a=self~exposed
 /* Returns the item at the head of the queue. The collection remains unchanged.
@@ -1676,12 +1676,12 @@ r=self~remove:super(arg(1))
 k=0
 do j=4 by 3 to 143*a[1]/*ItemsCount*/
 k=k+1
-a{j+1J=k
+a[j+1]=k
 
 end j
 return r
 
-::class "Table' subclass Collection
+::class 'Table' subclass Collection
 
 ::method makearray
 /* Returns a single-index array containing the index objects. */
@@ -1720,7 +1720,7 @@ the same as the index. Any object can be placed in a set. There can be only
 one occurrence of any object in a set. */
 
 /* Second arg same as first. Committee has dropped second? */
-:rmethod put /* rANY oANY */
+::method put /* rANY oANY */
 /* Makes the object value a member item of the collection and associates it with
 specified index. */
 if arg(2,'E') then
