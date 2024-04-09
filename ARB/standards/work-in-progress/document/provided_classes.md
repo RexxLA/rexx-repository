@@ -2233,18 +2233,27 @@ SYNTAX: RAISE PROPAGATE /* raise error in caller */
 ## The stream class
 
 The stream class provides input/output on external streams.
+
+```rexx
 ::class stream
 
-::method init /* rString */
-Initializes a stream object for a stream named name, but does not open the stream.
-::smethod query /* keywords */
+::method init         /* rString */
+```
 
-There is also QUERY as command with method COMMAND.
+Initializes a stream object for a stream named name, but does not open the stream.
+
+```rexx
+::method query       /* keywords */
+```
+
+_There is also QUERY as command with method COMMAND._
 
 Used with options, the QUERY method returns specific information about a stream.
+
+```rexx
 ::method charin
 
-::smethod charout
+::method charout
 
 ::method chars
 
@@ -2256,75 +2265,111 @@ Used with options, the QUERY method returns specific information about a stream.
 
 ::method qualify
 
-::method command /* rString */
+::method command        /* rString */
+```
 
 Returns a string after performing the specified stream command.
-::method open
 
-There is also OPEN as command with method COMMAND.
+```rexx
+::method open
+```
+
+_There is also OPEN as command with method COMMAND._
 
 Opens the stream to which you send the message and returns "READY:".
 
-Committee dropping OPEN POSITION QUERY SEEK as methods in favour of command use.
+_Committee dropping OPEN POSITION QUERY SEEK as methods in favour of command use._
+
+```rexx
 ::method state
+```
 
 Returns a string that indicates the current state of the specified stream.
+
+```rexx
 ::method say
 
 ::method uninit
 
-::method position /* Ugh */
+::method position       /* Ugh */
+```
+
 POSITION is a synonym for SEEK.
-::method seek /* Ugh */
+
+```rexx
+::method seek           /* Ugh */
+```
 
 Sets the read or write position a specified number (offset) within a persistent stream.
 
+```rexx
 ::method flush
+```
 
 Returns "READY:". Forces any data currently buffered for writing to be written to the stream receiving the
 message.
 
-There is also FLUSH as command with method COMMAND.
+_There is also FLUSH as command with method COMMAND._
 
-Committee dropping FLUSH.
+_Committee dropping FLUSH._
 
+```rexx
 ::method close
+```
 
 Closes the stream that receives the message.
 
-There is also CLOSE as command with method COMMAND.
+_There is also CLOSE as command with method COMMAND._
 
-Semantics are 'seen by other thread’.
+_Semantics are 'seen by other thread’._
+
+```rexx
 ::method string
 
-::method makearray /* rCHARLINE */
-Returns a fixed array that contains the data from the stream in line or character format, starting from the
+::method makearray      /* rCHARLINE */
+```
 
+Returns a fixed array that contains the data from the stream in line or character format, starting from the
 current read position.
+
+```rexx
 ::method supplier
+```
 
 Returns a supplier object for the stream.
+
+```rexx
 ::method description
 
-::smethod arrayin /* rCHARLINE */
+::method arrayin      /* rCHARLINE */
+```
 
-Mixed case value works on OOI.
+_Mixed case value works on OOI._
 
-Committee dropping Arrayin & Arrayout. Arrayin == MakeArray
+_Committee dropping Arrayin & Arrayout. Arrayin == MakeArray_
 
 Returns a fixed array that contains the data from the stream in line or character format, starting from the
-
 current read position.
-::smethod arrayout /* rARRAY rCHARLINE */
+
+```rexx
+::method arrayout      /* rARRAY rCHARLINE */
+```
 
 Returns a stream object that contains the data from array.
 
 ## The alarm class
+
+```rexx
 ::class alarm
 
 ::method init /* Time, Msg */
+```
+
 Sets up an alarm for a future time atime.
+
+```rexx
 ::method cancel
+```
 
 Cancels the pending alarm request represented by the receiver. This method takes no action if the
 specified time has already been reached.
@@ -2332,42 +2377,55 @@ specified time has already been reached.
 ## The monitor class
 The Monitor class forwards messages to a destination object.
 
--local ['OUTPUT'] = .monitor~new(.output)
+```rexx
+.local ['OUTPUT'] = .monitor~new(.output)
 
 ::class monitor
+```
 
 ### INIT
 Initializes the newly created monitor object.
 
-::method init /* oDESTINATION */
-expose Destination
-Destination = .queue~new
-if arg(1,'E') then Destination~push (arg(1))
-return
+```
+::method init         /* oDESTINATION */
+  expose Destination
+  Destination = .queue~new
+  if arg(1,'E') then Destination~push(arg(1))
+  return
+```
 
 ### CURRENT
+
 Returns the current destination object.
 
-::smethod current
-expose Destination
-return Destination [1]
+```rexx
+::method current
+  expose Destination
+  return Destination [1]
+```
 
 ### DESTINATION
+
 Returns a new destination object.
 
-::method destination /* oDESTINATION */
-expose Destination
-if arg(1,'E') then Destination~push (arg(1))
-else Destination~pull
-return Destination [1]
+```rexx
+::method destination  /* oDESTINATION */
+  expose Destination
+  if arg(1,'E') then Destination~push (arg(1))
+                else Destination~pull
+  return Destination[1]
+```
 
 ### UNKNOWN
+
 Reissues or forwards to the current monitor destination all unknown messages sent to a monitor object
 
+```rexx
 ::method unknown
-expose Destination
-
-Extra parens needed here in original OREXX syntax
-
-forward to destination[1] message arg(1) arguments arg(2)
-return
+  expose Destination
+```
+_Extra parens needed here in original OREXX syntax_
+```rexx
+  forward to destination[1] message arg(1) arguments arg(2)
+  return
+```
