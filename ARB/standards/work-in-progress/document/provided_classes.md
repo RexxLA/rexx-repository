@@ -200,425 +200,436 @@ index specified or returns 0 otherwise. */
 
 #### []
 
+```rexx
 ::method '[]'
 /* Synonym for the AT method. */
-forward message 'AT'
+  forward message 'AT'
+```
 
 #### PUT
 
+```rexx
 ::method put /* rANY rANy */
-expose a
-use arg item, index
+  expose a
+  use arg item, index
 /* Replaces any existing item associated with the specified index with the new
 item. Otherwise adds the item-index pair. */
-j=self~findindex (index)
-if j>0 then do
-alj]=item
-return
-end
-a[1] /*ItemsCount*/=a [1] /*ItemsCount*/+1
-j=1+3*al[1] /*ItemsCount*/
-alj]=item
-a[lj+1] =index
-a[j+2]=0
-return /* Error 91 in OOI if context requiring result. */
+  j=self~findindex(index)
+  if j>0 then do
+    a[j]=item
+    return
+    end
+  a[1]/*ItemsCount*/=a[1] /*ItemsCount*/+1
+  j=1+3*a[1]/*ItemsCount*/
+  a[j]=item
+  a[j+1]=index
+  a[j+2]=0
+  return /* Error 91 in OOI if context requiring result. */
+```
 
 #### []=
 
-:smethod '[]='
+```rexx
+::method '[]='
 /* Synonym for the PUT method. */
-forward message 'PUT'
+  forward message 'PUT'
+```
 
 #### HASINDEX
 
-::method hasindex /* vANY */
+```rexx
+::method hasindex      /* rANY */
 /* Returns 1 (true) if the collection contains any item associated with the
 index specified or returns 0 (false) otherwise. */
-
-return self~findindex (arg(1))>0
+return self~findindex(arg(1))>0
+```
 
 #### ITEMS
 
+```rexx
 ::method items
-expose a
-
+  expose a
 /* Returns the number of items in the collection. */
-return a[1]/*ItemsCount*/
+  return a[1]/*ItemsCount*/
+```
 
 #### REMOVE
 
-::method remove /* vANY */
-
-expose a
+```rexx
+::method remove       /* rANY */
+  expose a
 /* Returns and removes from a collection the member item with the specified
 index. */
-
-j=self~findindex(arg(1))
-
-if j=0 then return .nil
-
-r=al[j]
-
-self~removeit (j)
-
-return r
+  j=self~findindex(arg(1))
+  if j=0 then return .nil
+  r=a[j]
+  self~removeit(j)
+  return r
+```
 
 #### REMOVEIT
 
+```rexx
 ::method removeit private
+  expose a
+  use arg j
+  /* Remove relevant slots from the array, with compaction. */
+  do j=j+3 by 3 to 1+3*a[1]/*ItemsCount*/
+    a[j-3]=a[j];a[j-2]=a[j+1];a[j]=a[j+2]
+    end j
+  a[1]/*ItemsCount*/=a[1]/*ItemsCount*/-1
+  return
+```
 
-expose a
+#### MAKEARRAY
 
-use arg j
-
-/* Remove relevant slots from the array, with compaction. */
-
-do j=j+3 by 3 to 14+3*a[1]/*ItemsCount*/
-alj-3l=saljl;alj-2]=al[j+1];alj-ll=alj+2]
-end j
-
-a[1] /*ItemsCount*/=a [1] /*ItemsCount*/-1
-
-return
-
-#### MAKEARRYA
-
+```rexx
 ::method makearray
-
-expose a
+  expose a
 /* Returns a single-index array containing the receiver list items. */
-r= .array~new /* To build result in. */
-
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-r[r~dimension(1)+1]=a[j]
-end j
-
-return r
+  r= .array~new        /* To build result in. */
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    r[r~dimension(1)+1]=a[j]
+    end j
+  return r
+```
 
 #### MAKEARRAYX
 
+```rexx
 ::method makearrayx private
-expose a
+  expose a
 /* Returns a single-index array containing the receiver index items. */
-r= .array~new /* To build result in. */
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-r[r~dimension(1)+1]=a[j+1]
-end j
-return r
+  r= .array~new        /* To build result in. */
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    r[r~dimension(1)+1]=a[j+1]
+    end j
+  return r
+```
 
 #### SUPPLIER
 
+```rexx
 ::method supplier
-expose a
-
+  expose a
 /* Returns a supplier object for the list. */
-return .supplier~new(self~makearray: .collection, self~makearrayx)
+  return .supplier~new(self~makearray:.collection, self~makearrayx)
+```
 
 ### Class list
 
-::¢class 'List' subclass Collection
+```rexx
+::class 'List' subclass Collection
+```
 
 #### PUT
 
-::method put /* vANY rANY */
-use arg item, index
-a=self~exposed
-
+```rexx
+::method put          /* rANY rANY */
+  use arg item, index
+  a=self~exposed
 /* PUT for a List must not be an insertion. */
-j=self~findindex (index)
-if j=0 then call Raise 'Syntax',93.918
-alj]=item
-return
+  j=self~findindex (index)
+  if j=0 then call Raise 'Syntax',93.918
+  alj]=item
+  return
+```
 
 #### OF
 
-::method of class /* 1 or more oANY Are they omittable? Not in I00 */
+```rexx
+::method of class     /* 1 or more oANY  Are they omittable? Not in IOO */
 /* Returns a newly created list containing the specified value objects in the
 order specified. */
-r= self ~ new
-do j = 1 to arg()
-r~ insert (arg(j))
-end j
-return r
+   r= self ~ new
+   do j = 1 to arg()
+     r ~ insert (arg(j))
+     end j
+   return r
+```
 
 #### INSERT
 
-::method insert /* rANY oANY */
-
-use arg item, index
-
-a=self~exposed
+```rexx
+::method insert      /* rANY oANY */
+  use arg item, index
+  a=self~exposed
 /* Returns a list-supplied index for a new item, of specified value, which is
 added to the list. The new item follows the existing item with the specified
 index in the list ordering. */
 /* Establish the index of what preceeds the new element. */
 /* If there was no index given, the new item becomes the last on list. */
 /* .nil argument means first */
-
-if arg(2,'E') then p=arg(2)
-
-else p=self~last
-
+  if arg(2,'E') then p=arg(2)
+                else p=self~last
 /* Convert from list index to underlying array index. */
-
-if p==.nil then j=1
-
-else j=self~findindex(p)
-
-if j=0 then call Raise 'Syntax',93.918
-
-j=j+3 /* Where new entry will be. */
+  if p==.nil then j=1
+             else j=self~findindex(p)
+  if j=0 then call Raise 'Syntax',93.918
+  j=j+3 /* Where new entry will be. */
 /* Move space to required place. */
-
-a[1] /*ItemsCount*/=a [1] /*ItemsCount*/+1
-
-do k=1+3*a[1]/*ItemsCount*/ by -3 to j+3
-
-a[k] =a[k-3] ;a[k+1] =a[k-2] ;a[k] =a[k-3]
-end
-
+  a[1]/*ItemsCount*/=a[1]/*ItemsCount*/+1
+  do k=1+3*a[1]/*ItemsCount*/ by -3 to j+3
+    a[k]=a[k-3];a[k+1]=a[k-2];a[k]=a[k-3]
+    end
 /* Insert new element. */
-
-alj]=item
+  a[j]=item
 /* A new, unique, index is needed. */
 /* The basic requirement is for something unique, so this would be correct:
-
-is.object~new /* a unique object, used as a key (the index on the list) */
-*
-
-/
+   i=.object~new /* a unique object, used as a key (the index on the list) */
+*/
 /* However, a number can be used. (At risk of the user thinking it is
 sensible to do arithmetic on it.) */
-
-a[j+1]=a[2]/*Unique*/;a[2] /*Unique*/=a[2] /*Unique*/+1
-
-a[j+2]=0
-
-return a[j+1]
+  a[j+1]=a[2]/*Unique*/;a[2]/*Unique*/=a[2]/*Unique*/+1
+  a[j+2]=0
+  return a[j+1]
+```
 
 #### FIRST
 
+```rexx
 ::method first
-a=self~exposed
-
+  a=self~exposed
 /* Returns the index of the first item in the list. */
-if a[1]/*ItemsCount*/=0 then return .nil
-
-141
-return a[5]
+  if a[1]/*ItemsCount*/=0 then return .nil
+  return a[5]
+```
 
 #### LAST
 
-::smethod last
-a=self~exposed
-
+```rexx
+::method last
+  a=self~exposed
 /* Returns the index of the last item in the list. */
-if a[1]/*ItemsCount*/=0 then return .nil
-return a[3*a[1]/*ItemsCount*/+2]
+  if a[1]/*ItemsCount*/=0 then return .nil
+  return a[3*a[1]/*ItemsCount*/+2]
+```
 
 #### FIRSTITEM
 
+```rexx
 ::method firstitem
-a=self~exposed
-
+  a=self~exposed
 /* Returns the first item in the list. */
-if a[1]/*ItemsCount*/=0 then return .nil
-return a[4]
+  if a[1]/*ItemsCount*/=0 then return .nil
+  return a[4]
+```
 
 #### LASTITEM
 
+```rexx
 ::method lastitem
-a=self~exposed
-
+  a=self~exposed
 /* Returns the last item in the list. */
-if a[1]/*ItemsCount*/=0 then return .nil
-return a[3*a[1]/*ItemsCount*/+1]
+  if a[1]/*ItemsCount*/=0 then return .nil
+  return a[3*a[1]/*ItemsCount*/+1]
+```
 
 #### NEXT
 
-::method next /* vANY */
-a=self~exposed
+```rexx
+::method next         /* rANY */
+  a=self~exposed
 /* Returns the index of the item that follows the list item having the specified
 index. */
-j=self~findindex(arg(1))
-if j=0 then call Raise 'Syntax',93.918
-j=j+3
-if j>3*a[1]/*ItemsCount*/ then return .nil /* Next of last was requested. */
-return a[j+1]
+  j=self~findindex(arg(1))
+  if j=0 then call Raise 'Syntax',93.918
+  j=j+3
+  if j>3*a[1]/*ItemsCount*/ then return .nil /* Next of last was requested. */
+  return a[j+1]
+```
 
 #### PREVIOUS
 
-::method previous /* vANY */
-
-a=self~exposed
+```rexx
+::method previous     /* rANY */
+  a=self~exposed
 /* Returns the index of the item that precedes the list item having the
 specified index. */
-
-j=self~findindex(arg(1))
-
-if j=0 then call Raise 'Syntax',93.918
-
-j=j-3
-
-if j<4 then return .nil /* Previous of first was requested. */
-
-return a[j+1]
+  j=self~findindex(arg(1))
+  if j=0 then call Raise 'Syntax',93.918
+  j=j-3
+  if j<4 then return .nil /* Previous of first was requested. */
+  return a[j+1]
+```
 
 #### SECTION
 
+```rexx
 ::method section /* rANY oWHOLE>=0 */
-
-a=self~exposed
+  =self~exposed
 /* Returns a new list containing selected items from the receiver list. The
 first item in the new list is the item corresponding to the index specified,
 in the receiver list. */
-
-j=self~findindex(arg(1))
-
-if j=0 then call Raise 'Syntax',93.918
-
-r= .list~new /* To build result in. */
-if arg(2,'E') then s = arg(2)
-else s = self~items;
-do s
-r~insert (a[j])
-j=j+3
-if j>1+3*a[1]/*ItemsCount*/ then leave
-end
-return r
-
+  j=self~findindex(arg(1))
+  if j=0 then call Raise 'Syntax',93.918
+  r= .list~new /* To build result in. */
+  if arg(2,'E') then s = arg(2)
+                     else s = self~items;
+  do s
+    r~insert (a[j])
+    j=j+3
+    if j>1+3*a[1]/*ItemsCount*/ then leave
+    end
+  return r
+```
+ 
 ### Class queue
 
+```rexx
 ::class 'Queue' subclass Collection
 
 /* A queue is a sequenced collection with whole-number indexes. The
-
 indexes specify the position of an item relative to the head (first item) of
 the queue. Adding or removing an item changes the association of an index to
 its queue item. */
+```
 
 #### PUSH
 
-::method push /* vANY */
-
+```rexx
+::method push /* rvANY */
 /* Adds the object value to the queue at its head. */
-a=self~exposed
-a[1] /*ItemCount*/=a [1] /*ItemCount*/+1
-
+  a=self~exposed
+  a[1]/*ItemCount*/=a[1]/*ItemCount*/+1
 /* Slide along to make a space. */
-do j=1+3*a[1]/*ItemCount*/ by -3 to 7
+  do j=1+3*a[1]/*ItemCount*/ by -3 to 7
+    a[j]=a[j-3]
+    a[j+l]=a[j-2]+1; /* Index changes */
+    end j
+  a[4]=arg(1)
+  a[5]=1
+  return
+```
 
-aljl=alj-3]
-alj+l]=a[j-2]+1; /* Index changes */
-end j
-a[4]=arg(1)
-a[5J=1
-return
 12.2.4.2 PULL
 
+```rexx
 ::method pull
 /* Returns and removes the item at the head of the queue. */
-a=self~exposed
-if a[1]/*ItemCount*/=0 then return .nil /* Stays empty */
-r=a[4]
-a[1] /*ItemCount*/=a [1] /*ItemCount*/-1
-do j=4 by 3 to 1+3*a[1]/*ItemCount*/
-aljl=a[j+3]
-alj+l]=a[j+4]-1; /* Index changes */
-end j
-return r
+  a=self~exposed
+  if a[1]/*ItemCount*/=0 then return .nil /* Stays empty */
+  r=a[4]
+  a[1]/*ItemCount*/=a[1]/*ItemCount*/-1
+  do j=4 by 3 to 1+3*a[1]/*ItemCount*/
+    a[j]=a[j+3]
+    a[j+l]=a[j+4]-1; /* Index changes */
+    end j
+  return r
+```
 
 #### QUEUE
 
-::method queue /* vANY */
+```rexx
+::method queue       /* rANY */
 /* Adds the object value to the queue at its tail. */
-a=self~exposed
-a[1] /*ItemCount*/=a [1] /*ItemCount*/+1
-a[1+3*a[1] /*ItemCount*/]=arg(1)
-a[2+3*a[1] /*ItemCount*/]=a[1]/*ItemCount*/
-return
+  a=self~exposed
+  a[1]/*ItemCount*/=a[1]/*ItemCount*/+1
+  a[1+3*a[1]/*ItemCount*/]=arg(1)
+  a[2+3*a[1]/*ItemCount*/]=a[1]/*ItemCount*/
+  return
+```
 
 #### PEEK
 
+```rexx
 ::method peek
-
-a=self~exposed
+  a=self~exposed
 /* Returns the item at the head of the queue. The collection remains unchanged.
 */
-
-return a[4]
+  return a[4]
+```
 
 #### REMOVE
 
-::method remove /* rcWHOLE>O */
+```rexx
+::method remove       /* rWHOLE>O */
 /* Returns and removes from a collection the member item with the specified
 index. */
-a=self~exposed
-if a[1]/*ItemCount*/<arg(1) then return .nil
-r=self~remove: super (arg(1))
-/* Reset the indexes. */
-k=0
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-k=k+1
-alj+l]=k
-end j
-return r
+  a=self~exposed
+  if a[1]/*ItemCount*/<arg(1) then return .nil
+  r=self~remove:super(arg(1))
+  /* Reset the indexes. */
+  k=0
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    k=k+1
+    a[j+l]=k
+    end j
+  return r
+```
 
 ### Class table
 
+```rexx
 ::Class 'Table' subclass Collection
+```
 
 #### MAKEARRAY
 
+```rexx
 ::method makearray
 /* Returns a single-index array containing the index objects. */
 /* This is different from Collection MAKEARRAY where items rather than indexes
 are in the returned array. */
-forward message 'MAKEARRAYX'
+  forward message 'MAKEARRAYX'
+```
 
 #### UNION
 
-::method union /* rCOLLECTION */
-return CommonUnion (self,arg(1))
+```rexx
+::method union        /* rCOLLECTION */
+  return CommonUnion(self,arg(1))
+```
 
 #### INTERSECTION
 
-::method intersection /* rCOLLECTION */
-return CommoniIntersect (self,arg(1))
+```rexx
+::method intersection         /* rCOLLECTION */
+  return CommoniIntersect(self,arg(1))
+```
 
 #### XOR
 
-::method xor /* rCOLLECTION */
-return CommonXor (self,arg(1))
+```rexx
+::method xor          /* rCOLLECTION */
+  return CommonXor(self,arg(1))
+```
 
 #### DIFFERENCE
 
-::method difference /* rCOLLECTION */
-return CommonDifference(self,arg(1))
+```rexx
+::method difference   /* rCOLLECTION */
+  return CommonDifference(self,arg(1))
+```
 
 #### SUBSET
 
-::method subset /* rCOLLECTION */
+```rexx
+::method subset     /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
+```
 
 #### Class set
 
-::¢class 'Set' subclass table
+```rexx
+::class 'Set' subclass table
 
 /* A set is a collection that restricts the member items to have a value that is
-the same as the index. Any object can be placed in a set. There can be only
-
+ the same as the index. Any object can be placed in a set. There can be only
 one occurrence of any object in a set. */
+```
 
 #### PUT
 
+```rexx
 /* Second arg same as first. Committee has dropped second? */
-::method put /* YANY oANY */
+::method put          /* rANY oANY */
 /* Makes the object value a member item of the collection and associates it with
 specified index. */
-if arg(2,'E') then
-if arg(2)\==arg(1) then signal error /* 949 */
-self~put:super(arg(1),arg(1))
+  if arg(2,'E') then
+    if arg(2)\==arg(1) then signal error  /* 949 */
+  self~put:super(arg(1),arg(1))
+```
 
 #### OF
 
