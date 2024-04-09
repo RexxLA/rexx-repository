@@ -1,6 +1,18 @@
-
-
-
+```
+/* REXX */
+Parse Version v
+Say v
+_="    -0.05625000000000000000"
+Say '_='_
+Say 'format(_/1, 6)' format(_/1, 6)
+Say 'format(_+0, 6)' format(_+0, 6)
+Say 'format(_  , 6)' format(_  , 6)
+_="     0.05625000000000000000"
+Say 'format(_/1, 6)' format(_/1, 6)
+Say 'format(_+0, 6)' format(_+0, 6)
+Say 'format(_  , 6)' format(_  , 6)
+/*
+```
 
 ```
 	REXX370 4.02 01 Dec 1998               
@@ -111,7 +123,8 @@
 	format(_+0, 6)     0.
 	format(_  , 6)     0.
 	
-	REXX 5.00 22 April 99 _=    -0.05625000000000000000 
+	REXX 5.00 22 April 99
+	 _=    -0.05625000000000000000 
 	format(_/1, 6)     -0.05625 
 	format(_+0, 6)     -0.0562500000 
 	format(_  , 6)     -0.0562500000 
