@@ -502,7 +502,7 @@ its queue item. */
   return
 ```
 
-12.2.4.2 PULL
+#### PULL
 
 ```rexx
 ::method pull
@@ -605,7 +605,7 @@ are in the returned array. */
 #### SUBSET
 
 ```rexx
-::method subset     /* rCOLLECTION */
+::method subset       /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
 ```
 
@@ -633,261 +633,278 @@ specified index. */
 
 #### OF
 
-::method of class /* 1 or more rANYy */
+```rexx
+::method of class     /* 1 or more rANY */
 /* Returns a newly created set containing the specified value objects. */
-r=self~new
-do j=1 to arg()
-r~put (arg(j))
-end j
-return r
+  r=self~new
+  do j=1 to arg()
+    r~put(arg(j))
+    end j
+   return r
+```
 
 #### UNION
 
+```rexx
 ::method union /* rCOLLECTION */
-return CommonUnion (self, EnBag(arg(1)))
+  return CommonUnion(self, EnBag(arg(1)))
+```
 
 #### INTERSECTION
 
-::method intersection /* rCOLLECTION */
-return CommoniIntersect (self,EnBag(arg(1)))
+```rexx
+::method intersection          /* rCOLLECTION */
+  return CommoniIntersect (self,EnBag(arg(1)))
+```
 
 #### XOR
 
-::method xor /* rCOLLECTION */
-return CommonXor (self, EnBag(arg(1)))
+```rexx
+::method xor          /* rCOLLECTION */
+  return CommonXor(self, EnBag(arg(1)))
+```
 
 #### DIFFERENCE
 
-::method difference /* rCOLLECTION */
-return CommonDifference (self, EnBag(arg(1)))
+```rexx
+::method difference   /* rCOLLECTION */
+  return CommonDifference(self, EnBag(arg(1)))
+```
 
 ### Class relation
 
-::Class 'Relation' subclass Collection
+```rexx
+::class 'Relation' subclass Collection
+```
 
 #### PUT
 
-::method put /* vANY rANY */
-
-use arg item, index
-
-a=self~exposed
+```rexx
+::method put          /* rANY rANY */
+  use arg item, index
+  a=self~exposed
 /* Makes the object value a member item of the relation and associates it with
-the specified index. If the relation already contains any items with the
-specified index, this method adds a new member item value with the same index,
-without removing any existing members */
-
-a[1] /*ItemsCount*/=a [1] /*ItemsCount*/+1
-
-j=1+3*al[1] /*ItemsCount*/
-
-alj]=item
-
-a[lj+1] =index
-
-a[j+2]=0
-
-return /* Error 91 in OOI if context requiring result. */
+ the specified index. If the relation already contains any items with the
+ specified index, this method adds a new member item value with the same index,
+ without removing any existing members */
+ a[1]/*ItemsCount*/=a[1]/*ItemsCount*/+1
+  j=1+3*a[1]/*ItemsCount*/
+  a[j]=item
+  a[j+1]=index
+  a[j+2]=0
+  return /* Error 91 in OOI if context requiring result. */
+```
 
 #### ITEMS
 
-::method items /* oANY */
-a=self~exposed
+```rexx
+::method items       /* oANY */
+  a=self~exposed
 /* Returns the number of relation items with the specified index. If you specify
-no index, this method returns the total number of items associated with all
-indexes in the relation. */
-if \arg(1,'E') then return a[1]/*ItemsCount*/
-n=0
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if arg(1)==a[j+1] then n=n+1
-end j
-return n
+ no index, this method returns the total number of items associated with all
+ indexes in the relation. */
+  if \arg(1,'E') then return a[1]/*ItemsCount*/
+  n=0
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if arg(1)==a[j+1] then n=n+1
+    end j
+  return n
+```
 
 #### MAKEARRAY
 
+```rexx
 ::method makearray
-forward message 'MAKEARRAYX'
+  forward message 'MAKEARRAYX'
+```
 
 #### SUPPLIER
 
-::method supplier /* oANY */
-a=self~exposed
+```rexx
+::method supplier     /* oANY */
+  a=self~exposed
 /* Returns a supplier object for the collection. If an index is specified, the
-supplier enumerates all of the items in the relation with the specified
-index. */
-m=.array~new /* For the items */
-r=.array~new /* For the indexes */
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if arg(1,'E') then
-if arg(1)\=s=a[j+1] then iterate
-n=r~dimension(1)+1
+ supplier enumerates all of the items in the relation with the specified
+ index. */
+  m=.array~new     /* For the items */
+  r=.array~new     /* For the indexes */
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if arg(1,'E') then
+      if arg(1)\==a[j+1] then iterate
+    n=r~dimension(1)+1
+    m[n] =a[j]
+    r[n] =a[j+1]
+    end j
+  return .supplier~new(m,r)
+```
 
-m[n] =a[j]
-r[n] =a[j+1]
+#### UNION
 
-end j
-return .supplier~new(m,r)
-12.2.7.5 UNION
-::method union /* rCOLLECTION */
-
+```rexx
+::method union        /* rCOLLECTION */
 /* Union for a relation is just all of both. */
-r=self~class~new
-cs=self~supplier
-do while cs~available
-
-r[cs~index] =cs~item
-es-next
-end
-cs=MayEnBag (arg(1))~supplier
-do while cs~available
-r[cs~index] =cs~item
-es-next
-end
-return r
+  r=self~class~new
+  cs=self~supplier
+  do while cs~available
+    r[cs~index] =cs~item
+    cs-next
+    end
+  cs=MayEnBag(arg(1))~supplier
+  do while cs~available
+    r[cs~index] =cs~item
+    cs-next
+    end
+  return r
+```
 
 #### INTERSECTION
 
+```rexx
 ::method intersection /* rCOLLECTION */
-
 /* Intersection for a relation requires the items as well as the keys to
 match. */
-
-r=self~class~new
-sc=self~class~new
-cs=self~supplier
-do while cs~available
-sc [cs~index] =cs~item
-cs~next
-end
-cs=MayEnBag (arg(1))~supplier
-do while cs~available
-if sc~hasitem(cs~item,cs~index) then
-r [ecs~index] =sc~removeitem(cs~item,
-cs~next
-end
-return r
-
-cs~index)
+  r=self~class~new
+  sc=self~class~new
+  cs=self~supplier
+  do while cs~available
+    sc[cs~index] =cs~item
+    cs~next
+    end
+  cs=MayEnBag(arg(1))~supplier
+  do while cs~available
+    if sc~hasitem(cs~item,cs~index) then
+      r[ecs~index] =sc~removeitem(cs~item, cs~index)
+    cs~next
+    end
+  return r
+```
 
 #### XOR
 
-::method xor /* rCOLLECTION */
+```rexx
+::method xor          /* rCOLLECTION */
 /* Returns a new relation that contains all items from self and
-
 the argument except that all index-item pairs that appear in both collections
 are removed. */
-
-r=self~class~new
-cs=self~supplier
-do while cs~available
-r[cs~index] =cs~item
-cs~next
-end
-cs=MayEnBag (arg(1))~supplier
-do while cs~available
-if self~hasitem(cs~item,cs~index) then
-r~removeitem(cs~item, cs~index)
-else
-r[cs~index] =cs~item
-cs~next
-end
-return r
+  r=self~class~new
+  cs=self~supplier
+  do while cs~available
+    r[cs~index] =cs~item
+    cs~next
+    end
+  cs=MayEnBag(arg(1))~supplier
+  do while cs~available
+    if self~hasitem(cs~item,cs~index) then
+      r~removeitem(cs~item, cs~index)
+    else
+      r[cs~index] =cs~item
+    cs~next
+    end
+  return r
+```
 
 #### DIFFERENCE
 
-::method difference /* rCOLLECTION */
-
+```rexx
+::method difference   /* rCOLLECTION */
 /* Returns a new relation containing only those index-item pairs from the
-g Y P
-SELF whose indexes the other collection does not contain. */
-r=self~class~new
-cs=self~supplier
-
-do while cs~available
-r[cs~index] =cs~item
-cs~next
-end
-
-cs=MayEnBag (arg(1))~supplier
-
-do while cs~available
-r~removeitem(cs~item, cs~index)
-cs~next
-end
-
-return r
+ SELF whose indexes the other collection does not contain. */
+  r=self~class~new
+  cs=self~supplier
+  do while cs~available
+    r[cs~index] =cs~item
+    cs~next
+    end
+  cs=MayEnBag(arg(1))~supplier
+  do while cs~available
+    r~removeitem(cs~item, cs~index)
+    cs~next
+    end
+  return r
+```
 
 #### SUBSET
 
+```rexx
 ::method subset /* rCOLLECTION */
-return self~difference(arg(1))~items = 0
+  return self~difference(arg(1))~items = 0
+```
 
 #### REMOVEITEM
 
-::method removeitem /* YANY rANY */
-a=self~exposed
+```rexx
+::method removeitem /* rANY rANY */
+  a=self~exposed
 /* Returns and removes from a relation the member item value (associated with
-the specified index). If value is not a member item associated with index
-index, this method returns the NIL object and removes no item. */
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if alj]==arg(1) & a[j+1l]==arg(2) then do
-self~removeit (j)
-return arg(1)
-end
-end j
-return .nil
+ the specified index). If value is not a member item associated with index
+ index, this method returns the NIL object and removes no item. */
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if a[j]==arg(1) & a[j+1]==arg(2) then do
+      self~removeit(j)
+      return arg(1)
+      end
+    end j
+  return .nil
+```
 
 #### INDEX
 
-::method index /* vANY */
-a=self~exposed
+```rexx
+::method index        /* rANY */
+  a=self~exposed
 /* Returns the index for the specified item. If there is more than one index
-associated with the specified item, the one this method returns is not
-defined. */
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if arg(1)==a[j] then return a[j+1]
-end j
-return .nil
+ associated with the specified item, the one this method returns is not
+ defined. */
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if arg(1)==a[j] then return a[j+1]
+    end j
+  return .nil
+```
 
 #### ALLAT
 
-::method allat /* vANY */
-a=self~exposed
+```rexx
+::method allat        /* rANY */
+  a=self~exposed
 /* Returns a single-index array containing all the items associated with the
-specified index. */
-r=.array~new
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if arg(1)==a[j+1] then
-r[r~dimension(1)+1] = aljl
-end j
-return r
+ specified index. */
+  r=.array~new
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if arg(1)==a[j+1] then
+      r[r~dimension(1)+1] = a[j]
+    end j
+  return r
+```
 
 #### HASITEM
 
-::method hasitem /* YANY rANY */
-a=self~exposed
+```rexx
+::method hasitem      /* rANY rANY */
+  a=self~exposed
 /* Returns 1 (true) if the relation contains the member item value (associated
-with specified index). Returns 0 (false) otherwise. */
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if alj]==arg(1) & a[j+l]==arg(2) then return 1
-end j
-return 0
+ with specified index). Returns 0 (false) otherwise. */
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if a[j]==arg(1) & a[j+l]==arg(2) then return 1
+    end j
+  return 0
+```
 
 #### ALLINDEX
-::method allindex /* vANY */
 
-a=self~exposed
+```rexx
+::method allindex    /* rANY */
+  a=self~exposed
 /* Returns a single-index array containing all indexes for the specified
-item. */
-r=.array~new
-do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-if alj]==arg(1) then do
-r[r-~dimension (1)+1] =a[j+1]
-end
-end j
-return r
-
-##3 The bag class
+ item. */
+  r=.array~new
+  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+    if a[j]==arg(1) then do
+      r[r~dimension(1)+1] =a[j+1]
+      end
+    end j
+  return r
+```
+### The bag class
 
 ::class 'Bag' subclass relation
 
