@@ -1169,75 +1169,94 @@ value of the corresponding expression. If #ArgExists.#NewLevel.ArgNumber is '0' 
 
 ### The value of a label
 
-The value of a LABEL, or of the taken_constant in the function or call_instruction, is taken as a constant,
-see nnn. If the taken_constant is not a string_literal it is a reference to the first LABEL in the program
-which has the same value. The comparison is made with the '==' operator.
+The value of a _LABEL_, or of the _taken_constant_ in the function or _call_instruction_, 
+is taken as a constant, see nnn. If the _taken_constant_ is not a _string_literal_ 
+it is a reference to the first _LABEL_ in the program which has the same value. 
+The comparison is made with the '==' operator.
 
 If there is such a matching label and the label is trace-only (see nnn) then a condition is raised:
+
+```rexx
 call #Raise 'SYNTAX', 16.3, taken constant
+```
 
 If there is such a matching label, and the label is not trace-only, execution continues at the label with
 routine initialization (see nnn). This is execution of an internal routine.
 
-If there is no such matching label, or if the taken_constant is a string_literal, further comparisons are
+If there is no such matching label, or if the _taken_constant_ is a _string_literal_, further comparisons are
 made.
 
-If the value of the taken_constant matches the name of some built-in function then that built-in function is
-invoked. The names of the built-in functions are defined in section nnn and are in uppercase.
+If the value of the _taken_constant_ matches the name of some built-in function 
+then that built-in function is invoked. The names of the built-in functions are defined in 
+section nnn and are in uppercase.
 
-If the value does not match any built-in function name, Config_ExternalRoutine is used to invoke an
+If the value does not match any built-in function name, `Config_ExternalRoutine` is used to invoke an
 external routine.
 
-Whenever a matching label is found, the variables SIGL and .SIGL are assigned the value of the line
+Whenever a matching label is found, the variables `SIGL` and `.SIGL` are assigned the value of the line
 number of the clause which caused the search for the label. In the case of an invocation resulting from a
-
 condition occurring that shall be the clause in which the condition occurred.
-Var _ Set(#Pool, 'SIGL', '0', #LineNumber)
-var Set(0 , '.SIGL', '0', #LineNumber)
 
-The name used in the invocation is held in #Name.#Level for possible use in an error message from the
-RETURN clause, see nnn
+```rexx
+Var_Set(#Pool, 'SIGL', '0', #LineNumber)
+var_Set(0 , '.SIGL', '0', #LineNumber)
+```
+
+The name used in the invocation is held in `#Name.#Level` for possible use in an error message from the
+`RETURN` clause, see nnn
 
 ### The value of a function
 
 A built-in function completes when it returns from the activity defined in section nnn. The value of a
 built-in function is defined in section nnn.
 
-An internal routine completes when #Level returns to the value it had when the routine was invoked. The
-value of the internal function is the value of the expression on the return which completed the routine.
-The value of an external function is determined by Config_ExternalRoutine.
+An internal routine completes when `#Level` returns to the value it had when the routine was invoked. The
+value of the internal function is the value of the _expression_ on the _return_ which completed the routine.
+The value of an external function is determined by `Config_ExternalRoutine`.
 
 ### The value of a method
 
 A built-in method completes when it returns from the activity defined in section n. The value of a built-in
 method is defined in section n.
 
-An internal method completes when #Level returns to the value it had when the routine was invoked. The
-value of the internal method is the value of the expression on the return which completed the method.
-The value of an external method is determined by Config_ExternalMethod.
+An internal method completes when `#Level` returns to the value it had when the routine was invoked. The
+value of the internal method is the value of the _expression_ on the _return_ which completed the method.
+The value of an external method is determined by `Config_ExternalMethod`.
 
 ### The value of a message term
 
-See nnn for the syntax of a message_term. The value of the ferm within a message_term is called the
+See nnn for the syntax of a _message_term_. The value of the _term_ within a _message_term_ is called the
 receiver.
 
 The receiver and any arguments of the term are evaluated, in left to right order.
-r= #evaluate(message term, term)
-If the message term contains '~~' the value of the message term is the receiver.
-Any effect on .Result?
-Otherwise the value of a message_term is the value of the method it invokes. The method invoked is
-determined by the receiver and the taken_constant and symbol.
+```rexx
+r = #evaluate(message_term, term)
+```
+
+If the message term contains `'~~'` the value of the message term is the receiver.
+
+_Any effect on .Result?_
+
+Otherwise the value of a _message_term_ is the value of the method it invokes. The method invoked is
+determined by the receiver and the _taken_constant_ and _symbol_.
+
+```rexx
 t = #Instance(message term, taken constant)
-If there is a symbol, it is subject to a constraints.
-if #contains (message term, symbol) then do
-if r <> #Self then
+```
 
-call #Raise 'SYNTAX', nn.n
+If there is a _symbol_, it is subject to a constraints.
 
-/* OOI: "Message search overrides can only be used from methods of the target
+```rexx
+if #contains(message term, symbol) then do
+   if r <> #Self then
+      call #Raise 'SYNTAX', nn.n
+      /* OOI: "Message search overrides can only be used from methods of the target
 object." */
+```
 
 The search will progress from the object to its class and superclasses.
+
+```rexx
 /* This is going to be circular because it describes the message lookup
 algorithm and also uses messages. However for the messages in this code
 the message names are chosen to be unique to a method so there is no need
@@ -1253,96 +1272,90 @@ taken_constant, and symbol. */
 
 /* This code is used in a context where #Self is the receiver of the
 method invocation which the subject message term is running under. */
-```rexx <!--evaluation-selectmethod-->
+
 SelectMethod:
 
 /* If symbol given, receiver must be self. */
-if arg(3,'E') then if arg(1)\==#Self then signal error /* syntax number? */
+ if arg(3,'E') then if arg(1)\==#Self then signal error /* syntax number? */
 
-t arg(2) /* Will have been uppercased, unless a literal. */
-
-x arg(1) /* Cursor through places to look for the method. */
-
-Mixing 1 /* Off for potential mixins ignored because symbol given. */
-Mixins -array~new /* to note any Mixins involved. */
+t = arg(2) /* Will have been uppercased, unless a literal. */
+x = arg(1)  /* Cursor through places to look for the method. */
+Mixing = 1 /* Off for potential mixins ignored because symbol given. */
+Mixins = array~new /* to note any Mixins involved. */
 
 /* Look in the method table of the object, if no 'symbol' given. */
 if arg(3,'E') then do
-Mixing = 0
-
-end
+  Mixing = 0
+  end
 else do
-m = x~#MethodTable[t]
-if m \== .nil then return m
-end
+  m = x~#MethodTable[t]
+  if m \== .nil then return m
+  end
 
 do until x==.object
-/* Follow the class hierarchy. */
-x = x-class
-/* Note any mixins for later reference. */
-Mix = x~Inherited /* An array, ordered as the directive left-to-right. */
+  /* Follow the class hierarchy. */
+  x = x-class
+  /* Note any mixins for later reference. */
+  Mix = x~Inherited /* An array, ordered as the directive left-to-right. */
+  if Mix \== .nil then /* Append to the record. */
+    do j=1 to Mix~dimension (1)
+      Mixins [Mixins~dimension(1)+1] = Mix[j]
+      end
 
-if Mix \== .nil then /* Append to the record. */
-do j=1 to Mix~dimension (1)
-Mixins [Mixins~dimension(1)+1] = Mix[j]
-end
-
-if Mixing do
-/* Consider mixins only for superclasses of 'symbol'. */
-do j=1 to Mixins~dimension (1)
-/* Look at the baseclass of each. */
-/* That is closest superclass not a mixin. */
-s = Mixins[j]~class
-do while s~Mixin /* Assert stop at .object if not before. */
-s=s~class
-end
-if s==x then do
-m=Mixins [j]~#MethodTable[t]
-if m \== .nil then return m
-end
-end j
-end /* Mixing */
-if arg(3,'E') then if arg(3)==x then do
-Mixing=1
-end
-if Mixing do
-/* Consider non-Mixins */
-m= x-#InstanceMethodTable[t]
-
-if m \== .nil then return m
-end
-
-x=x~superclass
-
-end
+  if Mixing do
+    /* Consider mixins only for superclasses of 'symbol'. */
+    do j=1 to Mixins~dimension (1)
+      /* Look at the baseclass of each. */
+      /* That is closest superclass not a mixin. */
+      s = Mixins[j]~class
+      do while s~Mixin /* Assert stop at .object if not before. */
+        s=s~class
+        end
+      if s==x then do
+        m=Mixins [j]~#MethodTable[t]
+        if m \== .nil then return m
+        end
+      end j
+    end /* Mixing */
+  if arg(3,'E') then if arg(3)==x then do
+   Mixing=1
+   end
+  if Mixing do
+    /* Consider non-Mixins */
+    m= x-#InstanceMethodTable[t]
+    if m \== .nil then return m
+    end
+  x=x~superclass
+  end
 
 /* Try for UNKNOWN instead */
 if t == 'UNKNOWN' then return .nil
 if \arg(3,'E') then return SelectMethod arg(1),'UNKNOWN'
-else return SelectMethod arg(1),'UNKNOWN',arg(3)
+               else return SelectMethod arg(1),'UNKNOWN',arg(3)
 ```
-
 
 ### Use of Config_ExternalRoutine
 
-The values of the arguments to the use of Config_ExternalRoutine, in order, are:
+The values of the arguments to the use of `Config_ExternalRoutine`, in order, are:
 
-The argument How is 'SUBROUTINE' if the invocation is from a call, '"FUNCTION' if the invocation is from
-a function.
+The argument `How` is `'SUBROUTINE'` if the invocation is from a _call_, `'FUNCTION'` if the invocation 
+is from a _function_.
 
-The argument NameType is '1' if the taken_constant is a string_literal, '0' otherwise.
+The argument `NameType` is `'1'` if the _taken_constant_ is a _string_literal_, `'0'` otherwise.
 
-The argument Name is the value of the faken_constant.
+The argument `Name` is the value of the _taken_constant_.
 
-The argument Environment is the value of this argument on the API_ Start which started this execution.
-The argument Arguments is the #Arg. and #ArgExists. data.
+The argument `Environment` is the value of this argument on the `API_Start` which started this execution.
 
-The argument Streams is the value of this argument on the API_Start which started this execution.
+The argument `Arguments` is the `#Arg.` and `#ArgExists.` data.
 
-The argument Traps is the value of this argument on the API_Start which started this execution.
-Var_Reset is invoked and #API_Enabled set to '1' before use of Config_ExternalRoutine. #API_Enabled
-is set to 'O' after.
+The argument `Streams` is the value of this argument on the `API_Start` which started this execution.
 
-The response from Config_ExternalRoutine is processed. If no conditions are (implicitly) raised,
-#Outcome is the value of the function.
+The argument `Traps` is the value of this argument on the `API_Start` which started this execution.
+
+`Var_Reset` is invoked and `#API_Enabled` set to `'1'` before use of `Config_ExternalRoutine`. `#API_Enabled`
+is set to `'O'` after.
+
+The response from `Config_ExternalRoutine` is processed. If no conditions are (implicitly) raised,
+`#Outcome` is the value of the function.
 
