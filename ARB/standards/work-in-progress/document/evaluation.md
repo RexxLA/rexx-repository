@@ -16,8 +16,8 @@ datatype(Subject) == 'NUM'
 
 is equivalent to testing whether the subject matches the syntax:
 
-```
-num := [blank+] ['+' | '-'] [blank+] number  [blank+]
+```ebnf
+num := [blank+] ['+' | '-'] [blank+] number [blank+]
 ```
 
 For the syntax of _number_ see nnn.
