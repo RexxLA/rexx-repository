@@ -519,12 +519,12 @@ if #Tracing.#Level == 'R' then call #Trace Tag
 The user of this standard is assumed to know the results of the binary operators '+' and '-' applied to
 signed or unsigned integers.
 
-The code of ArithOp itself is assumed to operate under a sufficiently high setting of numeric digits to
+The code of `ArithOpp`  itself is assumed to operate under a sufficiently high setting of numeric digits to
 avoid exponential notation.
 ```rexx <!--evaluation-arithmetic.rexx-->
-ArithoOp:
+   ArithoOp:
 
-arg Numberl, Operator, Number2
+ arg Numberl, Operator, Number2
 /* The Operator will be applied to Numberl and Number2 under the numeric
 settings #Digits.#Level, #Form.#Level, #Fuzz.#Level */
 
@@ -1142,30 +1142,34 @@ return 'MN '.MN
 
 ### Invocation
 
-Invocation occurs when a function or a message_term or a callis evaluated. Invocation of a function
+Invocation occurs when a _function_ or a _message_term_ or a _call_ is evaluated. Invocation of a function
 may result in a value, in which case:
 
+```rexx
 if #Tracing.#Level == 'I' then call #Trace '>F>'
+```
 
-Invocation of a message_term may result in a value, in which case:
+Invocation of a _message_term_ may result in a value, in which case:
 
+```rexx
 if #Tracing.#Level == 'I' then call #Trace '>M>'
+```
 
 ### Evaluation of arguments
 
-The argument positions are the positions in the exoression_list where syntactically an expression occurs
-or could have occurred. Let ArgNumber be the number of an argument position, counting from 1 at the
-left; the range of ArgNumber is all whole numbers greater than zero.
+The argument positions are the positions in the _expression_list_ where syntactically an _expression_ occurs
+or could have occurred. Let `ArgNumber` be the number of an argument position, counting from `1` at the
+left; the range of `ArgNumber` is all whole numbers greater than zero.
 
-For each value of ArgNumber, #ArgExists.#NewLevel.ArgNumber is set '1' if there is an expression
-present, 'O' if not.
+For each value of `ArgNumber`, `#ArgExists.#NewLevel.ArgNumber` is set `'1'` if there is an expression
+present, `'O'` if not.
 
-From the left, if #ArgExists.#NewLevel.ArgNumber is '1' then #Arg.#NewLevel.ArgNumber is set to the
-value of the corresponding expression. If #ArgExists.#NewLevel.ArgNumber is '0' then
-#Arg.#NewLevel.ArgNumber is set to the null string.
+From the left, if `#ArgExists.#NewLevel.ArgNumber` is `'1'` then `#Arg.#NewLevel.ArgNumber` is set to the
+value of the corresponding expression. If `#ArgExists.#NewLevel.ArgNumber` is `'0'` then
+`#Arg.#NewLevel.ArgNumber` is set to the null string.
 
-#ArgExists.#NewLevel.0 is set to the largest ArgNumber for which #ArgExists.#NewLevel.ArgNumber is
-'1', or to zero if there is no such value of ArgNumber.
+`#ArgExists.#NewLevel.0` is set to the largest `ArgNumber` for which `#ArgExists.#NewLevel.ArgNumber` is
+`'1'`, or to zero if there is no such value of `ArgNumber`.
 
 ### The value of a label
 
