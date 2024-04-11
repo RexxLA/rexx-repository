@@ -482,36 +482,41 @@ power_expression  := prefix_expression
                          [':' ( VAR_SYMBOL | Msg19.21 )]
 /* Method-call without arguments is syntactically like symbol. */
 /* Editor - not sure of my notes about here. */
+invoke       := (symbol | STRING) arguments
+  arguments       := '#(' [expression list] (')' | Msg36)
+    expression_list := expression | [expression] ',' [expression_list]
+indexed           := (symbol | STRING) indices
+  indices         := '#[' [expression list] (']' | Msg36.n)
+initializer       := '['expression list (']' | Msg36.n)
 ```
-invoke := (symbol | STRING) arguments
-arguments := '#(' [expression list] (')' | Meg36)
-expression list := expregsion | [expression] ',' [expression list]
-indexed = (symbol | STRING) indices
-indices = '#[' [expression list] (']' | Msg36.n)
-initializer = '['expression list (']' | Msg36.n)
 
 ## Syntactic information
 
 ### VAR_SYMBOL matching
 
-Any VAR_SYMBOL in a do_ending must be matched by the same VAR_SYMBOL occurring at the start
-of an assignment contained in the do_specification of the do that contains both the do_specification and
-the do_ending, as described in nnn.
-If there is a VAR_SYMBOL in a do_ending for which there is no assignment in the corresponding
-do_specification then message Msg10.3 is produced and no further activity is defined.
-If there is a VAR_SYMBOL in a do_ending which does not match the one occurring in the assignment
+Any `VAR_SYMBOL` in a _do_ending_ must be matched by the same `VAR_SYMBOL` occurring at the start
+of an _assignment_ contained in the _do_specification_ of the _do_ that contains 
+both the _do_specification_ and the _do_ending_, as described in nnn.
+
+If there is a `VAR_SYMBOL` in a _do_ending_ for which there is no _assignment_ in the corresponding
+_do_specification_ then message Msg10.3 is produced and no further activity is defined.
+
+If there is a `VAR_SYMBOL` in a _do_ending_ which does not match the one occurring in the _assignment_
 then message Msg10.2 is produced and no further activity is defined.
-An iterate or leave must be contained in the instruction_list of some do with a do_specification which is
-do_repetitive, otherwise a message (Msg28.2 or Msg28.1 respectively) is produced and no further activity
-is defined.
-If an iterate or leave contains a VAR_SYMBOL there must be a matching VAR_SYMBOL ina
-do_specification, otherwise a message (Msg28.1, Msg28.2, Msg28.3 or Msg28.4 appropriately) is
-produced and no further activity is defined. The matching VAR_SYMBOL will occur at the start of an
-assignment in the do_specification. Tne do_specification will be associated with a do by nnn. The /ferafe
-or leave will be a single instruction in an instruction_list associated with a do by nnn. These two dos shall
-be the same, or the latter nested one or more levels within the former. The number of levels is called the
-nesting_correction and influences the semantics of the iterafe or leave. It is zero if the two dos are the
-same. The nesting_correction for /ferates or leaves that do not contain VAR_SYMBOL is zero.
+
+An _iterate_ or _leave_ must be contained in the _instruction_list_ of some _do_ 
+with a _do_specification_ which is _do_repetitive_, otherwise a message (Msg28.2 or Msg28.1 respectively)
+is produced and no further activity is defined.
+
+If an _iterate_ or _leave_ contains a `VAR_SYMBOL` there must be a matching `VAR_SYMBOL` in a
+_do_specification_, otherwise a message (Msg28.1, Msg28.2, Msg28.3 or Msg28.4 appropriately) is
+produced and no further activity is defined. The matching `VAR_SYMBOL` will occur at the start of an
+_assignment_ in the _do_specification_. Tne _do_specification_ will be associated with a _do_ by nnn. 
+The _iterate_ or _leave_ will be a single _instruction_ in an _instruction_list_ associated 
+with a _do_ by nnn. These two dos shall be the same, or the latter nested one or more levels
+within the former. The number of levels is called the _nesting_correction_ and 
+influences the semantics of the _iterate_ or _leave_. It is zero if the two dos are the
+same. The _nesting_correction_ for _iterates_ or _leaves_ that do not contain `VAR_SYMBOL` is zero.
 
 ### Trace-only labels
 
