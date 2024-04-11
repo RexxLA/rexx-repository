@@ -277,170 +277,134 @@ method_definition   := (method [expose ncl]| routine)
   routine           := 'ROUTINE' ( taken constant | Msg19.11 ) ['PUBLIC'] ncl
   balanced:= instruction_list ['END' Msgl0.1]
     instruction_list:= instruction+
-```
-/* The second part ig about groups */
 
-instruction = group | gingle instruction nel
-group = do ncl | if | loop nel | select nel
-do = do specification nel [instruction+] [group_handler]
-('END' [NAME] | Eos Msg14.1 | Msg35.1)
-group option := 'LABEL' ( NAME | Msgnn ) | 'PROTECT' ( term | Msgnn )
+/* The second part is about groups */
 
-group handler catch | finally catch finally
-
-|
-'CATCH' [ NAME '=' ] ( NAME | Msgnn) nel [instruction+]
-
-catch =
+instruction       := group | single_instruction ncl
+group             := do ncl | if | loop ncl | select ncl
+  do              := do_specification ncl [instruction+] [group_handler]
+                    ('END' [NAME] | Eos Msg14.1 | Msg35.1)
+    group_option  := 'LABEL' ( NAME | Msgnn ) | 'PROTECT' ( term | Msgnn )
+    group_handler := catch | finally | catch finally
+      catch       := 'CATCH' [ NAME '=' ] ( NAME | Msgnn) ncl [instruction+]
 /* FINALLY implies a semicolon. */
-finally = 'FINALLY' nel ( instruction+ | Msgnn )
-if := 'IF' expression [ncl] (then | Msg18.1)
-[else]
-then := 'THEN' nel
-(instruction | EOS Msg14.3 | 'END' Msg10.5)
-else := 'ELSE' nel
-(instruction | EOS Msg14.4 | 'END' Msg10.6)
-loop := 'LOOP' [group_option+] [repetitor] [conditional] nel
-
-instruction+ [group_handler]
-loop ending
-
-loop ending 'END' [VAR SYMBOL] | EOS Msg14.n | Msg35.1
-
-conditional = 'WHILE' whileexpr | 'UNTIL' untilexpr
-untilexpr = expression
-whileexpr = expression
-repetitor = assignment [count option+] | expression | over
+      finally     := 'FINALLY' ncl ( instruction+ | Msgnn )
+  if              := 'IF' expression [ncl] (then | Msg18.1)
+                  [else]
+    then          := 'THEN' ncl
+                  (instruction | EOS Msg14.3 | 'END' Msg10.5)
+    else          := 'ELSE' nel
+                  (instruction | EOS Msg14.4 | 'END' Msg10.6)
+  loop            := 'LOOP' [group_option+] [repetitor] [conditional] ncl
+                     instruction+ [group_handler]
+                     loop_ending
+    loop_ending   := 'END' [VAR SYMBOL] | EOS Msg14.n | Msg35.1
+  conditional     := 'WHILE' whileexpr | 'UNTIL' untilexpr
+    untilexpr     := expression
+    whileexpr     := expression
+  repetitor       := assignment [count option+] | expression | over |
 'FOREVER'
-count option = loopt | loopb | loopf
-loopt = 'TO' expression
-loopb = 'BY' expression
-loopf = 'FOR' expression
-over = VAR SYMBOL 'OVER' expression
-
-| NUMBER 'OVER' Msg31.1
-| CONST SYMBOL 'OVER' (Msg31.2 | Msg31.3)
-
-select := 'SELECT' [group option+] ncl select _ body [group_handler]
-('END' [NAME Msg10.4] | EOS Msgl14.2 | Msg7.2)
-
-(when | Msg7.1) [when+] [otherwise]
-
-'WHEN' expresgion [ncl] (then | Msg18.2)
-
-'OTHERWISE' ncl [instruction+]
-
-select body
-when
-otherwise
+    count_option  := loopt | loopb | loopf
+      loopt       := 'TO' expression
+      loopb       := 'BY' expression
+      loopf       := 'FOR' expression
+    over          := VAR_SYMBOL 'OVER' expression
+                  | NUMBER 'OVER' Msg31.1
+                  | CONST_SYMBOL 'OVER' (Msg31.2 | Msg31.3)
+select            := 'SELECT' [group_option+] ncl select_body [group_handler]
+                  ('END' [NAME Msg10.4] | EOS Msgl14.2 | Msg7.2)
+    select_body   := (when | Msg7.1) [when+] [otherwise]
+      when        := 'WHEN' expresgion [ncl] (then | Msg18.2)
+      otherwise   := 'OTHERWISE' ncl [instruction+]
 
 /* Third part is for single instructions. */
-single instruction:= assignment | message instruction | keyword instruction
-| command
-assignment := VAR SYMBOL '#' expression
-NUMBER '#' Msg31.1
-CONST SYMBOL '#!' (Msg31.2 | Mgg31.3)
-
-message instruction := message term | message term '#' expression
-keyword instruction:= address | arg | call | drop | exit
-interpret | iterate | leave
-
-nop | numeric | options
-parse | procedure | pull | push | queue
-
-raise | reply | return | say | signal | trace | use
-'THEN' Msg8.1 'ELSE' Msg8.2
-'WHEN' Msg9.1 | 'OTHERWISE' Msg9.2
-command = expression
-address = 'ADDRESS' [(taken constant [expression]
-
-| Msg19.1 | valueexp) [ 'WITH' connection] ]
-
-taken constant symbol | STRING
-
-valueexp = 'VALUE' expression
-connection = ad option+
-ad option = error | input | output | Msg25.5
-error = 'ERROR!' (resourceo | Msg25.14)
-input = 'INPUT' (resourcei | Msg25.6)
-resourcei := resources | 'NORMAL'
-output = 'OUTPUT' (resourceo | Mgg25.7)
-resourceo := 'APPEND' (resources | Msg25.8)
-| 'REPLACE' (resources | Msg25.9)
-| resources | 'NORMAL'
-resources := 'STREAM' (VAR_SYMBOL | Msg53.1)
-| 'STEM' (VAR_SYMBOL | Msg53.2)
-vref := '(' var symbol (')' | Msg46.1)
-var symbol = VAR_SYMBOL | Msg20.1
-
-arg := 'ARG' [template list]
-
-eall := 'CALL' (callon_spec |
-(taken constant | vref | Msg19.2) [expression list] )
-callon spec := 'ON' (callable condition | Msg25.1)
-
-['NAME' (symbol constant term | Msg19.3)]
-| 'OFF' (callable condition | Msg25.2)
-
-symbol constant term := term
-
-callable condition:= 'ANY' | 'ERROR' | 'FAILURE' | 'HALT' | 'NOTREADY'
-| 'USER' ( symbol constant term | Msg19.18 )
-
-condition := callable condition | 'LOSTDIGITS'
-| 'NOMETHOD' | 'NOSTRING' | 'NOVALUE' | 'SYNTAX!
-
-expression list
-do specification
-do simple
-
-expr | [expr] ',' [expression list]
-do simple | do repetitive
-'DO' [group_option+]
-
-do repetitive = do simple (dorep | conditional | dorep conditional)
-dorep = 'FOREVER' | repetitor
-drop = 'DROP' variable list
-variable list = (vref | var_symbol)+
-exit = 'EXIT' [expression]
-forward = 'FORWARD' [forward _option+ | Msg25.18]
-forward option = 'CONTINUE' | ArrayArgOption |
-MessageOption | ClassOption | ToOption
-ArrayArgOption:='ARRAY' arguments | 'ARGUMENTS' term
-MessageOption :='MESSAGE' term
-ClassOption ='CLASS' term
-ToOption ='TO' term
-guard = 'GUARD' ('ON' | Msg25.22) [('WHEN' | Msg25.21)
+single_instruction:= assignment | message_instruction | keyword_instruction
+                  |command
+  assignment      := VAR SYMBOL '#' expression
+                  | NUMBER '#' Msg31.1
+                  | CONST_SYMBOL '#' (Msg31.2 | Mgg31.3)
+  message_instruction := message_term | message:term '#' expression
+  keyword_instruction:= address | arg | call | drop | exit
+                  | interpret | iterate | leave
+                  | nop | numeric | options
+                  | parse | procedure | pull | push | queue
+                  | raise | reply | return | say | signal | trace | use
+                  | 'THEN' Msg8.1 | 'ELSE' Msg8.2
+                  | 'WHEN' Msg9.1 | 'OTHERWISE' Msg9.2
+  command         := expression
+address           := 'ADDRESS' [(taken_constant [expression]
+                  | Msg19.1 | valueexp)  [ 'WITH' connection] ]
+  taken_constant  := symbol | STRING
+  valueexp        := 'VALUE' expression
+  connection      := ad_option+
+    ad_option     := error | input | output | Msg25.5
+      error       := 'ERROR' (resourceo | Msg25.14)
+      input       := 'INPUT' (resourcei | Msg25.6)
+        resourcei := resources | 'NORMAL'
+      output      := 'OUTPUT' (resourceo | Mgg25.7)
+        resourceo := 'APPEND' (resources | Msg25.8)
+                  | 'REPLACE' (resources | Msg25.9)
+                  | resources | 'NORMAL'
+resources         := 'STREAM' (VAR_SYMBOL | Msg53.1)
+                  | 'STEM' (VAR_SYMBOL | Msg53.2)
+  vref            := '(' var_symbol (')' | Msg46.1)
+    var:symbol    := VAR_SYMBOL | Msg20.1
+arg               := 'ARG' [template list]
+call              := 'CALL' (callon_spec |
+                  (taken_constant | vref | Msg19.2) [expression_list] )
+  callon_spec     := 'ON' (callable_condition | Msg25.1)
+                  ['NAME' (symbol_constant_term | Msg19.3)]
+                  | 'OFF' (callable_condition | Msg25.2)
+    symbol_constant_term := term
+    callable_condition:= 'ANY' | 'ERROR' | 'FAILURE' | 'HALT' | 'NOTREADY'
+                  | 'USER' ( symbol_constant_term | Msg19.18 )
+    condition     := callable_condition | 'LOSTDIGITS'
+                  | 'NOMETHOD' | 'NOSTRING' | 'NOVALUE' | 'SYNTAX'
+  expression_list := expr | [expr] ',' [expression list]
+do_specification  := do simple | do repetitive
+  do_simple       := 'DO' [group_option+]
+  do_repetitive   := do_simple (dorep | conditional | dorep conditional)
+    dorep         := 'FOREVER' | repetitor
+drop              := 'DROP' variable_list
+  variable_list   := (vref | var_symbol)+
+exit              := 'EXIT' [expression]
+forward           := 'FORWARD' [forward_option+ | Msg25.18]
+  forward_option  := 'CONTINUE' | ArrayArgOption |
+                    MessageOption | ClassOption | ToOption
+    ArrayArgOption:='ARRAY' arguments | 'ARGUMENTS' term
+    MessageOption :='MESSAGE' term
+    ClassOption   :='CLASS' term
+    ToOption      :='TO' term
+guard             := 'GUARD' ('ON' | Msg25.22) [('WHEN' | Msg25.21)
 expression]
-| ( 'OFF' | Msg25.19) [('WHEN' | Msg25.21)
+                         | ( 'OFF' | Msg25.19) [('WHEN' | Msg25.21)
 expression]
-interpret = 'INTERPRET' expression
-iterate = 'ITERATE' [VAR SYMBOL | Msg20.2]
-leave = 'LEAVE' [VAR SYMBOL | Msg20.2]
-nop = 'NOP!'
-numeric = 'NUMERIC' (numeric digits | numeric form
-
-| numeric fuzz | Msg25.15)
-numeric digits 'DIGITS' [expression]
-numeric form 'FORM' [numeric form suffix]
-numeric form suffix:=('ENGINEERING' |'SCIENTIFIC'|valueexp | Msg25.11)
-numeric fuzz 'FUZZ' [expression]
-
-options = 'OPTIONS' expression
-parse = 'PARSE' [translations] (parse type
-|Msg25.12) [template list]
-translations := 'CASELESS' ['UPPER' | 'LOWER']
-| ('UPPER' | 'LOWER') ['CASELESS']
-parse type = parse key | parse value | parse var | term
-parse key = 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'
-| 'VERSION!
-parse value = 'VALUE' [expression] ('WITH' | Mgg38.3)
-parse var = 'VAR' var symbol
-template := NAME [( [pattern] NAME) +]
-pattern:= STRING | [indicator] NUMBER | [indicator] '(' symbol ')'
-indicator := '+' | '-' | 's!
-procedure = 'PROCEDURE' [expose | Msg25.17]
-pull = 'PULL' [template list]
+interpret         := 'INTERPRET' expression
+iterate           := 'ITERATE' [VAR SYMBOL | Msg20.2]
+leave             := 'LEAVE' [VAR SYMBOL | Msg20.2]
+nop               := 'NOP'
+numeric           := 'NUMERIC' (numeric_digits | numeric_form
+                  | numeric fuzz | Msg25.15)
+  numeric_digits  := 'DIGITS' [expression]
+  numeric_form    := 'FORM' [numeric_form_suffix]
+    numeric_form_suffix:=('ENGINEERING' |'SCIENTIFIC'|valueexp | Msg25.11)
+  numeric_fuzz    := 'FUZZ' [expression]
+options           := 'OPTIONS' expression
+parse             := 'PARSE' [translations] (parse_type
+|Msg25.12) [template_list]
+  translations    := 'CASELESS' ['UPPER' | 'LOWER']
+                  | ('UPPER' | 'LOWER') ['CASELESS']
+  parse_type      := parse_key | parse_value | parse_var | term
+    parse_key     := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'
+                  | 'VERSION'
+    parse_value   := 'VALUE' [expression] ('WITH' | Msg38.3)
+    parse_var     := 'VAR' var_symbol
+  template := NAME [( [pattern] NAME) +]
+    pattern:= STRING | [indicator] NUMBER | [indicator] '(' symbol ')'
+      indicator := '+' | '-' | '='
+procedure         := 'PROCEDURE' [expose | Msg25.17]
+pull              := 'PULL' [template_list]
+```
 push = 'PUSH' [expression]
 queue = 'QUEUE' [expression]
 raise = 'RAISE' conditions (raise option | Msg25.24)
