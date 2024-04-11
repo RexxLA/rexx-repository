@@ -9,11 +9,13 @@ BNF productions has
 
 - a left-hand side (called identifier);
 
-- the characters ':=";
+- the characters `':="`;
 
-- a right-hand side (called bnf_expression).
+- a right-hand side (called `bnf_expression`).
+
 The left-hand side identifies syntactic constructs. The right-hand side describes valid ways of writing a
 specific syntactic construct.
+
 The right-hand side consists of operands and operators, and may be grouped.
 
 ### Operands
@@ -21,12 +23,17 @@ The right-hand side consists of operands and operators, and may be grouped.
 Operands may be terminals or non-terminals. If an operand appears as identifier in some other
 production it is called a non-terminal, otherwise it is called a terminal. Terminals are either literal or
 symbolic.
+
 Literal terminals are enclosed in quotes and represent literally (apart from case) what must be present in
 the source being described.
+
 Symbolic terminals formed with lower case characters represent something which the configuration may,
 or may not, allow in the source program, see nnn, nnn, nnn, nnn.
+
 Symbolic terminals formed with uppercase characters represent events and tokens, see nnn and nnn.
+
 ### Operators
+
 The following lists the valid operators, their meaning, and their precedence; the operator listed first has
 the highest precedence; apart from precedence recognition is from left to right:
 
@@ -55,7 +62,7 @@ identifier | message identifier | bnf primary '+'
 
 ### Syntactic errors
 
-The syntax descriptions (see nnn and nnn) make use of message_identifiers which are shown as
+The syntax descriptions (see nnn and nnn) make use of _message_identifiers_ which are shown as
 Msgnn.nn or Msgnn, where nn is a number. These actions produce the correspondingly numbered error
 messages (see nnn and nnn).
 
@@ -71,23 +78,24 @@ The fully-capitalized identifiers in the BNF syntax (see nnn) represent events. 
 by the configuration or occurs as result of a look-ahead in left-to-right parsing. The following events are
 defined:
 
-- EOL occurs at the end of a line of the source. It is provided by Config_SourceChar, see nnn;
+- _EOL_ occurs at the end of a line of the source. It is provided by `Config_SourceChar`, see nnn;
 
-- EOS occurs at the end of the source program. It is provided by Config_SourceChar;
+- _EOS_ occurs at the end of the source program. It is provided by `Config_SourceChar`;
 
-- RADIX occurs when the character about to be scanned is 'X' or 'x' or 'B' or 'b' not followed by a general_letter, or a digit, or'.';
+- _RADIX_ occurs when the character about to be scanned is `'X'` or `'x'` or `'B'` or `'b'` not followed by a _general_letter_, or a _digit_, or `'.'`;
 
-- CONTINUE occurs when the character about to be scanned is ',', and the characters after the ',’ up
-to EOL represent a repetition of comment or blank, and the EOL is not immediately followed by an
-EOS;
+- _CONTINUE_ occurs when the character about to be scanned is `','`, and the characters after the `',’` up
+to _EOL_ represent a repetition of _comment_ or _blank_, and the _EOL_ is not immediately followed by an
+_EOS_;
 
-- EXPONENT_SIGN occurs when the character about to be scanned is '+' or '-', and the characters to
-the left of the sign, currently parsed as part of Const_symbol, represent a plain_number followed by 'E'
-or 'e’, and the characters to the right of the sign represent a repetition of digit not followed by a
-general_letter or'.’.
+- _EXPONENT_SIGN_ occurs when the character about to be scanned is `'+'` or `'-'`, and the characters to
+the left of the sign, currently parsed as part of _Const_symbol_, represent a _plain_number_ followed by `'E'`
+or `'e’`, and the characters to the right of the sign represent a repetition of _digit_ not followed by a
+_general_letter_ or `'.’`.
 
-- | would put ASSIGN here for the leftmost '=' in a clause that is not within parentheses or brackets. But Simon not
-happy with message term being an assignment?
+_- I would put _ASSIGN_ here for the leftmost `'='` in a clause that is not within parentheses or brackets. But Simon not
+happy with message term being an assignment?_
+
 #### Actions and tokens
 Mixed case identifiers with an initial capital letter cause an action when they appear as operands ina
 production. These actions perform further tests and create tokens for use by the top syntax level. The
@@ -623,8 +631,8 @@ the message, the three characters '...' are inserted in the message after the tr
 
 ## Syntactic equivalence
 
-If a message_term contains a '[' it is regarded as an equivalent message_term without a '[', for execution.
-The equivalent is term~'[]'(expression_list). See nnn. If a message_instruction has the construction
-message_term '=' expression it is regarded as equivalent to a message_term with the same components
-as the message_term left of the '=', except that the taken_constant has an '=' character appended and
-arguments has the expression from the right of the '=' as an extra first argument. See nnn.
+If a message_term contains a `'['` it is regarded as an equivalent message_term without a `'['`, for execution.
+The equivalent is `term~'[]'(expression_list)`. See nnn. If a _message_instruction_ has the construction
+`message_term '=' expression` it is regarded as equivalent to a _message_term_ with the same components
+as the _message_term_ left of the `'='`, except that the _taken_constant_ has an `'='` character appended and
+_arguments_ has the expression from the right of the `'='` as an extra first argument. See nnn.
