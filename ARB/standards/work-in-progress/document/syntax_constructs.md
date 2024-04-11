@@ -404,97 +404,85 @@ parse             := 'PARSE' [translations] (parse_type
       indicator := '+' | '-' | '='
 procedure         := 'PROCEDURE' [expose | Msg25.17]
 pull              := 'PULL' [template_list]
-```
-push = 'PUSH' [expression]
-queue = 'QUEUE' [expression]
-raise = 'RAISE' conditions (raise option | Msg25.24)
-conditions = 'ANY' | 'ERROR' term | 'FAILURE' term
-| 'HALT'| 'LOSTDIGITS' | 'NOMETHOD' | 'NOSTRING' |
+push              := 'PUSH' [expression]
+queue             := 'QUEUE' [expression]
+raise             := 'RAISE' conditions (raise_option | Msg25.24)
+  conditions      := 'ANY' | 'ERROR' term | 'FAILURE' term
+                  | 'HALT'| 'LOSTDIGITS' | 'NOMETHOD' | 'NOSTRING' |
 "NOTREADY'
-| 'NOVALUE' | 'PROPAGATE' | 'SYNTAX' term
-| 'USER' ( symbol constant term | Msg19.18) | Msg25.23
-raise option := ExitRetOption | Description | ArrayOption
+                  | 'NOVALUE' | 'PROPAGATE' | 'SYNTAX' term
+                  | 'USER' ( symbol_constant_term | Msg19.18) | Msg25.23
+  raise_option    := ExitRetOption | Description | ArrayOption
+    ExitRetOption := 'EXIT' [term] | 'RETURN' [term]
+    Description   :='DESCRIPTION' term
+    ArrayOption   := 'ADDITIONAL' term | 'ARRAY' arguments
+reply             := 'REPLY' [ expression]
+return            := 'RETURN' [expression]
+say               := 'SAY' [expression]
+signal            := 'SIGNAL' (signal_spec | valueexp
+                  | symbol_constant_term | Msg19.4)
+  signal_spec     := 'ON' (condition | Msg25.3)
+                  ['NAME' (symbol_constant_term | Msg19.3)]
+                  | 'OFF' (condition | Msg25.4)
+trace             := 'TRACE' [(taken_constant | Msg19.6) | valueexp]
+use               := 'USE' ('ARG' | Msg25.26) [use_list]
+  use_list        := VAR_SYMBOL | [VAR_SYMBOL] ',' [use_list]
 
-ExitRetOption := 'EXIT! [term] | 'RETURN' [term]
-Description ='DESCRIPTION' term
-ArrayOption = 'ADDITIONAL' term | "'ARRAY' arguments
-reply = 'REPLY' [ expression]
-return = 'RETURN' [expression]
-say = 'SAY' [expression]
-signal = 'SIGNAL' (signal spec | valueexp
-
-| symbol constant term | Msg19.4)
-
-signal spec := 'ON' (condition | Msg25.3)
-['NAME' (symbol constant term | Msg19.3)]
-| 'OFF' (condition | Msg25.4)
-
-trace = 'TRACE' [(taken_constant | Msgl19.6) | valueexp]
-use = 'USE' ('ARG' | Msg25.26) [use list]
-use list = VAR_SYMBOL | [VAR SYMBOL] ',' [use list]
-
-/* Note: The next part describes templates. */
-template list template | [template] ',' [template list]
-
-template = (trigger | target | Msg38.1)+
-target = VAR_SYMBOL | '.!'
-trigger = pattern | positional
-pattern = STRING | vrefp
-vrefp = '(' (VAR_SYMBOL | Msgl19.7) (')' | Msg46.1)
-positional = absolute positional | relative positional
-absolute positional:= NUMBER '=' position
-pogition := NUMBER | vrefp | Msg38.2
-relative posgitional:= ('+' | '-"') position
+/* Note:  The next part describes templates. */
+template_list     := template | [template] ',' [template_list]
+  template        := (trigger | target | Msg38.1)+
+   target         := VAR_SYMBOL | '.'
+   trigger        := pattern | positional
+     pattern      := STRING | vrefp
+       vrefp      := '(' (VAR_SYMBOL | Msg19.7) (')' | Msg46.1)
+     positional   := absolute positional | relative positional
+       absolute_positional:= NUMBER | '=' position
+         position := NUMBER | vrefp | Msg38.2
+     relative_positional:= ('+' | '-') position
 
 /* Note: The final part specifies the various forms of symbol, and
 expression. */
-
-symbol = VAR_SYMBOL | CONST SYMBOL | NUMBER
-expression = expr [(',' Msg37.1) | (')' Msg37.2 )]
-expr = expr alias
-
-expr alias and expression
-
-| expr alias or operator and expression
-
-or operator := '|' | '&&!
-and expression := comparison | and expression '&' comparison
-comparison := concatenation
-| comparison comparison operator concatenation
-comparison _operator:= normal compare | strict compare
-normal compare:= '=! | "\s! | hep! | tact | tot | tet | toet
-len! W\>! \<!
-strict_compare:= '==' | '\s=' | '>>!' | '<<!' | '>>e! | '<<s!
-| '"\e>t | '\<c!
-concatenation := addition
-| concatenation (' ' | '||') addition
-addition := multiplication
-| addition additive operator multiplication
-additive operator:= '+' | '-!
-multiplication t= power expression
-
-| multiplication multiplicative operator
-power expression
-multiplicative operator:= '*' | '/' | '//' | '%!
-power expression := prefix expression
-| power expression '**' prefix expression
-prefix expression := ('+' | '-' | '\') prefix expression
-term | Msg35.1
+symbol            := VAR_SYMBOL | CONST_SYMBOL | NUMBER
+expression        := expr [(',' Msg37.1) | (')' Msg37.2 )]
+  expr            := expr_alias
+    expr_alias    := and_expression
+                  | expr_alias or_operator and_expression
+      or_operator := '|' | '&&'
+      and_expression := comparison | and_expression '&' comparison
+comparison        := concatenation
+                  | comparison comparison_operator concatenation
+  comparison_operator:= normal_compare | strict_compare
+    normal_compare:= '=' | '\=' | '<>' | '><' | '>' | '<' | '>='
+                  | '<=' | '\>' | '\<'
+    strict_compare:= '==' | '\==' | '>>' | '<<' | '>>=' | '<<='
+                  | '\>>' | '\<<'
+concatenation     := addition
+                  | concatenation (' ' | '||') addition
+addition          := multiplication
+                  | addition additive_operator multiplication
+  additive operator:= '+' | '-'
+multiplication    := power_expression
+                  | multiplication multiplicative_operator
+                  power_expression
+  multiplicative_operator:= '*' | '/' | '//' | '%'
+power_expression  := prefix_expression
+                  | power_expression '**' prefix_expression
+  prefix_expression := ('+' | '-' | '\') prefix_expression
+                  | term | Msg35.1
 /* "Stub" has to be identified semantically? */
+    term          := simple_term [ '.' ( term | Msgnn )]
+      simple_term := symbol | STRING | invoke | indexed
+                  | '(' expression ( ')' | Msg36 )
+                  | initializer
+                  | message_term '##'
+      message_term:= term ('~' | '~~') method_name [arguments]
+                  | term '['[ expression_list ] (']' | Msg36.2)
 
-term = simple term [ '.' ( term | Msgnn )]
-simple term := symbol | STRING | invoke | indexed
-'(' expression ( ')' | Msg36 )
-initializer
-| message term '##!
-message term:= term ('~' | '~~') method name [arguments]
-term '['[ expression list ] (']' | Msg36.2)
-
-method name:=(taken constant | Msg19.19)
-[':' ( VAR_SYMBOL | Msg19.21 )]
-/* Method-call without arguments ig syntactically like symbol. */
+        method_name:=(taken constant | Msg19.19)
+                         [':' ( VAR_SYMBOL | Msg19.21 )]
+/* Method-call without arguments is syntactically like symbol. */
 /* Editor - not sure of my notes about here. */
-
+```
 invoke := (symbol | STRING) arguments
 arguments := '#(' [expression list] (')' | Meg36)
 expression list := expregsion | [expression] ',' [expression list]
