@@ -446,81 +446,124 @@ _General problem of making the error message come right._
 The main features of a single dimension array are provided by the configuration. This section defines
 further methods and multi-dimensional arrays.
 
-To be done. Dimensionality set at first use. Count commas, not classic arg().
+_To be done. Dimensionality set at first use. Count commas, not classic `arg()`._
 
+```rexx
 ::class array
 
-::method new class /* 0 or more WHOLE>=0 */
+::method new class       /* 0 or more WHOLE>=0 */
+```
 
 Returns a new empty array.
 
-::method of class /* 0 or more ANY */
+```rexx
+::method of class        /* 0 or more ANY */
+```
 
 Returns a newly created single-index array containing the specified value objects.
-::method put /* rANY one or more WHOLE>0 */
+
+```rexx
+::method put             /* rANY one or more WHOLE>0 */
+```
 
 Makes the object value a member item of the array and associates it with the specified index or indexes.
-::method ' []=' /* 1 or more WHOLE>0O */
 
-This method is the same as the PUT method.
+```rexx
+::method ' []='          /* 1 or more WHOLE>0 */
+```
 
-::method at /* 1 or more WHOLE>0O */
+This method is the same as the `PUT` method.
+
+```rexx
+::method at              /* 1 or more WHOLE>0 */
+```
 
 Returns the item associated with the specified index or indexes.
 
-::method '[]' /* 1 or more WHOLE>0O */
+```rexx
+::method '[]'            /* 1 or more WHOLE>0 */
+```
 
 Returns the same value as the AT method.
 
-::method remove /* 1 or more WHOLE>0O */
+```rexx
+::method remove          /* 1 or more WHOLE>0 */
+```
 
 Returns and removes the member item with the specified index or indexes from the array.
-::method hasindex /* 1 or more WHOLE>0O */
+
+```rexx
+::method hasindex        /* 1 or more WHOLE>0 */
+```
 
 Returns 1 (true) if the array contains an item associated with the specified index or indexes. Returns 0
 (false) otherwise.
 
-::method items /* (None) */
+```rexx
+::method items           /* (None) */
+```
+
 Returns the number of items in the collection.
-::method dimension /* OWHOLE>0O */
+
+```rexx
+::method dimension       /* oWHOLE>0 */
+```
 
 Returns the current size (upper bound) of dimension specified (a positive whole number). If you omit the
 argument this method returns the dimensionality (number of dimensions) of the array.
 
-::method size /* (None) */
+```rexx
+::method size            /* (None) */
+```
 
 Returns the number of items that can be placed in the array before it needs to be extended.
 
-::method first /* (None) */
+```rexx
+::method first           /* (None) */
+```
 
-Returns the index of the first item in the array, or the NIL object if the array is empty.
+Returns the index of the first item in the array, or the `NIL` object if the array is empty.
 
-::method last /* (None) */
+```rexx
+::method last            /* (None) */
+```
 
-Returns the index of the last item in the array, or the NIL object if the array is empty.
+Returns the index of the last item in the array, or the `NIL` object if the array is empty.
 
-::method next /* rcWHOLE>O */
+```rexx
+::method next            /* rWHOLE>O */
+```
 
-Returns the index of the item that follows the array item having the specified index or returns the NIL
+Returns the index of the item that follows the array item having the specified index or returns the `NIL`
 object if the item having that index is last in the array.
 
-::method previous /* rcWHOLE>O */
+```rexx
+::method previous        /* rWHOLE>O */
+```
 
-Returns the index of the item that precedes the array item having index index or the NIL object if the item
+Returns the index of the item that precedes the array item having index index or the `NIL` object if the item
 having that index is first in the array.
 
-::method makearray /* (None) */
+```rexx
+::method makearray       /* (None) */
+```
 
 Returns a single-index array with the same number of items as the receiver object. Any index with no
 associated item is omitted from the new array.
 
 Returns a new array (of the same class as the receiver) containing selected items from the receiver array.
 The first item in the new array is the item corresponding to index start (the first argument) in the receiver
-
 array.
-::method supplier /* (None) */
+
+```rexx
+::method supplier        /* (None) */
+```
+
 Returns a supplier object for the collection.
-::method section /* rcWHOLE>0O oOWHOLE>=0 */
+
+```rexx
+::method section        /* rWHOLE>0O oWHOLE>=0 */
+```
 
 ## The supplier class
 
