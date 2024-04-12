@@ -565,31 +565,44 @@ Returns a supplier object for the collection.
 ::method section        /* rWHOLE>0O oWHOLE>=0 */
 ```
 
-## The supplier class
+### The supplier class
 
 A supplier object enumerates the items a collection contained at the time of the supplier's creation.
+
+```rexx
 ::class supplier
 
-::method new class /* rANYARRAY rINDEXARRAY */
+::method new class      /* rANYARRAY rINDEXARRAY */
+```
+
 Returns a new supplier object.
 
+```rexx
 ::method index
+```
 
 Returns the index of the current item in the collection.
+
+```rexx
 ::method next
+```
 
 Moves to the next item in the collection.
 
+```rexx
 ::method item
+```
 
 Returns the current item in the collection.
 
+```rexx
 ::method available
+```
 
-Returns 1 (true) if an item is available from the supplier (that is, if the ITEM method would return a value).
+Returns 1 (true) if an item is available from the supplier (that is, if the `ITEM` method would return a value).
 Returns 0 (false) otherwise.
 
-11.5 The message class
+### The message class
 ::class message
 
 ::method init class /* Ugh */
