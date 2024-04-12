@@ -603,25 +603,41 @@ Returns 1 (true) if an item is available from the supplier (that is, if the `ITE
 Returns 0 (false) otherwise.
 
 ### The message class
+
+```rexx
 ::class message
 
-::method init class /* Ugh */
+::method init class     /* Ugh */
+```
 
 Initializes the message object for sending......
 
+```rexx
 ::method completed
+```
 
 Returns 1 if the message object has completed its message; returns 0 otherwise.
-::method notify /* rMESSAGE */
 
-Requests notification about the completion of processing for the message SEND or START sends.
-::method start /* oANY */
+```rexx
+::method notify         /* rMESSAGE */
+```
+
+Requests notification about the completion of processing for the message `SEND` or `START` sends.
+
+```rexx
+::method start          /* oANY */
+```
 
 Sends the message for processing concurrently with continued processing of the sender.
-::method send /* oANY */
+
+```rexx
+::method send           /* oANY */
+```
 
 Returns the result (if any) of sending the message.
 
+```rexx
 ::method result
+```
 
-Returns the result of the message SEND or START sends.
+Returns the result of the message `SEND` or `START` sends.
