@@ -84,14 +84,14 @@ defined:
 
 - _RADIX_ occurs when the character about to be scanned is `'X'` or `'x'` or `'B'` or `'b'` not followed by a _general_letter_, or a _digit_, or `'.'`;
 
-- _CONTINUE_ occurs when the character about to be scanned is `','`, and the characters after the `',’` up
+- _CONTINUE_ occurs when the character about to be scanned is `','`, and the characters after the `','` up
 to _EOL_ represent a repetition of _comment_ or _blank_, and the _EOL_ is not immediately followed by an
 _EOS_;
 
 - _EXPONENT_SIGN_ occurs when the character about to be scanned is `'+'` or `'-'`, and the characters to
 the left of the sign, currently parsed as part of _Const_symbol_, represent a _plain_number_ followed by `'E'`
-or `'e’`, and the characters to the right of the sign represent a repetition of _digit_ not followed by a
-_general_letter_ or `'.’`.
+or `'e'`, and the characters to the right of the sign represent a repetition of _digit_ not followed by a
+_general_letter_ or `'.'`.
 
 _- I would put _ASSIGN_ here for the leftmost `'='` in a clause that is not within parentheses or brackets. But Simon not
 happy with message term being an assignment?_
@@ -189,7 +189,7 @@ keyword) rather than as a VAR_SYMBOL under the following circumstances:
 - if the symbol is spelled 'WHILE' or 'UNTIL' it is a keyword wherever a VAR_SYMBOL would be part
 of an expression within a do_specification,
 
-- if the symbol is spelled 'TO' , 'BY’, or 'FOR' it is a keyword wherever a VAR_SYMBOL would be part
+- if the symbol is spelled 'TO' , 'BY', or 'FOR' it is a keyword wherever a VAR_SYMBOL would be part
 of an expression within a do_rep;
 
 - if the symbol is spelled 'WITH' it is a keyword wherever a VAR_SYMBOL would be part of a
@@ -206,7 +206,7 @@ a left parenthesis or an operand that is not a keyword. If the blank action has 
 one or more blanks to the left of the next token then the '' operator is inferred. Otherwise, a'||' operator is
 inferred, except if the next token is a left parenthesis following an operand (see nnn); in this case no
 operator is inferred.
-When any of the keywords 'OTHERWISE’, 'THEN', or 'ELSE’ is recognized, a semicolon token is supplied
+When any of the keywords 'OTHERWISE', 'THEN', or 'ELSE' is recognized, a semicolon token is supplied
 as the following token. A semicolon token is supplied as the previous token when the 'THEN' keyword is
 recognized. A semicolon token is supplied as the token following a LABEL.
 
@@ -506,17 +506,17 @@ Any `VAR_SYMBOL` in a _do_ending_ must be matched by the same `VAR_SYMBOL` occur
 of an _assignment_ contained in the _do_specification_ of the _do_ that contains 
 both the _do_specification_ and the _do_ending_, as described in nnn.
 
-If there is a `VAR_SYMBOL` in a _do_ending_ for which there is no _assignment_ in the corresponding
+If there is a _VAR_SYMBOL_ in a _do_ending_ for which there is no _assignment_ in the corresponding
 _do_specification_ then message Msg10.3 is produced and no further activity is defined.
 
-If there is a `VAR_SYMBOL` in a _do_ending_ which does not match the one occurring in the _assignment_
+If there is a :VAR_SYMBOL_ in a _do_ending_ which does not match the one occurring in the _assignment_
 then message Msg10.2 is produced and no further activity is defined.
 
 An _iterate_ or _leave_ must be contained in the _instruction_list_ of some _do_ 
 with a _do_specification_ which is _do_repetitive_, otherwise a message (Msg28.2 or Msg28.1 respectively)
 is produced and no further activity is defined.
 
-If an _iterate_ or _leave_ contains a `VAR_SYMBOL` there must be a matching `VAR_SYMBOL` in a
+If an _iterate_ or _leave_ contains a _VAR_SYMBOL_ there must be a matching _VAR_SYMBOL_ in a
 _do_specification_, otherwise a message (Msg28.1, Msg28.2, Msg28.3 or Msg28.4 appropriately) is
 produced and no further activity is defined. The matching `VAR_SYMBOL` will occur at the start of an
 _assignment_ in the _do_specification_. Tne _do_specification_ will be associated with a _do_ by nnn. 
@@ -524,24 +524,24 @@ The _iterate_ or _leave_ will be a single _instruction_ in an _instruction_list_
 with a _do_ by nnn. These two dos shall be the same, or the latter nested one or more levels
 within the former. The number of levels is called the _nesting_correction_ and 
 influences the semantics of the _iterate_ or _leave_. It is zero if the two dos are the
-same. The _nesting_correction_ for _iterates_ or _leaves_ that do not contain `VAR_SYMBOL` is zero.
+same. The _nesting_correction_ for _iterates_ or _leaves_ that do not contain _VAR_SYMBOL_ is zero.
 
 ### Trace-only labels
 
-Instances of LABEL which occur within a grouping_instruction and are not in a nc/ at the end of that
-grouping_instruction are instances of trace-only labels.
+Instances of _LABEL_ which occur within a _grouping_instruction_ and are not in a _ncl_ at the end of that
+_grouping_instruction_ are instances of trace-only labels.
 
 ### Clauses and line numbers
 
 The activity of tracing execution is defined in terms of clauses. A program consists of clauses, each
 clause ended by a semicolon special token. The semicolon may be explicit in the program or inferred.
-The line number of a clause is one more than the number of EOL events recognized before the first token
+The line number of a clause is one more than the number of _EOL_ events recognized before the first token
 of the clause was recognized.
 
 ### Nested IF instructions
 
-The syntax specification nnn allows 'IF' instructions to be nested and does not fully specify the
-association of an 'ELSE' keyword with an 'IF' keyword. An 'ELSE' associates with the closest prior 'IF' that
+The syntax specification nnn allows `'IF'` instructions to be nested and does not fully specify the
+association of an `'ELSE'` keyword with an `'IF'` keyword. An `'ELSE'` associates with the closest prior `'IF'` that
 it can associate with in conformance with the syntax.
 
 ### Choice of messages
@@ -549,85 +549,93 @@ it can associate with in conformance with the syntax.
 The specifications nnn and nnn permit two alternative messages in some circumstances. The following
 rules apply:
 
-- Msg15.1 shall be preferred to Msg15.3 if the choice of Msg15.3 would result in the replacement for
+- _Msg15.1_ shall be preferred to _Msg15.3_ if the choice of _Msg15.3_ would result in the replacement for
 the insertion being a blank character;
 
-- Msg15.2 shall be preferred to Msg15.4 if the choice of Msg15.4 would result in the replacement for
+- _Msg15.2_ shall be preferred to _Msg15.4_ if the choice of _Msg15.4_ would result in the replacement for
 the insertion being a blank character;
 
-- Msg31.3 shall be preferred to Msg31.2 if the replacement for the insertion in the message starts with
+- _Msg31.3_ shall be preferred to _Msg31.2_ if the replacement for the insertion in the message starts with
 a period;
 
-- Preference is given to the message that appears later in the list: Msg21.1, Msg27.1, Msg25.16,
-Msg36, Msg38.3, Msg35.1, other messages.
+- Preference is given to the message that appears later in the list: _Msg21.1_, _Msg27.1_, _Msg25.16_,
+_Msg36_, _Msg38.3_, _Msg35.1_, other messages.
 
 ### Creation of messages
 
-The message_identifiers in clause 6 correlate with the tails of stem #ErrorText., which is initialized in nnn
+The _message_identifiers_ in clause 6 correlate with the tails of stem #ErrorText., which is initialized in nnn
 to identify particular messages. The action of producing an error message will replace any insertions in
 the message text and present the resulting text, together with information on the origin of the error, to the
 configuration by writing on the default error stream.
+
 Further activity by the language processor is permitted, but not defined by this standard.
+
 The effect of an error during the writing of an error message is not defined.
 
 #### Error message prefix
 
 The error message selected by the message number is preceded by a prefix. The text of the prefix is
-#ErrorText.0.1 except when the error is in source that execution of an interactive trace interpret
-instruction (see nnn) is processing, in which case the text is #ErrorText.0.2. The insert called <value> in
-these texts is the message number. The insert called <linenumber> is the line number of the error.
-The line number of the error is one more than the number of EOL events encountered before the error
-was detectable, except for messages Msg6.1, Msg14, Msg14.1, Msg14.2, Msg14.3, and Msg14.4. For
-Msg6.1 it is one more than the number of EOL events encountered before the line containing the
-unmatched '/*'. For the others, it is the line number of the clause containing the keyword referenced in
+_#ErrorText.0.1_ except when the error is in source that execution of an interactive trace _interpret_
+instruction (see nnn) is processing, in which case the text is _#ErrorText.0.2_. The insert called `<value>` in
+these texts is the message number. The insert called `<linenumber>` is the line number of the error.
+The line number of the error is one more than the number of _EOL_ events encountered before the error
+was detectable, except for messages _Msg6.1_, _Msg14_, _Msg14.1_, _Msg14.2_, _Msg14.3_, and _Msg14.4_. For
+_Msg6.1_ it is one more than the number of _EOL_ events encountered before the line containing the
+unmatched `'/*'`. For the others, it is the line number of the clause containing the keyword referenced in
 the message text.
-The insert called <source> is the value provided on the API_ Start function which started processing of the
+
+The insert called `<source>` is the value provided on the `API_Start` function which started processing of the
 program, see nnn.
 
 ## Replacement of insertions
 
-Within the text of error messages, an insertion consists of the characters '<', '>', and what is between
+Within the text of error messages, an insertion consists of the characters `'<'`, `'>'`, and what is between
 those characters. There will be a word in the insertion that specifies the replacement text, with the
 following meaning:
 
-- if the word is 'hex-encoding' and the message is not Msg23.1 then the replacement text is the value
+- if the word is `'hex-encoding'` and the message is not _Msg23.1_ then the replacement text is the value
 of the leftmost character which caused the source to be syntactically incorrect. The value is in
 hexadecimal notation;
 
-- if the word is 'token' then the replacement text is the part of the source program which was
-recognized as the detection token, or in the case of Msg31.1 and Msg31.2, the token before the
+- if the word is `'token'` then the replacement text is the part of the source program which was
+recognized as the detection token, or in the case of _Msg31.1_ and _Msg31.2_, the token before the
 detection token.
+
 The detection token is the leftmost token for which the program up to and including the token could
 not be parsed as the left part of a program without causing a message. If the detection token is a
 semicolon that was not present in the source but was supplied during recognition then the
 replacement is the previous token;
 
-- if the word is 'position’ then the replacement text is a number identifying the detection character. The
-detection character is the leftmost character in the hex_string or binary_string which did not match the
+- if the word is `'position'` then the replacement text is a number identifying the detection character. The
+detection character is the leftmost character in the _hex_string_ or _binary_string_ which did not match the
 required syntax. The number is a count of the characters in the string which preceded the detection
 character, including the initial quote or apostrophe. In deciding the leftmost blank in a quoted string of
-radix 'X' or 'B' that is erroneous not that:
-A blank as the first character of the quoted string is an error.
-The leftmost embedded sequence of blanks can validly follow any number of non-blank characters.
-Otherwise a blank run that follows an odd numbered sequence of non-blanks (or a number not a
-multiple of four in the case of radix 'B’) is not valid.
-If the string is invalid for a reason not described above, the leftmost blank of the rightmost sequence of
-blanks is the invalid blank to be referenced in the message;
+radix `'X'` or `'B'` that is erroneous note that:
 
-- if the word is 'char' then the replacement text is the detection character;
+    * A blank as the first character of the quoted string is an error.
+      
+    * The leftmost embedded sequence of blanks can validly follow any number of non-blank characters.
 
-- if the word is 'linenumber' then the replacement text is the line number of a clause associated with
-the error. The wording of the message text specifies which clause that is;
+    * Otherwise a blank run that follows an odd numbered sequence of non-blanks (or a number not a
+      multiple of four in the case of radix `'B'`) is not valid.
 
-- if the word is 'keywords' then the replacement text is a list of the keywords that the syntax would
-allow at the context where the error occurred. If there are two keywords they shall be separated by the
-four characters ' or '. If more, the last shall be preceded by the three characters 'or' and the others
-shall be followed by the two characters ','. The keywords will be uppercased and in alphabetical
-order.
+    * If the string is invalid for a reason not described above, the leftmost blank of the rightmost sequence of
+      blanks is the invalid blank to be referenced in the message;
 
-Replacement text is truncated to #Limit_Messagelnsert characters if it would otherwise be longer than
+- if the word is `'char'` then the replacement text is the detection character;
+
+- if the word is `'linenumber'` then the replacement text is the line number of a clause associated with
+  the error. The wording of the message text specifies which clause that is;
+
+- if the word is `'keywords'` then the replacement text is a list of the keywords that the syntax would
+  allow at the context where the error occurred. If there are two keywords they shall be separated by the
+  four characters `' or '`. If more, the last shall be preceded by the three characters `'or'` and the others
+  shall be followed by the two characters `','`. The keywords will be uppercased and in alphabetical
+  order.
+
+Replacement text is truncated to `#Limit_Messagelnsert` characters if it would otherwise be longer than
 that, except for a keywords replacement. When an insert is both truncated and appears within quotes in
-the message, the three characters '...' are inserted in the message after the trailing quote.
+the message, the three characters `'...'` are inserted in the message after the trailing quote.
 
 ## Syntactic equivalence
 
