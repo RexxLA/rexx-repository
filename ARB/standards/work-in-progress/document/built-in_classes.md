@@ -177,81 +177,122 @@ Returns a message object and sends it a `START` message to start concurrent proc
 Performs any required object initialization.
 
 ### The class class
-::class class
 
-Lots of these methods are both class and instance. | don't know whether to list them twice.
-::method new class /* OARGLIST */
+```rexx
+::class class
+```
+
+_Lots of these methods are both class and instance. I don't know whether to list them twice._
+
+```rexx
+::method new class        /* oARGLIST */
+```
 
 Returns a new instance of the receiver class, whose object methods are the instance methods of the
-class. This method initializes a new instance by running its INIT methods.
+class. This method initializes a new instance by running its `INIT` methods.
 
+```rexx
 ::method subclass class
+```
 
 Returns a new subclass of the receiver class.
 
+```rexx
 ::method subclasses class
+```
 
 Returns the immediate subclasses of the receiver class in the form of a single-index array of the required
 size.
 
+```rexx
 ::method define class /* rSTRING oMETHOD */
+```
 
 Incorporates the method object in the receiver class's collection of instance methods. The method name
 is translated to upper case.
 
+```rexx
 ::method delete
+```
 
 Removes the receiver class's definition for the method name specified.
 
-Builtin classes cannot be altered.
+_Builtin classes cannot be altered._
 
+```rexx
 ::method method class /* rSTRING */
+```
 
 Returns the method object for the receiver class's definition for the method name given.
 
-Do we have to keep saying "method object" as opposed to "method" because "method name" exists?
+_Do we have to keep saying "method object" as opposed to "method" because "method name" exists?_
+
+```rexx
 ::method querymixinclass
+```
 
 Returns 1 (true) if the class is a mixin class or 0 (false) otherwise.
 
+```rexx
 ::method mixinclass class /* 3 of em */
+```
 
 Returns a new mixin subclass of the receiver class.
 
+```rexx
 ::method inherit class /* rCLASS oCLASS */
+```
 
 Causes the receiver class to inherit the instance and class methods of the class object specified. The
-
 optional class is a class object that specifies the position of the new superclass in the list of superclasses.
-::method uninherit class /* rCLASSOBJ */
 
-Nullifies the effect of any previous INHERIT message sent to the receiver for the class specified.
-::smethod enhanced class /* rCOLLECTION oArgs */
+```rexx
+::method uninherit class /* rCLASSOBJ */
+```
+
+Nullifies the effect of any previous `INHERIT` message sent to the receiver for the class specified.
+
+```rexx
+::method enhanced class /* rCOLLECTION oArgs */
+```
 
 Returns an enhanced new instance of the receiver class, with object methods that are the instance
-
 methods of the class enhanced by the methods in the specified collection of methods.
+
+```rexx
 ::method baseclass class
+```
 
 Returns the base class associated with the class. If the class is a mixin class, the base class is the first
 superclass that is not also a mixin class. If the class is not a mixin class, then the base class is the class
-receiving the BASECLASS message.
+receiving the `BASECLASS` message.
 
+```rexx
 ::method superclasses class
+```
+
 Returns the immediate superclasses of the receiver class in the form of a single-index array of the
-
 required size.
+
+```rexx
 ::method id class
+```
 
-Returns a string that is the class identity (instance SUBCLASS and MIXINCLASS methods.)
+Returns a string that is the class identity (instance `SUBCLASS` and `MIXINCLASS` methods.)
 
+```rexx
 ::method metaclass class
+```
 
 Returns the receiver class's default metaclass.
+
+```rexx
 ::method methods class /* oCLASSOBJECT */
+```
 
 Returns a supplier object for all the instance methods of the receiver class and its superclasses, if no
 argument is specified.
+
 ### The method class
 
 ::class method
