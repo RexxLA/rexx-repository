@@ -142,7 +142,7 @@ _Need to use the same search as for sending._
 
 Removes a method from the receiver object's collection of object methods.
 
-_Use `var_drop` _
+_Use `var_drop`_
 
 _Private means Receiver = Self check._
 
@@ -295,34 +295,50 @@ argument is specified.
 
 ### The method class
 
+```rexx
 ::class method
 
-::method new class /* rSTRING rSOURCE */
-Returns a new instance of method class, which is an executable representation of the code contained in
+::method new class     /* rSTRING rSOURCE */
+```
 
+Returns a new instance of method class, which is an executable representation of the code contained in
 the source.
+
+```rexx
 ::method setprivate
+```
 
 Specifies that a method is a private method.
+
+```rexx
 ::method setprotected
 
 ::method setsecuritymanager
 
 ::method setguarded
-Reverses any previous SETUNGUARDED messages, restoring the receiver to the default guarded
+```
 
+Reverses any previous `SETUNGUARDED` messages, restoring the receiver to the default guarded
 status.
+
+```rexx
 ::method setunguarded
+```
 
 Lets an object run a method even when another method is active on the same object. If a method object
+does not receive a `SETUNGUARDED` message, it requires exclusive use of its object variable pool.
 
-does not receive a SETUNGUARDED message, it requires exclusive use of its object variable pool.
+```rexx
 ::method source
+```
 
 Returns the method source code as a single index array of source lines.
+
+```rexx
 ::method interface
 
 ::method setinterface
+```
 
 11.3 The string class
 The string class provides conventional strings and numbers.
