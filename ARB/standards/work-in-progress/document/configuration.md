@@ -1548,11 +1548,13 @@ there is no suitable name to return. When API_Next is called it will return a na
 previously been returned; the order is undefined. This process of returning different names will restart
 whenever the Rexx processor executes Var_Reset.
 
-### API NextVariable
+### API_NextVariable
 
 #### Syntax:
 
-API NextVariable()
+```rexx
+API_NextVariable()
+```
 
 #### Semantics:
 
