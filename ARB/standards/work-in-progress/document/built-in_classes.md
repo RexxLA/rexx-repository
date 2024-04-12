@@ -11,128 +11,168 @@ These objects provide the basis for class structure.
 
 ### The object class
 
+```rexx
 ::class object
 
 ::method new class
-Returns a new instance of the receiver class.
+```
 
-call Config ObjectNew
-return #Outcome
+Returns a new instance of the receiver class.
+```rexx
+  call Config ObjectNew
+  return #Outcome
 
 ::method '=='
-‘==’ with no argument gives a hash value in OOI.
+```
 
-call Config ObjectCompare #Receiver, #Arg.1
+_`'=='` with no argument gives a hash value in OOI._
 
-if #Outcome == 'equal' then return '1'
-
-else return '0'
-
-::method '<>!'
-
-use arg a
-
-return \self==a
+```rexx
+  call Config ObjectCompare #Receiver, #Arg.1
+  if #Outcome == 'equal' then return '1
+                         else return '0'
+::method '<>'
+  use arg a
+  return \self==a
 
 ::method '><'
-forward message '<>'
+  forward message '<>'
 
 ::method '='
-forward message '=='
+  forward message '=='
 
-::method '\=!
-forward message '<>'
+::method '\='
+  forward message '<>'
 
 ::method '\=='
-forward message '<>'
+  forward message '<>'
 
 ::method copy
+```
+
 Returns a copy of the receiver object. The copied object has the same methods as the receiver object
 and an equivalent set of object variables, with the same values.
 
+```rexx
 call Config ObjectCopy #Receiver
-
 return #Outcome
+```
 
-Since we have var_empty we could save a primitive by rendering ‘new’ as ‘copy’ plus ‘empty’.
+_Since we have `var_empty` we could save a primitive by rendering 'new' as 'copy' plus 'empty'._
+
+```rexx
 ::method defaultname
+```
 
 Returns a short human-readable string representation for the object.
 
+```rexx
 call var_value #Receiver, '#Human', '0'
-
 return #Outcome
+```
 
-This field would have been filled in at 'NEW' time.
+_This field would have been filled in at 'NEW' time._
 
-::method 'OBJECTNAMES' /* rvSTRING */
+```rexx
+::method 'OBJECTNAMES'             /* rSTRING */
+```
 
 Sets the receiver object's name to the specified string.
 
+```rexx
 call var_set #Receiver, #ObjectName, '0', #Arg.1
 return
+```
 
-Initialized to #Human? Or ObjectName does forwarding until assigned to?
+_Initialized to #Human? Or ObjectName does forwarding until assigned to?_
 
+```rexx
 ::method objectname
+```
 
-Returns the receiver object's name (which the OBJECTNAME= method sets).
+Returns the receiver object's name (which the `OBJECTNAME=` method sets).
+
+```rexx
 call var_value #Receiver, #ObjectName, '0'
 return #Outcome
 
 ::method string
+```
 
 Returns a human-readable string representation for the object.
+
+```rexx
 return #Receiver~ObjectName
 
 ::method class
+```
+
 Returns the class object that received the message that created the object.
 
+```rexx
 call var value #Receiver, #IsA, '0'
 return #Outcome
 
-::method setmethod /* rSTRING oSTRING/METHOD/ARRAY */
+::method setmethod      /* rSTRING oSTRING/METHOD/ARRAY */
+```
+
 Adds a method to the receiver object's collection of object methods.
 
-Is ‘object methods’ what is intended; you add to a class without adding to its instance methods? Yes.
-if #ArgExists.2 then m = Arg.2
+_Is 'object methods' what is intended; you add to a class without adding to its instance methods? Yes._
 
-else m = .NIL
-call set_var #Receiver, 'METHODS.'#Arg.1, '1', m
-return
-::method hasmethod /* rSTRING */
+```rexx
+  if #ArgExists.2 then m = Arg.2
+                      else m = .NIL
+  call set_var #Receiver, 'METHODS.'#Arg.1, '1', m
+  return
+
+::method hasmethod     /* rSTRING */
+```
 
 Returns 1 (true) if the receiver object has a method with the specified name (translated to uppercase);
 otherwise, returns 0 (false).
 
-This presumably means inherited as well as SETMETHOD ones. What about ones set to .NIL?
+_This presumably means inherited as well as `SETMETHOD` ones. What about ones set to `.NIL`?_
 
-Need to use the same search as for sending.
+_Need to use the same search as for sending._
 
+```rexx
 ::method unsetmethod private
+```
 
 Removes a method from the receiver object's collection of object methods.
-Use var_drop
 
-Private means Receiver = Self check.
+_Use `var_drop` _
 
-::method request /* rSTRING */
-Returns an object of the specified class, or the NIL object if the request cannot be satisfied.
+_Private means Receiver = Self check._
+
+```rexx
+::method request       /* rSTRING */
+```
+
+Returns an object of the specified class, or the `NIL` object if the request cannot be satisfied.
+
+```rexx
 t = 'MAKE'#Arg.1
-
 if \#Receiver~hasmethod(t) then return .NIL
 forward message(t) array ()
 
 ::method run private /* rMETHOD Ugh keyoptions */
+```
+
 Runs the specified method. The method has access to the object variables of the receiver object, just as
-if the receiver object had defined the method by using SETMETHOD.
+if the receiver object had defined the method by using `SETMETHOD`.
 
-::smethod startat Undocumented?
+```rexx
+::method startat      Undocumented?
+::method start          /* rMESSAGE oArglist */
+```
 
-::method start /* rMESSAGE oArglist */
+Returns a message object and sends it a `START` message to start concurrent processing.
 
-Returns a message object and sends it a START message to start concurrent processing.
+```rexx
 ::method init
+```
 
 Performs any required object initialization.
 
