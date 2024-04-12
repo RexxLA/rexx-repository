@@ -14,7 +14,7 @@ being specified.
 The `BNF_primary` referenced may be directly in the production or in some component referenced in the
 _production_, recursively. The components are considered in left to right order.
 
-```rexx
+```rexx <!--directivescontainsidentifier.rexx-->
 #Contains(Identifier, BNF primary)
 ```
 
@@ -25,7 +25,7 @@ where:
 
 Return `'1'` if the _production_ identitied by _Identifier_ contained a _bnf_primary_ identified by `BNF_primary`, otherwise return `'0'`.
 
-```rexx
+```rexx <!--directivesinstance.rexx-->
 #Instance(Identifier, BNF primary)
 ```
 
@@ -37,7 +37,7 @@ where:
 Returns the content of the particular instance of the `BNF_primary`. If the `BNF_primary` is a
 `VAR_SYMBOL` this is referred to as the symbol "taken as a constant."
 
-```rexx
+```rexx <!--directivesevaluate.rexx-->
 #Evaluate(Identifier, BNF primary)
 ```
 
@@ -48,7 +48,7 @@ where:
 
 Return the value of the `BNF_primary` in the _production_ identified by `Identifier`.
 
-```rexx
+```rexx <!--directivesexecute.rexx-->
 #Execute(Identifier, BNF primary)
 ```
 
@@ -59,7 +59,7 @@ where:
 
 Perform the instructions identified by the `BNF_primary` in the _production_ identified by `Identifier`.
 
-```rexx
+```rexx <!--directivesparses.rexx-->
 #Parses(Value, BNF primary)
 ```
 
@@ -70,7 +70,7 @@ where:
 
 Return `'1'` if Value matches the definition of the `BNF_primary`, by the rules of clause 6, `'0'` otherwise.
 
-```rexx
+```rexx <!--directivesclause.rexx-->
 #Clause(Label)
 ```
 
@@ -81,7 +81,7 @@ where:
 Return an identification of that label. The value of this identification is used only by the `#Goto` notation
 function.
 
-```rexx
+```rexx <!--directivesgoto.rexx-->
 #Goto(Value)
 ```
 
@@ -91,7 +91,7 @@ where:
 
 The description of processing continues at the identified label.
 
-```rexx
+```rexx <!--directivesrexxtry.rexx-->
 #Retry()
 ```
 
@@ -110,7 +110,7 @@ of REQUIRES subject. We will be using some operations that are forward reference
 Processing of a program begins when `API_Start` is executed. A pool becomes current for the reserved
 variables.
 
-```rexx
+```rexx <!--initialization.rexx-->
 call Config ObjectNew
 #ReservedPool = #Outcome
 #Pool = #ReservedPool
@@ -136,7 +136,7 @@ such value of `n`.
 
 Some of the values which affect processing of the program are provided by the configuration:
 
-```rexx
+```rexx <!--configotherblankcharacters.rexx-->
 call Config OtherBlankCharacters
 #A11Blanks<Index "#Al1Blanks" # "" > = ' '#Outcome /* "Real" blank concatenated with
 others */
@@ -149,7 +149,7 @@ _Objects in our model are only distinquished by the values within their pool so 
 
 _Can we initialize the methods of .nil by directives?_
 
-```rexx
+```rexx <!--configobjectnew.rexx-->
 call Config_ObjectNew
 .List = #Outcome
 call var_set .List, #IsClass, '0', '1'
@@ -160,7 +160,7 @@ Some of the state variables set by this call are limits, and appear in the text 
 relation between message numbers and message text is defined by the following list, where the message
 number appears immediately before an `'='` and the message text follows in quotes.
 
-```rexx
+```rexx <!--configerrortexts1.rexx-->
 #ErrorText.    = ''
 
 #ErrorText.0.1 = 'Error <value> running <source>, line <linenumber>: '
@@ -285,8 +285,10 @@ number appears immediately before an `'='` and the message text follows in quote
 #ErrorText.19.17='String or symbol expected after SUBCLASS;',
                  'found "<token>"'
 ```
+
 _Unsound now we are using 'term'?_
-```rexx
+
+```rexx <!--errortexts2.rexx--> 
 #ErrorText.20  = 'Name expected'
 #ErrorText.20.1= 'Name required; found "<token>"'
 #ErrorText.20.2= 'Found "<token>" where only a name is valid'
@@ -581,7 +583,7 @@ _Unsound now we are using 'term'?_
 If the activity defined by clause 6 does not produce any error message, execution of the program
 continues.
 
-```rexx
+```rexx <!--confignosource.rexx-->
 call Config NoSource
 ```
 
@@ -593,7 +595,7 @@ If `Config_NoSource` has set `#NoSource` to `'1'` then `#SourceLine.0` is set to
 
 The following state variables affect tracing:
 
-```rexx
+```rexx <!--configtracesettings.rexx-->
 #InhibitPauses = 0
 #InhibitTrace = 0
 #AtPause = 0 /* Off until interactive input being received. */
@@ -602,7 +604,7 @@ The following state variables affect tracing:
 
 An initial variable pool is established:
 
-```rexx
+```rexx <!--configinitialvarpool.rexx-->
  call Config ObjectNew
  #Pool = #Outcome
 #Pool1 = #Pool
@@ -616,7 +618,7 @@ An initial variable pool is established:
 For this first level, there is no previous level from which values are inherited. The relevant fields are
 initialized.
 
-```rexx
+```rexx <!--configdigits.rexx--> 
 #Digits.#Level = 9 /* Numeric Digits */
 #Form.#Level = 'SCIENTIFIC' /* Numeric Form */
 #Fuzz.#Level = 0 /* Numeric Fuzz */
@@ -630,7 +632,7 @@ initialized.
 An environment is provided by the `API_Start` to become the initial active environment to which commands
 will be addressed. The alternate environment is made the same:
 
-```rexx
+```rexx <!--configenvironments.rexx-->
 /* Call the environments ACTIVE, ALTERNATE, TRANSIENT where these are
 never-initialized state variables.
 Similarly call the redirections I O and E */
@@ -639,7 +641,7 @@ call EnvAssign ALTERNATE, #Level, ACTIVE, #Level
 
 Conditions are initially disabled:
 
-```rexx
+```rexx <!--configdisablesconditions.rexx-->
 #Enabling.SYNTAX.#Level = 'OFF'
 #Enabling.HALT.#Level = 'OFF'
 #Enabling.ERROR.#Level = 'OFF'
@@ -658,7 +660,7 @@ function. */
 
 The opportunity is provided for a trap to initialize the pool.
 
-```rexx
+```rexx <!--configinitializepooltrap.rexx-->
 #API Enabled = '1'
 call Var_Reset #Pool
 call Config Initialization
@@ -676,7 +678,7 @@ reference._
 ## CLASS
 For each class in order of appearence:
 
-```rexx
+```rexx <!--classnamesorderofappearance.rexx-->
 #ClassName = #Instance(class, taken constant)
 call var_value #ReservedPool, '#CLASSES.'ClassName, '1'
 if #Indicator == 'D' then do
@@ -692,7 +694,7 @@ _New instance of CLASS class added to list. Msg "Duplicate ::CLASS directive ins
 
 For each method in order of appearence:
 
-```rexx
+```rexx <!--methodsorderofappearance.rexx-->
 call Config ObjectNew
 #Pool = #Outcome
 call Config ObjectSource (#Pool)

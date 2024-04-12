@@ -10,21 +10,26 @@ _If we left Routine initialization to here we can leave method initialization._
 ## Method initialization
 
 There is a pool for local variables.
-```rexx
+
+```rexx <!--localvariablepoolinit.rexx-->
 call Config_ObjectNew
 #Pool = #Outcome
 ```
+
 _Set self and super_
 
 ## Routine initialization
 
 If the routine is invoked as a function, ``#IsFunction.#NewLevel`` shall be set to ``'1'``, otherwise to ``'0'``; this
 affects the processing of a subsequent RETURN instruction.
-```rexx
+
+```rexx <!--routineinit.rexx-->
 #AllowProcedure.#NewLevel = '1'
 ```
+
 Many of the initial values for a new invocation are inherited from the caller's values.
-```rexx
+
+```rexx <!--callersvalues.rexx-->
 #Digits.#NewLevel = #Digits.#Level
 #Form.#NewLevel = #Form.#Level
 #Fuzz.#NewLevel = #Fuzz.#Level
@@ -45,15 +50,19 @@ do t=1 to 7
   #EventLevel.Condition.#NewLevel = #EventLevel.Condition.#Level
   end t
 ```
+
 If this invocation is not caused by a condition occurring, see nnn, the state variables for the CONDITION built-in function are copied.
-```rexx
+
+```rexx <!--conditionlevel.rexx-->
 #Condition.#NewLevel = #Condition.#Level
 #ConditionDescription.#NewLevel = #ConditionDescription.#Level
 #ConditionExtra.#NewLevel = #ConditionExtra.#Level
 #ConditionInstruction.#NewLevel = #ConditionInstruction.#Level
 ```
+
 Execution of the initialized routine continues at the new level of invocation.
-```rexx
+
+```rexx <!--newlevel.rexx-->
 #Level = #NewLevel
 #NewLevel = #Level + 1
 ```
@@ -61,36 +70,45 @@ Execution of the initialized routine continues at the new level of invocation.
 ## Clause initialization
 
 The clause is traced before execution:
-```rexx
+
+```rexx <!--traceclauseinit.rexx-->
 if pos(#Tracing.#Level, 'AIR') > 0 then call #TraceSource
 ```
+
 The time of the first use of DATE or TIME will be retained throughout the clause.
-```rexx
+
+```rexx <!--clauseretaindatetime.rexx-->
 #ClauseTime.#Level = ''
 ```
+
 The state variable ``#LineNumber`` is set to the line number of the clause, see nnn.
 
 A clause other than a null clause or label or procedure instruction sets:
-```rexx
+
+```rexx <!--allowprocedure.rexx-->
 #AllowProcedure.#Level = '0'    /* See message 17.1 */
 ```
 
 ## Clause termination
 
-```rexx
+```rexx <!--inihibittrace.rexx-->
 if #InhibitTrace > 0 then #InhibitTrace = #InhibitTrace - 1
 ```
+
 Polling for a HALT condition occurs:
-```rexx
+
+```rexx <!--haltquery.rexx-->
 #Response = Config_Halt_Query ()
 if #0utcome == 'Yes' then do
   call Config_Halt_Reset
   call #Raise 'HALT', substr(#Response,2)   /* May return */
   end
 ```
+
 At the end of each clause there is a check for conditions which occurred and were delayed. It is acted on
 if this is the clause in which the condition arose.
-```rexx
+
+```rexx <!--endclauseconditions.rexx-->
 do t=1 to 4
   #Condition=WORD('HALT FAILURE ERROR NOTREADY',t)
   /* HALT can be established during HALT handling. */
@@ -102,7 +120,7 @@ do t=1 to 4
 ```
 Interactive tracing may be turned on via the configuration. Only a change in the setting is significant.
 
-```rexx
+```rexx <!--configtracequery.rexx-->
 call Config_Trace_Query
 if #AtPause = 0 & #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
   /* External request for Trace '?R!' */
@@ -111,6 +129,7 @@ if #AtPause = 0 & #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
   end
 #TraceQueryPrior = #Outcome
 ```
+
 _Tracing just not the same with NetRexx._
 
 When tracing interactively, pauses occur after the execution of each clause except for CALL, DO the
@@ -134,7 +153,7 @@ the program.
 
 At a pause point:
 
-```rexx
+```rexx <!--pausepoint.rexx-->
 if #AtPause = 0 & #Interactive.#Level & #InhibitTrace = 0 then do
   if #InhibitPauses > 0 then #InhibitPauses = #InhibitPauses-1
   else do
@@ -210,7 +229,7 @@ values are assigned in the following code.
 In the following code the particular use of `#Contains(address, expression)` refers to an expression
 immediately contained in the _address_.
 
-```rexx
+```rexx <!--addressinstruct.rexx-->
 Addrinstr:
  /* If ADDRESS keyword alone, environments are swapped. */
  if \#Contains (address, taken constant),
@@ -347,13 +366,13 @@ see nnn.
 If the _VAR_SYMBOL_ does not contain a period, or contains only one period as its last character, the
 value is associated with the _VAR_SYMBOL_:
 
-```rexx
+```rexx <!--assignmentvarpoolzero.rexx-->
 call Var_Set #Pool,VAR SYMBOL, '0',Value
 ```
 
 Otherwise, a name is derived, see nnn. The value is associated with the derived name:
 
-```rexx
+```rexx <!--assignmentvarpoolone.rexx-->
 call Var_Set #Pool,Derived Name,'1',Value
 ```
 
@@ -365,14 +384,14 @@ The CALL instruction is used to invoke a routine, or is used to control trapping
 
 lf a _vref_ is specified that value is the name of the routine to invoke:
 
-```rexx
+```rexx <!--callcontains.rexx-->
 if #Contains (call, vref) then
   Name = #Evaluate(vref, var_symbol)
 ```
 
 If a _taken_constant_ is specified, that name is used.
 
-```rexx
+```rexx <!--calltakenconstant.rexx-->
 if #Contains (call, taken constant) then
 Name = #Instance(call, taken constant)
 ```
@@ -380,7 +399,7 @@ Name = #Instance(call, taken constant)
 The name is used to invoke a routine, see nnn. If that routine does not return a result the RESULT and
 .RESULT variables become uninitialized:
 
-```rexx
+```rexx <!--callvardrop.rexx-->
 call Var_Drop #Pool, 'RESULT', '0!
 call Var_Drop #ReservedPool, '.RESULT', '0'
 ```
@@ -392,7 +411,7 @@ If the routine returns a result and the trace setting is `'R'` or `'I'` then a t
 
 If a _callon\_spec_ is specified:
 
-```rexx
+```rexx <!--callcallonspec.rexx-->
 If #Contains(call,callon spec) then do
   Condition = #Instance(callon_spec,callable condition)
   #Instruction.Condition.#Level = 'CALL'
@@ -415,17 +434,17 @@ For a definition of the syntax of a command, see nnn.
 
 A command that is not part of an ADDRESS instruction is processed in the ACTIVE environment.
 
-```rexx
+```rexx <!--commandtoconfifuration.rexx-->
 Command = #Evaluate(command, expression)
 if #Tracing.#Level == 'C' | #Tracing.#Level == 'A' then
    call #Trace '>>>!'
 call EnvAssign TRANSIENT, #Level, ACTIVE, #Level
-call CommandiIssue Command
+call CommandIssue Command
 ```
 
-`Commandlssue` is also used to describe the ADDRESS instruction:
+`CommandIssue` is also used to describe the ADDRESS instruction:
 
-```rexx
+```rexx <!--commandIssue.rexx-->
 CommandIssue:
   parse arg Cmd
   /* Issues the command, requested environment is TRANSIENT */
@@ -554,7 +573,7 @@ output.
 
 A _do_instruction_ that does not contain a _do_simple_ is equivalent, except for trace output, to a sequence of instructions in the following order.
 
-```rexx
+```rexx <!--doinstruction.rexx-->
 #Loop = #Loop+1
 #Iterate.#Loop = #Clause (IterateLabel)
 #Once.#Loop = #Clause (OnceLabel)
@@ -581,7 +600,7 @@ if #Contains (do specification,assignment) then do
 
 The following three assignments are made in the order in which `'TO'`, `'BY'` and `'FOR'` appear in _docount_; see nnn.
 
-```rexx
+```rexx <!--doassignments.rexx-->
 if #Contains (do specification, toexpr) then do
    if datatype(toexpr) \== 'NUM' then
       call #Raise 'SYNTAX', 41.4, toexpr
@@ -662,7 +681,7 @@ the tests.
 
 The code in the DO description:
 
-```rexx
+```rexx <!--dolooptracing.rexx-->
    t = value (#Identity. #Loop)
    if #Indicator == 'D' then call #Raise 'NOVALUE', #Identity.#Loop
    call value #Identity.#Loop, t + #By.#Loop
@@ -684,21 +703,21 @@ A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable
 VAR_SYMBOL does not contain a period, or has only a single period as its last character, the variable
 associated with VAR_SYMBOL by the variable pool is dropped:
 
-```rexx
+```rexx <!--drop.rexx-->
 #Response = Var_Drop (#Pool,VAR_ SYMBOL, '0')
 ```
 
 If VAR_SYMBOL has a period other than as the last character, the variable associated with
 VAR_SYMBOL by the variable pool is dropped by:
 
-```rexx
+```rexx <!--drop2.rexx-->
 #Response = Var_Drop (#Pool,VAR SYMBOL, '1')
 ```
 
 If the word of the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the value of the
 VAR_SYMBOL is processed. The value is considered in uppercase:
 
-```rexx
+```rexx <!--dropconfigupper.rexx-->
 #Value = Config_Upper (#Value)
 ```
 
@@ -707,7 +726,7 @@ process:
 
 If the word does not have the syntax of VAR_SYMBOL a condition is raised:
 
-```rexx
+```rexx <!--dropnotsymbolcondition.rexx-->
 call #Raise 'SYNTAX', 20.1, word
 ```
 
@@ -722,7 +741,7 @@ The EXIT instruction is used to unconditionally complete execution of a program.
 
 Any _expression_ is evaluated:
 
-```rexx
+```rexx <!--exitevaluate.rexx-->
 if #Contains(exit, expression) then Value = #Evaluate(exit, expression)
 #Level = 1
 #Pool = #Pooll
@@ -730,7 +749,7 @@ if #Contains(exit, expression) then Value = #Evaluate(exit, expression)
 
 The opportunity is provided for a final trap.
 
-```rexx
+```rexx <!--finaltrap.rexx-->
 #API Enabled = '1'
 call Var_Reset #Pool
 call Config_Termination
@@ -754,7 +773,7 @@ For a definition of the syntax of this instruction, see nnn.
 It is used at the start of a method, after method initialization, to make variables in the receiver's pool
 accessible:
 
-```rexx
+```rexx <!--allowexpose.rexx-->
 if \#AllowExpose then call #Raise 'SYNTAX', 17.2
 ```
 
@@ -765,14 +784,14 @@ accessible. If VAR_SYMBOL does not contain a period, or has only a single period
 the variable associated with VAR_SYMBOL by the variable pool (as a non-tailed name) is given the
 attribute 'exposed'.
 
-```rexx
+```rexx <!--exposenoperiod.rexx-->
 call Var_Expose #Pool, VAR SYMBOL, '0'
 ```
 
 If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
 in the variable pool ( by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
 
-```rexx
+```rexx <!--exposederivedname.rexx-->
 call Var_Expose #Pool, Derived Name, '1'
 ```
 
@@ -780,14 +799,14 @@ If the word from the _variable_list_ is a VAR_SYMBOL enclosed in parentheses the
 exposed, as if that VAR_SYMBOL was a word in the variable_list. The value of the VAR_SYMBOL is
 processed. The value is considered in uppercase:
 
-```rexx
+```rexx <!--configupper.rexx-->
 #Value = Config_Upper (#Value)
 ```
 Each word in that value found by the WORD built-in function, from left to right, is subjected to this
 process:
 
 If the word does not have the syntax of VAR_SYMBOL a condition is raised:
-```rexx
+```rexx <!--raisesyntaxnotsymbol2.rexx-->
 call #Raise 'SYNTAX', 20.1, word
 ```
 Otherwise the VAR_SYMBOL indicated by the word is exposed, as if that VAR_SYMBOL were a word of
@@ -799,7 +818,7 @@ For a definition of the syntax of this instruction, see nnn.
 
 The FORWARD instruction is used to send a message based on the current message.
 
-```rexx
+```rexx <!--forward.rexx-->
 if #Contains (forward, 'ARRAY') & #Contains(forward, 'ARGUMENTS') then
     call #Raise 'SYNTAX', nn.n
 ```
@@ -810,14 +829,14 @@ For a definition of the syntax of this instruction, see nnn.
 
 The GUARD instruction is used to conditionally delay the execution of a method.
 
-```rexx
+```rexx <!--guardinstruction.rexx-->
 do forever
    Value = #Evaluate( guard, expression)
    if Value == '1' then leave
    if Value \== '0' then call #Raise 'SYNTAX', 34.7, Value
 ```
 _Drop exclusive access and wait for change_
-```rexx
+```rexx <!--dropexclusive.rexx-->
    end
 ```
 
@@ -853,7 +872,7 @@ condition.
 
 If the program recognized contains any LABELs then the _interpret_ raises a condition:
 
-```rexx
+```rexx <!--raiselabel.rexx-->
 call #Raise 'SYNTAX',47.1,Label
 ```
 where `Label` is the first LABEL in the _program_.
@@ -868,7 +887,7 @@ The ITERATE instruction is used to alter the flow of control within a repetitive
 
 For a definition of the nesting correction, see nnn.
 
-```rexx
+```rexx <!--instructioniterate.rexx-->
 #Loop = #Loop - NestingCorrection
 call #Goto #Iterate.#Loop
 ```
@@ -877,7 +896,7 @@ call #Goto #Iterate.#Loop
 
 The execution of a label has no effect, other than clause termination activity and any tracing.
 
-```rexx
+```rexx <!--traceexecutelabel.rexx-->
 if #Tracing.#Level=='L' then call #TraceSource
 ```
 
@@ -889,7 +908,7 @@ The LEAVE instruction is used to immediately exit one or more repetitive DOs.
 
 For a definition of the nesting correction, see nnn.
 
-```rexx
+```rexx <!--instructionleave.rexx-->
 #Loop = #Loop - NestingCorrection
 call #Goto #Leave.#Loop
 ```
@@ -921,7 +940,7 @@ For a definition of the syntax of this instruction, see nnn.
 NUMERIC DIGITS controls the precision under which arithmetic operations and arithmetic built-in
 functions will be evaluated.
 
-```rexx
+```rexx <!--numericdigits.rexx-->
 if #Contains(numericdigits, expression) then
    Value = #Evaluate(numericdigits, expression)
 else Value = 9
@@ -945,7 +964,7 @@ and arithmetic built-in functions.
 The value of form is either taken directly from the SCIENTIFIC or ENGINEERING keywords, or by
 evaluating _valueexp_.
 
-```rexx
+```rexx <!--numericform.rexx-->
 if \#Contains (numeric,numericsuffix) then
    Value = 'SCIENTIFIC'
 else if #Contains (numericformsuffix, 'SCIENTIFIC') then
@@ -971,7 +990,7 @@ For a definition of the syntax of this instruction, see nnn.
 
 NUMERIC FUZZ controls how many digits, at full precision, will be ignored during a numeric comparison.
 
-```rexx
+```rexx <!--numericfuzz.rexx-->
 If #Contains (numericfuzz,expression) then
   Value = #Evaluate (numericfuzz,expression)
 else
@@ -996,7 +1015,7 @@ The _expression_ is evaluated and the value is passed to the language processor.
 treats the value as a series of blank delimited words. Any words in the value that are not recognized by
 the language processor are ignored without producing an error.
 
-```rexx
+```rexx <!--configoptions.rexx-->
 call Config_Options (Expression)
 ```
 
@@ -1011,7 +1030,7 @@ _template_list_. If the _template_list_ is omitted, or a _template_ in the list 
 
 Processing for the PARSE instruction begins by constructing a value, the source to be parsed.
 
-```rexx
+```rexx <!--instructionsparse.rexx-->
 ArgNum = 0
 select
   when #Contains (parse type, 'ARG') then do
@@ -1045,7 +1064,7 @@ The parsing process is defined by the following routine, `ParseData`. The _templ
 `ParseDat`a as a stemmed variable. This variable `Template.` has elements which are null strings except
 for any elements with tails 1,2,3,... corresponding to the tokens of the _template_list_ from left to right.
 
-```rexx
+```rexx <!--parsedata.rexx-->
 ParseData:
   /* Targets will be flagged as the template is examined. */
   Target.='0'
@@ -1233,7 +1252,7 @@ making them unknown to following instructions. Selected variables may be exposed
 
 It is used at the start of a routine, after routine initialization:
 
-```rexx
+```rexx <!--procedure.rexx-->
 if \#AllowProcedure.#Level then call #Raise 'SYNTAX', 17.1
 #AllowProcedure.#Level = 0
 /* It introduces a new variable pool: */
@@ -1254,14 +1273,14 @@ accessible. If VAR_SYMBOL does not contain a period, or has only a single period
 the variable associated with VAR_SYMBOL by the variable pool (as a non-tailed name) is given the
 attribute 'exposed'.
 
-```rexx
+```rexx <!--exposepool.rexx-->
 call Var_Expose #Pool, VAR SYMBOL, '0'
 ```
 
 If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
 in the variable pool (by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
 
-```rexx
+```rexx <!--exposederived.rexx-->
 call Var_Expose #Pool, Derived Name, '1'
 ```
 
@@ -1269,7 +1288,7 @@ If the word from the _variable_list_ is a VAR_SYMBOL enclosed in parentheses the
 exposed, as if that VAR_SYMBOL was a word in the _variable_list_. Tne value of the VAR_SYMBOL is
 processed. The value is considered in uppercase:
 
-```rexx
+```rexx <!--configuppervalue.rexx-->
 #Value = Config_Upper (#Value)
 ```
 
@@ -1278,7 +1297,7 @@ process:
 
 If the word does not have the syntax of VAR_SYMBOL a condition is raised:
 
-```rexx
+```rexx <!--callraisesyntax.rexx-->
 call #Raise 'SYNTAX', 20.1, word
 ```
 
@@ -1291,7 +1310,7 @@ For a definition of the syntax of this instruction, see nnn.
 
 A PULL instruction is a shorter form of the equivalent instruction:
 
-```rexx
+```rexx <!--upperpull.rexx-->
 PARSE UPPER PULL template list
 ```
 
@@ -1301,7 +1320,7 @@ For a definition of the syntax of this instruction, see nnn.
 
 The PUSH instruction is used to place a value on top of the stack.
 
-```rexx
+```rexx <!--push.rexx-->
 If #Contains(push,expression) then
   Value = #Evaluate (push, expression)
 else
@@ -1315,7 +1334,7 @@ For a definition of the syntax of this instruction, see nnn.
 
 The QUEUE instruction is used to place a value on the bottom of the stack.
 
-```rexx
+```rexx <!--queue.rexx-->
 If #Contains (queue,expression) then
   Value = #Evaluate (queue, expression)
 else
@@ -1344,7 +1363,7 @@ as a result to the caller of the routine.
 
 Any _expression_ is evaluated:
 
-```rexx
+```rexx <!--return.rexx-->
 if #Contains(return,expression) then
    #Outcome = #Evaluate(return, expression)
 else if #IsFunction.#Level then
@@ -1355,19 +1374,19 @@ At this point the clause termination occurs and then the following:
 
 If the routine started with a PROCEDURE instruction then the associated pool is taken out of use:
 
-```rexx
+```rexx <!--isprocedure.rexx-->
 if #IsProcedure.#Level then #Pool = #Upper
 ```
 
 A RETURN instruction which is interactively entered at a pause point leaves the pause point.
 
-```rexx
+```rexx <!--atpause.rexx-->
 if #Level = #AtPause then #AtPause = 0
 ```
 
 The activity at this level is complete:
 
-```rexx
+```rexx <!--newlevel.rexx-->
 #Level = #Level-1
 #NewLevel = #Level+1
 ```
@@ -1377,7 +1396,7 @@ Otherwise processing of the program is completed:
 
 The opportunity is provided for a final trap.
 
-```rexx
+```rexx <!--apifinaltrap.rexx-->
 #API Enabled = '1'
 call Var_Reset #Pool
 call Config_Termination
@@ -1392,7 +1411,7 @@ For a definition of the syntax of this instruction, see nnn.
 
 The SAY instruction is used to write a line to the default output stream.
 
-```rexx
+```rexx <!--say.rexx-->
 If #Contains(say,expression) then
   Value = Evaluate (say, expression)
 else
@@ -1408,7 +1427,7 @@ When tracing, the clause containing the keyword SELECT is traced at this point.
 
 The `#Contains(`_`select_body, when`_`)` test in the following description refers to the items of the optional _when_ repetition in order:
 
-```rexx
+```rexx <!--select.rexx-->
 LineNum = #LineNumber
 Ending = #Clause (EndLabel)
 Value=#Evaluate (select body, expression) /* In the required WHEN */
@@ -1444,7 +1463,7 @@ For a definition of the syntax of this instruction, see nnn.
 The SIGNAL instruction is used to cause a change in the flow of control or is used with the ON and OFF
 keywords to control the trapping of conditions.
 
-```rexx
+```rexx <!--signal.rexx-->
 If #Contains (signal,signal spec) then do
   Condition = #Instance(signal spec,condition)
   #Instruction.Condition.#Level = 'SIGNAL'
@@ -1462,7 +1481,7 @@ If #Contains (signal,signal spec) then do
 
 If there was a _signal_spec_ this complete the processing of the signal instruction. Otherwise:
 
-```rexx
+```rexx <!--signalspec.rexx-->
  if #Contains (signal, valueexp)
           then Name #Evaluate(valueexp, expression)
           else Name #Instance(signal,taken constant)
@@ -1473,19 +1492,19 @@ the `'=='` operator.
 
 If no label matches then a condition is raised:
 
-```rexx
+```rexx <!--raisesyntaxname.rexx-->
 call #Raise 'SYNTAX',16.1, Name
 ```
 
 If the name is a trace-only label then a condition is raised:
 
-```rexx
+```rexx <!--raisetraceonlysymbol.rexx-->
 call #Raise 'SYNTAX', 16.2, Name
 ```
 
 If the name matches a label, execution continues at that label after these settings:
 
-```rexx
+```rexx <!--executioncontinues.rexx-->
 #Loop.#Level = 0
 /* A SIGNAL interactively entered leaves the pause point. */
 if #Level = #AtPause then #AtPause = 0
@@ -1501,7 +1520,7 @@ of the program.
 The TRACE instruction is ignored if it occurs within the program (as opposed to source obtained by
 `Config_Trace_Input`) and interactive trace is requested (`#Interactive.#Level = '1'`). Otherwise:
 
-```rexx
+```rexx <!--trace.rexx-->
 #TraceInstruction = '1'
 value = ''
 if #Contains(trace, valueexp) then Value = #Evaluate(valueexp, expression)
@@ -1583,7 +1602,7 @@ _Better not say copies since COPY method has different semantics._
 The optional VAR_SYMBOL positions, positions 1, 2, ..., of the instruction are considered from left to
 right. If the position has a VAR_SYMBOL then its value is assigned to:
 
-```rexx
+```rexx <!--use.rexx-->
 if #ArgExists.Position then
 call Value VAR_SYMBOL, #Arg.Position
 else
@@ -1612,7 +1631,7 @@ When messages are issued any message inserts are replaced by actual values.
 
 The notation for detection of a condition is:
 
-```rexx
+```rexx <!--detectcondition.rexx-->
 call #Raise Condition, Arg2, Arg3, Arg4, Arg5, Arg6é
 ```
 
@@ -1637,7 +1656,7 @@ the `"interpret #Outcome”` instruction.
 The instruction `“interpret 'CALL' #TrapName.#Condition.#Level"` below does not set the variables
 RESULT and .RESULT; any result returned is discarded.
 
-```rexx
+```rexx <!--interpretraise.rexx-->
 #Raise:
 /* If there is no argument, this is an action which has been delayed from the time the
 condition occurred until an appropriate clause boundary. */
@@ -1717,7 +1736,7 @@ an interactive pause, see nnn.
 
 Messages are shown by writing them to the default error stream.
 
-```rexx
+```rexx <!--executionmessages.rexx-->
 #Message:
     MsgNumber = arg(1)
     if #NoSource then MsgNumber = MsgNumber % 1 /* And hence no inserts */

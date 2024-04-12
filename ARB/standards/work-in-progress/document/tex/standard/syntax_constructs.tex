@@ -10,30 +10,41 @@ The syntax constructs in this standard are defined in Backus-Naur Form
 
 \begin{itemize}
 \item
-  a left-hand side (called identifier);
+  a left-hand side (called \emph{identifier});
 \item
-  the characters ':=``;
+  the characters \texttt{\textquotesingle{}:="};
 \item
-  a right-hand side (called bnf\_expression). The left-hand side
-  identifies syntactic constructs. The right-hand side describes valid
-  ways of writing a specific syntactic construct. The right-hand side
-  consists of operands and operators, and may be grouped.
+  a right-hand side (called \emph{bnf\_expression}).
 \end{itemize}
+
+The left-hand side identifies syntactic constructs. The right-hand side
+describes valid ways of writing a specific syntactic construct.
+
+The right-hand side consists of operands and operators, and may be
+grouped.
 
 \subsection{Operands}\label{operands}
 
 Operands may be terminals or non-terminals. If an operand appears as
 identifier in some other production it is called a non-terminal,
 otherwise it is called a terminal. Terminals are either literal or
-symbolic. Literal terminals are enclosed in quotes and represent
-literally (apart from case) what must be present in the source being
-described. Symbolic terminals formed with lower case characters
-represent something which the configuration may, or may not, allow in
-the source program, see nnn, nnn, nnn, nnn. Symbolic terminals formed
-with uppercase characters represent events and tokens, see nnn and nnn.
-\#\#\# Operators The following lists the valid operators, their meaning,
-and their precedence; the operator listed first has the highest
-precedence; apart from precedence recognition is from left to right:
+symbolic.
+
+Literal terminals are enclosed in quotes and represent literally (apart
+from case) what must be present in the source being described.
+
+Symbolic terminals formed with lower case characters represent something
+which the configuration may, or may not, allow in the source program,
+see nnn, nnn, nnn, nnn.
+
+Symbolic terminals formed with uppercase characters represent events and
+tokens, see nnn and nnn.
+
+\subsection{Operators}\label{operators}
+
+The following lists the valid operators, their meaning, and their
+precedence; the operator listed first has the highest precedence; apart
+from precedence recognition is from left to right:
 
 \begin{itemize}
 \item
@@ -43,8 +54,9 @@ precedence; apart from precedence recognition is from left to right:
   abuttal specifies that the preceding and the following construct must
   appear in the given order;
 \item
-  the operator `\textbar{}' specifies alternatives between the preceding
-  and the following constructs.
+  the operator \texttt{\textquotesingle{}\textbar{}\textquotesingle{}}
+  specifies alternatives between the preceding and the following
+  constructs.
 \end{itemize}
 
 \subsection{Grouping}\label{grouping}
@@ -57,22 +69,13 @@ specify that the enclosed construct is optional.
 
 The BNF syntax, described in BNF, is:
 
-production := identifier `:=' bnf expression
-
-bnf expression t= abuttal \textbar{} bnf expression `\textbar{}' abuttal
-
-abuttal t= {[}abuttal{]} bnf primary
-
-bnf primary := `{[}T' bnf expression '{]}' \textbar{} `(' bnf expression
-`)' \textbar{} literal \textbar{}
-
-identifier \textbar{} message identifier \textbar{} bnf primary `+'
+\lstinputlisting[language=rexx,label=ebnfgrouping.ebnf,caption=ebnfgrouping.ebnf]{ebnfgrouping.ebnf}
 
 \subsection{Syntactic errors}\label{syntactic-errors}
 
 The syntax descriptions (see nnn and nnn) make use of
-message\_identifiers which are shown as Msgnn.nn or Msgnn, where nn is a
-number. These actions produce the correspondingly numbered error
+\emph{message\_identifiers} which are shown as Msgnn.nn or Msgnn, where
+nn is a number. These actions produce the correspondingly numbered error
 messages (see nnn and nnn).
 
 \section{Lexical}\label{lexical}
@@ -91,33 +94,51 @@ are defined:
 
 \begin{itemize}
 \item
-  EOL occurs at the end of a line of the source. It is provided by
-  Config\_SourceChar, see nnn;
+  \emph{EOL} occurs at the end of a line of the source. It is provided
+  by \texttt{Config\_SourceChar}, see nnn;
 \item
-  EOS occurs at the end of the source program. It is provided by
-  Config\_SourceChar;
+  \emph{EOS} occurs at the end of the source program. It is provided by
+  \texttt{Config\_SourceChar};
 \item
-  RADIX occurs when the character about to be scanned is `X' or `x' or
-  `B' or `b' not followed by a general\_letter, or a digit, or'.';
+  \emph{RADIX} occurs when the character about to be scanned is
+  \texttt{\textquotesingle{}X\textquotesingle{}} or
+  \texttt{\textquotesingle{}x\textquotesingle{}} or
+  \texttt{\textquotesingle{}B\textquotesingle{}} or
+  \texttt{\textquotesingle{}b\textquotesingle{}} not followed by a
+  \emph{general\_letter}, or a \emph{digit}, or
+  \texttt{\textquotesingle{}.\textquotesingle{}};
 \item
-  CONTINUE occurs when the character about to be scanned is `,', and the
-  characters after the `,' up to EOL represent a repetition of comment
-  or blank, and the EOL is not immediately followed by an EOS;
+  \emph{CONTINUE} occurs when the character about to be scanned is
+  \texttt{\textquotesingle{},\textquotesingle{}}, and the characters
+  after the \texttt{\textquotesingle{},\textquotesingle{}} up to
+  \emph{EOL} represent a repetition of \emph{comment} or \emph{blank},
+  and the \emph{EOL} is not immediately followed by an \emph{EOS};
 \item
-  EXPONENT\_SIGN occurs when the character about to be scanned is `+' or
-  `-', and the characters to the left of the sign, currently parsed as
-  part of Const\_symbol, represent a plain\_number followed by `E' or
-  `e', and the characters to the right of the sign represent a
-  repetition of digit not followed by a general\_letter or'.'.
-\item
-  would put ASSIGN here for the leftmost `=' in a clause that is not
-  within parentheses or brackets. But Simon not
+  \emph{EXPONENT\_SIGN} occurs when the character about to be scanned is
+  \texttt{\textquotesingle{}+\textquotesingle{}} or
+  \texttt{\textquotesingle{}-\textquotesingle{}}, and the characters to
+  the left of the sign, currently parsed as part of
+  \emph{Const\_symbol}, represent a \emph{plain\_number} followed by
+  \texttt{\textquotesingle{}E\textquotesingle{}} or
+  \texttt{\textquotesingle{}e\textquotesingle{}}, and the characters to
+  the right of the sign represent a repetition of \emph{digit} not
+  followed by a \emph{general\_letter} or
+  \texttt{\textquotesingle{}.\textquotesingle{}}.
+\end{itemize}
 
-  happy with message term being an assignment? \#\#\#\# Actions and
-  tokens Mixed case identifiers with an initial capital letter cause an
-  action when they appear as operands ina production. These actions
-  perform further tests and create tokens for use by the top syntax
-  level. The following actions are defined:
+\emph{- I would put \emph{ASSIGN} here for the leftmost
+\texttt{\textquotesingle{}=\textquotesingle{}} in a clause that is not
+within parentheses or brackets. But Simon not happy with message term
+being an assignment?}
+
+\subsubsection{Actions and tokens}\label{actions-and-tokens}
+
+Mixed case identifiers with an initial capital letter cause an action
+when they appear as operands ina production. These actions perform
+further tests and create tokens for use by the top syntax level. The
+following actions are defined:
+
+\begin{itemize}
 \item
   Special supplies the source recognized as special to the top syntax
   level;
@@ -284,347 +305,71 @@ recognizing larger constructs.
 
 \subsection{Syntax level}\label{syntax-level}
 
-starter:=x3j18
-
-x3j18:=program Eos \textbar{} Msg35.1
-
-program := {[}label list{]} {[}ncl{]} {[}requires+{]}
-{[}prolog\_instruction+{]} (class definition {[}requires+{]})+ requires
-:= `REQUIRES' ( taken constant \textbar{} Mgg19.8 ) ```;'+ prolog
-instruction:= (package \textbar{} import \textbar{} options) nel package
-= `PACKAGE'( NAME \textbar{} Msgnn ) import = `IMPORT' ( NAME \textbar{}
-Msgnn ) {[}`.'{]} options := `OPTIONS' ( symbol+ \textbar{} Msgnn ) nel
-:= null \_clause+ \textbar{} Msg21.1 null clause = `;' {[}label list{]}
-label list = (LABEL `;')+ class definition = class {[}property info{]}
-{[}method definition+{]} class = `CLASS' ( taken constant \textbar{}
-Msg19.12 ) {[}class\_option+{]}
-
-{[}`INHERIT' ( taken constant \textbar{} Msg19.13 )+{]} nel visibility
-\textbar{} modifier \textbar{} `BINARY' \textbar{} `DEPRECATED'
-`EXTENDS' ( NAME \textbar{} Msgnn ) `USES' ( NAMElist \textbar{} Msgnn )
-\textbar{} `IMPLEMENTS' ( NAMElist \textbar{} Msgnn )
-
-class option
-
-numeric digits:= `DIGITS' {[}expression{]}
-
-external \textbar{} metaclass \textbar{} submix /* \textbar{} 'PUBLIC!
-*/
-
-external = `EXTERNAL' (STRING \textbar{} Msg19.14) metaclass =
-`METACLASS' ( taken constant \textbar{} Msg19.15 ) submix = `MIXINCLASS'
-( taken constant \textbar{} Msg19.16 ) \textbar{} `SUBCLASS' ( taken
-constant \textbar{} Msg19.17 ) visibility = `PUBLIC' \textbar{}
-`PRIVATE' modifier = `ABSTRACT' \textbar{} `FINAL' \textbar{}
-`INTERFACE' \textbar{} `ADAPTER'! NAMElist = NAME {[}(`,' ( NAME
-\textbar{} Msgnn ) )+{]} property \_info = numeric \textbar{} property
-assignment \textbar{} properties \textbar{} trace numeric = `NUMERIC'
-(numeric digits \textbar{} numeric form \textbar{} Msg25.15) numeric
-form = `FORM' {[}`ENGINEERING' \textbar{} `SCIENTIFIC'{]} property
-agsignment := NAME \textbar{} assignment properties := `PROPERTIES' (
-properties option+ \textbar{} Msgnn) properties option := properties
-vigibility \textbar{} properties modifier properties visibility :=
-`INHERITABLE' \textbar{} `PRIVATE' \textbar{} `PUBLIC' \textbar{}
-`INDIRECT' properties modifier := `CONSTANT' \textbar{} `STATIC'
-\textbar{} `VOLATILE' \textbar{} `TRANSIENT' trace := `TRACE' {[}`ALL'
-\textbar{} `METHODS' \textbar{} `OFF' \textbar{} `RESULTS'{]} method
-definition = (method {[}expose ncl{]}\textbar{} routine) balanced expose
-= `EXPOSE' variable list method = `METHOD' (taken constant \textbar{}
-Msg19.9) {[} `(' assigncommalist \textbar{} Msgnn ( `)' \textbar{} Msgnn
-){]} {[}method option+{]} nel assigncommalist assignment {[}(`,' (
-assignment \textbar{} Msgnn ) )+{]}
-
-method visibility \textbar{} method modifier \textbar{} `PROTECT'
-\textbar{} `RETURNS' ( term \textbar{} Msgnn ) \textbar{} `SIGNAL' (
-termcommalist \textbar{} Msgnn )
-
-method option
-
-`DEPRECATED'! `CLASS' \textbar{} `ATTRIBUTE' \textbar{} /\emph{`PRIVATE'
-\textbar{} }/ guarded guarded := `GUARDED' \textbar{} `UNGUARDED! method
-visibility := 'INHERITABLE' \textbar{} `PRIVATE' \textbar{} `PUBLIC'
-\textbar{} `SHARED!' method modifier := `ABSTRACT' \textbar{} `CONSTANT'
-\textbar{} `FINAL' \textbar{} `NATIVE' \textbar{} `STATIC' termcommalist
-:= term {[}(`,' ( term \textbar{} Msgnn ) )+{]} routine := `ROUTINE' (
-taken constant \textbar{} Msg19.11 ) {[}`PUBLIC'{]} nel balanced:=
-instruction list {[}`END' Msgl0.1{]} instruction list:= instruction+
-
-/* The second part ig about groups */
-
-instruction = group \textbar{} gingle instruction nel group = do ncl
-\textbar{} if \textbar{} loop nel \textbar{} select nel do = do
-specification nel {[}instruction+{]} {[}group\_handler{]} (`END'
-{[}NAME{]} \textbar{} Eos Msg14.1 \textbar{} Msg35.1) group option :=
-`LABEL' ( NAME \textbar{} Msgnn ) \textbar{} `PROTECT' ( term \textbar{}
-Msgnn )
-
-group handler catch \textbar{} finally catch finally
-
-`CATCH' {[} NAME `=' {]} ( NAME \textbar{} Msgnn) nel {[}instruction+{]}
-
-catch = /* FINALLY implies a semicolon. */ finally = `FINALLY' nel (
-instruction+ \textbar{} Msgnn ) if := `IF' expression {[}ncl{]} (then
-\textbar{} Msg18.1) {[}else{]} then := `THEN' nel (instruction
-\textbar{} EOS Msg14.3 \textbar{} `END' Msg10.5) else := `ELSE' nel
-(instruction \textbar{} EOS Msg14.4 \textbar{} `END' Msg10.6) loop :=
-`LOOP' {[}group\_option+{]} {[}repetitor{]} {[}conditional{]} nel
-
-instruction+ {[}group\_handler{]} loop ending
-
-loop ending `END' {[}VAR SYMBOL{]} \textbar{} EOS Msg14.n \textbar{}
-Msg35.1
-
-conditional = `WHILE' whileexpr \textbar{} `UNTIL' untilexpr untilexpr =
-expression whileexpr = expression repetitor = assignment {[}count
-option+{]} \textbar{} expression \textbar{} over `FOREVER' count option
-= loopt \textbar{} loopb \textbar{} loopf loopt = `TO' expression loopb
-= `BY' expression loopf = `FOR' expression over = VAR SYMBOL `OVER'
-expression
-
-NUMBER `OVER' Msg31.1\\
-CONST SYMBOL `OVER' (Msg31.2 \textbar{} Msg31.3)
-
-select := `SELECT' {[}group option+{]} ncl select \_ body
-{[}group\_handler{]} (`END' {[}NAME Msg10.4{]} \textbar{} EOS Msgl14.2
-\textbar{} Msg7.2)
-
-(when \textbar{} Msg7.1) {[}when+{]} {[}otherwise{]}
-
-`WHEN' expresgion {[}ncl{]} (then \textbar{} Msg18.2)
-
-`OTHERWISE' ncl {[}instruction+{]}
-
-select body when otherwise
-
-/* Third part is for single instructions. */ single instruction:=
-assignment \textbar{} message instruction \textbar{} keyword instruction
-\textbar{} command assignment := VAR SYMBOL `\#' expression NUMBER `\#'
-Msg31.1 CONST SYMBOL `\#!' (Msg31.2 \textbar{} Mgg31.3)
-
-message instruction := message term \textbar{} message term `\#'
-expression keyword instruction:= address \textbar{} arg \textbar{} call
-\textbar{} drop \textbar{} exit interpret \textbar{} iterate \textbar{}
-leave
-
-nop \textbar{} numeric \textbar{} options parse \textbar{} procedure
-\textbar{} pull \textbar{} push \textbar{} queue
-
-raise \textbar{} reply \textbar{} return \textbar{} say \textbar{}
-signal \textbar{} trace \textbar{} use `THEN' Msg8.1 `ELSE' Msg8.2
-`WHEN' Msg9.1 \textbar{} `OTHERWISE' Msg9.2 command = expression address
-= `ADDRESS' {[}(taken constant {[}expression{]}
-
-Msg19.1 \textbar{} valueexp) {[} `WITH' connection{]} {]}
-
-taken constant symbol \textbar{} STRING
-
-valueexp = `VALUE' expression connection = ad option+ ad option = error
-\textbar{} input \textbar{} output \textbar{} Msg25.5 error = `ERROR!'
-(resourceo \textbar{} Msg25.14) input = `INPUT' (resourcei \textbar{}
-Msg25.6) resourcei := resources \textbar{} `NORMAL' output = `OUTPUT'
-(resourceo \textbar{} Mgg25.7) resourceo := `APPEND' (resources
-\textbar{} Msg25.8) \textbar{} `REPLACE' (resources \textbar{} Msg25.9)
-\textbar{} resources \textbar{} `NORMAL' resources := `STREAM'
-(VAR\_SYMBOL \textbar{} Msg53.1) \textbar{} `STEM' (VAR\_SYMBOL
-\textbar{} Msg53.2) vref := `(' var symbol (`)' \textbar{} Msg46.1) var
-symbol = VAR\_SYMBOL \textbar{} Msg20.1
-
-arg := `ARG' {[}template list{]}
-
-eall := `CALL' (callon\_spec \textbar{} (taken constant \textbar{} vref
-\textbar{} Msg19.2) {[}expression list{]} ) callon spec := `ON'
-(callable condition \textbar{} Msg25.1)
-
-{[}`NAME' (symbol constant term \textbar{} Msg19.3){]} \textbar{} `OFF'
-(callable condition \textbar{} Msg25.2)
-
-symbol constant term := term
-
-callable condition:= `ANY' \textbar{} `ERROR' \textbar{} `FAILURE'
-\textbar{} `HALT' \textbar{} `NOTREADY' \textbar{} `USER' ( symbol
-constant term \textbar{} Msg19.18 )
-
-condition := callable condition \textbar{} `LOSTDIGITS' \textbar{}
-`NOMETHOD' \textbar{} `NOSTRING' \textbar{} `NOVALUE' \textbar{}
-'SYNTAX!
-
-expression list do specification do simple
-
-expr \textbar{} {[}expr{]} `,' {[}expression list{]} do simple
-\textbar{} do repetitive `DO' {[}group\_option+{]}
-
-do repetitive = do simple (dorep \textbar{} conditional \textbar{} dorep
-conditional) dorep = `FOREVER' \textbar{} repetitor drop = `DROP'
-variable list variable list = (vref \textbar{} var\_symbol)+ exit =
-`EXIT' {[}expression{]} forward = `FORWARD' {[}forward \_option+
-\textbar{} Msg25.18{]} forward option = `CONTINUE' \textbar{}
-ArrayArgOption \textbar{} MessageOption \textbar{} ClassOption
-\textbar{} ToOption ArrayArgOption:=`ARRAY' arguments \textbar{}
-`ARGUMENTS' term MessageOption :=`MESSAGE' term ClassOption =`CLASS'
-term ToOption =`TO' term guard = `GUARD' (`ON' \textbar{} Msg25.22)
-{[}(`WHEN' \textbar{} Msg25.21) expression{]} \textbar{} ( `OFF'
-\textbar{} Msg25.19) {[}(`WHEN' \textbar{} Msg25.21) expression{]}
-interpret = `INTERPRET' expression iterate = `ITERATE' {[}VAR SYMBOL
-\textbar{} Msg20.2{]} leave = `LEAVE' {[}VAR SYMBOL \textbar{}
-Msg20.2{]} nop = `NOP!' numeric = `NUMERIC' (numeric digits \textbar{}
-numeric form
-
-numeric fuzz \textbar{} Msg25.15)
-
-numeric digits `DIGITS' {[}expression{]} numeric form `FORM' {[}numeric
-form suffix{]} numeric form suffix:=(`ENGINEERING'
-\textbar{}`SCIENTIFIC'\textbar valueexp \textbar{} Msg25.11) numeric
-fuzz `FUZZ' {[}expression{]}
-
-options = `OPTIONS' expression parse = `PARSE' {[}translations{]} (parse
-type \textbar Msg25.12) {[}template list{]} translations := `CASELESS'
-{[}`UPPER' \textbar{} `LOWER'{]} \textbar{} (`UPPER' \textbar{} `LOWER')
-{[}`CASELESS'{]} parse type = parse key \textbar{} parse value
-\textbar{} parse var \textbar{} term parse key = `ARG' \textbar{} `PULL'
-\textbar{} `SOURCE' \textbar{} `LINEIN' \textbar{} `VERSION! parse value
-= 'VALUE' {[}expression{]} (`WITH' \textbar{} Mgg38.3) parse var = `VAR'
-var symbol template := NAME {[}( {[}pattern{]} NAME) +{]} pattern:=
-STRING \textbar{} {[}indicator{]} NUMBER \textbar{} {[}indicator{]} `('
-symbol `)' indicator := `+' \textbar{} `-' \textbar{} `s! procedure =
-'PROCEDURE' {[}expose \textbar{} Msg25.17{]} pull = `PULL' {[}template
-list{]} push = `PUSH' {[}expression{]} queue = `QUEUE' {[}expression{]}
-raise = `RAISE' conditions (raise option \textbar{} Msg25.24) conditions
-= `ANY' \textbar{} `ERROR' term \textbar{} `FAILURE' term \textbar{}
-`HALT'\textbar{} `LOSTDIGITS' \textbar{} `NOMETHOD' \textbar{}
-`NOSTRING' \textbar{} ``NOTREADY' \textbar{} `NOVALUE' \textbar{}
-`PROPAGATE' \textbar{} `SYNTAX' term \textbar{} `USER' ( symbol constant
-term \textbar{} Msg19.18) \textbar{} Msg25.23 raise option :=
-ExitRetOption \textbar{} Description \textbar{} ArrayOption
-
-ExitRetOption := `EXIT! {[}term{]} \textbar{} 'RETURN' {[}term{]}
-Description =`DESCRIPTION' term ArrayOption = `ADDITIONAL' term
-\textbar{} ```ARRAY' arguments reply = `REPLY' {[} expression{]} return
-= `RETURN' {[}expression{]} say = `SAY' {[}expression{]} signal =
-`SIGNAL' (signal spec \textbar{} valueexp
-
-symbol constant term \textbar{} Msg19.4)
-
-signal spec := `ON' (condition \textbar{} Msg25.3) {[}`NAME' (symbol
-constant term \textbar{} Msg19.3){]} \textbar{} `OFF' (condition
-\textbar{} Msg25.4)
-
-trace = `TRACE' {[}(taken\_constant \textbar{} Msgl19.6) \textbar{}
-valueexp{]} use = `USE' (`ARG' \textbar{} Msg25.26) {[}use list{]} use
-list = VAR\_SYMBOL \textbar{} {[}VAR SYMBOL{]} `,' {[}use list{]}
-
-/* Note: The next part describes templates. */ template list template
-\textbar{} {[}template{]} `,' {[}template list{]}
-
-template = (trigger \textbar{} target \textbar{} Msg38.1)+ target =
-VAR\_SYMBOL \textbar{} `.!' trigger = pattern \textbar{} positional
-pattern = STRING \textbar{} vrefp vrefp = `(' (VAR\_SYMBOL \textbar{}
-Msgl19.7) (`)' \textbar{} Msg46.1) positional = absolute positional
-\textbar{} relative positional absolute positional:= NUMBER `=' position
-pogition := NUMBER \textbar{} vrefp \textbar{} Msg38.2 relative
-posgitional:= (`+' \textbar{} `-``') position
-
-/* Note: The final part specifies the various forms of symbol, and
-expression. */
-
-symbol = VAR\_SYMBOL \textbar{} CONST SYMBOL \textbar{} NUMBER
-expression = expr {[}(`,' Msg37.1) \textbar{} (`)' Msg37.2 ){]} expr =
-expr alias
-
-expr alias and expression
-
-expr alias or operator and expression
-
-or operator := `\textbar{}' \textbar{} `\&\&! and expression :=
-comparison \textbar{} and expression'\&' comparison comparison :=
-concatenation \textbar{} comparison comparison operator concatenation
-comparison \_operator:= normal compare \textbar{} strict compare normal
-compare:= `=! \textbar{} ``\s! \textbar{} hep! \textbar{} tact
-\textbar{} tot \textbar{} tet \textbar{} toet len! W\textgreater!
-\textless! strict\_compare:='==' \textbar{} `\s=' \textbar{}
-`\textgreater\textgreater!' \textbar{} `\textless\textless!' \textbar{}
-`\textgreater\textgreater e! \textbar{}'\textless\textless s! \textbar{}
-```\e\textgreater t \textbar{}'\textless c! concatenation := addition
-\textbar{} concatenation (' ' \textbar{} `\textbar\textbar{}') addition
-addition := multiplication \textbar{} addition additive operator
-multiplication additive operator:= `+' \textbar{} '-! multiplication t=
-power expression
-
-multiplication multiplicative operator
-
-power expression multiplicative operator:= '*' \textbar{} `/' \textbar{}
-`//' \textbar{} `\%! power expression := prefix expression \textbar{}
-power expression'**' prefix expression prefix expression := (`+'
-\textbar{} `-' \textbar{} '\textquotesingle) prefix expression term
-\textbar{} Msg35.1 /* ``Stub'' has to be identified semantically? */
-
-term = simple term {[} `.' ( term \textbar{} Msgnn ){]} simple term :=
-symbol \textbar{} STRING \textbar{} invoke \textbar{} indexed `('
-expression ( `)' \textbar{} Msg36 ) initializer \textbar{} message term
-`\#\#! message term:= term ('\textasciitilde' \textbar{}
-`\textasciitilde\textasciitilde{}') method name {[}arguments{]} term
-`{[}'{[} expression list {]} ('{]}' \textbar{} Msg36.2)
-
-method name:=(taken constant \textbar{} Msg19.19) {[}`:' ( VAR\_SYMBOL
-\textbar{} Msg19.21 ){]} /* Method-call without arguments ig
-syntactically like symbol. \emph{/ /} Editor - not sure of my notes
-about here. */
-
-invoke := (symbol \textbar{} STRING) arguments arguments := `\#('
-{[}expression list{]} (`)' \textbar{} Meg36) expression list :=
-expregsion \textbar{} {[}expression{]} `,' {[}expression list{]} indexed
-= (symbol \textbar{} STRING) indices indices = `\#{[}' {[}expression
-list{]} ('{]}' \textbar{} Msg36.n) initializer = `{[}'expression list
-('{]}' \textbar{} Msg36.n)
+\lstinputlisting[language=rexx,label=syntaxlevel.ebnf,caption=syntaxlevel.ebnf]{syntaxlevel.ebnf}
 
 \section{Syntactic information}\label{syntactic-information}
 
 \subsection{VAR\_SYMBOL matching}\label{var_symbol-matching}
 
-Any VAR\_SYMBOL in a do\_ending must be matched by the same VAR\_SYMBOL
-occurring at the start of an assignment contained in the
-do\_specification of the do that contains both the do\_specification and
-the do\_ending, as described in nnn. If there is a VAR\_SYMBOL in a
-do\_ending for which there is no assignment in the corresponding
-do\_specification then message Msg10.3 is produced and no further
-activity is defined. If there is a VAR\_SYMBOL in a do\_ending which
-does not match the one occurring in the assignment then message Msg10.2
-is produced and no further activity is defined. An iterate or leave must
-be contained in the instruction\_list of some do with a
-do\_specification which is do\_repetitive, otherwise a message (Msg28.2
-or Msg28.1 respectively) is produced and no further activity is defined.
-If an iterate or leave contains a VAR\_SYMBOL there must be a matching
-VAR\_SYMBOL ina do\_specification, otherwise a message (Msg28.1,
-Msg28.2, Msg28.3 or Msg28.4 appropriately) is produced and no further
-activity is defined. The matching VAR\_SYMBOL will occur at the start of
-an assignment in the do\_specification. Tne do\_specification will be
-associated with a do by nnn. The /ferafe or leave will be a single
-instruction in an instruction\_list associated with a do by nnn. These
-two dos shall be the same, or the latter nested one or more levels
-within the former. The number of levels is called the
-nesting\_correction and influences the semantics of the iterafe or
-leave. It is zero if the two dos are the same. The nesting\_correction
-for /ferates or leaves that do not contain VAR\_SYMBOL is zero.
+Any \texttt{VAR\_SYMBOL} in a \emph{do\_ending} must be matched by the
+same \texttt{VAR\_SYMBOL} occurring at the start of an \emph{assignment}
+contained in the \emph{do\_specification} of the \emph{do} that contains
+both the \emph{do\_specification} and the \emph{do\_ending}, as
+described in nnn.
+
+If there is a \emph{VAR\_SYMBOL} in a \emph{do\_ending} for which there
+is no \emph{assignment} in the corresponding \emph{do\_specification}
+then message Msg10.3 is produced and no further activity is defined.
+
+If there is a :VAR\_SYMBOL\_ in a \emph{do\_ending} which does not match
+the one occurring in the \emph{assignment} then message Msg10.2 is
+produced and no further activity is defined.
+
+An \emph{iterate} or \emph{leave} must be contained in the
+\emph{instruction\_list} of some \emph{do} with a
+\emph{do\_specification} which is \emph{do\_repetitive}, otherwise a
+message (Msg28.2 or Msg28.1 respectively) is produced and no further
+activity is defined.
+
+If an \emph{iterate} or \emph{leave} contains a \emph{VAR\_SYMBOL} there
+must be a matching \emph{VAR\_SYMBOL} in a \emph{do\_specification},
+otherwise a message (Msg28.1, Msg28.2, Msg28.3 or Msg28.4 appropriately)
+is produced and no further activity is defined. The matching
+\texttt{VAR\_SYMBOL} will occur at the start of an \emph{assignment} in
+the \emph{do\_specification}. Tne \emph{do\_specification} will be
+associated with a \emph{do} by nnn. The \emph{iterate} or \emph{leave}
+will be a single \emph{instruction} in an \emph{instruction\_list}
+associated with a \emph{do} by nnn. These two dos shall be the same, or
+the latter nested one or more levels within the former. The number of
+levels is called the \emph{nesting\_correction} and influences the
+semantics of the \emph{iterate} or \emph{leave}. It is zero if the two
+dos are the same. The \emph{nesting\_correction} for \emph{iterates} or
+\emph{leaves} that do not contain \emph{VAR\_SYMBOL} is zero.
 
 \subsection{Trace-only labels}\label{trace-only-labels}
 
-Instances of LABEL which occur within a grouping\_instruction and are
-not in a nc/ at the end of that grouping\_instruction are instances of
-trace-only labels.
+Instances of \emph{LABEL} which occur within a
+\emph{grouping\_instruction} and are not in a \emph{ncl} at the end of
+that \emph{grouping\_instruction} are instances of trace-only labels.
 
 \subsection{Clauses and line numbers}\label{clauses-and-line-numbers}
 
 The activity of tracing execution is defined in terms of clauses. A
 program consists of clauses, each clause ended by a semicolon special
 token. The semicolon may be explicit in the program or inferred. The
-line number of a clause is one more than the number of EOL events
+line number of a clause is one more than the number of \emph{EOL} events
 recognized before the first token of the clause was recognized.
 
 \subsection{Nested IF instructions}\label{nested-if-instructions}
 
-The syntax specification nnn allows `IF' instructions to be nested and
-does not fully specify the association of an `ELSE' keyword with an `IF'
-keyword. An `ELSE' associates with the closest prior `IF' that it can
-associate with in conformance with the syntax.
+The syntax specification nnn allows
+\texttt{\textquotesingle{}IF\textquotesingle{}} instructions to be
+nested and does not fully specify the association of an
+\texttt{\textquotesingle{}ELSE\textquotesingle{}} keyword with an
+\texttt{\textquotesingle{}IF\textquotesingle{}} keyword. An
+\texttt{\textquotesingle{}ELSE\textquotesingle{}} associates with the
+closest prior \texttt{\textquotesingle{}IF\textquotesingle{}} that it
+can associate with in conformance with the syntax.
 
 \subsection{Choice of messages}\label{choice-of-messages}
 
@@ -633,114 +378,159 @@ circumstances. The following rules apply:
 
 \begin{itemize}
 \item
-  Msg15.1 shall be preferred to Msg15.3 if the choice of Msg15.3 would
-  result in the replacement for the insertion being a blank character;
+  \emph{Msg15.1} shall be preferred to \emph{Msg15.3} if the choice of
+  \emph{Msg15.3} would result in the replacement for the insertion being
+  a blank character;
 \item
-  Msg15.2 shall be preferred to Msg15.4 if the choice of Msg15.4 would
-  result in the replacement for the insertion being a blank character;
+  \emph{Msg15.2} shall be preferred to \emph{Msg15.4} if the choice of
+  \emph{Msg15.4} would result in the replacement for the insertion being
+  a blank character;
 \item
-  Msg31.3 shall be preferred to Msg31.2 if the replacement for the
-  insertion in the message starts with a period;
+  \emph{Msg31.3} shall be preferred to \emph{Msg31.2} if the replacement
+  for the insertion in the message starts with a period;
 \item
   Preference is given to the message that appears later in the list:
-  Msg21.1, Msg27.1, Msg25.16, Msg36, Msg38.3, Msg35.1, other messages.
+  \emph{Msg21.1}, \emph{Msg27.1}, \emph{Msg25.16}, \emph{Msg36},
+  \emph{Msg38.3}, \emph{Msg35.1}, other messages.
 \end{itemize}
 
 \subsection{Creation of messages}\label{creation-of-messages}
 
-The message\_identifiers in clause 6 correlate with the tails of stem
-\#ErrorText., which is initialized in nnn to identify particular
+The \emph{message\_identifiers} in clause 6 correlate with the tails of
+stem \#ErrorText., which is initialized in nnn to identify particular
 messages. The action of producing an error message will replace any
 insertions in the message text and present the resulting text, together
 with information on the origin of the error, to the configuration by
-writing on the default error stream. Further activity by the language
-processor is permitted, but not defined by this standard. The effect of
-an error during the writing of an error message is not defined.
+writing on the default error stream.
+
+Further activity by the language processor is permitted, but not defined
+by this standard.
+
+The effect of an error during the writing of an error message is not
+defined.
 
 \subsubsection{Error message prefix}\label{error-message-prefix}
 
 The error message selected by the message number is preceded by a
-prefix. The text of the prefix is \#ErrorText.0.1 except when the error
-is in source that execution of an interactive trace interpret
-instruction (see nnn) is processing, in which case the text is
-\#ErrorText.0.2. The insert called in these texts is the message number.
-The insert called is the line number of the error. The line number of
-the error is one more than the number of EOL events encountered before
-the error was detectable, except for messages Msg6.1, Msg14, Msg14.1,
-Msg14.2, Msg14.3, and Msg14.4. For Msg6.1 it is one more than the number
-of EOL events encountered before the line containing the unmatched '/*'.
-For the others, it is the line number of the clause containing the
-keyword referenced in the message text. The insert called is the value
-provided on the API\_ Start function which started processing of the
-program, see nnn.
+prefix. The text of the prefix is \emph{\#ErrorText.0.1} except when the
+error is in source that execution of an interactive trace
+\emph{interpret} instruction (see nnn) is processing, in which case the
+text is \emph{\#ErrorText.0.2}. The insert called
+\texttt{\textless{}value\textgreater{}} in these texts is the message
+number. The insert called \texttt{\textless{}linenumber\textgreater{}}
+is the line number of the error. The line number of the error is one
+more than the number of \emph{EOL} events encountered before the error
+was detectable, except for messages \emph{Msg6.1}, \emph{Msg14},
+\emph{Msg14.1}, \emph{Msg14.2}, \emph{Msg14.3}, and \emph{Msg14.4}. For
+\emph{Msg6.1} it is one more than the number of \emph{EOL} events
+encountered before the line containing the unmatched
+\texttt{\textquotesingle{}/*\textquotesingle{}}. For the others, it is
+the line number of the clause containing the keyword referenced in the
+message text.
+
+The insert called \texttt{\textless{}source\textgreater{}} is the value
+provided on the \texttt{API\_Start} function which started processing of
+the program, see nnn.
 
 \section{Replacement of insertions}\label{replacement-of-insertions}
 
 Within the text of error messages, an insertion consists of the
-characters `\textless{}', `\textgreater{}', and what is between those
-characters. There will be a word in the insertion that specifies the
-replacement text, with the following meaning:
+characters \texttt{\textquotesingle{}\textless{}\textquotesingle{}},
+\texttt{\textquotesingle{}\textgreater{}\textquotesingle{}}, and what is
+between those characters. There will be a word in the insertion that
+specifies the replacement text, with the following meaning:
 
 \begin{itemize}
 \item
-  if the word is `hex-encoding' and the message is not Msg23.1 then the
-  replacement text is the value of the leftmost character which caused
-  the source to be syntactically incorrect. The value is in hexadecimal
-  notation;
+  if the word is
+  \texttt{\textquotesingle{}hex-encoding\textquotesingle{}} and the
+  message is not \emph{Msg23.1} then the replacement text is the value
+  of the leftmost character which caused the source to be syntactically
+  incorrect. The value is in hexadecimal notation;
 \item
-  if the word is `token' then the replacement text is the part of the
-  source program which was recognized as the detection token, or in the
-  case of Msg31.1 and Msg31.2, the token before the detection token. The
-  detection token is the leftmost token for which the program up to and
-  including the token could not be parsed as the left part of a program
-  without causing a message. If the detection token is a semicolon that
-  was not present in the source but was supplied during recognition then
-  the replacement is the previous token;
-\item
-  if the word is `position' then the replacement text is a number
-  identifying the detection character. The detection character is the
-  leftmost character in the hex\_string or binary\_string which did not
-  match the required syntax. The number is a count of the characters in
-  the string which preceded the detection character, including the
-  initial quote or apostrophe. In deciding the leftmost blank in a
-  quoted string of radix `X' or `B' that is erroneous not that: A blank
-  as the first character of the quoted string is an error. The leftmost
-  embedded sequence of blanks can validly follow any number of non-blank
-  characters. Otherwise a blank run that follows an odd numbered
-  sequence of non-blanks (or a number not a multiple of four in the case
-  of radix `B') is not valid. If the string is invalid for a reason not
-  described above, the leftmost blank of the rightmost sequence of
-  blanks is the invalid blank to be referenced in the message;
-\item
-  if the word is `char' then the replacement text is the detection
-  character;
-\item
-  if the word is `linenumber' then the replacement text is the line
-  number of a clause associated with the error. The wording of the
-  message text specifies which clause that is;
-\item
-  if the word is `keywords' then the replacement text is a list of the
-  keywords that the syntax would allow at the context where the error
-  occurred. If there are two keywords they shall be separated by the
-  four characters ' or `. If more, the last shall be preceded by the
-  three characters 'or' and the others shall be followed by the two
-  characters `,'. The keywords will be uppercased and in alphabetical
-  order.
+  if the word is \texttt{\textquotesingle{}token\textquotesingle{}} then
+  the replacement text is the part of the source program which was
+  recognized as the detection token, or in the case of \emph{Msg31.1}
+  and \emph{Msg31.2}, the token before the detection token.
 \end{itemize}
 
-Replacement text is truncated to \#Limit\_Messagelnsert characters if it
-would otherwise be longer than that, except for a keywords replacement.
-When an insert is both truncated and appears within quotes in the
-message, the three characters `\ldots{}' are inserted in the message
-after the trailing quote.
+The detection token is the leftmost token for which the program up to
+and including the token could not be parsed as the left part of a
+program without causing a message. If the detection token is a semicolon
+that was not present in the source but was supplied during recognition
+then the replacement is the previous token;
+
+\begin{itemize}
+\item
+  if the word is \texttt{\textquotesingle{}position\textquotesingle{}}
+  then the replacement text is a number identifying the detection
+  character. The detection character is the leftmost character in the
+  \emph{hex\_string} or \emph{binary\_string} which did not match the
+  required syntax. The number is a count of the characters in the string
+  which preceded the detection character, including the initial quote or
+  apostrophe. In deciding the leftmost blank in a quoted string of radix
+  \texttt{\textquotesingle{}X\textquotesingle{}} or
+  \texttt{\textquotesingle{}B\textquotesingle{}} that is erroneous note
+  that:
+
+  \begin{itemize}
+  \item
+    A blank as the first character of the quoted string is an error.
+  \item
+    The leftmost embedded sequence of blanks can validly follow any
+    number of non-blank characters.
+  \item
+    Otherwise a blank run that follows an odd numbered sequence of
+    non-blanks (or a number not a multiple of four in the case of radix
+    \texttt{\textquotesingle{}B\textquotesingle{}}) is not valid.
+  \item
+    If the string is invalid for a reason not described above, the
+    leftmost blank of the rightmost sequence of blanks is the invalid
+    blank to be referenced in the message;
+  \end{itemize}
+\item
+  if the word is \texttt{\textquotesingle{}char\textquotesingle{}} then
+  the replacement text is the detection character;
+\item
+  if the word is \texttt{\textquotesingle{}linenumber\textquotesingle{}}
+  then the replacement text is the line number of a clause associated
+  with the error. The wording of the message text specifies which clause
+  that is;
+\item
+  if the word is \texttt{\textquotesingle{}keywords\textquotesingle{}}
+  then the replacement text is a list of the keywords that the syntax
+  would allow at the context where the error occurred. If there are two
+  keywords they shall be separated by the four characters
+  \texttt{\textquotesingle{}\ or\ \textquotesingle{}}. If more, the last
+  shall be preceded by the three characters
+  \texttt{\textquotesingle{}or\textquotesingle{}} and the others shall
+  be followed by the two characters
+  \texttt{\textquotesingle{},\textquotesingle{}}. The keywords will be
+  uppercased and in alphabetical order.
+\end{itemize}
+
+Replacement text is truncated to \texttt{\#Limit\_Messagelnsert}
+characters if it would otherwise be longer than that, except for a
+keywords replacement. When an insert is both truncated and appears
+within quotes in the message, the three characters
+\texttt{\textquotesingle{}...\textquotesingle{}} are inserted in the
+message after the trailing quote.
 
 \section{Syntactic equivalence}\label{syntactic-equivalence}
 
-If a message\_term contains a `{[}' it is regarded as an equivalent
-message\_term without a `{[}', for execution. The equivalent is
-term\textasciitilde{}`{[}{]}'(expression\_list). See nnn. If a
-message\_instruction has the construction message\_term `=' expression
-it is regarded as equivalent to a message\_term with the same components
-as the message\_term left of the `=', except that the taken\_constant
-has an `=' character appended and arguments has the expression from the
-right of the `=' as an extra first argument. See nnn.
+If a message\_term contains a
+\texttt{\textquotesingle{}{[}\textquotesingle{}} it is regarded as an
+equivalent message\_term without a
+\texttt{\textquotesingle{}{[}\textquotesingle{}}, for execution. The
+equivalent is
+\texttt{term\textasciitilde{}\textquotesingle{}{[}{]}\textquotesingle{}(expression\_list)}.
+See nnn. If a \emph{message\_instruction} has the construction
+\texttt{message\_term\ \textquotesingle{}=\textquotesingle{}\ expression}
+it is regarded as equivalent to a \emph{message\_term} with the same
+components as the \emph{message\_term} left of the
+\texttt{\textquotesingle{}=\textquotesingle{}}, except that the
+\emph{taken\_constant} has an
+\texttt{\textquotesingle{}=\textquotesingle{}} character appended and
+\emph{arguments} has the expression from the right of the
+\texttt{\textquotesingle{}=\textquotesingle{}} as an extra first
+argument. See nnn.

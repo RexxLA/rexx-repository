@@ -2,7 +2,7 @@
 \chapter{Definitions and document
 notation}\label{definitions-and-document-notation}
 
-Lots more for NetRexx
+\emph{Lots more for NetRexx}
 
 \section{Definitions}\label{definitions}
 
@@ -13,8 +13,8 @@ A set of functions which allow access to some Rexx facilities from
 non-Rexx programs.
 \item[arguments]
 The expressions (separated by commas) between the parentheses of a
-function call or following the name on a CALL instruction. Also the
-corresponding values which may be accessed by a function or routine,
+function call or following the name on a \texttt{CALL} instruction. Also
+the corresponding values which may be accessed by a function or routine,
 however invoked.
 \item[built-in function]
 A function (which may be called as a subroutine) that is defined in
@@ -28,22 +28,22 @@ implied by the end of a line or by some other constructs.
 A coded string is a string which is not necessarily comprised of
 characters. Coded strings can occur as arguments to a program, results
 of external routines and commands, and the results of some built-in
-functions, such as D2C.
+functions, such as \texttt{D2C}.
 \item[command]
 A clause consisting of just an expression is an instruction known as a
 command. The expression is evaluated and the result is passed as a
 command string to some external environment.
 \item[condition]
-A specific event, or state, which can be trapped by CALL ON or SIGNAL
-ON.
+A specific event, or state, which can be trapped by \texttt{CALL\ ON} or
+\texttt{SIGNAL\ ON}.
 \item[configuration]
 Any data-processing system, operating system and software used to
 operate a language processor.
 \item[conforming language processor]
 A language processor which obeys all the provisions of this standard.
 \item[construct]
-A named syntax grouping, for example ``expression'', ``do\_
-specification''.
+A named syntax grouping, for example ``\emph{expression}'',
+``\emph{do\_specification}''.
 \item[default error stream]
 An output stream, determined by the configuration, on which error
 messages are written.
@@ -65,7 +65,7 @@ A symbol which is in an unitialized state, as opposed to having had a
 value assigned to it, is described as dropped. The names in a variable
 pool have an attribute of `dropped' or `not-dropped'.
 \item[encoding]
-The relation between a character string anda corresponding number. The
+The relation between a character string and a corresponding number. The
 encoding of character strings is determined by the configuration.
 \item[end-of-line]
 An event that occurs during the scanning of a source program. Normally
@@ -80,7 +80,7 @@ command.
 \item[environment name]
 The name of an external procedure or process that can execute commands.
 Commands are sent to the current named environment, initially selected
-externally but then alterable by using the ADDRESS instruction.
+externally but then alterable by using the \texttt{ADDRESS} instruction.
 \item[error number]
 A number which identifies a particular situation which has occurred
 during processing. The message prose associated with such a number is
@@ -101,7 +101,7 @@ A function or subroutine that is neither built-in nor in the same
 program as the CALL instruction or function call that invokes it.
 \item[external variable pool]
 A named variable pool supplied by the configuration which can be
-accessed by the VALUE built-in function.
+accessed by the \texttt{VALUE} built-in function.
 \item[function]
 Some processing which can be invoked by name and will produce a result.
 This term is used for both Rexx functions (See nnn) and functions
@@ -116,8 +116,8 @@ operation on its stem. The names in a variable pool have an attribute of
 One or more clauses that describe some course of action to be taken by
 the language processor.
 \item[internal routine]
-A function or subroutine that is in the same program as the CALL
-instruction or function call that invokes it.
+A function or subroutine that is in the same program as the
+\texttt{CALL} instruction or function call that invokes it.
 \item[keyword]
 This standard specifies special meaning for some tokens which consist of
 letters and have particular spellings, when used in particular contexts.

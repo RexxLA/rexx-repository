@@ -201,9 +201,9 @@ running on would not.) \emph{/ if arg(3,`E') then if
 pos(translate(left(arg(3),1)),``CHLMNS'')=0 then return /} Tf the third
 argument is given then the second is mandatory. \emph{/ if arg(3,`E') \&
 arg(2,`E')=0 then returm /} Default the first argument. \emph{/ if
-arg(1,`E') then Option = translate(left(arg(1),1)) else Option = `N'' /}
-Tf there is no second argument, the current time is returned. \emph{/ if
-arg(2,`E') = 0 then if arg(1,`E') then return ``TIME'(arg(1)) else
+arg(1,`E') then Option = translate(left(arg(1),1)) else Option = `N'\,'
+/} Tf there is no second argument, the current time is returned. \emph{/
+if arg(2,`E') = 0 then if arg(1,`E') then return ``TIME'(arg(1)) else
 return `TIME'() /} One cannot convert to elapsed times. */ if
 pos(Option, `ERO') \textgreater{} 0 then returm InValue = arg(2) if
 arg(3,`E') then InOption = arg(3) else InOption = `N' HH =0 MM = 0 SS =0
@@ -214,16 +214,17 @@ when InOption == `C' then do parse var InValue HH `:'. +1 MM +2 XX if HH
 
 end when InOption == `H' then HH = InValue
 
-when InOption == `L'' \textbar{} InOption == `N' then parse var InValue
-HH `:' MM `:' SS when InOption == `M' then MM = InValue otherwise SS =
-InValue end if datatype(HH,`W')=0 \textbar{} datatype(MM,`W')=0
-\textbar{} datatype(SS,`N')=0 then returm HH = HH + HourAdjust /*
-Convert to microseconds \emph{/ Micro = trunc((((HH } 60) + MM) * 60 +
-SS) * 1000000) /* There is no special message for time-out-of-range; the
-bad-format message is used. \emph{/ if Micro\textless0O \textbar{} Micro
-\textgreater{} 24}3600* 1000000 then returm /* Reconvert to further
-check the original. */ if TimeFormat(Micro,InOption) == InValue then
-return TimeFormat(Micro, Option) return
+when InOption == `L'\,' \textbar{} InOption == `N' then parse var
+InValue HH `:' MM `:' SS when InOption == `M' then MM = InValue
+otherwise SS = InValue end if datatype(HH,`W')=0 \textbar{}
+datatype(MM,`W')=0 \textbar{} datatype(SS,`N')=0 then returm HH = HH +
+HourAdjust /* Convert to microseconds \emph{/ Micro = trunc((((HH } 60)
++ MM) * 60 + SS) * 1000000) /* There is no special message for
+time-out-of-range; the bad-format message is used. \emph{/ if
+Micro\textless0O \textbar{} Micro \textgreater{} 24}3600* 1000000 then
+returm /* Reconvert to further check the original. */ if
+TimeFormat(Micro,InOption) == InValue then return TimeFormat(Micro,
+Option) return
 
 TimeFormat: procedure /* Convert from microseconds to given format.
 \emph{/ /} The day will be irrelevant; actually it will be the first day
@@ -852,7 +853,7 @@ call CheckArgs `rANY rWHOLE\textgreater0 oOWHOLE\textgreater=0 oPAD'
 
 String = \#Bif Arg.1 Num = \#Bif\_ Arg.2 if \#Bif\_ArgExists.3 then
 Length = \#Bif Arg.3 else Length = max(length (String) +1-Num, 0) if
-\#Bif\_ArgExists.4 then Pad = \#Bif\_ Arg.4 else Pad = ' `! Output =''
+\#Bif\_ArgExists.4 then Pad = \#Bif\_ Arg.4 else Pad = ' `! Output ='\,'
 do Length \#Response Config Substr(String,Num) /* Attempt to fetch
 character.*/ Character \#Outcome
 

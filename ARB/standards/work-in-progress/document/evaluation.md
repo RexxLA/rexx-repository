@@ -10,13 +10,13 @@ value because a condition is raised.
 This section refers to the `DATATYPE` built-in function when checking operands, see nnn. Except for
 considerations of limits on the values of exponents, the test:
 
-```rexx
+```rexx <!--datatypenum.rexx-->
 datatype(Subject) == 'NUM'
 ```
 
 is equivalent to testing whether the subject matches the syntax:
 
-```ebnf
+```rexx <!--ebfdatatype.ebnf-->
 num := [blank+] ['+' | '-'] [blank+] number [blank+]
 ```
 
@@ -27,7 +27,7 @@ otherwise the value is the value of the expression `(0 - number)`.
 
 The test:
 
-```rexx
+```rexx <!--datatypesubject.rexx-->
 datatype(Subject , 'W')
 ```
 
@@ -36,7 +36,7 @@ is a test that the `Subject` matches that syntax and also has a value that is "w
 When these two tests are made and the `Subject` matches the constraints but has an exponent that is not
 in the correct range of values then a condition is raised:
 
-```rexx
+```rexx <!--callraisesyntax.rexx-->
 call #Raise 'SYNTAX', 41.7, Subject
 ```
 
@@ -65,7 +65,7 @@ correspond to different values.
 
 ### Var_Empty
 
-```rexx
+```rexx <!--varpoolempty.rexx-->
 Var_Empty(Pool)
 ```
 
@@ -74,7 +74,7 @@ is associated with attributes 'dropped', 'implicit' and 'not-exposed'.
 
 ### Var Set
 
-```rexx
+```rexx <!--varsetzero.rexx-->
 Var_Set(Pool, Name, '0', Value)
 ```
 
@@ -83,7 +83,7 @@ the specified name has the 'exposed' attribute then `Var_Set` operates on the va
 `#Upper` in this pool and this rule is applied to that pool. When the pool with attribute 'not-exposed' for this name is determined the specified value is associated with the specified name. It also associates the
 attributes 'not-dropped' and 'not-implicit'. If that attribute was previously 'not-dropped' then the indicator returned is `'R'`. The name is a stem if it contains just one period, as its rightmost character. When the name is a stem `Var_Set(Pool, TailedName, '1',Value)` is executed for all possible valid tailed names which have Name as their stem, and then those tailed-names are given the attribute 'implicit'.
 
-```rexx
+```rexx <!--varsetone.rexx-->
 Var_Set(Pool, Name, '1', Value)
 ```
 
@@ -99,7 +99,7 @@ It also associates the attributes 'not-dropped' and 'not-implicit' . If that att
 
 ### Var_Value
 
-```rexx
+```rexx <!--varvaluezero.rexx-->
 Var_Value(Pool, Name, '0')
 ```
 
@@ -112,7 +112,7 @@ by `#Upper` in this pool and this rule is applied to that pool. When the pool wi
 In the former case `#Outcome` is set equal to `Name`, in the latter case `#Outcome` is set to the value most
 recently associated with the name by `Var_Set`.
 
-```rex
+```rexx <!--varvalueone.rexx-->
 Var_Value(Pool, Name, '1')
 ```
 
@@ -129,7 +129,7 @@ in the latter case `#Outcome` is set to the value most recently associated with 
 
 ### Var_Drop
 
-```rexx
+```rexx <!--vardropzero.rexx-->
 Var_Drop(Pool, Name, '0')
 ```
 
@@ -140,7 +140,7 @@ the specified name has the 'exposed' attribute then `Var_Drop` operates on the v
 Also, when the name is a stem, `Var_Drop(Pool,TailedName,'1')` is executed for all possible 
 valid tailed names which have `Name` as a stem.
 
-```rexx
+```rexx <!--vardropone.rexx-->
 Var_Drop(Pool, Name, '1')
 ```
 
@@ -155,7 +155,7 @@ name.
 
 ### Var_Expose
 
-```rexx
+```rexx <!--varexposezero.rexx-->
 Var_Expose (Pool, Name, '0')
 ```
 
@@ -164,7 +164,7 @@ The attribute 'exposed' is associated with the specified name. Also, when the na
 `Var_Expose(Pool, TailedName,'1')` is executed for all possible valid tailed names which have Name as a
 stem.
 
-```rexx
+```rexx <!--varexpose1.rexx-->
 Var_Expose (Pool, Name, '1')
 ```
 
@@ -173,7 +173,7 @@ attribute 'exposed' is associated with the specified name.
 
 ### Var_Reset
 
-```rexx
+```rexx <!--varresetpool.rexx-->
 Var_ Reset (Pool)
 ```
 
@@ -193,7 +193,7 @@ _VAR_SYMBOL: identifies a variable and its value may vary during execution.
 
 Accessing the value of a symbol which is not "taken as a constant" shall result in trace output, see nnn:
 
-```rexx
+```rexx <!--tracinglevel.rexx-->
 if #Tracing.#Level == 'I' then call #Trace Tag
 ```
 
@@ -209,7 +209,7 @@ the variable is the value associated with _VAR_SYMBOL_ in the variable pool, tha
 If the indicator is `'D'`, indicating the variable has the 'dropped' attribute, the `NOVALUE` condition is raised;
 see nnn and nnn for exceptions to this.
 
-```rexx
+```rexx <!--varpoolsymbol.rexx-->
 #Response = Var Value(Pool, VAR SYMBOL, '0')
 if left(#Response,1) == 'D' then
   call #Raise 'NOVALUE', VAR_SYMBOL, ''
@@ -222,7 +222,7 @@ associated with the derived name.
 
 A derived name is derived from a _VAR_SYMBOL_ as follows:
 
-```
+```rexx <!--derivednames.rexx-->
 VAR SYMBOL  :=    Stem Tail
 Stem  :=    PlainSymbol '.'
 Tail  :=    (PlainSymbol | '.' [PlainSymbol]) ['.' [PlainSymbol]]+
@@ -235,7 +235,7 @@ The derived name is the concatenation of:
 - the _Tail_, with the _PlainSymbols_ replaced by the values of the symbols. The value of a _PlainSymbol_
 which does not start with a digit is `#Outcome` after
 
-```rexx
+```rexx <!--varvalueplainsymbol.rexx-->
 Var_Value (Pool, PlainSymbol,'0')
 ```
 
@@ -428,6 +428,7 @@ less than Config_Length(rhs) then #Test is set to 'L'.
 
 If the comparison has a comparison_operator that is a normal_compare then the variable #Test is set as
 follows:
+
 ```rexx <!--evaluation-comparison.rexx-->
 if datatype(lhs)\== 'NUM' | datatype(rhs)\== 'NUM' then do
 /* Non-numeric non-strict comparison */
@@ -521,6 +522,7 @@ signed or unsigned integers.
 
 The code of `ArithOpp`  itself is assumed to operate under a sufficiently high setting of numeric digits to
 avoid exponential notation.
+
 ```rexx <!--evaluation-arithmetic.rexx-->
    ArithoOp:
 
@@ -1145,13 +1147,13 @@ return 'MN '.MN
 Invocation occurs when a _function_ or a _message_term_ or a _call_ is evaluated. Invocation of a function
 may result in a value, in which case:
 
-```rexx
+```rexx <!--tracinglevelF.rexx-->
 if #Tracing.#Level == 'I' then call #Trace '>F>'
 ```
 
 Invocation of a _message_term_ may result in a value, in which case:
 
-```rexx
+```rexx <!--tracinglevelM.rexx-->
 if #Tracing.#Level == 'I' then call #Trace '>M>'
 ```
 
@@ -1180,7 +1182,7 @@ The comparison is made with the '==' operator.
 
 If there is such a matching label and the label is trace-only (see nnn) then a condition is raised:
 
-```rexx
+```rexx <!--callraisesyntax.rexx-->
 call #Raise 'SYNTAX', 16.3, taken constant
 ```
 
@@ -1201,7 +1203,7 @@ Whenever a matching label is found, the variables `SIGL` and `.SIGL` are assigne
 number of the clause which caused the search for the label. In the case of an invocation resulting from a
 condition occurring that shall be the clause in which the condition occurred.
 
-```rexx
+```rexx <!--varset.rexx-->
 Var_Set(#Pool, 'SIGL', '0', #LineNumber)
 var_Set(0 , '.SIGL', '0', #LineNumber)
 ```
@@ -1233,7 +1235,7 @@ See nnn for the syntax of a _message_term_. The value of the _term_ within a _me
 receiver.
 
 The receiver and any arguments of the term are evaluated, in left to right order.
-```rexx
+```rexx <!--evaluatemessageterm.rexx-->
 r = #evaluate(message_term, term)
 ```
 
@@ -1244,13 +1246,13 @@ _Any effect on .Result?_
 Otherwise the value of a _message_term_ is the value of the method it invokes. The method invoked is
 determined by the receiver and the _taken_constant_ and _symbol_.
 
-```rexx
+```rexx <!--evaluatemessagetermconstant.rexx-->
 t = #Instance(message term, taken constant)
 ```
 
 If there is a _symbol_, it is subject to a constraints.
 
-```rexx
+```rexx <!--evaluatemessagtermsymbol.rexx-->
 if #contains(message term, symbol) then do
    if r <> #Self then
       call #Raise 'SYNTAX', nn.n
@@ -1260,7 +1262,7 @@ object." */
 
 The search will progress from the object to its class and superclasses.
 
-```rexx
+```rexx <!--messagemethodsearch.rexx->
 /* This is going to be circular because it describes the message lookup
 algorithm and also uses messages. However for the messages in this code
 the message names are chosen to be unique to a method so there is no need

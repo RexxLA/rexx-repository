@@ -54,7 +54,7 @@ use of the function; it is not shown explicitly when the functions are used in t
 
 The implicit action is
 
-```rexx
+```rexx <!--raisesyntax.rexx-->
 call #Raise 'SYNTAX', Message, Description
 ```
 
@@ -79,7 +79,7 @@ be the classes and methods made public by that `REQUIRES` subject._
 ### API Start
 Syntax:
 
-```rexx
+```rexx <!--rexxapistart.rexx-->
 API_Start(How, Source, Environment, Arguments, Streams, Traps, Provides)
 ```
 
@@ -224,7 +224,7 @@ The following functions shall be provided:
 
 #### Syntax:
 
-```rexx
+```rexx <!--configsourcechar.rexx-->
 Config_SourceChar()
 ```
 
@@ -243,7 +243,7 @@ encoding which is incorrect, in hexadecimal notation.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configotherblankcharacters.rexx-->
 Config_OtherBlankCharacters()
 ```
 
@@ -1552,7 +1552,7 @@ whenever the Rexx processor executes Var_Reset.
 
 #### Syntax:
 
-```rexx
+```rexx <!--apinextvariable.rexx-->
 API_NextVariable()
 ```
 

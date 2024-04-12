@@ -9,35 +9,38 @@ are their operands.
 This evaluation section describes what values these components have in
 execution, or how they have no value because a condition is raised.
 
-This section refers to the DATATYPE built-in function when checking
-operands, see nnn. Except for considerations of limits on the values of
-exponents, the test:
+This section refers to the \texttt{DATATYPE} built-in function when
+checking operands, see nnn. Except for considerations of limits on the
+values of exponents, the test:
 
-datatype (Subject) == `NUM' is equivalent to testing whether the subject
-matches the syntax: num := {[}blank+{]} {[}`+' \textbar{} `-'{]}
-{[}blank+{]} number {[}blank+{]}
+\lstinputlisting[language=rexx,label=datatypenum.rexx,caption=datatypenum.rexx]{datatypenum.rexx}
 
-For the syntax of number see nnn.
+is equivalent to testing whether the subject matches the syntax:
 
-When the matching subject does not include a `-' the value is the value
-of the number in the match, otherwise the value is the value of the
-expression (0 - number).
+\lstinputlisting[language=rexx,label=ebfdatatype.ebnf,caption=ebfdatatype.ebnf]{ebfdatatype.ebnf}
+
+For the syntax of \emph{number} see nnn.
+
+When the matching subject does not include a
+\texttt{\textquotesingle{}-\textquotesingle{}} the value is the value of
+the number in the match, otherwise the value is the value of the
+expression \texttt{(0\ -\ number)}.
 
 The test:
 
-datatype (Subject , `W')
+\lstinputlisting[language=rexx,label=datatypesubject.rexx,caption=datatypesubject.rexx]{datatypesubject.rexx}
 
-is a test that the Subject matches that syntax and also has a value that
-is ``whole'', that is has no non-zero fractional part.
+is a test that the \texttt{Subject} matches that syntax and also has a
+value that is ``whole'', that is has no non-zero fractional part.
 
-When these two tests are made and the Subject matches the constraints
-but has an exponent that is not
+When these two tests are made and the \texttt{Subject} matches the
+constraints but has an exponent that is not in the correct range of
+values then a condition is raised:
 
-in the correct range of values then a condition is raised: call \#Raise
-`SYNTAX', 41.7, Subject
+\lstinputlisting[language=rexx,label=callraisesyntax.rexx,caption=callraisesyntax.rexx]{callraisesyntax.rexx}
 
-This possibility is implied by the uses of DATATYPE and not shown
-explicitly in the rest of this section nnn.
+This possibility is implied by the uses of \texttt{DATATYPE} and not
+shown explicitly in the rest of this section nnn.
 
 \section{Variables}\label{variables}
 
@@ -46,27 +49,32 @@ variable pools are listed here, together with the way each function will
 be referenced in this definition.
 
 The notation used here is the same as that defined in sections nnn and
-nnn, including the fact that the Var\_ routines may return an indicator
-of `N', `S' or `X'.
+nnn, including the fact that the \texttt{Var\_} routines may return an
+indicator of \texttt{\textquotesingle{}N\textquotesingle{}},
+\texttt{\textquotesingle{}S\textquotesingle{}} or
+\texttt{\textquotesingle{}X\textquotesingle{}}.
 
 Each possible name in a variable pool is qualified as tailed or
 non-tailed name; names with different qualification and the same
-spelling are different items in the pool. For those Var\_ functions with
-a third argument this argument indicates the qualification; it is `1'
-when addressing tailed names or `0' when addressing non-tailed names.
+spelling are different items in the pool. For those \texttt{Var\_}
+functions with a third argument this argument indicates the
+qualification; it is \texttt{\textquotesingle{}1\textquotesingle{}} when
+addressing tailed names or
+\texttt{\textquotesingle{}0\textquotesingle{}} when addressing
+non-tailed names.
 
 Each item in a variable pool is associated with three attributes and a
 value. The attributes are `dropped' or `not-dropped', `exposed' or
 `not-exposed' and `implicit' or `not-implicit'.
 
 A variable pool is associated with a reference denoted by the first
-argument, with name Pool. The value of Pool may alter during execution.
-The same name, in conjunction with different values of Pool, can
-correspond to different values.
+argument, with name \texttt{Pool}. The value of \texttt{Pool} may alter
+during execution. The same name, in conjunction with different values of
+\texttt{Pool}, can correspond to different values.
 
 \subsection{Var\_Empty}\label{var_empty}
 
-Var\_Empty (Pool)
+\lstinputlisting[language=rexx,label=varpoolempty.rexx,caption=varpoolempty.rexx]{varpoolempty.rexx}
 
 The function sets the variable pool associated with the specified
 reference to the state where every name is associated with attributes
@@ -74,22 +82,24 @@ reference to the state where every name is associated with attributes
 
 \subsection{Var Set}\label{var-set}
 
-Var \_Set(Pool, Name, `0', Value)
+\lstinputlisting[language=rexx,label=varsetzero.rexx,caption=varsetzero.rexx]{varsetzero.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a non-tailed name. If the specified name has the `exposed'
-attribute then Var\_Set operates on the variable pool referenced by
-\#Upper in this pool and this rule is applied to that pool. When the
-pool with attribute `not-exposed' for this name is determined the
-specified value is associated with the specified name. It also
-associates the attributes `not-dropped' and `not-implicit'. If that
+attribute then \texttt{Var\_Set} operates on the variable pool
+referenced by \texttt{\#Upper} in this pool and this rule is applied to
+that pool. When the pool with attribute `not-exposed' for this name is
+determined the specified value is associated with the specified name. It
+also associates the attributes `not-dropped' and `not-implicit'. If that
 attribute was previously `not-dropped' then the indicator returned is
-`R'. The name is a stem if it contains just one period, as its rightmost
-character. When the name is a stem Var\_Set(Pool, TailedName, `1',Value)
-is executed for all possible valid tailed names which
+\texttt{\textquotesingle{}R\textquotesingle{}}. The name is a stem if it
+contains just one period, as its rightmost character. When the name is a
+stem
+\texttt{Var\_Set(Pool,\ TailedName,\ \textquotesingle{}1\textquotesingle{},Value)}
+is executed for all possible valid tailed names which have Name as their
+stem, and then those tailed-names are given the attribute `implicit'.
 
-have Name as their stem, and then those tailed-names are given the
-attribute `implicit'. Var \_Set(Pool, Name, `1', Value)
+\lstinputlisting[language=rexx,label=varsetone.rexx,caption=varsetone.rexx]{varsetone.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a tailed name. The left part of the name, up to and
@@ -98,60 +108,65 @@ If the specified stem has the `exposed' attribute then Var\_Set operates
 on the variable pool referenced by \#Upper in this pool and this rule is
 applied to that pool. When the pool with attribute `not-exposed' for the
 stem is determined the name is considered in that pool. If the name has
-the `exposed' attribute then the
-
-variable pool referenced by \#Upper in the pool is considered and this
-rule applied to that pool. When the pool with attribute `not-exposed' is
-determined the specified value is associated with the specified name. It
-also associates the attributes `not-dropped' and `not-implicit' . If
-that attribute was previously `not-dropped' then the indicator returned
-is `R'.
+the `exposed' attribute then the variable pool referenced by \#Upper in
+the pool is considered and this rule applied to that pool. When the pool
+with attribute `not-exposed' is determined the specified value is
+associated with the specified name. It also associates the attributes
+`not-dropped' and `not-implicit' . If that attribute was previously
+`not-dropped' then the indicator returned is
+\texttt{\textquotesingle{}R\textquotesingle{}}.
 
 \subsection{Var\_Value}\label{var_value}
 
-Var \_Value(Pool, Name, `0')
+\lstinputlisting[language=rexx,label=varvaluezero.rexx,caption=varvaluezero.rexx]{varvaluezero.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a non-tailed name. If the specified name has the `exposed'
 attribute then Var\_Value operates on the variable pool referenced by
-\#Upper in this pool and this rule is applied to that pool. When the
-pool with attribute `not-exposed' for this name is determined the
-indicator returned is `D' if the name has `dropped' associated, `N'
-otherwise. In the former case \#Outcome is set equal to Name, in the
-latter case \#Outcome is set to the value most
+\texttt{\#Upper} in this pool and this rule is applied to that pool.
+When the pool with attribute `not-exposed' for this name is determined
+the indicator returned is `D' if the name has `dropped' associated,
+\texttt{\textquotesingle{}N\textquotesingle{}} otherwise.
 
-recently associated with the name by Var\_Set. Var \_Value(Pool, Name,
-`1')
+In the former case \texttt{\#Outcome} is set equal to \texttt{Name}, in
+the latter case \texttt{\#Outcome} is set to the value most recently
+associated with the name by \texttt{Var\_Set}.
+
+\lstinputlisting[language=rexx,label=varvalueone.rexx,caption=varvalueone.rexx]{varvalueone.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a tailed name. The left part of the name, up to and
 including the first period, is the stem. The stem is a non-tailed name.
-If the specified stem has the `exposed' attribute then Var\_Value
-operates on the variable pool referenced by \#Upper in this pool and
-this rule is applied to that pool. When the pool with attribute
-`not-exposed' for the stem is determined the name is considered in that
-pool. If the name has the `exposed' attribute then the variable pool
-referenced by \#Upper in the pool is considered and this rule applied to
-that pool. When the pool with attribute `not-exposed' is determined the
-indicator returned is `D' if the name has `dropped' associated, `N'
-otherwise. In the former case \#Outcome is set equal to Name, in the
-latter case \#Outcome is set to the value most recently associated with
-the name by Var\_Set.
+If the specified stem has the `exposed' attribute then
+\texttt{Var\_Value} operates on the variable pool referenced by
+\texttt{\#Upper} in this pool and this rule is applied to that pool.
+When the pool with attribute `not-exposed' for the stem is determined
+the name is considered in that pool. If the name has the `exposed'
+attribute then the variable pool referenced by \#Upper in the pool is
+considered and this rule applied to that pool. When the pool with
+attribute `not-exposed' is determined the indicator returned is
+\texttt{\textquotesingle{}D\textquotesingle{}} if the name has `dropped'
+associated, \texttt{\textquotesingle{}N\textquotesingle{}} otherwise. In
+the former case \texttt{\#Outcome} is set equal to \texttt{Name}, in the
+latter case \texttt{\#Outcome} is set to the value most recently
+associated with the name by \texttt{Var\_Set}.
 
 \subsection{Var\_Drop}\label{var_drop}
 
-Var \_Drop(Pool, Name, `0')
+\lstinputlisting[language=rexx,label=vardropzero.rexx,caption=vardropzero.rexx]{vardropzero.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a non-tailed name. If the specified name has the `exposed'
-attribute then Var\_Drop operates on the variable pool referenced by
-\#Upper in this pool and this rule is applied to that pool. When the
-pool with attribute `not-exposed' for this name is determined the
-attribute `dropped' is associated with the specified name. Also, when
-the name is a stem, Var\_Drop(Pool,TailedName,`1') is executed for all
-possible valid tailed names which have Name as astem.
+attribute then \texttt{Var\_Drop} operates on the variable pool
+referenced by \texttt{\#Upper} in this pool and this rule is applied to
+that pool. When the pool with attribute `not-exposed' for this name is
+determined the attribute `dropped' is associated with the specified
+name. Also, when the name is a stem,
+\texttt{Var\_Drop(Pool,TailedName,\textquotesingle{}1\textquotesingle{})}
+is executed for all possible valid tailed names which have \texttt{Name}
+as a stem.
 
-Var \_Drop(Pool, Name, `1')
+\lstinputlisting[language=rexx,label=vardropone.rexx,caption=vardropone.rexx]{vardropone.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a tailed name. The left part of the name, up to and
@@ -161,21 +176,23 @@ operates on the variable pool referenced by \#Upper in this pool and
 this rule is applied to that pool. When the pool with attribute
 `not-exposed' for the stem is determined the name is considered in that
 pool. If the name has the `exposed' attribute then the variable pool
-referenced by \#Upper in the pool is considered and this rule applied to
-that pool. When the pool with attribute `not-exposed' is determined the
-attribute `dropped' is associated with the specified name.
+referenced by \texttt{\#Upper} in the pool is considered and this rule
+applied to that pool. When the pool with attribute `not-exposed' is
+determined the attribute `dropped' is associated with the specified
+name.
 
 \subsection{Var\_Expose}\label{var_expose}
 
-Var\_Expose (Pool, Name, `0')
+\lstinputlisting[language=rexx,label=varexposezero.rexx,caption=varexposezero.rexx]{varexposezero.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a non-tailed name. The attribute `exposed' is associated
 with the specified name. Also, when the name is a stem,
-Var\_Expose(Pool, TailedName,`1') is executed for all possible valid
-tailed names which have Name as a stem.
+\texttt{Var\_Expose(Pool,\ TailedName,\textquotesingle{}1\textquotesingle{})}
+is executed for all possible valid tailed names which have Name as a
+stem.
 
-Var\_Expose (Pool, Name, `1')
+\lstinputlisting[language=rexx,label=varexpose1.rexx,caption=varexpose1.rexx]{varexpose1.rexx}
 
 The function operates on the variable pool with the specified reference.
 The name is a tailed name. The attribute `exposed' is associated with
@@ -183,62 +200,77 @@ the specified name.
 
 \subsection{Var\_Reset}\label{var_reset}
 
-Var\_ Reset (Pool)
+\lstinputlisting[language=rexx,label=varresetpool.rexx,caption=varresetpool.rexx]{varresetpool.rexx}
 
 The function operates on the variable pool with the specified reference.
-It establishes the effect of subsequent API\_Next and API\_NextVariable
-functions (see sections nnn and nnn). A Var\_Reset is implied by any
-API\_ operation other than API\_Next and API\_NextVariable.
+It establishes the effect of subsequent \texttt{API\_Next} and
+\texttt{API\_NextVariable} functions (see sections nnn and nnn). A
+\texttt{Var\_Reset} is implied by any \texttt{API\_} operation other
+than \texttt{API\_Next} and \texttt{API\_NextVariable}.
 
 \section{Symbols}\label{symbols}
 
 For the syntax of a symbol see nnn.
 
-The value of a symbol which is a NUMBER or a CONST\_SYMBOL which is not
-a reserved symbol is the content of the appropriate token.
+The value of a symbol which is a \emph{NUMBER} or a \emph{CONST\_SYMBOL}
+which is not a reserved symbol is the content of the appropriate token.
 
-The value of a VAR\_SYMBOL which is ``taken as a constant'' is the
-VAR\_SYMBOL itself, otherwise the VAR\_SYMBOL identifies a variable and
-its value may vary during execution.
+The value of a \emph{VAR\_SYMBOL} which is ``taken as a constant'' is
+the \emph{VAR\_SYMBOL} itself, otherwise the \_VAR\_SYMBOL: identifies a
+variable and its value may vary during execution.
 
 Accessing the value of a symbol which is not ``taken as a constant''
-shall result in trace output, see nnn: if \#Tracing.\#Level == `I' then
-call \#Trace Tag
+shall result in trace output, see nnn:
 
-where Tag is `\textgreater L\textgreater{}' unless the symbol is a
-VAR\_SYMBOL which, when used as an argument to Var\_Value, does not
-yield an indicator `D'. In that case, the Tag is
-'\textgreater V\textgreater``.
+\lstinputlisting[language=rexx,label=tracinglevel.rexx,caption=tracinglevel.rexx]{tracinglevel.rexx}
+
+where \texttt{Tag} is
+\texttt{\textquotesingle{}\textgreater{}L\textgreater{}\textquotesingle{}}
+unless the symbol is a \emph{VAR\_SYMBOL} which, when used as an
+argument to \texttt{Var\_Value}, does not yield an indicator
+\texttt{\textquotesingle{}D\textquotesingle{}}. In that case, the Tag is
+\texttt{\textquotesingle{}\textgreater{}V\textgreater{}\textquotesingle{}}.
 
 \section{Value of a variable}\label{value-of-a-variable}
 
-If VAR\_SYMBOL does not contain a period, or contains only one period as
-its last character, the value of
+If \emph{VAR\_SYMBOL} does not contain a period, or contains only one
+period as its last character, the value of the variable is the value
+associated with \emph{VAR\_SYMBOL} in the variable pool, that is
+\texttt{\#Outcome} after
+\texttt{Var\_Value(Pool,\ VAR\_SYMBOL,\ \textquotesingle{}0\textquotesingle{})}.
 
-the variable is the value associated with VAR\_SYMBOL in the variable
-pool, that is \#Outcome after Var\_ Value (Pool, VAR SYMBOL, `0')
+If the indicator is \texttt{\textquotesingle{}D\textquotesingle{}},
+indicating the variable has the `dropped' attribute, the
+\texttt{NOVALUE} condition is raised; see nnn and nnn for exceptions to
+this.
 
-If the indicator is `D', indicating the variable has the `dropped'
-attribute, the NOVALUE condition is raised; see nnn and nnn for
-exceptions to this. \#Response = Var Value(Pool, VAR SYMBOL, `0') if
-left(\#Response,1) == `D' then call \#Raise `NOVALUE', VAR\_SYMBOL, '\,'
-If VAR\_SYMBOL contains a period which is not its last character, the
-value of the variable is the value associated with the derived name.
-7.3.1 Derived names A derived name is derived from a VAR\_SYMBOL as
-follows:
+\lstinputlisting[language=rexx,label=varpoolsymbol.rexx,caption=varpoolsymbol.rexx]{varpoolsymbol.rexx}
 
-VAR SYMBOL := Stem Tail
+If \emph{VAR\_SYMBOL} contains a period which is not its last character,
+the value of the variable is the value associated with the derived name.
 
-Stem := PlainSymbol `.'!
+\subsection{Derived names}\label{derived-names}
 
-Tail i= (PlainSymbol \textbar{} `.' {[}PlainSymbol{]}) {[}`.'
-{[}PlainSymbol1{]}{]}+ PlainSymbol := (general letter \textbar{} digit)+
+A derived name is derived from a \emph{VAR\_SYMBOL} as follows:
 
-The derived name is the concatenation of: - the Stem, without further
-evaluation; - the Tail, with the PlainSymbols replaced by the values of
-the symbols. The value of a PlainSymbol which does not start with a
-digit is \#Outcome after Var\_ Value (Pool, PlainSymbol,`0') These
-values are obtained without raising the NOVALUE condition.
+\lstinputlisting[language=rexx,label=derivednames.rexx,caption=derivednames.rexx]{derivednames.rexx}
+
+The derived name is the concatenation of:
+
+\begin{itemize}
+\tightlist
+\item
+  the \emph{Stem}, without further evaluation;
+\item
+  the \emph{Tail}, with the \emph{PlainSymbols} replaced by the values
+  of the symbols. The value of a \emph{PlainSymbol} which does not start
+  with a digit is \texttt{\#Outcome} after
+\end{itemize}
+
+\lstinputlisting[language=rexx,label=varvalueplainsymbol.rexx,caption=varvalueplainsymbol.rexx]{varvalueplainsymbol.rexx}
+
+These values are obtained without raising the \texttt{NOVALUE}
+condition.
 
 If the indicator from the Var\_Value was not `D' then: if
 \#Tracing.\#Level == `I' then call \#Trace
@@ -443,11 +475,12 @@ to `L'.
 
 If the comparison has a comparison\_operator that is a normal\_compare
 then the variable \#Test is set as follows:
+
 \lstinputlisting[language=rexx,label=evaluation-comparison.rexx,caption=evaluation-comparison.rexx]{evaluation-comparison.rexx}
 
 The value of \#Test, in conjunction with the operator in the comparison,
 determines the value of the comparison. The value of the comparison is
-`1' if - \#Test is `E' and the operator is one of `=``\,``,'==````,
+`1' if - \#Test is `E' and the operator is one of `=``\,``,'==``\,``,
 `\textgreater=', \textless='', `\textgreater{}', `\textless{}',
 `p\textgreater=', `\textless\textless=', \textgreater\textgreater', or
 \textless\textless)
@@ -457,7 +490,7 @@ determines the value of the comparison. The value of the comparison is
 \item
   \#Test is `G' and the operator is one of `\textgreater{}',
   `\textgreater=``, `\textless{}', `=', `\textless\textgreater{}',
-  `\textgreater\textless{}', Nes'', `\textgreater\textgreater!
+  `\textgreater\textless{}', Nes'','\textgreater\textgreater!
   `p\textgreater{}', or \textless\textless``)
 \item
   \#Test is `L' and the operator is one of `\textless{}', \textless=``,
@@ -532,80 +565,90 @@ the value is used by an assignment and
 The user of this standard is assumed to know the results of the binary
 operators `+' and `-' applied to signed or unsigned integers.
 
-The code of ArithOp itself is assumed to operate under a sufficiently
-high setting of numeric digits to avoid exponential notation.
+The code of \texttt{ArithOpp} itself is assumed to operate under a
+sufficiently high setting of numeric digits to avoid exponential
+notation.
+
 \lstinputlisting[language=rexx,label=evaluation-arithmetic.rexx,caption=evaluation-arithmetic.rexx]{evaluation-arithmetic.rexx}
 
 \section{Functions}\label{functions}
 
 \subsection{Invocation}\label{invocation}
 
-Invocation occurs when a function or a message\_term or a callis
-evaluated. Invocation of a function may result in a value, in which
+Invocation occurs when a \emph{function} or a \emph{message\_term} or a
+\emph{call} is evaluated. Invocation of a function may result in a
+value, in which case:
+
+\lstinputlisting[language=rexx,label=tracinglevelF.rexx,caption=tracinglevelF.rexx]{tracinglevelF.rexx}
+
+Invocation of a \emph{message\_term} may result in a value, in which
 case:
 
-if \#Tracing.\#Level == `I' then call \#Trace
-`\textgreater F\textgreater{}'
-
-Invocation of a message\_term may result in a value, in which case:
-
-if \#Tracing.\#Level == `I' then call \#Trace
-`\textgreater M\textgreater{}'
+\lstinputlisting[language=rexx,label=tracinglevelM.rexx,caption=tracinglevelM.rexx]{tracinglevelM.rexx}
 
 \subsection{Evaluation of arguments}\label{evaluation-of-arguments}
 
-The argument positions are the positions in the exoression\_list where
-syntactically an expression occurs or could have occurred. Let ArgNumber
-be the number of an argument position, counting from 1 at the left; the
-range of ArgNumber is all whole numbers greater than zero.
+The argument positions are the positions in the \emph{expression\_list}
+where syntactically an \emph{expression} occurs or could have occurred.
+Let \texttt{ArgNumber} be the number of an argument position, counting
+from \texttt{1} at the left; the range of \texttt{ArgNumber} is all
+whole numbers greater than zero.
 
-For each value of ArgNumber, \#ArgExists.\#NewLevel.ArgNumber is set `1'
-if there is an expression present, `O' if not.
+For each value of \texttt{ArgNumber},
+\texttt{\#ArgExists.\#NewLevel.ArgNumber} is set
+\texttt{\textquotesingle{}1\textquotesingle{}} if there is an expression
+present, \texttt{\textquotesingle{}O\textquotesingle{}} if not.
 
-From the left, if \#ArgExists.\#NewLevel.ArgNumber is `1' then
-\#Arg.\#NewLevel.ArgNumber is set to the value of the corresponding
-expression. If \#ArgExists.\#NewLevel.ArgNumber is `0' then
-\#Arg.\#NewLevel.ArgNumber is set to the null string.
+From the left, if \texttt{\#ArgExists.\#NewLevel.ArgNumber} is
+\texttt{\textquotesingle{}1\textquotesingle{}} then
+\texttt{\#Arg.\#NewLevel.ArgNumber} is set to the value of the
+corresponding expression. If \texttt{\#ArgExists.\#NewLevel.ArgNumber}
+is \texttt{\textquotesingle{}0\textquotesingle{}} then
+\texttt{\#Arg.\#NewLevel.ArgNumber} is set to the null string.
 
-\#ArgExists.\#NewLevel.0 is set to the largest ArgNumber for which
-\#ArgExists.\#NewLevel.ArgNumber is `1', or to zero if there is no such
-value of ArgNumber.
+\texttt{\#ArgExists.\#NewLevel.0} is set to the largest
+\texttt{ArgNumber} for which \texttt{\#ArgExists.\#NewLevel.ArgNumber}
+is \texttt{\textquotesingle{}1\textquotesingle{}}, or to zero if there
+is no such value of \texttt{ArgNumber}.
 
 \subsection{The value of a label}\label{the-value-of-a-label}
 
-The value of a LABEL, or of the taken\_constant in the function or
-call\_instruction, is taken as a constant, see nnn. If the
-taken\_constant is not a string\_literal it is a reference to the first
-LABEL in the program which has the same value. The comparison is made
-with the `==' operator.
+The value of a \emph{LABEL}, or of the \emph{taken\_constant} in the
+function or \emph{call\_instruction}, is taken as a constant, see nnn.
+If the \emph{taken\_constant} is not a \emph{string\_literal} it is a
+reference to the first \emph{LABEL} in the program which has the same
+value. The comparison is made with the `==' operator.
 
 If there is such a matching label and the label is trace-only (see nnn)
-then a condition is raised: call \#Raise `SYNTAX', 16.3, taken constant
+then a condition is raised:
+
+\lstinputlisting[language=rexx,label=callraisesyntax.rexx,caption=callraisesyntax.rexx]{callraisesyntax.rexx}
 
 If there is such a matching label, and the label is not trace-only,
 execution continues at the label with routine initialization (see nnn).
 This is execution of an internal routine.
 
-If there is no such matching label, or if the taken\_constant is a
-string\_literal, further comparisons are made.
+If there is no such matching label, or if the \emph{taken\_constant} is
+a \emph{string\_literal}, further comparisons are made.
 
-If the value of the taken\_constant matches the name of some built-in
-function then that built-in function is invoked. The names of the
-built-in functions are defined in section nnn and are in uppercase.
+If the value of the \emph{taken\_constant} matches the name of some
+built-in function then that built-in function is invoked. The names of
+the built-in functions are defined in section nnn and are in uppercase.
 
 If the value does not match any built-in function name,
-Config\_ExternalRoutine is used to invoke an external routine.
+\texttt{Config\_ExternalRoutine} is used to invoke an external routine.
 
-Whenever a matching label is found, the variables SIGL and .SIGL are
-assigned the value of the line number of the clause which caused the
-search for the label. In the case of an invocation resulting from a
+Whenever a matching label is found, the variables \texttt{SIGL} and
+\texttt{.SIGL} are assigned the value of the line number of the clause
+which caused the search for the label. In the case of an invocation
+resulting from a condition occurring that shall be the clause in which
+the condition occurred.
 
-condition occurring that shall be the clause in which the condition
-occurred. Var \_ Set(\#Pool, `SIGL', `0', \#LineNumber) var Set(0 ,
-`.SIGL', `0', \#LineNumber)
+\lstinputlisting[language=rexx,label=varset.rexx,caption=varset.rexx]{varset.rexx}
 
-The name used in the invocation is held in \#Name.\#Level for possible
-use in an error message from the RETURN clause, see nnn
+The name used in the invocation is held in \texttt{\#Name.\#Level} for
+possible use in an error message from the \texttt{RETURN} clause, see
+nnn
 
 \subsection{The value of a function}\label{the-value-of-a-function}
 
@@ -613,86 +656,88 @@ A built-in function completes when it returns from the activity defined
 in section nnn. The value of a built-in function is defined in section
 nnn.
 
-An internal routine completes when \#Level returns to the value it had
-when the routine was invoked. The value of the internal function is the
-value of the expression on the return which completed the routine. The
-value of an external function is determined by Config\_ExternalRoutine.
+An internal routine completes when \texttt{\#Level} returns to the value
+it had when the routine was invoked. The value of the internal function
+is the value of the \emph{expression} on the \emph{return} which
+completed the routine. The value of an external function is determined
+by \texttt{Config\_ExternalRoutine}.
 
 \subsection{The value of a method}\label{the-value-of-a-method}
 
 A built-in method completes when it returns from the activity defined in
 section n.~The value of a built-in method is defined in section n.
 
-An internal method completes when \#Level returns to the value it had
-when the routine was invoked. The value of the internal method is the
-value of the expression on the return which completed the method. The
-value of an external method is determined by Config\_ExternalMethod.
+An internal method completes when \texttt{\#Level} returns to the value
+it had when the routine was invoked. The value of the internal method is
+the value of the \emph{expression} on the \emph{return} which completed
+the method. The value of an external method is determined by
+\texttt{Config\_ExternalMethod}.
 
 \subsection{The value of a message
 term}\label{the-value-of-a-message-term}
 
-See nnn for the syntax of a message\_term. The value of the ferm within
-a message\_term is called the receiver.
+See nnn for the syntax of a \emph{message\_term}. The value of the
+\emph{term} within a \emph{message\_term} is called the receiver.
 
 The receiver and any arguments of the term are evaluated, in left to
-right order. r= \#evaluate(message term, term) If the message term
-contains `\textasciitilde\textasciitilde{}' the value of the message
-term is the receiver. Any effect on .Result? Otherwise the value of a
-message\_term is the value of the method it invokes. The method invoked
-is determined by the receiver and the taken\_constant and symbol. t =
-\#Instance(message term, taken constant) If there is a symbol, it is
-subject to a constraints. if \#contains (message term, symbol) then do
-if r \textless\textgreater{} \#Self then
+\lstinputlisting[language=rexx,label=evaluatemessageterm.rexx,caption=evaluatemessageterm.rexx]{evaluatemessageterm.rexx}
 
-call \#Raise `SYNTAX', nn.n
+If the message term contains
+\texttt{\textquotesingle{}\textasciitilde{}\textasciitilde{}\textquotesingle{}}
+the value of the message term is the receiver.
 
-/* OOI: ``Message search overrides can only be used from methods of the
-target object.'' */
+\emph{Any effect on .Result?}
+
+Otherwise the value of a \emph{message\_term} is the value of the method
+it invokes. The method invoked is determined by the receiver and the
+\emph{taken\_constant} and \emph{symbol}.
+
+\lstinputlisting[language=rexx,label=evaluatemessagetermconstant.rexx,caption=evaluatemessagetermconstant.rexx]{evaluatemessagetermconstant.rexx}
+
+If there is a \emph{symbol}, it is subject to a constraints.
+
+\lstinputlisting[language=rexx,label=evaluatemessagtermsymbol.rexx,caption=evaluatemessagtermsymbol.rexx]{evaluatemessagtermsymbol.rexx}
 
 The search will progress from the object to its class and superclasses.
-/* This is going to be circular because it describes the message lookup
-algorithm and also uses messages. However for the messages in this code
-the message names are chosen to be unique to a method so there is no
-need to use this algorithm in deciding which method is intended. */
 
-/* message term ::= receiver `\textasciitilde{}' taken constant `:'
-VAR\_SYMBOL arguments */
-
-/* This code reflects OOI - the arguments on the message don't affect
-the method choice. */
-
-/* This code selects a method based on its arguments, receiver,
-taken\_constant, and symbol. */
-
-/* This code is used in a context where \#Self is the receiver of the
-method invocation which the subject message term is running under. */
-\lstinputlisting[language=rexx,label=evaluation-selectmethod,caption=evaluation-selectmethod]{evaluation-selectmethod}
+\lstinputlisting[language=rexx,label=messagemethodsearch.rexx-\textgreater,caption=messagemethodsearch.rexx-\textgreater]{messagemethodsearch.rexx-\textgreater}
 
 \subsection{Use of
 Config\_ExternalRoutine}\label{use-of-config_externalroutine}
 
-The values of the arguments to the use of Config\_ExternalRoutine, in
-order, are:
+The values of the arguments to the use of
+\texttt{Config\_ExternalRoutine}, in order, are:
 
-The argument How is `SUBROUTINE' if the invocation is from a call,
-```FUNCTION' if the invocation is from a function.
+The argument \texttt{How} is
+\texttt{\textquotesingle{}SUBROUTINE\textquotesingle{}} if the
+invocation is from a \emph{call},
+\texttt{\textquotesingle{}FUNCTION\textquotesingle{}} if the invocation
+is from a \emph{function}.
 
-The argument NameType is `1' if the taken\_constant is a
-string\_literal, `0' otherwise.
+The argument \texttt{NameType} is
+\texttt{\textquotesingle{}1\textquotesingle{}} if the
+\emph{taken\_constant} is a \emph{string\_literal},
+\texttt{\textquotesingle{}0\textquotesingle{}} otherwise.
 
-The argument Name is the value of the faken\_constant.
+The argument \texttt{Name} is the value of the \emph{taken\_constant}.
 
-The argument Environment is the value of this argument on the API\_
-Start which started this execution. The argument Arguments is the \#Arg.
-and \#ArgExists. data.
+The argument \texttt{Environment} is the value of this argument on the
+\texttt{API\_Start} which started this execution.
 
-The argument Streams is the value of this argument on the API\_Start
-which started this execution.
+The argument \texttt{Arguments} is the \texttt{\#Arg.} and
+\texttt{\#ArgExists.} data.
 
-The argument Traps is the value of this argument on the API\_Start which
-started this execution. Var\_Reset is invoked and \#API\_Enabled set to
-`1' before use of Config\_ExternalRoutine. \#API\_Enabled is set to `O'
-after.
+The argument \texttt{Streams} is the value of this argument on the
+\texttt{API\_Start} which started this execution.
 
-The response from Config\_ExternalRoutine is processed. If no conditions
-are (implicitly) raised, \#Outcome is the value of the function.
+The argument \texttt{Traps} is the value of this argument on the
+\texttt{API\_Start} which started this execution.
+
+\texttt{Var\_Reset} is invoked and \texttt{\#API\_Enabled} set to
+\texttt{\textquotesingle{}1\textquotesingle{}} before use of
+\texttt{Config\_ExternalRoutine}. \texttt{\#API\_Enabled} is set to
+\texttt{\textquotesingle{}O\textquotesingle{}} after.
+
+The response from \texttt{Config\_ExternalRoutine} is processed. If no
+conditions are (implicitly) raised, \texttt{\#Outcome} is the value of
+the function.

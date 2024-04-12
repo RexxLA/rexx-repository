@@ -11,14 +11,15 @@ These objects provide the basis for class structure.
 
 ### The object class
 
-```rexx
+```rexx <!--object.rexx-->
 ::class object
 
 ::method new class
 ```
 
 Returns a new instance of the receiver class.
-```rexx
+
+```rexx <!--config.rexx-->
   call Config ObjectNew
   return #Outcome
 
@@ -27,7 +28,7 @@ Returns a new instance of the receiver class.
 
 _`'=='` with no argument gives a hash value in OOI._
 
-```rexx
+```rexx <!--doubleequals.rexx-->
   call Config ObjectCompare #Receiver, #Arg.1
   if #Outcome == 'equal' then return '1
                          else return '0'
@@ -53,46 +54,46 @@ _`'=='` with no argument gives a hash value in OOI._
 Returns a copy of the receiver object. The copied object has the same methods as the receiver object
 and an equivalent set of object variables, with the same values.
 
-```rexx
+```rexx <!--objectcopy.rexx-->
 call Config ObjectCopy #Receiver
 return #Outcome
 ```
 
 _Since we have `var_empty` we could save a primitive by rendering 'new' as 'copy' plus 'empty'._
 
-```rexx
+```rexx <!--defaultname.rexx-->
 ::method defaultname
 ```
 
 Returns a short human-readable string representation for the object.
 
-```rexx
+```rexx <!--receiver.rexx-->
 call var_value #Receiver, '#Human', '0'
 return #Outcome
 ```
 
 _This field would have been filled in at 'NEW' time._
 
-```rexx
+```rexx <!--objectnames.rexx-->
 ::method 'OBJECTNAMES'             /* rSTRING */
 ```
 
 Sets the receiver object's name to the specified string.
 
-```rexx
+```rexx <!--varset.rexx-->
 call var_set #Receiver, #ObjectName, '0', #Arg.1
 return
 ```
 
 _Initialized to #Human? Or ObjectName does forwarding until assigned to?_
 
-```rexx
+```rexx <!--objectname-->
 ::method objectname
 ```
 
 Returns the receiver object's name (which the `OBJECTNAME=` method sets).
 
-```rexx
+```rexx <!--receiverObjectName.rexx-->
 call var_value #Receiver, #ObjectName, '0'
 return #Outcome
 
@@ -101,7 +102,7 @@ return #Outcome
 
 Returns a human-readable string representation for the object.
 
-```rexx
+```rexx <!--methodclass.rexx-->
 return #Receiver~ObjectName
 
 ::method class
@@ -109,7 +110,7 @@ return #Receiver~ObjectName
 
 Returns the class object that received the message that created the object.
 
-```rexx
+```rexx <!--setmethod.rexx-->
 call var value #Receiver, #IsA, '0'
 return #Outcome
 
@@ -120,7 +121,7 @@ Adds a method to the receiver object's collection of object methods.
 
 _Is 'object methods' what is intended; you add to a class without adding to its instance methods? Yes._
 
-```rexx
+```rexx <!--hasmethod.rexx-->
   if #ArgExists.2 then m = Arg.2
                       else m = .NIL
   call set_var #Receiver, 'METHODS.'#Arg.1, '1', m
@@ -136,7 +137,7 @@ _This presumably means inherited as well as `SETMETHOD` ones. What about ones se
 
 _Need to use the same search as for sending._
 
-```rexx
+```rexx <!--unsetmethod.rexx-->
 ::method unsetmethod private
 ```
 
@@ -146,13 +147,13 @@ _Use `var_drop`_
 
 _Private means Receiver = Self check._
 
-```rexx
+```rexx <!--requestmethod.rexx-->
 ::method request       /* rSTRING */
 ```
 
 Returns an object of the specified class, or the `NIL` object if the request cannot be satisfied.
 
-```rexx
+```rexx <!--runmethod.rexx-->
 t = 'MAKE'#Arg.1
 if \#Receiver~hasmethod(t) then return .NIL
 forward message(t) array ()
@@ -163,14 +164,14 @@ forward message(t) array ()
 Runs the specified method. The method has access to the object variables of the receiver object, just as
 if the receiver object had defined the method by using `SETMETHOD`.
 
-```rexx
+```rexx <!--startat.rexx-->
 ::method startat      Undocumented?
 ::method start          /* rMESSAGE oArglist */
 ```
 
 Returns a message object and sends it a `START` message to start concurrent processing.
 
-```rexx
+```rexx <!--init.rexx-->
 ::method init
 ```
 
@@ -178,40 +179,40 @@ Performs any required object initialization.
 
 ### The class class
 
-```rexx
+```rexx <!--classclass.rexx-->
 ::class class
 ```
 
 _Lots of these methods are both class and instance. I don't know whether to list them twice._
 
-```rexx
+```rexx <!--newclass.rexx-->
 ::method new class        /* oARGLIST */
 ```
 
 Returns a new instance of the receiver class, whose object methods are the instance methods of the
 class. This method initializes a new instance by running its `INIT` methods.
 
-```rexx
+```rexx <!--subclassclass.rexx-->
 ::method subclass class
 ```
 
 Returns a new subclass of the receiver class.
 
-```rexx
+```rexx <!--immediatesubclass-->
 ::method subclasses class
 ```
 
 Returns the immediate subclasses of the receiver class in the form of a single-index array of the required
 size.
 
-```rexx
+```rexx <!--defineclass.rexx-->
 ::method define class /* rSTRING oMETHOD */
 ```
 
 Incorporates the method object in the receiver class's collection of instance methods. The method name
 is translated to upper case.
 
-```rexx
+```rexx <!--deleteclass.rexx-->
 ::method delete
 ```
 
@@ -219,7 +220,7 @@ Removes the receiver class's definition for the method name specified.
 
 _Builtin classes cannot be altered._
 
-```rexx
+```rexx <!--methodmethod.rexx-->
 ::method method class /* rSTRING */
 ```
 
@@ -227,39 +228,39 @@ Returns the method object for the receiver class's definition for the method nam
 
 _Do we have to keep saying "method object" as opposed to "method" because "method name" exists?_
 
-```rexx
+```rexx <!--querymixin.rexx-->
 ::method querymixinclass
 ```
 
 Returns 1 (true) if the class is a mixin class or 0 (false) otherwise.
 
-```rexx
+```rexx <!--newmixinclass.rexx-->
 ::method mixinclass class /* 3 of em */
 ```
 
 Returns a new mixin subclass of the receiver class.
 
-```rexx
+```rexx <!--inheritclass.rexx-->
 ::method inherit class /* rCLASS oCLASS */
 ```
 
 Causes the receiver class to inherit the instance and class methods of the class object specified. The
 optional class is a class object that specifies the position of the new superclass in the list of superclasses.
 
-```rexx
+```rexx <!--uninheritclass.rexx-->
 ::method uninherit class /* rCLASSOBJ */
 ```
 
 Nullifies the effect of any previous `INHERIT` message sent to the receiver for the class specified.
 
-```rexx
+```rexx <!--enhancedclass.rexx-->
 ::method enhanced class /* rCOLLECTION oArgs */
 ```
 
 Returns an enhanced new instance of the receiver class, with object methods that are the instance
 methods of the class enhanced by the methods in the specified collection of methods.
 
-```rexx
+```rexx <!--baseclassclass.rexx-->
 ::method baseclass class
 ```
 
@@ -267,26 +268,26 @@ Returns the base class associated with the class. If the class is a mixin class,
 superclass that is not also a mixin class. If the class is not a mixin class, then the base class is the class
 receiving the `BASECLASS` message.
 
-```rexx
+```rexx <!--superclassclass.rexx-->
 ::method superclasses class
 ```
 
 Returns the immediate superclasses of the receiver class in the form of a single-index array of the
 required size.
 
-```rexx
+```rexx <!--methodid.rexx-->
 ::method id class
 ```
 
 Returns a string that is the class identity (instance `SUBCLASS` and `MIXINCLASS` methods.)
 
-```rexx
+```rexx <!--metaclassclass.rexx-->
 ::method metaclass class
 ```
 
 Returns the receiver class's default metaclass.
 
-```rexx
+```rexx <!--methodsclass.rexx-->
 ::method methods class /* oCLASSOBJECT */
 ```
 
@@ -295,7 +296,7 @@ argument is specified.
 
 ### The method class
 
-```rexx
+```rexx <!--methodclass.rexx-->
 ::class method
 
 ::method new class     /* rSTRING rSOURCE */
@@ -304,13 +305,13 @@ argument is specified.
 Returns a new instance of method class, which is an executable representation of the code contained in
 the source.
 
-```rexx
+```rexx <!--setprivatemethod.rexx-->
 ::method setprivate
 ```
 
 Specifies that a method is a private method.
 
-```rexx
+```rexx <!--setvarious.rexx-->
 ::method setprotected
 
 ::method setsecuritymanager
@@ -321,20 +322,20 @@ Specifies that a method is a private method.
 Reverses any previous `SETUNGUARDED` messages, restoring the receiver to the default guarded
 status.
 
-```rexx
+```rexx <!--setunguarded.rexx-->
 ::method setunguarded
 ```
 
 Lets an object run a method even when another method is active on the same object. If a method object
 does not receive a `SETUNGUARDED` message, it requires exclusive use of its object variable pool.
 
-```rexx
+```rexx <!--methodsource.rexx-->
 ::method source
 ```
 
 Returns the method source code as a single index array of source lines.
 
-```rexx
+```rexx <!--methodinterface-->
 ::method interface
 
 ::method setinterface
@@ -345,7 +346,7 @@ The string class provides conventional strings and numbers.
 
 _Some differences from REXX class of NetRexx._
 
-```rexx
+```rexx <!--stringclass.rexx-->
 ::class string
 
 ::method new class
@@ -355,7 +356,7 @@ _Some differences from REXX class of NetRexx._
 
 _We can do all the operators by appeal to classic section 7._
 
-```rexx
+```rexx <!--stringmethods-->
 ::method '-'
 ::method '-'
   use arg a
@@ -364,7 +365,7 @@ _We can do all the operators by appeal to classic section 7._
 
 _General problem of making the error message come right._
 
-```rexx
+```rexx <!--stringoperatorsandmethods-->
 :method '+'
 :method '**'
 :method '*'
@@ -399,7 +400,7 @@ _General problem of making the error message come right._
 :method center
 :method changestr
 :method compare
-:method cppies
+:method copies
 :method counstr
 :method datatype
 :method delstr
@@ -448,7 +449,7 @@ further methods and multi-dimensional arrays.
 
 _To be done. Dimensionality set at first use. Count commas, not classic `arg()`._
 
-```rexx
+```rexx <!--arrayclass.rexx-->
 ::class array
 
 ::method new class       /* 0 or more WHOLE>=0 */
@@ -456,95 +457,95 @@ _To be done. Dimensionality set at first use. Count commas, not classic `arg()`.
 
 Returns a new empty array.
 
-```rexx
+```rexx <!--returnsingleindexarray.rexx-->
 ::method of class        /* 0 or more ANY */
 ```
 
 Returns a newly created single-index array containing the specified value objects.
 
-```rexx
+```rexx <!--makearraymemberitem.rexx-->
 ::method put             /* rANY one or more WHOLE>0 */
 ```
 
 Makes the object value a member item of the array and associates it with the specified index or indexes.
 
-```rexx
+```rexx <!--operatorputmethodarray.rexx-->
 ::method ' []='          /* 1 or more WHOLE>0 */
 ```
 
 This method is the same as the `PUT` method.
 
-```rexx
+```rexx <!--arraymethodat.rexx-->
 ::method at              /* 1 or more WHOLE>0 */
 ```
 
 Returns the item associated with the specified index or indexes.
 
-```rexx
+```rexx <!--arraymethodatoperator.rexx-->
 ::method '[]'            /* 1 or more WHOLE>0 */
 ```
 
 Returns the same value as the AT method.
 
-```rexx
+```rexx <!--arraymethodremove.rexx-->
 ::method remove          /* 1 or more WHOLE>0 */
 ```
 
 Returns and removes the member item with the specified index or indexes from the array.
 
-```rexx
+```rexx <!--arraymethodhasindex.rexx-->
 ::method hasindex        /* 1 or more WHOLE>0 */
 ```
 
 Returns 1 (true) if the array contains an item associated with the specified index or indexes. Returns 0
 (false) otherwise.
 
-```rexx
+```rexx <!--arraymethoditems.rexx-->
 ::method items           /* (None) */
 ```
 
 Returns the number of items in the collection.
 
-```rexx
+```rexx <!--arraymethoddimension.rexx-->
 ::method dimension       /* oWHOLE>0 */
 ```
 
 Returns the current size (upper bound) of dimension specified (a positive whole number). If you omit the
 argument this method returns the dimensionality (number of dimensions) of the array.
 
-```rexx
+```rexx <!--arraymethodsize.rexx-->
 ::method size            /* (None) */
 ```
 
 Returns the number of items that can be placed in the array before it needs to be extended.
 
-```rexx
+```rexx <!--arraymethodfirst.rexx-->
 ::method first           /* (None) */
 ```
 
 Returns the index of the first item in the array, or the `NIL` object if the array is empty.
 
-```rexx
+```rexx <!--arraymethodlast-->
 ::method last            /* (None) */
 ```
 
 Returns the index of the last item in the array, or the `NIL` object if the array is empty.
 
-```rexx
+```rexx <!--arraymethodnext.rexx-->
 ::method next            /* rWHOLE>O */
 ```
 
 Returns the index of the item that follows the array item having the specified index or returns the `NIL`
 object if the item having that index is last in the array.
 
-```rexx
+```rexx <!--arraymethodprevious.rexx-->
 ::method previous        /* rWHOLE>O */
 ```
 
 Returns the index of the item that precedes the array item having index index or the `NIL` object if the item
 having that index is first in the array.
 
-```rexx
+```rexx <!--arraymethodmakearray.rexx-->
 ::method makearray       /* (None) */
 ```
 
@@ -555,21 +556,21 @@ Returns a new array (of the same class as the receiver) containing selected item
 The first item in the new array is the item corresponding to index start (the first argument) in the receiver
 array.
 
-```rexx
+```rexx <!--arraymethodsupplier-->
 ::method supplier        /* (None) */
 ```
 
 Returns a supplier object for the collection.
 
-```rexx
+```rexx <!--arraymethodsection-->
 ::method section        /* rWHOLE>0O oWHOLE>=0 */
 ```
 
 ### The supplier class
 
 A supplier object enumerates the items a collection contained at the time of the supplier's creation.
-
-```rexx
+ 
+```rexx <!--supplierclass.rexx-->
 ::class supplier
 
 ::method new class      /* rANYARRAY rINDEXARRAY */
@@ -577,25 +578,25 @@ A supplier object enumerates the items a collection contained at the time of the
 
 Returns a new supplier object.
 
-```rexx
+```rexx <!--suppliermethodindex.rexx-->
 ::method index
 ```
 
 Returns the index of the current item in the collection.
 
-```rexx
+```rexx <!--suppliermethodnext.rexx-->
 ::method next
 ```
 
 Moves to the next item in the collection.
 
-```rexx
+```rexx <!--suppliermethoditem.rexx-->
 ::method item
 ```
 
 Returns the current item in the collection.
 
-```rexx
+```rexx <!--supplierindexavailable.rexx-->
 ::method available
 ```
 
@@ -604,7 +605,7 @@ Returns 0 (false) otherwise.
 
 ### The message class
 
-```rexx
+```rexx <!--messageclass.rexx-->
 ::class message
 
 ::method init class     /* Ugh */
@@ -612,31 +613,31 @@ Returns 0 (false) otherwise.
 
 Initializes the message object for sending......
 
-```rexx
+```rexx <!--messagecompletedmethod.rexx-->
 ::method completed
 ```
 
 Returns 1 if the message object has completed its message; returns 0 otherwise.
 
-```rexx
+```rexx <!--messagebotifymethod.rexx-->
 ::method notify         /* rMESSAGE */
 ```
 
 Requests notification about the completion of processing for the message `SEND` or `START` sends.
 
-```rexx
+```rexx <!--messagestartmethod.rexx-->
 ::method start          /* oANY */
 ```
 
 Sends the message for processing concurrently with continued processing of the sender.
 
-```rexx
+```rexx <!--messagesendmethod.rexx-->
 ::method send           /* oANY */
 ```
 
 Returns the result (if any) of sending the message.
 
-```rexx
+```rexx <!--methodresult.rexx-->
 ::method result
 ```
 

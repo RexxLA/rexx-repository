@@ -8,18 +8,20 @@ from system to system. This clause describes what they shall together do
 to provide the configuration for the Rexx language processing which is
 described in this standard.
 
-We don't want to add undue ``magic'' to this section. It seems we will
-need the concept of a ``reference'' (equivalent to a machine address) so
-that this section can at least have composite objects as arguments. (As
-it already does but these are not Rexx objects)
+\emph{We don't want to add undue ``magic'' to this section. It seems we
+will need the concept of a ``reference'' (equivalent to a machine
+address) so that this section can at least have composite objects as
+arguments. (As it already does but these are not Rexx objects)}
 
-Possibly we could unify ``reference'' with ``variable pool number''
-since object one-to-one with its variable pool is a fair model. That way
-we don't need a new primitive for comparison of two references.
+\emph{Possibly we could unify ``reference'' with ``variable pool
+number'' since object one-to-one with its variable pool is a fair model.
+That way we don't need a new primitive for comparison of two
+references.}
 
-JAVA is only a ``reference'' for NetRexx so some generalized JAVA-like
-support is needed for that. It would provide the answers to what classes
-were in the context, what their method signatures were etc.
+\emph{JAVA is only a ``reference'' for NetRexx so some generalized
+JAVA-like support is needed for that. It would provide the answers to
+what classes were in the context, what their method signatures were
+etc.}
 
 \section{Notation}\label{notation}
 
@@ -38,100 +40,149 @@ with
 
 \begin{itemize}
 \item
-  Config\_ is used only from the language processor when processing
-  programs;
+  \texttt{Config\_} is used only from the language processor when
+  processing programs;
 \item
-  API\_is part of the application programming interface and is
+  \texttt{API\_} is part of the application programming interface and is
   accessible from programs which are not written in the Rexx language;
 \item
-  Trap\_ is not provided by the language processor but may be invoked by
-  the language processor. As its result, each function shall return a
-  completion Response. This is a string indicating how the function
-  behaved. The completion response may be the character `N' indicating
-  the normal behavior occurred; otherwise the first character is an
-  indicator of a different behavior and the remainder shall be suitable
-  as a human-readable description of the function's behavior.
+  \texttt{Trap\_} is not provided by the language processor but may be
+  invoked by the language processor.
 \end{itemize}
 
-This standard defines any additional results from Config\_ functions as
-made available to the language processor in variables. This does not
-constrain how a particular implementation should return these results.
+As its result, each function shall return a completion
+\texttt{Response}. This is a string indicating how the function behaved.
+The completion response may be the character
+\texttt{\textquotesingle{}N\textquotesingle{}} indicating the normal
+behavior occurred; otherwise the first character is an indicator of a
+different behavior and the remainder shall be suitable as a
+human-readable description of the function's behavior.
+
+This standard defines any additional results from \texttt{Config\_}
+functions as made available to the language processor in variables. This
+does not constrain how a particular implementation should return these
+results.
 
 \subsection{Notation for completion response and
 conditions}\label{notation-for-completion-response-and-conditions}
 
-As alternatives to the normal indicator `N', each function may return a
-completion response with indicator 'X' or `S'; other possible indicators
-are described for each function explicitly. The indicator `X' means that
-the function failed because resources were exhausted. The indicator `S'
-shows that the configuration was unable to perform the function. Certain
-indicators cause conditions to be raised. The possible raising of these
-conditions is implicit in the use of the function; it is not shown
-explicitly when the functions are used in this standard. The implicit
-action is call \#Raise `SYNTAX', Message, Description where: \#Raise
-raises the condition, see nnn. Message is determined by the indicator in
-the completion response. If the indicator is `X' then Message is 5.1. If
-the indicator is `S' then Message is 48.1. Description is the
-description in the completion response. The `SYNTAX' condition 5.1 can
-also be raised by any other activity of the language processor.
+As alternatives to the normal indicator
+\texttt{\textquotesingle{}N\textquotesingle{}}, each function may return
+a completion response with indicator
+\texttt{\textquotesingle{}X\textquotesingle{}} or
+\texttt{\textquotesingle{}S\textquotesingle{}}; other possible
+indicators are described for each function explicitly. The indicator
+\texttt{\textquotesingle{}X\textquotesingle{}} means that the function
+failed because resources were exhausted. The indicator
+\texttt{\textquotesingle{}S\textquotesingle{}} shows that the
+configuration was unable to perform the function.
+
+Certain indicators cause conditions to be raised. The possible raising
+of these conditions is implicit in the use of the function; it is not
+shown explicitly when the functions are used in this standard.
+
+The implicit action is
+
+\lstinputlisting[language=rexx,label=raisesyntax.rexx,caption=raisesyntax.rexx]{raisesyntax.rexx}
+
+where:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\#Raise} raises the condition, see nnn.
+\item
+  \texttt{Message} is determined by the indicator in the completion
+  response. If the indicator is
+  \texttt{\textquotesingle{}X\textquotesingle{}} then \texttt{Message}
+  is \texttt{5.1}. If the indicator is
+  \texttt{\textquotesingle{}S\textquotesingle{}} then Message is
+  \texttt{48.1}.
+\item
+  \texttt{Description} is the description in the completion response.
+\end{itemize}
+
+The \texttt{\textquotesingle{}SYNTAX\textquotesingle{}} condition
+\texttt{5.1} can also be raised by any other activity of the language
+processor.
 
 \section{Processing initiation}\label{processing-initiation}
 
 The processing initiation interface consists of a function which the
-configuration shall provide to invoke the language processor. We could
-do REQUIRES in a macro-expansion way by adding an argument to
-Contig\_SourceChar to specify the source file. However, I'm assuming we
-will prefer to recursively ``run'' each required file. One of the
-results of that will be the classes and methods made public by that
-REQUIRES subject.
+configuration shall provide to invoke the language processor.
+
+\emph{We could do \texttt{REQUIRES} in a macro-expansion way by adding
+an argument to \texttt{Config\_SourceChar} to specify the source file.
+However, I'm assuming we will prefer to recursively ``run'' each
+required file. One of the results of that will be the classes and
+methods made public by that \texttt{REQUIRES} subject.}
 
 \subsection{API Start}\label{api-start}
 
 Syntax:
 
-API Start(How, Source, Environment, Arguments, Streams, Traps, Provides)
+\lstinputlisting[language=rexx,label=rexxapistart.rexx,caption=rexxapistart.rexx]{rexxapistart.rexx}
 
-where: How is one of `COMMAND', `FUNCTION', or `SUBROUTINE' and
-indicates how the program is invoked.
+where:
 
-What does OOI say for How when running REQUIREd files?
+\begin{itemize}
+\tightlist
+\item
+  \texttt{How} is one of
+  \texttt{\textquotesingle{}COMMAND\textquotesingle{}},
+  \texttt{\textquotesingle{}FUNCTION\textquotesingle{}}, or
+  \texttt{\textquotesingle{}SUBROUTINE\textquotesingle{}} and indicates
+  how the program is invoked.
+\end{itemize}
 
-Source is an identification of the source of the program to be
-processed.
+\emph{What does OOI say for How when running REQUIREd files?}
 
-Environment is the initial value of the environment to be used in
-processing commands. This has components for the name of the environment
-and how the input and output of commands is to be directed.
+\begin{itemize}
+\item
+  \texttt{Source} is an identification of the source of the program to
+  be processed.
+\item
+  \texttt{Environment} is the initial value of the environment to be
+  used in processing commands. This has components for the name of the
+  environment and how the input and output of commands is to be
+  directed.
+\item
+  \texttt{Arguments} is the initial argument list to be used in
+  processing. This has components to specify the number of arguments,
+  which arguments are omitted, and the values of arguments that are not
+  omitted.
+\item
+  \texttt{Streams} has components for the default input stream to be
+  used and the default output streams to be used.
+\item
+  \texttt{Traps} is the list of traps to be used in processing (see
+  nnn). This has components to specify whether each trap is omitted or
+  not.
+\end{itemize}
 
-Arguments is the initial argument list to be used in processing. This
-has components to specify the number of arguments, which arguments are
-omitted, and the values of arguments that are not omitted.
-
-Streams has components for the default input stream to be used and the
-default output streams to be used.
-
-Traps is the list of traps to be used in processing (see nnn). This has
-components to specify whether each trap is omitted or not.
-
-Semantics:
+\subsubsection{Semantics:}\label{semantics}
 
 This function starts the execution of a Rexx program.
 
-If the program was terminated due to a RETURN or EXIT instruction
-without an expression the completion response is `N'.
+If the program was terminated due to a \texttt{RETURN} or \texttt{EXIT}
+instruction without an expression the completion response is
+\texttt{\textquotesingle{}N\textquotesingle{}}.
 
-If the program was terminated due to a RETURN or EXIT instruction with
-an expression the indicator in the completion response is `R' and the
-description of the completion response is the value of the expression.
+If the program was terminated due to a \texttt{RETURN} or \texttt{EXIT}
+instruction with an expression the indicator in the completion response
+is \texttt{\textquotesingle{}R\textquotesingle{}} and the description of
+the completion response is the value of the expression.
 
 If the program was terminated due to an error the indicator in the
-completion response is `E' and the description in the completion
-response comprises information about the error that terminated
-processing.
+completion response is \texttt{\textquotesingle{}E\textquotesingle{}}
+and the description in the completion response comprises information
+about the error that terminated processing.
 
-If How was `REQUIRED' and the completion response was not `E', the
-Provides argument is set to reference classes made available. See nnn
-for the semantics of these classes.
+If How was \texttt{\textquotesingle{}REQUIRED\textquotesingle{}} and the
+completion response was not
+\texttt{\textquotesingle{}E\textquotesingle{}}, the \texttt{Provides}
+argument is set to reference classes made available. See nnn for the
+semantics of these classes.
 
 \section{Source programs and character
 sets}\label{source-programs-and-character-sets}
@@ -141,16 +192,17 @@ The configuration shall provide the ability to access source programs
 following categories:
 
 \begin{itemize}
+\tightlist
 \item
-  syntactic\_characters;
+  \emph{syntactic\_characters};
 \item
-  extra\_letters;
+  \emph{extra\_letters};
 \item
-  other\_blank\_characters;
+  \emph{other\_blank\_characters};
 \item
-  other\_negators;
+  \emph{other\_negators};
 \item
-  other\_characters.
+  \emph{other\_characters}.
 \end{itemize}
 
 A character shall belong to only one category.
@@ -158,23 +210,27 @@ A character shall belong to only one category.
 \subsection{Syntactic\_characters}\label{syntactic_characters}
 
 The following characters represent the category of characters called
-syntactic\_characters, identified by their names. The glyphs used to
-represent them in this document are also shown. Syntactic\_characters
-shall be available in every configuration:
+\emph{syntactic\_characters}, identified by their names. The glyphs used
+to represent them in this document are also shown.
+\emph{Syntactic\_characters} shall be available in every configuration:
 
 \begin{itemize}
 \item
   \& ampersand;
 \item
-  apostrophe, single quotation mark, single quote;
+  ' apostrophe, single quotation mark, single quote;
 \item
-  asterisk, star;
+  \begin{itemize}
+  \tightlist
+  \item
+    asterisk, star;
+  \end{itemize}
 \item
   blank, space;
 \item
   A-Z capital letters A through Z;
 \item
-  colon;
+  : colon;
 \item
   , comma;
 \item
@@ -182,34 +238,47 @@ shall be available in every configuration:
 \item
   = equal sign;
 \item
-  exclamation point, exclamation mark;
+  ! exclamation point, exclamation mark;
 \item
-  \begin{quote}
-  greater-than sign;
-  \end{quote}
-\end{itemize}
-
-hyphen, minus sign;
-
-\textless{} less-than sign;
-
-\begin{itemize}
+  \textgreater{} greater-than sign;
 \item
-  {[} left bracket, left square bracket; (\_ left parenthesis;
+  \begin{itemize}
+  \tightlist
+  \item
+    hyphen, minus sign;
+  \end{itemize}
+\item
+  \textless{} less-than sign;
+\item
+  {[} left bracket, left square bracket;
+\item
+  ( left parenthesis;
 \item
   \% percent sign;
 \item
   . period, decimal point, full stop, dot;
 \item
-  plus sign;
+  \begin{itemize}
+  \tightlist
+  \item
+    plus sign;
+  \end{itemize}
 \item
   ? question mark;
 \item
-  '' quotation mark, double quote; ~reverse slant, reverse solidus,
-  backslash; {]} right bracket, right square bracket;
+  '' quotation mark, double quote;
 \item
-  ) right parenthesis; ; semicolon; /\_ slant, solidus, slash; a-z small
-  letters a through z;
+  ~reverse slant, reverse solidus, backslash;
+\item
+  {]} right bracket, right square bracket;
+\item
+  ) right parenthesis;
+\item
+  ; semicolon;
+\item
+  / slant, solidus, slash;
+\item
+  a-z small letters a through z;
 \item
   \textasciitilde{} tilde, twiddle;
 \item
@@ -221,17 +290,18 @@ hyphen, minus sign;
 \subsection{Extra\_letters}\label{extra_letters}
 
 A configuration may have a category of characters in source programs
-called extra\_letters. Extra\_letters are determined by the
-configuration.
+called \emph{extra\_letters}. \emph{Extra\_letters} are determined by
+the configuration.
 
 \subsection{Other\_blank\_characters}\label{other_blank_characters}
 
 A configuration may have a category of characters in source programs
-called other\_blank\_characters. Other\_blank\_characters are determined
-by the configuration. Only the following characters represent possible
-characters of this category:
+called \emph{other\_blank\_characters}. \emph{Other\_blank\_characters}
+are determined by the configuration. Only the following characters
+represent possible characters of this category:
 
 \begin{itemize}
+\tightlist
 \item
   carriage return;
 \item
@@ -247,116 +317,140 @@ characters of this category:
 \subsection{Other\_negators}\label{other_negators}
 
 A configuration may have a category of characters in source programs
-called other\_negators. Other\_negators are determined by the
-configuration. Only the following characters represent possible
+called \emph{other\_negators}. \emph{Other\_negators} are determined by
+the configuration. Only the following characters represent possible
 characters of this category. The glyphs used to represent them in this
 document are also shown:
 
 \begin{itemize}
 \tightlist
 \item
-  \begin{itemize}
-  \tightlist
-  \item
-    circumflex accent, caret;
-  \end{itemize}
+  \^{} circumflex accent, caret;
 \item
-  --- not sign.
+  ¬ not sign.
 \end{itemize}
 
 \subsection{Other\_characters}\label{other_characters}
 
 A configuration may have a category of characters in source programs
-called other\_characters. Other\_characters are determined by the
-configuration.
+called \emph{other\_characters}. \emph{Other\_characters} are determined
+by the configuration.
 
 \section{Configuration characters and
 encoding}\label{configuration-characters-and-encoding}
 
 The configuration characters and encoding interface consists of
 functions which the configuration shall provide which are concerned with
-the encoding of characters. The following functions shall be provided:
+the encoding of characters.
+
+The following functions shall be provided:
 
 \begin{itemize}
+\tightlist
 \item
-  Config\_SourceChar;
+  \texttt{Config\_SourceChar};
 \item
-  Config\_OtherBlankCharacters;
+  \texttt{Config\_OtherBlankCharacters};
 \item
-  Config\_Upper;
+  \texttt{Config\_Upper};
 \item
-  Config\_Compare;
+  \texttt{Config\_Compare};
 \item
-  Config\_B2C;
+  \texttt{Config\_B2C};
 \item
-  Config\_C2B;
+  \texttt{Config\_C2B};
 \item
-  Config\_Substr;
+  \texttt{Config\_Substr};
 \item
-  Config\_Length;
+  \texttt{Config\_Length};
 \item
-  Config\_Xrange.
+  \texttt{Config\_Xrange}.
 \end{itemize}
 
 \subsection{Config\_SourceChar}\label{config_sourcechar}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax}
 
-Config SourceChar ()
+\lstinputlisting[language=rexx,label=configsourcechar.rexx,caption=configsourcechar.rexx]{configsourcechar.rexx}
 
-Semantics: Supply the characters of the source program in sequence,
-together with the EOL and EOS events. The EOL event represents the end
-of a line. The EOS event represents the end of the source program. The
-EOS event must only occur immediately after an EOL event. Either a
-character or an event is supplied on each invocation, by setting
-\#Outcome.
+\subsubsection{Semantics:}\label{semantics-1}
+
+Supply the characters of the source program in sequence, together with
+the \emph{EOL} and \emph{EOS} events. The \emph{EOL} event represents
+the end of a line. The \emph{EOS} event represents the end of the source
+program. The \emph{EOS} event must only occur immediately after an
+\emph{EOL} event. Either a character or an event is supplied on each
+invocation, by setting \texttt{\#Outcome}.
 
 If this function is unable to supply a character because the source
 program encoding is incorrect the indicator of the completion response
-is `E' and the description of the completion information is the encoding
-which is incorrect, in hexadecimal notation.
+is \texttt{\textquotesingle{}E\textquotesingle{}} and the description of
+the completion information is the encoding which is incorrect, in
+hexadecimal notation.
 
 \subsection{Config\_OtherBlankCharacters}\label{config_otherblankcharacters}
 
-Syntax: Config OtherBlankCharacters ()
+\subsubsection{Syntax:}\label{syntax-1}
 
-Semantics: Get other\_blank\_characters (see nnn). Set \#Outcome to a
-string of zero or more distinct characters in arbitrary order. Each
-character is one that the configuration considers equivalent to the
-character Blank for the purposes of parsing.
+\lstinputlisting[language=rexx,label=configotherblankcharacters.rexx,caption=configotherblankcharacters.rexx]{configotherblankcharacters.rexx}
+
+\subsubsection{Semantics:}\label{semantics-2}
+
+Get \emph{other\_blank\_characters} (see nnn).
+
+Set \texttt{\#Outcome} to a string of zero or more distinct characters
+in arbitrary order. Each character is one that the configuration
+considers equivalent to the character \emph{Blank} for the purposes of
+parsing.
 
 \subsection{Config\_Upper}\label{config_upper}
 
-Syntax: Config Upper (Character)
+\subsubsection{Syntax:}\label{syntax-2}
 
-where: Character is the character to be translated to uppercase.
-Semantics: Translate Character to uppercase. Set \#Outcome to the
-translated character. Characters which have been subject to this
-translation are referred to as being in uppercase. Config\_Upper applied
-to a character in uppercase must not change the character.
-
-\subsection{Config\_Lower}\label{config_lower}
-
-Syntax:
-
-Config Lower (Character) where: Character is the character to be
-translated to lowercase. Semantics: Translate Character to lowercase.
-Set \#Outcome to the translated character. Characters which have been
-subject to this translation are referred to as being in lowercase.
-Config\_Lower applied to a character in lowercase must not change the
-character. Config\_Upper of the outcome of Config\_Lower(Character)
-shall be the original character.
-
-\subsection{Config\_Compare}\label{config_compare}
-
-Syntax: Config Compare(Characterl, Character2)
+Config\_Upper(Character)
 
 where:
 
-Character1 is the character to be compared with Character2. Character2
-is the character to be compared with Character1.
+Character is the character to be translated to uppercase.
 
-Semantics:
+\subsubsection{Semantics:}\label{semantics-3}
+
+Translate Character to uppercase. Set \#Outcome to the translated
+character. Characters which have been subject to this translation are
+referred to as being in uppercase. Config\_Upper applied to a character
+in uppercase must not change the character.
+
+\subsection{Config\_Lower}\label{config_lower}
+
+\subsubsection{Syntax:}\label{syntax-3}
+
+Config\_Lower(Character)
+
+where:
+
+Character is the character to be translated to lowercase.
+
+\subsubsection{Semantics:}\label{semantics-4}
+
+Translate Character to lowercase. Set \#Outcome to the translated
+character. Characters which have been subject to this translation are
+referred to as being in lowercase. Config\_Lower applied to a character
+in lowercase must not change the character. Config\_Upper of the outcome
+of Config\_Lower(Character) shall be the original character.
+
+\subsection{Config\_Compare}\label{config_compare}
+
+\subsubsection{Syntax:}\label{syntax-4}
+
+Config Compare(Characterl, Character2)
+
+where:
+
+Character1 is the character to be compared with Character2.
+
+Character2 is the character to be compared with Character1.
+
+\subsubsection{Semantics:}\label{semantics-5}
 
 Compare two characters. Set \#Outcome to
 
@@ -366,9 +460,10 @@ Compare two characters. Set \#Outcome to
 \item
   `greater' if Character1 is greater than Character2;
 \item
-  `lesser' if Character' is less than Character2. The function shall
-  exhibit the following characteristics. If Config \_Compare(a,b)
-  produces
+  `lesser' if Character' is less than Character2.
+\item
+  The function shall exhibit the following characteristics. If Config
+  \_Compare(a,b) produces
 \item
   `equal' then Config\_Compare(b,a) produces `equal';
 \item
@@ -386,15 +481,24 @@ Compare two characters. Set \#Outcome to
   Config\_Compare(a,c) produces `lesser';
 \item
   `equal' then Config\_Compare(a,c) and Config\_Compare(b,c) produce the
-  same value. Syntactic characters which are different characters shall
-  not compare equal by Config\_Compare, see nnn.
+  same value.
+\item
+  Syntactic characters which are different characters shall not compare
+  equal by Config\_Compare, see nnn.
 \end{itemize}
 
 \subsection{Config \_B2C}\label{config-_b2c}
 
-Syntax: Config B2C (Binary) where: Binary is a sequence of digits, each
-`0' or `1'. The number of digits shall be a multiple of eight.
-Semantics:
+\subsubsection{Syntax:}\label{syntax-5}
+
+Config B2C (Binary)
+
+where:
+
+Binary is a sequence of digits, each `0' or `1'. The number of digits
+shall be a multiple of eight.
+
+\subsubsection{Semantics:}\label{semantics-6}
 
 Translate Binary to a coded string. Set \#Outcome to the resulting
 string. The string may, or may not, correspond to a sequence of
@@ -402,51 +506,87 @@ characters.
 
 \subsection{Config\_C2B}\label{config_c2b}
 
-Syntax: Config C2B (String)
+\subsubsection{Syntax:}\label{syntax-6}
 
-where: String is a string. Semantics: Translate String to a sequence of
-digits, each `0' or `1'. Set \#Outcome to the result. This function is
-the inverse of Config\_B2C.
+Config C2B (String)
+
+where:
+
+String is a string.
+
+\subsubsection{Semantics:}\label{semantics-7}
+
+Translate String to a sequence of digits, each `0' or `1'. Set \#Outcome
+to the result. This function is the inverse of Config\_B2C.
 
 \subsection{Config\_Substr}\label{config_substr}
 
-Syntax: Config Substr(String, n)
+\subsubsection{Syntax:}\label{syntax-7}
 
-where: String is a string. nis an integer identifying a position within
-String. Semantics: Copy the n-th character from String. The leftmost
-character is the first character. Set Outcome to the resulting
-character. If this function is unable to supply a character because
-there is no n-th character in String the indicator of the completion
-response is `M'. If this function is unable to supply a character
-because the encoding of String is incorrect the indicator of the
-completion response is `E' and the description of the completion
-information is the encoding which is incorrect, in hexadecimal notation.
+Config Substr(String, n)
+
+where:
+
+String is a string.
+
+n is an integer identifying a position within String.
+
+\subsubsection{Semantics:}\label{semantics-8}
+
+Copy the n-th character from String. The leftmost character is the first
+character. Set Outcome to the resulting character.
+
+If this function is unable to supply a character because there is no
+n-th character in String the indicator of the completion response is
+`M'.
+
+If this function is unable to supply a character because the encoding of
+String is incorrect the indicator of the completion response is `E' and
+the description of the completion information is the encoding which is
+incorrect, in hexadecimal notation.
 
 \subsection{Config Length}\label{config-length}
 
-Syntax: Config Length (String)
+\subsubsection{Syntax:}\label{syntax-8}
 
-where: String is a string. Semantics: Set \#Outcome to the length of the
-string, that is, the number of characters in the string. If this
-function is unable to determine a length because the encoding of String
-is incorrect, the indicator of the completion response is `E' and the
-description of the completion information is the encoding which is
+Config Length (String)
+
+where:
+
+String is a string.
+
+\subsubsection{Semantics:}\label{semantics-9}
+
+Set \#Outcome to the length of the string, that is, the number of
+characters in the string.
+
+If this function is unable to determine a length because the encoding of
+String is incorrect, the indicator of the completion response is `E' and
+the description of the completion information is the encoding which is
 incorrect, in hexadecimal notation.
 
 \subsection{Config\_Xrange}\label{config_xrange}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-9}
 
-Config Xrange(Characterl, Character2) where: Character1 is the null
-string, or a single character. Character2 is the null string, or a
-single character. Semantics: If Character1 is the null string then let
-LowBound be a lowest ranked character in the character set according to
-the ranking order provided by Config\_Compare; otherwise let LowBound be
-Character1. If Character2 is the null string then let HighBound be a
-highest ranked character in the character set according to the ranking
-order provided by Config\_Compare; otherwise let HighBound be
-Character2lf \#Outcome after Config\_Compare(LowBound,HighBound) has a
-value of
+Config Xrange(Characterl, Character2)
+
+where:
+
+Character1 is the null string, or a single character.
+
+Character2 is the null string, or a single character.
+
+\subsubsection{Semantics:}\label{semantics-10}
+
+If Character1 is the null string then let LowBound be a lowest ranked
+character in the character set according to the ranking order provided
+by Config\_Compare; otherwise let LowBound be Character1.
+
+If Character2 is the null string then let HighBound be a highest ranked
+character in the character set according to the ranking order provided
+by Config\_Compare; otherwise let HighBound be Character2lf \#Outcome
+after Config\_Compare(LowBound,HighBound) has a value of
 
 \begin{itemize}
 \item
@@ -467,9 +607,11 @@ shall provide for creating objects.
 
 \subsection{Config\_ObjectNew}\label{config_objectnew}
 
-Syntax: Config ObjectNew
+\subsubsection{Syntax:}\label{syntax-10}
 
-Semantics:
+Config ObjectNew
+
+\subsubsection{Semantics:}\label{semantics-11}
 
 Set \#Outcome to be a reference to an object. The object shall be
 suitable for use as a variable pool, see nnn. This function shall never
@@ -478,40 +620,89 @@ on another invokation of the function.
 
 \subsection{Config\_Array\_Size}\label{config_array_size}
 
-Syntax: Config Array Size(Object, size) where: Object is an object. Size
-is an integer greater or equal to 0. Semantics: The configuration should
-prepare to deal efficiently with the object as an array with indexes
-having values up to the value of size.
+\subsubsection{Syntax:}\label{syntax-11}
+
+Config Array Size(Object, size)
+
+where:
+
+Object is an object.
+
+Size is an integer greater or equal to 0.
+
+\subsubsection{Semantics:}\label{semantics-12}
+
+The configuration should prepare to deal efficiently with the object as
+an array with indexes having values up to the value of size.
 
 \subsection{Config\_Array\_Put}\label{config_array_put}
 
-Syntax: Config Array Put(Array, Item, Index)
+\subsubsection{Syntax:}\label{syntax-12}
 
-where: Array is an array. Item is an object Index is an integer greater
-or equal to 1. Semantics: The configuration shall record that the array
-has Item associated with Index.
+Config Array Put(Array, Item, Index)
+
+where:
+
+Array is an array.
+
+Item is an object
+
+Index is an integer greater or equal to 1.
+
+\subsubsection{Semantics:}\label{semantics-13}
+
+The configuration shall record that the array has Item associated with
+Index.
 
 \subsection{Config\_Array\_At}\label{config_array_at}
 
-Syntax: Config Array At(Array, Index)
+\subsubsection{Syntax:}\label{syntax-13}
 
-where: Array is an array. Index is an integer greater or equal to 1.
-Semantics: The configuration shall return the item that the array has
-associated with Index.
+Config Array At(Array, Index)
+
+where:
+
+Array is an array.
+
+Index is an integer greater or equal to 1.
+
+\subsubsection{Semantics:}\label{semantics-14}
+
+The configuration shall return the item that the array has associated
+with Index.
 
 \subsection{Config\_Array\_Hasindex}\label{config_array_hasindex}
 
-Syntax: Config Array At(Array, Index) where: Array is an array. Index is
-an integer greater or equal to 1. Semantics: Return `1' if there is an
-item in Array associated with Index, `0' otherwise.
+\subsubsection{Syntax:}\label{syntax-14}
+
+Config Array At(Array, Index)
+
+where:
+
+Array is an array.
+
+Index is an integer greater or equal to 1.
+
+\subsubsection{Semantics:}\label{semantics-15}
+
+Return `1' if there is an item in Array associated with Index, `0'
+otherwise.
 
 \subsection{Config\_Array\_Remove}\label{config_array_remove}
 
-Syntax: Config Array At(Array, Index)
+\subsubsection{Syntax:}\label{syntax-15}
 
-where: Array is an array. Index is an integer greater or equal to 1.
-Semantics: After this operation, no item is associated with the Index in
-the Array.
+Config Array At(Array, Index)
+
+where:
+
+Array is an array.
+
+Index is an integer greater or equal to 1.
+
+\subsubsection{Semantics:}\label{semantics-16}
+
+After this operation, no item is associated with the Index in the Array.
 
 \section{Commands}\label{commands}
 
@@ -523,10 +714,13 @@ commands.
 
 \subsection{Config \_Command}\label{config-_command}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-16}
 
-Config Command(Environment, Command) where: Environment is the
-environment to be addressed. It has components for:
+Config Command(Environment, Command)
+
+where:
+
+Environment is the environment to be addressed. It has components for:
 
 \begin{itemize}
 \item
@@ -542,8 +736,16 @@ environment to be addressed. It has components for:
   the name of a stream onto which the command will write its error
   output. The null string indicates use of the default error output
   stream. There is an indication of whether writing is to APPEND or
-  REPLACE. Command is the command to be executed. Semantics: Perform a
-  command.
+  REPLACE.
+\end{itemize}
+
+Command is the command to be executed.
+
+\subsubsection{Semantics:}\label{semantics-17}
+
+Perform a command.
+
+\begin{itemize}
 \item
   set the indicator to `E' or `F' if the command ended with an ERROR
   condition, or a FAILURE condition, respectively;
@@ -554,14 +756,20 @@ environment to be addressed. It has components for:
 \section{External routines}\label{external-routines}
 
 The external routines interface consists of a function which the
-configuration shall provide to invoke external routines. See nnn and nnn
-for a description of the language features that use external routines.
+configuration shall provide to invoke external routines.
+
+See nnn and nnn for a description of the language features that use
+external routines.
 
 \subsection{Config\_ExternalRoutine}\label{config_externalroutine}
 
-Syntax: Config ExternalRoutine(How, NameType, Name, Environment,
-Arguments, Streams, Traps) where: How is one of `FUNCTION' or
-`SUBROUTINE' and indicates how the external routine is to be invoked.
+\subsubsection{Syntax:}\label{syntax-17}
+
+Config ExternalRoutine(How, NameType, Name, Environment, Arguments,
+Streams, Traps) where:
+
+How is one of `FUNCTION' or `SUBROUTINE' and indicates how the external
+routine is to be invoked.
 
 NameType is a specification of whether the name was provided as a symbol
 or as a string literal. Name is the name of the routine to be invoked.
@@ -578,7 +786,7 @@ components as on API\_ Start.
 Traps is the list of traps to be used in processing, with the same
 components as on API\_ Start.
 
-Semantics:
+\subsubsection{Semantics:}\label{semantics-18}
 
 Invoke an external routine. Set \{Outcome to the result of the external
 routine, or set the indicator of the completion response to `D' if the
@@ -609,52 +817,87 @@ mechanism. Analogy with classic would also allow the subject of
 we need to gather in knowledge of its method names because of the search
 algorithm that determines which method is called. Hence reasonable that
 the ultimate external call is to a method. Perhaps combine
-Config\_ExternalRoutine with Config\_ExternalMethod. There is a
-terminology clash on ``environment''. Perhaps easiest to change the
-classic to ``address\_environment''. (And make it part of new
-``environment''?) There are terminology decisions to make about
-``files'', ``programs'', and ``packages''. Possibly ``program'' is the
-thing you run (and we don't say what it means physically), ``file'' is a
-unit of scope (ROUTINEs in current file before those in REQUIREd), and
-``package'' we don't use (since a software package from a shop would
-probably have several files but not everything to run a program.) Using
-``file'' this way may not be too bad since we used ``stream'' rather
-than ``tile'' in the classic definition. The How parameter will need
-`METHOD' as a value. Should API\_Start also allow 'METHOD''. If we pass
-the new Environment we don't have to pass Streams separately.
+Config\_ExternalRoutine with Config\_ExternalMethod.
 
-Text of Config\_ExternalMethod waiting on such decisions. Syntax:
+There is a terminology clash on ``environment''. Perhaps easiest to
+change the classic to ``address\_environment''. (And make it part of new
+``environment''?)
+
+There are terminology decisions to make about ``files'', ``programs'',
+and ``packages''. Possibly ``program'' is the thing you run (and we
+don't say what it means physically), ``file'' is a unit of scope
+(ROUTINEs in current file before those in REQUIREd), and ``package'' we
+don't use (since a software package from a shop would probably have
+several files but not everything to run a program.) Using ``file'' this
+way may not be too bad since we used ``stream'' rather than ``tile'' in
+the classic definition.
+
+The How parameter will need `METHOD' as a value. Should API\_Start also
+allow 'METHOD''. If we pass the new Environment we don't have to pass
+Streams separately.
+
+Text of Config\_ExternalMethod waiting on such decisions.
+
+\subsubsection{Syntax:}\label{syntax-18}
 
 Config ExternalMethod (How, NameType, Name, Environment, Arguments,
-Streams, Traps) where: How is one of `FUNCTION' or `SUBROUTINE' and
-indicates how the external routine is to be invoked. NameType is a
-specification of whether the name was provided as a symbol or as a
-string literal. Name is the name of the routine to be invoked.
+Streams, Traps)
+
+where:
+
+How is one of `FUNCTION' or `SUBROUTINE' and indicates how the external
+routine is to be invoked.
+
+NameType is a specification of whether the name was provided as a symbol
+or as a string literal.
+
+Name is the name of the routine to be invoked.
+
 Environment is an environment value with the same components as on API\_
-Start. Arguments is a specification of the arguments to the routine,
-with the same components as on API\_Start. Streams is a specification of
-the default streams, with the same components as on API\_ Start. Traps
-is the list of traps to be used in processing, with the same components
-as on API\_ Start. Semantics: Invoke an external routine. Set \{Outcome
-to the result of the external routine, or set the indicator of the
-completion response to `D' if the external routine did not provide a
-result. If this function is unable to locate the routine the indicator
-of the completion response is `U'. As a result SYNTAX condition 43.1 is
-raised implicitly. If How indicated that a result from the routine was
-required but the routine did not provide one the indicator of the
-completion response is `H'. As a result SYNTAX condition 44.1 is raised
-implicitly. If How indicated that a result from the routine was required
-but the routine provided one that was too long (see \#Limit\_String in
-nnn) the indicator of the completion response is `L'. As a result SYNTAX
-condition 52 is raised implicitly. If the routine failed in a way not
-indicated by some other indicator the indicator of the completion
-response is `F'. As a result SYNTAX condition 40.1 is raised implicitly.
-5.8 External data queue The external data queue interface consists of
-functions which the configuration shall provide to manipulate an
-external data queue mechanism. See nnn, nnn, nnn, nnn, and nnn for a
-description of language features that use the external data queue. The
-configuration shall provide an external data queue mechanism. The
-following functions shall be provided:
+Start.
+
+Arguments is a specification of the arguments to the routine, with the
+same components as on API\_Start.
+
+Streams is a specification of the default streams, with the same
+components as on API\_ Start.
+
+Traps is the list of traps to be used in processing, with the same
+components as on API\_ Start.
+
+\subsubsection{Semantics:}\label{semantics-19}
+
+Invoke an external routine. Set \{Outcome to the result of the external
+routine, or set the indicator of the completion response to `D' if the
+external routine did not provide a result.
+
+If this function is unable to locate the routine the indicator of the
+completion response is `U'. As a result SYNTAX condition 43.1 is raised
+implicitly.
+
+If How indicated that a result from the routine was required but the
+routine did not provide one the indicator of the completion response is
+`H'. As a result SYNTAX condition 44.1 is raised implicitly.
+
+If How indicated that a result from the routine was required but the
+routine provided one that was too long (see \#Limit\_String in nnn) the
+indicator of the completion response is `L'. As a result SYNTAX
+condition 52 is raised implicitly.
+
+If the routine failed in a way not indicated by some other indicator the
+indicator of the completion response is `F'. As a result SYNTAX
+condition 40.1 is raised implicitly.
+
+\section{External data queue}\label{external-data-queue}
+
+The external data queue interface consists of functions which the
+configuration shall provide to manipulate an external data queue
+mechanism.
+
+See nnn, nnn, nnn, nnn, and nnn for a description of language features
+that use the external data queue. The configuration shall provide an
+external data queue mechanism. The following functions shall be
+provided:
 
 \begin{itemize}
 \item
@@ -675,34 +918,56 @@ string from the end that Config\_Push adds to unless the list is empty.
 
 \subsection{Config Push}\label{config-push}
 
-Syntax: Config Push(String)
+\subsubsection{Syntax:}\label{syntax-19}
 
-where: String is the value to be retained in the external data queue.
-Semantics: Add String as an item to the end of the external data queue
-from which Config\_Pull will remove an item.
+Config Push(String)
+
+where:
+
+String is the value to be retained in the external data queue.
+
+\subsubsection{Semantics:}\label{semantics-20}
+
+Add String as an item to the end of the external data queue from which
+Config\_Pull will remove an item.
 
 \subsection{Contig\_Queue}\label{contig_queue}
 
-Syntax: Config Queue (String)
+\subsubsection{Syntax:}\label{syntax-20}
 
-where: String is the value to be retained in the external data queue.
-Semantics: Add String as an item to the opposite end of the external
-data queue from which Config\_Pull will remove an item.
+Config Queue (String)
+
+where:
+
+String is the value to be retained in the external data queue.
+
+\subsubsection{Semantics:}\label{semantics-21}
+
+Add String as an item to the opposite end of the external data queue
+from which Config\_Pull will remove an item.
 
 \subsection{Config\_Pull}\label{config_pull}
 
-Syntax: Config Pull()
+\subsubsection{Syntax:}\label{syntax-21}
 
-Semantics: Retrieve an item from the end of the external data queue to
-which Config\_Push adds an element to the list. Set \#Outcome to the
-value of the retrieved item. If no item could be retrieved the indicator
-of the completion response is `F'.
+Config Pull()
+
+\subsubsection{Semantics:}\label{semantics-22}
+
+Retrieve an item from the end of the external data queue to which
+Config\_Push adds an element to the list. Set \#Outcome to the value of
+the retrieved item.
+
+If no item could be retrieved the indicator of the completion response
+is `F'.
 
 \subsection{Contig\_Queued}\label{contig_queued}
 
-Syntax: Config Queued ()
+\subsubsection{Syntax:}\label{syntax-22}
 
-Semantics:
+Config Queued ()
+
+\subsubsection{Semantics:}\label{semantics-23}
 
 Get the count of items in the external data queue. Set \#Outcome to that
 number.
@@ -711,21 +976,25 @@ number.
 
 The streams interface consists of functions which the configuration
 shall provide to manipulate streams. See nnn, nnn, and nnn for a
-description of language features which use streams. Streams are
-identified by names and provide for the reading and writing of data.
-They shall support the concepts of characters, lines, positioning,
-default input stream and default output stream. The concept of a
-persistent stream shall be supported and the concept of a transient
-stream may be supported. A persistent stream is one where the content is
-not expected to change except when the stream is explicitly acted on. A
-transient stream is one where the data available is expected to vary
-with time.
+description of language features which use streams.
+
+Streams are identified by names and provide for the reading and writing
+of data. They shall support the concepts of characters, lines,
+positioning, default input stream and default output stream.
+
+The concept of a persistent stream shall be supported and the concept of
+a transient stream may be supported. A persistent stream is one where
+the content is not expected to change except when the stream is
+explicitly acted on. A transient stream is one where the data available
+is expected to vary with time.
 
 The concepts of binary and character streams shall be supported. The
-content of a character stream is expected to be characters. The null
-string is used as a name for both the default input stream and the
-default output stream. The null string names the default output stream
-only when it is an argument to the Config\_Stream\_Charout operation.
+content of a character stream is expected to be characters.
+
+The null string is used as a name for both the default input stream and
+the default output stream. The null string names the default output
+stream only when it is an argument to the Config\_Stream\_Charout
+operation.
 
 The following functions shall be provided:
 
@@ -749,8 +1018,10 @@ The following functions shall be provided:
 \item
   Config\_Stream\_Close;
 \item
-  Config\_Stream\_Count. The results of these functions are described in
-  terms of the following stems with tails which are stream names:
+  Config\_Stream\_Count.
+\item
+  The results of these functions are described in terms of the following
+  stems with tails which are stream names:
 \item
   \#Charin\_Position.Stream;
 \item
@@ -763,18 +1034,29 @@ The following functions shall be provided:
 
 \subsection{Config \_Stream\_Charin}\label{config-_stream_charin}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-23}
 
-Config Stream Charin(Stream, OperationType) where: Stream is the name of
-the stream to be processed. OperationType is one of `CHARIN', `LINEIN',
-or `NULL. Semantics: Read from a stream. Increase
-\#Linein\_Position.Stream by one when the end-of-line indication is
-encountered. Increase \#Charin\_Position.Stream when the indicator will
-be 'N'. If OperationType is `CHARIN' the state variables describing the
-stream will be affected as follows: - when the configuration is able to
-provide data from a transient stream or the character at position
+Config Stream Charin(Stream, OperationType)
+
+where:
+
+Stream is the name of the stream to be processed.
+
+OperationType is one of `CHARIN', `LINEIN', or 'NULL.
+
+\subsubsection{Semantics:}\label{semantics-24}
+
+Read from a stream. Increase \#Linein\_Position.Stream by one when the
+end-of-line indication is encountered. Increase
+\#Charin\_Position.Stream when the indicator will be `N'.
+
+If OperationType is `CHARIN' the state variables describing the stream
+will be affected as follows: - when the configuration is able to provide
+data from a transient stream or the character at position
 \#Charin\_Position.Stream of a persistent stream then \#Outcome shall be
-set to contain the data. The indicator of the response shall be `N';
+set to contain the data.
+
+The indicator of the response shall be `N';
 
 \begin{itemize}
 \tightlist
@@ -792,79 +1074,106 @@ set to contain the data. The indicator of the response shall be `N';
   response shall be `E'. The data set in \#Outcome will either be a
   single character or will be a sequence of eight characters, each `0'
   or `1'. The choice is decided by the configuration. The eight
-  character sequence indicates a binary stream, see nnn. If
-  OperationType is `LINEIN' then the action is the same as if Operation
-  had been `CHARIN' with the following additional possibility. If
-  end-of-line is detected any character (or character sequence) which is
-  an embedded indication of the end-of-line is skipped. The characters
-  skipped contribute to the change of \#Charin\_Position.Stream.
-  \#Outcome is the null string. If OperationType is `NULL' then the
-  stream is accessed but no data is read.
+  character sequence indicates a binary stream, see nnn.
 \end{itemize}
+
+If OperationType is `LINEIN' then the action is the same as if Operation
+had been `CHARIN' with the following additional possibility. If
+end-of-line is detected any character (or character sequence) which is
+an embedded indication of the end-of-line is skipped. The characters
+skipped contribute to the change of \#Charin\_Position.Stream. \#Outcome
+is the null string.
+
+If OperationType is `NULL' then the stream is accessed but no data is
+read.
 
 \subsection{Config\_Stream\_Position}\label{config_stream_position}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-24}
 
-Config Stream Position(Stream, OperationType, Position) where: Stream is
-the name of the stream to be processed. Operation is `CHARIN', `LINEIN',
-`CHAROUT', or `LINEOUT'. Position indicates where to position the
-stream. Semantics: If the operation is `CHARIN' or `CHAROUT' then
-Position is a character position, otherwise Position is a line position.
+Config Stream Position(Stream, OperationType, Position)
+
+where:
+
+Stream is the name of the stream to be processed.
+
+Operation is `CHARIN', `LINEIN', `CHAROUT', or `LINEOUT'.
+
+Position indicates where to position the stream.
+
+\subsubsection{Semantics:}\label{semantics-25}
+
+If the operation is `CHARIN' or `CHAROUT' then Position is a character
+position, otherwise Position is a line position.
+
 If Operation is `CHARIN' or `LINEIN' and the Position is beyond the
 limit of the existing data then the indicator of the completion response
 shall be `R'. Otherwise if Operation is `CHARIN' or `LINEIN' set
 \#Charin\_Position.Stream to the position from which the next
 Config\_Stream\_Charin on the stream shall read, as indicated by
 Position. Set \#Linein\_Position.Stream to correspond with this
-position. If Operation is `CHAROUT' or `LINEOQUT' and the Position is
-more than one beyond the limit of existing data then the indicator of
-the response shall be `R'. Otherwise if Operation is `CHAROUT' or
-`LINEOUT' then \#Charout\_Position.Stream is set to the position at
-which the next Config\_Stream\_Charout on the stream shall write, as
-indicated by Position. Set \#Lineout\_Position.Stream to correspond with
-this position. If this function is unable to position the stream because
-the stream is transient then the indicator of the completion response
-shall be `T'.
+position.
+
+If Operation is `CHAROUT' or `LINEOQUT' and the Position is more than
+one beyond the limit of existing data then the indicator of the response
+shall be `R'. Otherwise if Operation is `CHAROUT' or `LINEOUT' then
+\#Charout\_Position.Stream is set to the position at which the next
+Config\_Stream\_Charout on the stream shall write, as indicated by
+Position. Set \#Lineout\_Position.Stream to correspond with this
+position.
+
+If this function is unable to position the stream because the stream is
+transient then the indicator of the completion response shall be `T'.
 
 \subsection{Config \_Stream\_Command}\label{config-_stream_command}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-25}
 
 Config Stream Command (Stream, Command) where: Stream is the name of the
 stream to be processed. Command is a configuration-specific command to
-be performed against the stream. Semantics: Issue a
-configuration-specific command against a stream. This may affect all
-state variables describing Stream which hold position information. It
-may alter the effect of any subsequent operation on the specified
+be performed against the stream.
+
+\subsubsection{Semantics:}\label{semantics-26}
+
+Issue a configuration-specific command against a stream. This may affect
+all state variables describing Stream which hold position information.
+It may alter the effect of any subsequent operation on the specified
 stream. If the indicator is set to `N', \#Outcome shall be set to
 information from the command.
 
 \subsection{Config\_Stream\_State}\label{config_stream_state}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-26}
 
 Config Stream State (Stream) where: Stream is the name of the stream to
-be queried. Semantics: Set the indicator to reflect the state of the
-stream. Return an indicator equal to the indicator that an immediately
-subsequent Config\_Stream\_Charin(Stream, `CHARIN') would return.
-Alternatively, return an indicator of `U'.
+be queried.
+
+\subsubsection{Semantics:}\label{semantics-27}
+
+Set the indicator to reflect the state of the stream. Return an
+indicator equal to the indicator that an immediately subsequent
+Config\_Stream\_Charin(Stream, `CHARIN') would return. Alternatively,
+return an indicator of `U'.
 
 The remainder of the response shall be a configuration-dependent
 description of the state of the stream.
 
 \subsection{Config\_Stream\_Charout}\label{config_stream_charout}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-27}
 
 Config Stream Charout (Stream, Data) where: Stream is the name of the
 stream to be processed. Data is the data to be written, or `EOL' to
 indicate that an end-of-line indication is to be written, or a null
 string. In the first case, if the stream is a binary stream then Data
 will be eight characters, each `0' or `1', otherwise Data will be a
-single character. Semantics: When Data is the null string, no data is
-written. Otherwise write to the stream. The state variables describing
-the stream will be affected as follows:
+single character.
+
+\subsubsection{Semantics:}\label{semantics-28}
+
+When Data is the null string, no data is written. Otherwise write to the
+stream. The state variables describing the stream will be affected as
+follows:
 
 \begin{itemize}
 \item
@@ -882,46 +1191,68 @@ the stream will be affected as follows:
 
 \subsection{Config\_Stream\_Qualified}\label{config_stream_qualified}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-28}
 
 Config Stream Qualified (Stream) where: Stream is the name of the stream
-to be processed. Semantics: Set \#Outcome to some name which identifies
-Stream. Return a completion response with indicator `B' if the argument
-is not acceptable to the configuration as identifying a stream.
+to be processed.
+
+\subsubsection{Semantics:}\label{semantics-29}
+
+Set \#Outcome to some name which identifies Stream. Return a completion
+response with indicator `B' if the argument is not acceptable to the
+configuration as identifying a stream.
 
 \subsection{Config\_Stream\_Unique}\label{config_stream_unique}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-29}
 
-Config Stream Unique () Semantics: Set \#Outcome to a name that the
-configuration recognizes as a stream name. The name shall not be a name
-that the configuration associates with any existing data.
+Config Stream Unique ()
+
+\subsubsection{Semantics:}\label{semantics-30}
+
+Set \#Outcome to a name that the configuration recognizes as a stream
+name. The name shall not be a name that the configuration associates
+with any existing data.
 
 \subsection{Config\_Stream\_Query}\label{config_stream_query}
 
-Syntax: Config Stream Query (Stream) where: Stream is the name of the
-stream to be queried. Semantics: Set \#Outcome to `B' if the stream is a
-binary stream, or to `C' if it is a character stream.
+\subsubsection{Syntax:}\label{syntax-30}
+
+Config Stream Query (Stream) where: Stream is the name of the stream to
+be queried.
+
+\subsubsection{Semantics:}\label{semantics-31}
+
+Set \#Outcome to `B' if the stream is a binary stream, or to `C' if it
+is a character stream.
 
 \subsection{Config\_Stream\_Close}\label{config_stream_close}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-31}
 
 Config Stream Close (Stream) where: Stream is the name of the stream to
-be closed. Semantics: \#Charout\_Position.Stream and
-\#Lineout\_Position.Stream are set to 1 unless the stream has existing
-data, in which case they are set ready to write immediately after the
-existing data. If this function is unable to position the stream because
-the stream is transient then the indicator of the completion response
-shall be `T'.
+be closed.
+
+\subsubsection{Semantics:}\label{semantics-32}
+
+\#Charout\_Position.Stream and \#Lineout\_Position.Stream are set to 1
+unless the stream has existing data, in which case they are set ready to
+write immediately after the existing data. If this function is unable to
+position the stream because the stream is transient then the indicator
+of the completion response shall be `T'.
 
 \subsection{Config \_Stream\_Count}\label{config-_stream_count}
 
-Syntax: Config Stream Count (Stream, Operation, Option) where: Stream is
-the name of the stream to be counted. Operation is `CHARS', or `LINES'.
+\subsubsection{Syntax:}\label{syntax-32}
 
-Option is `N' or `C'. Semantics: If the option is `N', \#Outcome is set
-to zero if:
+Config Stream Count (Stream, Operation, Option) where: Stream is the
+name of the stream to be counted. Operation is `CHARS', or `LINES'.
+
+Option is `N' or `C'.
+
+\subsubsection{Semantics:}\label{semantics-33}
+
+If the option is `N', \#Outcome is set to zero if:
 
 \begin{itemize}
 \item
@@ -959,9 +1290,13 @@ If the option is `C', \#Outcome is set to zero if:
 
 The external variable pools interface consists of functions which the
 configuration shall provide to manipulate variables in external variable
-pools. See nnn for the VALUE built-in function which uses external
-variable pools. The configuration shall provide an external variable
-pools mechanism. The following functions shall be provided:
+pools.
+
+See nnn for the VALUE built-in function which uses external variable
+pools.
+
+The configuration shall provide an external variable pools mechanism.
+The following functions shall be provided:
 
 \begin{itemize}
 \item
@@ -975,25 +1310,51 @@ in other ways.
 
 \subsection{Config Get}\label{config-get}
 
-Syntax: Config Get (Poolid, Name) where: Poolid is an identification of
-the external variable pool. Name is the name of a variable. Semantics:
+\subsubsection{Syntax:}\label{syntax-33}
+
+Config Get (Poolid, Name)
+
+where:
+
+Poolid is an identification of the external variable pool.
+
+Name is the name of a variable.
+
+\subsubsection{Semantics:}\label{semantics-34}
+
 Get the value of a variable with name Name in the external variable pool
-Poolid. Set Outcome to this value. If Poolid does not identify an
-external pool provided by this configuration, the indicator of the
-completion response is `P'. If Name is not a valid name of a variable in
-the external pool, the indicator of the completion response is `F'.
+Poolid. Set Outcome to this value.
+
+If Poolid does not identify an external pool provided by this
+configuration, the indicator of the completion response is `P'.
+
+If Name is not a valid name of a variable in the external pool, the
+indicator of the completion response is `F'.
 
 \subsection{Config Set}\label{config-set}
 
-Syntax: Config Set (Poolid, Name, Value)
+\subsubsection{Syntax:}\label{syntax-34}
 
-where: Poolid is an identification of the external variable pool. Name
-is the name of a variable. Value is the value to be assigned to the
-variable. Semantics: Set a variable with name Name in the external
-variable pool Poolid to Value. If Poolid does not identify an external
-pool provided by this configuration, the indicator of the completion
-response is `P'. If Name is not a valid name of a variable in the
-external pool, the indicator of the completion response is `F'.
+Config Set (Poolid, Name, Value)
+
+where:
+
+Poolid is an identification of the external variable pool.
+
+Name is the name of a variable.
+
+Value is the value to be assigned to the variable.
+
+\subsubsection{Semantics:}\label{semantics-35}
+
+Set a variable with name Name in the external variable pool Poolid to
+Value.
+
+If Poolid does not identify an external pool provided by this
+configuration, the indicator of the completion response is `P'.
+
+If Name is not a valid name of a variable in the external pool, the
+indicator of the completion response is `F'.
 
 \section{Configuration
 characteristics}\label{configuration-characteristics}
@@ -1004,10 +1365,13 @@ configuration.
 
 \subsection{Config\_Constants}\label{config_constants}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-35}
 
-Config Constants () Semantics: Set the values of the following state
-variables:
+Config Constants ()
+
+\subsubsection{Semantics:}\label{semantics-36}
+
+Set the values of the following state variables:
 
 \begin{itemize}
 \item
@@ -1041,9 +1405,12 @@ variables:
 
 The configuration routines interface consists of functions which the
 configuration shall provide which provide functions for a language
-processor. The following functions shall be provided:
+processor.
+
+The following functions shall be provided:
 
 \begin{itemize}
+\tightlist
 \item
   Config\_Trace\_Query;
 \item
@@ -1074,106 +1441,146 @@ processor. The following functions shall be provided:
 
 \subsection{Config\_Trace\_Query}\label{config_trace_query}
 
-Syntax: Config Trace Query ()
+\subsubsection{Syntax:}\label{syntax-36}
 
-Semantics: Indicate whether external activity is requesting interactive
-tracing. Set \#Outcome to `Yes' if interactive tracing is currently
-requested. Otherwise set \#Outcome to `No'.
+Config Trace Query ()
+
+\subsubsection{Semantics:}\label{semantics-37}
+
+Indicate whether external activity is requesting interactive tracing.
+Set \#Outcome to `Yes' if interactive tracing is currently requested.
+Otherwise set \#Outcome to `No'.
 
 \subsection{Config\_Trace\_Input}\label{config_trace_input}
 
-Syntax: Config Trace Input ()
+\subsubsection{Syntax:}\label{syntax-37}
 
-Semantics: Set \#Outcome to a value from the source of trace input. The
-source of trace input is determined by the configuration.
+Config Trace Input ()
+
+\subsubsection{Semantics:}\label{semantics-38}
+
+Set \#Outcome to a value from the source of trace input. The source of
+trace input is determined by the configuration.
 
 \subsection{Config\_Trace\_Output}\label{config_trace_output}
 
-Syntax: Config Trace Output (Line)
+\subsubsection{Syntax:}\label{syntax-38}
 
-where: Line is a string. Semantics:
+Config Trace Output (Line)
+
+where:
+
+Line is a string.
+
+\subsubsection{Semantics:}\label{semantics-39}
 
 Write String as a line to the destination of trace output. The
 destination of trace output is defined by the configuration.
 
 \subsection{Config \_Default\_Input}\label{config-_default_input}
 
-Syntax: Config Default Input ()
+\subsubsection{Syntax:}\label{syntax-39}
 
-Semantics: Set \#Outcome to the value that LINEIN( ) would return.
+Config Default Input ()
+
+\subsubsection{Semantics:}\label{semantics-40}
+
+Set \#Outcome to the value that LINEIN( ) would return.
 
 \subsection{Config\_Default\_Output}\label{config_default_output}
 
-Syntax: Config Default Output (Line)
+\subsubsection{Syntax:}\label{syntax-40}
 
-where: Line is a string. Semantics: Write the string as a line in the
-manner of LINEOUT( ,Line).
+Config Default Output (Line)
+
+where:
+
+Line is a string.
+
+\subsubsection{Semantics:}\label{semantics-41}
+
+Write the string as a line in the manner of LINEOUT( ,Line).
 
 \subsection{Config\_Initialization}\label{config_initialization}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-41}
 
 Config Initialization ()
 
-Semantics: This function is provided only as a counterpart to
-Trap\_Initialization; in itself it does nothing except return the
-response. An indicator of `F' gives rise to Msg3.1.
+\subsubsection{Semantics:}\label{semantics-42}
+
+This function is provided only as a counterpart to Trap\_Initialization;
+in itself it does nothing except return the response. An indicator of
+`F' gives rise to Msg3.1.
 
 \subsection{Config\_Termination}\label{config_termination}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-42}
 
 Config Termination ()
 
-Semantics: This function is provided only as a counterpart to
-Trap\_Termination; in itself it does nothing except return the response.
-An indicator of `F' gives rise to Msg2.1.
+\subsubsection{Semantics:}\label{semantics-43}
+
+This function is provided only as a counterpart to Trap\_Termination; in
+itself it does nothing except return the response. An indicator of `F'
+gives rise to Msg2.1.
 
 \subsection{Config\_Halt\_Query}\label{config_halt_query}
 
-Syntax: Config Halt Query ()
+\subsubsection{Syntax:}\label{syntax-43}
 
-Semantics: Indicate whether external activity has requested a HALT
-condition to be raised. Set \#Outcome to `Yes if HALT is requested.
-Otherwise set \#Outcome to 'No'.
+Config Halt Query ()
 
-5.12.9 Config \_Halt\_Reset
+\subsubsection{Semantics:}\label{semantics-44}
 
-Syntax: Config Halt Reset ()
+Indicate whether external activity has requested a HALT condition to be
+raised. Set \#Outcome to `Yes if HALT is requested. Otherwise set
+\#Outcome to 'No'.
 
-Semantics:
+\subsection{Config \_Halt\_Reset}\label{config-_halt_reset}
+
+\subsubsection{Syntax:}\label{syntax-44}
+
+Config Halt Reset ()
+
+\subsubsection{Semantics:}\label{semantics-45}
 
 Reset the configuration so that further attempts to cause a HALT
 condition will be recognized.
 
 \subsection{Config \_NoSource}\label{config-_nosource}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-45}
 
 Config NoSource ()
 
-Semantics: Indicate whether the source of the program may or may not be
-output by the language processor. Set \#NoSource to `1' to indicate that
-the source of the program may not be output by the language processor,
-at various points in processing where it would otherwise be output.
-Otherwise, set \#NoSource to `0'. A configuration shall allow any
-program to be processed in such a way that Config\_NoSource() sets
-\#NoSource to `0'. A configuration may allow any program to be processed
-in such a way that Config\_NoSource() sets \#NoSource to `1'.
+\subsubsection{Semantics:}\label{semantics-46}
+
+Indicate whether the source of the program may or may not be output by
+the language processor. Set \#NoSource to `1' to indicate that the
+source of the program may not be output by the language processor, at
+various points in processing where it would otherwise be output.
+Otherwise, set \#NoSource to `0'.
+
+A configuration shall allow any program to be processed in such a way
+that Config\_NoSource() sets \#NoSource to `0'. A configuration may
+allow any program to be processed in such a way that Config\_NoSource()
+sets \#NoSource to `1'.
 
 \subsection{Config\_Time}\label{config_time}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-46}
 
 Config Time ()
 
-Semantics: Get a time stamp. Set \#Time to a string whose value is the
-integer number of microseconds that have elapsed between 00:00:00 on
-January first 0001 and the time that Config\_Time is called, at
-longitude zero. Values sufficient to allow for any date in the year 9999
-shall be supported. The value returned may be an approximation but shall
-not be smaller than the value returned by a previous use of the
-function.
+\subsubsection{Semantics:}\label{semantics-47}
+
+Get a time stamp. Set \#Time to a string whose value is the integer
+number of microseconds that have elapsed between 00:00:00 on January
+first 0001 and the time that Config\_Time is called, at longitude zero.
+Values sufficient to allow for any date in the year 9999 shall be
+supported. The value returned may be an approximation but shall not be
+smaller than the value returned by a previous use of the function.
 
 Set \#Adjust\textless Index ``\#Adjust'' \#``\,'' \textgreater{} to an
 integer number of microseconds. \#Adjust\textless Index ``\#Adjust'' \#
@@ -1183,26 +1590,50 @@ the date/time corresponding to \#Time. \#Time + \#Adjust\textless Index
 
 \subsection{Config\_Random\_Seed}\label{config_random_seed}
 
-Syntax: Config Random Seed (Seed)
+\subsubsection{Syntax:}\label{syntax-47}
 
-where: Seed is a sequence of up to \#Bif\_Digits. RANDOM digits.
-Semantics: Set a seed, so that subsequent uses of Config\_Random\_Next
-will reproducibly return quasi-random numbers.
+Config Random Seed (Seed)
+
+where:
+
+Seed is a sequence of up to \#Bif\_Digits. RANDOM digits.
+
+\subsubsection{Semantics:}\label{semantics-48}
+
+Set a seed, so that subsequent uses of Config\_Random\_Next will
+reproducibly return quasi-random numbers.
 
 \subsection{Config\_Random\_Next}\label{config_random_next}
 
-Syntax:
+\subsubsection{Syntax:}\label{syntax-48}
 
-Config Random Next (Min, Max) where: Min is the lower bound, inclusive,
-on the number returned in \#Outcome. Max is the upper bound, inclusive,
-on the number returned in \#Outcome. Semantics: Set \#Outcome to a
-quasi-random nonnegative integer in the range Min to Max.
+Config Random Next (Min, Max)
+
+where:
+
+Min is the lower bound, inclusive, on the number returned in \#Outcome.
+
+Max is the upper bound, inclusive, on the number returned in \#Outcome.
+
+\subsubsection{Semantics:}\label{semantics-49}
+
+Set \#Outcome to a quasi-random nonnegative integer in the range Min to
+Max.
 
 \subsection{Config\_Options}\label{config_options}
 
-Syntax: Config Options (String) where: String is a string. Semantics: No
-effect beyond the effects common to all Config\_ invocations. The value
-of the string will have come from an OPTIONS instruction, see nnn.
+\subsubsection{Syntax:}\label{syntax-49}
+
+Config Options (String)
+
+where:
+
+String is a string.
+
+\subsubsection{Semantics:}\label{semantics-50}
+
+No effect beyond the effects common to all Config\_ invocations. The
+value of the string will have come from an OPTIONS instruction, see nnn.
 
 \section{Traps}\label{traps}
 
@@ -1217,11 +1648,15 @@ Corresponding functions are called with the same interface, with one
 exception. The exception is that a trap may return a null string. When a
 trap returns a null string, the corresponding Config\_ function is
 invoked; otherwise the invocation of the trap replaces the potential
-invocation of the Config\_ function. In the rest of this standard, the
-trapping mechanism is not shown explicitly. It is implied by the use of
-a Config\_ function. The names of the traps are
+invocation of the Config\_ function.
+
+In the rest of this standard, the trapping mechanism is not shown
+explicitly. It is implied by the use of a Config\_ function.
+
+The names of the traps are
 
 \begin{itemize}
+\tightlist
 \item
   Trap\_Command;
 \item
@@ -1304,44 +1739,76 @@ return an error indication.
 
 \subsection{API Set}\label{api-set}
 
-Syntax: API Set(Symbol, Value) where: Symbol is a symbol. Value is the
-string whose value is to be assigned to the variable. Semantics: Assign
-the value of Value to the variable identified by Symbol. If Symbol
-contains no periods or contains one period as its last character: Var\_
-Set(\#Pool, Symbol, `0', Value) Otherwise: Var \_Set(\#Pool, \#Symbol,
-`1', Value) where: \#Symbol is Symbol after any replacements in the tail
-as described by nnn.
+\subsubsection{Syntax:}\label{syntax-50}
+
+API Set(Symbol, Value)
+
+where:
+
+Symbol is a symbol.
+
+Value is the string whose value is to be assigned to the variable.
+
+\subsubsection{Semantics:}\label{semantics-51}
+
+Assign the value of Value to the variable identified by Symbol. If
+Symbol contains no periods or contains one period as its last character:
+Var\_ Set(\#Pool, Symbol, `0', Value) Otherwise: Var \_Set(\#Pool,
+\#Symbol, `1', Value) where: \#Symbol is Symbol after any replacements
+in the tail as described by nnn.
 
 \subsection{API Value}\label{api-value}
 
-Syntax: API Value (Symbol)
+\subsubsection{Syntax:}\label{syntax-51}
 
-where: Symbol is a symbol. Semantics: Return the value of the variable
-identified by Symbol. If Symbol contains no periods or contains one
+API Value (Symbol)
+
+where:
+
+Symbol is a symbol.
+
+\subsubsection{Semantics:}\label{semantics-52}
+
+Return the value of the variable identified by Symbol. If Symbol
+contains no periods or contains one
 
 period as its last character this is the value of \#Outcome after: Var
 \_Value(\#Pool, Symbol, `0')
 
 Otherwise the value of \#Outcome after: Var Value(\#Pool, \#Symbol, `1')
-where: \#Symbol is Symbol after any replacements in the tail as
-described by nnn.
+
+where:
+
+\#Symbol is Symbol after any replacements in the tail as described by
+nnn.
 
 \subsection{API\_Drop}\label{api_drop}
 
-Syntax: API Drop (Symbol)
+\subsubsection{Syntax:}\label{syntax-52}
 
-where: Symbol is a symbol. Semantics: Drop the variable identified by
-Symbol. If Symbol contains no periods or contains one period as its last
-character: Var Drop(\#Pool, Symbol, `0') Otherwise: Var Drop(\#Pool,
-\#Symbol, `1') where: \#Symbol is Symbol after any replacements in the
-tail as described by nnn.
+API Drop (Symbol)
+
+where:
+
+Symbol is a symbol.
+
+\subsubsection{Semantics:}\label{semantics-53}
+
+Drop the variable identified by Symbol. If Symbol contains no periods or
+contains one period as its last character: Var Drop(\#Pool, Symbol, `0')
+Otherwise: Var Drop(\#Pool, \#Symbol, `1') where: \#Symbol is Symbol
+after any replacements in the tail as described by nnn.
 
 \subsection{API SetDirect}\label{api-setdirect}
 
-Syntax: API SetDirect (Symbol, Value)
+\subsubsection{Syntax:}\label{syntax-53}
+
+API SetDirect (Symbol, Value)
 
 where: Symbol is a direct symbol. Value is the string whose value is to
-be assigned to the variable. Semantics:
+be assigned to the variable.
+
+\subsubsection{Semantics:}\label{semantics-54}
 
 Assign the value of Value to the variable identified by Symbol. If the
 Symbol contains no period: Var\_ Set(\#Pool, Symbol, `0', Value)
@@ -1350,17 +1817,27 @@ Otherwise: Var\_ Set(\#Pool, Symbol, `1', Value)
 
 \subsection{API\_ValueDirect}\label{api_valuedirect}
 
-Syntax: API ValueDirect (Symbol)
+\subsubsection{Syntax:}\label{syntax-54}
 
-where: Symbol is a direct symbol. Semantics: Return the value of the
-variable identified by Symbol. If the Symbol contains no period: Var
-\_Value(\#Pool, Symbol, `0') Otherwise: Var \_Value(\#Pool, Symbol, `1')
+API ValueDirect (Symbol)
+
+where: Symbol is a direct symbol.
+
+\subsubsection{Semantics:}\label{semantics-55}
+
+Return the value of the variable identified by Symbol. If the Symbol
+contains no period: Var \_Value(\#Pool, Symbol, `0') Otherwise: Var
+\_Value(\#Pool, Symbol, `1')
 
 \subsection{API DropDirect}\label{api-dropdirect}
 
-Syntax: API DropDirect (Symbol)
+\subsubsection{Syntax:}\label{syntax-55}
 
-where: Symbol is a direct symbol. Semantics:
+API DropDirect (Symbol)
+
+where: Symbol is a direct symbol.
+
+\subsubsection{Semantics:}\label{semantics-56}
 
 Drop the variable identified by Symbol. If the Symbol contains no
 period: Var Drop(\#Pool, Symbol, `0')
@@ -1369,11 +1846,16 @@ Otherwise: Var Drop(\#Pool, Symbol, `1')
 
 \subsection{API ValueOther}\label{api-valueother}
 
-Syntax: API ValueOther (Qualifier) where: Qualifier is an indication
+\subsubsection{Syntax:}\label{syntax-56}
+
+API ValueOther (Qualifier) where: Qualifier is an indication
 distinguishing the result to be returned including any necessary further
-qualification. Semantics: Return characteristics of the program,
-depending on the value of Qualifier. The possibilities for the value to
-be returned are:
+qualification.
+
+\subsubsection{Semantics:}\label{semantics-57}
+
+Return characteristics of the program, depending on the value of
+Qualifier. The possibilities for the value to be returned are:
 
 \begin{itemize}
 \item
@@ -1388,9 +1870,11 @@ be returned are:
 
 \subsection{API Next}\label{api-next}
 
-Syntax: API Next ()
+\subsubsection{Syntax:}\label{syntax-57}
 
-Semantics:
+API Next ()
+
+\subsubsection{Semantics:}\label{semantics-58}
 
 Returns both the name and the value of some variable in the variable
 pool that does not have the attribute `dropped' or the attribute
@@ -1400,11 +1884,13 @@ return a name that has not previously been returned; the order is
 undefined. This process of returning different names will restart
 whenever the Rexx processor executes Var\_Reset.
 
-\subsection{API NextVariable}\label{api-nextvariable}
+\subsection{API\_NextVariable}\label{api_nextvariable}
 
-Syntax: API NextVariable()
+\subsubsection{Syntax:}\label{syntax-58}
 
-Semantics:
+\lstinputlisting[language=rexx,label=apinextvariable.rexx,caption=apinextvariable.rexx]{apinextvariable.rexx}
+
+\subsubsection{Semantics:}\label{semantics-59}
 
 Returns both the name and the value of some variable in the variable
 pool that does not have the attribute `dropped' or the attribute

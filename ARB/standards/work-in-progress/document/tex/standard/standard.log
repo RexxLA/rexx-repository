@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  28 FEB 2024 22:25
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  12 APR 2024 23:53
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1371,7 +1371,10 @@ LaTeX Warning: Label `purpose' multiply defined.
 LaTeX Warning: Label `notation' multiply defined.
 
 
-LaTeX Warning: Label `notation' multiply defined.
+LaTeX Warning: Label `syntax' multiply defined.
+
+
+LaTeX Warning: Label `callraisesyntax.rexx' multiply defined.
 
 ))
 \openout1 = `standard.aux'.
@@ -1494,7 +1497,7 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
 
 ))
-(../boilerplate/template.tex
+(|'inkscape' -V ) (../boilerplate/template.tex
 
 Package fontspec Info: Font family 'TeXGyrePagella(0)' created for font 'TeX
 (fontspec)             Gyre Pagella' with options [].
@@ -1573,13 +1576,13 @@ Package marginnote Warning: Consecutive odd pages found.
 
 Package marginnote Info: Using workaround for absolute page number on input lin
 e 25.
-) (./standard.toc [2
-
-])
+) (./standard.toc)
 \tf@toc=\write9
 \openout9 = `standard.toc'.
 
- [3]
+ [2
+
+]
 \openout2 = `structure.aux'.
 
  (./structure.tex (./foreword.tex
@@ -1587,7 +1590,7 @@ Chapter 1.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (3.06761pt too wide) in paragraph at lines 17--21
+Overfull \hbox (3.06761pt too wide) in paragraph at lines 20--24
 \TU/MinionPro(0)/m/n/12 typing and control structures which would contribute to
  rapid, efficient and accurate
  []
@@ -1598,19 +1601,7 @@ Warning: \Huger is more than \Huge.
 
 
 
-]
-
-Package marginnote Warning: Consecutive odd pages found.
-(marginnote)                Note, it is not recommended to use consecutive
-(marginnote)                odd pages in a double-ended document.
-(marginnote)                The pages of your document should always
-(marginnote)                be a sequence: odd-even-odd-even-...
-(marginnote)                Maybe you've forgotten a \cleardoublepage before
-(marginnote)                changing the page numbering on page 1.
-
-Package marginnote Info: Using workaround for absolute page number on input lin
-e 53.
-) (./introduction.tex [2]
+]) (./introduction.tex [2]
 Chapter 2.
 ) (./scope_purpose_and_application.tex [3
 
@@ -1644,6 +1635,8 @@ Chapter 4.
 
 ]
 Chapter 5.
+LaTeX Font Info:    Font shape `TU/IBMPlexMono(0)/m/n' will be
+(Font)              scaled to size 9.84009pt on input line 16.
 
 Overfull \hbox (7.49562pt too wide) in paragraph at lines 15--19
 []\TU/MinionPro(0)/m/n/12 The expressions (separated by commas) between the par
@@ -1675,7 +1668,7 @@ Chapter 6.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (26.22368pt too wide) in paragraph at lines 23--30
+Overfull \hbox (26.22368pt too wide) in paragraph at lines 23--29
 \TU/MinionPro(0)/m/n/12 Aside from the items listed here (and the assumed limit
 ation in resources of the configuration),
  []
@@ -1691,33 +1684,59 @@ Warning: \Huger is more than \Huge.
 Chapter 7.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-
-Overfull \hbox (10.32762pt too wide) in paragraph at lines 44--47
-[]\TU/MinionPro(0)/m/n/12 API_-is part of the application programming interface
- and is accessible from programs
- []
-
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (18.16365pt too wide) in paragraph at lines 56--59
+Overfull \hbox (18.16365pt too wide) in paragraph at lines 61--65
 \TU/MinionPro(0)/m/n/12 the language processor in variables. This does not cons
 train how a particular implementation
  []
 
 [12
 
-] [13]
+]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 86.
+
+Package fontspec Info: Font family 'Hack(0)' created for font 'Hack' with
+(fontspec)             options [].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"Hack/OT:script=latn;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"Hack/B/OT:script=latn;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->"Hack/I/OT:script=latn;language=dflt;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
+(fontspec)             <->"Hack/BI/OT:script=latn;language=dflt;"
+(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
+
+ (./raisesyntax.rexx)
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+LaTeX Font Info:    Font shape `TU/IBMPlexMono(0)/m/it' will be
+(Font)              scaled to size 9.84009pt on input line 118.
+(./rexxapistart.rexx)
+Warning: \Huger is more than \Huge.
+[13]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
+
+Overfull \hbox (0.21838pt too wide) in paragraph at lines 167--170
+[]\TU/MinionPro(0)/m/n/12 If the program was terminated due to a \TU/IBMPlexMon
+o(0)/m/n/12 RETURN \TU/MinionPro(0)/m/n/12 or \TU/IBMPlexMono(0)/m/n/12 EXIT \T
+U/MinionPro(0)/m/n/12 instruction without an expression
+ []
+
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
@@ -1742,7 +1761,32 @@ Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
 [15]
+Overfull \hbox (14.71161pt too wide) in paragraph at lines 319--324
+\TU/MinionPro(0)/m/it/12 negators\TU/MinionPro(0)/m/n/12 . \TU/MinionPro(0)/m/i
+t/12 Other_-negators \TU/MinionPro(0)/m/n/12 are determined by the configuratio
+n. Only the following characters
+ []
+
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
@@ -1752,7 +1796,10 @@ Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-[16]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./configsourcechar.rexx) [16] (./configotherblankcharacters.rexx) [17]
+Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
@@ -1761,7 +1808,7 @@ Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 
-Underfull \hbox (badness 1603) in paragraph at lines 379--382
+Underfull \hbox (badness 1603) in paragraph at lines 474--477
 []\TU/MinionPro(0)/m/n/12 ‘equal’ and Config_-Compare(b,c) produces ‘equal’ the
 n Config_-Compare(a,c)
  []
@@ -1769,54 +1816,12 @@ n Config_-Compare(a,c)
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-[17]
-Overfull \hbox (109.79163pt too wide) in paragraph at lines 440--450
-\TU/MinionPro(0)/m/n/12 Compare; otherwise let HighBound be Character2lf #Outco
-me after Config_-Compare(LowBound,HighBound)
- []
-
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 [18] [19]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-[20]
-Overfull \hbox (2.33075pt too wide) in paragraph at lines 591--594
-\TU/MinionPro(0)/m/n/12 provide one the indicator of the completion response is
- ‘H’. As a result SYNTAX condition
- []
-
-
-Overfull \hbox (0.42091pt too wide) in paragraph at lines 606--625
-\TU/MinionPro(0)/m/n/12 OOI has external classes explicitly via the ::CLASS abc
- EXTERNAL mechanism. Analogy
- []
-
-
-Overfull \hbox (28.47163pt too wide) in paragraph at lines 606--625
-\TU/MinionPro(0)/m/n/12 ExternalRoutine with Config_-ExternalMethod. There is a
- terminology clash on “environment”.
- []
-
-[21]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-[22]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
+[20] [21] [22]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
@@ -1824,134 +1829,208 @@ Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 [23]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-[24]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-
-Overfull \hbox (6.24368pt too wide) in paragraph at lines 887--891
-[]\TU/MinionPro(0)/m/n/12 Config Stream Qualified (Stream) where: Stream is the
- name of the stream to be processed.
+Overfull \hbox (2.33075pt too wide) in paragraph at lines 799--802
+\TU/MinionPro(0)/m/n/12 provide one the indicator of the completion response is
+ ‘H’. As a result SYNTAX condition
  []
 
+
+Overfull \hbox (0.42091pt too wide) in paragraph at lines 814--821
+\TU/MinionPro(0)/m/n/12 OOI has external classes explicitly via the ::CLASS abc
+ EXTERNAL mechanism. Analogy
+ []
+
+
+Underfull \vbox (badness 1097) has occurred while \output is active []
+
+ [24]
+Overfull \hbox (2.33075pt too wide) in paragraph at lines 878--881
+\TU/MinionPro(0)/m/n/12 provide one the indicator of the completion response is
+ ‘H’. As a result SYNTAX condition
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
 [25]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-
-Overfull \hbox (4.28357pt too wide) in paragraph at lines 932--936
-\TU/MinionPro(0)/m/n/12 some function which resets #Charin_-Position.Stream and
- #Linein_-Position.Stream. 
- []
-
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-
-Overfull \hbox (4.28357pt too wide) in paragraph at lines 949--956
-\TU/MinionPro(0)/m/n/12 some function which resets #Charin_-Position.Stream and
- #Linein_-Position.Stream.
- []
-
 [26]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 [27]
 Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
 
-Overfull \hbox (23.33154pt too wide) in paragraph at lines 1018--1025
+Overfull \hbox (7.01074pt too wide) in paragraph at lines 1080--1086
+\TU/MinionPro(0)/m/n/12 ‘CHARIN’ with the following additional possibility. If 
+end-of-line is detected any character
+ []
+
+[28] [29]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (6.24368pt too wide) in paragraph at lines 1196--1198
+\TU/MinionPro(0)/m/n/12 Config Stream Qualified (Stream) where: Stream is the n
+ame of the stream to be processed. 
+ []
+
+[30]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.28357pt too wide) in paragraph at lines 1263--1267
+\TU/MinionPro(0)/m/n/12 some function which resets #Charin_-Position.Stream and
+ #Linein_-Position.Stream. 
+ []
+
+[31]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (4.28357pt too wide) in paragraph at lines 1280--1287
+\TU/MinionPro(0)/m/n/12 some function which resets #Charin_-Position.Stream and
+ #Linein_-Position.Stream.
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[32]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (23.33154pt too wide) in paragraph at lines 1382--1389
 \TU/MinionPro(0)/m/n/12 #Limit_-Literal, #Limit_-Messagelnsert, #Limit_-Name, #
 Limit_-String, #Limit_-TraceData
  []
 
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-
-Overfull \hbox (16.39159pt too wide) in paragraph at lines 1079--1082
-[]\TU/MinionPro(0)/m/n/12 Semantics: Indicate whether external activity is requ
-esting interactive tracing. Set #Outcome
- []
-
-[28] [29]
-Overfull \hbox (3.87567pt too wide) in paragraph at lines 1178--1183
-[]\TU/MinionPro(0)/m/n/12 Set #Adjust<Index “#Adjust” #“” > to an integer numbe
-r of microseconds. #Adjust<Index
- []
-
-[30]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-[31] [32]
-Overfull \hbox (5.09962pt too wide) in paragraph at lines 1365--1367
-[]\TU/MinionPro(0)/m/n/12 Drop the variable identified by Symbol. If the Symbol
- contains no period: Var Drop(#Pool,
- []
-
-Warning: \Huger is more than \Huge.
 [33]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-) (./syntax_constructs.tex [34]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[34] [35] [36]
+Overfull \hbox (2.35077pt too wide) in paragraph at lines 1565--1569
+\TU/MinionPro(0)/m/n/12 NoSource() sets #NoSource to ‘0’. A configuration may a
+llow any program to be processed
+ []
+
+
+Overfull \hbox (3.97168pt too wide) in paragraph at lines 1578--1584
+\TU/MinionPro(0)/m/n/12 Get a time stamp. Set #Time to a string whose value is 
+the integer number of microseconds
+ []
+
+
+Overfull \hbox (3.87567pt too wide) in paragraph at lines 1585--1590
+[]\TU/MinionPro(0)/m/n/12 Set #Adjust<Index “#Adjust” #“” > to an integer numbe
+r of microseconds. #Adjust<Index
+ []
+
+[37]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[38]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[39] [40]
+Overfull \hbox (5.09962pt too wide) in paragraph at lines 1842--1844
+\TU/MinionPro(0)/m/n/12 Drop the variable identified by Symbol. If the Symbol c
+ontains no period: Var Drop(#Pool,
+ []
+
+[41]
+Overfull \hbox (10.17165pt too wide) in paragraph at lines 1857--1859
+\TU/MinionPro(0)/m/n/12 Return characteristics of the program, depending on the
+ value of Qualifier. The possibilities
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./apinextvariable.rexx)) (./syntax_constructs.tex [42]
 Chapter 8.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (4.95563pt too wide) in paragraph at lines 40--43
+Overfull \hbox (4.95563pt too wide) in paragraph at lines 51--54
 []\TU/MinionPro(0)/m/n/12 the postfix plus operator specifies one or more repet
 itions of the preceding construct; 
  []
 
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-[35
+[43
 
-]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-[36]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
+] (./ebnfgrouping.ebnf)
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (2.88364pt too wide) in paragraph at lines 135--142
+Overfull \hbox (0.42363pt too wide) in paragraph at lines 100--103
+[]\TU/MinionPro(0)/m/it/12 EOS \TU/MinionPro(0)/m/n/12 occurs at the end of the
+ source program. It is provided by \TU/IBMPlexMono(0)/m/n/12 Config_-SourceChar
+\TU/MinionPro(0)/m/n/12 ; 
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (7.95891pt too wide) in paragraph at lines 111--117
+[]\TU/MinionPro(0)/m/it/12 CONTINUE \TU/MinionPro(0)/m/n/12 occurs when the cha
+racter about to be scanned is []\TU/IBMPlexMono(0)/m/n/12 ,[]\TU/MinionPro(0)/m
+/n/12 , and the characters
+ []
+
+Warning: \Huger is more than \Huge.
+[44]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (2.88364pt too wide) in paragraph at lines 156--163
 \TU/MinionPro(0)/m/n/12 SYMBOL. Msg30.1 shall be produced if Const_-symbo! cont
 ains more than #Limit_-
  []
@@ -1961,167 +2040,115 @@ Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
+[45]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-[37]
-Overfull \hbox (8.58366pt too wide) in paragraph at lines 201--204
+
+Overfull \hbox (8.58366pt too wide) in paragraph at lines 222--225
 \TU/MinionPro(0)/m/n/12 In scanning, recognition that causes an action (see nnn
 ) only occurs if no other recognition
  []
 
+[46]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-[38]
-Overfull \hbox (18.33162pt too wide) in paragraph at lines 291--301
-[]\TU/MinionPro(0)/m/n/12 program := [label list] [ncl] [requires+] [prolog_-in
-struction+] (class definition [requires+])+
- []
-
-
-Overfull \hbox (34.74007pt too wide) in paragraph at lines 302--306
-\TU/MinionPro(0)/m/n/12 ‘DEPRECATED’ ‘EXTENDS’ ( NAME | Msgnn ) ‘USES’ ( NAMEli
-st | Msgnn ) | ‘IMPLEMENTS’
- []
-
-[39]
-Overfull \hbox (10.26277pt too wide) in paragraph at lines 314--336
-\TU/MinionPro(0)/m/n/12 constant | Msg19.15 ) submix = ‘MIXINCLASS’ ( taken con
-stant | Msg19.16 ) | ‘SUBCLASS’
- []
-
-
-Overfull \hbox (13.01291pt too wide) in paragraph at lines 314--336
-\TU/MinionPro(0)/m/n/12 [‘ENGINEERING’ | ‘SCIENTIFIC’] property agsignment := N
-AME | assignment properties
- []
-
-
-Overfull \hbox (0.80673pt too wide) in paragraph at lines 314--336
-\TU/MinionPro(0)/m/n/12 := ‘PROPERTIES’ ( properties option+ | Msgnn) propertie
-s option := properties vigibility
- []
-
-
-Overfull \hbox (16.54402pt too wide) in paragraph at lines 314--336
-\TU/MinionPro(0)/m/n/12 ‘INDIRECT’ properties modifier := ‘CONSTANT’ | ‘STATIC’
- | ‘VOLATILE’ | ‘TRANSIENT’
- []
-
-
-Overfull \hbox (10.5329pt too wide) in paragraph at lines 343--351
-[]\TU/MinionPro(0)/m/n/12 ‘DEPRECATED’! ‘CLASS’ | ‘ATTRIBUTE’ | /\TU/MinionPro(
-0)/m/it/12 ‘PRIVATE’ | \TU/MinionPro(0)/m/n/12 / guarded guarded := ‘GUARDED’
- []
-
-
-Overfull \hbox (18.31294pt too wide) in paragraph at lines 343--351
-\TU/MinionPro(0)/m/n/12 | ‘UNGUARDED! method visibility := ’INHERITABLE’ | ‘PRI
-VATE’ | ‘PUBLIC’ | ‘SHARED!’
- []
-
-
+(./syntaxlevel.ebnf [47]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [40]
-Overfull \hbox (2.30582pt too wide) in paragraph at lines 399--403
-\TU/MinionPro(0)/m/n/12 instruction | keyword instruction | command assignment 
-:= VAR SYMBOL ‘#’ expression
- []
-
-
-Overfull \hbox (1.64763pt too wide) in paragraph at lines 404--408
-[]\TU/MinionPro(0)/m/n/12 message instruction := message term | message term ‘#
-’ expression keyword instruction:=
- []
-
-
-Overfull \hbox (74.46674pt too wide) in paragraph at lines 456--471
-\TU/MinionPro(0)/m/n/12 ‘CONTINUE’ | ArrayArgOption | MessageOption | ClassOpti
-on | ToOption ArrayArgOption:=‘ARRAY’
- []
-
-
+ [48]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [41]
-Overfull \hbox (6.49692pt too wide) in paragraph at lines 479--498
-\TU/MinionPro(0)/m/n/12 list] push = ‘PUSH’ [expression] queue = ‘QUEUE’ [expre
-ssion] raise = ‘RAISE’ conditions
+ [49]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [50]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [51]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [52])
+Overfull \hbox (8.43562pt too wide) in paragraph at lines 328--333
+\TU/MinionPro(0)/m/it/12 specification \TU/MinionPro(0)/m/n/12 which is \TU/Min
+ionPro(0)/m/it/12 do_-repetitive\TU/MinionPro(0)/m/n/12 , otherwise a message (
+Msg28.2 or Msg28.1 respectively)
  []
 
 
-Overfull \hbox (1.24005pt too wide) in paragraph at lines 529--532
-[]\TU/MinionPro(0)/m/n/12 symbol = VAR_-SYMBOL | CONST SYMBOL | NUMBER expressi
-on = expr [(‘,’ Msg37.1)
+Underfull \vbox (badness 2644) has occurred while \output is active []
+
+ [53]
+Overfull \hbox (5.85379pt too wide) in paragraph at lines 365--373
+\TU/MinionPro(0)/m/n/12 specify the association of an []\TU/IBMPlexMono(0)/m/n/
+12 ELSE[] \TU/MinionPro(0)/m/n/12 keyword with an []\TU/IBMPlexMono(0)/m/n/12 I
+F[] \TU/MinionPro(0)/m/n/12 keyword. An []\TU/IBMPlexMono(0)/m/n/12 ELSE[] \TU/
+MinionPro(0)/m/n/12 associates
  []
 
-[42]
-Overfull \hbox (15.33965pt too wide) in paragraph at lines 537--551
-\TU/MinionPro(0)/m/n/12 comparison := concatenation | comparison comparison ope
-rator concatenation comparison
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+[54]
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (1.87637pt too wide) in paragraph at lines 445--451
+[]\TU/MinionPro(0)/m/n/12 if the word is []\TU/IBMPlexMono(0)/m/n/12 hex-encodi
+ng[] \TU/MinionPro(0)/m/n/12 and the message is not \TU/MinionPro(0)/m/it/12 Ms
+g23.1 \TU/MinionPro(0)/m/n/12 then the replacement
  []
 
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
 
-Overfull \hbox (6.3796pt too wide) in paragraph at lines 583--607
-\TU/MinionPro(0)/m/n/12 specification, otherwise a message (Msg28.1, Msg28.2, M
-sg28.3 or Msg28.4 appropriately)
+Overfull \hbox (3.91267pt too wide) in paragraph at lines 512--518
+[]\TU/MinionPro(0)/m/n/12 Replacement text is truncated to \TU/IBMPlexMono(0)/m
+/n/12 #Limit_-Messagelnsert \TU/MinionPro(0)/m/n/12 characters if it would othe
+rwise
  []
 
-[43]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-[44]
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-Warning: \Huger is more than \Huge.
-[45]) (./evaluation.tex [46]
+[55]) (./evaluation.tex
+Overfull \hbox (0.337pt too wide) in paragraph at lines 521--2
+\TU/MinionPro(0)/m/it/12 message_-instruction \TU/MinionPro(0)/m/n/12 has the c
+onstruction \TU/IBMPlexMono(0)/m/n/12 message_-term []=[] expression \TU/Minion
+Pro(0)/m/n/12 it is regarded
+ []
+
+[56]
 Chapter 9.
-[47
+(./datatypenum.rexx) (./ebfdatatype.ebnf) (./datatypesubject.rexx)
+(./callraisesyntax.rexx) [57
 
-] [48] [49] [50] [51]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 318.
-
-Package fontspec Info: Font family 'Hack(0)' created for font 'Hack' with
-(fontspec)             options [].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"Hack/OT:script=latn;language=dflt;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
-(fontspec)             - 'bold' (b/n) with NFSS spec.:
-(fontspec)             <->"Hack/B/OT:script=latn;language=dflt;"
-(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
-(fontspec)             - 'italic' (m/it) with NFSS spec.:
-(fontspec)             <->"Hack/I/OT:script=latn;language=dflt;"
-(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
-(fontspec)             - 'bold italic' (b/it) with NFSS spec.:
-(fontspec)             <->"Hack/BI/OT:script=latn;language=dflt;"
-(fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
-
- (./evaluation-datatype.rexx) [52]
+] (./varpoolempty.rexx) (./varsetzero.rexx)
+(./varsetone.rexx) (./varvaluezero.rexx) [58] (./varvalueone.rexx)
+(./vardropzero.rexx) (./vardropone.rexx) (./varexposezero.rexx)
+(./varexpose1.rexx) [59] (./varresetpool.rexx) (./tracinglevel.rexx)
+(./varpoolsymbol.rexx) (./derivednames.rexx [60])
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./varvalueplainsymbol.rexx) [61] (./evaluation-datatype.rexx) [62]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (21.69553pt too wide) in paragraph at lines 397--402
+Overfull \hbox (21.69553pt too wide) in paragraph at lines 429--434
 []\TU/MinionPro(0)/m/n/12 Config_-Compare(Config_-Subsir(rhs,n),Config_-Substr(
 Value,Config_-Length(Ihs)+n))
  []
 
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (5.21559pt too wide) in paragraph at lines 402--405
+Overfull \hbox (5.21559pt too wide) in paragraph at lines 434--437
 []\TU/MinionPro(0)/m/n/12 Config_-Length(Value) will be equal to Config_-Length
 (Ihs)+1+Config_-Length(rhs). 
  []
@@ -2131,934 +2158,158 @@ Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
 
-Overfull \hbox (37.95552pt too wide) in paragraph at lines 412--414
+Overfull \hbox (37.95552pt too wide) in paragraph at lines 444--446
 []\TU/MinionPro(0)/m/n/12 Config_-Compare(Config_-Subsitr(rhs,n),Config_-Substr
 (Value,Config_-Length(Ins)+1+n))
  []
 
-[53]
-Overfull \hbox (9.31166pt too wide) in paragraph at lines 431--435
+[63]
+Overfull \hbox (9.31166pt too wide) in paragraph at lines 463--467
 []\TU/MinionPro(0)/m/n/12 #Test is set to ‘E’. Let Length be the smaller of Con
 fig_-Length(Ihs) and Config_-Length(rhs).
  []
 
 
-Overfull \hbox (0.10364pt too wide) in paragraph at lines 444--446
+Overfull \hbox (0.10364pt too wide) in paragraph at lines 476--478
 []\TU/MinionPro(0)/m/n/12 If the comparison has a comparison_-operator that is 
 a normal_-compare then the variable
  []
 
 (./evaluation-comparison.rexx)
-Underfull \vbox (badness 1024) has occurred while \output is active []
-
- [54]
 Warning: \Huger is more than \Huge.
 Warning: \Huger is more than \Huge.
-[55] (./evaluation-arithmetic.rexx [56]
+[64] (./evaluation-arithmetic.rexx [65]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [57]
+ [66]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [58]
+ [67]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [59]
+ [68]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [60]
+ [69]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [61]
+ [70]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [62]
+ [71]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [63]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [64]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [65]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [66])
-Overfull \hbox (15.77158pt too wide) in paragraph at lines 565--569
-[]\TU/MinionPro(0)/m/n/12 From the left, if #ArgExists.#NewLevel.ArgNumber is ‘
-1’ then #Arg.#NewLevel.ArgNumber
- []
-
-
-Overfull \hbox (65.0716pt too wide) in paragraph at lines 570--573
-[]\TU/MinionPro(0)/m/n/12 #ArgExists.#NewLevel.0 is set to the largest ArgNumbe
-r for which #ArgExists.#NewLevel.ArgNumber
- []
-
-[67] [68] (./evaluation-selectmethod [69])) (./directives.tex
-Overfull \hbox (0.85164pt too wide) in paragraph at lines 697--2
-[]\TU/MinionPro(0)/m/n/12 The response from Config_-ExternalRoutine is processe
-d. If no conditions are (implicitly)
- []
-
-[70]
-Chapter 10.
-
-Overfull \hbox (6.60768pt too wide) in paragraph at lines 53--57
-[]\TU/MinionPro(0)/m/n/12 #Clause (Label) where: Label is a label in code used 
-by this standard to describe processing.
- []
-
-[71
-
-]
-Overfull \hbox (9.89168pt too wide) in paragraph at lines 60--63
-[]\TU/MinionPro(0)/m/n/12 Value identifies a label in code used by this standar
-d to describe processing. The description
- []
-
-
-Overfull \hbox (1.10678pt too wide) in paragraph at lines 102--110
-[]\TU/MinionPro(0)/m/n/12 The fourth parameter of API Start is used to determin
-e the arguments. For each argument
- []
-
-
-Overfull \hbox (43.47163pt too wide) in paragraph at lines 102--110
-\TU/MinionPro(0)/m/n/12 ArgNumber is the number of the argument position, count
-ing from 1. If #ArgExists.1.ArgNumber
- []
-
-
-Overfull \hbox (15.24365pt too wide) in paragraph at lines 111--113
-[]\TU/MinionPro(0)/m/n/12 Some of the values which affect processing of the pro
-gram are provided by the configuration:
- []
-
-[72]
+ [72]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [73]
-Overfull \hbox (30.73601pt too wide) in paragraph at lines 230--232
-[]\TU/MinionPro(0)/m/n/12 “Unexpected WHEN or OTHERWISE’ ‘WHEN has no correspon
-ding SELECT’ ‘OTHERWISE
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [74]
-Overfull \hbox (2.65157pt too wide) in paragraph at lines 304--306
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.19.2= #ErrorText.19.3= #ErrorText.19.4= #E
-rrorText.19.6= #ErrorText.19.7=
- []
-
-
-Overfull \hbox (2.65157pt too wide) in paragraph at lines 333--336
-\TU/MinionPro(0)/m/n/12 #ErrorText.25.3= #ErrorText.25.4= #ErrorText.25.5= #Err
-orText.25.6= #ErrorText.25.7= 
- []
-
-
-Overfull \hbox (1.79077pt too wide) in paragraph at lines 339--347
-[]\TU/MinionPro(0)/m/n/12 ‘matching THEN clause; found “”’ ‘String or symbol ex
-pected’ ‘String or symbol expected
- []
-
-
-Overfull \hbox (17.69783pt too wide) in paragraph at lines 339--347
-\TU/MinionPro(0)/m/n/12 after ADDRESS keyword;’, “found”“! ‘String or symbol ex
-pected after CALL keyword;’,”found
- []
-
-
-Overfull \hbox (2.6116pt too wide) in paragraph at lines 339--347
-\TU/MinionPro(0)/m/n/12 expected after REQUIRES;’, “found”“! ‘String or symbol 
-expected after METHOD;’,”found
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [75]
-Overfull \hbox (21.17561pt too wide) in paragraph at lines 355--358
-[]\TU/MinionPro(0)/m/n/12 expected after MIXINCLASS;‘, “found”“! ‘String or sym
-bol expected after SUBCLASS;’,”found
- []
-
-
+ [75])
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [76]
-Overfull \hbox (31.45154pt too wide) in paragraph at lines 450--453
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.25.11= #ErrorText.25.12= #ErrorText.25.13=
- #ErrorText.25.14= #ErrorText.25.15=
+(./tracinglevelF.rexx) (./tracinglevelM.rexx)
+Overfull \hbox (32.0226pt too wide) in paragraph at lines 602--608
+[]\TU/MinionPro(0)/m/n/12 From the left, if \TU/IBMPlexMono(0)/m/n/12 #ArgExist
+s.#NewLevel.ArgNumber \TU/MinionPro(0)/m/n/12 is []\TU/IBMPlexMono(0)/m/n/12 1[
+] \TU/MinionPro(0)/m/n/12 then \TU/IBMPlexMono(0)/m/n/12 #Arg.#NewLevel.ArgNumb
+er
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [77]
-Overfull \hbox (4.65561pt too wide) in paragraph at lines 565--567
-[]\TU/MinionPro(0)/m/n/12 ‘Name exceeds’ #Limit Name ‘characters’ “Literal stri
-ng exceeds’ #Limit Literal ‘characters’
+Overfull \hbox (7.3812pt too wide) in paragraph at lines 602--608
+\TU/MinionPro(0)/m/n/12 is set to the value of the corresponding expression. If
+ \TU/IBMPlexMono(0)/m/n/12 #ArgExists.#NewLevel.ArgNumber
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [78]
-Overfull \hbox (8.5117pt too wide) in paragraph at lines 627--629
-[]\TU/MinionPro(0)/m/n/12 ‘must be exactly “0” or “1”; found “”’ #ErrorText.35 
-= ‘Invalid expression’ #ErrorText.35.1=
+Overfull \hbox (81.10681pt too wide) in paragraph at lines 609--613
+[]\TU/IBMPlexMono(0)/m/n/12 #ArgExists.#NewLevel.0 \TU/MinionPro(0)/m/n/12 is s
+et to the largest \TU/IBMPlexMono(0)/m/n/12 ArgNumber \TU/MinionPro(0)/m/n/12 f
+or which \TU/IBMPlexMono(0)/m/n/12 #ArgExists.#NewLevel.ArgNumber
  []
 
-[79]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [80]
-Overfull \hbox (25.47166pt too wide) in paragraph at lines 742--744
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.40.42=‘ argument 1; cannot position on thi
-s stream;’, ‘found “”’ #ErrorText.40.45=‘
- []
-
-
-Overfull \hbox (37.23166pt too wide) in paragraph at lines 756--758
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.41.2= ‘Non-numeric value (“”)’, ‘to right 
-of arithmetic operation “”’ #ErrorText.41.3=
- []
-
-
-Overfull \hbox (0.9556pt too wide) in paragraph at lines 773--780
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.42 = ‘Arithmetic overflow/underflow’ #Erro
-rText.42.1l= ‘Arithmetic overflow
- []
-
-
-Overfull \hbox (9.34673pt too wide) in paragraph at lines 790--793
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.45 = ‘No data specified on function RETURN
-’ #ErrorText.45.1= ‘Data expected
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [81]
-Underfull \hbox (badness 1062) in paragraph at lines 797--799
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.47 = ‘Unexpected label’ #ErrorText.47.1l= 
-‘INTERPRET data must not
- []
-
-
-Overfull \hbox (21.53163pt too wide) in paragraph at lines 803--805
-[]\TU/MinionPro(0)/m/n/12 #ErrorText.49 = ‘Interpretation Error’ #ErrorText.49.
-1= ‘Interpretation Error: ’ #ErrorText.50
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [82]
-Overfull \hbox (3.17168pt too wide) in paragraph at lines 871--874
-[]\TU/MinionPro(0)/m/n/12 69 An environment is provided by the API_- Start to b
-ecome the initial active environment
- []
-
-
-Overfull \hbox (29.82579pt too wide) in paragraph at lines 884--888
-[]\TU/MinionPro(0)/m/n/12 #Enabling.SYNTAX.#Level = ‘OFF’ #Enabling.HALT.#Level
- = ‘OFF’ #Enabling.ERROR.#Level
- []
-
-
-Overfull \hbox (46.13557pt too wide) in paragraph at lines 889--905
-[]\TU/MinionPro(0)/m/n/12 #PendingNow.HALT.#Level = 0 #PendingNow.ERROR.#Level 
-= 0 #PendingNow.FAILURE.#Level
- []
-
-
-Overfull \hbox (10.35481pt too wide) in paragraph at lines 889--905
-\TU/MinionPro(0)/m/n/12 results from the CONDITION built-in function. */ #Condi
-tion.#Level = ’’ The opportunity
- []
-
-
-Overfull \hbox (12.68983pt too wide) in paragraph at lines 906--908
-[]\TU/MinionPro(0)/m/n/12 New instance of CLASS class added to list. Msg “Dupli
-cate ::CLASS directive instruction”(?)
- []
-
-
-Overfull \hbox (21.79564pt too wide) in paragraph at lines 927--930
-\TU/MinionPro(0)/m/n/12 case needs test of null body. OO! doesn’t have source (
-because it actually traps UNKNOWN?). 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [83]
-Overfull \hbox (0.22363pt too wide) in paragraph at lines 942--946
-[]\TU/MinionPro(0)/m/n/12 Extra step needed in the invocation search order. Alt
-hough this is nominally EXTERNAL
- []
-
-) (./instructions.tex [84]
-Chapter 11.
-
-Overfull \hbox (0.33966pt too wide) in paragraph at lines 25--28
-\TU/MinionPro(0)/m/n/12 If the routine is invoked as a function, #lsFunction.#N
-ewLevel shall be set to ‘1’, otherwise
- []
-
-
-Overfull \hbox (14.29114pt too wide) in paragraph at lines 46--49
-[]\TU/MinionPro(0)/m/n/12 do t=1 to 7 Condition = word(‘SYNTAX HALT ERROR FAILU
-RE NOTREADY NOVALUE
- []
-
-
-Overfull \hbox (75.21156pt too wide) in paragraph at lines 50--53
-[]\TU/MinionPro(0)/m/n/12 #Instruction.Condition.#NewLevel = #Instruction.Condi
-tion.#Level #TrapName.Condition.#NewLevel
- []
-
-
-Overfull \hbox (58.66754pt too wide) in paragraph at lines 50--53
-\TU/MinionPro(0)/m/n/12 = #TrapName.Condition.#Level #EventLevel.Condition.#New
-Level = #EventLevel.Condition.#Level
- []
-
-
-Overfull \hbox (98.78358pt too wide) in paragraph at lines 57--64
-[]\TU/MinionPro(0)/m/n/12 built-in function are copied. #Condition.#NewLevel = 
-#Condition.#Level #ConditionDescription.#NewLevel
- []
-
-
-Overfull \hbox (3.71956pt too wide) in paragraph at lines 57--64
-\TU/MinionPro(0)/m/n/12 = #ConditionDescription.#Level #ConditionExtra.#NewLeve
-l = #ConditionExtra.#Level
- []
-
-
-Overfull \hbox (8.69565pt too wide) in paragraph at lines 57--64
-\TU/MinionPro(0)/m/n/12 initialized routine continues at the new level of invoc
-ation. #Level = #NewLevel #NewLevel
- []
-
-[85
-
-]
-Overfull \hbox (21.04674pt too wide) in paragraph at lines 67--69
-\TU/MinionPro(0)/m/n/12 The clause is traced before execution: if pos(#Tracing.
-#Level, ‘AIR’) > 0 then call #TraceSource 
- []
-
-[86]
-Overfull \hbox (0.49875pt too wide) in paragraph at lines 129--134
-[]\TU/MinionPro(0)/m/n/12 If a TRACE instruction is executed within the string,
- the language processor immediately
- []
-
-[87]
-Overfull \hbox (3.95877pt too wide) in paragraph at lines 193--196
-\TU/MinionPro(0)/m/n/12 “environment” is used to refer to an environment name t
-ogether with the I/O redirections. 
- []
-
-
-Overfull \hbox (0.31953pt too wide) in paragraph at lines 215--225
-\TU/MinionPro(0)/m/it/12 (address, taken constant), & #Contains (address,valuee
-xp), & #Contains (address, ‘WITH’)
- []
-
-
-Overfull \hbox (15.35164pt too wide) in paragraph at lines 215--225
-\TU/MinionPro(0)/m/it/12 return end / \TU/MinionPro(0)/m/n/12 The environment n
-ame will be explicitly specified. */ if #Contains(address,taken
- []
-
-
-Overfull \hbox (21.59166pt too wide) in paragraph at lines 215--225
-\TU/MinionPro(0)/m/n/12 constant) then Name = #Instance(address, taken _- const
-ant) else Name = #Evaluate(valueexp,
- []
-
-
-Overfull \hbox (14.45474pt too wide) in paragraph at lines 247--250
-[]\TU/MinionPro(0)/m/n/12 AddressSetup: /* Note what is specified on the ADDRES
-S instruction, into the TRANSIENT
- []
-
-
-Overfull \hbox (29.74182pt too wide) in paragraph at lines 251--253
-[]\TU/MinionPro(0)/m/n/12 #Env_- Type.I.EnvTail = ‘NORMAL’ #Env_- Type.O.EnvTai
-l = ‘NORMAL’ #Env_- Type.E.EnvTail
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [88]
-Underfull \hbox (badness 1024) in paragraph at lines 258--260
-[]\TU/MinionPro(0)/m/n/12 #Env_-Position.I.EnvTail = ‘INPUT’ #Env_-Position.O.E
-nvTail = ‘REPLACE’ #Env_-
- []
-
-
-Overfull \hbox (68.51376pt too wide) in paragraph at lines 267--272
-\TU/MinionPro(0)/m/n/12 ‘STREAM’) then do #Env_-Type.I.EnvTail = ‘STREAM’ #Env_
--Resource.1.EnvTail=#Evaluate(resourcei,
- []
-
-
-Overfull \hbox (0.70767pt too wide) in paragraph at lines 280--283
-\TU/MinionPro(0)/m/n/12 of #Contains specifies that the relevant resourceo is u
-sed in NoteTarget. */ call NoteTarget
- []
-
-
-Overfull \hbox (27.42177pt too wide) in paragraph at lines 298--301
-[]\TU/MinionPro(0)/m/n/12 if #Contains(resourceo,‘STEM’) then do #Env_-Type.Whi
-ch.EnvTail=‘STEM’ Temp=#Instance
- []
-
-
-Overfull \hbox (1.08357pt too wide) in paragraph at lines 309--321
-\TU/MinionPro(0)/m/n/12 #Env_- Type.I.Lhs.LhsLevel = #Env_-Type.I.Rhs.RhsLevel 
-#Env_- Resource.I.Lhs.LhsLevel
- []
-
-
-Overfull \hbox (40.25957pt too wide) in paragraph at lines 309--321
-\TU/MinionPro(0)/m/n/12 = #Env_-Resource.I.Rhs.RhsLevel #Env_-Position.I.Lhs.Lh
-sLevel = #Env_-Position.I.Rhs.RhsLevel
- []
-
-
-Overfull \hbox (12.44356pt too wide) in paragraph at lines 309--321
-\TU/MinionPro(0)/m/n/12 #Env_- Type.O.Lhs.LhsLevel = #Env_-Type.O.Rhs.RhsLevel 
-#Env_-Resource.O.Lhs.LhsLevel
- []
-
-
-Overfull \hbox (53.43556pt too wide) in paragraph at lines 309--321
-\TU/MinionPro(0)/m/n/12 = #Env_-Resource.O.Rhs.RhsLevel #Env_-Position.O.Lhs.Lh
-sLevel = #Env_-Position.O.Rhs.RhsLevel
- []
-
-
-Overfull \hbox (7.43956pt too wide) in paragraph at lines 309--321
-\TU/MinionPro(0)/m/n/12 #Env_- Type.E.Lhs.LhsLevel = #Env_-Type.E.Rhs.RhsLevel 
-#Env_-Resource.E.Lhs.LhsLevel
- []
-
-
-Overfull \hbox (30.87953pt too wide) in paragraph at lines 309--321
-\TU/MinionPro(0)/m/n/12 #Env_-Resource.E.Rhs.RhsLevel #Env_-Position.E.Lhs.LhsL
-evel #Env_-Position.E.Rhs.RhsLevel
- []
-
-[89]
-Overfull \hbox (42.06764pt too wide) in paragraph at lines 373--375
-[]\TU/MinionPro(0)/m/n/12 If a callon_-spec is specified: If #Contains(call,cal
-lon spec) then do Condition = #Instance(callon_-
- []
-
-
-Overfull \hbox (85.18979pt too wide) in paragraph at lines 376--379
-[]\TU/MinionPro(0)/m/n/12 #Instruction.Condition.#Level = ‘CALL’ If #Contains(c
-allon spec, ‘OFF’) then #Enabling.Condition.#Level
- []
-
-[90]
-Overfull \hbox (1.13875pt too wide) in paragraph at lines 405--410
-\TU/MinionPro(0)/m/n/12 TRANSIENT \TU/MinionPro(0)/m/it/12 / / \TU/MinionPro(0)
-/m/n/12 This description does not require the command processor to understand
- []
-
-
-Overfull \hbox (2.53963pt too wide) in paragraph at lines 405--410
-\TU/MinionPro(0)/m/n/12 stems, so it uses an altered environment. */ call EnvAs
-sign PASSED, #Level, TRANSIENT,
- []
-
-! Undefined control sequence.
-<argument> ...Lines = value(Stem'0') if \datatype 
-                                                  (Lines,`W') then call \#Ra...
-l.415 call \#Raise `SYNTAX',54.1,Stem'0', Lines /}
-                                                   Use a stream for the stem
+(./callraisesyntax.rexx) [77] (./varset.rexx) (./evaluatemessageterm.rexx)
+(./evaluatemessagetermconstant.rexx) (./evaluatemessagtermsymbol.rexx [78])
+! Missing endcsname inserted.
+<to be read again> 
+                   textgreater 
+l.703 ...r]{messagemethodsearch.rexx-\textgreater}
+                                                  
 ? q
-OK, entering \batchmode...
-
-Overfull \hbox (22.6147pt too wide) in paragraph at lines 411--421
-[]\TU/MinionPro(0)/m/n/12 /* Note the command input. \TU/MinionPro(0)/m/it/12 /
- if #Env_-Type.I.EnvTail = ‘STEM’ then do / \TU/MinionPro(0)/m/n/12 Check reaso
-nableness
- []
-
-
-Overfull \hbox (1.71153pt too wide) in paragraph at lines 411--421
-\TU/MinionPro(0)/m/it/12 call #Raise ‘SYNTAX’,54.1,Stem’0’, Lines if Lines<0 th
-en call #Raise ‘SYNTAX’,54.1,Stem’0’,
- []
-
-! Undefined control sequence.
-<argument> / Lines=value (Stem'0'); if \datatype 
-                                                 (Lines,`W') then call \#Rai...
-l.431 ...', Lines end else call value Stem'0',O /}
-                                                   Use a
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (1.71153pt too wide) in paragraph at lines 428--434
-\TU/MinionPro(0)/m/it/12 call #Raise ‘SYNTAX’,54.1,Stem’0’, Lines if Lines<0 th
-en call #Raise ‘SYNTAX’,54.1,Stem’0’,
- []
-
-
-Overfull \hbox (16.1787pt too wide) in paragraph at lines 428--434
-\TU/MinionPro(0)/m/it/12 Lines end else call value Stem’0’,O / \TU/MinionPro(0)
-/m/n/12 Use a stream for the stem */ #Env_-Type.O.PASSED.#Level
- []
-
-! Undefined control sequence.
-l.442 if \datatype
-                  (Lines,`W') then call \#Raise `SYNTAX',54.1,Stem'0', Lines
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (28.72762pt too wide) in paragraph at lines 441--444
-\TU/MinionPro(0)/m/n/12 then call #Raise ‘SYNTAX’,54.1,Stem’0’, Lines if Lines<
-0 then call #Raise ‘SYNTAX’,54.1,Stem’0’,
- []
-
-
-Overfull \hbox (2.49878pt too wide) in paragraph at lines 445--448
-[]\TU/MinionPro(0)/m/n/12 end else call value Stem’0’,0O /* Use a stream for th
-e stem */ #Env_- Type.E.PASSED.#Level
- []
-
-
-Overfull \hbox (17.35164pt too wide) in paragraph at lines 457--459
-[]\TU/MinionPro(0)/m/n/12 #Response = Config Command (PASSED, Cmd) #Indicator =
- left (#Response,1) Description
- []
-
- [91]
-Overfull \hbox (14.35959pt too wide) in paragraph at lines 470--483
-\TU/MinionPro(0)/m/n/12 Error \TU/MinionPro(0)/m/it/12 / end call Var Set 0, ‘.
-RS’, 0, Temp / \TU/MinionPro(0)/m/n/12 Process the output \TU/MinionPro(0)/m/it
-/12 / if #Env_-Type.O.EnvTail=‘STEM’
- []
-
-
-Overfull \hbox (79.12354pt too wide) in paragraph at lines 470--483
-\TU/MinionPro(0)/m/it/12 #Env_-Resource.0O.PASSED.#Level do while lines (Output
-Stream) > 0 call value Stem’0O’,value(Stem’0’)4+1
- []
-
-
-Overfull \hbox (31.80759pt too wide) in paragraph at lines 470--483
-\TU/MinionPro(0)/m/n/12 (OutputStream) > 0 call value Stem’0O’,value(Stem’0’)4+
-1 call value Stem| |value(Stem’0’),linein
- []
-
-
-Overfull \hbox (5.87874pt too wide) in paragraph at lines 484--489
-\TU/MinionPro(0)/m/n/12 > 0 then call #Trace ‘+++’ if (#Indicator == ‘N’ & #Tra
-cing.#Level==‘E’), | (#Indicator==‘F’
- []
-
-! Undefined control sequence.
-l.520 specification, repexpr) then if \datatype
-                                               (repexpr,`W') then call \#Raise
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (26.22362pt too wide) in paragraph at lines 516--529
-\TU/MinionPro(0)/m/n/12 (OnceLabel) #Leave.#Loop = #Clause (LeaveLabel) if #Con
-tains (do specification,assignment)
- []
-
-
-Overfull \hbox (21.35382pt too wide) in paragraph at lines 516--529
-\TU/MinionPro(0)/m/n/12 then #Identity.#Loop = #Instance(assignment, VAR SYMBOL
-) if #Contains (do specification,
- []
-
-
-Overfull \hbox (20.83475pt too wide) in paragraph at lines 516--529
-\TU/MinionPro(0)/m/n/12 repexpr) then if (repexpr,‘W’) then call #Raise ‘SYNTAX
-’, 26.2,repexpr else do #Repeat.#Loop
- []
-
-
-Overfull \hbox (16.00362pt too wide) in paragraph at lines 516--529
-\TU/MinionPro(0)/m/n/12 ‘SYNTAX’, 41.6, #StartValue.#Loop #StartValue.#Loop = #
-StartValue.#Loop + 0 if #Contains
- []
-
- [92]
-! Undefined control sequence.
-l.537 ...cification, forexpr) then do if \datatype
-                                                  (forexpr,
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (30.08766pt too wide) in paragraph at lines 545--548
-[]\TU/MinionPro(0)/m/n/12 #Repeat.#Loop = #OverArray~items /* Count this downwa
-rds as if repexpr. */ #Iidentity.#Loop
- []
-
-
-Overfull \hbox (2.07562pt too wide) in paragraph at lines 553--555
-[]\TU/MinionPro(0)/m/n/12 if #Contains (do specification, untilexpr) then do Va
-lue = #Evaluate(untilexp, expression) 
- []
-
-
-Overfull \hbox (14.78674pt too wide) in paragraph at lines 562--564
-[]\TU/MinionPro(0)/m/n/12 if #Indicator == ‘D’ then call #Raise ‘NOVALUE’, #Ide
-ntity.#Loop call value #Identity.#Loop,
- []
-
-
-Overfull \hbox (38.91164pt too wide) in paragraph at lines 567--571
-[]\TU/MinionPro(0)/m/n/12 if #Contains (do specification, toexpr) then do if #B
-y.#Loop>=0 then do if value(#Identity.#Loop)
- []
-
-
-Overfull \hbox (42.55164pt too wide) in paragraph at lines 572--580
-\TU/MinionPro(0)/m/n/12 #For.#Loop - 1 end if #Contains (do specification, whil
-eexpr) then do Value = #Evaluate(whileexp,
- []
-
-
-Underfull \vbox (badness 1348) has occurred while \output is active []
-
- [93] [94] [95]
-Overfull \hbox (18.13875pt too wide) in paragraph at lines 758--760
-[]\TU/MinionPro(0)/m/n/12 The INTERPRET instruction is used to execute instruct
-ions that have been built dynamically
- []
-
-
-Overfull \hbox (4.53163pt too wide) in paragraph at lines 772--774
-[]\TU/MinionPro(0)/m/n/12 If that recognition would produce any message then th
-e interpret raises the corresponding
- []
-
-
-Underfull \vbox (badness 4254) has occurred while \output is active []
-
- [96] [97]
-! Undefined control sequence.
-l.838 if \datatype
-                  (Value,`W') then
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.874 ...z,expression) else Value = 0 If \datatype
-                                                  (Value,`W') then
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (0.38359pt too wide) in paragraph at lines 873--879
-[]\TU/MinionPro(0)/m/n/12 If #Contains (numericfuzz,expression) then Value = #E
-valuate (numericfuzz,expression)
- []
-
-
-Underfull \vbox (badness 1178) has occurred while \output is active []
-
- [98]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [99]
-Overfull \hbox (27.2436pt too wide) in paragraph at lines 962--964
-[]\TU/MinionPro(0)/m/n/12 Data=substr (ToParse,DataStart, DataEnd-DataStart) ca
-ll WordParse /* Does the assignments.
- []
-
-
-Overfull \hbox (16.83963pt too wide) in paragraph at lines 965--969
-[]\TU/MinionPro(0)/m/n/12 end /* while \TU/MinionPro(0)/m/it/12 / if Template.T
-ok == ‘,’ then leave / \TU/MinionPro(0)/m/n/12 Continue with next source. */ To
-ken=Token+1
- []
-
-
-Overfull \hbox (42.39969pt too wide) in paragraph at lines 979--982
-\TU/MinionPro(0)/m/n/12 introduces a pattern which is not a constant. */ Token 
-= Token+1 Pattern = value(Template.Token) 
- []
-
-
-Overfull \hbox (63.11566pt too wide) in paragraph at lines 988--995
-[]\TU/MinionPro(0)/m/n/12 /* The following removes the outer quotes from the li
-teral pattern \TU/MinionPro(0)/m/it/12 / interpret “Pattern=”Template.Token
- []
-
-! Undefined control sequence.
-l.1016 \datatype
-                 (BreakStart,`W')
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [100]
-! Undefined control sequence.
-l.1069 if \Target
-                 .NextTok then do call Assign (Data)
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (20.42365pt too wide) in paragraph at lines 1095--1100
-[]\TU/MinionPro(0)/m/n/12 end Tok=Token /* Next time start on new part of templ
-ate. \TU/MinionPro(0)/m/it/12 / return Assign: if Template.Tok==‘.’
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [101] [102]
-Overfull \hbox (2.93874pt too wide) in paragraph at lines 1191--1193
-\TU/MinionPro(0)/m/n/12 The RAISE instruction returns from the current method o
-r routine and raises a condition. 
- []
-
-
-Overfull \hbox (11.36359pt too wide) in paragraph at lines 1199--1207
-\TU/MinionPro(0)/m/n/12 evaluated: if #Contains(return,expression) then #Outcom
-e = #Evaluate(return, expression) 
- []
-
- [103]
-Overfull \hbox (98.2858pt too wide) in paragraph at lines 1278--1281
-[]\TU/MinionPro(0)/m/n/12 #Instruction.Condition.#Level = ‘SIGNAL’ If #Contains
- (signal spec, ‘OFF’) then #Enabling.Condition.#Level
- []
-
-
-Overfull \hbox (7.63164pt too wide) in paragraph at lines 1289--1291
-[]\TU/MinionPro(0)/m/n/12 If there was a signal_-spec this complete the process
-ing of the signal instruction. Otherwise:
- []
-
- [104]
-! Undefined control sequence.
-l.1328 \datatype
-                (Value,`W') then call \#Raise `SYNTAX', 26.7, Value if
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (20.99559pt too wide) in paragraph at lines 1323--1338
-[]\TU/MinionPro(0)/m/n/12 Config_-Trace_-Input) and interactive trace is reques
-ted (#Interactive.#Level = ‘1’). Otherwise:
- []
-
-
-Overfull \hbox (33.68771pt too wide) in paragraph at lines 1323--1338
-\TU/MinionPro(0)/m/n/12 #TraceInstruction = ‘1’ value = ’’ if #Contains(trace, 
-valueexp) then Value = #Evaluate(valueexp,
- []
-
- [105]
-Overfull \hbox (5.38364pt too wide) in paragraph at lines 1359--1390
-\TU/MinionPro(0)/m/n/12 greater than zero, #TraceSource does nothing except dec
-rement #InhibitTrace. Otherwise,
- []
-
-
-Overfull \hbox (22.60365pt too wide) in paragraph at lines 1410--1415
-\TU/MinionPro(0)/m/n/12 phase. These are error conditions recognized by the lan
-guage processor, but the circumstances
- []
-
- [106]
-Overfull \hbox (0.93875pt too wide) in paragraph at lines 1427--1430
-[]\TU/MinionPro(0)/m/n/12 Some of the arguments may be omitted. In the case of 
-condition ‘SYNTAX’ the arguments
- []
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1454 boundary. */ if \arg
-                           (1,`E') then do Description = \#PendingDescription.
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 1454.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 1454.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 1454.
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1456 
-       
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (51.32088pt too wide) in paragraph at lines 1452--1456
-\TU/MinionPro(0)/m/n/12 the condition occurred until an appropriate clause boun
-dary. */ if $[]\OT1/cmr/m/n/12 (1\OML/cmm/m/it/12 ; []E[]\OT1/cmr/m/n/12 )\OML/
-cmm/m/it/12 thendoDescription \OT1/cmr/m/n/12 =
- []
-
-
-Overfull \hbox (27.7877pt too wide) in paragraph at lines 1452--1456
-[]\OML/cmm/m/it/12 PendingDescription:[]Condition:[]LevelExtra \OT1/cmr/m/n/12 
-= []\OML/cmm/m/it/12 PendingExtra:[]Condition:[]Level$ 
- []
-
-
-Overfull \hbox (50.51164pt too wide) in paragraph at lines 1459--1462
-[]\TU/MinionPro(0)/m/n/12 Description = arg(2) Extra = arg(3) end else do Descr
-iption = #Message(arg(2),arg(3),arg(4),arg(5))
- []
-
-
-Overfull \hbox (7.53464pt too wide) in paragraph at lines 1466--1471
-\TU/MinionPro(0)/m/it/12 == ‘HALT’ then Description = #Message(4.1, Description
-) exit / \TU/MinionPro(0)/m/n/12 Terminate with Description
- []
-
-
-Overfull \hbox (3.7076pt too wide) in paragraph at lines 1474--1479
-\TU/MinionPro(0)/m/n/12 = Description #ConditionExtra.#Level = Extra #Condition
-Instruction.#Level = ‘SIGNAL’
- []
-
-
-Overfull \hbox (39.43771pt too wide) in paragraph at lines 1482--1500
-\TU/MinionPro(0)/m/it/12 == ‘DELAYED’ then do if #Condition == ‘HALT’ then retu
-rn EventLevel = #EventLevel.#Condition.
- []
-
-
-Overfull \hbox (14.4436pt too wide) in paragraph at lines 1482--1500
-\TU/MinionPro(0)/m/n/12 the one being handled. \TU/MinionPro(0)/m/it/12 / end /
- \TU/MinionPro(0)/m/n/12 Record a delayed event. \TU/MinionPro(0)/m/it/12 / #Pe
-ndingNow.#Condition.EventLevel
- []
-
-
-Overfull \hbox (58.0435pt too wide) in paragraph at lines 1482--1500
-\TU/MinionPro(0)/m/it/12 = ‘1’ #PendingDescription.#Condition.EventLevel = Desc
-ription #PendingExtra.#Condition.EventLevel
- []
-
-
-Overfull \hbox (11.64273pt too wide) in paragraph at lines 1482--1500
-\TU/MinionPro(0)/m/n/12 action after delay. \TU/MinionPro(0)/m/it/12 / / \TU/Mi
-nionPro(0)/m/n/12 Values for the CONDITION built-in function. \TU/MinionPro(0)/
-m/it/12 / #Condition.#NewLevel
- []
-
-
-Underfull \hbox (badness 1721) in paragraph at lines 1482--1500
-\TU/MinionPro(0)/m/it/12 = #Condition #ConditionDescription.#NewLevel = #Pendin
-gDescription. #Condition.
- []
-
-
-Overfull \hbox (80.06352pt too wide) in paragraph at lines 1482--1500
-\TU/MinionPro(0)/m/it/12 #Level #ConditionExtra.#NewLevel = #PendingExtra.#Cond
-ition. #Level #ConditionInstruction.#NewLevel
- []
-
- [107])) [108] (../boilerplate/acknowledgements.tex
-Underfull \hbox (badness 5924) in paragraph at lines 4--7
-[]\TU/MinionPro(0)/m/n/9 RexxLA thanks everybody who has been involved
- []
-
- [109
-
-
-
-
-]) (./standard.ind [110
-
-]
-LaTeX Font Info:    Font shape `TU/IBMPlexMono(0)/m/n' will be
-(Font)              scaled to size 7.38007pt on input line 3.
-) [111
-
-
-]
-Overfull \hbox (62.66872pt too wide) in paragraph at lines 35--36
-[][] 
- []
-
- [112
-
-
-] (./standard.aux (./structure.aux))
-
-LaTeX Warning: There were multiply-defined labels.
-
-
-Package rerunfilecheck Warning: File `standard.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `standard.out':
-(rerunfilecheck)             Before: 70048636F02EE80BBE83267E7C975F09;6948
-(rerunfilecheck)             After:  8C025C13E944799B8BDA618B344B6982;7113.
- ) ) 
+OK, entering batchmode...
+! Use of ??? doesn't match its definition.
+<argument> ???  
+                ! LaTeX Error: textgreater invalid in file name. Lost: fi .
+l.703 ...r]{messagemethodsearch.rexx-\textgreater}
+                                                  
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing endcsname inserted.
+<to be read again> 
+                   textgreater 
+l.703 ...r]{messagemethodsearch.rexx-\textgreater}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+! Use of ??? doesn't match its definition.
+<argument> ???  
+                ! LaTeX Error: textgreater invalid in file name. Lost: fi .
+l.703 ...r]{messagemethodsearch.rexx-\textgreater}
+                                                  
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing endcsname inserted.
+<to be read again> 
+                   textgreater 
+l.703 ...r]{messagemethodsearch.rexx-\textgreater}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+! Use of ??? doesn't match its definition.
+<argument> ???  
+                ! LaTeX Error: textgreater invalid in file name. Lost: fi .
+l.703 ...r]{messagemethodsearch.rexx-\textgreater}
+                                                  
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+
+! Package Listings Error: File `messagemethodsearch(.rexx-\TU\textgreater )' no
+t found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: rexx-\TU\textgreater )
+
+ Enter file name: 
+! Emergency stop.
+<read *> 
+         
+l.703 ...r]{messagemethodsearch.rexx-\textgreater}
+                                                  ^^M
+*** (cannot \read from terminal in nonstop modes)
+
+ 
 Here is how much of TeX's memory you used:
- 36359 strings out of 476683
- 723940 string characters out of 5804048
- 2113018 words of memory out of 5000000
- 55790 multiletter control sequences out of 15000+600000
- 518321 words of font info for 126 fonts, out of 8000000 for 9000
+ 37124 strings out of 476683
+ 735117 string characters out of 5804048
+ 2195018 words of memory out of 5000000
+ 56480 multiletter control sequences out of 15000+600000
+ 515569 words of font info for 115 fonts, out of 8000000 for 9000
  1371 hyphenation exceptions out of 8191
- 107i,8n,108p,1862b,2530s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-Output written on standard.pdf (116 pages).
+ 107i,8n,108p,698b,2532s stack positions out of 10000i,1000n,20000p,200000b,200000s
+Output written on standard.pdf (81 pages).

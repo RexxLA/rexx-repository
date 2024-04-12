@@ -12,352 +12,323 @@ These objects provide the basis for class structure.
 
 \subsection{The object class}\label{the-object-class}
 
-::class object
+\lstinputlisting[language=rexx,label=object.rexx,caption=object.rexx]{object.rexx}
 
-::method new class Returns a new instance of the receiver class.
+Returns a new instance of the receiver class.
 
-call Config ObjectNew return \#Outcome
+\lstinputlisting[language=rexx,label=config.rexx,caption=config.rexx]{config.rexx}
 
-::method `==' `==' with no argument gives a hash value in OOI.
+\emph{\texttt{\textquotesingle{}==\textquotesingle{}} with no argument
+gives a hash value in OOI.}
 
-call Config ObjectCompare \#Receiver, \#Arg.1
+\lstinputlisting[language=rexx,label=doubleequals.rexx,caption=doubleequals.rexx]{doubleequals.rexx}
 
-if \#Outcome == `equal' then return `1'
+Returns a copy of the receiver object. The copied object has the same
+methods as the receiver object and an equivalent set of object
+variables, with the same values.
 
-else return `0'
+\lstinputlisting[language=rexx,label=objectcopy.rexx,caption=objectcopy.rexx]{objectcopy.rexx}
 
-::method `\textless\textgreater!'
+\emph{Since we have \texttt{var\_empty} we could save a primitive by
+rendering `new' as `copy' plus `empty'.}
 
-use arg a
-
-return \self==a
-
-::method `\textgreater\textless{}' forward message
-`\textless\textgreater{}'
-
-::method `=' forward message `=='
-
-::method `=! forward message'\textless\textgreater'
-
-::method `==' forward message `\textless\textgreater{}'
-
-::method copy Returns a copy of the receiver object. The copied object
-has the same methods as the receiver object and an equivalent set of
-object variables, with the same values.
-
-call Config ObjectCopy \#Receiver
-
-return \#Outcome
-
-Since we have var\_empty we could save a primitive by rendering `new' as
-`copy' plus `empty'. ::method defaultname
+\lstinputlisting[language=rexx,label=defaultname.rexx,caption=defaultname.rexx]{defaultname.rexx}
 
 Returns a short human-readable string representation for the object.
 
-call var\_value \#Receiver, `\#Human', `0'
+\lstinputlisting[language=rexx,label=receiver.rexx,caption=receiver.rexx]{receiver.rexx}
 
-return \#Outcome
+\emph{This field would have been filled in at `NEW' time.}
 
-This field would have been filled in at `NEW' time.
-
-::method `OBJECTNAMES' /* rvSTRING */
+\lstinputlisting[language=rexx,label=objectnames.rexx,caption=objectnames.rexx]{objectnames.rexx}
 
 Sets the receiver object's name to the specified string.
 
-call var\_set \#Receiver, \#ObjectName, `0', \#Arg.1 return
+\lstinputlisting[language=rexx,label=varset.rexx,caption=varset.rexx]{varset.rexx}
 
-Initialized to \#Human? Or ObjectName does forwarding until assigned to?
+\emph{Initialized to \#Human? Or ObjectName does forwarding until
+assigned to?}
 
-::method objectname
+\lstinputlisting[language=rexx,label=objectname,caption=objectname]{objectname}
 
-Returns the receiver object's name (which the OBJECTNAME= method sets).
-call var\_value \#Receiver, \#ObjectName, `0' return \#Outcome
+Returns the receiver object's name (which the \texttt{OBJECTNAME=}
+method sets).
 
-::method string
+\lstinputlisting[language=rexx,label=receiverObjectName.rexx,caption=receiverObjectName.rexx]{receiverObjectName.rexx}
 
-Returns a human-readable string representation for the object. return
-\#Receiver\textasciitilde ObjectName
+Returns a human-readable string representation for the object.
 
-::method class Returns the class object that received the message that
-created the object.
+\lstinputlisting[language=rexx,label=methodclass.rexx,caption=methodclass.rexx]{methodclass.rexx}
 
-call var value \#Receiver, \#IsA, `0' return \#Outcome
+Returns the class object that received the message that created the
+object.
 
-::method setmethod /* rSTRING oSTRING/METHOD/ARRAY */ Adds a method to
-the receiver object's collection of object methods.
+\lstinputlisting[language=rexx,label=setmethod.rexx,caption=setmethod.rexx]{setmethod.rexx}
 
-Is `object methods' what is intended; you add to a class without adding
-to its instance methods? Yes. if \#ArgExists.2 then m = Arg.2
+Adds a method to the receiver object's collection of object methods.
 
-else m = .NIL call set\_var \#Receiver, `METHODS.'\#Arg.1, `1', m return
-::method hasmethod /* rSTRING */
+\emph{Is `object methods' what is intended; you add to a class without
+adding to its instance methods? Yes.}
+
+\lstinputlisting[language=rexx,label=hasmethod.rexx,caption=hasmethod.rexx]{hasmethod.rexx}
 
 Returns 1 (true) if the receiver object has a method with the specified
 name (translated to uppercase); otherwise, returns 0 (false).
 
-This presumably means inherited as well as SETMETHOD ones. What about
-ones set to .NIL?
+\emph{This presumably means inherited as well as \texttt{SETMETHOD}
+ones. What about ones set to \texttt{.NIL}?}
 
-Need to use the same search as for sending.
+\emph{Need to use the same search as for sending.}
 
-::method unsetmethod private
+\lstinputlisting[language=rexx,label=unsetmethod.rexx,caption=unsetmethod.rexx]{unsetmethod.rexx}
 
 Removes a method from the receiver object's collection of object
-methods. Use var\_drop
+methods.
 
-Private means Receiver = Self check.
+\emph{Use \texttt{var\_drop}}
 
-::method request /* rSTRING */ Returns an object of the specified class,
-or the NIL object if the request cannot be satisfied. t = `MAKE'\#Arg.1
+\emph{Private means Receiver = Self check.}
 
-if \#Receiver\textasciitilde hasmethod(t) then return .NIL forward
-message(t) array ()
+\lstinputlisting[language=rexx,label=requestmethod.rexx,caption=requestmethod.rexx]{requestmethod.rexx}
 
-::method run private /* rMETHOD Ugh keyoptions */ Runs the specified
-method. The method has access to the object variables of the receiver
-object, just as if the receiver object had defined the method by using
-SETMETHOD.
+Returns an object of the specified class, or the \texttt{NIL} object if
+the request cannot be satisfied.
 
-::smethod startat Undocumented?
+\lstinputlisting[language=rexx,label=runmethod.rexx,caption=runmethod.rexx]{runmethod.rexx}
 
-::method start /* rMESSAGE oArglist */
+Runs the specified method. The method has access to the object variables
+of the receiver object, just as if the receiver object had defined the
+method by using \texttt{SETMETHOD}.
 
-Returns a message object and sends it a START message to start
-concurrent processing. ::method init
+\lstinputlisting[language=rexx,label=startat.rexx,caption=startat.rexx]{startat.rexx}
+
+Returns a message object and sends it a \texttt{START} message to start
+concurrent processing.
+
+\lstinputlisting[language=rexx,label=init.rexx,caption=init.rexx]{init.rexx}
 
 Performs any required object initialization.
 
 \subsection{The class class}\label{the-class-class}
 
-::class class
+\lstinputlisting[language=rexx,label=classclass.rexx,caption=classclass.rexx]{classclass.rexx}
 
-Lots of these methods are both class and instance. \textbar{} don't know
-whether to list them twice. ::method new class /* OARGLIST */
+\emph{Lots of these methods are both class and instance. I don't know
+whether to list them twice.}
+
+\lstinputlisting[language=rexx,label=newclass.rexx,caption=newclass.rexx]{newclass.rexx}
 
 Returns a new instance of the receiver class, whose object methods are
 the instance methods of the class. This method initializes a new
-instance by running its INIT methods.
+instance by running its \texttt{INIT} methods.
 
-::method subclass class
+\lstinputlisting[language=rexx,label=subclassclass.rexx,caption=subclassclass.rexx]{subclassclass.rexx}
 
 Returns a new subclass of the receiver class.
 
-::method subclasses class
+\lstinputlisting[language=rexx,label=immediatesubclass,caption=immediatesubclass]{immediatesubclass}
 
 Returns the immediate subclasses of the receiver class in the form of a
 single-index array of the required size.
 
-::method define class /* rSTRING oMETHOD */
+\lstinputlisting[language=rexx,label=defineclass.rexx,caption=defineclass.rexx]{defineclass.rexx}
 
 Incorporates the method object in the receiver class's collection of
 instance methods. The method name is translated to upper case.
 
-::method delete
+\lstinputlisting[language=rexx,label=deleteclass.rexx,caption=deleteclass.rexx]{deleteclass.rexx}
 
 Removes the receiver class's definition for the method name specified.
 
-Builtin classes cannot be altered.
+\emph{Builtin classes cannot be altered.}
 
-::method method class /* rSTRING */
+\lstinputlisting[language=rexx,label=methodmethod.rexx,caption=methodmethod.rexx]{methodmethod.rexx}
 
 Returns the method object for the receiver class's definition for the
 method name given.
 
-Do we have to keep saying ``method object'' as opposed to ``method''
-because ``method name'' exists? ::method querymixinclass
+\emph{Do we have to keep saying ``method object'' as opposed to
+``method'' because ``method name'' exists?}
+
+\lstinputlisting[language=rexx,label=querymixin.rexx,caption=querymixin.rexx]{querymixin.rexx}
 
 Returns 1 (true) if the class is a mixin class or 0 (false) otherwise.
 
-::method mixinclass class /* 3 of em */
+\lstinputlisting[language=rexx,label=newmixinclass.rexx,caption=newmixinclass.rexx]{newmixinclass.rexx}
 
 Returns a new mixin subclass of the receiver class.
 
-::method inherit class /* rCLASS oCLASS */
+\lstinputlisting[language=rexx,label=inheritclass.rexx,caption=inheritclass.rexx]{inheritclass.rexx}
 
 Causes the receiver class to inherit the instance and class methods of
-the class object specified. The
+the class object specified. The optional class is a class object that
+specifies the position of the new superclass in the list of
+superclasses.
 
-optional class is a class object that specifies the position of the new
-superclass in the list of superclasses. ::method uninherit class /*
-rCLASSOBJ */
+\lstinputlisting[language=rexx,label=uninheritclass.rexx,caption=uninheritclass.rexx]{uninheritclass.rexx}
 
-Nullifies the effect of any previous INHERIT message sent to the
-receiver for the class specified. ::smethod enhanced class /*
-rCOLLECTION oArgs */
+Nullifies the effect of any previous \texttt{INHERIT} message sent to
+the receiver for the class specified.
+
+\lstinputlisting[language=rexx,label=enhancedclass.rexx,caption=enhancedclass.rexx]{enhancedclass.rexx}
 
 Returns an enhanced new instance of the receiver class, with object
-methods that are the instance
+methods that are the instance methods of the class enhanced by the
+methods in the specified collection of methods.
 
-methods of the class enhanced by the methods in the specified collection
-of methods. ::method baseclass class
+\lstinputlisting[language=rexx,label=baseclassclass.rexx,caption=baseclassclass.rexx]{baseclassclass.rexx}
 
 Returns the base class associated with the class. If the class is a
 mixin class, the base class is the first superclass that is not also a
 mixin class. If the class is not a mixin class, then the base class is
-the class receiving the BASECLASS message.
+the class receiving the \texttt{BASECLASS} message.
 
-::method superclasses class Returns the immediate superclasses of the
-receiver class in the form of a single-index array of the
+\lstinputlisting[language=rexx,label=superclassclass.rexx,caption=superclassclass.rexx]{superclassclass.rexx}
 
-required size. ::method id class
+Returns the immediate superclasses of the receiver class in the form of
+a single-index array of the required size.
 
-Returns a string that is the class identity (instance SUBCLASS and
-MIXINCLASS methods.)
+\lstinputlisting[language=rexx,label=methodid.rexx,caption=methodid.rexx]{methodid.rexx}
 
-::method metaclass class
+Returns a string that is the class identity (instance \texttt{SUBCLASS}
+and \texttt{MIXINCLASS} methods.)
 
-Returns the receiver class's default metaclass. ::method methods class
-/* oCLASSOBJECT */
+\lstinputlisting[language=rexx,label=metaclassclass.rexx,caption=metaclassclass.rexx]{metaclassclass.rexx}
+
+Returns the receiver class's default metaclass.
+
+\lstinputlisting[language=rexx,label=methodsclass.rexx,caption=methodsclass.rexx]{methodsclass.rexx}
 
 Returns a supplier object for all the instance methods of the receiver
-class and its superclasses, if no argument is specified. \#\#\# The
-method class
+class and its superclasses, if no argument is specified.
 
-::class method
+\subsection{The method class}\label{the-method-class}
 
-::method new class /* rSTRING rSOURCE */ Returns a new instance of
-method class, which is an executable representation of the code
-contained in
+\lstinputlisting[language=rexx,label=methodclass.rexx,caption=methodclass.rexx]{methodclass.rexx}
 
-the source. ::method setprivate
+Returns a new instance of method class, which is an executable
+representation of the code contained in the source.
 
-Specifies that a method is a private method. ::method setprotected
+\lstinputlisting[language=rexx,label=setprivatemethod.rexx,caption=setprivatemethod.rexx]{setprivatemethod.rexx}
 
-::method setsecuritymanager
+Specifies that a method is a private method.
 
-::method setguarded Reverses any previous SETUNGUARDED messages,
-restoring the receiver to the default guarded
+\lstinputlisting[language=rexx,label=setvarious.rexx,caption=setvarious.rexx]{setvarious.rexx}
 
-status. ::method setunguarded
+Reverses any previous \texttt{SETUNGUARDED} messages, restoring the
+receiver to the default guarded status.
+
+\lstinputlisting[language=rexx,label=setunguarded.rexx,caption=setunguarded.rexx]{setunguarded.rexx}
 
 Lets an object run a method even when another method is active on the
-same object. If a method object
+same object. If a method object does not receive a \texttt{SETUNGUARDED}
+message, it requires exclusive use of its object variable pool.
 
-does not receive a SETUNGUARDED message, it requires exclusive use of
-its object variable pool. ::method source
+\lstinputlisting[language=rexx,label=methodsource.rexx,caption=methodsource.rexx]{methodsource.rexx}
 
 Returns the method source code as a single index array of source lines.
-::method interface
 
-::method setinterface
+\lstinputlisting[language=rexx,label=methodinterface,caption=methodinterface]{methodinterface}
 
-11.3 The string class The string class provides conventional strings and
-numbers.
+\subsection{The string class}\label{the-string-class}
 
-Some differences from REXX class of NetRexx. ::class string
+The string class provides conventional strings and numbers.
 
-::method new class
+\emph{Some differences from REXX class of NetRexx.}
 
-::method `\textquotesingle{} We can do all the operators by appeal to
-classic section 7. ::method'-' ::method `-'
+\lstinputlisting[language=rexx,label=stringclass.rexx,caption=stringclass.rexx]{stringclass.rexx}
 
-use arg a return \a General problem of making the error message come
-right.
+\emph{We can do all the operators by appeal to classic section 7.}
 
-:method :method :method :method :method :method :method :method :method
-:method :method :method :method :method :method :method :method :method
-:method :method :method :method :method :method :method :method :method
-:method :method
+\lstinputlisting[language=rexx,label=stringmethods,caption=stringmethods]{stringmethods}
 
-:method :method :method :method :method :method :method :method :method
-:method :method :method :method :method :method :method :method :method
-:method :method :method :method :method :method :method :method :method
-:method :method :method :method :method :method :method :method :method
-:method :method :method :method :method
+\emph{General problem of making the error message come right.}
 
-All
+\lstinputlisting[language=rexx,label=stringoperatorsandmethods,caption=stringoperatorsandmethods]{stringoperatorsandmethods}
 
-centre center changestr compare copies counstr datatype delstr delword
-insert lastpos left length overlay pos reverse right space strip substr
-subword translate verify word wordindex wordlength wordpos words abs
-format max
-
-min
-
-sign trunc B2x bitand bitor bitxor C2D
-
-C2x
-
-D2xX ::smethod D2C ::smethod X2B ::smethod X2C ::smethod X2D ::method
-string
-
-::method makestring \#\#\# The array class
+\subsection{The array class}\label{the-array-class}
 
 The main features of a single dimension array are provided by the
 configuration. This section defines further methods and
 multi-dimensional arrays.
 
-To be done. Dimensionality set at first use. Count commas, not classic
-arg().
+\emph{To be done. Dimensionality set at first use. Count commas, not
+classic \texttt{arg()}.}
 
-::class array
-
-::method new class /* 0 or more WHOLE\textgreater=0 */
+\lstinputlisting[language=rexx,label=arrayclass.rexx,caption=arrayclass.rexx]{arrayclass.rexx}
 
 Returns a new empty array.
 
-::method of class /* 0 or more ANY */
+\lstinputlisting[language=rexx,label=returnsingleindexarray.rexx,caption=returnsingleindexarray.rexx]{returnsingleindexarray.rexx}
 
 Returns a newly created single-index array containing the specified
-value objects. ::method put /* rANY one or more WHOLE\textgreater0 */
+value objects.
+
+\lstinputlisting[language=rexx,label=makearraymemberitem.rexx,caption=makearraymemberitem.rexx]{makearraymemberitem.rexx}
 
 Makes the object value a member item of the array and associates it with
-the specified index or indexes. ::method ' {[}{]}=' /* 1 or more
-WHOLE\textgreater0O */
+the specified index or indexes.
 
-This method is the same as the PUT method.
+\lstinputlisting[language=rexx,label=operatorputmethodarray.rexx,caption=operatorputmethodarray.rexx]{operatorputmethodarray.rexx}
 
-::method at /* 1 or more WHOLE\textgreater0O */
+This method is the same as the \texttt{PUT} method.
+
+\lstinputlisting[language=rexx,label=arraymethodat.rexx,caption=arraymethodat.rexx]{arraymethodat.rexx}
 
 Returns the item associated with the specified index or indexes.
 
-::method `{[}{]}' /* 1 or more WHOLE\textgreater0O */
+\lstinputlisting[language=rexx,label=arraymethodatoperator.rexx,caption=arraymethodatoperator.rexx]{arraymethodatoperator.rexx}
 
 Returns the same value as the AT method.
 
-::method remove /* 1 or more WHOLE\textgreater0O */
+\lstinputlisting[language=rexx,label=arraymethodremove.rexx,caption=arraymethodremove.rexx]{arraymethodremove.rexx}
 
 Returns and removes the member item with the specified index or indexes
-from the array. ::method hasindex /* 1 or more WHOLE\textgreater0O */
+from the array.
+
+\lstinputlisting[language=rexx,label=arraymethodhasindex.rexx,caption=arraymethodhasindex.rexx]{arraymethodhasindex.rexx}
 
 Returns 1 (true) if the array contains an item associated with the
 specified index or indexes. Returns 0 (false) otherwise.
 
-::method items /* (None) \emph{/ Returns the number of items in the
-collection. ::method dimension /} OWHOLE\textgreater0O */
+\lstinputlisting[language=rexx,label=arraymethoditems.rexx,caption=arraymethoditems.rexx]{arraymethoditems.rexx}
+
+Returns the number of items in the collection.
+
+\lstinputlisting[language=rexx,label=arraymethoddimension.rexx,caption=arraymethoddimension.rexx]{arraymethoddimension.rexx}
 
 Returns the current size (upper bound) of dimension specified (a
 positive whole number). If you omit the argument this method returns the
 dimensionality (number of dimensions) of the array.
 
-::method size /* (None) */
+\lstinputlisting[language=rexx,label=arraymethodsize.rexx,caption=arraymethodsize.rexx]{arraymethodsize.rexx}
 
 Returns the number of items that can be placed in the array before it
 needs to be extended.
 
-::method first /* (None) */
+\lstinputlisting[language=rexx,label=arraymethodfirst.rexx,caption=arraymethodfirst.rexx]{arraymethodfirst.rexx}
 
-Returns the index of the first item in the array, or the NIL object if
-the array is empty.
+Returns the index of the first item in the array, or the \texttt{NIL}
+object if the array is empty.
 
-::method last /* (None) */
+\lstinputlisting[language=rexx,label=arraymethodlast,caption=arraymethodlast]{arraymethodlast}
 
-Returns the index of the last item in the array, or the NIL object if
-the array is empty.
+Returns the index of the last item in the array, or the \texttt{NIL}
+object if the array is empty.
 
-::method next /* rcWHOLE\textgreater O */
+\lstinputlisting[language=rexx,label=arraymethodnext.rexx,caption=arraymethodnext.rexx]{arraymethodnext.rexx}
 
 Returns the index of the item that follows the array item having the
-specified index or returns the NIL object if the item having that index
-is last in the array.
+specified index or returns the \texttt{NIL} object if the item having
+that index is last in the array.
 
-::method previous /* rcWHOLE\textgreater O */
+\lstinputlisting[language=rexx,label=arraymethodprevious.rexx,caption=arraymethodprevious.rexx]{arraymethodprevious.rexx}
 
 Returns the index of the item that precedes the array item having index
-index or the NIL object if the item having that index is first in the
-array.
+index or the \texttt{NIL} object if the item having that index is first
+in the array.
 
-::method makearray /* (None) */
+\lstinputlisting[language=rexx,label=arraymethodmakearray.rexx,caption=arraymethodmakearray.rexx]{arraymethodmakearray.rexx}
 
 Returns a single-index array with the same number of items as the
 receiver object. Any index with no associated item is omitted from the
@@ -366,54 +337,66 @@ new array.
 Returns a new array (of the same class as the receiver) containing
 selected items from the receiver array. The first item in the new array
 is the item corresponding to index start (the first argument) in the
-receiver
+receiver array.
 
-array. ::method supplier /* (None) \emph{/ Returns a supplier object for
-the collection. ::method section /} rcWHOLE\textgreater0O
-oOWHOLE\textgreater=0 */
+\lstinputlisting[language=rexx,label=arraymethodsupplier,caption=arraymethodsupplier]{arraymethodsupplier}
 
-\section{The supplier class}\label{the-supplier-class}
+Returns a supplier object for the collection.
+
+\lstinputlisting[language=rexx,label=arraymethodsection,caption=arraymethodsection]{arraymethodsection}
+
+\subsection{The supplier class}\label{the-supplier-class}
 
 A supplier object enumerates the items a collection contained at the
-time of the supplier's creation. ::class supplier
+time of the supplier's creation.
 
-::method new class /* rANYARRAY rINDEXARRAY */ Returns a new supplier
-object.
+\lstinputlisting[language=rexx,label=supplierclass.rexx,caption=supplierclass.rexx]{supplierclass.rexx}
 
-::method index
+Returns a new supplier object.
 
-Returns the index of the current item in the collection. ::method next
+\lstinputlisting[language=rexx,label=suppliermethodindex.rexx,caption=suppliermethodindex.rexx]{suppliermethodindex.rexx}
+
+Returns the index of the current item in the collection.
+
+\lstinputlisting[language=rexx,label=suppliermethodnext.rexx,caption=suppliermethodnext.rexx]{suppliermethodnext.rexx}
 
 Moves to the next item in the collection.
 
-::method item
+\lstinputlisting[language=rexx,label=suppliermethoditem.rexx,caption=suppliermethoditem.rexx]{suppliermethoditem.rexx}
 
 Returns the current item in the collection.
 
-::method available
+\lstinputlisting[language=rexx,label=supplierindexavailable.rexx,caption=supplierindexavailable.rexx]{supplierindexavailable.rexx}
 
 Returns 1 (true) if an item is available from the supplier (that is, if
-the ITEM method would return a value). Returns 0 (false) otherwise.
+the \texttt{ITEM} method would return a value). Returns 0 (false)
+otherwise.
 
-11.5 The message class ::class message
+\subsection{The message class}\label{the-message-class}
 
-::method init class /* Ugh */
+\lstinputlisting[language=rexx,label=messageclass.rexx,caption=messageclass.rexx]{messageclass.rexx}
 
 Initializes the message object for sending\ldots\ldots{}
 
-::method completed
+\lstinputlisting[language=rexx,label=messagecompletedmethod.rexx,caption=messagecompletedmethod.rexx]{messagecompletedmethod.rexx}
 
 Returns 1 if the message object has completed its message; returns 0
-otherwise. ::method notify /* rMESSAGE */
+otherwise.
+
+\lstinputlisting[language=rexx,label=messagebotifymethod.rexx,caption=messagebotifymethod.rexx]{messagebotifymethod.rexx}
 
 Requests notification about the completion of processing for the message
-SEND or START sends. ::method start /* oANY */
+\texttt{SEND} or \texttt{START} sends.
+
+\lstinputlisting[language=rexx,label=messagestartmethod.rexx,caption=messagestartmethod.rexx]{messagestartmethod.rexx}
 
 Sends the message for processing concurrently with continued processing
-of the sender. ::method send /* oANY */
+of the sender.
+
+\lstinputlisting[language=rexx,label=messagesendmethod.rexx,caption=messagesendmethod.rexx]{messagesendmethod.rexx}
 
 Returns the result (if any) of sending the message.
 
-::method result
+\lstinputlisting[language=rexx,label=methodresult.rexx,caption=methodresult.rexx]{methodresult.rexx}
 
-Returns the result of the message SEND or START sends.
+Returns the result of the message \texttt{SEND} or \texttt{START} sends.

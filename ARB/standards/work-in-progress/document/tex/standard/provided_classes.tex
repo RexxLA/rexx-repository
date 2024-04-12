@@ -11,1831 +11,448 @@ Collection Classes
 \subsection{Collection Class Routines}\label{collection-class-routines}
 
 These routines are used in the definition of the collection classes
-::routine CommonxXor /* Returns a new collection that contains all items
-from self and the argument except that all indexes that appear in both
-collections are removed. \emph{/ /} When the target is a bag, there may
-be an index in the bag that is duplicated and the same value as an index
-in the argument. Should one copy of the index survive in the bag?
-\emph{/ vel if (arg(1)\textasciitilde class==.Set \&
-arg(2)\textasciitilde class==.Bag) then v=2 if
-(arg(1)\textasciitilde class==.Table \&
-arg(2)\textasciitilde class==.Bag) then v=2 if
-(arg(1)\textasciitilde class==.Table \&
-arg(2)\textasciitilde class==.Relation) then v=2 if
-(arg(1)\textasciitilde class==.Directory \&
-arg(2)\textasciitilde class==.Bag) then v=2 if
-(arg(1)\textasciitilde class==.Directory \&
-arg(2)\textasciitilde class==.Relation) then v=2 /} This version it
-does: \emph{/ if v=1 then do This = arg(1) /} self of caller */
-r=This\textsubscript{class}new ab=MayEnBag (arg (2) )
-ss=This\textasciitilde supplier do while ss\textasciitilde available
-r{[}ss\textasciitilde index{]} =ss\textasciitilde item
-ss\textasciitilde next end cs=ab\textasciitilde supplier do while
-cs\textasciitilde available if r\textsubscript{hasindex(cs}index) then
-r\textasciitilde remove (cs\textasciitilde index) else
-r{[}cs\textasciitilde index{]} =cs\textasciitilde item
-cs\textasciitilde next end return r end
 
-/* But following matches practice on Set\textasciitilde XOR(bag) etc. */
-
-This = arg(1) /* self of caller */
-
-r=This\textsubscript{class}new
-
-ab=MayEnBag (arg (2) )
-
-ss=This\textasciitilde supplier
-
-do while ss\textasciitilde available if
-\ab\textsubscript{hasindex(ss}index) then r{[}ss\textasciitilde index{]}
-=ss\textasciitilde item ss\textasciitilde next end
-
-cs=ab\textasciitilde supplier
-
-do while cs\textasciitilde available if
-\This\textsubscript{hasindex(cs}index) then
-r{[}cs\textasciitilde index{]} =cs\textasciitilde item es-next end
-
-return r
-
-::routine CommoniIntersect /* Returns a new collection of the same class
-as SELF that contains the items from SELF that have indexes also in the
-argument. \emph{/ /} Actually an index in SELF can only be `matched'
-with one in the argument once. Hence copy and removal. \emph{/ This =
-arg(1) /} self of caller */ w= .Bag\textasciitilde new
-sc=This\textasciitilde supplier do while sc\textasciitilde available
-wlsc\textasciitilde index{]} =sc\textasciitilde index sc-next end
-r=This\textsubscript{class}new
-
-cs=MayEnBag (arg(2))\textasciitilde supplier do while
-cs\textasciitilde available i=cs\textasciitilde index if
-w\textasciitilde hasindex(i) then do r{[}i{]}=This {[}i{]}
-w\textasciitilde remove (i) end cs\textasciitilde next end return r
-
-::routine CommonUnion /* Returns a new collection of the same class as
-SELF that contains all the items from SELF and items from the argument
-that have an index not in the first. \emph{/ /} Best to add them all. By
-adding non-receiver first we ensure that receiver takes priority when
-same indexes. \emph{/ This = arg(1) /} self of caller */
-r=This\textsubscript{class}new cs=MayEnBag
-(arg(2))\textasciitilde supplier do while cs\textasciitilde available
-r{[}cs\textasciitilde index{]} =cs\textasciitilde item
-cs\textasciitilde next end cs=This\textasciitilde supplier do while
-cs\textasciitilde available r{[}cs\textasciitilde index{]}
-=cs\textasciitilde item cs\textasciitilde next end return r
-
-::routine CommonDifference /* Returns a new collection containing only
-those index-item pairs from the SELF whose indexes the other collection
-does not contain. \emph{/ This = arg(1) /} self of caller */
-r=This\textsubscript{class}new cs=This\textasciitilde supplier do while
-cs\textasciitilde available r{[}cs\textasciitilde index{]}
-=cs\textasciitilde item es-next end cs=MayEnBag
-(arg(2))\textasciitilde supplier do while cs\textasciitilde available
-r\textasciitilde remove (cs\textasciitilde index) es-next end return r
-
-::routine MayEnBag
-
-/* For List and Queue the indexes are dropped. */ rearg(1) if r-clags ==
-.List \textbar{} r-class == .Queue then r=EnBag(r) return r
-
-::routine EnBag r=.Bag\textasciitilde new
-s=arg(1)\textasciitilde supplier do while s\textasciitilde available if
-arg(1)\textasciitilde class == .List \textbar{}
-arg(1)\textasciitilde class == .Queue then r{[}s\textasciitilde item{]}
-=s\textasciitilde item else /* This case is when the receiver is a Bag.
-*/ r{[}s\textasciitilde index{]} =s\textasciitilde index
-s\textasciitilde-next end return r
+\lstinputlisting[language=rexx,label=CommonXor.rexx,caption=CommonXor.rexx]{CommonXor.rexx}
 
 \subsection{The collection class}\label{the-collection-class}
 
-::Cclass `Collection'
+\lstinputlisting[language=rexx,label=collectionclass.rexx,caption=collectionclass.rexx]{collectionclass.rexx}
 
 \subsubsection{INIT}\label{init}
 
-::method init
-
-expose a /* A collection is modelled as using 3 slots in an array for
-each element. The first slot holds the item, the second the index, and
-the third is used by particular types of collection. This order of slots
-is arbitary, chosen to match order of arguments for PUT and
-SUPPLIER\textasciitilde NEW. \emph{/ /} The first set of 3 slots is
-reserved for other purposes, to avoid having separate variables which
-the subclassing would need to access. */
-
-a=.array\textasciitilde new
-
-a{[}1{]} /\emph{ItemsCount}/=0
-
-a{[}2{]}/\emph{Unique}/=0
-
-return self
+\lstinputlisting[language=rexx,label=collectioninitmethod.rexx,caption=collectioninitmethod.rexx]{collectioninitmethod.rexx}
 
 \subsubsection{EXPOSED}\label{exposed}
 
-::method exposed private expose a
-
-/* This method allows subclasses to get at the implementation of
-Collection. */ return a
+\lstinputlisting[language=rexx,label=collectionexposedmethod.rexx,caption=collectionexposedmethod.rexx]{collectionexposedmethod.rexx}
 
 \subsubsection{FINDINDEX}\label{findindex}
 
-::method findindex private expose a /* Returns array index if the
-collection contains any item associated with the index specified or
-returns 0 otherwise. \emph{/ do j=4 by 3 to
-1+3}a{[}1{]}/\emph{ItemsCount}/ if alj+l{]}==arg(1) then return j end j
-return 0
+\lstinputlisting[language=rexx,label=collectionfindindexmethod.rexx,caption=collectionfindindexmethod.rexx]{collectionfindindexmethod.rexx}
 
 \subsubsection{AT}\label{at}
 
-::method at /* vANY \emph{/ expose a /} Returns the item associated with
-the specified index. */ j=self\textasciitilde findindex(arg(1)) if j=0
-then return .nil return a{[}j{]}
+\lstinputlisting[language=rexx,label=collectionatmethod.rexx,caption=collectionatmethod.rexx]{collectionatmethod.rexx}
 
 \subsubsection{{[}{]}}\label{section}
 
-::method `{[}{]}' /* Synonym for the AT method. */ forward message `AT'
+\lstinputlisting[language=rexx,label=collectionatalt.rexx,caption=collectionatalt.rexx]{collectionatalt.rexx}
 
 \subsubsection{PUT}\label{put}
 
-::method put /* rANY rANy \emph{/ expose a use arg item, index /}
-Replaces any existing item associated with the specified index with the
-new item. Otherwise adds the item-index pair. \emph{/
-j=self\textasciitilde findindex (index) if j\textgreater0 then do
-alj{]}=item return end a{[}1{]} /}ItemsCount\emph{/=a {[}1{]}
-/}ItemsCount\emph{/+1 j=1+3}al{[}1{]} /\emph{ItemsCount}/ alj{]}=item
-a{[}lj+1{]} =index a{[}j+2{]}=0 return /* Error 91 in OOI if context
-requiring result. */
+\lstinputlisting[language=rexx,label=collectionputmethod.rexx,caption=collectionputmethod.rexx]{collectionputmethod.rexx}
 
 \subsubsection{{[}{]}=}\label{section-1}
 
-:smethod `{[}{]}=' /* Synonym for the PUT method. */ forward message
-`PUT'
+\lstinputlisting[language=rexx,label=collectionputalt.rexx,caption=collectionputalt.rexx]{collectionputalt.rexx}
 
 \subsubsection{HASINDEX}\label{hasindex}
 
-::method hasindex /* vANY \emph{/ /} Returns 1 (true) if the collection
-contains any item associated with the index specified or returns 0
-(false) otherwise. */
-
-return self\textasciitilde findindex (arg(1))\textgreater0
+\lstinputlisting[language=rexx,label=collectionhasindexmethod.rexx,caption=collectionhasindexmethod.rexx]{collectionhasindexmethod.rexx}
 
 \subsubsection{ITEMS}\label{items}
 
-::method items expose a
-
-/* Returns the number of items in the collection. \emph{/ return
-a{[}1{]}/}ItemsCount*/
+\lstinputlisting[language=rexx,label=collectionsitemsmethod.rexx,caption=collectionsitemsmethod.rexx]{collectionsitemsmethod.rexx}
 
 \subsubsection{REMOVE}\label{remove}
 
-::method remove /* vANY */
-
-expose a /* Returns and removes from a collection the member item with
-the specified index. */
-
-j=self\textasciitilde findindex(arg(1))
-
-if j=0 then return .nil
-
-r=al{[}j{]}
-
-self\textasciitilde removeit (j)
-
-return r
+\lstinputlisting[language=rexx,label=collectionsremovemethod.rexx,caption=collectionsremovemethod.rexx]{collectionsremovemethod.rexx}
 
 \subsubsection{REMOVEIT}\label{removeit}
 
-::method removeit private
-
-expose a
-
-use arg j
-
-/* Remove relevant slots from the array, with compaction. */
-
-do j=j+3 by 3 to 14+3\emph{a{[}1{]}/}ItemsCount*/
-alj-3l=saljl;alj-2{]}=al{[}j+1{]};alj-ll=alj+2{]} end j
-
-a{[}1{]} /\emph{ItemsCount}/=a {[}1{]} /\emph{ItemsCount}/-1
-
-return
-
-\subsubsection{MAKEARRYA}\label{makearrya}
-
-::method makearray
-
-expose a /* Returns a single-index array containing the receiver list
-items. \emph{/ r= .array\textasciitilde new /} To build result in. */
-
-do j=4 by 3 to 1+3\emph{a{[}1{]}/}ItemsCount*/
-r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]} end j
-
-return r
-
-\subsubsection{MAKEARRAYX}\label{makearrayx}
-
-::method makearrayx private expose a /* Returns a single-index array
-containing the receiver index items. \emph{/ r=
-.array\textasciitilde new /} To build result in. \emph{/ do j=4 by 3 to
-1+3}a{[}1{]}/\emph{ItemsCount}/
-r{[}r\textasciitilde dimension(1)+1{]}=a{[}j+1{]} end j return r
-
-\subsubsection{SUPPLIER}\label{supplier}
-
-::method supplier expose a
-
-/* Returns a supplier object for the list. */ return
-.supplier\textsubscript{new(self}makearray: .collection,
-self\textasciitilde makearrayx)
-
-\subsection{Class list}\label{class-list}
-
-::¢class `List' subclass Collection
-
-\subsubsection{PUT}\label{put-1}
-
-::method put /* vANY rANY */ use arg item, index
-a=self\textasciitilde exposed
-
-/* PUT for a List must not be an insertion. */
-j=self\textasciitilde findindex (index) if j=0 then call Raise
-`Syntax',93.918 alj{]}=item return
-
-\subsubsection{OF}\label{of}
-
-::method of class /* 1 or more oANY Are they omittable? Not in I00
-\emph{/ /} Returns a newly created list containing the specified value
-objects in the order specified. */ r= self \textasciitilde{} new do j =
-1 to arg() r\textasciitilde{} insert (arg(j)) end j return r
-
-\subsubsection{INSERT}\label{insert}
-
-::method insert /* rANY oANY */
-
-use arg item, index
-
-a=self\textasciitilde exposed /* Returns a list-supplied index for a new
-item, of specified value, which is added to the list. The new item
-follows the existing item with the specified index in the list ordering.
-\emph{/ /} Establish the index of what preceeds the new element. \emph{/
-/} If there was no index given, the new item becomes the last on list.
-\emph{/ /} .nil argument means first */
-
-if arg(2,`E') then p=arg(2)
-
-else p=self\textasciitilde last
-
-/* Convert from list index to underlying array index. */
-
-if p==.nil then j=1
-
-else j=self\textasciitilde findindex(p)
-
-if j=0 then call Raise `Syntax',93.918
-
-j=j+3 /* Where new entry will be. \emph{/ /} Move space to required
-place. */
-
-a{[}1{]} /\emph{ItemsCount}/=a {[}1{]} /\emph{ItemsCount}/+1
-
-do k=1+3\emph{a{[}1{]}/}ItemsCount*/ by -3 to j+3
-
-a{[}k{]} =a{[}k-3{]} ;a{[}k+1{]} =a{[}k-2{]} ;a{[}k{]} =a{[}k-3{]} end
-
-/* Insert new element. */
-
-alj{]}=item /* A new, unique, index is needed. \emph{/ /} The basic
-requirement is for something unique, so this would be correct:
-
-is.object\textasciitilde new /* a unique object, used as a key (the
-index on the list) \emph{/ }
-
-/ /* However, a number can be used. (At risk of the user thinking it is
-sensible to do arithmetic on it.) */
-
-a{[}j+1{]}=a{[}2{]}/\emph{Unique}/;a{[}2{]} /\emph{Unique}/=a{[}2{]}
-/\emph{Unique}/+1
-
-a{[}j+2{]}=0
-
-return a{[}j+1{]}
-
-\subsubsection{FIRST}\label{first}
-
-::method first a=self\textasciitilde exposed
-
-/* Returns the index of the first item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount*/=0 then return .nil
-
-141 return a{[}5{]}
-
-\subsubsection{LAST}\label{last}
-
-::smethod last a=self\textasciitilde exposed
-
-/* Returns the index of the last item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount*/=0 then return .nil return
-a{[}3\emph{a{[}1{]}/}ItemsCount*/+2{]}
-
-\subsubsection{FIRSTITEM}\label{firstitem}
-
-::method firstitem a=self\textasciitilde exposed
-
-/* Returns the first item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}4{]}
-
-\subsubsection{LASTITEM}\label{lastitem}
-
-::method lastitem a=self\textasciitilde exposed
-
-/* Returns the last item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount*/=0 then return .nil return
-a{[}3\emph{a{[}1{]}/}ItemsCount*/+1{]}
-
-\subsubsection{NEXT}\label{next}
-
-::method next /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
-the index of the item that follows the list item having the specified
-index. \emph{/ j=self\textasciitilde findindex(arg(1)) if j=0 then call
-Raise `Syntax',93.918 j=j+3 if
-j\textgreater3}a{[}1{]}/\emph{ItemsCount}/ then return .nil /* Next of
-last was requested. */ return a{[}j+1{]}
-
-\subsubsection{PREVIOUS}\label{previous}
-
-::method previous /* vANY */
-
-a=self\textasciitilde exposed /* Returns the index of the item that
-precedes the list item having the specified index. */
-
-j=self\textasciitilde findindex(arg(1))
-
-if j=0 then call Raise `Syntax',93.918
-
-j=j-3
-
-if j\textless4 then return .nil /* Previous of first was requested. */
-
-return a{[}j+1{]}
-
-\subsubsection{SECTION}\label{section-2}
-
-::method section /* rANY oWHOLE\textgreater=0 */
-
-a=self\textasciitilde exposed /* Returns a new list containing selected
-items from the receiver list. The first item in the new list is the item
-corresponding to the index specified, in the receiver list. */
-
-j=self\textasciitilde findindex(arg(1))
-
-if j=0 then call Raise `Syntax',93.918
-
-r= .list\textasciitilde new /* To build result in. \emph{/ if arg(2,`E')
-then s = arg(2) else s = self\textasciitilde items; do s
-r\textasciitilde insert (a{[}j{]}) j=j+3 if
-j\textgreater1+3}a{[}1{]}/\emph{ItemsCount}/ then leave end return r
-
-\subsection{Class queue}\label{class-queue}
-
-::class `Queue' subclass Collection
-
-/* A queue is a sequenced collection with whole-number indexes. The
-
-indexes specify the position of an item relative to the head (first
-item) of the queue. Adding or removing an item changes the association
-of an index to its queue item. */
-
-\subsubsection{PUSH}\label{push}
-
-::method push /* vANY */
-
-/* Adds the object value to the queue at its head. \emph{/
-a=self\textasciitilde exposed a{[}1{]} /}ItemCount\emph{/=a {[}1{]}
-/}ItemCount*/+1
-
-/* Slide along to make a space. \emph{/ do
-j=1+3}a{[}1{]}/\emph{ItemCount}/ by -3 to 7
-
-aljl=alj-3{]} alj+l{]}=a{[}j-2{]}+1; /* Index changes */ end j
-a{[}4{]}=arg(1) a{[}5J=1 return 12.2.4.2 PULL
-
-::method pull /* Returns and removes the item at the head of the queue.
-\emph{/ a=self\textasciitilde exposed if a{[}1{]}/}ItemCount\emph{/=0
-then return .nil /} Stays empty \emph{/ r=a{[}4{]} a{[}1{]}
-/}ItemCount\emph{/=a {[}1{]} /}ItemCount\emph{/-1 do j=4 by 3 to
-1+3}a{[}1{]}/\emph{ItemCount}/ aljl=a{[}j+3{]} alj+l{]}=a{[}j+4{]}-1; /*
-Index changes */ end j return r
-
-\subsubsection{QUEUE}\label{queue}
-
-::method queue /* vANY \emph{/ /} Adds the object value to the queue at
-its tail. \emph{/ a=self\textasciitilde exposed a{[}1{]}
-/}ItemCount\emph{/=a {[}1{]} /}ItemCount\emph{/+1 a{[}1+3\emph{a{[}1{]}
-/}ItemCount*/{]}=arg(1) a{[}2+3\emph{a{[}1{]}
-/}ItemCount*/{]}=a{[}1{]}/}ItemCount*/ return
-
-\subsubsection{PEEK}\label{peek}
-
-::method peek
-
-a=self\textasciitilde exposed /* Returns the item at the head of the
-queue. The collection remains unchanged. */
-
-return a{[}4{]}
-
-\subsubsection{REMOVE}\label{remove-1}
-
-::method remove /* rcWHOLE\textgreater O \emph{/ /} Returns and removes
-from a collection the member item with the specified index. \emph{/
-a=self\textasciitilde exposed if
-a{[}1{]}/}ItemCount\emph{/\textless arg(1) then return .nil
-r=self\textasciitilde remove: super (arg(1)) /} Reset the indexes.
-\emph{/ k=0 do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ k=k+1
-alj+l{]}=k end j return r
-
-\subsection{Class table}\label{class-table}
-
-::Class `Table' subclass Collection
+\lstinputlisting[language=rexx,label=collectionsremoveitmethod.rexx,caption=collectionsremoveitmethod.rexx]{collectionsremoveitmethod.rexx}
 
 \subsubsection{MAKEARRAY}\label{makearray}
 
-::method makearray /* Returns a single-index array containing the index
-objects. \emph{/ /} This is different from Collection MAKEARRAY where
-items rather than indexes are in the returned array. */ forward message
-`MAKEARRAYX'
+\lstinputlisting[language=rexx,label=collectionsmakearraymethod.rexx,caption=collectionsmakearraymethod.rexx]{collectionsmakearraymethod.rexx}
 
-\subsubsection{UNION}\label{union}
+\subsubsection{MAKEARRAYX}\label{makearrayx}
 
-::method union /* rCOLLECTION */ return CommonUnion (self,arg(1))
+\lstinputlisting[language=rexx,label=collectionsmakearrayxmethod.rexx,caption=collectionsmakearrayxmethod.rexx]{collectionsmakearrayxmethod.rexx}
 
-\subsubsection{INTERSECTION}\label{intersection}
+\subsubsection{SUPPLIER}\label{supplier}
 
-::method intersection /* rCOLLECTION */ return CommoniIntersect
-(self,arg(1))
+\lstinputlisting[language=rexx,label=collectionssuppliermethod.rexx,caption=collectionssuppliermethod.rexx]{collectionssuppliermethod.rexx}
 
-\subsubsection{XOR}\label{xor}
+\subsection{Class list}\label{class-list}
 
-::method xor /* rCOLLECTION */ return CommonXor (self,arg(1))
+\lstinputlisting[language=rexx,label=classlist.rexx,caption=classlist.rexx]{classlist.rexx}
 
-\subsubsection{DIFFERENCE}\label{difference}
+\subsubsection{PUT}\label{put-1}
 
-::method difference /* rCOLLECTION */ return
-CommonDifference(self,arg(1))
+\lstinputlisting[language=rexx,label=collectionsputmethod.rexx,caption=collectionsputmethod.rexx]{collectionsputmethod.rexx}
 
-\subsubsection{SUBSET}\label{subset}
+\subsubsection{OF}\label{of}
 
-::method subset /* rCOLLECTION */ return
-self\textsubscript{difference(arg(1))}items = 0
+\lstinputlisting[language=rexx,label=collectionsofmethod.rexx,caption=collectionsofmethod.rexx]{collectionsofmethod.rexx}
 
-\subsubsection{Class set}\label{class-set}
+\subsubsection{INSERT}\label{insert}
 
-::¢class `Set' subclass table
+\lstinputlisting[language=rexx,label=collectionsinsertmethod.rexx,caption=collectionsinsertmethod.rexx]{collectionsinsertmethod.rexx}
 
-/* A set is a collection that restricts the member items to have a value
-that is the same as the index. Any object can be placed in a set. There
-can be only
+\subsubsection{FIRST}\label{first}
 
-one occurrence of any object in a set. */
+\lstinputlisting[language=rexx,label=collectionsfirstmethod.rexx,caption=collectionsfirstmethod.rexx]{collectionsfirstmethod.rexx}
 
-\subsubsection{PUT}\label{put-2}
+\subsubsection{LAST}\label{last}
 
-/* Second arg same as first. Committee has dropped second? \emph{/
-::method put /} YANY oANY \emph{/ /} Makes the object value a member
-item of the collection and associates it with specified index. \emph{/
-if arg(2,`E') then if arg(2)==arg(1) then signal error /} 949 */
-self\textasciitilde put:super(arg(1),arg(1))
+\lstinputlisting[language=rexx,label=collectionslastmethod.rexx,caption=collectionslastmethod.rexx]{collectionslastmethod.rexx}
 
-\subsubsection{OF}\label{of-1}
+\subsubsection{FIRSTITEM}\label{firstitem}
 
-::method of class /* 1 or more rANYy \emph{/ /} Returns a newly created
-set containing the specified value objects. */ r=self\textasciitilde new
-do j=1 to arg() r\textasciitilde put (arg(j)) end j return r
+\lstinputlisting[language=rexx,label=collectionsfirstitemmethod.rexx,caption=collectionsfirstitemmethod.rexx]{collectionsfirstitemmethod.rexx}
 
-\subsubsection{UNION}\label{union-1}
+\subsubsection{LASTITEM}\label{lastitem}
 
-::method union /* rCOLLECTION */ return CommonUnion (self,
-EnBag(arg(1)))
+\lstinputlisting[language=rexx,label=collectionslasttitemmethod.rexx,caption=collectionslasttitemmethod.rexx]{collectionslasttitemmethod.rexx}
 
-\subsubsection{INTERSECTION}\label{intersection-1}
+\subsubsection{NEXT}\label{next}
 
-::method intersection /* rCOLLECTION */ return CommoniIntersect
-(self,EnBag(arg(1)))
+\lstinputlisting[language=rexx,label=collectionsnexttitemmethod.rexx,caption=collectionsnexttitemmethod.rexx]{collectionsnexttitemmethod.rexx}
 
-\subsubsection{XOR}\label{xor-1}
+\subsubsection{PREVIOUS}\label{previous}
 
-::method xor /* rCOLLECTION */ return CommonXor (self, EnBag(arg(1)))
+\lstinputlisting[language=rexx,label=collectionsprevioustitemmethod.rexx,caption=collectionsprevioustitemmethod.rexx]{collectionsprevioustitemmethod.rexx}
 
-\subsubsection{DIFFERENCE}\label{difference-1}
+\subsubsection{SECTION}\label{section-2}
 
-::method difference /* rCOLLECTION */ return CommonDifference (self,
-EnBag(arg(1)))
+\lstinputlisting[language=rexx ,label=collectionssectionmethod.rexx,caption=collectionssectionmethod.rexx]{collectionssectionmethod.rexx}
 
-\subsection{Class relation}\label{class-relation}
+\subsection{Class queue}\label{class-queue}
 
-::Class `Relation' subclass Collection
+\lstinputlisting[language=rexx,label=collectionsqueueclass.rexx,caption=collectionsqueueclass.rexx]{collectionsqueueclass.rexx}
 
-\subsubsection{PUT}\label{put-3}
+\subsubsection{PUSH}\label{push}
 
-::method put /* vANY rANY */
+\lstinputlisting[language=rexx,label=queuepushmethod.rexx,caption=queuepushmethod.rexx]{queuepushmethod.rexx}
 
-use arg item, index
+\subsubsection{PULL}\label{pull}
 
-a=self\textasciitilde exposed /* Makes the object value a member item of
-the relation and associates it with the specified index. If the relation
-already contains any items with the specified index, this method adds a
-new member item value with the same index, without removing any existing
-members */
+\lstinputlisting[language=rexx,label=collectionspullmethod.rexx,caption=collectionspullmethod.rexx]{collectionspullmethod.rexx}
 
-a{[}1{]} /\emph{ItemsCount}/=a {[}1{]} /\emph{ItemsCount}/+1
+\subsubsection{QUEUE}\label{queue}
 
-j=1+3\emph{al{[}1{]} /}ItemsCount*/
+\lstinputlisting[language=rexx,label=queuequeuemethod.rexx,caption=queuequeuemethod.rexx]{queuequeuemethod.rexx}
 
-alj{]}=item
+\subsubsection{PEEK}\label{peek}
 
-a{[}lj+1{]} =index
+\lstinputlisting[language=rexx,label=queuepeekmethod.rexx,caption=queuepeekmethod.rexx]{queuepeekmethod.rexx}
 
-a{[}j+2{]}=0
+\subsubsection{REMOVE}\label{remove-1}
 
-return /* Error 91 in OOI if context requiring result. */
+\lstinputlisting[language=rexx,label=queueremovemethod.rexx,caption=queueremovemethod.rexx]{queueremovemethod.rexx}
 
-\subsubsection{ITEMS}\label{items-1}
+\subsection{Class table}\label{class-table}
 
-::method items /* oANY \emph{/ a=self\textasciitilde exposed /} Returns
-the number of relation items with the specified index. If you specify no
-index, this method returns the total number of items associated with all
-indexes in the relation. \emph{/ if \arg(1,`E') then return
-a{[}1{]}/}ItemsCount\emph{/ n=0 do j=4 by 3 to
-1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1)==a{[}j+1{]} then n=n+1 end j
-return n
+\lstinputlisting[language=rexx,label=tableclass.rexx,caption=tableclass.rexx]{tableclass.rexx}
 
 \subsubsection{MAKEARRAY}\label{makearray-1}
 
-::method makearray forward message `MAKEARRAYX'
+\lstinputlisting[language=rexx,label=tablemakearray.rexx,caption=tablemakearray.rexx]{tablemakearray.rexx}
 
-\subsubsection{SUPPLIER}\label{supplier-1}
+\subsubsection{UNION}\label{union}
 
-::method supplier /* oANY \emph{/ a=self\textasciitilde exposed /}
-Returns a supplier object for the collection. If an index is specified,
-the supplier enumerates all of the items in the relation with the
-specified index. \emph{/ m=.array\textasciitilde new /} For the items
-\emph{/ r=.array\textasciitilde new /} For the indexes \emph{/ do j=4 by
-3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1,`E') then if
-arg(1)=s=a{[}j+1{]} then iterate n=r\textasciitilde dimension(1)+1
+\lstinputlisting[language=rexx,label=tableunionmethod.rexx,caption=tableunionmethod.rexx]{tableunionmethod.rexx}
 
-m{[}n{]} =a{[}j{]} r{[}n{]} =a{[}j+1{]}
+\subsubsection{INTERSECTION}\label{intersection}
 
-end j return .supplier\textasciitilde new(m,r) 12.2.7.5 UNION ::method
-union /* rCOLLECTION */
+\lstinputlisting[language=rexx,label=tableintersectionmethod.rexx,caption=tableintersectionmethod.rexx]{tableintersectionmethod.rexx}
 
-/* Union for a relation is just all of both. */
-r=self\textsubscript{class}new cs=self\textasciitilde supplier do while
-cs\textasciitilde available
+\subsubsection{XOR}\label{xor}
 
-r{[}cs\textasciitilde index{]} =cs\textasciitilde item es-next end
-cs=MayEnBag (arg(1))\textasciitilde supplier do while
-cs\textasciitilde available r{[}cs\textasciitilde index{]}
-=cs\textasciitilde item es-next end return r
+\lstinputlisting[language=rexx,label=tablexormethod.rexx,caption=tablexormethod.rexx]{tablexormethod.rexx}
 
-\subsubsection{INTERSECTION}\label{intersection-2}
+\subsubsection{DIFFERENCE}\label{difference}
 
-::method intersection /* rCOLLECTION */
+\lstinputlisting[language=rexx,label=tabledifferencemethod.rexx,caption=tabledifferencemethod.rexx]{tabledifferencemethod.rexx}
 
-/* Intersection for a relation requires the items as well as the keys to
-match. */
+\subsubsection{SUBSET}\label{subset}
 
-r=self\textsubscript{class}new sc=self\textsubscript{class}new
-cs=self\textasciitilde supplier do while cs\textasciitilde available sc
-{[}cs\textasciitilde index{]} =cs\textasciitilde item
-cs\textasciitilde next end cs=MayEnBag (arg(1))\textasciitilde supplier
-do while cs\textasciitilde available if
-sc\textsubscript{hasitem(cs}item,cs\textasciitilde index) then r
-{[}ecs\textasciitilde index{]} =sc\textsubscript{removeitem(cs}item,
-cs\textasciitilde next end return r
+\lstinputlisting[language=rexx,label=tablesubsetmethod.rexx,caption=tablesubsetmethod.rexx]{tablesubsetmethod.rexx}
 
-cs\textasciitilde index)
+\subsubsection{Class set}\label{class-set}
 
-\subsubsection{XOR}\label{xor-2}
+\lstinputlisting[language=rexx,label=classset.rexx,caption=classset.rexx]{classset.rexx}
 
-::method xor /* rCOLLECTION \emph{/ /} Returns a new relation that
-contains all items from self and
+\subsubsection{PUT}\label{put-2}
 
-the argument except that all index-item pairs that appear in both
-collections are removed. */
+\lstinputlisting[language=rexx,label=setputmethod.rexx,caption=setputmethod.rexx]{setputmethod.rexx}
 
-r=self\textsubscript{class}new cs=self\textasciitilde supplier do while
-cs\textasciitilde available r{[}cs\textasciitilde index{]}
-=cs\textasciitilde item cs\textasciitilde next end cs=MayEnBag
-(arg(1))\textasciitilde supplier do while cs\textasciitilde available if
-self\textsubscript{hasitem(cs}item,cs\textasciitilde index) then
-r\textsubscript{removeitem(cs}item, cs\textasciitilde index) else
-r{[}cs\textasciitilde index{]} =cs\textasciitilde item
-cs\textasciitilde next end return r
+\subsubsection{OF}\label{of-1}
 
-\subsubsection{DIFFERENCE}\label{difference-2}
+\lstinputlisting[language=rexx,label=setofmethod.rexx,caption=setofmethod.rexx]{setofmethod.rexx}
 
-::method difference /* rCOLLECTION */
+\subsubsection{UNION}\label{union-1}
 
-/* Returns a new relation containing only those index-item pairs from
-the g Y P SELF whose indexes the other collection does not contain. */
-r=self\textsubscript{class}new cs=self\textasciitilde supplier
+\lstinputlisting[language=rexx,label=setunion.rexx,caption=setunion.rexx]{setunion.rexx}
 
-do while cs\textasciitilde available r{[}cs\textasciitilde index{]}
-=cs\textasciitilde item cs\textasciitilde next end
+\subsubsection{INTERSECTION}\label{intersection-1}
 
-cs=MayEnBag (arg(1))\textasciitilde supplier
+\lstinputlisting[language=rexx,label=setintersectionmethod.rexx,caption=setintersectionmethod.rexx]{setintersectionmethod.rexx}
 
-do while cs\textasciitilde available r\textsubscript{removeitem(cs}item,
-cs\textasciitilde index) cs\textasciitilde next end
+\subsubsection{XOR}\label{xor-1}
 
-return r
+\lstinputlisting[language=rexx,label=setxormethod.rexx,caption=setxormethod.rexx]{setxormethod.rexx}
 
-\subsubsection{SUBSET}\label{subset-1}
+\subsubsection{DIFFERENCE}\label{difference-1}
 
-::method subset /* rCOLLECTION */ return
-self\textsubscript{difference(arg(1))}items = 0
+\lstinputlisting[language=rexx,label=setdifferencemethod.rexx,caption=setdifferencemethod.rexx]{setdifferencemethod.rexx}
 
-\subsubsection{REMOVEITEM}\label{removeitem}
+\subsection{Class relation}\label{class-relation}
 
-::method removeitem /* YANY rANY \emph{/ a=self\textasciitilde exposed
-/} Returns and removes from a relation the member item value (associated
-with the specified index). If value is not a member item associated with
-index index, this method returns the NIL object and removes no item.
-\emph{/ do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj{]}==arg(1)
-\& a{[}j+1l{]}==arg(2) then do self\textasciitilde removeit (j) return
-arg(1) end end j return .nil
+\lstinputlisting[language=rexx,label=relationclass.rexx,caption=relationclass.rexx]{relationclass.rexx}
 
-\subsubsection{INDEX}\label{index}
+\subsubsection{PUT}\label{put-3}
 
-::method index /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
-the index for the specified item. If there is more than one index
-associated with the specified item, the one this method returns is not
-defined. \emph{/ do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if
-arg(1)==a{[}j{]} then return a{[}j+1{]} end j return .nil
+\lstinputlisting[language=rexx,label=relputmethod.rexx,caption=relputmethod.rexx]{relputmethod.rexx}
 
-\subsubsection{ALLAT}\label{allat}
+\subsubsection{ITEMS}\label{items-1}
 
-::method allat /* vANY \emph{/ a=self\textasciitilde exposed /} Returns
-a single-index array containing all the items associated with the
-specified index. \emph{/ r=.array\textasciitilde new do j=4 by 3 to
-1+3}a{[}1{]}/\emph{ItemsCount}/ if arg(1)==a{[}j+1{]} then
-r{[}r\textasciitilde dimension(1)+1{]} = aljl end j return r
-
-\subsubsection{HASITEM}\label{hasitem}
-
-::method hasitem /* YANY rANY \emph{/ a=self\textasciitilde exposed /}
-Returns 1 (true) if the relation contains the member item value
-(associated with specified index). Returns 0 (false) otherwise. \emph{/
-do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj{]}==arg(1) \&
-a{[}j+l{]}==arg(2) then return 1 end j return 0
-
-\subsubsection{ALLINDEX}\label{allindex}
-
-::method allindex /* vANY */
-
-a=self\textasciitilde exposed /* Returns a single-index array containing
-all indexes for the specified item. \emph{/ r=.array\textasciitilde new
-do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/ if alj{]}==arg(1) then do
-r{[}r-\textasciitilde dimension (1)+1{]} =a{[}j+1{]} end end j return r
-
-\#\#3 The bag class
-
-::class `Bag' subclass relation
-
-/* A bag is a collection that restricts the member items to having a
-value that is the same as the index. Any object can be placed in a bag,
-and the same object can be placed in a bag multiple times. */
-
-\subsubsection{OF}\label{of-2}
-
-::method of class /* 1 or more rANYy \emph{/ /} Returns a newly created
-bag containing the specified value objects. */ r=self\textasciitilde new
-do j=1 to arg() r\textasciitilde put (arg(j)) end j return r
-
-\subsubsection{PUT}\label{put-4}
-
-::method put /* vANY oANY \emph{/ /} Committee does away with second
-argument? \emph{/ /} Makes the object value a member item of the
-collection and associates it with the specified index. If you specify
-index, it must be the same as value. */ if arg(2,`E') then if
-arg(2)=s=arg(1) then signal error self\textasciitilde put: super
-(arg(1),arg(1))
-
-\subsubsection{UNION}\label{union-2}
-
-::method union /* rCOLLECTION */ return CommonUnion (self,
-EnBag(arg(1)))
-
-\subsubsection{INTERSECTION}\label{intersection-3}
-
-::method intersection /* rCOLLECTION */ return CommoniIntersect
-(self,EnBag(arg(1)))
-
-\subsubsection{XOR}\label{xor-3}
-
-::method xor /* rCOLLECTION */ return CommonXor (self, EnBag(arg(1)))
-
-\subsubsection{DIFFERENCE}\label{difference-3}
-
-::method difference /* rCOLLECTION */ return CommonDifference (self,
-EnBag(arg(1)))
-
-\subsection{The directory class}\label{the-directory-class}
-
-::class `Directory' subclass Collection
-
-\subsubsection{AT}\label{at-1}
-
-::method at /* vANY */ a=self\textasciitilde exposed
-
-/* Returns the item associated with the specified index. */
-j=self\textasciitilde findindex(arg(1))
-
-if j=0 then return .nil
-
-/* Run the method if there is one. */ if a{[}j+2{]} then return
-self\textasciitilde run(a{[}j{]}) return a{[}j{]}
-
-\subsubsection{PUT}\label{put-5}
-
-::method put /* vANY rANY \emph{/ a=self\textasciitilde exposed /} Makes
-the object value a member item of the collection and associates it with
-the specified index. */ if
-\arg(2)\textasciitilde hasmethod(`MAKESTRING') then call Raise `Syntax',
-93.938 self\textasciitilde put:super(arg(1),arg(2)
-\textasciitilde makestring) return
+\lstinputlisting[language=rexx,label=relitemsmethod.rexx,caption=relitemsmethod.rexx]{relitemsmethod.rexx}
 
 \subsubsection{MAKEARRAY}\label{makearray-2}
 
-::method makearray forward message `MAKEARRAYX'
+\lstinputlisting[language=rexx,label=relmakearray method,caption=relmakearray method]{relmakearray method}
+
+\subsubsection{SUPPLIER}\label{supplier-1}
+
+\lstinputlisting[language=rexx,label=relsuppliermethod.rexx,caption=relsuppliermethod.rexx]{relsuppliermethod.rexx}
+
+\subsubsection{UNION}\label{union-2}
+
+\lstinputlisting[language=rexx,label=relunionmethod.rexx,caption=relunionmethod.rexx]{relunionmethod.rexx}
+
+\subsubsection{INTERSECTION}\label{intersection-2}
+
+\lstinputlisting[language=rexx,label=relintersectionmethod.rexx,caption=relintersectionmethod.rexx]{relintersectionmethod.rexx}
+
+\subsubsection{XOR}\label{xor-2}
+
+\lstinputlisting[language=rexx,label=relxormethod.rexx,caption=relxormethod.rexx]{relxormethod.rexx}
+
+\subsubsection{DIFFERENCE}\label{difference-2}
+
+\lstinputlisting[language=rexx,label=reldifferencemethod.rexx,caption=reldifferencemethod.rexx]{reldifferencemethod.rexx}
+
+\subsubsection{SUBSET}\label{subset-1}
+
+\lstinputlisting[language=rexx,label=relsubsetmethod.rexx,caption=relsubsetmethod.rexx]{relsubsetmethod.rexx}
+
+\subsubsection{REMOVEITEM}\label{removeitem}
+
+\lstinputlisting[language=rexx,label=relremoveitemmethod.rexx,caption=relremoveitemmethod.rexx]{relremoveitemmethod.rexx}
+
+\subsubsection{INDEX}\label{index}
+
+\lstinputlisting[language=rexx,label=relindexmethod.rexx,caption=relindexmethod.rexx]{relindexmethod.rexx}
+
+\subsubsection{ALLAT}\label{allat}
+
+\lstinputlisting[language=rexx,label=relAllAtmethod.rexx,caption=relAllAtmethod.rexx]{relAllAtmethod.rexx}
+
+\subsubsection{HASITEM}\label{hasitem}
+
+\lstinputlisting[language=rexx,label=relhasitemmethod.rexx,caption=relhasitemmethod.rexx]{relhasitemmethod.rexx}
+
+\subsubsection{ALLINDEX}\label{allindex}
+
+\lstinputlisting[language=rexx,label=relallindexmethod.rexx,caption=relallindexmethod.rexx]{relallindexmethod.rexx}
+
+\lstinputlisting[language=rexx,label=bagclass.rexx,caption=bagclass.rexx]{bagclass.rexx}
+
+\subsubsection{OF}\label{of-2}
+
+\lstinputlisting[language=rexx,label=bagofmethod.rexx,caption=bagofmethod.rexx]{bagofmethod.rexx}
+
+\subsubsection{PUT}\label{put-4}
+
+\lstinputlisting[language=rexx,label=bagputmethod.rexx,caption=bagputmethod.rexx]{bagputmethod.rexx}
+
+\subsubsection{UNION}\label{union-3}
+
+\lstinputlisting[language=rexx,label=bagunionmethod.rexx,caption=bagunionmethod.rexx]{bagunionmethod.rexx}
+
+\subsubsection{INTERSECTION}\label{intersection-3}
+
+\lstinputlisting[language=rexx,label=bagintersectionmethod.rexx,caption=bagintersectionmethod.rexx]{bagintersectionmethod.rexx}
+
+\subsubsection{XOR}\label{xor-3}
+
+\lstinputlisting[language=rexx,label=bagxormethod.rexx,caption=bagxormethod.rexx]{bagxormethod.rexx}
+
+\subsubsection{DIFFERENCE}\label{difference-3}
+
+\lstinputlisting[language=rexx,label=bagdifferencemethod.rexx,caption=bagdifferencemethod.rexx]{bagdifferencemethod.rexx}
+
+\subsection{The directory class}\label{the-directory-class}
+
+\lstinputlisting[language=rexx,label=directoryclass.rexx,caption=directoryclass.rexx]{directoryclass.rexx}
+
+\subsubsection{AT}\label{at-1}
+
+\lstinputlisting[language=rexx,label=diratmethod.rexx,caption=diratmethod.rexx]{diratmethod.rexx}
+
+\subsubsection{PUT}\label{put-5}
+
+\lstinputlisting[language=rexx,label=dirputmethod.rexx,caption=dirputmethod.rexx]{dirputmethod.rexx}
+
+\subsubsection{MAKEARRAY}\label{makearray-3}
+
+\lstinputlisting[language=rexx,label=diremakearray.rexx,caption=diremakearray.rexx]{diremakearray.rexx}
 
 \subsubsection{SUPPLIER}\label{supplier-2}
 
-::method supplier a=self\textasciitilde exposed /* Returns a supplier
-object for the directory. \emph{/ /} Check out what happens to the
-SETENTRY fields. \emph{/ r=.array\textasciitilde new /} For items
-\emph{/ do j=4 by 3 to 1+3}a{[}1{]}/\emph{ItemsCount}/
-r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]}
+\lstinputlisting[language=rexx,label=dirsuppliermethod.rexx,caption=dirsuppliermethod.rexx]{dirsuppliermethod.rexx}
 
-end j return .supplier\textsubscript{new(r,self}makearray) \#\#\#\#
-UNION ::method union /* rCOLLECTION */
+\subsubsection{UNION}\label{union-4}
 
-return CommonUnion (self,arg(1))
+\lstinputlisting[language=rexx,label=dirunionmethod.rexx,caption=dirunionmethod.rexx]{dirunionmethod.rexx}
 
 \subsubsection{INTERSECTION}\label{intersection-4}
 
-::method intersection /* rCOLLECTION */ return CommoniIntersect
-(self,arg(1))
+\lstinputlisting[language=rexx,label=dirintersectionmethod.rexx,caption=dirintersectionmethod.rexx]{dirintersectionmethod.rexx}
 
 \subsubsection{XOR}\label{xor-4}
 
-::method xor /* rCOLLECTION */ return CommonXor (self,arg(1))
+\lstinputlisting[language=rexx,label=dirxormethod.rexx,caption=dirxormethod.rexx]{dirxormethod.rexx}
 
 \subsubsection{DIFFERENCE}\label{difference-4}
 
-::method difference /* rCOLLECTION */ return
-CommonDifference(self,arg(1))
+\lstinputlisting[language=rexx,label=dirdifferencemethod.rexx,caption=dirdifferencemethod.rexx]{dirdifferencemethod.rexx}
 
 \subsubsection{SUBSET}\label{subset-2}
 
-::method subset /* rCOLLECTION */ return
-self\textsubscript{difference(arg(1))}items = 0
+\lstinputlisting[language=rexx,label=dirsubsetmethod.rexx,caption=dirsubsetmethod.rexx]{dirsubsetmethod.rexx}
 
 \subsubsection{SETENTRY}\label{setentry}
 
-::smethod setentry /* rSTRING oANY */
-
-a=self\textasciitilde exposed /* Sets the directory entry with the
-specified name (translated to uppercase) to the second argument,
-replacing any existing entry or method for the specified name. */
-
-n=translate(arg(1))
-
-j=self\textasciitilde findindex(n)
-
-if j=0 \& \arg(2,`E') then return
-
-if \arg(2,`E') then do /* Removal */
-
-self\textasciitilde removeit (j)
-
-return end
-
-if j=0 then do /* It's new \emph{/
-a{[}1{]}/}ItemsCount\emph{/=a{[}1{]}/}ItemsCount\emph{/ +1
-j=1+3}al{[}1{]} /\emph{ItemsCount}/ alj+l{]}=n end
-
-alj{]}=arg(2)
-
-a{[}4j+2{]}=0
-
-return
+\lstinputlisting[language=rexx,label=dirsetentrymethod.rexx,caption=dirsetentrymethod.rexx]{dirsetentrymethod.rexx}
 
 \subsubsection{ENTRY}\label{entry}
 
-::smethod entry /* rSTRING \emph{/ a=self\textasciitilde exposed /}
-Returns the directory entry with the specified name (translated to
-uppercase). \emph{/ n=translate(arg(1))
-j=self\textasciitilde findindex(n) /}if j=0 then signal error according
-to online \emph{/ /} Online has something about running UNKNOWN. \emph{/
-if j=0 then return .nil /} If there is an entry decide whether to invoke
-it. */ if a\textasciitilde hasindex(j) then do if \al[j+2] then return
-al{[}j{]} return self\textasciitilde run(al{[}jl{]}) end
+\lstinputlisting[language=rexx,label=direntrymethod.rexx,caption=direntrymethod.rexx]{direntrymethod.rexx}
 
 \subsubsection{HASENTRY}\label{hasentry}
 
-::method hasentry /* rSTRING \emph{/ /} Returns 1 (true) if the
-directory has an entry or a method for the specified name (translated to
-uppercase) or 0 (false) otherwise. */
-
-return self\textasciitilde findindex (translate(arg(1)))\textgreater0
+\lstinputlisting[language=rexx,label=dirhasentrymethod.rexx,caption=dirhasentrymethod.rexx]{dirhasentrymethod.rexx}
 
 \subsubsection{SETMETHOD}\label{setmethod}
 
-::method setmethod /* rSTRING oMETHOD \emph{/
-a=self\textasciitilde exposed /} Associates entry with the specified
-name (translated to uppercase) with method method. Thus, the language
-processor returns the result of running method when you access this
-entry. \emph{/ /} (Part of METHOD checking converts string or array to
-actual method.) \emph{/ n=translate(arg(1))
-j=self\textasciitilde findindex(n) if j=0 \& \arg(2,`E') then return if
-\arg(2,`E') then do self\textasciitilde removeit (j) return end if j=0
-then do /} It's new \emph{/
-a{[}1{]}/}ItemsCount\emph{/=a{[}1{]}/}ItemsCount\emph{/ +1
-j=1+3}al{[}1{]} /\emph{ItemsCount}/ alj+l{]}=n end alj{]}=arg(2)
-a{[}j+2{]}=1 return
+\lstinputlisting[language=rexx,label=dirsetmethod.rexxx,caption=dirsetmethod.rexxx]{dirsetmethod.rexxx}
 
 \subsubsection{UNKNOWN}\label{unknown}
 
-::method unknown /* rSTRING rARRAY */
+\lstinputlisting[language=rexx,label=dirunknownmethod.rexx,caption=dirunknownmethod.rexx]{dirunknownmethod.rexx}
 
-/* Runs either the ENTRY or SETENTRY method, depending on whether the
-message name supplied ends with an equal sign. If the message name does
-not end with an equal sign, this method runs the ENTRY method, passing
-the message name as its argument. */
+\subsection{The stem class}\label{the-stem-class}
 
-if right (arg(1),1)=s=`=' then
+\emph{For some reason, the stem class doesn't have PUT and AT methods,
+which stops us having a general rule about {[}{]} synonyms AT, {[}{]}=
+synonyms PUT.}
 
-return self\textasciitilde entry(arg(1)) /* 2?? Not clear whether second
-argument is mandatory. */ t=.nil
+\emph{Anyway, committee doing without this class as such.}
 
-if arg(2,`E') then t=arg(2) {[}1{]} self\textasciitilde setentry (left
-(arg(1),length(arg(1))-1),t) 12.3 The stem class For some reason, the
-stem class doesn't have PUT and AT methods, which stops us having a
-general rule about {[}{]} synonyms AT, {[}{]}= synonyms PUT. Anyway,
-committee doing without this class as such.
+\emph{Here is temporary stuff showing how to use algebra in the
+collection coding.}
 
-Here is temporary stuff showing how to use algebra in the collection
-coding.
+\lstinputlisting[language=rexx,label=stemclass.rexx,caption=stemclass.rexx]{stemclass.rexx}
 
-/* This 1998 version uses Rony's rules for XOR and INTERSECTION based on
-UNION and DIFFERENCE */
+{[}The following code looks like a partial duplicate of the previous.
+Formatting pending -- JMB{]}
 
-/* Test Set-Operator-Methods on different collection objects */
-
-/* This top part has some rough parts - not meant for standard. */
-
-/* The dumps put out results sorted, so that comparisons can be made
-between implementations that keep collections in different orders. */
-
-/* Invocation example: settest.cmd 1\textgreater{} tmp.res
-2\textgreater{} tmp.err */
-
-/* Jnitial verification that new definitions are in effect */ J18list =
-.List\textasciitilde new if \J18list\textasciitilde hasmethod(``J18'')
-then signal error
-
-/* Input collections used for the tests */
-
-coll.1 = .array\textasciitilde of(1, 2,, 4)
-
-coll.2 = list\textasciitilde of(2, 3, 6)
-
-coll.3 = .queue\textsubscript{newPUSH(2)PUSH(3)}\textasciitilde PUSH(7)
-
-coll.4 = .directory\textsubscript{new}\textasciitilde setentry(1,
-``eins'')\textasciitilde\textasciitilde setentry(3, ``drei'')
-
-coll.5 = .bag\textsubscript{newput(2)put(3)put(5)}\textasciitilde put(2)
-
-coll.6 =
-.relation\textsubscript{new}\textasciitilde{}``{[}J=''(``zwei'',
-2)\st{``{[}{]}=''('``drei'', 3)}``{[}J=''('vier'',
-8)\textasciitilde\textasciitilde{}``J=''C''drei'',3) coll.7 =
-.set\textasciitilde of(2, 3, 9)
-
-coll.8 = .table\textsubscript{new}\textasciitilde{}``{[}{]}=''(``zwei'',
-2)\st{``{[}J=''(``drei'', 3)}``{[}T{]}J=''C''vier'', 10)
-
-coll.0 = 8
-
-message. 1 = ``UNION''
-
-message.2 = ``INTERSECTION'' \_\_/* index the same in both \emph{/
-message.3 = ``DIFFERENCE'' /} if index only in Ist collection \emph{/
-message.4 = ``XOR'' /} unique index among both collections \emph{/
-message.5 = ``SUBSET'' /} target is subset of other collection */
-
-message. = 5
-
-target. = coll. hstart = 4 istart = \textbar{} jstart = 1
-
-output = 1 setOfTargets = .set\textasciitilde new
-
-SAY ``Test Results of Set Operations on Collection Classes -- dated''
-date(`U')
-
-SAY
-
-DO h= hstart TO target.0 /* loop over target targetID =
-target.h\textsubscript{class}id IF
-\setOfTargets\textasciitilde hasindex(targetID) THEN DO SAY SAY
-CENTER('' Target:'' targetID ````, 70,''=``)
-setOfTargets\textasciitilde put(targetID) output = 1 END
-
-DO i= istart TO coll.0 /* loop over other collections if output then do
-output = 0 argumentID = coll.i\textsubscript{class}id SAY SAY CENTER(''
-argument:'' argumentID ````, 65,''=``) SAY SAY''INPUT:'' SAY ``contents
-of'' pp(targetID) ``target:'' CALL dump\_collection target.h SAY
-
-SAY ``contents of'' pp(argumentID) ``argument:''
-
-CALL dump\_collection colli
-
-SAY
-
-SAY CENTER('' start set operators ``, 65,''-``) end
-
-DO j =jstart TO message.0 /* loop over set operators tmpString
-\textbar{} = RIGHT(``h'' pp(h) ``i'' ppG) ``j'' ppG), 65)
-
-*/
-
-*/
-
-*/
-
-tmpString2 = pp(targetID ``\textasciitilde{}'' message.j
-\textbar\textbar{} ``('' argumentID ``)'')
-
-SAY OVERLAY ( tmpString2, tmpString1 )
-
-/* set resume parameter in case of error*/
-
-jstart = j+1 IF jstart\textgreater message.0 THEN DO istart = i+{]}
-
-IF istart\textgreater coll.0 THEN DO hstart = h+1 istart = 1
-
-END jstart = 1 output = \textbar{} END /* process method invocation */
-IF target.h\textasciitilde hasmethod(message.j) THEN DO tmp =
-.message\textasciitilde new(target.h, message.j, ``I'',
-coll.i)\textasciitilde send if ``The String
-class''=tmp\textsubscript{class}defaultname then do if
-datatype(tmp,``B'') then do
-
-if tmp then SAY'' Result is TRUE'' else SAY'' Result is FALSE'' end end
-else CALL dump\_collection tmp END ELSE
-
-SAY pp(targetID) ``does not have method \textasciitilde{}''
-pp(message.j)
-
-SAY LEFT(````, 40,''-``) END jstart = 1 END jstart = 1 istart = 1 output
-= 1 END
-
-RETURN
-
-dump\_collection:procedure USE ARG collection k =
-.array\textasciitilde new i= .array\textasciitilde new tmpSupp =
-collection\textasciitilde supplier DO WHILE
-tmpSupp\textasciitilde AVAILABLE
-k{[}k\textasciitilde dimension(1)+1{]}=tmpSupp\textasciitilde INDEX
-i\{i\textsubscript{dimension(1)+1{]}=tmpSupp}ITEM
-tmpSupp\textasciitilde NEXT END do until hope hope=1 do j=1 to
-k\textasciitilde dimension(1)-1 if
-k{[}j{]}\textsubscript{string\textgreater k{[}j+1{]}}string \textbar,
-(k{[}j{]}\textsubscript{string=k{[}j+1{]}}string \&
-i{[}j{]}\textsubscript{string\textless i{[}j+1{]}}string) then do
-
-t=k{[}j{]}sk(jJ=kUj+ 1 )sk{[}j+1{]}=t t=i{[}j)siG {]}=if+ Usifj+t{]}=t
-hope=0 end end end if O=collection\textasciitilde items then say'' The
-result is empty!'' else do j=1 to k\textasciitilde dimension(1) SAY ''
-'' ``index'' pp(k{[}j{]}) ``item'' ppd{[}j)
-
-end RETURN /* Auxiliary routines \emph{/ pp: RETURN ``{[}''
-\textbar\textbar{} ARG(1)\textasciitilde string \textbar\textbar{} ``J''
-{[}}
-
-/* X3J18 Rexx Language Standard proposal for the Set-like operations on
-the Collection classes */
-
-/* Tn the same way that the first standard uses BIFs which are defined
-using other BIFs and ultimately the arithmetic and character operators,
-the second standard can define classes using other classes and some
-fundamental basis.
-
-This program gives the definition of some other classes, in a form which
-(when thoroughly developed) might be part of the second standard. It
-also has a testing mechanism, which will not be part of a standard.
-
-This particular program is implementing collections on top of array. */
-
-/* The class Collection is not one builtin, but is used to simplify the
-definition. */
-
-::class `Collection'
-
-:imethod init expose a /* A collection is modelled as using 3 slots in
-an array for each element. The first slot holds the item, the second the
-index, and the third is used by particular types of collection. This
-order of slots is arbitary, chosen to match order of arguments for PUT
-and SUPPLIER\textasciitilde NEW. \emph{/ /} The first set of 3 slots is
-reserved for other purposes, to avoid having separate variables which
-the subclassing would need to access. \emph{/
-a=.alray\textasciitilde new a{[}1{]}/}ItemsCount\emph{/=0
-a{[}2{]}/}Unique*/=0
-
-return self
-
-::method exposed private expose a
-
-/* This method allows subclasses to get at the implementation of
-Collection. */ retum a
-
-::method findindex private expose a /* Returns array index if the
-collection contains any item associated with the index specified or
-returns 0 otherwise. \emph{/ do j=4 by 3 to
-143}a{[}1{]}/\emph{ItemsCount}/ if a{[}j+1{]}==arg(1) then return j end
-j return 0
-
-::method at /* rANY \emph{/ expose a /} Returns the item associated with
-the specified index. */ j=self\textasciitilde findindex(arg(1)) if j=0
-then return .nil return a{[}j{]}
-
-::method `{[}{]}' /* Synonym for the AT method. */ forward message `AT'
-
-::method put /* rANY rANY \emph{/ expose a use arg item, index /}
-Replaces any existing item associated with the specified index with the
-new item. Otherwise adds the item-index pair. \emph{/
-j=self\textasciitilde findindex(index) if j\textgreater0 then do
-a{[}j{]}=item returm end a{[}1{]}/}ItemsCount\emph{/=a{[}1
-{]}/}ItemsCount\emph{/+1 j=lt3}a{[}1{]}/\emph{ItemsCount}/ a{[}j{]}=item
-a{[}j+1{]}=index a{[}j+2{]}=0 return /* Error 91 in OOI if context
-requiring result. */
-
-:method `{[}{]}=' /* Synonym for the PUT method. */
-
-forward message `PUT'
-
-z:method hasindex /* rANY \emph{/ /} Returns \textbar{} (true) if the
-collection contains any item associated with the index specified or
-returns O (false) otherwise. */
-
-return self\textasciitilde findindex(arg(1))\textgreater0
-
-::method items expose a
-
-/* Returns the number of items in the collection. \emph{/ return
-a{[}1{]}/}ItemsCount*/
-
-zimethod remove /* rANY */
-
-expose a /* Returns and removes from a collection the member item with
-the specified index. */
-
-j=self\textasciitilde findindex(arg(1))
-
-if j=0 then return .nil
-
-r=alj{]}
-
-self\textasciitilde removeit(j)
-
-returm r
-
-::method removeit private
-
-expose a
-
-use arg j
-
-/* Remove relevant slots from the array, with compaction. */
-
-do j=j+3 by 3 to 14+3\emph{a{[}1{]}/}ItemsCount*/
-a{[}j-3{]}=alj{]};alj-2{]}=alj+1{]};a{[}j- 1 {]}=alj+2{]} end j
-
-a{[}1{]}/\emph{ItemsCount}/=a{[} 1 {]}/\emph{ItemsCount}/-1
-
-return
-
-::method makearray expose a /* Returns a single-index array containing
-the receiver list items. \emph{/ r=.array\textasciitilde new = /} To
-build result in. \emph{/ do j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/
-r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]} end j returm r
-
-::method makearrayx private expose a
-
-/* Returns a single-index array containing the receiver index items.
-\emph{/ r=.array\textasciitilde new = /} To build result in. \emph{/ do
-j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/
-
-r{[}r\textasciitilde dimension(1)+1{]}=a{[}j+1{]} end j return r
-
-:imethod supplier expose a /* Returns a supplier object for the list. */
-return
-.supplier\textsubscript{new(self}makearray:.collection,self\textasciitilde makearrayx)
-
-::class `List' subclass Collection
-
-zimethod J18 = /* Here to demonstrate .LIST is replaced */ return
-
-/* List and Queue are special because there is an order to their
-elements. */
-
-::method put /* rANY rANY */ use arg item, index
-a=self\textasciitilde exposed
-
-/* PUT for a List must not be an insertion. */
-j=self\textasciitilde findindex(index) if j=0 then call Raise
-`Syntax',93.918 a{[}j{]}=item retum
-
-zimethod of class /* 1 or more oANY Are they omittable? Not in IOO
-\emph{/ /} Returns a newly created list containing the specified value
-objects in the order specified. */ r=self \textasciitilde{} new do j = 1
-to argQ) r \textasciitilde{} insert(arg(j)) end j return r
-
-zimethod insert /* rANY oANY */
-
-use arg item, index
-
-a=self\textasciitilde exposed /* Returns a list-supplied index for a new
-item, of specified value, which is added to the list. The new item
-follows the existing item with the specified index in the list ordering.
-\emph{/ /} Establish the index of what preceeds the new element. \emph{/
-/} Tf there was no index given, the new item becomes the last on list.
-\emph{/ /} mil argument means first */
-
-if arg(2,`E') then p=arg(2)
-
-else p=self\textasciitilde last
-
-/* Convert from list index to underlying array index. */
-
-if p==.nil then j=1 else j=self\textasciitilde findindex(p)
-
-if j=0 then call Raise `Syntax',93.918
-
-j=J+3 /* Where new entry will be. \emph{/ /} Move space to required
-place. */
-
-a{[}1{]}/\emph{ItemsCount}/=a{[}1 {]}/\emph{ItemsCount}/+1
-
-do k=1+3\emph{a{[}1{]}/}ItemsCount*/ by -3 to j+3
-
-a{[}k{]}=a{[}k-3{]};a{[}k+1 {]}=a{[}k-2{]};a{[}k{]}=a{[}k-3{]} end
-
-/* Insert new element. */
-
-a{[}j{]}=item /* A new, unique, index is needed. \emph{/ /} The basic
-requirement is for something unique, so this would be correct:
-
-i=.object\textasciitilde new /* a unique object, used as a key (the
-index on the list) \emph{/ }/ /* However, a number can be used. (At risk
-of the user thinking it is sensible to do arithmetic on it.) */
-
-a{[}j+1{]}=a{[}2{]}/\emph{Unique}/;a{[}2{]}/\emph{Unique}/=a{[}2
-{]}/\emph{Unique}/+1
-
-a{[}j+2{]}=0
-
-return a{[}j+1{]}
-
-:smethod first a=self\textasciitilde exposed
-
-/* Returns the index of the first item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}5{]}
-
-::method last a=self\textasciitilde exposed
-
-/* Returns the index of the last item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount*/=0 then return .nil return
-a{[}3\emph{a{[}1{]}/}ItemsCount*/+2{]}\textbar{}
-
-::method firstitem a=self\textasciitilde exposed
-
-/* Returns the first item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount*/=0 then return .nil return a{[}4{]}
-
-::method lastitem a=self\textasciitilde exposed
-
-/* Returns the last item in the list. \emph{/ if
-a{[}1{]}/}ItemsCount\emph{/=0 then return .nil return
-a{[}3}a{[}1{]}/\emph{ItemsCount}/+1 \textbar{}
-
-::method next P* rANY \emph{/ a=self\textasciitilde exposed /} Returns
-the index of the item that follows the list item having the specified
-index. */
-
-j=self\textasciitilde findindex(arg(1))
-
-if j=0 then call Raise `Syntax',93.918
-
-jait3
-
-if j\textgreater3\emph{a{[}1{]}/}ItemsCount\emph{/ then return .nil /}
-Next of last was requested. */
-
-return a{[}j+1{]}
-
-zimethod previous /* rANY */
-
-a=self\textasciitilde exposed /* Returns the index of the item that
-precedes the list item having the specified index. */
-
-j=self\textasciitilde findindex(arg(1))
-
-if j=0 then call Raise `Syntax',93.918
-
-ja-3
-
-if j\textless4 then return .nil /* Previous of first was requested. */
-
-return a{[}j+1{]}
-
-zimethod section /* rANY OoWHOLE\textgreater=0 \emph{/
-a=self\textasciitilde exposed /} Returns a new list containing selected
-items from the receiver list. The first item in the new list is the item
-corresponding to the index specified, in the receiver list. \emph{/
-j=self\textasciitilde findindex(arg(1)) if j=0 then call Raise
-`Syntax',93.918 r=.list\textasciitilde new /} To build result in.
-\emph{/ if arg(2,`E') then s = arg(2) else s =
-self\textasciitilde items; do s r\textasciitilde insert(a{[}j{]}) jait3
-if j\textgreater1+3}a{[}1{]}/\emph{ItemsCount}/ then leave end retum r
-
-::class `Queue' subclass Collection /* A queue is a sequenced collection
-with whole-number indexes. The indexes specify the position of an item
-relative to the head (first item) of
-
-the queue. Adding or removing an item changes the association of an
-index to its queue item. */
-
-::method push /* rANY */
-
-/* Adds the object value to the queue at its head. \emph{/
-a=self\textasciitilde exposed a{[}1{]}/}ItemCount\emph{/=a{[}1
-\textbar/}ItemCount*/+1
-
-/* Slide along to make a space. \emph{/ do
-j=1+3}a{[}1{]}/\emph{ItemCount}/ by -3 to 7
-
-aljl=alj-3{]} a{[}j+1{]}=a{[}j-2{]}+1; /* Index changes */ end j
-a{[}4{]}=arg(1) a{[}5{]}=1 return ::method pull
-
-/* Returns and removes the item at the head of the queue. \emph{/
-a=self\textasciitilde exposed if a{[}1{]}/}ItemCount\emph{/=0 then
-return .nil /} Stays empty \emph{/ r=a{[}4{]}
-a{[}1{]}/}ItemCount\emph{/=a{[}1{]}/}ItemCount\emph{/- 1 do j=4 by 3 to
-14+3}a{[}1{]}/\emph{ItemCount}/ alj\}=alj+3{]} a{[}j+1{]}=al{[}j+4{]}-1;
-/* Index changes */ end j returm r
-
-zimethod queue =/* rANY */
-
-/* Adds the object value to the queue at its tail. \emph{/
-a=self\textasciitilde exposed a{[}1{]}/}ItemCount\emph{/=a{[}1
-\textbar/}ItemCount\emph{/+1
-a{[}\{1+3}a{[}1{]}/\emph{ItemCount}/\textbar=arg(1)
-a{[}2+3\emph{a{[}1{]}/}ItemCount\emph{/\textbar=al{[} 1 {]}/}ItemCount*/
-return
-
-:imethod peek
-
-a=self\textasciitilde exposed /* Returns the item at the head of the
-queue. The collection remains unchanged. */
-
-return a{[}4{]}
-
-zimethod remove /* rWHOLE\textgreater O \emph{/ /} Returns and removes
-from a collection the member item with the specified index. \emph{/
-a=self\textasciitilde exposed if
-a{[}1{]}/}ItemCount\emph{/\textless arg(1) then return .nil
-r=self\textasciitilde remove:super(arg(1)) /} Reset the indexes. \emph{/
-k=0 do j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/ k=k+1 a\{j+1J=k
-
-end j return r
-
-::class ``Table' subclass Collection
-
-::method makearray /* Returns a single-index array containing the index
-objects. \emph{/ /} This is different from Collection MAKEARRAY where
-items rather than indexes are in the returned array. */ forward message
-`MAKEARRAYX'
-
-::method union /* rCOLLECTION */ return CommonUnion(self,arg(1))
-
-::method intersection /* rCOLLECTION \emph{/ /} Returns a new collection
-of the same class as SELF that contains the items from SELF that have
-indexes also in the argument. \emph{/ /} Actually an index in SELF can
-only be `matched' with one in the argument once. */
-
-return self\textsubscript{difference(self}difference(arg(1)))
-
-::method xor /* rCOLLECTION \emph{/ /} Returns a new relation that
-contains all items from self and the argument except that all index-item
-pairs that appear in both collections are removed. */ return
-CommonXor(self,arg(1))
-
-::method difference /* rCOLLECTION */ return
-CommonDifference(self,arg(1))
-
-::method subset = /* rCOLLECTION */ return
-self\textsubscript{difference(arg(1))}items = 0
-
-::class `Set' subclass table
-
-/* A set is a collection that restricts the member items to have a value
-that is the same as the index. Any object can be placed in a set. There
-can be only one occurrence of any object in a set. */
-
-/* Second arg same as first. Committee has dropped second? \emph{/
-:rmethod put /} rANY oANY \emph{/ /} Makes the object value a member
-item of the collection and associates it with specified index. \emph{/
-if arg(2,`E') then if arg(2)==arg(1) then signal error /} 949 */
-self\textasciitilde put:super(arg(1),arg(1))
-
-zimethod of class /* 1 or more rANY \emph{/ /} Returns a newly created
-set containing the specified value objects. */ r=self\textasciitilde new
-do j=1 to arg() r\textasciitilde put(arg(j)) end j retum r
-
-::method union /* rCOLLECTION */ return CommonUnion(self,EnBag(arg(1)))
-
-::method intersection /* rCOLLECTION */ return
-self\textsubscript{difference(self}difference(arg(1)))
-
-::method xor /* rCOLLECTION */ return CommonXor(self,EnBag(arg(1)))
-
-::method difference /* rCOLLECTION */ return
-CommonDifference(self,EnBag(arg(1)))
-
-::class `Relation' subclass Collection
-
-::method put /* rANY rANY */
-
-use arg item, index
-
-a=self\textasciitilde exposed /* Makes the object value a member item of
-the relation and associates it with the specified index. If the relation
-already contains any items with the specified index, this method adds a
-new member item value with the same index, without removing any existing
-members */
-
-a{[}1{]}/\emph{ItemsCount}/=a{[}1 {]}/\emph{ItemsCount}/+1
-
-j=lt3\emph{a{[}1{]}/}ItemsCount*/
-
-a{[}j{]}=item
-
-a{[}j+1{]}=index
-
-a{[}j+2{]}=0
-
-return /* Error 91 in OOI if context requiring result. */
-
-:imethod items /* oANY \emph{/ a=self\textasciitilde exposed /} Returns
-the number of relation items with the specified index. If you specify
-
-no index, this method returns the total number of items associated with
-all indexes in the relation. */
-
-if \arg(1,'E') then return a{[}1{]}/\emph{ItemsCount}/
-
-n=0
-
-do j=4 by 3 to 143\emph{a{[}1{]}/}ItemsCount*/
-
-if arg(1)==a{[}j+1{]} then n=n+1 end j retum n
-
-::method makearray forward message `MAKEARRAYX'
-
-zimethod supplier /* oANY \emph{/ a=self\textasciitilde exposed /}
-Returns a supplier object for the collection. If an index is specified,
-the supplier enumerates all of the items in the relation with the
-specified index. \emph{/ m=.array\textasciitilde new /} For the items
-\emph{/ r=.array\textasciitilde new /} For the indexes \emph{/ do j=4 by
-3 to 143}a{[}1{]}/\emph{ItemsCount}/ if arg(1,`E') then if
-arg(1)==a{[}j+1{]} then iterate n=r\textasciitilde dimension(1)+1
-m{[}n{]}=alj{]} r{[}n{]}=a{[}j+1{]} end j return
-.supplier\textasciitilde new(m,r)
-
-::method union /* rCOLLECTION \emph{/ /} Union for a relation is just
-all of both. */ r=self\textsubscript{class}new
-cs=self\textasciitilde supplier do while cs\textasciitilde available
-r{[}cs\textasciitilde index{]}=cs\textasciitilde item
-cs\textasciitilde next end cs=MayEnBag(arg(1))\textasciitilde supplier
-do while cs\textasciitilde available
-r{[}cs\textasciitilde index{]}=cs\textasciitilde item
-cs\textasciitilde next end return r
-
-::method intersection /* rCOLLECTION */ return
-self\textsubscript{difference(self}difference(arg(1)))
-
-::method xor /* rCOLLECTION */ return CommonXor(self,arg(1))
-
-zimethod difference /* rCOLLECTION \emph{/ /} Returns a new relation
-containing only those index-item pairs from the
-
-163 SELF whose indexes the other collection does not contain. */
-r=self\textsubscript{class}new cs=self\textasciitilde supplier do while
-cs\textasciitilde available
-r{[}cs\textasciitilde index{]}=cs\textasciitilde item
-cs\textasciitilde next end cs=MayEnBag(arg(1))\textasciitilde supplier
-do while cs\textasciitilde available
-r\textsubscript{removeitem(cs}item,cs\textasciitilde index)
-cs\textasciitilde next end return r
-
-::method subset = /* rCOLLECTION */ return
-self\textsubscript{difference(arg(1))}items = 0
-
-zimethod removeitem /* rANY rANY \emph{/ a=self\textasciitilde exposed
-/} Returns and removes from a relation the member item value (associated
-with the specified index). If value is not a member item associated with
-index index, this method returns the NIL object and removes no item.
-\emph{/ do j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/ if a\{jJ==arg(1)
-\& a{[}j+1{]}==arg(2) then do self\textasciitilde removeit(j) return
-arg(1) end end j return .nil
-
-:rmethod index /* rANY \emph{/ a=self\textasciitilde exposed /} Returns
-the index for the specified item. If there is more than one index
-associated with the specified item, the one this method returns is not
-defined. \emph{/ do j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/ if
-arg(1)==a{[}j{]} then return a{[}j+1{]} end j return .nil
-
-::method allat /* rANY */
-
-a=self\textasciitilde exposed /* Returns a single-index array containing
-all the items associated with the specified index. */
-
-r=.array\textasciitilde new
-
-do j=4 by 3 to 143\emph{a{[}1{]}/}ItemsCount*/
-
-if arg(1)==a{[}j+1{]} then r{[}r\textasciitilde dimension(1)+1{]} =
-a{[}j{]} end j return r
-
-::method hasitem /* rANY rANY \emph{/ a=self\textasciitilde exposed /}
-Returns 1 (true) if the relation contains the member item value
-(associated with specified index). Returns 0 (false) otherwise. \emph{/
-do j=4 by 3 to 143}a{[}1{]}/\emph{ItemsCount}/ if a\{jJ==arg(1) \&
-a{[}j+1{]}==arg(2) then return \textbar{} end j return 0
-
-z:method allindex /* rANY \emph{/ a=self\textasciitilde exposed /}
-Returns a single-index array containing all indexes for the specified
-item. \emph{/ r=.array\textasciitilde new do j=4 by 3 to
-143}a{[}1{]}/\emph{ItemsCount}/ if a{[}j{]}==arg(1) then do
-r{[}r\textasciitilde dimension(1)+1{]}=a{[}j+1{]} end end j returm r
-
-::class `Bag' subclass relation
-
-/* A bag is a collection that restricts the member items to having a
-value that is the same as the index. Any object can be placed in a bag,
-and the same object can be placed in a bag multiple times. */
-
-zimethod of class /* 1 or more rANY \emph{/ /} Returns a newly created
-bag containing the specified value objects. */ r=self\textasciitilde new
-do j=1 to arg() r\textasciitilde put(arg(j)) end j retum r
-
-:rmethod put /* rANY oANY \emph{/ /} Committee does away with second
-argument? \emph{/ /} Makes the object value a member item of the
-collection and associates it with the specified index. If you specify
-index, it must be the same as value. */ if arg(2,`E') then if
-arg(2)==arg(1) then signal error
-self\textasciitilde put:super(arg(1),arg(1))
-
-/* Bag may be a subclass of relation but many methods have different
-semantics. */
-
-::method union /* rCOLLECTION */ return CommonUnion(self,EnBag(arg(1)))
-
-::method intersection /* rCOLLECTION */ return
-self\textsubscript{difference(self}difference(arg(1)))
-
-::method xor /* rCOLLECTION */ return CommonXor(self,EnBag(arg(1)))
-
-::method difference /* rCOLLECTION */ return
-CommonDifference(self,EnBag(arg(1)))
-
-::class `Directory' subclass Collection
-
-/* Later we take three array elements for each element in the directory,
-one for the item, one to contain the index, one to say if the item is a
-method
-
-to be run or not. */
-
-::method at /* rANY \emph{/ a=self\textasciitilde exposed /} Returns the
-item associated with the specified index. \emph{/
-j=self\textasciitilde findindex(arg(1)) if j=0 then return .nil /} Run
-the method if there is one. */ if a{[}j+2{]} then return
-self\textasciitilde run(a{[}j{]}) return a{[}j{]}
-
-::method put /* rANY rANY \emph{/ a=self\textasciitilde exposed /} Makes
-the object value a member item of the collection and associates it with
-the specified index. */ if
-\arg(2)\textasciitilde hasmethod(MAKESTRING'\,') then call Raise
-`Syntax', 93.938 self\textsubscript{put:super(arg(1),arg(2)}makestring)
-return
-
-::method makearray forward message `MAKEARRAYX'
-
-:imethod supplier a=self\textasciitilde exposed
-
-/* Returns a supplier object for the directory. */
-
-/* Check out what happens to the SETENTRY fields. \emph{/
-r=.array\textasciitilde new /} For items */
-
-do j=4 by 3 to 143\emph{a{[}1{]}/}ItemsCount*/
-r{[}r\textasciitilde dimension(1)+1{]}=a{[}j{]} end j
-
-return .supplier\textsubscript{new(r,self}makearray)
-
-::method union /* rCOLLECTION */ return CommonUnion(self,arg(1))
-
-::method intersection /* rCOLLECTION */ return
-self\textsubscript{difference(self}difference(arg(1)))
-
-::method xor /* rCOLLECTION */ return CommonXor(self,arg(1))
-
-::method difference /* rCOLLECTION */ return
-CommonDifference(self,arg(1))
-
-::method subset = /* rCOLLECTION */ return
-self\textsubscript{difference(arg(1))}items = 0
-
-z:method setentry /* rSTRING oANY \emph{/ a=self\textasciitilde exposed
-/} Sets the directory entry with the specified name (translated to
-uppercase) to the second argument, replacing any existing entry or
-method for the specified name. \emph{/ n=translate(arg(1))
-j=self\textasciitilde findindex(n) if j=0 \& \arg(2,`E') then return if
-\arg(2,`E') then do /} Removal \emph{/ self\textasciitilde removeit(j)
-returm end if j=0 then do /} It's new \emph{/
-a{[}1{]}/}ItemsCount\emph{/=a{[}1{]}/}ItemsCount\emph{/ +1
-j=lt3}a{[}1{]}/\emph{ItemsCount}/ a{[}j+1{]}J=n end a{[}j{]}=arg(2)
-a{[}j+2{]}=0
-
-returm
-
-::method entry /* rSTRING */
-
-a=self\textasciitilde exposed /* Returns the directory entry with the
-specified name (translated to uppercase). */
-
-n=translate(arg(1))
-
-j=self\textasciitilde findindex(n) /\emph{if j=0 then signal error
-according to online }/ /* Online has something about running UNKNOWN.
-\emph{/ if j=0 then return .nil /} Tf there is an entry decide whether
-to invoke it. */ if a\textasciitilde hasindex(j) then do if \a[j+2] then
-return a{[}j{]} return self\textasciitilde run(a{[}j{]}) end
-
-z:method hasentry /* rSTRING \emph{/ /} Returns 1\textbar{} (true) if
-the directory has an entry or a method for the specified name
-(translated to uppercase) or O (false) otherwise. */
-
-return self\textasciitilde findindex(translate(arg(1)))\textgreater0
-
-z:method setmethod /* rSTRING oMETHOD \emph{/
-a=self\textasciitilde exposed /} Associates entry with the specified
-name (translated to uppercase) with method method. Thus, the language
-processor returns the result of running method when you access this
-entry. \emph{/ /} (Part of METHOD checking converts string or array to
-actual method.) \emph{/ n=translate(arg(1))
-j=self\textasciitilde findindex(n) if j=0 \& \arg(2,`E') then return if
-\arg(2,'E') then do self\textasciitilde removeit(j) returm end if j=0
-then do /} It's new \emph{/
-a{[}1{]}/}ItemsCount\emph{/=a{[}1{]}/}ItemsCount\emph{/ +1
-j=lt3}a{[}1{]}/\emph{ItemsCount}/ a{[}j+1{]}J=n end a{[}j{]}=arg(2)
-a\{j+2{]}=1
-
-returm
-
-:imethod unknown =/* rSTRING rARRAY */
-
-/* Runs either the ENTRY or SETENTRY method, depending on whether the
-message name supplied ends with an equal sign. If the message name does
-not end with an equal sign, this method runs the ENTRY method, passing
-the message name as its argument. */ if right(arg(1),1)==`=``' then
-
-return self\textasciitilde entry(arg(1)) /* 22 Not clear whether second
-argument is mandatory. */ t=.nil
-
-if arg(2,`E') then t=arg(2){[}1{]}
-self\textasciitilde setentry(left(arg(1),length(arg(1))-1),t)
-
-routine CommonXor /* Returns a new collection that contains all items
-from self and the argument except that all indexes that appear in both
-collections are removed. \emph{/ /} When the target is a bag, there may
-be an index in the bag that is duplicated and the same value as an index
-in the argument. Should one copy of the index survive in the bag? */
-Ihs=arg(1)\textasciitilde difference(arg(2))
-rhs=Cast(arg(1),MayEnBag(arg(2)))\textasciitilde difference(arg(1))
-return lhs\textasciitilde union(rhs)
-
-nroutine CommonUnion /* Returns a new collection of the same class as
-SELF that contains all the items from SELF and items from the argument
-that have an index not in the first. \emph{/ /} Best to add them all. By
-adding non-receiver first we ensure that receiver takes priority when
-same indexes. \emph{/ This = arg(1) /} self of caller */
-r=This\textsubscript{class}new
-cs=MayEnBag(arg(2))\textasciitilde supplier do while
-cs\textasciitilde available
-r{[}cs\textasciitilde index{]}=cs\textasciitilde item
-cs\textasciitilde next end cs=This\textasciitilde supplier do while
-cs\textasciitilde available
-r{[}cs\textasciitilde index{]}=cs\textasciitilde item
-cs\textasciitilde next end return r
-
-nroutine CommonDifference /* Returns a new collection containing only
-those index-item pairs from the SELF whose indexes the other collection
-does not contain. \emph{/ This = arg(1) /} self of caller */
-r=This\textsubscript{class}new cs=This\textasciitilde supplier do while
-cs\textasciitilde available
-r{[}cs\textasciitilde index{]}=cs\textasciitilde item
-cs\textasciitilde next end cs=MayEnBag(arg(2))\textasciitilde supplier
-
-do while cs\textasciitilde available r\textsubscript{remove(cs}index)
-cs\textasciitilde next end
-
-return r
-
-routine MayEnBag
-
-/* For List and Queue the indexes are dropped. */ r=arg(1) if
-r\textasciitilde class == .List \textbar{} r\textasciitilde class ==
-.Queue then r=EnBag(r) retum r
-
-routine EnBag r=.Bag\textasciitilde new s=arg(1)\textasciitilde supplier
-do while s\textasciitilde available if arg(1)\textasciitilde class ==
-.List \textbar{} arg(1)\textasciitilde class == .Queue then
-1{[}s\textasciitilde item{]}=s\textasciitilde item else /* This case is
-when the receiver is a Bag. */
-1{[}s\textasciitilde index{]}=s\textasciitilde index
-s\textasciitilde next end return r
-
-/* This Cast routine commented away, since replaced by Oct 98 Rony
-version. routine Cast public use arg Target, Other TmpColl =
-Target\textsubscript{class}new /* Create an instance of type Target
-\emph{/ TmpSupp = Other\textasciitilde supplier /} Get supplier from
-Other */ signal on syntax do while TmpSupp\textasciitilde available
-TmpColl{[}TmpSupp\textasciitilde index{]} = TmpSupp\textasciitilde item
-TmpSupp\textasciitilde next end return TmpColl
-
-/* Tf syntax error 93.949, then target is an index-only collection like
-a set.*/ syntax:
-
-if condition( ``O'' )\textasciitilde code = ``93.949'' then signal
-IndexOnly
-
-raise propagate /* Unhandled syntax error, raise in caller */
-
-IndexOnly: /* This for index-only collections. */ do while
-TmpSupp\textasciitilde available
-TmpColl{[}TmpSupp\textasciitilde index{]} = TmpSupp\textasciitilde index
-TmpSupp\textasciitilde next
-
-end return TmpColl End commented away */
-
-/* 98-09-24, ---ref; CAST2.CMD return a collection of type ``target''
-which collected all item/index pairs of the argument ``other'' */
-
-2: ROUTINE cast PUBLIC USE ARG target, other
-
-SIGNAL ON SYNTAX IF ~other \textasciitilde{} HASMETHOD( ``SUPPLIER'' )
-THEN RAISE SYNTAX 98.907 ARRAY (``COLLECTION
-(i.e.~argument2=`other'-object must have a `SUPPLIER'-method)'' )
-
-tmpColl = target \textasciitilde{} CLASS \textasciitilde{} NEW /* create
-a an instance of type target \emph{/ tmpSupp = other\textasciitilde{}
-SUPPLIER /} get supplier from other */
-
-/* is index of ``other'' usable ? */ bIndexUsable = other
-\textasciitilde{} HASMETHOD( ``UNION'' )
-
-IF .Debug = .true THEN IF ~bIndexUsable THEN SAY'' /// index of `other'
-not usable for setlike-operations''
-
-/* possible syntax-error, if index and item must have the same value,
-e.g.~for sets/bags \emph{/ SIGNAL ON SYNTAX NAME INDEX ONLY target
-\textasciitilde{} CLASS \textasciitilde{} NEW \textasciitilde{} PUT(
-1,2) /} test, if target-type is index-only */
-
-SIGNAL ON SYNTAX DO WHILE tmpSupp \textasciitilde{} AVAILABLE IF
-bIndexUsable THEN tmpColl{[} tmpSupp \textasciitilde{} INDEX {]} =
-tmpSupp \textasciitilde{} ITEM ELSE tmpColl{[} tmpSupp \textasciitilde{}
-ITEM {]} = tmpSupp \textasciitilde{} ITEM tmpSupp \textasciitilde{} NEXT
-END RETURN tmpColl
-
-INDEX\_ONLY : /* this is for index-only collections (e.g.~sets, bags) */
-SIGNAL ON SYNTAX IF .Debug = .true THEN SAY'' \textbackslash{}`target'
-is an index-only collection (index==item)'' DO WHILE tmpSupp
-\textasciitilde{} AVAILABLE
-
-IF bIndexUsable THEN tmpColl{[} tmpSupp \textasciitilde{} INDEX {]} =
-tmpSupp \textasciitilde{} INDEX ELSE tmpColl{[} tmpSupp
-\textasciitilde{} ITEM {]} = tmpSupp \textasciitilde{} ITEM tmpSupp
-\textasciitilde{} NEXT END RETURN tmpColl
-
-SYNTAX: RAISE PROPAGATE /* raise error in caller */
+\lstinputlisting[language=rexx,label=setlikeoperations.rexx,caption=setlikeoperations.rexx]{setlikeoperations.rexx}
 
 \section{The stream class}\label{the-stream-class}
 
-The stream class provides input/output on external streams. ::class
-stream
+The stream class provides input/output on external streams.
 
-::method init /* rString \emph{/ Initializes a stream object for a
-stream named name, but does not open the stream. ::smethod query /}
-keywords */
+\lstinputlisting[language=rexx,label=streamclass.rexx,caption=streamclass.rexx]{streamclass.rexx}
 
-There is also QUERY as command with method COMMAND.
+Initializes a stream object for a stream named name, but does not open
+the stream.
+
+\lstinputlisting[language=rexx,label=streamquerymethod.rexx,caption=streamquerymethod.rexx]{streamquerymethod.rexx}
+
+\emph{There is also QUERY as command with method COMMAND.}
 
 Used with options, the QUERY method returns specific information about a
-stream. ::method charin
+stream.
 
-::smethod charout
+\lstinputlisting[language=rexx,label=streamiomethods.rexx,caption=streamiomethods.rexx]{streamiomethods.rexx}
 
-::method chars
+Returns a string after performing the specified stream command.
 
-::method linein
+\lstinputlisting[language=rexx,label=steamopenmethod.rexx,caption=steamopenmethod.rexx]{steamopenmethod.rexx}
 
-::method lineout
-
-::method lines
-
-::method qualify
-
-::method command /* rString */
-
-Returns a string after performing the specified stream command. ::method
-open
-
-There is also OPEN as command with method COMMAND.
+\emph{There is also OPEN as command with method COMMAND.}
 
 Opens the stream to which you send the message and returns ``READY:''.
 
-Committee dropping OPEN POSITION QUERY SEEK as methods in favour of
-command use. ::method state
+\emph{Committee dropping OPEN POSITION QUERY SEEK as methods in favour
+of command use.}
+
+\lstinputlisting[language=rexx,label=streamstatemethod.rexx,caption=streamstatemethod.rexx]{streamstatemethod.rexx}
 
 Returns a string that indicates the current state of the specified
-stream. ::method say
+stream.
 
-::method uninit
+\lstinputlisting[language=rexx,label=streamvariousmethods.rexx,caption=streamvariousmethods.rexx]{streamvariousmethods.rexx}
 
-::method position /* Ugh \emph{/ POSITION is a synonym for SEEK.
-::method seek /} Ugh */
+POSITION is a synonym for SEEK.
+
+\lstinputlisting[language=rexx,label=streamseekmethod.rexx,caption=streamseekmethod.rexx]{streamseekmethod.rexx}
 
 Sets the read or write position a specified number (offset) within a
 persistent stream.
 
-::method flush
+\lstinputlisting[language=rexx,label=streamflushmethod.rexx,caption=streamflushmethod.rexx]{streamflushmethod.rexx}
 
 Returns ``READY:''. Forces any data currently buffered for writing to be
 written to the stream receiving the message.
 
-There is also FLUSH as command with method COMMAND.
+\emph{There is also FLUSH as command with method COMMAND.}
 
-Committee dropping FLUSH.
+\emph{Committee dropping FLUSH.}
 
-::method close
+\lstinputlisting[language=rexx,label=streamclosemethod.rexx,caption=streamclosemethod.rexx]{streamclosemethod.rexx}
 
 Closes the stream that receives the message.
 
-There is also CLOSE as command with method COMMAND.
+\emph{There is also CLOSE as command with method COMMAND.}
 
-Semantics are `seen by other thread'. ::method string
+\emph{Semantics are `seen by other thread'.}
 
-::method makearray /* rCHARLINE */ Returns a fixed array that contains
-the data from the stream in line or character format, starting from the
-
-current read position. ::method supplier
-
-Returns a supplier object for the stream. ::method description
-
-::smethod arrayin /* rCHARLINE */
-
-Mixed case value works on OOI.
-
-Committee dropping Arrayin \& Arrayout. Arrayin == MakeArray
+\lstinputlisting[language=rexx,label=streamstringmethod.rexx,caption=streamstringmethod.rexx]{streamstringmethod.rexx}
 
 Returns a fixed array that contains the data from the stream in line or
-character format, starting from the
+character format, starting from the current read position.
 
-current read position. ::smethod arrayout /* rARRAY rCHARLINE */
+\lstinputlisting[language=rexx,label=streamsuppliermethod.rexx,caption=streamsuppliermethod.rexx]{streamsuppliermethod.rexx}
+
+Returns a supplier object for the stream.
+
+\lstinputlisting[language=rexx,label=streamdescriptionmethod.rexx,caption=streamdescriptionmethod.rexx]{streamdescriptionmethod.rexx}
+
+\lstinputlisting[language=rexx,label=streamaaryinmethod.rexx,caption=streamaaryinmethod.rexx]{streamaaryinmethod.rexx}
+
+\emph{Mixed case value works on OOI.}
+
+\emph{Committee dropping Arrayin \& Arrayout. Arrayin == MakeArray}
+
+Returns a fixed array that contains the data from the stream in line or
+character format, starting from the current read position.
+
+\lstinputlisting[language=rexx,label=streamarrayoutmethod.rexx,caption=streamarrayoutmethod.rexx]{streamarrayoutmethod.rexx}
 
 Returns a stream object that contains the data from array.
 
 \section{The alarm class}\label{the-alarm-class}
 
-::class alarm
+\lstinputlisting[language=rexx,label=alarmclass,caption=alarmclass]{alarmclass}
 
-::method init /* Time, Msg */ Sets up an alarm for a future time atime.
-::method cancel
+Sets up an alarm for a future time atime.
+
+\lstinputlisting[language=rexx,label=alarmcancelmethod.rexx,caption=alarmcancelmethod.rexx]{alarmcancelmethod.rexx}
 
 Cancels the pending alarm request represented by the receiver. This
 method takes no action if the specified time has already been reached.
@@ -1844,39 +461,32 @@ method takes no action if the specified time has already been reached.
 
 The Monitor class forwards messages to a destination object.
 
--local {[}`OUTPUT'{]} = .monitor\textasciitilde new(.output)
-
-::class monitor
+\lstinputlisting[language=rexx,label=monitorclass.rexx,caption=monitorclass.rexx]{monitorclass.rexx}
 
 \subsection{INIT}\label{init-1}
 
 Initializes the newly created monitor object.
 
-::method init /* oDESTINATION */ expose Destination Destination =
-.queue\textasciitilde new if arg(1,`E') then
-Destination\textasciitilde push (arg(1)) return
+\lstinputlisting[language=rexx,label=monitorinitmethod.rexx,caption=monitorinitmethod.rexx]{monitorinitmethod.rexx}
 
 \subsection{CURRENT}\label{current}
 
 Returns the current destination object.
 
-::smethod current expose Destination return Destination {[}1{]}
+\lstinputlisting[language=rexx,label=monitorcurrentmethod.rexx,caption=monitorcurrentmethod.rexx]{monitorcurrentmethod.rexx}
 
 \subsection{DESTINATION}\label{destination}
 
 Returns a new destination object.
 
-::method destination /* oDESTINATION */ expose Destination if arg(1,`E')
-then Destination\textasciitilde push (arg(1)) else
-Destination\textasciitilde pull return Destination {[}1{]}
+\lstinputlisting[language=rexx,label=monitordestinationmethod.rexx,caption=monitordestinationmethod.rexx]{monitordestinationmethod.rexx}
 
 \subsection{UNKNOWN}\label{unknown-1}
 
 Reissues or forwards to the current monitor destination all unknown
 messages sent to a monitor object
 
-::method unknown expose Destination
+\lstinputlisting[language=rexx,label=monitorunknownmethod.rexx,caption=monitorunknownmethod.rexx]{monitorunknownmethod.rexx}
 
-Extra parens needed here in original OREXX syntax
-
-forward to destination{[}1{]} message arg(1) arguments arg(2) return
+\emph{Extra parens needed here in original OREXX syntax}
+\lstinputlisting[language=rexx,label=monitorforwardsyntax.rexx,caption=monitorforwardsyntax.rexx]{monitorforwardsyntax.rexx}
