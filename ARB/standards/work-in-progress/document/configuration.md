@@ -509,7 +509,7 @@ Array is an array.
 
 Index is an integer greater or equal to 1.
 
-####Semantics:
+#### Semantics:
 
 Return '1' if there is an item in Array associated with Index, '0' otherwise.
 
@@ -888,7 +888,9 @@ Config Stream Command (Stream, Command)
 where:
 Stream is the name of the stream to be processed.
 Command is a configuration-specific command to be performed against the stream.
-Semantics:
+
+#### Semantics:
+
 Issue a configuration-specific command against a stream. This may affect all state variables
 describing Stream which hold position information. It may alter the effect of any subsequent operation
 on the specified stream. If the indicator is set to 'N', #Outcome shall be set to information from the
@@ -901,7 +903,9 @@ command.
 Config Stream State (Stream)
 where:
 Stream is the name of the stream to be queried.
-Semantics:
+
+#### Semantics:
+
 Set the indicator to reflect the state of the stream. Return an indicator equal to the indicator that an
 immediately subsequent Config_Stream_Charin(Stream, 'CHARIN') would return. Alternatively, return
 an indicator of 'U'.
@@ -919,7 +923,9 @@ Stream is the name of the stream to be processed.
 Data is the data to be written, or 'EOL' to indicate that an end-of-line indication is to be written, or a
 null string. In the first case, if the stream is a binary stream then Data will be eight characters, each
 '0' or '1', otherwise Data will be a single character.
-Semantics:
+
+#### Semantics:
+
 When Data is the null string, no data is written.
 Otherwise write to the stream. The state variables describing the stream will be affected as follows:
 
@@ -938,7 +944,9 @@ necessary to account for any end-of-line indication embedded in the stream;
 Config Stream Qualified (Stream)
 where:
 Stream is the name of the stream to be processed.
-Semantics:
+
+#### Semantics:
+
 Set #Outcome to some name which identifies Stream.
 Return a completion response with indicator 'B' if the argument is not acceptable to the configuration
 as identifying a stream.
@@ -948,7 +956,9 @@ as identifying a stream.
 #### Syntax:
 
 Config Stream Unique ()
-Semantics:
+
+#### Semantics:
+
 Set #Outcome to a name that the configuration recognizes as a stream name. The name shall not be
 a name that the configuration associates with any existing data.
 
@@ -958,7 +968,9 @@ a name that the configuration associates with any existing data.
 Config Stream Query (Stream)
 where:
 Stream is the name of the stream to be queried.
-Semantics:
+
+#### Semantics:
+
 Set #Outcome to 'B' if the stream is a binary stream, or to 'C' if it is a character stream.
 
 ### Config_Stream_Close
@@ -968,7 +980,9 @@ Set #Outcome to 'B' if the stream is a binary stream, or to 'C' if it is a chara
 Config Stream Close (Stream)
 where:
 Stream is the name of the stream to be closed.
-Semantics:
+
+#### Semantics:
+
 #Charout_Position.Stream and #Lineout_Position.Stream are set to 1 unless the stream has existing
 data, in which case they are set ready to write immediately after the existing data.
 If this function is unable to position the stream because the stream is transient then the indicator of the
@@ -983,7 +997,9 @@ Stream is the name of the stream to be counted.
 Operation is 'CHARS', or 'LINES'.
 
 Option is 'N' or 'C'.
-Semantics:
+
+#### Semantics:
+
 If the option is 'N', #Outcome is set to zero if:
 
 - the file is transient and no more characters (or no more lines if the Operation is 'LINES') are
@@ -1009,9 +1025,12 @@ number of lines if the Operation is 'LINES') which can be read from the stream w
 before resetting.
 
 ## External variable pools
+
 The external variable pools interface consists of functions which the configuration shall provide to
 manipulate variables in external variable pools.
+
 See nnn for the VALUE built-in function which uses external variable pools.
+
 The configuration shall provide an external variable pools mechanism. The following functions shall be
 provided:
 
@@ -1024,36 +1043,51 @@ The configuration may permit the external variable pools to be altered in other 
 ### Config Get
 
 #### Syntax:
+
 Config Get (Poolid, Name)
+
 where:
+
 Poolid is an identification of the external variable pool.
+
 Name is the name of a variable.
-Semantics:
+
+#### Semantics:
+
 Get the value of a variable with name Name in the external variable pool Poolid. Set Outcome to this
 value.
+
 If Poolid does not identify an external pool provided by this configuration, the indicator of the
 completion response is 'P'.
+
 If Name is not a valid name of a variable in the external pool, the indicator of the completion response
 is 'F'.
 
 ### Config Set
 
 #### Syntax:
+
 Config Set (Poolid, Name, Value)
 
 where:
+
 Poolid is an identification of the external variable pool.
+
 Name is the name of a variable.
+
 Value is the value to be assigned to the variable.
-Semantics:
+
+#### Semantics:
+
 Set a variable with name Name in the external variable pool Poolid to Value.
+
 If Poolid does not identify an external pool provided by this configuration, the indicator of the
 completion response is 'P'.
+
 If Name is not a valid name of a variable in the external pool, the indicator of the completion response
 is 'F'.
 
 ## Configuration characteristics
-
 
 The configuration characteristics interface consists of a function which the configuration shall provide
 which indicates choices decided by the configuration.
@@ -1063,7 +1097,9 @@ which indicates choices decided by the configuration.
 #### Syntax:
 
 Config Constants ()
-Semantics:
+
+#### Semantics:
+
 Set the values of the following state variables:
 
 - if there are any built-in functions which do not operate at NUMERIC DIGITS 9, then set variables
@@ -1090,40 +1126,31 @@ This shall be in the format which is the default for the DATE() built-in functio
 
 The configuration routines interface consists of functions which the configuration shall provide which
 provide functions for a language processor.
+
 The following functions shall be provided:
 
 - Config_Trace_Query;
-
 - Config_Trace_Input;
-
 - Config_Trace_Output;
-
 - Config_Default_Input;
-
 - Config_Default_Output;
-
 - Config_Initialization;
-
 - Config_Termination;
-
 - Config_Halt_Query;
-
 - Config_Halt_Reset;
-
 - Config_NoSource;
-
 - Config_Time;
-
 - Config_Random_Seed;
-
 - Config_Random_Next.
 
 ### Config_Trace_Query
 
 #### Syntax:
+
 Config Trace Query ()
 
-Semantics:
+#### Semantics:
+
 Indicate whether external activity is requesting interactive tracing. Set #Outcome to 'Yes' if interactive
 tracing is currently requested. Otherwise set #Outcome to 'No'.
 
@@ -1132,18 +1159,22 @@ tracing is currently requested. Otherwise set #Outcome to 'No'.
 #### Syntax:
 Config Trace Input ()
 
-Semantics:
+#### Semantics:
+
 Set #Outcome to a value from the source of trace input. The source of trace input is determined by the
 configuration.
 
 ### Config_Trace_Output
 
 #### Syntax:
+
 Config Trace Output (Line)
 
 where:
+
 Line is a string.
-Semantics:
+
+#### Semantics:
 
 Write String as a line to the destination of trace output. The destination of trace output is defined by
 the configuration.
@@ -1151,19 +1182,25 @@ the configuration.
 ### Config _Default_Input
 
 #### Syntax:
+
 Config Default Input ()
 
-Semantics:
+#### Semantics:
+
 Set #Outcome to the value that LINEIN( ) would return.
 
 ### Config_Default_Output
 
 #### Syntax:
+
 Config Default Output (Line)
 
 where:
+
 Line is a string.
-Semantics:
+
+#### Semantics:
+
 Write the string as a line in the manner of LINEOUT( ,Line).
 
 ### Config_Initialization
@@ -1172,7 +1209,8 @@ Write the string as a line in the manner of LINEOUT( ,Line).
 
 Config Initialization ()
 
-Semantics:
+#### Semantics:
+
 This function is provided only as a counterpart to Trap_Initialization; in itself it does nothing except
 return the response. An indicator of 'F' gives rise to Msg3.1.
 
@@ -1182,25 +1220,29 @@ return the response. An indicator of 'F' gives rise to Msg3.1.
 
 Config Termination ()
 
-Semantics:
+#### Semantics:
+
 This function is provided only as a counterpart to Trap_Termination; in itself it does nothing except
 return the response. An indicator of 'F' gives rise to Msg2.1.
 
 ### Config_Halt_Query
 
 #### Syntax:
+
 Config Halt Query ()
 
-Semantics:
+#### Semantics:
+
 Indicate whether external activity has requested a HALT condition to be raised. Set #Outcome to 'Yes
 if HALT is requested. Otherwise set #Outcome to 'No'.
 
-5.12.9 Config _Halt_Reset
+### Config _Halt_Reset
 
 #### Syntax:
+
 Config Halt Reset ()
 
-Semantics:
+#### Semantics:
 
 Reset the configuration so that further attempts to cause a HALT condition will be recognized.
 
@@ -1210,11 +1252,13 @@ Reset the configuration so that further attempts to cause a HALT condition will 
 
 Config NoSource ()
 
-Semantics:
+#### Semantics:
+
 Indicate whether the source of the program may or may not be output by the language processor.
 Set #NoSource to '1' to indicate that the source of the program may not be output by the language
 processor, at various points in processing where it would otherwise be output. Otherwise, set
 #NoSource to '0'.
+
 A configuration shall allow any program to be processed in such a way that Config_NoSource() sets
 #NoSource to '0'. A configuration may allow any program to be processed in such a way that
 Config_NoSource() sets #NoSource to '1'.
@@ -1225,7 +1269,8 @@ Config_NoSource() sets #NoSource to '1'.
 
 Config Time ()
 
-Semantics:
+#### Semantics:
+
 Get a time stamp. Set #Time to a string whose value is the integer number of microseconds that have
 elapsed between 00:00:00 on January first 0001 and the time that Config_Time is called, at longitude
 zero. Values sufficient to allow for any date in the year 9999 shall be supported. The value returned
@@ -1239,11 +1284,15 @@ Set #Adjust<Index "#Adjust" #"" > to an integer number of microseconds. #Adjust<
 ### Config_Random_Seed
 
 #### Syntax:
+
 Config Random Seed (Seed)
 
 where:
+
 Seed is a sequence of up to #Bif_Digits. RANDOM digits.
-Semantics:
+
+#### Semantics:
+
 Set a seed, so that subsequent uses of Config_Random_Next will reproducibly return quasi-random
 numbers.
 
@@ -1252,19 +1301,29 @@ numbers.
 #### Syntax:
 
 Config Random Next (Min, Max)
+
 where:
+
 Min is the lower bound, inclusive, on the number returned in #Outcome.
+
 Max is the upper bound, inclusive, on the number returned in #Outcome.
-Semantics:
+
+#### Semantics:
+
 Set #Outcome to a quasi-random nonnegative integer in the range Min to Max.
 
 ### Config_Options
 
 #### Syntax:
+
 Config Options (String)
+
 where:
+
 String is a string.
-Semantics:
+
+#### Semantics:
+
 No effect beyond the effects common to all Config_ invocations. The value of the string will have
 come from an OPTIONS instruction, see nnn.
 
@@ -1278,38 +1337,26 @@ name beginning Config_ when the remainder of the name is the same. Corresponding
 called with the same interface, with one exception. The exception is that a trap may return a null string.
 When a trap returns a null string, the corresponding Config_ function is invoked; otherwise the invocation
 of the trap replaces the potential invocation of the Config_ function.
+
 In the rest of this standard, the trapping mechanism is not shown explicitly. It is implied by the use of a
 Config_ function.
+
 The names of the traps are
 
 - Trap_Command;
-
 - Trap_ExternalRoutine;
-
 - Trap_Push;
-
 - Trap_Queue;
-
 - Trap_Pull;
-
 - Trap_Queued;
-
 - Trap_Trace_Query;
-
 - Trap_Trace_Input;
-
 - Trap_Trace_Output;
-
 - Trap_Default_Input;
-
 - Trap_Default_Output;
-
 - Trap_Initialization;
-
 - Trap_Termination;
-
 - Trap_Halt_Query;
-
 - Trap_Halt_Reset.
 
 ## Variable pool
@@ -1353,10 +1400,15 @@ functions do not return an indicator 'N', 'R', or 'D' then the API function shal
 #### Syntax:
 
 API Set(Symbol, Value)
+
 where:
+
 Symbol is a symbol.
+
 Value is the string whose value is to be assigned to the variable.
-Semantics:
+
+#### Semantics:
+
 Assign the value of Value to the variable identified by Symbol. If Symbol contains no periods or
 contains one period as its last character:
 Var_ Set(#Pool, Symbol, '0', Value)
@@ -1372,8 +1424,11 @@ where:
 API Value (Symbol)
 
 where:
+
 Symbol is a symbol.
-Semantics:
+
+#### Semantics:
+
 Return the value of the variable identified by Symbol. If Symbol contains no periods or contains one
 
 period as its last character this is the value of #Outcome after:
@@ -1381,7 +1436,9 @@ Var _Value(#Pool, Symbol, '0')
 
 Otherwise the value of #Outcome after:
 Var Value(#Pool, #Symbol, '1')
+
 where:
+
 #Symbol is Symbol after any replacements in the tail as described by nnn.
 
 ### API_Drop
@@ -1391,8 +1448,11 @@ where:
 API Drop (Symbol)
 
 where:
+
 Symbol is a symbol.
-Semantics:
+
+#### Semantics:
+
 Drop the variable identified by Symbol. If Symbol contains no periods or contains one period as its last
 character:
 Var Drop(#Pool, Symbol, '0')
@@ -1410,7 +1470,8 @@ API SetDirect (Symbol, Value)
 where:
 Symbol is a direct symbol.
 Value is the string whose value is to be assigned to the variable.
-Semantics:
+
+#### Semantics:
 
 Assign the value of Value to the variable identified by Symbol. If the Symbol contains no period:
 Var_ Set(#Pool, Symbol, '0', Value)
@@ -1426,7 +1487,9 @@ API ValueDirect (Symbol)
 
 where:
 Symbol is a direct symbol.
-Semantics:
+
+#### Semantics:
+
 Return the value of the variable identified by Symbol. If the Symbol contains no period:
 Var _Value(#Pool, Symbol, '0')
 Otherwise:
@@ -1440,7 +1503,8 @@ API DropDirect (Symbol)
 
 where:
 Symbol is a direct symbol.
-Semantics:
+
+#### Semantics:
 
 Drop the variable identified by Symbol. If the Symbol contains no period:
 Var Drop(#Pool, Symbol, '0')
@@ -1456,7 +1520,9 @@ API ValueOther (Qualifier)
 where:
 Qualifier is an indication distinguishing the result to be returned including any necessary further
 qualification.
-Semantics:
+
+#### Semantics:
+
 Return characteristics of the program, depending on the value of Qualifier. The possibilities for the
 value to be returned are:
 
@@ -1474,7 +1540,7 @@ value to be returned are:
 
 API Next ()
 
-Semantics:
+#### Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
 attribute 'dropped' or the attribute 'implicit' and is not a stem; alternatively return an indication that
@@ -1488,7 +1554,7 @@ whenever the Rexx processor executes Var_Reset.
 
 API NextVariable()
 
-Semantics:
+#### Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
 attribute 'dropped' or the attribute 'implicit'; alternatively, return an indication that there is no suitable name
