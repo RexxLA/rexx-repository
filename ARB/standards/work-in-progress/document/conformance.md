@@ -10,7 +10,7 @@ documentation accompanying the processor.
 A conforming processor shall include in its
 accompanying documentation
 
-- alist of all definitions or values for the
+- a list of all definitions or values for the
 features in this standard which are specified to
 be dependent on the configuration.
 
@@ -29,26 +29,18 @@ digits, it shall be a multiple of three. Other limits
 shall be one of the numbers one, five or twenty
 five, or any of these multiplied by some power of
 ten.
+
 Limitations that conforming language processors
 may impose are:
 
-- NUMERIC DIGITS values shall be supported
-up to a value of at least nine hundred and
-ninety nine.
+- `NUMERIC DIGITS` values shall be supported up to a value of at least nine hundred and ninety nine.
 
-- Exponents shall be supported. The limit of
-the absolute value of an exponent shall be at
-least as large as the largest number that can be
-expressed without an exponent in nine digits.
+- Exponents shall be supported. The limit of the absolute value of an exponent shall be at
+least as large as the largest number that can be expressed without an exponent in nine digits.
 
-- String lengths shall be supported. The limit
-on the length shall be at least as large as the
-largest number that can be expressed without
-an exponent in nine digits.
+- String lengths shall be supported. The limit on the length shall be at least as large as the
+largest number that can be expressed without an exponent in nine digits.
 
-- String literal length
-shall be supported up to at least two hundred
-and fifty.
+- String literal length shall be supported up to at least two hundred and fifty.
 
-- Symbol length shall be supported up to at
-least two hundred and fifty.
+- Symbol length shall be supported up to at least two hundred and fifty.
