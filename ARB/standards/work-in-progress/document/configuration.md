@@ -5,15 +5,15 @@ between what is implemented especially to support Rexx and what is provided by t
 from system to system. This clause describes what they shall together do to provide the configuration for
 the Rexx language processing which is described in this standard.
 
-We don't want to add undue "magic" to this section. It seems we will need the concept of a "reference" (equivalent to
+_We don't want to add undue "magic" to this section. It seems we will need the concept of a "reference" (equivalent to
 a machine address) so that this section can at least have composite objects as arguments. (As it already does but
-these are not Rexx objects)
+these are not Rexx objects)_
 
-Possibly we could unify "reference" with "variable pool number" since object one-to-one with its variable pool is a fair
-model. That way we don't need a new primitive for comparison of two references.
+_Possibly we could unify "reference" with "variable pool number" since object one-to-one with its variable pool is a fair
+model. That way we don't need a new primitive for comparison of two references._
 
-JAVA is only a "reference" for NetRexx so some generalized JAVA-like support is needed for that. It would provide
-the answers to what classes were in the context, what their method signatures were etc.
+_JAVA is only a "reference" for NetRexx so some generalized JAVA-like support is needed for that. It would provide
+the answers to what classes were in the context, what their method signatures were etc._
 
 ## Notation
 
@@ -27,88 +27,101 @@ used only in this clause and nnn.
 
 The name of a function refers to its usage. A function whose name starts with
 
-- Config_ is used only from the language processor when processing programs;
+- `Config_` is used only from the language processor when processing programs;
 
-- API_is part of the application programming interface and is accessible from programs which are not written in the Rexx language;
+- `API_` is part of the application programming interface and is accessible from programs which are not written in the Rexx language;
 
-- Trap_ is not provided by the language processor but may be invoked by the language processor.
-As its result, each function shall return a completion Response. This is a string indicating how the function
-behaved. The completion response may be the character 'N' indicating the normal behavior occurred;
+- `Trap_` is not provided by the language processor but may be invoked by the language processor.
+ 
+As its result, each function shall return a completion `Response`. This is a string indicating how the function
+behaved. The completion response may be the character `'N'` indicating the normal behavior occurred;
 otherwise the first character is an indicator of a different behavior and the remainder shall be suitable as a
 human-readable description of the function's behavior.
 
-This standard defines any additional results from Config_ functions as made available to the language
+This standard defines any additional results from `Config_` functions as made available to the language
 processor in variables. This does not constrain how a particular implementation should return these
 results.
 
 ### Notation for completion response and conditions
 
-As alternatives to the normal indicator 'N', each function may return a completion response with indicator
-’X' or 'S'; other possible indicators are described for each function explicitly. The indicator 'X' means that
-the function failed because resources were exhausted. The indicator 'S' shows that the configuration was
+As alternatives to the normal indicator `'N'`, each function may return a completion response with indicator
+`'X'` or `'S'`; other possible indicators are described for each function explicitly. The indicator `'X'` means that
+the function failed because resources were exhausted. The indicator `'S'` shows that the configuration was
 unable to perform the function.
+
 Certain indicators cause conditions to be raised. The possible raising of these conditions is implicit in the
 use of the function; it is not shown explicitly when the functions are used in this standard.
+
 The implicit action is
+
+```rexx
 call #Raise 'SYNTAX', Message, Description
+```
+
 where:
-#Raise raises the condition, see nnn.
-Message is determined by the indicator in the completion response. If the indicator is 'X' then
-Message is 5.1. If the indicator is 'S' then Message is 48.1.
-Description is the description in the completion response.
-The 'SYNTAX' condition 5.1 can also be raised by any other activity of the language processor.
+
+* `#Raise` raises the condition, see nnn.
+* `Message` is determined by the indicator in the completion response. If the indicator is `'X'` then
+   `Message` is `5.1`. If the indicator is `'S'` then Message is `48.1`.
+* `Description` is the description in the completion response.
+
+The `'SYNTAX'` condition `5.1` can also be raised by any other activity of the language processor.
 
 ## Processing initiation
 
 The processing initiation interface consists of a function which the configuration shall provide to invoke
 the language processor.
-We could do REQUIRES in a macro-expansion way by adding an argument to Contig_SourceChar to specify the
+
+_We could do `REQUIRES` in a macro-expansion way by adding an argument to `Config_SourceChar` to specify the
 source file. However, I'm assuming we will prefer to recursively "run" each required file. One of the results of that will
-be the classes and methods made public by that REQUIRES subject.
+be the classes and methods made public by that `REQUIRES` subject._
 
 ### API Start
 Syntax:
 
-API Start(How, Source, Environment, Arguments, Streams, Traps, Provides)
+```rexx
+API_Start(How, Source, Environment, Arguments, Streams, Traps, Provides)
+```
 
 where:
-How is one of ‘COMMAND’, 'FUNCTION', or 'SUBROUTINE' and indicates how the program is
-invoked.
 
-What does OOI say for How when running REQUIREd files?
+* `How` is one of `'COMMAND'`, `'FUNCTION'`, or `'SUBROUTINE'` and indicates how the program is
+  invoked.
 
-Source is an identification of the source of the program to be processed.
+_What does OOI say for How when running REQUIREd files?_
 
-Environment is the initial value of the environment to be used in processing commands. This has
-components for the name of the environment and how the input and output of commands is to be
-directed.
+* `Source` is an identification of the source of the program to be processed.
 
-Arguments is the initial argument list to be used in processing. This has components to specify the
-number of arguments, which arguments are omitted, and the values of arguments that are not
-omitted.
+* `Environment` is the initial value of the environment to be used in processing commands. This has
+  components for the name of the environment and how the input and output of commands is to be
+  directed.
 
-Streams has components for the default input stream to be used and the default output streams to
-be used.
+* `Arguments` is the initial argument list to be used in processing. This has components to specify the
+  number of arguments, which arguments are omitted, and the values of arguments that are not
+  omitted.
 
-Traps is the list of traps to be used in processing (see nnn). This has components to specify
-whether each trap is omitted or not.
+* `Streams` has components for the default input stream to be used and the default output streams to
+  be used.
 
-Semantics:
+* `Traps` is the list of traps to be used in processing (see nnn). This has components to specify
+  whether each trap is omitted or not.
+
+#### Semantics:
 
 This function starts the execution of a Rexx program.
 
-If the program was terminated due to a RETURN or EXIT instruction without an expression the
-completion response is 'N'.
+If the program was terminated due to a `RETURN` or `EXIT` instruction without an expression the
+completion response is `'N'`.
 
-If the program was terminated due to a RETURN or EXIT instruction with an expression the indicator
-in the completion response is 'R' and the description of the completion response is the value of the
+If the program was terminated due to a `RETURN` or `EXIT` instruction with an expression the indicator
+in the completion response is `'R'` and the description of the completion response is the value of the
 expression.
 
-If the program was terminated due to an error the indicator in the completion response is 'E' and the
+If the program was terminated due to an error the indicator in the completion response is `'E'` and the
 description in the completion response comprises information about the error that terminated
 processing.
 
-If How was 'REQUIRED' and the completion response was not 'E', the Provides argument is set to
+If How was `'REQUIRED'` and the completion response was not `'E'`, the `Provides` argument is set to
 reference classes made available. See nnn for the semantics of these classes.
 
 ## Source programs and character sets
@@ -116,122 +129,96 @@ reference classes made available. See nnn for the semantics of these classes.
 The configuration shall provide the ability to access source programs (see nnn).
 Source programs consist of characters belonging to the following categories:
 
-- syntactic_characters;
-
-- extra_letters;
-
-- other_blank_characters;
-- other_negators;
-
-- other_characters.
+- _syntactic_characters_;
+- _extra_letters_;
+- _other_blank_characters_;
+- _other_negators_;
+- _other_characters_.
 
 A character shall belong to only one category.
 
 ### Syntactic_characters
 
-The following characters represent the category of characters called syntactic_characters, identified by
-their names. The glyphs used to represent them in this document are also shown. Syntactic_characters
+The following characters represent the category of characters called _syntactic_characters_, identified by
+their names. The glyphs used to represent them in this document are also shown. _Syntactic_characters_
 shall be available in every configuration:
 
 - & ampersand;
-
-- apostrophe, single quotation mark, single quote;
-* asterisk, star;
-
-- blank, space;
-
+- ' apostrophe, single quotation mark, single quote;
+- * asterisk, star;
+-  blank, space;
 - A-Z capital letters A through Z;
-
-- colon;
-
+- : colon;
 - , comma;
-
 - 0-9 digits zero through nine;
-
 - = equal sign;
-
-- | exclamation point, exclamation mark;
-- > greater-than sign;
-
-hyphen, minus sign;
-
-< less-than sign;
-
+- ! exclamation point, exclamation mark;
+- \> greater-than sign;
+- - hyphen, minus sign;
+- < less-than sign;
 - [ left bracket, left square bracket;
-(_ left parenthesis;
+- ( left parenthesis;
 - % percent sign;
 - . period, decimal point, full stop, dot;
-+ plus sign;
+- + plus sign;
 - ? question mark;
 - " quotation mark, double quote;
-\ reverse slant, reverse solidus, backslash;
-] right bracket, right square bracket;
+- \ reverse slant, reverse solidus, backslash;
+- ] right bracket, right square bracket;
 - ) right parenthesis;
-; semicolon;
-/_ slant, solidus, slash;
-a-z small letters a through z;
+- ; semicolon;
+- / slant, solidus, slash;
+- a-z small letters a through z;
 - ~ tilde, twiddle;
 - _ underline, low line, underscore;
 - | vertical line, bar, vertical bar.
 
 ### Extra_letters
 
-A configuration may have a category of characters in source programs called extra_letters. Extra_letters
+A configuration may have a category of characters in source programs called _extra_letters_. _Extra_letters_
 are determined by the configuration.
 
 ### Other_blank_characters
 
-A configuration may have a category of characters in source programs called other_blank_characters.
-Other_blank_characters are determined by the configuration. Only the following characters represent
+A configuration may have a category of characters in source programs called _other_blank_characters_.
+_Other_blank_characters_ are determined by the configuration. Only the following characters represent
 possible characters of this category:
 
 - carriage return;
-
 - form feed;
-
 - horizontal tabulation;
-
 - new line;
-
 - vertical tabulation.
 
 ### Other_negators
 
-A configuration may have a category of characters in source programs called other_negators.
-Other_negators are determined by the configuration. Only the following characters represent possible
+A configuration may have a category of characters in source programs called _other_negators_.
+_Other_negators_ are determined by the configuration. Only the following characters represent possible
 characters of this category. The glyphs used to represent them in this document are also shown:
 
-- * circumflex accent, caret;
-
-- — not sign.
+- ^ circumflex accent, caret;
+- ¬ not sign.
 
 ### Other_characters
 
-A configuration may have a category of characters in source programs called other_characters.
-Other_characters are determined by the configuration.
+A configuration may have a category of characters in source programs called _other_characters_.
+_Other_characters_ are determined by the configuration.
 
 ## Configuration characters and encoding
 The configuration characters and encoding interface consists of functions which the configuration shall
 provide which are concerned with the encoding of characters.
+
 The following functions shall be provided:
 
-- Config_SourceChar;
-
-- Config_OtherBlankCharacters;
-
-- Config_Upper;
-
-- Config_Compare;
-
-- Config_B2C;
-
-- Config_C2B;
-
-- Config_Substr;
-
-- Config_Length;
-
-- Config_Xrange.
+- `Config_SourceChar`;
+- `Config_OtherBlankCharacters`;
+- `Config_Upper`;
+- `Config_Compare`;
+- `Config_B2C`;
+- `Config_C2B`;
+- `Config_Substr`;
+- `Config_Length`;
+- `Config_Xrange`.
 
 ### Config_SourceChar
 
@@ -298,27 +285,27 @@ Semantics:
 
 Compare two characters. Set #Outcome to
 
-- ‘equal’ if Character1 is equal to Character2;
+- 'equal' if Character1 is equal to Character2;
 
-- ‘greater’ if Character1 is greater than Character2;
+- 'greater' if Character1 is greater than Character2;
 
-- ‘lesser’ if Character’ is less than Character2.
+- 'lesser' if Character' is less than Character2.
 The function shall exhibit the following characteristics. If Config _Compare(a,b) produces
 
-- ‘equal’ then Config_Compare(b,a) produces ‘equal’;
+- 'equal' then Config_Compare(b,a) produces 'equal';
 
-- ‘greater’ then Config_Compare(b,a) produces ‘lesser’;
+- 'greater' then Config_Compare(b,a) produces 'lesser';
 
-- ‘lesser’ then Config_Compare(b,a) produces ‘greater’;
+- 'lesser' then Config_Compare(b,a) produces 'greater';
 
-- ‘equal’ and Config_Compare(b,c) produces ‘equal’ then Config_Compare(a,c) produces ‘equal’;
+- 'equal' and Config_Compare(b,c) produces 'equal' then Config_Compare(a,c) produces 'equal';
 
-- ‘greater’ and Config_Compare(b,c) produces ‘greater’ then Config _Compare(a,c) produces
-‘greater’;
+- 'greater' and Config_Compare(b,c) produces 'greater' then Config _Compare(a,c) produces
+'greater';
 
-- ‘lesser’ and Config _Compare(b,c) produces ‘lesser’ then Config_Compare(a,c) produces ‘lesser’;
+- 'lesser' and Config _Compare(b,c) produces 'lesser' then Config_Compare(a,c) produces 'lesser';
 
-- ‘equal’ then Config_Compare(a,c) and Config_Compare(b,c) produce the same value.
+- 'equal' then Config_Compare(a,c) and Config_Compare(b,c) produce the same value.
 Syntactic characters which are different characters shall not compare equal by Config_Compare, see
 nnn.
 
@@ -355,7 +342,7 @@ Semantics:
 Copy the n-th character from String. The leftmost character is the first character. Set Outcome to the
 resulting character.
 If this function is unable to supply a character because there is no n-th character in String the indicator
-of the completion response is 'M’.
+of the completion response is 'M'.
 If this function is unable to supply a character because the encoding of String is incorrect the indicator
 of the completion response is 'E' and the description of the completion information is the encoding
 which is incorrect, in hexadecimal notation.
@@ -387,12 +374,12 @@ If Character2 is the null string then let HighBound be a highest ranked characte
 according to the ranking order provided by Config_Compare; otherwise let HighBound be Character2lf
 #Outcome after Config_Compare(LowBound,HighBound) has a value of
 
-- ‘equal’ then #Outcome is set to LowBound;
+- 'equal' then #Outcome is set to LowBound;
 
-- ‘lesser’ then #Outcome is set to the sequence of characters between LowBound and HighBound
+- 'lesser' then #Outcome is set to the sequence of characters between LowBound and HighBound
 inclusively, in ranking order;
 
-- ‘greater’ then #Outcome is set to the sequence of characters HighBound and larger, in ranking
+- 'greater' then #Outcome is set to the sequence of characters HighBound and larger, in ranking
 order, followed by the sequence of characters LowBound and smaller, in ranking order.
 
 ## Objects
@@ -508,7 +495,7 @@ See nnn and nnn for a description of the language features that use external rou
 Syntax:
 Config ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Traps)
 where:
-How is one of ‘FUNCTION’ or ‘SUBROUTINE’ and indicates how the external routine is to be
+How is one of 'FUNCTION' or 'SUBROUTINE' and indicates how the external routine is to be
 invoked.
 
 NameType is a specification of whether the name was provided as a symbol or as a string literal.
@@ -535,11 +522,11 @@ If How indicated that a result from the routine was required but the routine did
 indicator of the completion response is 'H'. As a result SYNTAX condition 44.1 is raised implicitly.
 
 If How indicated that a result from the routine was required but the routine provided one that was too
-long (see #Limit_String in nnn) the indicator of the completion response is 'L’. As a result SYNTAX
+long (see #Limit_String in nnn) the indicator of the completion response is 'L'. As a result SYNTAX
 condition 52 is raised implicitly.
 
 If the routine failed in a way not indicated by some other indicator the indicator of the completion
-response is 'F’. As a result SYNTAX condition 40.1 is raised implicitly.
+response is 'F'. As a result SYNTAX condition 40.1 is raised implicitly.
 
 ### Config_ExternalMethod
 
@@ -555,7 +542,7 @@ you run (and we don't say what it means physically), "file" is a unit of scope (
 REQUIREd), and "package" we don't use (since a software package from a shop would probably have several files
 but not everything to run a program.) Using "file" this way may not be too bad since we used "stream" rather than
 "tile" in the classic definition.
-The How parameter will need 'METHOD’ as a value. Should API_Start also allow 'METHOD". If we pass the new
+The How parameter will need 'METHOD' as a value. Should API_Start also allow 'METHOD". If we pass the new
 Environment we don't have to pass Streams separately.
 
 Text of Config_ExternalMethod waiting on such decisions.
@@ -563,7 +550,7 @@ Syntax:
 
 Config ExternalMethod (How, NameType, Name, Environment, Arguments, Streams, Traps)
 where:
-How is one of ‘FUNCTION’ or ‘SUBROUTINE’ and indicates how the external routine is to be
+How is one of 'FUNCTION' or 'SUBROUTINE' and indicates how the external routine is to be
 invoked.
 NameType is a specification of whether the name was provided as a symbol or as a string literal.
 Name is the name of the routine to be invoked.
@@ -580,10 +567,10 @@ SYNTAX condition 43.1 is raised implicitly.
 If How indicated that a result from the routine was required but the routine did not provide one the
 indicator of the completion response is 'H'. As a result SYNTAX condition 44.1 is raised implicitly.
 If How indicated that a result from the routine was required but the routine provided one that was too
-long (see #Limit_String in nnn) the indicator of the completion response is 'L’. As a result SYNTAX
+long (see #Limit_String in nnn) the indicator of the completion response is 'L'. As a result SYNTAX
 condition 52 is raised implicitly.
 If the routine failed in a way not indicated by some other indicator the indicator of the completion
-response is 'F’. As a result SYNTAX condition 40.1 is raised implicitly.
+response is 'F'. As a result SYNTAX condition 40.1 is raised implicitly.
 5.8 External data queue
 The external data queue interface consists of functions which the configuration shall provide to
 manipulate an external data queue mechanism.
@@ -700,14 +687,14 @@ Syntax:
 Config Stream Charin(Stream, OperationType)
 where:
 Stream is the name of the stream to be processed.
-OperationType is one of 'CHARIN', 'LINEIN', or ‘NULL.
+OperationType is one of 'CHARIN', 'LINEIN', or 'NULL.
 Semantics:
 Read from a stream. Increase #Linein_Position.Stream by one when the end-of-line indication is
 encountered. Increase #Charin_Position.Stream when the indicator will be 'N'.
 If OperationType is 'CHARIN' the state variables describing the stream will be affected as follows:
 - when the configuration is able to provide data from a transient stream or the character at position
 #Charin_Position.Stream of a persistent stream then #Outcome shall be set to contain the data.
-The indicator of the response shall be 'N’;
+The indicator of the response shall be 'N';
 
 - when the configuration is unable to return data because the read position is at the end of a
 persistent stream then the indicator of the response shall be 'O';
@@ -715,7 +702,7 @@ persistent stream then the indicator of the response shall be 'O';
 available and no data is expected to become available then the indicator of the response shall be
 'O':
 - otherwise the configuration is unable to return data and does not expect to be able to return data
-by waiting; the indicator of the response shall be 'E’.
+by waiting; the indicator of the response shall be 'E'.
 The data set in #Outcome will either be a single character or will be a sequence of eight characters,
 each '0' or '1'. The choice is decided by the configuration. The eight character sequence indicates a
 binary stream, see nnn.
@@ -731,7 +718,7 @@ Syntax:
 Config Stream Position(Stream, OperationType, Position)
 where:
 Stream is the name of the stream to be processed.
-Operation is ‘CHARIN’, 'LINEIN', 'CHAROUT', or 'LINEOUT'.
+Operation is 'CHARIN', 'LINEIN', 'CHAROUT', or 'LINEOUT'.
 Position indicates where to position the stream.
 Semantics:
 If the operation is 'CHARIN' or 'CHAROUT' then Position is a character position, otherwise Position is
@@ -742,7 +729,7 @@ indicator of the completion response shall be 'R'. Otherwise if Operation is 'CH
 shall read, as indicated by Position. Set #Linein_Position.Stream to correspond with this position.
 If Operation is 'CHAROUT' or 'LINEOQUT' and the Position is more than one beyond the limit of existing
 data then the indicator of the response shall be 'R'. Otherwise if Operation is 'CHAROUT' or
-‘LINEOUT' then #Charout_Position.Stream is set to the position at which the next
+'LINEOUT' then #Charout_Position.Stream is set to the position at which the next
 Config_Stream_Charout on the stream shall write, as indicated by Position. Set
 #Lineout_Position.Stream to correspond with this position.
 If this function is unable to position the stream because the stream is transient then the indicator of the
@@ -784,18 +771,18 @@ where:
 Stream is the name of the stream to be processed.
 Data is the data to be written, or 'EOL' to indicate that an end-of-line indication is to be written, or a
 null string. In the first case, if the stream is a binary stream then Data will be eight characters, each
-‘0' or '1', otherwise Data will be a single character.
+'0' or '1', otherwise Data will be a single character.
 Semantics:
 When Data is the null string, no data is written.
 Otherwise write to the stream. The state variables describing the stream will be affected as follows:
 
 - when the configuration is able to write Data to a transient stream or at position
-#Charout_Position.Stream of a persistent stream then the indicator in the response shall be 'N’.
+#Charout_Position.Stream of a persistent stream then the indicator in the response shall be 'N'.
 When Data is not 'EOL' then #Charout_Position.Stream is increased by one. When Data is 'EOL',
 then #Lineout_Position.Stream is increased by one and #Charout_Position.Stream is increased as
 necessary to account for any end-of-line indication embedded in the stream;
 
-- when the configuration is unable to write Data the indicator is set to 'E’.
+- when the configuration is unable to write Data the indicator is set to 'E'.
 
 ### Config_Stream_Qualified
 
@@ -843,7 +830,7 @@ Syntax:
 Config Stream Count (Stream, Operation, Option)
 where:
 Stream is the name of the stream to be counted.
-Operation is ‘CHARS’, or 'LINES'.
+Operation is 'CHARS', or 'LINES'.
 
 Option is 'N' or 'C'.
 Semantics:
@@ -857,7 +844,7 @@ obtained from this stream by Config_Stream_Charin before use of some function wh
 #Charin_Position.Stream and #Linein_Position.Stream.
 
 If the option is 'N' and #Outcome is set nonzero, #Outcome shall be 1, or be the number of characters
-(or the number of lines if Operation is ‘LINES') which could be read from the stream before resetting.
+(or the number of lines if Operation is 'LINES') which could be read from the stream before resetting.
 
 If the option is 'C', #Outcome is set to zero if:
 
@@ -941,7 +928,7 @@ allow a #Limit_TraceData value of 250 to be specified;
 
 - set #Version to a string identifying the language processor. It shall have five words. Successive
 words shall be separated by a blank character. The first four letters of the first word shall be
-‘REXX'. The second word shall be the four characters '5.00'. The last three words comprise a date.
+'REXX'. The second word shall be the four characters '5.00'. The last three words comprise a date.
 This shall be in the format which is the default for the DATE() built-in function.
 
 - set .nil to a value which compares unequal with any other value that can occur in execution.
@@ -987,7 +974,7 @@ Config Trace Query ()
 
 Semantics:
 Indicate whether external activity is requesting interactive tracing. Set #Outcome to 'Yes' if interactive
-tracing is currently requested. Otherwise set #Outcome to ‘No’.
+tracing is currently requested. Otherwise set #Outcome to 'No'.
 
 ### Config_Trace_Input
 
@@ -1327,7 +1314,7 @@ API Next ()
 Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
-attribute 'dropped' or the attribute ‘implicit’ and is not a stem; alternatively return an indication that
+attribute 'dropped' or the attribute 'implicit' and is not a stem; alternatively return an indication that
 there is no suitable name to return. When API_Next is called it will return a name that has not
 previously been returned; the order is undefined. This process of returning different names will restart
 whenever the Rexx processor executes Var_Reset.
@@ -1340,9 +1327,9 @@ API NextVariable()
 Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
-attribute 'dropped' or the attribute ‘implicit’; alternatively, return an indication that there is no suitable name
+attribute 'dropped' or the attribute 'implicit'; alternatively, return an indication that there is no suitable name
 to return. When API NextVariable is called it will return data about a variable that has not previously been
 returned; the order is undefined. This process of returning different names will restart whenever the Rexx
 processor executes Var_Reset. In addition to the name and value, an indication of whether the variable
-was ‘tailed’ will be returned.
+was 'tailed' will be returned.
 
