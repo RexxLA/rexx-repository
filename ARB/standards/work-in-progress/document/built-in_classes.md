@@ -340,149 +340,107 @@ Returns the method source code as a single index array of source lines.
 ::method setinterface
 ```
 
-11.3 The string class
+### The string class
 The string class provides conventional strings and numbers.
 
-Some differences from REXX class of NetRexx.
+_Some differences from REXX class of NetRexx._
+
+```rexx
 ::class string
 
 ::method new class
 
 ::method '\'
-We can do all the operators by appeal to classic section 7.
+```
+
+_We can do all the operators by appeal to classic section 7._
+
+```rexx
 ::method '-'
 ::method '-'
+  use arg a
+  return \a
+```
 
-use arg a
-return \a
-General problem of making the error message come right.
+_General problem of making the error message come right._
 
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
+```rexx
+:method '+'
+:method '**'
+:method '*'
+:method '%'
+:method '/'
+:method '//'
+:method ' '
+:method '||'
+:method '<>'
+:method '><'
+:method '='
+:method '\='
+:method '\=='
+:method '=='
+:method '<'
+:method '>'
+:method '>='
+:method '/<'
+:method '<='
+:method '/>'
+:method '<<'
+:method '>>'
+:method '>>='
+:method '/>>'
+:method '<<='
+:method '\<<'
+:method '&&'
+:method '&'
+:method abbrev
 
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-:method
-
-All
-
-centre
-center
-changestr
-compare
-copies
-counstr
-datatype
-delstr
-delword
-insert
-lastpos
-left
-length
-overlay
-pos
-reverse
-right
-space
-strip
-substr
-subword
-translate
-verify
-word
-wordindex
-wordlength
-wordpos
-words
-abs
-format
-max
-
-min
-
-sign
-trunc
-B2x
-bitand
-bitor
-bitxor
-C2D
-
-C2x
-
-D2xX
-::smethod D2C
-::smethod X2B
-::smethod X2C
-::smethod X2D
+:method centre
+:method center
+:method changestr
+:method compare
+:method cppies
+:method counstr
+:method datatype
+:method delstr
+:method delword
+:method insert
+:method lastpos
+:method left
+:method length
+:method overlay
+:method pos
+:method reverse
+:method right
+:method space
+:method strip
+:method substr
+:method subword
+:method translate
+:method verify
+:method word
+:method wordindex
+:method wordlength
+:method wordpos
+:method words
+:method abs
+:method format
+:method max
+:method min
+:method sign
+:method trunc
+:method B2X
+:method bitand
+:method bitor
+:method bitxor
+:method C2D
+:method C2X
+:method D2X
 ::method string
 
 ::method makestring
+```
+
 ### The array class
 
 The main features of a single dimension array are provided by the configuration. This section defines
