@@ -222,50 +222,66 @@ The following functions shall be provided:
 
 ### Config_SourceChar
 
-Syntax:
+#### Syntax:
 
-Config SourceChar ()
+```rexx
+Config_SourceChar()
+```
 
-Semantics:
-Supply the characters of the source program in sequence, together with the EOL and EOS events.
-The EOL event represents the end of a line. The EOS event represents the end of the source
-program. The EOS event must only occur immediately after an EOL event. Either a character or an
-event is supplied on each invocation, by setting #Outcome.
+#### Semantics:
+
+Supply the characters of the source program in sequence, together with the _EOL_ and _EOS_ events.
+The _EOL_ event represents the end of a line. The _EOS_ event represents the end of the source
+program. The _EOS_ event must only occur immediately after an _EOL_ event. Either a character or an
+event is supplied on each invocation, by setting `#Outcome`.
 
 If this function is unable to supply a character because the source program encoding is incorrect the
-indicator of the completion response is 'E' and the description of the completion information is the
+indicator of the completion response is `'E'` and the description of the completion information is the
 encoding which is incorrect, in hexadecimal notation.
 
 ### Config_OtherBlankCharacters
 
-Syntax:
-Config OtherBlankCharacters ()
+#### Syntax:
 
-Semantics:
-Get other_blank_characters (see nnn).
-Set #Outcome to a string of zero or more distinct characters in arbitrary order. Each character is one
-that the configuration considers equivalent to the character Blank for the purposes of parsing.
+```rexx
+Config_OtherBlankCharacters()
+```
+
+#### Semantics:
+
+Get _other_blank_characters_ (see nnn).
+
+Set `#Outcome` to a string of zero or more distinct characters in arbitrary order. Each character is one
+that the configuration considers equivalent to the character _Blank_ for the purposes of parsing.
 
 ### Config_Upper
 
-Syntax:
-Config Upper (Character)
+#### Syntax:
+
+Config_Upper(Character)
 
 where:
+
 Character is the character to be translated to uppercase.
-Semantics:
+
+#### Semantics:
+
 Translate Character to uppercase. Set #Outcome to the translated character. Characters which have
 been subject to this translation are referred to as being in uppercase. Config_Upper applied to a
 character in uppercase must not change the character.
 
 ### Config_Lower
 
-Syntax:
+#### Syntax:
 
-Config Lower (Character)
+Config_Lower(Character)
+
 where:
+
 Character is the character to be translated to lowercase.
-Semantics:
+
+#### Semantics:
+
 Translate Character to lowercase. Set #Outcome to the translated character. Characters which have
 been subject to this translation are referred to as being in lowercase. Config_Lower applied to a
 character in lowercase must not change the character. Config_Upper of the outcome of
@@ -273,15 +289,17 @@ Config_Lower(Character) shall be the original character.
 
 ### Config_Compare
 
-Syntax:
+#### Syntax:
+
 Config Compare(Characterl, Character2)
 
 where:
 
 Character1 is the character to be compared with Character2.
+
 Character2 is the character to be compared with Character1.
 
-Semantics:
+#### Semantics:
 
 Compare two characters. Set #Outcome to
 
@@ -290,6 +308,7 @@ Compare two characters. Set #Outcome to
 - 'greater' if Character1 is greater than Character2;
 
 - 'lesser' if Character' is less than Character2.
+- 
 The function shall exhibit the following characteristics. If Config _Compare(a,b) produces
 
 - 'equal' then Config_Compare(b,a) produces 'equal';
@@ -306,70 +325,99 @@ The function shall exhibit the following characteristics. If Config _Compare(a,b
 - 'lesser' and Config _Compare(b,c) produces 'lesser' then Config_Compare(a,c) produces 'lesser';
 
 - 'equal' then Config_Compare(a,c) and Config_Compare(b,c) produce the same value.
+- 
 Syntactic characters which are different characters shall not compare equal by Config_Compare, see
 nnn.
 
 ### Config _B2C
-Syntax:
+
+#### Syntax:
+
 Config B2C (Binary)
+
 where:
+
 Binary is a sequence of digits, each '0' or '1'. The number of digits shall be a multiple of eight.
-Semantics:
+
+#### Semantics:
 
 Translate Binary to a coded string. Set #Outcome to the resulting string. The string may, or may not,
 correspond to a sequence of characters.
 
 ### Config_C2B
 
-Syntax:
+#### Syntax:
+
 Config C2B (String)
 
 where:
+
 String is a string.
-Semantics:
+
+#### Semantics:
+
 Translate String to a sequence of digits, each '0' or '1'. Set #Outcome to the result. This function is the
 inverse of Config_B2C.
 
 ### Config_Substr
 
-Syntax:
+#### Syntax:
+
 Config Substr(String, n)
 
 where:
+
 String is a string.
-nis an integer identifying a position within String.
-Semantics:
+
+n is an integer identifying a position within String.
+
+#### Semantics:
+
 Copy the n-th character from String. The leftmost character is the first character. Set Outcome to the
 resulting character.
+
 If this function is unable to supply a character because there is no n-th character in String the indicator
 of the completion response is 'M'.
+
 If this function is unable to supply a character because the encoding of String is incorrect the indicator
 of the completion response is 'E' and the description of the completion information is the encoding
 which is incorrect, in hexadecimal notation.
 
 ### Config Length
 
-Syntax:
+#### Syntax:
+
 Config Length (String)
 
 where:
+
 String is a string.
-Semantics:
+
+#### Semantics:
+
 Set #Outcome to the length of the string, that is, the number of characters in the string.
+
 If this function is unable to determine a length because the encoding of String is incorrect, the
 indicator of the completion response is 'E' and the description of the completion information is the
 encoding which is incorrect, in hexadecimal notation.
 
 ### Config_Xrange
-Syntax:
+
+#### Syntax:
 
 Config Xrange(Characterl, Character2)
+
 where:
+
 Character1 is the null string, or a single character.
+
 Character2 is the null string, or a single character.
-Semantics:
+
+#### Semantics:
+
 If Character1 is the null string then let LowBound be a lowest ranked character in the character set
 according to the ranking order provided by Config_Compare; otherwise let LowBound be Character1.
+
 If Character2 is the null string then let HighBound be a highest ranked character in the character set
 according to the ranking order provided by Config_Compare; otherwise let HighBound be Character2lf
 #Outcome after Config_Compare(LowBound,HighBound) has a value of
@@ -388,66 +436,97 @@ The objects interface consists of functions which the configuration shall provid
 
 ### Config_ObjectNew
 
-Syntax:
+#### Syntax:
+
 Config ObjectNew
 
-Semantics:
+#### Semantics:
 
 Set #Outcome to be a reference to an object. The object shall be suitable for use as a variable pool,
 see nnn. This function shall never return a value in #Outcome which compares equal with the value
 returned on another invokation of the function.
 
 ### Config_Array_Size
-Syntax:
+
+#### Syntax:
+
 Config Array Size(Object, size)
+
 where:
+
 Object is an object.
+
 Size is an integer greater or equal to 0.
-Semantics:
+
+#### Semantics:
+
 The configuration should prepare to deal efficiently with the object as an array with indexes having
 values up to the value of size.
 
 ### Config_Array_Put
 
-Syntax:
+#### Syntax:
+
 Config Array Put(Array, Item, Index)
 
 where:
+
 Array is an array.
+
 Item is an object
+
 Index is an integer greater or equal to 1.
-Semantics:
+
+#### Semantics:
+
 The configuration shall record that the array has Item associated with Index.
 
 ### Config_Array_At
 
-Syntax:
+#### Syntax:
+
 Config Array At(Array, Index)
 
 where:
+
 Array is an array.
+
 Index is an integer greater or equal to 1.
-Semantics:
+
+#### Semantics:
+
 The configuration shall return the item that the array has associated with Index.
 
 ### Config_Array_Hasindex
-Syntax:
+
+#### Syntax:
+
 Config Array At(Array, Index)
+
 where:
+
 Array is an array.
+
 Index is an integer greater or equal to 1.
-Semantics:
+
+####Semantics:
+
 Return '1' if there is an item in Array associated with Index, '0' otherwise.
 
 ### Config_Array_Remove
 
-Syntax:
+#### Syntax:
+
 Config Array At(Array, Index)
 
 where:
+
 Array is an array.
+
 Index is an integer greater or equal to 1.
-Semantics:
+
+#### Semantics:
+
 After this operation, no item is associated with the Index in the Array.
 
 ## Commands
@@ -459,10 +538,12 @@ See nnn and nnn for a description of language features that use commands.
 
 ### Config _Command
 
-Syntax:
+#### Syntax:
 
 Config Command(Environment, Command)
+
 where:
+
 Environment is the environment to be addressed. It has components for:
 
 - the name of the environment;
@@ -476,8 +557,11 @@ of the default output stream. There is an indication of whether writing is to AP
 - the name of a stream onto which the command will write its error output. The null string indicates
 use of the default error output stream. There is an indication of whether writing is to APPEND or
 REPLACE.
+
 Command is the command to be executed.
-Semantics:
+
+#### Semantics:
+
 Perform a command.
 
 - set the indicator to 'E' or 'F' if the command ended with an ERROR condition, or a FAILURE
@@ -489,12 +573,16 @@ condition, respectively;
 
 The external routines interface consists of a function which the configuration shall provide to invoke
 external routines.
+
 See nnn and nnn for a description of the language features that use external routines.
 
 ### Config_ExternalRoutine
-Syntax:
+
+#### Syntax:
+
 Config ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Traps)
 where:
+
 How is one of 'FUNCTION' or 'SUBROUTINE' and indicates how the external routine is to be
 invoked.
 
@@ -510,7 +598,7 @@ Streams is a specification of the default streams, with the same components as o
 
 Traps is the list of traps to be used in processing, with the same components as on API_ Start.
 
-Semantics:
+#### Semantics:
 
 Invoke an external routine. Set {Outcome to the result of the external routine, or set the indicator of
 the completion response to 'D' if the external routine did not provide a result.
@@ -535,45 +623,66 @@ allow the subject of ::REQUIRES to be coded in non-Rexx. However ::REQUIRES subj
 gather in knowledge of its method names because of the search algorithm that determines which method is called.
 Hence reasonable that the ultimate external call is to a method. Perhaps combine Config_ExternalRoutine with
 Config_ExternalMethod.
+
 There is a terminology clash on "environment". Perhaps easiest to change the classic to "address_environment".
 (And make it part of new "environment"?)
+
 There are terminology decisions to make about "files", "programs", and "packages". Possibly "program" is the thing
 you run (and we don't say what it means physically), "file" is a unit of scope (ROUTINEs in current file before those in
 REQUIREd), and "package" we don't use (since a software package from a shop would probably have several files
 but not everything to run a program.) Using "file" this way may not be too bad since we used "stream" rather than
 "tile" in the classic definition.
+
 The How parameter will need 'METHOD' as a value. Should API_Start also allow 'METHOD". If we pass the new
 Environment we don't have to pass Streams separately.
 
 Text of Config_ExternalMethod waiting on such decisions.
-Syntax:
+
+#### Syntax:
 
 Config ExternalMethod (How, NameType, Name, Environment, Arguments, Streams, Traps)
+
 where:
+
 How is one of 'FUNCTION' or 'SUBROUTINE' and indicates how the external routine is to be
 invoked.
+
 NameType is a specification of whether the name was provided as a symbol or as a string literal.
+
 Name is the name of the routine to be invoked.
+
 Environment is an environment value with the same components as on API_ Start.
+
 Arguments is a specification of the arguments to the routine, with the same components as on
 API_Start.
+
 Streams is a specification of the default streams, with the same components as on API_ Start.
+
 Traps is the list of traps to be used in processing, with the same components as on API_ Start.
-Semantics:
+
+#### Semantics:
+
 Invoke an external routine. Set {Outcome to the result of the external routine, or set the indicator of
 the completion response to 'D' if the external routine did not provide a result.
+
 If this function is unable to locate the routine the indicator of the completion response is 'U'. As a result
 SYNTAX condition 43.1 is raised implicitly.
+
 If How indicated that a result from the routine was required but the routine did not provide one the
 indicator of the completion response is 'H'. As a result SYNTAX condition 44.1 is raised implicitly.
+
 If How indicated that a result from the routine was required but the routine provided one that was too
 long (see #Limit_String in nnn) the indicator of the completion response is 'L'. As a result SYNTAX
 condition 52 is raised implicitly.
+
 If the routine failed in a way not indicated by some other indicator the indicator of the completion
 response is 'F'. As a result SYNTAX condition 40.1 is raised implicitly.
-5.8 External data queue
+
+## External data queue
+
 The external data queue interface consists of functions which the configuration shall provide to
 manipulate an external data queue mechanism.
+
 See nnn, nnn, nnn, nnn, and nnn for a description of language features that use the external data queue.
 The configuration shall provide an external data queue mechanism. The following functions shall be
 provided:
@@ -593,42 +702,54 @@ adds to unless the list is empty.
 
 ### Config Push
 
-Syntax:
+#### Syntax:
+
 Config Push(String)
 
 where:
+
 String is the value to be retained in the external data queue.
-Semantics:
+
+#### Semantics:
+
 Add String as an item to the end of the external data queue from which Config_Pull will remove an
 item.
 
 ### Contig_Queue
 
-Syntax:
+#### Syntax:
+
 Config Queue (String)
 
 where:
+
 String is the value to be retained in the external data queue.
-Semantics:
+
+#### Semantics:
+
 Add String as an item to the opposite end of the external data queue from which Config_Pull will
 remove an item.
 
 ### Config_Pull
 
-Syntax:
+#### Syntax:
+
 Config Pull()
 
-Semantics:
+#### Semantics:
+
 Retrieve an item from the end of the external data queue to which Config_Push adds an element to
 the list. Set #Outcome to the value of the retrieved item.
+
 If no item could be retrieved the indicator of the completion response is 'F'.
 
 ### Contig_Queued
 
-Syntax:
+#### Syntax:
+
 Config Queued ()
 
-Semantics:
+#### Semantics:
 
 Get the count of items in the external data queue. Set #Outcome to that number.
 
@@ -636,8 +757,10 @@ Get the count of items in the external data queue. Set #Outcome to that number.
 
 The streams interface consists of functions which the configuration shall provide to manipulate streams.
 See nnn, nnn, and nnn for a description of language features which use streams.
+
 Streams are identified by names and provide for the reading and writing of data. They shall support the
 concepts of characters, lines, positioning, default input stream and default output stream.
+
 The concept of a persistent stream shall be supported and the concept of a transient stream may be
 supported. A persistent stream is one where the content is not expected to change except when the
 stream is explicitly acted on. A transient stream is one where the data available is expected to vary with
@@ -645,6 +768,7 @@ time.
 
 The concepts of binary and character streams shall be supported. The content of a character stream is
 expected to be characters.
+
 The null string is used as a name for both the default input stream and the default output stream. The null
 string names the default output stream only when it is an argument to the Config_Stream_Charout
 operation.
@@ -670,6 +794,7 @@ The following functions shall be provided:
 - Config_Stream_Close;
 
 - Config_Stream_Count.
+- 
 The results of these functions are described in terms of the following stems with tails which are stream
 names:
 
@@ -682,18 +807,26 @@ names:
 - #Lineout_Position.Stream.
 
 ### Config _Stream_Charin
-Syntax:
+
+#### Syntax:
 
 Config Stream Charin(Stream, OperationType)
+
 where:
+
 Stream is the name of the stream to be processed.
+
 OperationType is one of 'CHARIN', 'LINEIN', or 'NULL.
-Semantics:
+
+#### Semantics:
+
 Read from a stream. Increase #Linein_Position.Stream by one when the end-of-line indication is
 encountered. Increase #Charin_Position.Stream when the indicator will be 'N'.
+
 If OperationType is 'CHARIN' the state variables describing the stream will be affected as follows:
 - when the configuration is able to provide data from a transient stream or the character at position
 #Charin_Position.Stream of a persistent stream then #Outcome shall be set to contain the data.
+
 The indicator of the response shall be 'N';
 
 - when the configuration is unable to return data because the read position is at the end of a
@@ -706,37 +839,50 @@ by waiting; the indicator of the response shall be 'E'.
 The data set in #Outcome will either be a single character or will be a sequence of eight characters,
 each '0' or '1'. The choice is decided by the configuration. The eight character sequence indicates a
 binary stream, see nnn.
+
 If OperationType is 'LINEIN' then the action is the same as if Operation had been 'CHARIN' with the
 following additional possibility. If end-of-line is detected any character (or character sequence) which
 is an embedded indication of the end-of-line is skipped. The characters skipped contribute to the
 change of #Charin_Position.Stream. #Outcome is the null string.
+
 If OperationType is 'NULL' then the stream is accessed but no data is read.
 
 ### Config_Stream_Position
-Syntax:
+
+#### Syntax:
 
 Config Stream Position(Stream, OperationType, Position)
+
 where:
+
 Stream is the name of the stream to be processed.
+
 Operation is 'CHARIN', 'LINEIN', 'CHAROUT', or 'LINEOUT'.
+
 Position indicates where to position the stream.
-Semantics:
+
+#### Semantics:
+
 If the operation is 'CHARIN' or 'CHAROUT' then Position is a character position, otherwise Position is
 a line position.
+
 If Operation is 'CHARIN' or 'LINEIN' and the Position is beyond the limit of the existing data then the
 indicator of the completion response shall be 'R'. Otherwise if Operation is 'CHARIN' or 'LINEIN' set
 #Charin_Position.Stream to the position from which the next Config_Stream_Charin on the stream
 shall read, as indicated by Position. Set #Linein_Position.Stream to correspond with this position.
+
 If Operation is 'CHAROUT' or 'LINEOQUT' and the Position is more than one beyond the limit of existing
 data then the indicator of the response shall be 'R'. Otherwise if Operation is 'CHAROUT' or
 'LINEOUT' then #Charout_Position.Stream is set to the position at which the next
 Config_Stream_Charout on the stream shall write, as indicated by Position. Set
 #Lineout_Position.Stream to correspond with this position.
+
 If this function is unable to position the stream because the stream is transient then the indicator of the
 completion response shall be 'T'.
 
 ### Config _Stream_Command
-Syntax:
+
+#### Syntax:
 
 Config Stream Command (Stream, Command)
 where:
@@ -749,7 +895,8 @@ on the specified stream. If the indicator is set to 'N', #Outcome shall be set t
 command.
 
 ### Config_Stream_State
-Syntax:
+
+#### Syntax:
 
 Config Stream State (Stream)
 where:
@@ -764,7 +911,7 @@ stream.
 
 ### Config_Stream_Charout
 
-Syntax:
+#### Syntax:
 
 Config Stream Charout (Stream, Data)
 where:
@@ -786,7 +933,7 @@ necessary to account for any end-of-line indication embedded in the stream;
 
 ### Config_Stream_Qualified
 
-Syntax:
+#### Syntax:
 
 Config Stream Qualified (Stream)
 where:
@@ -797,7 +944,8 @@ Return a completion response with indicator 'B' if the argument is not acceptabl
 as identifying a stream.
 
 ### Config_Stream_Unique
-Syntax:
+
+#### Syntax:
 
 Config Stream Unique ()
 Semantics:
@@ -805,7 +953,8 @@ Set #Outcome to a name that the configuration recognizes as a stream name. The n
 a name that the configuration associates with any existing data.
 
 ### Config_Stream_Query
-Syntax:
+ 
+#### Syntax:
 Config Stream Query (Stream)
 where:
 Stream is the name of the stream to be queried.
@@ -813,7 +962,8 @@ Semantics:
 Set #Outcome to 'B' if the stream is a binary stream, or to 'C' if it is a character stream.
 
 ### Config_Stream_Close
-Syntax:
+
+#### Syntax:
 
 Config Stream Close (Stream)
 where:
@@ -826,7 +976,7 @@ completion response shall be 'T'.
 
 ### Config _Stream_Count
 
-Syntax:
+#### Syntax:
 Config Stream Count (Stream, Operation, Option)
 where:
 Stream is the name of the stream to be counted.
@@ -872,7 +1022,8 @@ provided:
 The configuration may permit the external variable pools to be altered in other ways.
 
 ### Config Get
-Syntax:
+
+#### Syntax:
 Config Get (Poolid, Name)
 where:
 Poolid is an identification of the external variable pool.
@@ -887,7 +1038,7 @@ is 'F'.
 
 ### Config Set
 
-Syntax:
+#### Syntax:
 Config Set (Poolid, Name, Value)
 
 where:
@@ -909,7 +1060,7 @@ which indicates choices decided by the configuration.
 
 ### Config_Constants
 
-Syntax:
+#### Syntax:
 
 Config Constants ()
 Semantics:
@@ -969,7 +1120,7 @@ The following functions shall be provided:
 
 ### Config_Trace_Query
 
-Syntax:
+#### Syntax:
 Config Trace Query ()
 
 Semantics:
@@ -978,7 +1129,7 @@ tracing is currently requested. Otherwise set #Outcome to 'No'.
 
 ### Config_Trace_Input
 
-Syntax:
+#### Syntax:
 Config Trace Input ()
 
 Semantics:
@@ -987,7 +1138,7 @@ configuration.
 
 ### Config_Trace_Output
 
-Syntax:
+#### Syntax:
 Config Trace Output (Line)
 
 where:
@@ -999,7 +1150,7 @@ the configuration.
 
 ### Config _Default_Input
 
-Syntax:
+#### Syntax:
 Config Default Input ()
 
 Semantics:
@@ -1007,7 +1158,7 @@ Set #Outcome to the value that LINEIN( ) would return.
 
 ### Config_Default_Output
 
-Syntax:
+#### Syntax:
 Config Default Output (Line)
 
 where:
@@ -1017,7 +1168,7 @@ Write the string as a line in the manner of LINEOUT( ,Line).
 
 ### Config_Initialization
 
-Syntax:
+#### Syntax:
 
 Config Initialization ()
 
@@ -1027,7 +1178,7 @@ return the response. An indicator of 'F' gives rise to Msg3.1.
 
 ### Config_Termination
 
-Syntax:
+#### Syntax:
 
 Config Termination ()
 
@@ -1037,7 +1188,7 @@ return the response. An indicator of 'F' gives rise to Msg2.1.
 
 ### Config_Halt_Query
 
-Syntax:
+#### Syntax:
 Config Halt Query ()
 
 Semantics:
@@ -1046,7 +1197,7 @@ if HALT is requested. Otherwise set #Outcome to 'No'.
 
 5.12.9 Config _Halt_Reset
 
-Syntax:
+#### Syntax:
 Config Halt Reset ()
 
 Semantics:
@@ -1054,7 +1205,8 @@ Semantics:
 Reset the configuration so that further attempts to cause a HALT condition will be recognized.
 
 ### Config _NoSource
-Syntax:
+
+#### Syntax:
 
 Config NoSource ()
 
@@ -1069,7 +1221,7 @@ Config_NoSource() sets #NoSource to '1'.
 
 ### Config_Time
 
-Syntax:
+#### Syntax:
 
 Config Time ()
 
@@ -1086,7 +1238,7 @@ Set #Adjust<Index "#Adjust" #"" > to an integer number of microseconds. #Adjust<
 
 ### Config_Random_Seed
 
-Syntax:
+#### Syntax:
 Config Random Seed (Seed)
 
 where:
@@ -1096,7 +1248,8 @@ Set a seed, so that subsequent uses of Config_Random_Next will reproducibly retu
 numbers.
 
 ### Config_Random_Next
-Syntax:
+
+#### Syntax:
 
 Config Random Next (Min, Max)
 where:
@@ -1106,7 +1259,8 @@ Semantics:
 Set #Outcome to a quasi-random nonnegative integer in the range Min to Max.
 
 ### Config_Options
-Syntax:
+
+#### Syntax:
 Config Options (String)
 where:
 String is a string.
@@ -1196,7 +1350,8 @@ functions do not return an indicator 'N', 'R', or 'D' then the API function shal
 
 ### API Set
 
-Syntax:
+#### Syntax:
+
 API Set(Symbol, Value)
 where:
 Symbol is a symbol.
@@ -1212,7 +1367,8 @@ where:
 
 ### API Value
 
-Syntax:
+#### Syntax:
+
 API Value (Symbol)
 
 where:
@@ -1230,7 +1386,8 @@ where:
 
 ### API_Drop
 
-Syntax:
+#### Syntax:
+
 API Drop (Symbol)
 
 where:
@@ -1246,7 +1403,8 @@ where:
 
 ### API SetDirect
 
-Syntax:
+#### Syntax:
+
 API SetDirect (Symbol, Value)
 
 where:
@@ -1262,7 +1420,8 @@ Var_ Set(#Pool, Symbol, '1', Value)
 
 ### API_ValueDirect
 
-Syntax:
+#### Syntax:
+
 API ValueDirect (Symbol)
 
 where:
@@ -1275,7 +1434,8 @@ Var _Value(#Pool, Symbol, '1')
 
 ### API DropDirect
 
-Syntax:
+#### Syntax:
+
 API DropDirect (Symbol)
 
 where:
@@ -1289,7 +1449,9 @@ Otherwise:
 Var Drop(#Pool, Symbol, '1')
 
 ### API ValueOther
-Syntax:
+
+#### Syntax:
+
 API ValueOther (Qualifier)
 where:
 Qualifier is an indication distinguishing the result to be returned including any necessary further
@@ -1308,7 +1470,8 @@ value to be returned are:
 
 ### API Next
 
-Syntax:
+#### Syntax:
+
 API Next ()
 
 Semantics:
@@ -1321,7 +1484,8 @@ whenever the Rexx processor executes Var_Reset.
 
 ### API NextVariable
 
-Syntax:
+#### Syntax:
+
 API NextVariable()
 
 Semantics:
