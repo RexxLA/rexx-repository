@@ -23,7 +23,7 @@ where:
 * `Identifier` is an _identifier_ in a _production_ (see nnn) defined in nnn.
 * `BNF_primary` is a _bnf_primary_ (see nnn) in a _production_ defined in nnn.
 
-Return `'1'` if the _production_ identitied by _Identifier_ contained a _bnf_primary_ identified by `BNF_primary`, otherwise return `'0'`.
+Return `'1'` if the _production_ identified by _Identifier_ contained a _bnf_primary_ identified by `BNF_primary`, otherwise return `'0'`.
 
 ```rexx <!--directivesinstance.rexx-->
 #Instance(Identifier, BNF primary)
@@ -145,9 +145,9 @@ call Config Constants
 .true = '1'
 .false = '0'
 ```
-_Objects in our model are only distinquished by the values within their pool so we can construct the builtin classes incomplete and then complete them with directives._
+\_Objects in our model are only distinquished by the values within their pool so we can construct the builtin classes incomplete and then complete them with directives.\_
 
-_Can we initialize the methods of .nil by directives?_
+\_Can we initialize the methods of .nil by directives?\_
 
 ```rexx <!--configobjectnew.rexx-->
 call Config_ObjectNew

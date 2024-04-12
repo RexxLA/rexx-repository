@@ -1262,7 +1262,7 @@ object." */
 
 The search will progress from the object to its class and superclasses.
 
-```rexx <!--messagemethodsearch.rexx->
+```rexx <!--messagemethodsearch.rexx-->
 /* This is going to be circular because it describes the message lookup
 algorithm and also uses messages. However for the messages in this code
 the message names are chosen to be unique to a method so there is no need

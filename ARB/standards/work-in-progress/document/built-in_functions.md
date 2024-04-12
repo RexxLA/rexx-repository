@@ -2,8 +2,7 @@
 
 ## Notation
 
-The built-in functions are defined mainly through code. The code refers to state variables. This is solely a
-notation used in this standard.
+The built-in functions are defined mainly through code. The code refers to state variables. This is solely a notation used in this standard.
 
 The code refers to functions with names that start with 'Config_'; these are the functions described in
 section nnn.
@@ -34,6 +33,7 @@ condition and does not return.
 
 ### Argument checking
 
+```rexx <!--argumentchecking.rexx-->
 /* Check arguments. Some further checks will be made in particular built-ins.*/
 /* The argument to CheckArgs is a checklist for the allowable arguments. */
 
@@ -219,8 +219,11 @@ numeric digits #Bif Digits.#Bif
 numeric form scientific
 
 return datatype(arg(1),arg(2))
+```
 
 10.2.2 Date calculations
+
+```rexx <!--datecalculations.rexx-->
 Time2Date:
 if arg(1) < 0 then
 call Raise 40.18
@@ -398,14 +401,16 @@ Leap: procedure
 /* Return 1 if the year given as argument is a leap year, or 0
 otherwise. */
 return (arg(1)//4 = 0) & ((arg(1)//100 <> 0) | (arg(1)//400 = 0))
+```
 
 10.2.1. Radix conversion
 
+```rexx <!--reradix.rexx-->
 ReRadix: /* Converts Arg(1) from radix Arg(2) to radix Arg(3) */
 
 procedure
 
-Subj ect=arg(1)
+Subject=arg(1)
 
 FromRadix=arg (2)
 
@@ -434,14 +439,17 @@ r=eright(r, (length(Subject)+3) % 4, '0')
 else if FromRadix = 16 & ToRadix = 2 then
 reright(r, length(Subject) * 4, '0')
 return r
+```
 
 ### Raising the SYNTAX condition
 
+```rexx <!--raise.rexx-->
 Raise:
 
 /* These 40.nn messages always include the built-in name as an insert.*/
 call #Raise 'SYNTAX', arg(1), #Bif, arg(2), arg(3), arg(4)
 /* #Raise does not return. */
+```
 
 ## Character built-in functions
 
@@ -451,6 +459,7 @@ left.
 
 ### ABBREV
 
+```rexx <!--abbrev.rexx-->
 ABBREV returns '1' if the second argument is equal to the leading characters of the first and the length of
 the second argument is not less than the third argument.
 
@@ -468,11 +477,13 @@ Cond2 = length(Subj) >= Length
 Cond3 = substr(Subject, 1, length(Subj)) == Subj
 
 return Condl & Cond2 & Cond3
+```
 
 ### CENTER
 CENTER returns a string with the first argument centered in it. The length of the result is the second
 argument and the third argument specifies the character to be used for padding.
 
+```rexx <!--center.rexx-->
 call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
 String = #Bif Arg.1
@@ -488,6 +499,7 @@ if Trim > 0 then
 return substr(String, Trim % 2 + 1, Length)
 
 return overlay(String, copies(Pad, Length), -Trim % 2 + 1)
+```
 
 ### CENTRE
 
@@ -498,6 +510,7 @@ This is an alternative spelling for the CENTER built-in function.
 CHANGESTR replaces all occurrences of the first argument within the second argument, replacing them
 with the third argument.
 
+```rexx <!--changestr.rexx-->
 call CheckArgs '"rANY rANY rANY'
 
 Output = ''
@@ -510,11 +523,13 @@ Output = Output || substr(#Bif_ Arg.2, Position, FoundPos - Position),
 Position = FoundPos + length(#Bif Arg.1)
 end
 return Output || substr(#Bif Arg.2, Position)
+```
 
 ### COMPARE
 COMPARE returns '0' if the first and second arguments have the same value. Otherwise, the result is the
 position of the first character that is not the same in both strings.
 
+```rexx <!--compare.rexx-->
 call CheckArgs 'rANY rANY oPAD'
 
 Strl = #Bif_Arg.1
@@ -547,12 +562,14 @@ if substr(Stri, i, 1) \== substr(Str2, i, 1) then return i
 end
 
 return 0
+```
 
 ### COPIES
 
 COPIES returns concatenated copies of the first argument. The second argument is the number of
 copies.
 
+```rexx <!--copies.rexx-->
 call CheckArgs '"rANY rWHOLE>=0'
 Output = ''
 do #Bif Arg.2
@@ -560,10 +577,12 @@ Output = Output || #Bif_Arg.1
 end
 
 return Output
+```
 
 ### COUNTSTR
 COUNTSTR counts the appearances of the first argument in the second argument.
 
+```rexx <!--counstr.rexx-->
 call CheckArgs '"rANY rANY'
 
 Output = 0
@@ -576,11 +595,13 @@ Position = pos(#Bif Arg.1, #Bif Arg.2, Position + length(#Bif Arg.1))
 end
 
 return Output
+```
 
 ### DATATYPE
 DATATYPE tests for characteristics of the first argument. The second argument specifies the particular
 test.
 
+```rexx <!--datatype.rexx-->
 call CheckArgs 'rANY oABLMNSUWX'
 
 /* As well as returning the type, the value for a 'NUM' is set in
@@ -770,11 +791,13 @@ Residue = substr(Residue, 2)
 end
 
 return Outcome
+```
 
 ### DELSTR
 DELSTR deletes the sub-string of the first argument which begins at the position given by the second
 argument. The third argument is the length of the deletion.
 
+```rexx <!--delstr.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
 String #Bif Arg.1
 
@@ -788,11 +811,13 @@ if #Bif_ArgExists.3 then
 if Num + Len <= length(String) then
 Output = Output || substr(String, Num + Len)
 return Output
+```
 
 ### DELWORD
 DELWORD deletes words from the first argument. The second argument specifies position of the first
 word to be deleted and the third argument specifies the number of words.
 
+```rexx <!--delword.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
 String #Bif Arg.1
 
@@ -811,6 +836,7 @@ Output =
 
 end
 return Output
+```
 
 ### INSERT
 
@@ -819,6 +845,7 @@ Output || substr(String, BeginRight)
 INSERT insets the first argument into the second. The third argument gives the position of the character
 before the insert and the fourth gives the length of the insert. The fifth is the padding character.
 
+```rexx <!--insert.rexx-->
 call CheckArgs
 
 New #Bif_ Arg.1
@@ -849,8 +876,8 @@ if #Bif_ArgExists.5
 return left(Target, Num, Pad)
 left (New, Length, Pad),
 substr(Target, Num + 1)
+```
 
-“
 
 ### LASTPOS
 
@@ -858,6 +885,7 @@ substr(Target, Num + 1)
 /* New string inserted */
 /* To right of insert
 
+```rexx <!--lastpos.rexx-->
 'rANY rANY oWHOLE>=0 oWHOLE>=0 oPAD'
 
 */
@@ -881,12 +909,15 @@ do i= Start by -1 while i > 0
 if substr(Haystack, i, NeedleLength)
 end i
 return 0
+```
 
 ### LEFT
 
 LEFT returns characters that are on the left of the first argument.
 
 length of the result and the third is the padding character.
+
+```rexx <!--left.rexx-->
 call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
 if #Bif_ArgExists.3 then Pad
@@ -922,16 +953,15 @@ call #Raise 'SYNTAX',
 
 23.1, b2x(#Outcome)
 
-
 */
 /* No return to here */
+```
 
 ### OVERLAY
 
-OVERLAY overlays the first argument onto the second. The third argument is the starting position of the
+OVERLAY overlays the first argument onto the second. The third argument is the starting position of the overlay. The fourth argument is the length of the overlay and the fifth is the padding character.
 
-overlay. The fourth argument is the length of the overlay and the fifth is the padding character.
-
+```rexx <!--overlay.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0 oOWHOLE>=0 oPAD'
 
 New = #Bif_Arg.1
@@ -972,10 +1002,12 @@ if substr(Haystack, i, length(Needle)) == Needle then return i
 end i
 
 return 0
+```
 
 ### REVERSE
 REVERSE returns its argument, swapped end for end.
 
+```rexx <!--reverse-->
 call CheckArgs 'rANY'
 
 String
@@ -986,12 +1018,15 @@ do i= 1 to length (String)
 Output = substr(String,i,1) || Output
 end
 return Output
+```
 
 ### RIGHT
 
 RIGHT returns characters that are on the right of the first argument. The second argument specifies the
 
 length of the result and the third is the padding character.
+
+```rexx <!--right.rexx-->
 call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
 String = #Bif Arg.1
@@ -1004,6 +1039,7 @@ else Pad '
 Trim = length(String) - Length
 if Trim >= 0 then return substr(String,Trim + 1)
 return copies(Pad, -Trim) || String /* Pad string on the left */
+```
 
 ### SPACE
 
@@ -1011,6 +1047,7 @@ SPACE formats the blank-delimited words in the first argument with pad character
 The second argument is the number of pad characters between each word and the third is the pad
 character.
 
+```rexx <!--space.rexx-->
 call CheckArgs 'rANY oOWHOLE>=0 oPAD'
 
 String = #Bif Arg.1
@@ -1026,6 +1063,7 @@ Output = Output || Padding || subword(String, i, 1)
 
 end
 return Output
+```
 
 ### STRIP
 
@@ -1033,6 +1071,7 @@ STRIP removes characters from its first argument. The second argument specifies 
 are leading characters, trailing characters or both. Each character deleted is equal to the third argument,
 or equivalent to a blank if the third argument is omitted.
 
+```rexx <!--strip.rexx-->
 call CheckArgs 'rANY oLTB oPAD'
 
 String = #Bif Arg.1
@@ -1055,13 +1094,13 @@ String = left(String, length(String) -1)
 end /* of while */
 end
 return String
+```
 
 ###  SUBSTR
 SUBSTR returns a sub-string of the first argument. The second argument specifies the position of the
-first character and the third specifies the length of the sub-string. The fourth argument is the padding
+first character and the third specifies the length of the sub-string. The fourth argument is the padding character.
 
-character.
-
+```rexx <!--substr.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oOWHOLE>=0 oPAD'
 
 String = #Bif Arg.1
@@ -1091,6 +1130,7 @@ Output=Output | | Character
 end
 
 return Output
+```
 
 ### SUBWORD
 
@@ -1098,6 +1138,7 @@ SUBWORD returns a sub-string of the first argument, comprised of words. The seco
 position in the first argument of the first word of the sub-string. The third argument is the number of
 words in the sub-string.
 
+```rexx <!--subword.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
 
 String #Bif Arg.1
@@ -1133,11 +1174,13 @@ Output = left (Output, length (Output) -1)
 end
 
 return Output
+```
 
 ### TRANSLATE
 TRANSLATE returns the characters of its first argument with each character either unchanged or
 translated to another character.
 
+```rexx <!--translate-->
 call CheckArgs 'rANY oANY oANY oPAD'
 String = #Bif Arg.1
 /* If neither input nor output tables, uppercase. */
@@ -1176,14 +1219,15 @@ if k=0 then Output=Output ||c
 else Output=Output | | substr (Tableo,k,1)
 end j
 return Output
+```
 
 ### VERIFY
 
 VERIFY checks that its first argument contains only characters that are in the second argument, or that it
 contains no characters from the second argument; the third argument specifies which check is made.
-The result is '0', or the position of the character that failed verification. The fourth argument is a starting
-position for the check.
+The result is '0', or the position of the character that failed verification. The fourth argument is a starting position for the check.
 
+```rexx <!--verify.rexx-->
 call CheckArgs 'rANY rANY oMN oWHOLE>0'
 
 String = #Bif Arg.1
@@ -1211,18 +1255,22 @@ else
 if t > 0 then return i /* Return position of Matched character. */
 end i
 return 0
+```
 
 ### WORD
 WORD returns the word from the first argument at the position given by the second argument.
 
+```rexx <!--word.rexx-->
 call CheckArgs 'rANY rwWHOLE>0'
 
 return subword(#Bif Arg.1, #Bif_Arg.2, 1)
+```
 
 ### WORDINDEX
 WORDINDEX returns the character position in the first argument of a word in the first argument. The
 second argument is the word position of that word.
 
+```rexx <!--wordindex.rexx-->
 call CheckArgs 'rANY rwWHOLE>0'
 
 String
@@ -1248,14 +1296,17 @@ Find blank */
 if Start = 0 then return 0 /* Start is beyond end */
 end
 return Start
+```
 
 ###  WORDLENGTH
 WORDLENGTH returns the number of characters in a word from the first argument. The second
 argument is the word position of that word.
 
+```rexx <!--wordlength.rexx-->
 call CheckArgs 'rANY rwWHOLE>0'
 
 return length(subword(#Bif Arg.1, #Bif_Arg.2, 1))
+```
 
 ### WORDPOS
 
@@ -1263,6 +1314,7 @@ WORDPOS finds the leftmost occurrence in the second argument of the sequence of 
 argument. The result is '0' or the word position in the second argument of the first word of the matched
 sequence. Third argument is a word position for the start of the search.
 
+```rexx <!--wordpos.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0'
 
 Phrase = #Bif_Arg.1
@@ -1282,25 +1334,30 @@ if Phrase == subword(String, WordNumber, PhraseWords) then
 return WordNumber
 end WordNumber
 return 0
+```
 
 ### WORDS
 WORDS counts the number of words in its argument.
 
+```rexx <!--words.rexx-->
 call CheckArgs 'rANY'
 
 do Count = 0 by 1
 if subword(#Bif Arg.1, Count + 1) == '' then return Count
 end Count
+```
 
 ### XRANGE
 XRANGE returns an ordered string of all valid character encodings in the specified range.
 
+```rexx <!--xrange.rexx-->
 call CheckArgs 'oPAD oPAD'
 
 if \#Bif_ArgExists.1 then #Bif_Arg.1 mr
 if \#Bif_ArgExists.2 then #Bif Arg.2
 #Response = Config Xrange(#Bif Arg.1, #Bif Arg.2)
 return #Outcome
+```
 
 ## Arithmetic built-in functions
 
@@ -1309,6 +1366,7 @@ function. Note that CheckArgs formats any 'NUM' (numeric) argument.
 
 ### ABS
 
+```rexx <!--abs.rexx-->
 ABS returns the absolute value of its argument.
 
 call CheckArgs 'rNUM'
@@ -1316,6 +1374,7 @@ Number=#Bif Arg.1
 
 if left (Number,1) = '-' then Number = substr (Number, 2)
 return Number
+```
 
 ### FORMAT
 
@@ -1324,6 +1383,7 @@ used for the integer part and the third specifies the number of characters for t
 argument specifies the number of characters for the exponent and the fifth determines when exponeniial
 notation is used.
 
+```rexx <!--format.rexx-->
 call CheckArgs,
 'rNUM OWHOLE>=0 OWHOLE>=0 OWHOLE>=0 OWHOLE>=0'
 
@@ -1598,10 +1658,12 @@ return Number
 
 'E+' Exponent
 'E- ' Exponent
+```
 
 ### MAX
 MAX returns the largest of its arguments.
 
+```rexx <!--max.rexx-->
 if #Bif_Arg.0 <1 then
 call Raise 40.3, 1
 call CheckArgs 'rNUM'||copies(' rNUM', #Bif Arg.0 - 1)
@@ -1614,10 +1676,12 @@ if Max < Next then Max = Next
 end i
 
 return Max
+```
 
 ### MIN
 MIN returns the smallest of its arguments.
 
+```rexx <!--min.rexx-->
 if #Bif_Arg.0 <1 then
 call Raise 40.3, 1
 call CheckArgs 'rNUM'||copies(' rNUM', #Bif Arg.0 - 1)
@@ -1630,10 +1694,12 @@ if Min > Next then Min = Next
 end i
 
 return Min
+```
 
 ### SIGN
 SIGN returns '1', '0' or '-1' according to whether its argument is greater than, equal to, or less than zero.
 
+```rexx <!--sign.rexx-->
 call CheckArgs 'rNUM'
 
 Number = #Bif Arg.1
@@ -1646,11 +1712,13 @@ when Number > 0 then Output = 1
 
 end
 return Output
+```
 
 ### TRUNC
 TRUNC returns the integer part of its argument, or the integer part plus a number of digits after the
 decimal point, specified by the second argument.
 
+```rexx <!--trunc.rexx-->
 call CheckArgs 'rNUM oWHOLE>=0'
 
 Number = #Bif Arg.1
@@ -1665,6 +1733,7 @@ if Num=0 then return Integer
 t=length (Integer) -Num
 if t<=0 then return '0.'right(Integer,Num,'0')
 else return insert('.',Integer,t)
+```
 
 ## State built-in functions
 
@@ -1676,6 +1745,7 @@ ADDRESS returns the name of the environment to which commands are currently bein
 Optionally, under control by the argument, it also returns information on the targets of command output
 and the source of command input.
 
+```rexx <!--address.rexx-->
 call CheckArgs 'oEINO'
 
 if #Bif_ArgExists.1 then Optionl = #Bif_Arg.1
@@ -1685,12 +1755,14 @@ if Optionl == 'N' then return #Env_Name.ACTIVE. #Level
 
 Tail = Optionl' .ACTIVE. '#Level
 return #Env_Position.Tail #Env_Type.Tail #Env_Resource.Tail
+```
 
 ### ARG
 
 ARG returns information about the argument strings to a program or routine, or the value of one of those
 strings.
 
+```rexx <!--arg.rexx-->
 ArgData = 'OWHOLE>0 oENO'
 if #Bif_ ArgExists.2 then ArgData = 'rWHOLE>0 rENO'
 call CheckArgs ArgData
@@ -1703,10 +1775,12 @@ if \#Bif_ArgExists.2 then return #Arg.#Level.ArgNum
 
 if #Bif_Arg.2 =='0O' then return \#ArgExists.#Level.ArgNum
 else return #ArgExists.#Level .ArgNum
+```
 
 ### CONDITION
 CONDITION returns information associated with the current condition.
 
+```rexx <!--condition.rexx-->
 call CheckArgs 'oCDEIS'
 
 /* Values are null if this is not following a condition. */
@@ -1728,12 +1802,16 @@ if Option=='I' then return #ConditionInstruction. #Level
 
 if #Condition.#Level = '' then return ""
 return #Enabling.#Condition.#Level
+```
+
 ### DIGITS
 
 DIGITS returns the current setting of NUMERIC DIGITS.
 call CheckArgs ''
 
+```rexx <!--digits-->
 return #Digits.#Level
+```
 
 ### ERRORTEXT
 
@@ -1741,6 +1819,7 @@ ERRORTEXT returns the unexpanded text of the message which is identified by the 
 second argument of 'S' selects the standard English text, otherwise the text may be translated to another
 national language. This translation is not shown in the code below.
 
+```rexx <!--errortext.rexx-->
 call CheckArgs 'r0_90 oSN'
 
 msgcode = #Bif Arg.1
@@ -1749,23 +1828,28 @@ if #Bif_ ArgExists.2 then Option
 else Option
 
 return #ErrorText .msgcode
+```
 
 ### FORM
 FORM returns the current setting of NUMERIC FORM.
 
+```rexx <!--form.rexx-->
 #Bif_Arg.2
 tint
 
 call CheckArgs ''
 
 return #Form.#Level
+```
 
 ### FUZZ
 FUZZ returns the current setting of NUMERIC FUZZ.
 
+```rexx <!--fuzz.rexx-->
 call CheckArgs ''
 
 return #Fuzz.#Level
+```
 
 ### SOURCELINE
 
@@ -1773,6 +1857,7 @@ If there is no argument, SOURCELINE returns the number of lines in the program, 
 program is not being shown on this execution. If there is an argument it specifies the number of the line
 of the source program to be returned.
 
+```rexx <!--sourceline.rexx-->
 call CheckArgs 'oWHOLE>0'
 
 if \#Bif_ArgExists.1 then return #SourceLine.0
@@ -1780,10 +1865,12 @@ Num = #Bif_Arg.1
 if Num > #SourceLine.0O then
 call Raise 40.34, Num, #SourceLine.0
 return #SourceLine.Num
+```
 
 ### TRACE
 TRACE returns the trace setting currently in effect, and optionally alters the setting.
 
+```rexx <!--trace.rexx-->
 call CheckArgs 'oACEFILNOR' /* Also checks for '?!' */
 /* With no argument, this a simple query. */
 Output=#Tracing.#Level
@@ -1811,6 +1898,7 @@ if Value=='0O' then #Interactive.#Level='0'
 #Tracing.#Level = Value
 end
 return Output
+```
 
 10.4 Conversion built-in functions
 
@@ -1820,14 +1908,16 @@ Conversions between Binary form, Decimal form, and heXadecimal form do not depen
 Conversion to Coded form gives a result which depends on the encoding. Depending on the encoding,
 the result may be a string that does not represent any sequence of characters.
 
-### B2xX
+### B2X
 
 B2X performs binary to hexadecimal conversion.
 
+```rexx <!--b2x.rexx-->
 call CheckArgs 'rBIN'
 
 String = space (#Bif Arg.1,0)
 return ReRadix(String,2,16)
+```
 
 ### BITAND
 
@@ -1835,6 +1925,7 @@ The functions BITAND, BITOR and BITXOR operate on encoded character data. Each b
 the encoding of the first argument is processed in conjunction with the corresponding bit from the second
 argument.
 
+```rexx <!--bitand.rexx-->
 call CheckArgs 'rANY oANY oPAD'
 
 Stringl = #Bif_ Arg.1
@@ -1890,6 +1981,7 @@ rer || right (Stringl, length (String1) -length(String2) )
 
 /* Convert back to encoded characters. */
 return x2c (b2x(r))
+```
 
 ### BITOR
 
@@ -1903,6 +1995,7 @@ See nnn
 
 C2D performs coded to decimal conversion.
 
+```rexx <!--c2d.rexx-->
 call CheckArgs 'rANY oWHOLE>=0'
 if length(#Bif Arg.1)=0 then return 0
 
@@ -1928,19 +2021,23 @@ call Config C2B #Bif_Arg.1
 t = ReRadix(#Outcome, 2,10)
 if t > 10 ** #Digits.#Level - 1 then call Raise 40.35, t
 return t
+```
 
-10.4.6 C2Xx
+10.4.6 C2X
 C2X performs coded to hexadecimal conversion.
 
+```rexx <!--c2x.rexx-->
 call CheckArgs 'rANY'
 if length(#Bif Arg.1) = 0 then return ''
 
 call Config C2B #Bif_Arg.1
 return ReRadix (#Outcome,2,16)
+```
 
 ### D2C
 D2C performs decimal to coded conversion.
 
+```rexx <!--d2c.rexx-->
 'rWHOLENUM>=0'!
 'rWHOLENUM rWHOLE>=0'
 
@@ -1971,9 +2068,12 @@ if \#Bif_ArgExists.2 then return Output
 /* Adjust the length with appropriate characters. */
 if #Bif_Arg.1>=0 then return right (Output, #Bif_Arg.2,left(xrange(),1))
 else return right (Output, #Bif Arg.2,right (xrange(),1))
+```
 
 ### D2X
 D2X performs decimal to hexadecimal conversion.
+
+```rexx <!--d2x.rexx-->
 if \#Bif_ArgExists.2 then ArgData = 'rWHOLENUM>=0'
 else ArgData = 'rWHOLENUM rWHOLE>=0'
 
@@ -1991,10 +2091,12 @@ if \#Bif_ArgExists.2 then return r
 /* Adjust the length with appropriate characters. */
 if #Bif_ Arg.1>=0 then return right(r,#Bif Arg.2,'0')
 else return right(r,#Bif Arg.2,'F')
+```
 
 ### X2B
 X2B performs hexadecimal to binary conversion.
 
+```rexx <!--x2b.rexx-->
 call CheckArgs 'rHEX'
 
 Subject = #Bif Arg.1
@@ -2005,10 +2107,12 @@ if Subject == '' then return ''
 Subject = space (Subject, 0)
 
 return ReRadix(translate (Subject) ,16,2)
+```
 
 ### X2C
 X2C performs hexadecimal to coded character conversion.
 
+```rexx <!--x2c.rexx-->
 call CheckArgs 'rHEX'
 
 Subject = #Bif Arg.1
@@ -2026,10 +2130,12 @@ r = ReRadix(translate (Subject) ,16,2)
 Length = 8*( (length (Subject) +1) %2)
 #Response = Config B2C(right(r,Length,'0'))
 return #Outcome
+```
 
 ### X2D
 X2D performs hexadecimal to decimal conversion.
 
+```rexx <!--x2d.rexx-->
 call CheckArgs 'rHEX OWHOLE>=0'
 
 Subject = #Bif Arg.1
@@ -2055,37 +2161,47 @@ return r
 
 left (x2b (Subject) ,1)
 ror
+```
 
 ## Input/Output built-in functions
 The configuration shall provide the ability to access streams. Streams are identified by character string
-identifiers and provide for the reading and writing of data. They shall support the concepts of characters,
-lines, and positioning. The input/output built-in functions interact with one another, and they make use of
-Config_ functions, see nnn. When the operations are successful the following characteristics shall be
+identifiers and provide for the reading and writing of data. They shall support the concepts of characters, lines, and positioning. The input/output built-in functions interact with one another, and they make use of Config_ functions, see nnn. When the operations are successful the following characteristics shall be
 exhibited:
+
 - The CHARIN/CHAROUT functions are insensitive to the lengths of the arguments. The data written
 to a stream by CHAROUT can be read by a different number of CHARINs.
+
 - The CHARIN/CHAROUT functions are reflective, that is, the concatenation of the data read from a
 persistent stream by CHARIN (after positioning to 1, while CHARS(Stream)>0), will be the same as
 the concatenation of the data put by CHAROUT.
+
 - All characters can be used as CHARIN/CHAROUT data.
+
 - The CHARS(Stream, 'N') function will return zero only when a subsequent read (without positioning)
 is guaranteed to raise the NOTREADY condition.
+
 - The LINEIN/LINEOUT functions are sensitive to the length of the arguments, that is, the length of a
 line written by LINEOUT is the same as the length of the string returned by successful LINEIN of the
 line.
+
 - Some characters, call them line-banned characters, cannot reliably be used as data for
 LINEIN/LINEOUT. If these are not used, LINEIN/LINEOUT is reflective. If they are used, the result is
 not defined. The set of characters which are line-barred is a property of the configuration.
+
 - The LINES(Stream, 'N’) function will return zero only when a subsequent LINEIN (without
 positioning) is guaranteed to raise the NOTREADY condition.
+
 - When a persistent stream is repositioned and written to with CHAROUT, the previously written data
 is not lost, except for the data overwritten by this latest CHAROUT.
+
 - When a persistent stream is repositioned and written to with LINEOUT, the previously written data is
 not lost, except for the data overwritten by this latest LINEOUT, which may leave lines partially
 overwritten.
+
 ### CHARIN
 CHARIN returns a string read from the stream named by the first argument.
 
+```rexx <!--charin.rexx-->
 call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
 
 if #Bif_ArgExists.1 then Stream
@@ -2137,11 +2253,13 @@ call Config B2C r
 r = #Outcome
 end
 return r
+```
 
 ### CHAROUT
 CHAROUT returns the count of characters remaining after attempting to write the second argument to the
 stream named by the first argument.
 
+```rexx <!--charout.rexx-->
 call CheckArgs 'oSTREAM oANY oWHOLE>0'
 
 if #Bif_ArgExists.1 then Stream
@@ -2198,6 +2316,7 @@ end
 Residue = Residue - 1
 end
 return 0
+```
 
 ### CHARS
 
@@ -2205,6 +2324,7 @@ CHARS indicates whether there are characters remaining in the named stream. Opti
 
 count of the characters remaining and immediately available.
 
+```rexx <!--chars.rexx-->
 call CheckArgs 'oSTREAM oCN'
 
 if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
@@ -2215,10 +2335,12 @@ else Option = 'N'
 
 call Config Stream Count Stream, 'CHARS', Option
 return #Outcome
+```
 
 ### LINEIN
 LINEIN reads a line from the stream named by the first argument, unless the third argument is Zero.
 
+```rexx <!--linein.rexx-->
 call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
 
 if #Bif_ArgExists.1 then Stream
@@ -2258,12 +2380,13 @@ end
 return r
 
 #Bif Arg.1
+```
 
 ### LINEOUT
 
-LINEOUT returns '1' or '0', indicating whether the second argument has been successfully written to the
+LINEOUT returns '1' or '0', indicating whether the second argument has been successfully written to the stream named by the first argument. A result of '1' means an unsuccessful write.
 
-stream named by the first argument. A result of '1' means an unsuccessful write.
+```rexx <!--lineout.rexx-->
 call CheckArgs 'oSTREAM oANY oWHOLE>0'
 
 if #Bif_ArgExists.1 then Stream
@@ -2336,12 +2459,15 @@ Residue = Residue-1
 end
 call Config Stream Charout Stream,
 return 0
+```
+
 ### LINES
 
 'EOL'
 
 LINES returns the number of lines remaining in the named stream.
 
+```rexx <!--lines.rexx-->
 call CheckArgs 'oSTREAM oCN'
 
 if #Bif_ArgExists.1 then Stream
@@ -2351,9 +2477,11 @@ else Option
 
 Call Config Stream Count Stream,
 return #Outcome
+```
 
 ### QUALIFY
 
+```rexx <!--qualify.rexx-->
 #Bif Arg.1
 ter
 #Bif_Arg.2
@@ -2374,11 +2502,13 @@ else Stream
 #Bif Arg.1
 #Response = Config Stream Qualified (Stream)
 return #Outcome
+```
 
 ### STREAM
 STREAM returns a description of the state of, or the result of an operation upon, the stream named by
 the first argument.
 
+```rexx <!--stream.rexx-->
 /* Third argument is only correct with 'C' */
 
 if #Bif ArgExists.2 & translate(left(#Bif Arg.2, 1)) == 'C' then
@@ -2420,6 +2550,7 @@ end
 
 1) ==
 1) ==
+```
 
 ## Other built-in functions
 
@@ -2429,6 +2560,7 @@ DATE with fewer than two arguments returns the local date. Otherwise it converts
 (which has a format given by the third argument) to the format specified by the first argument. If there are
 fourth or fifth arguments, they describe the treatment of separators between fields of the date.
 
+```rexx <!--date.rexx-->
 call CheckArgs 'oBDEMNOSUW oANY oOBDENOSU oSEP oSEP'
 /* If the third argument is given then the second is mandatory. */
 if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
@@ -2646,18 +2778,22 @@ otherwise /* arg(2) == 'W' */
 return word (Weekdays, 1+Base//7)
 
 end
+```
 
 ### QUEUED
 QUEUED returns the number of lines remaining in the external data queue.
 
+```rexx <!--queued.rexx-->
 call CheckArgs ''
 
 #Response = Config Queued()
 return #Outcome
+```
 
 ### RANDOM
 RANDOM returns a quasi-random number.
 
+```rexx <!--random.rexx-->
 call CheckArgs 'oWHOLE>=0 oWHOLE>=0 oWHOLE>=0'
 
 if #Bif_Arg.0 = 1 then do
@@ -2685,6 +2821,7 @@ call Raise 40.33, Minimum, Maximum
 if #Bif_ArgExists.3 then call Config Random Seed #Bif_Arg.3
 call Config Random Next Minimum, Maximum
 return #Outcome
+```
 
 ### SYMBOL
 
@@ -2703,6 +2840,7 @@ TIME with less than two arguments returns the local time within the day, or an e
 converts the second argument (which has a format given by the third argument) to the format specified by
 the first argument.
 
+```rexx <!--time.rexx-->
 call CheckArgs 'oCEHLMNORS oANY oCHLMNS'
 /* If the third argument is given then the second is mandatory. */
 if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
@@ -2828,12 +2966,12 @@ call Raise 40.19, InValue, InOption
 if arg(1) >= 315537897600000000 then
 call Raise 40.19, InValue, InOption
 return Time2Date2 (arg(1))
+```
 
 10.6.1 VALUE
-VALUE returns the value of the symbol named by the first argument, and optionally assigns it a new
+VALUE returns the value of the symbol named by the first argument, and optionally assigns it a new value.
 
-value.
-
+```rexx <!--value.rexx-->
 'rANY oOANY oANY'
 
 if #Bif ArgExists.3 then ArgData
@@ -2915,17 +3053,21 @@ if #Bif_ ArgExists.2 then
 #Response = Var Set(#Pool, Expanded, '1', #Bif_ Arg.2)
 
 return Value
+```
 
 ### QUEUED
 QUEUED returns the number of lines remaining in the external data queue.
 
+```rexx <!--queued.rexx-->
 call CheckArgs ''
 #Response = Config Queued()
 return #Outcome
+```
 
 ### RANDOM
 RANDOM returns a quasi-random number.
 
+```rexx <!--random.rexx-->
 call CheckArgs 'oWHOLE>=0 oWHOLE>=0 oWHOLE>=0'
 
 if #Bif_Arg.0 = 1 then do
@@ -2952,6 +3094,7 @@ call Raise 40.33, Minimum, Maximum
 if #Bif_ArgExists.3 then call Config Random Seed #Bif_Arg.3
 call Config Random Next Minimum, Maximum
 return #Outcome
+```
 
 ### SYMBOL
 
@@ -2970,6 +3113,7 @@ TIME with less than two arguments returns the local time within the day, or an e
 converts the second argument (which has a format given by the third argument) to the format specified by
 the first argument.
 
+```rexx <!--time.rexx-->
 call CheckArgs 'oCEHLMNORS oANY oCHLMNS'
 /* If the third argument is given then the second is mandatory. */
 if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
@@ -3078,11 +3222,14 @@ return trunc(#ClauseLocal.#Level - #ClauseTime.#Level)
 otherwise /* arg(2) == 'S' */
 return 3600*Hour+60*Minute+Second
 end
+```
+
 10.6.5 VALUE
 
 VALUE returns the value of the symbol named by the first argument, and optionally assigns it a new
 value.
 
+```rexx <!--value.rexx-->
 'rANY oOANY oANY'
 'rSYM OANY oANY'
 
@@ -3166,3 +3313,4 @@ if #Bif_ ArgExists.2 then
 #Response = Var Set(#Pool, Expanded, '1', #Bif_ Arg.2)
 
 return Value
+```

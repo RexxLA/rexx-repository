@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  12 APR 2024 23:53
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.6.5)  13 APR 2024 01:01
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1376,6 +1376,84 @@ LaTeX Warning: Label `syntax' multiply defined.
 
 LaTeX Warning: Label `callraisesyntax.rexx' multiply defined.
 
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `configotherblankcharacters.rexx' multiply defined.
+
+
+LaTeX Warning: Label `callraisesyntax.rexx' multiply defined.
+
+
+LaTeX Warning: Label `newlevel.rexx' multiply defined.
+
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `reverse' multiply defined.
+
+
+LaTeX Warning: Label `translate' multiply defined.
+
+
+LaTeX Warning: Label `address' multiply defined.
+
+
+LaTeX Warning: Label `arg' multiply defined.
+
+
+LaTeX Warning: Label `digits' multiply defined.
+
+
+LaTeX Warning: Label `trace' multiply defined.
+
+
+LaTeX Warning: Label `trace.rexx' multiply defined.
+
+
+LaTeX Warning: Label `queued.rexx' multiply defined.
+
+
+LaTeX Warning: Label `random.rexx' multiply defined.
+
+
+LaTeX Warning: Label `time.rexx' multiply defined.
+
+
+LaTeX Warning: Label `value.rexx' multiply defined.
+
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `varset.rexx' multiply defined.
+
+
+LaTeX Warning: Label `methodclass.rexx' multiply defined.
+
+
+LaTeX Warning: Label `notation' multiply defined.
+
+
+LaTeX Warning: Label `insert' multiply defined.
+
+
+LaTeX Warning: Label `push' multiply defined.
+
+
+LaTeX Warning: Label `pull' multiply defined.
+
+
+LaTeX Warning: Label `queue' multiply defined.
+
+
+LaTeX Warning: Label `call' multiply defined.
+
+
+LaTeX Warning: Label `guard' multiply defined.
+
 ))
 \openout1 = `standard.aux'.
 
@@ -1497,7 +1575,7 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
 
 ))
-(|'inkscape' -V ) (../boilerplate/template.tex
+(../boilerplate/template.tex
 
 Package fontspec Info: Font family 'TeXGyrePagella(0)' created for font 'TeX
 (fontspec)             Gyre Pagella' with options [].
@@ -1576,13 +1654,13 @@ Package marginnote Warning: Consecutive odd pages found.
 
 Package marginnote Info: Using workaround for absolute page number on input lin
 e 25.
-) (./standard.toc)
+) (./standard.toc [2
+
+] [3])
 \tf@toc=\write9
 \openout9 = `standard.toc'.
 
- [2
-
-]
+ [4]
 \openout2 = `structure.aux'.
 
  (./structure.tex (./foreword.tex
@@ -1840,10 +1918,7 @@ Overfull \hbox (0.42091pt too wide) in paragraph at lines 814--821
  EXTERNAL mechanism. Analogy
  []
 
-
-Underfull \vbox (badness 1097) has occurred while \output is active []
-
- [24]
+[24]
 Overfull \hbox (2.33075pt too wide) in paragraph at lines 878--881
 \TU/MinionPro(0)/m/n/12 provide one the indicator of the completion response is
  ‘H’. As a result SYNTAX condition
@@ -2235,81 +2310,634 @@ or which \TU/IBMPlexMono(0)/m/n/12 #ArgExists.#NewLevel.ArgNumber
 
 (./callraisesyntax.rexx) [77] (./varset.rexx) (./evaluatemessageterm.rexx)
 (./evaluatemessagetermconstant.rexx) (./evaluatemessagtermsymbol.rexx [78])
-! Missing endcsname inserted.
-<to be read again> 
-                   textgreater 
-l.703 ...r]{messagemethodsearch.rexx-\textgreater}
-                                                  
-? q
-OK, entering batchmode...
-! Use of ??? doesn't match its definition.
-<argument> ???  
-                ! LaTeX Error: textgreater invalid in file name. Lost: fi .
-l.703 ...r]{messagemethodsearch.rexx-\textgreater}
-                                                  
-If you say, e.g., `\def\a1{...}', then you must always
-put `1' after `\a', since control sequence names are
-made up of letters only. The macro here has not been
-followed by the required stuff, so I'm ignoring it.
+(./messagemethodsearch.rexx [79])
+Overfull \hbox (22.33804pt too wide) in paragraph at lines 736--740
+[]\TU/IBMPlexMono(0)/m/n/12 Var_-Reset \TU/MinionPro(0)/m/n/12 is invoked and \
+TU/IBMPlexMono(0)/m/n/12 #API_-Enabled \TU/MinionPro(0)/m/n/12 set to []\TU/IBM
+PlexMono(0)/m/n/12 1[] \TU/MinionPro(0)/m/n/12 before use of \TU/IBMPlexMono(0)
+/m/n/12 Config_-ExternalRoutine\TU/MinionPro(0)/m/n/12 .
+ []
 
-! Missing endcsname inserted.
-<to be read again> 
-                   textgreater 
-l.703 ...r]{messagemethodsearch.rexx-\textgreater}
-                                                  
-The control sequence marked <to be read again> should
-not appear between \csname and \endcsname.
+) (./directives.tex
+Overfull \hbox (13.10478pt too wide) in paragraph at lines 741--2
+[]\TU/MinionPro(0)/m/n/12 The response from \TU/IBMPlexMono(0)/m/n/12 Config_-E
+xternalRoutine \TU/MinionPro(0)/m/n/12 is processed. If no conditions are (impl
+icitly)
+ []
 
-! Use of ??? doesn't match its definition.
-<argument> ???  
-                ! LaTeX Error: textgreater invalid in file name. Lost: fi .
-l.703 ...r]{messagemethodsearch.rexx-\textgreater}
-                                                  
-If you say, e.g., `\def\a1{...}', then you must always
-put `1' after `\a', since control sequence names are
-made up of letters only. The macro here has not been
-followed by the required stuff, so I'm ignoring it.
+[80]
+Chapter 10.
+(./directivescontainsidentifier.rexx)
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./directivesinstance.rexx)
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./directivesevaluate.rexx)
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./directivesexecute.rexx) [81
 
-! Missing endcsname inserted.
-<to be read again> 
-                   textgreater 
-l.703 ...r]{messagemethodsearch.rexx-\textgreater}
-                                                  
-The control sequence marked <to be read again> should
-not appear between \csname and \endcsname.
+]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./directivesparses.rexx)
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./directivesclause.rexx)
+Warning: \Huger is more than \Huge.
+(./directivesgoto.rexx)
+Warning: \Huger is more than \Huge.
+(./directivesrexxtry.rexx) [82] (./initialization.rexx)
+Overfull \hbox (15.24365pt too wide) in paragraph at lines 193--195
+[]\TU/MinionPro(0)/m/n/12 Some of the values which affect processing of the pro
+gram are provided by the configuration: 
+ []
 
-! Use of ??? doesn't match its definition.
-<argument> ???  
-                ! LaTeX Error: textgreater invalid in file name. Lost: fi .
-l.703 ...r]{messagemethodsearch.rexx-\textgreater}
-                                                  
-If you say, e.g., `\def\a1{...}', then you must always
-put `1' after `\a', since control sequence names are
-made up of letters only. The macro here has not been
-followed by the required stuff, so I'm ignoring it.
+(./configotherblankcharacters.rexx) (./configobjectnew.rexx)
+(./configerrortexts1.rexx [83]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [84]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [85])
+(./errortexts2.rexx [86]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [87]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [88]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [89]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [90])
+(./confignosource.rexx) (./configtracesettings.rexx)
+(./configinitialvarpool.rexx) [91] (./configdigits.rexx)
+(./configenvironments.rexx) (./configdisablesconditions.rexx)
+(./configinitializepooltrap.rexx)
+Overfull \hbox (5.1177pt too wide) in paragraph at lines 268--269
+[]\TU/MinionPro(0)/m/it/12 A use of Start_-API with #instance(requires, taken_-
+constant). Msg40.1 or a new if completion
+ []
+
+(./classnamesorderofappearance.rexx [92]) (./methodsorderofappearance.rexx))
+(./instructions.tex [93]
+Chapter 11.
+(./localvariablepoolinit.rexx) (./routineinit.rexx) (./callersvalues.rexx)
+[94
+
+] (./conditionlevel.rexx) (./newlevel.rexx) (./traceclauseinit.rexx)
+(./clauseretaindatetime.rexx) (./allowprocedure.rexx) (./inihibittrace.rexx)
+(./haltquery.rexx) (./endclauseconditions.rexx) (./configtracequery.rexx
+[95])
+Overfull \hbox (0.49875pt too wide) in paragraph at lines 104--109
+[]\TU/MinionPro(0)/m/n/12 If a TRACE instruction is executed within the string,
+ the language processor immediately
+ []
+
+(./pausepoint.rexx [96])
+Overfull \hbox (3.95877pt too wide) in paragraph at lines 144--147
+\TU/MinionPro(0)/m/n/12 “environment” is used to refer to an environment name t
+ogether with the I/O redirections. 
+ []
+
+(./addressinstruct.rexx [97]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [98]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [99])
+(./assignmentvarpoolzero.rexx) (./assignmentvarpoolone.rexx)
+(./callcontains.rexx) (./calltakenconstant.rexx) (./callvardrop.rexx) [100]
+(./callcallonspec.rexx) (./commandtoconfifuration.rexx) (./commandIssue.rexx
+[101]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [102])
+(./doinstruction.rexx [103]) (./doassignments.rexx [104])
+Overfull \hbox (6.95767pt too wide) in paragraph at lines 277--283
+\TU/MinionPro(0)/m/n/12 When clauses are being traced by \TU/IBMPlexMono(0)/m/n
+/12 #TraceSource\TU/MinionPro(0)/m/n/12 , due to \TU/IBMPlexMono(0)/m/n/12 pos(
+#Tracing.#Level, []AIR[])
+ []
+
+(./dolooptracing.rexx) [105] (./drop.rexx) (./drop2.rexx)
+(./dropconfigupper.rexx) (./dropnotsymbolcondition.rexx) (./exitevaluate.rexx)
+(./finaltrap.rexx) [106] (./allowexpose.rexx) (./exposenoperiod.rexx)
+(./exposederivedname.rexx) (./configupper.rexx) (./raisesyntaxnotsymbol2.rexx)
+(./forward.rexx) [107] (./guardinstruction.rexx) (./dropexclusive.rexx)
+Overfull \hbox (18.13875pt too wide) in paragraph at lines 447--449
+[]\TU/MinionPro(0)/m/n/12 The INTERPRET instruction is used to execute instruct
+ions that have been built dynamically
+ []
+
+(./raiselabel.rexx) [108] (./instructioniterate.rexx) (./traceexecutelabel.rexx
+) (./instructionleave.rexx) [109] (./numericdigits.rexx) (./numericform.rexx)
+(./numericfuzz.rexx [110]) (./configoptions.rexx) (./instructionsparse.rexx
+[111]) (./parsedata.rexx [112]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [113]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [114])
+(./procedure.rexx) [115] (./exposepool.rexx) (./exposederived.rexx)
+(./configuppervalue.rexx) (./callraisesyntax.rexx) (./upperpull.rexx)
+(./push.rexx) (./queue.rexx [116])
+Overfull \hbox (2.93874pt too wide) in paragraph at lines 672--674
+\TU/MinionPro(0)/m/n/12 The RAISE instruction returns from the current method o
+r routine and raises a condition. 
+ []
+
+(./return.rexx) (./isprocedure.rexx) (./atpause.rexx) (./newlevel.rexx)
+(./apifinaltrap.rexx) [117] (./say.rexx) (./select.rexx) [118] (./signal.rexx)
+Overfull \hbox (4.73962pt too wide) in paragraph at lines 754--756
+[]\TU/MinionPro(0)/m/n/12 If there was a \TU/MinionPro(0)/m/it/12 signal_-spec 
+\TU/MinionPro(0)/m/n/12 this complete the processing of the signal instruction.
+ Otherwise: 
+ []
+
+(./signalspec.rexx) (./raisesyntaxname.rexx) (./raisetraceonlysymbol.rexx)
+(./executioncontinues.rexx)
+Overfull \hbox (25.6255pt too wide) in paragraph at lines 783--788
+\TU/MinionPro(0)/m/n/12 obtained by \TU/IBMPlexMono(0)/m/n/12 Config_-Trace_-In
+put\TU/MinionPro(0)/m/n/12 ) and interactive trace is requested (\TU/IBMPlexMon
+o(0)/m/n/12 #Interactive.#Level
+ []
+
+(./trace.rexx [119]) [120]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (5.58675pt too wide) in paragraph at lines 875--878
+[]\TU/MinionPro(0)/m/n/12 The optional VAR_-SYMBOL positions, positions 1, 2, …
+, of the instruction are considered
+ []
+
+(./use.rexx)
+Overfull \hbox (22.60365pt too wide) in paragraph at lines 896--901
+\TU/MinionPro(0)/m/n/12 phase. These are error conditions recognized by the lan
+guage processor, but the circumstances
+ []
+
+[121] (./detectcondition.rexx)
+Overfull \hbox (0.93875pt too wide) in paragraph at lines 913--916
+[]\TU/MinionPro(0)/m/n/12 Some of the arguments may be omitted. In the case of 
+condition ‘SYNTAX’ the arguments
+ []
+
+(./interpretraise.rexx [122]) [123] (./executionmessages.rexx))
+(./built-in_functions.tex [124]
+Chapter 12.
+(./argumentchecking.rexx [125
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [126]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [127]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [128])
+(./datecalculations.rexx [129]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [130]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [131])
+(./reradix.rexx) [132] (./raise.rexx)
+Overfull \hbox (1.63562pt too wide) in paragraph at lines 62--66
+\TU/MinionPro(0)/m/n/12 These functions process characters or words in strings.
+ Character positions are numbered
+ []
+
+(./abbrev.rexx) (./center.rexx) [133]
+Overfull \hbox (0.95073pt too wide) in paragraph at lines 85--87
+\TU/MinionPro(0)/m/n/12 CHANGESTR replaces all occurrences of the first argumen
+t within the second argument,
+ []
+
+(./changestr.rexx) (./compare.rexx [134]) (./copies.rexx) (./counstr.rexx)
+(./datatype.rexx [135]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [136]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [137]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [138])
+(./delstr.rexx) (./delword.rexx) [139] (./insert.rexx) (./lastpos.rexx [140])
+(./left.rexx)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [141]
+(./overlay.rexx) (./reverse [142]) (./right.rexx) (./space.rexx) (./strip.rexx
+[143]) (./substr.rexx) [144] (./subword.rexx) (./translate [145])
+Overfull \hbox (2.23163pt too wide) in paragraph at lines 227--232
+\TU/MinionPro(0)/m/n/12 argument, or that it contains no characters from the se
+cond argument; the third argument
+ []
+
+(./verify.rexx [146]) (./word.rexx) (./wordindex.rexx) [147] (./wordlength.rexx
+) (./wordpos.rexx) (./words.rexx) (./xrange.rexx [148]) (./abs.rexx)
+(./format.rexx [149]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [150]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [151]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [152]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [153])
+(./max.rexx) (./min.rexx) (./sign.rexx [154]) (./trunc.rexx) (./address.rexx)
+[155] (./arg.rexx) (./condition.rexx) (./digits) [156] (./errortext.rexx)
+(./form.rexx) (./fuzz.rexx) (./sourceline.rexx) (./trace.rexx [157])
+(./b2x.rexx)
+Underfull \vbox (badness 1852) has occurred while \output is active []
+
+ [158]
+(./bitand.rexx [159]) (./c2d.rexx) (./c2x.rexx) (./d2c.rexx [160]) (./d2x.rexx)
+
+Underfull \vbox (badness 1924) has occurred while \output is active []
+
+ [161]
+(./x2b.rexx) (./x2c.rexx) (./x2d.rexx [162])
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (0.87874pt too wide) in paragraph at lines 482--486
+[]\TU/MinionPro(0)/m/n/12 The CHARIN/CHAROUT functions are insensitive to the l
+engths of the arguments.
+ []
+
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+(./charin.rexx [163]) (./charout.rexx [164])
+Overfull \hbox (8.53473pt too wide) in paragraph at lines 537--539
+\TU/MinionPro(0)/m/n/12 CHARS indicates whether there are characters remaining 
+in the named stream. Optionally,
+ []
 
 
-! Package Listings Error: File `messagemethodsearch(.rexx-\TU\textgreater )' no
-t found.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: rexx-\TU\textgreater )
+ [165]
+(./chars.rexx) (./linein.rexx [166])
+Overfull \hbox (4.15872pt too wide) in paragraph at lines 553--556
+\TU/MinionPro(0)/m/n/12 LINEOUT returns ‘1’ or ‘0’, indicating whether the seco
+nd argument has been successfully
+ []
 
- Enter file name: 
-! Emergency stop.
-<read *> 
-         
-l.703 ...r]{messagemethodsearch.rexx-\textgreater}
-                                                  ^^M
-*** (cannot \read from terminal in nonstop modes)
+(./lineout.rexx [167]) (./lines.rexx) (./qualify.rexx [168]) (./stream.rexx)
+[169] (./date.rexx [170]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- 
+ [171]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [172])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [173]
+(./queued.rexx) (./random.rexx) [174] (./time.rexx [175]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [176])
+(./value.rexx [177]) (./queued.rexx) (./random.rexx [178]) (./time.rexx
+[179]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [180])
+(./value.rexx [181]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [182]))
+(./built-in_classes.tex [183]
+Chapter 13.
+(./object.rexx) (./config.rexx) (./doubleequals.rexx) [184
+
+] (./objectcopy.rexx) (./defaultname.rexx) (./receiver.rexx) (./objectnames.rex
+x) (./varset.rexx)
+(./objectname) (./receiverObjectName.rexx) (./methodclass.rexx)
+(./setmethod.rexx) (./hasmethod.rexx) [185] (./unsetmethod.rexx)
+(./requestmethod.rexx) (./runmethod.rexx) (./startat.rexx) (./init.rexx)
+(./classclass.rexx) (./newclass.rexx)
+Overfull \hbox (0.19499pt too wide) in paragraph at lines 121--124
+\TU/MinionPro(0)/m/n/12 methods of the class. This method initializes a new ins
+tance by running its \TU/IBMPlexMono(0)/m/n/12 INIT \TU/MinionPro(0)/m/n/12 met
+hods. 
+ []
+
+(./subclassclass.rexx) (./immediatesubclass) (./defineclass.rexx)
+(./deleteclass.rexx) (./methodmethod.rexx) [186] (./querymixin.rexx)
+(./newmixinclass.rexx) (./inheritclass.rexx) (./uninheritclass.rexx)
+(./enhancedclass.rexx) (./baseclassclass.rexx) (./superclassclass.rexx)
+(./methodid.rexx) (./metaclassclass.rexx) (./methodsclass.rexx)
+(./methodclass.rexx) (./setprivatemethod.rexx) [187] (./setvarious.rexx)
+(./setunguarded.rexx) (./methodsource.rexx) (./methodinterface)
+(./stringclass.rexx) (./stringmethods) (./stringoperatorsandmethods [188]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [189])
+(./arrayclass.rexx) (./returnsingleindexarray.rexx) (./makearraymemberitem.rexx
+) (./operatorputmethodarray.rexx) (./arraymethodat.rexx)
+(./arraymethodatoperator.rexx) (./arraymethodremove.rexx)
+(./arraymethodhasindex.rexx) (./arraymethoditems.rexx)
+(./arraymethoddimension.rexx)
+Overfull \hbox (4.00363pt too wide) in paragraph at lines 300--303
+[]\TU/MinionPro(0)/m/n/12 Returns the current size (upper bound) of dimension s
+pecified (a positive whole number).
+ []
+
+
+Overfull \hbox (3.76363pt too wide) in paragraph at lines 300--303
+\TU/MinionPro(0)/m/n/12 If you omit the argument this method returns the dimens
+ionality (number of dimensions)
+ []
+
+(./arraymethodsize.rexx) [190] (./arraymethodfirst.rexx) (./arraymethodlast)
+(./arraymethodnext.rexx) (./arraymethodprevious.rexx)
+(./arraymethodmakearray.rexx) (./arraymethodsupplier) (./arraymethodsection)
+(./supplierclass.rexx) (./suppliermethodindex.rexx) (./suppliermethodnext.rexx)
+(./suppliermethoditem.rexx) (./supplierindexavailable.rexx) [191]
+(./messageclass.rexx) (./messagecompletedmethod.rexx)
+(./messagebotifymethod.rexx) (./messagestartmethod.rexx)
+(./messagesendmethod.rexx) (./methodresult.rexx)) (./provided_classes.tex
+[192]
+Chapter 14.
+(./CommonXor.rexx [193
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [194])
+(./collectionclass.rexx) (./collectioninitmethod.rexx [195])
+(./collectionexposedmethod.rexx) (./collectionfindindexmethod.rexx)
+(./collectionatmethod.rexx) (./collectionatalt.rexx)
+(./collectionputmethod.rexx [196]) (./collectionputalt.rexx)
+(./collectionhasindexmethod.rexx) (./collectionsitemsmethod.rexx)
+(./collectionsremovemethod.rexx) (./collectionsremoveitmethod.rexx)
+(./collectionsmakearraymethod.rexx [197]) (./collectionsmakearrayxmethod.rexx)
+(./collectionssuppliermethod.rexx) (./classlist.rexx)
+(./collectionsputmethod.rexx) (./collectionsofmethod.rexx)
+(./collectionsinsertmethod.rexx [198]) (./collectionsfirstmethod.rexx)
+(./collectionslastmethod.rexx) (./collectionsfirstitemmethod.rexx) [199]
+(./collectionslasttitemmethod.rexx) (./collectionsnexttitemmethod.rexx)
+(./collectionsprevioustitemmethod.rexx) (./collectionssectionmethod.rexx)
+[200] (./collectionsqueueclass.rexx) (./queuepushmethod.rexx)
+(./collectionspullmethod.rexx) (./queuequeuemethod.rexx)
+(./queuepeekmethod.rexx) [201] (./queueremovemethod.rexx) (./tableclass.rexx)
+(./tablemakearray.rexx) (./tableunionmethod.rexx)
+(./tableintersectionmethod.rexx) (./tablexormethod.rexx)
+(./tabledifferencemethod.rexx) (./tablesubsetmethod.rexx) (./classset.rexx
+[202]) (./setputmethod.rexx) (./setofmethod.rexx) (./setunion.rexx)
+(./setintersectionmethod.rexx) (./setxormethod.rexx)
+(./setdifferencemethod.rexx) (./relationclass.rexx) (./relputmethod.rexx
+[203]) (./relitemsmethod.rexx) (./relmakearray method)
+(./relsuppliermethod.rexx) [204] (./relunionmethod.rexx)
+(./relintersectionmethod.rexx) (./relxormethod.rexx [205])
+(./reldifferencemethod.rexx) (./relsubsetmethod.rexx)
+(./relremoveitemmethod.rexx) (./relindexmethod.rexx) [206]
+(./relAllAtmethod.rexx) (./relhasitemmethod.rexx) (./relallindexmethod.rexx)
+(./bagclass.rexx) (./bagofmethod.rexx) [207] (./bagputmethod.rexx)
+(./bagunionmethod.rexx) (./bagintersectionmethod.rexx) (./bagxormethod.rexx)
+(./bagdifferencemethod.rexx) (./directoryclass.rexx) (./diratmethod.rexx)
+(./dirputmethod.rexx) [208] (./diremakearray.rexx) (./dirsuppliermethod.rexx)
+(./dirunionmethod.rexx) (./dirintersectionmethod.rexx) (./dirxormethod.rexx)
+(./dirdifferencemethod.rexx) (./dirsubsetmethod.rexx) (./dirsetentrymethod.rexx
+[209]) (./direntrymethod.rexx) (./dirhasentrymethod.rexx) (./dirsetmethod.rexxx
+[210]) (./dirunknownmethod.rexx) (./stemclass.rexx [211]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [212]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [213])
+(./setlikeoperations.rexx
+Overfull \hbox (96.45251pt too wide) in paragraph at lines 1--3
+[][][][] 
+ []
+
+[214]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [215]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [216]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [217]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [218]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [219]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [220]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [221]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [222]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [223]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [224]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [225]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [226]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [227]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [228]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [229]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [230])
+(./streamclass.rexx) (./streamquerymethod.rexx) (./streamiomethods.rexx)
+[231] (./steamopenmethod.rexx) (./streamstatemethod.rexx)
+(./streamvariousmethods.rexx) (./streamseekmethod.rexx)
+(./streamflushmethod.rexx) (./streamclosemethod.rexx)
+(./streamstringmethod.rexx) (./streamsuppliermethod.rexx)
+(./streamdescriptionmethod.rexx) (./streamaaryinmethod.rexx) [232]
+(./streamarrayoutmethod.rexx) (./alarmclass) (./alarmcancelmethod.rexx)
+(./monitorclass.rexx) (./monitorinitmethod.rexx) (./monitorcurrentmethod.rexx)
+(./monitordestinationmethod.rexx [233]) (./monitorunknownmethod.rexx)
+(./monitorforwardsyntax.rexx)) (./rationale.tex [234]
+Chapter 15.
+) (./incompatibilities.tex [235
+
+]
+Chapter 16.
+[236
+
+]
+Chapter 17.
+
+Overfull \hbox (11.16765pt too wide) in paragraph at lines 7--15
+\TU/MinionPro(0)/m/n/12 this construct in Classic Rexx programs. “Breakage” of 
+programs due to this incompatibility
+ []
+
+) (./to_be_processed.tex [237
+
+]
+Chapter 18.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [238
+
+]
+[239]
+Overfull \hbox (3.78764pt too wide) in paragraph at lines 140--143
+[]\TU/MinionPro(0)/m/n/12 Persistent objects. It is our belief that support for
+ very-long-running programs is required.
+ []
+
+
+Overfull \hbox (6.91167pt too wide) in paragraph at lines 144--148
+[]\TU/MinionPro(0)/m/n/12 If persistent objects are to converted to a form whic
+h is platform independent, (“pickling”),
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [240]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (2.61964pt too wide) in paragraph at lines 254--259
+[]\TU/MinionPro(0)/m/n/12 Final placement of all builtins needs discussion, but
+ the read-only true&false requirement
+ []
+
+[241]
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+Warning: \Huger is more than \Huge.
+
+Overfull \hbox (8.56366pt too wide) in paragraph at lines 332--342
+\TU/MinionPro(0)/m/n/12 G25H-7597-1 to the Configuration section of the standar
+d. The material there in Appendix
+ []
+
+) (./annexb.tex [242]
+Chapter 19.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [243
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [244]
+Overfull \hbox (5.78365pt too wide) in paragraph at lines 187--190
+\TU/MinionPro(0)/m/n/12 hold the leftmost character of Response. #Outcome is th
+e main outcome of a configuration
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [245]
+Overfull \hbox (2.9756pt too wide) in paragraph at lines 269--272
+[]\TU/MinionPro(0)/m/n/12 #Interactive. indicates when tracing is interactive. 
+(‘?’ trace setting) #ClauseLocal. ensures
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [246]
+Overfull \hbox (0.57872pt too wide) in paragraph at lines 295--299
+[]\TU/MinionPro(0)/m/n/12 #PendingNow. indicates a DELAYED condition. #PendingD
+escription. is the description
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [247]))
+[248] (../boilerplate/acknowledgements.tex
+Underfull \hbox (badness 5924) in paragraph at lines 4--7
+[]\TU/MinionPro(0)/m/n/9 RexxLA thanks everybody who has been involved
+ []
+
+[249
+
+
+
+
+]) (./standard.ind [250
+
+]
+LaTeX Font Info:    Font shape `TU/IBMPlexMono(0)/m/n' will be
+(Font)              scaled to size 7.38007pt on input line 3.
+ [251
+
+]) [252
+
+]
+Overfull \hbox (62.66872pt too wide) in paragraph at lines 35--36
+[][] 
+ []
+
+[253
+
+
+] (./standard.aux (./structure.aux))
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `standard.out' has not changed.
+(rerunfilecheck)             Checksum: 9BA16A1B8E8F6EF6342CAAFC93605670;10931.
+ ) ) 
 Here is how much of TeX's memory you used:
- 37124 strings out of 476683
- 735117 string characters out of 5804048
- 2195018 words of memory out of 5000000
- 56480 multiletter control sequences out of 15000+600000
- 515569 words of font info for 115 fonts, out of 8000000 for 9000
+ 41203 strings out of 476683
+ 801828 string characters out of 5804048
+ 2242018 words of memory out of 5000000
+ 59512 multiletter control sequences out of 15000+600000
+ 515585 words of font info for 117 fonts, out of 8000000 for 9000
  1371 hyphenation exceptions out of 8191
- 107i,8n,108p,698b,2532s stack positions out of 10000i,1000n,20000p,200000b,200000s
-Output written on standard.pdf (81 pages).
+ 107i,8n,108p,1862b,2549s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on standard.pdf (258 pages).
