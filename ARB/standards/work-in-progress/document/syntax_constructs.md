@@ -7,11 +7,11 @@
 The syntax constructs in this standard are defined in Backus-Naur Form (BNF). The syntax used in these
 BNF productions has
 
-- a left-hand side (called identifier);
+- a left-hand side (called _identifier_);
 
 - the characters `':="`;
 
-- a right-hand side (called `bnf_expression`).
+- a right-hand side (called _bnf_expression_).
 
 The left-hand side identifies syntactic constructs. The right-hand side describes valid ways of writing a
 specific syntactic construct.
@@ -41,7 +41,7 @@ the highest precedence; apart from precedence recognition is from left to right:
 
 - abuttal specifies that the preceding and the following construct must appear in the given order;
 
-- the operator '|' specifies alternatives between the preceding and the following constructs.
+- the operator `'|'` specifies alternatives between the preceding and the following constructs.
 
 ### Grouping
 
