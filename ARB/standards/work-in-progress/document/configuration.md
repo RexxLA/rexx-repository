@@ -1451,7 +1451,7 @@ Var_Value(#Pool, Symbol, '0')
 Otherwise the value of `#Outcome` after:
 
 ```rexx
-Var Value(#Pool, #Symbol, '1')
+Var_Value(#Pool, #Symbol, '1')
 ```
 
 where:
