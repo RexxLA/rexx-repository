@@ -1399,126 +1399,186 @@ functions do not return an indicator 'N', 'R', or 'D' then the API function shal
 
 #### Syntax:
 
-API Set(Symbol, Value)
+```rexx <!--apiset.rexx-->
+API_Set(Symbol, Value)
+```
 
 where:
 
-Symbol is a symbol.
-
-Value is the string whose value is to be assigned to the variable.
+* `Symbol` is a symbol.
+* `Value` is the string whose value is to be assigned to the variable.
 
 #### Semantics:
 
-Assign the value of Value to the variable identified by Symbol. If Symbol contains no periods or
+Assign the value of `Value` to the variable identified by `Symbol`. If `Symbol` contains no periods or
 contains one period as its last character:
-Var_ Set(#Pool, Symbol, '0', Value)
+
+```rexx
+Var_Set(#Pool, Symbol, '0', Value)
+```
+
 Otherwise:
-Var _Set(#Pool, #Symbol, '1', Value)
+
+```rexx
+Var_Set(#Pool, #Symbol, '1', Value)
+```
+
 where:
-#Symbol is Symbol after any replacements in the tail as described by nnn.
+
+`#Symbol` is `Symbol` after any replacements in the tail as described by nnn.
 
 ### API Value
 
 #### Syntax:
 
-API Value (Symbol)
+```rexx <!--apivalue.rexx-->
+API_Value(Symbol)
+```
 
 where:
 
-Symbol is a symbol.
+`Symbol` is a symbol.
 
 #### Semantics:
 
-Return the value of the variable identified by Symbol. If Symbol contains no periods or contains one
+Return the value of the variable identified by `Symbol`. If `Symbol` contains no periods or contains one
+period as its last character this is the value of `#Outcome` after:
 
-period as its last character this is the value of #Outcome after:
-Var _Value(#Pool, Symbol, '0')
+```rexx
+Var_Value(#Pool, Symbol, '0')
+```
 
-Otherwise the value of #Outcome after:
+Otherwise the value of `#Outcome` after:
+
+```rexx
 Var Value(#Pool, #Symbol, '1')
+```
 
 where:
 
-#Symbol is Symbol after any replacements in the tail as described by nnn.
+`#Symbol` is `Symbol` after any replacements in the tail as described by nnn.
 
 ### API_Drop
 
 #### Syntax:
 
-API Drop (Symbol)
+```rexx <!--apidrop.rexx-->
+API_Drop(Symbol)
+```
 
 where:
 
-Symbol is a symbol.
+`Symbol` is a symbol.
 
 #### Semantics:
 
-Drop the variable identified by Symbol. If Symbol contains no periods or contains one period as its last
+Drop the variable identified by `Symbol`. If `Symbol` contains no periods or contains one period as its last
 character:
-Var Drop(#Pool, Symbol, '0')
+
+```rexx
+Var_Drop(#Pool, Symbol, '0')
+```
+
 Otherwise:
-Var Drop(#Pool, #Symbol, '1')
+
+```rexx
+Var_Drop(#Pool, #Symbol, '1')
+```
+
 where:
-#Symbol is Symbol after any replacements in the tail as described by nnn.
+
+`#Symbol` is `Symbol` after any replacements in the tail as described by nnn.
 
 ### API SetDirect
 
 #### Syntax:
 
-API SetDirect (Symbol, Value)
+```rexx <!--apisetdirect.rexx-->
+API_SetDirect(Symbol, Value)
+```
 
 where:
-Symbol is a direct symbol.
-Value is the string whose value is to be assigned to the variable.
+
+* `Symbol` is a direct symbol.
+* `Value` is the string whose value is to be assigned to the variable.
 
 #### Semantics:
 
-Assign the value of Value to the variable identified by Symbol. If the Symbol contains no period:
-Var_ Set(#Pool, Symbol, '0', Value)
+Assign the value of `Value` to the variable identified by `Symbol`. If the `Symbol` contains no period:
+
+```rexx
+Var_Set(#Pool, Symbol, '0', Value)
+```
 
 Otherwise:
-Var_ Set(#Pool, Symbol, '1', Value)
+
+```rexx
+Var_Set(#Pool, Symbol, '1', Value)
+```
 
 ### API_ValueDirect
 
 #### Syntax:
 
-API ValueDirect (Symbol)
+```rexx <!--apivaluedirect.rexx-->
+API_ValueDirect(Symbol)
+```
 
 where:
-Symbol is a direct symbol.
+
+`Symbol` is a direct symbol.
 
 #### Semantics:
 
-Return the value of the variable identified by Symbol. If the Symbol contains no period:
-Var _Value(#Pool, Symbol, '0')
+Return the value of the variable identified by `Symbol`. If the `Symbol` contains no period:
+
+```rexx
+Var_Value(#Pool, Symbol, '0')
+```
+
 Otherwise:
-Var _Value(#Pool, Symbol, '1')
+
+```rexx
+Var_Value(#Pool, Symbol, '1')
+```
 
 ### API DropDirect
 
 #### Syntax:
 
-API DropDirect (Symbol)
+```rexx <!--apidropdirect.rexx-->
+API_DropDirect(Symbol)
+```
 
 where:
-Symbol is a direct symbol.
+
+`Symbol` is a direct symbol.
 
 #### Semantics:
 
-Drop the variable identified by Symbol. If the Symbol contains no period:
-Var Drop(#Pool, Symbol, '0')
+Drop the variable identified by `Symbol`. If the `Symbol` contains no period:
+
+```rexx
+Var_Drop(#Pool, Symbol, '0')
+```
 
 Otherwise:
-Var Drop(#Pool, Symbol, '1')
+
+```rexx
+Var_Drop(#Pool, Symbol, '1')
+```
 
 ### API ValueOther
 
 #### Syntax:
 
-API ValueOther (Qualifier)
+```rexx <!--apivalueother.rexx-->
+API_ValueOther(Qualifier)
+```
+
 where:
-Qualifier is an indication distinguishing the result to be returned including any necessary further
+
+`Qualifier` is an indication distinguishing the result to be returned including any necessary further
 qualification.
 
 #### Semantics:
@@ -1538,7 +1598,9 @@ value to be returned are:
 
 #### Syntax:
 
-API Next ()
+```rexx <!--apinext.rexx-->
+API_Next()
+```
 
 #### Semantics:
 
@@ -1560,7 +1622,7 @@ API_NextVariable()
 
 Returns both the name and the value of some variable in the variable pool that does not have the
 attribute 'dropped' or the attribute 'implicit'; alternatively, return an indication that there is no suitable name
-to return. When API NextVariable is called it will return data about a variable that has not previously been
+to return. When `API_NextVariable` is called it will return data about a variable that has not previously been
 returned; the order is undefined. This process of returning different names will restart whenever the Rexx
 processor executes Var_Reset. In addition to the name and value, an indication of whether the variable
 was 'tailed' will be returned.
