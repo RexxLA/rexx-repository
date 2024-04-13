@@ -1267,97 +1267,105 @@ Config_NoSource() sets #NoSource to '1'.
 
 #### Syntax:
 
-Config Time ()
+```rexx
+Config_Time()
+```
 
 #### Semantics:
 
-Get a time stamp. Set #Time to a string whose value is the integer number of microseconds that have
-elapsed between 00:00:00 on January first 0001 and the time that Config_Time is called, at longitude
+Get a time stamp. Set `#Time` to a string whose value is the integer number of microseconds that have
+elapsed between 00:00:00 on January first 0001 and the time that `Config_Time` is called, at longitude
 zero. Values sufficient to allow for any date in the year 9999 shall be supported. The value returned
 may be an approximation but shall not be smaller than the value returned by a previous use of the
 function.
 
-Set #Adjust<Index "#Adjust" #"" > to an integer number of microseconds. #Adjust<Index "#Adjust" #
-™ > reflects the difference between the local date/time and the date/time corresponding to #Time.
-#Time + #Adjust<Index "#Adjust" # "" > is the local date/time.
+Set `#Adjust`<Index "#Adjust" #"" > to an integer number of microseconds. `#Adjust`<Index "#Adjust" #
+™ > reflects the difference between the local date/time and the date/time corresponding to `#Time`.
+`#Time` + `#Adjust`<Index "#Adjust" # "" > is the local date/time.
 
 ### Config_Random_Seed
 
 #### Syntax:
 
-Config Random Seed (Seed)
+```rexx
+Config_Random_Seed(Seed)
+```
 
 where:
 
-Seed is a sequence of up to #Bif_Digits. RANDOM digits.
+`Seed` is a sequence of up to `#Bif_Digits.RANDOM` digits.
 
 #### Semantics:
 
-Set a seed, so that subsequent uses of Config_Random_Next will reproducibly return quasi-random
+Set a seed, so that subsequent uses of `Config_Random_Next` will reproducibly return quasi-random
 numbers.
 
 ### Config_Random_Next
 
 #### Syntax:
 
-Config Random Next (Min, Max)
+```rexx
+Config_Random_Next(Min, Max)
+```
 
 where:
 
-Min is the lower bound, inclusive, on the number returned in #Outcome.
+* `Min` is the lower bound, inclusive, on the number returned in `#Outcome`.
 
-Max is the upper bound, inclusive, on the number returned in #Outcome.
+* `Max` is the upper bound, inclusive, on the number returned in `#Outcome`.
 
 #### Semantics:
 
-Set #Outcome to a quasi-random nonnegative integer in the range Min to Max.
+Set `#Outcome` to a quasi-random nonnegative integer in the range `Min` to `Max`.
 
 ### Config_Options
 
 #### Syntax:
 
-Config Options (String)
+```rexx
+Config_Options(String)
+```
 
 where:
 
-String is a string.
+`String` is a string.
 
 #### Semantics:
 
-No effect beyond the effects common to all Config_ invocations. The value of the string will have
-come from an OPTIONS instruction, see nnn.
+No effect beyond the effects common to all `Config_` invocations. The value of the string will have
+come from an `OPTIONS` instruction, see nnn.
 
 ## Traps
 
-The trapping interface consists of functions which may be provided by the caller of API_Start (see nnn) as
+The trapping interface consists of functions which may be provided by the caller of `API_Start` (see nnn) as
 a list of traps. Each trap may be specified or omitted. The language processor shall invoke a specified
 trap before, or instead of, using the corresponding feature of the language processor itself. This
-correspondence is implied by the choice of names; that is, a name beginning Trap_ will correspond to a
-name beginning Config_ when the remainder of the name is the same. Corresponding functions are
+correspondence is implied by the choice of names; that is, a name beginning `Trap_` will correspond to a
+name beginning `Config_` when the remainder of the name is the same. Corresponding functions are
 called with the same interface, with one exception. The exception is that a trap may return a null string.
-When a trap returns a null string, the corresponding Config_ function is invoked; otherwise the invocation
-of the trap replaces the potential invocation of the Config_ function.
+When a trap returns a null string, the corresponding `Config_` function is invoked; otherwise the invocation
+of the trap replaces the potential invocation of the `Config_` function.
 
 In the rest of this standard, the trapping mechanism is not shown explicitly. It is implied by the use of a
-Config_ function.
+`Config_` function.
 
 The names of the traps are
 
-- Trap_Command;
-- Trap_ExternalRoutine;
-- Trap_Push;
-- Trap_Queue;
-- Trap_Pull;
-- Trap_Queued;
-- Trap_Trace_Query;
-- Trap_Trace_Input;
-- Trap_Trace_Output;
-- Trap_Default_Input;
-- Trap_Default_Output;
-- Trap_Initialization;
-- Trap_Termination;
-- Trap_Halt_Query;
-- Trap_Halt_Reset.
+- `Trap_Command`;
+- `Trap_ExternalRoutine`;
+- `Trap_Push`;
+- `Trap_Queue`;
+- `Trap_Pull`;
+- `Trap_Queued`;
+- `Trap_Trace_Query`;
+- `Trap_Trace_Input`;
+- `Trap_Trace_Output`;
+- `Trap_Default_Input`;
+- `Trap_Default_Output`;
+- `Trap_Initialization`;
+- `Trap_Termination`;
+- `Trap_Halt_Query`;
+- `Trap_Halt_Reset`.
 
 ## Variable pool
 
