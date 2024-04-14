@@ -926,8 +926,8 @@ where:
 #### Semantics:
 
 Set the indicator to reflect the state of the stream. Return an indicator equal to the indicator that an
-immediately subsequent Config_Stream_Charin(Stream, 'CHARIN') would return. Alternatively, return
-an indicator of 'U'.
+immediately subsequent `Config_Stream_Charin(Stream, 'CHARIN')` would return. Alternatively, return
+an indicator of `'U'`.
 
 The remainder of the response shall be a configuration-dependent description of the state of the
 stream.
@@ -941,23 +941,25 @@ Config_Stream_Charout(Stream, Data)
 ```
 
 where:
-Stream is the name of the stream to be processed.
-Data is the data to be written, or 'EOL' to indicate that an end-of-line indication is to be written, or a
-null string. In the first case, if the stream is a binary stream then Data will be eight characters, each
-'0' or '1', otherwise Data will be a single character.
+
+* `Stream` is the name of the stream to be processed.
+* `Data` is the data to be written, or `'EOL'` to indicate that an end-of-line indication is to be written, or a
+  null string. In the first case, if the stream is a binary stream then `Data` will be eight characters, each
+  `'0'` or `'1'`, otherwise `Data` will be a single character.
 
 #### Semantics:
 
-When Data is the null string, no data is written.
+When `Data` is the null string, no data is written.
+
 Otherwise write to the stream. The state variables describing the stream will be affected as follows:
 
 - when the configuration is able to write Data to a transient stream or at position
-#Charout_Position.Stream of a persistent stream then the indicator in the response shall be 'N'.
-When Data is not 'EOL' then #Charout_Position.Stream is increased by one. When Data is 'EOL',
-then #Lineout_Position.Stream is increased by one and #Charout_Position.Stream is increased as
+  `#Charout_Position.Stream` of a persistent stream then the indicator in the response shall be `'N'`.
+When `Data` is not `'EOL'` then `#Charout_Position.Stream` is increased by one. When Data is `'EOL'`,
+then `#Lineout_Position.Stream` is increased by one and `#Charout_Position.Stream` is increased as
 necessary to account for any end-of-line indication embedded in the stream;
 
-- when the configuration is unable to write Data the indicator is set to 'E'.
+- when the configuration is unable to write `Data` the indicator is set to `'E'`.
 
 ### Config_Stream_Qualified
 
@@ -969,13 +971,13 @@ Config_Stream_Qualified(Stream)
 
 where:
 
-Stream is the name of the stream to be processed.
+`Stream` is the name of the stream to be processed.
 
 #### Semantics:
 
-Set #Outcome to some name which identifies Stream.
+Set `#Outcome` to some name which identifies Stream.
 
-Return a completion response with indicator 'B' if the argument is not acceptable to the configuration
+Return a completion response with indicator `'B'` if the argument is not acceptable to the configuration
 as identifying a stream.
 
 ### Config_Stream_Unique
@@ -988,7 +990,7 @@ Config_Stream_Unique()
 
 #### Semantics:
 
-Set #Outcome to a name that the configuration recognizes as a stream name. The name shall not be
+Set `#Outcome` to a name that the configuration recognizes as a stream name. The name shall not be
 a name that the configuration associates with any existing data.
 
 ### Config_Stream_Query
@@ -1000,11 +1002,12 @@ Config_Stream_Query(Stream)
 ```
 
 where:
-Stream is the name of the stream to be queried.
+
+`Stream` is the name of the stream to be queried.
 
 #### Semantics:
 
-Set #Outcome to 'B' if the stream is a binary stream, or to 'C' if it is a character stream.
+Set `#Outcome` to `'B'` if the stream is a binary stream, or to `'C'` if it is a character stream.
 
 ### Config_Stream_Close
 
@@ -1022,6 +1025,7 @@ where:
 
 `#Charout_Position.Stream` and `#Lineout_Position.Stream` are set to `1` unless the stream has existing
 data, in which case they are set ready to write immediately after the existing data.
+
 If this function is unable to position the stream because the stream is transient then the indicator of the
 completion response shall be `'T'`.
 
