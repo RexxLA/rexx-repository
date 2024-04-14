@@ -977,51 +977,60 @@ Set #Outcome to 'B' if the stream is a binary stream, or to 'C' if it is a chara
 
 #### Syntax:
 
-Config Stream Close (Stream)
+```rexx
+Config_Stream_Close(Stream)
+```
+
 where:
-Stream is the name of the stream to be closed.
+
+`Stream` is the name of the stream to be closed.
 
 #### Semantics:
 
-#Charout_Position.Stream and #Lineout_Position.Stream are set to 1 unless the stream has existing
+`#Charout_Position.Stream` and `#Lineout_Position.Stream` are set to `1` unless the stream has existing
 data, in which case they are set ready to write immediately after the existing data.
 If this function is unable to position the stream because the stream is transient then the indicator of the
-completion response shall be 'T'.
+completion response shall be `'T'`.
 
-### Config _Stream_Count
+### Config_Stream_Count
 
 #### Syntax:
-Config Stream Count (Stream, Operation, Option)
-where:
-Stream is the name of the stream to be counted.
-Operation is 'CHARS', or 'LINES'.
 
-Option is 'N' or 'C'.
+```rexx
+Config_Stream_Count(Stream, Operation, Option)
+```
+
+where:
+
+* `Stream` is the name of the stream to be counted.
+* `Operation` is `'CHARS'`, or `'LINES'`.
+* `Option` is `'N'` or `'C'`.
 
 #### Semantics:
 
-If the option is 'N', #Outcome is set to zero if:
+If the option is `'N'`, `#Outcome` is set to zero if:
 
-- the file is transient and no more characters (or no more lines if the Operation is 'LINES') are
+- the file is transient and no more characters (or no more lines if the `Operation` is `'LINES'`) are
 expected to be available, even after waiting;
 
-- the file is persistent and no more characters (or no more lines if the Operation is 'LINES') can be
-obtained from this stream by Config_Stream_Charin before use of some function which resets
-#Charin_Position.Stream and #Linein_Position.Stream.
+- the file is persistent and no more characters (or no more lines if the Operation is `'LINES'`) can be
+obtained from this stream by `Config_Stream_Charin` before use of some function which resets
+`#Charin_Position.Stream` and `#Linein_Position.Stream`.
 
-If the option is 'N' and #Outcome is set nonzero, #Outcome shall be 1, or be the number of characters
-(or the number of lines if Operation is 'LINES') which could be read from the stream before resetting.
+If the option is `'N'` and `#Outcome` is set nonzero, `#Outcome` shall be `1`, or be the number of characters
+(or the number of lines if `Operation` is `'LINES'`) which could be read from the stream before resetting.
 
-If the option is 'C', #Outcome is set to zero if:
+If the option is `'C'`, `#Outcome` is set to zero if:
 
-- the file is transient and no characters (or no lines if the Operation is 'LINES') are available without
+- the file is transient and no characters (or no lines if the `Operation` is `'LINES'`) are available without
 waiting;
 
-- the file is persistent and no more characters (or no more lines if the Operation is 'LINES') can be
-obtained from this stream by Config_Stream_Charin before use of some function which resets
-#Charin_Position.Stream and #Linein_Position.Stream.
-If the option is 'C' and #Outcome is set nonzero, #Outcome shall be the number of characters (or the
-number of lines if the Operation is 'LINES') which can be read from the stream without delay and
+- the file is persistent and no more characters (or no more lines if the `Operation` is `'LINES'`) can be
+obtained from this stream by `Config_Stream_Charin` before use of some function which resets
+`#Charin_Position.Stream` and `#Linein_Position.Stream`.
+
+If the option is `'C'` and `#Outcome` is set nonzero, `#Outcome` shall be the number of characters (or the
+number of lines if the `Operation` is `'LINES'`) which can be read from the stream without delay and
 before resetting.
 
 ## External variable pools
@@ -1029,63 +1038,66 @@ before resetting.
 The external variable pools interface consists of functions which the configuration shall provide to
 manipulate variables in external variable pools.
 
-See nnn for the VALUE built-in function which uses external variable pools.
+See nnn for the `VALUE` built-in function which uses external variable pools.
 
 The configuration shall provide an external variable pools mechanism. The following functions shall be
 provided:
 
-- Config_Get;
-
-- Config_Set.
+- `Config_Get`;
+- `Config_Set`.
 
 The configuration may permit the external variable pools to be altered in other ways.
 
-### Config Get
+### Config_Get
 
 #### Syntax:
 
-Config Get (Poolid, Name)
+```rexx
+Config_Get(Poolid, Name)
+```
 
 where:
 
-Poolid is an identification of the external variable pool.
+* `Poolid` is an identification of the external variable pool.
 
-Name is the name of a variable.
+* `Name` is the name of a variable.
 
 #### Semantics:
 
-Get the value of a variable with name Name in the external variable pool Poolid. Set Outcome to this
+Get the value of a variable with name `Name` in the external variable pool `Poolid`. Set `Outcome` to this
 value.
 
-If Poolid does not identify an external pool provided by this configuration, the indicator of the
-completion response is 'P'.
+If `Poolid` does not identify an external pool provided by this configuration, the indicator of the
+completion response is `'P'`.
 
-If Name is not a valid name of a variable in the external pool, the indicator of the completion response
-is 'F'.
+If `Name` is not a valid name of a variable in the external pool, the indicator of the completion response
+is `'F'`.
 
-### Config Set
+### Config_Set
 
 #### Syntax:
 
-Config Set (Poolid, Name, Value)
+```rexx
+Config_Set(Poolid, Name, Value)
+```
 
 where:
 
-Poolid is an identification of the external variable pool.
+* `Poolid` is an identification of the external variable pool.
 
-Name is the name of a variable.
+* `Name` is the name of a variable.
 
-Value is the value to be assigned to the variable.
+* `Value` is the value to be assigned to the variable.
 
 #### Semantics:
 
-Set a variable with name Name in the external variable pool Poolid to Value.
+Set a variable with name `Name` in the external variable pool `Poolid` to `Value`.
 
-If Poolid does not identify an external pool provided by this configuration, the indicator of the
-completion response is 'P'.
+If `Poolid` does not identify an external pool provided by this configuration, the indicator of the
+completion response is `'P'`.
 
-If Name is not a valid name of a variable in the external pool, the indicator of the completion response
-is 'F'.
+If `Name` is not a valid name of a variable in the external pool, the indicator of the completion response
+is `'F'`.
 
 ## Configuration characteristics
 
@@ -1096,31 +1108,33 @@ which indicates choices decided by the configuration.
 
 #### Syntax:
 
-Config Constants ()
+```rexx
+Config_Constants()
+```
 
 #### Semantics:
 
 Set the values of the following state variables:
 
-- if there are any built-in functions which do not operate at NUMERIC DIGITS 9, then set variables
-#Bif_Digits. (with various tails which are the names of those built-in functions) to the values to be
+- if there are any built-in functions which do not operate at `NUMERIC DIGITS 9`, then set variables
+`#Bif_Digits`. (with various tails which are the names of those built-in functions) to the values to be
 used;
 
-- set variables #Limit_Digits, #Limit_EnvironmentName, #Limit_ExponentDigits, #Limit_Literal,
-#Limit_Messagelnsert, #Limit_Name, #Limit_String, #Limit_TraceData to the relevant limits. A
-configuration shall allow a #Limit_Messagelnsert value of 50 to be specified. A configuration shall
-allow a #Limit_TraceData value of 250 to be specified;
+- set variables `#Limit_Digits`, `#Limit_EnvironmentName`, `#Limit_ExponentDigits`, `#Limit_Literal`,
+`#Limit_Messagelnsert`, `#Limit_Name`, `#Limit_String`, `#Limit_TraceData` to the relevant limits. A
+configuration shall allow a `#Limit_Messagelnsert` value of `50` to be specified. A configuration shall
+allow a `#Limit_TraceData` value of `250` to be specified;
 
-- set #Configuration to a string identifying the configuration;
+- set `#Configuration` to a string identifying the configuration;
 
-- set #Version to a string identifying the language processor. It shall have five words. Successive
+- set `#Version` to a string identifying the language processor. It shall have five words. Successive
 words shall be separated by a blank character. The first four letters of the first word shall be
-'REXX'. The second word shall be the four characters '5.00'. The last three words comprise a date.
-This shall be in the format which is the default for the DATE() built-in function.
+`'REXX'`. The second word shall be the four characters `'5.00'`. The last three words comprise a date.
+This shall be in the format which is the default for the `DATE()` built-in function.
 
-- set .nil to a value which compares unequal with any other value that can occur in execution.
+- set `.nil` to a value which compares unequal with any other value that can occur in execution.
 
-- set .local .kernel .system?
+- set `.local` `.kernel` `.system`?
 
 ## Configuration routines
 
@@ -1129,139 +1143,161 @@ provide functions for a language processor.
 
 The following functions shall be provided:
 
-- Config_Trace_Query;
-- Config_Trace_Input;
-- Config_Trace_Output;
-- Config_Default_Input;
-- Config_Default_Output;
-- Config_Initialization;
-- Config_Termination;
-- Config_Halt_Query;
-- Config_Halt_Reset;
-- Config_NoSource;
-- Config_Time;
-- Config_Random_Seed;
-- Config_Random_Next.
+- `Config_Trace_Query`;
+- `Config_Trace_Input`;
+- `Config_Trace_Output`;
+- `Config_Default_Input`;
+- `Config_Default_Output`;
+- `Config_Initialization`;
+- `Config_Termination`;
+- `Config_Halt_Query`;
+- `Config_Halt_Reset`;
+- `Config_NoSource`;
+- `Config_Time`;
+- `Config_Random_Seed`;
+- `Config_Random_Next`.
 
 ### Config_Trace_Query
 
 #### Syntax:
 
-Config Trace Query ()
+```rexx
+Config_Trace_Query()
+```
 
 #### Semantics:
 
-Indicate whether external activity is requesting interactive tracing. Set #Outcome to 'Yes' if interactive
-tracing is currently requested. Otherwise set #Outcome to 'No'.
+Indicate whether external activity is requesting interactive tracing. Set `#Outcome` to `'Yes'` if interactive
+tracing is currently requested. Otherwise set `#Outcome` to `'No'`.
 
 ### Config_Trace_Input
 
 #### Syntax:
-Config Trace Input ()
+
+```rexx
+Config_Trace_Input()
+```
 
 #### Semantics:
 
-Set #Outcome to a value from the source of trace input. The source of trace input is determined by the
+Set `#Outcome` to a value from the source of trace input. The source of trace input is determined by the
 configuration.
 
 ### Config_Trace_Output
 
 #### Syntax:
 
-Config Trace Output (Line)
+```rexx
+Config_Trace_Output(Line)
+```
 
 where:
 
-Line is a string.
+`Line` is a string.
 
 #### Semantics:
 
-Write String as a line to the destination of trace output. The destination of trace output is defined by
+Write `String` as a line to the destination of trace output. The destination of trace output is defined by
 the configuration.
 
-### Config _Default_Input
+### Config_Default_Input
 
 #### Syntax:
 
-Config Default Input ()
+```rexx
+Config_Default_Input()
+```
 
 #### Semantics:
 
-Set #Outcome to the value that LINEIN( ) would return.
+Set `#Outcome` to the value that `LINEIN()` would return.
 
 ### Config_Default_Output
 
 #### Syntax:
 
-Config Default Output (Line)
+```rexx
+Config_Default_Output(Line)
+``
+
 
 where:
 
-Line is a string.
+`Line` is a string.
 
 #### Semantics:
 
-Write the string as a line in the manner of LINEOUT( ,Line).
+Write the string as a line in the manner of `LINEOUT( ,Line)`.
 
 ### Config_Initialization
 
 #### Syntax:
 
-Config Initialization ()
+```rexx
+Config_Initialization()
+```
 
 #### Semantics:
 
-This function is provided only as a counterpart to Trap_Initialization; in itself it does nothing except
-return the response. An indicator of 'F' gives rise to Msg3.1.
+This function is provided only as a counterpart to `Trap_Initialization`; in itself it does nothing except
+return the response. An indicator of `'F'` gives rise to `Msg3.1`.
 
 ### Config_Termination
 
 #### Syntax:
 
-Config Termination ()
+```rexx
+Config_Termination()
+```
 
 #### Semantics:
 
-This function is provided only as a counterpart to Trap_Termination; in itself it does nothing except
-return the response. An indicator of 'F' gives rise to Msg2.1.
+This function is provided only as a counterpart to `Trap_Termination`; in itself it does nothing except
+return the response. An indicator of `'F'`` gives rise to `Msg2.1`.
 
 ### Config_Halt_Query
 
 #### Syntax:
 
-Config Halt Query ()
+```rexx
+Config_Halt_Query()
+```
 
 #### Semantics:
 
-Indicate whether external activity has requested a HALT condition to be raised. Set #Outcome to 'Yes
-if HALT is requested. Otherwise set #Outcome to 'No'.
+Indicate whether external activity has requested a `HALT` condition to be raised. Set `#Outcome` to `'Yes'`
+if `HALT` is requested. Otherwise set `#Outcome` to `'No'`.
 
-### Config _Halt_Reset
+### Config_Halt_Reset
 
 #### Syntax:
 
-Config Halt Reset ()
+```rexx
+Config_Halt_Reset()
+```
 
 #### Semantics:
 
-Reset the configuration so that further attempts to cause a HALT condition will be recognized.
+Reset the configuration so that further attempts to cause a `HALT` condition will be recognized.
 
-### Config _NoSource
+### Config_NoSource
 
 #### Syntax:
 
-Config NoSource ()
+```rexx
+Config_NoSource()
+```
 
 #### Semantics:
 
 Indicate whether the source of the program may or may not be output by the language processor.
-Set #NoSource to '1' to indicate that the source of the program may not be output by the language
+Set `#NoSource` to `'1'` to indicate that the source of the program may not be output by the language
 processor, at various points in processing where it would otherwise be output. Otherwise, set
-#NoSource to '0'.
+`#NoSource` to `'0'`.
 
-A configuration shall allow any program to be processed in such a way that Config_NoSource() sets
-#NoSource to '0'. A configuration may allow any program to be processed in such a way that
-Config_NoSource() sets #NoSource to '1'.
+A configuration shall allow any program to be processed in such a way that `Config_NoSource()` sets
+`#NoSource` to `'0'`. A configuration may allow any program to be processed in such a way that
+`Config_NoSource()` sets `#NoSource` to `'1'`.
 
 ### Config_Time
 
