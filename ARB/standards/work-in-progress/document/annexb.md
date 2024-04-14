@@ -202,50 +202,33 @@ These are variables not initialized from the configuration:
 
 These are variables that are per-Level, that is, have #Level as a tail component:
 
-#lsFunction. indicates a function call.
+* `#IsFunction.` indicates a function call.
+* `#IsProcedure.` indicates indicates the routine is a procedure.
+* `#Condition.` indicates whether the routine is handling a condition.
+* `#ArgExists.#Level.ArgNumber` indicates whether an argument exists. (Initialized from `API_Start` for `Level=1`)
+* `#Arg.#Level.ArgNumber` provides the value of an argument. (Initialized from `API_Start` for `Level=1`)
+  When ArgNumber=0 this gives a count of the arguments.
+* `#Tracing.` is the trace setting letter.
+* `#Interactive.` indicates when tracing is interactive. (`'?'` trace setting)
+* `#ClauseLocal.` ensures that `DATE`/`TIME` are consistent across a clause.
+* `#ClauseTime.` is the `TIME`/`DATE` frozen for the clause.
+* `#StartTime.` is for `'Elapsed'` time calculations.
+* `#Digits.` is the current numeric digits.
+* `#Form.` is the current numeric form.
+* `#Fuzz.` is the current numeric fuzz.
 
-#lsProcedure. indicates indicates the routine is a procedure.
+These are qualified by `#Condition` as well as `#Level`:
 
-#Condition. indicates whether the routine is handling a condition.
-
-#ArgExists.#Level.ArgNumber indicates whether an argument exists. (Initialized from API_Start for
-Level=1)
-
-#Arg.#Level.ArgNumber provides the value of an argument. (Initialized from API_Start for Level=1)
-When ArgNumber=0 this gives a count of the arguments.
-
-#Tracing. is the trace setting letter.
-
-#Interactive. indicates when tracing is interactive. ('?' trace setting)
-#ClauseLocal. ensures that DATE/TIME are consistent across a clause.
-#ClauseTime. is the TIME/DATE frozen for the clause.
-
-#StartTime. is for 'Elapsed' time calculations.
-
-#Digits. is the current numeric digits.
-
-#Form. is the current numeric form.
-
-#Fuzz. is the current numeric fuzz.
-
-These are qualified by #Condition as well as #Level:
-
-#Enabling. is 'ON', 'OFF' or 'DELAYED".
-
-#Instruction. is 'CALL' or 'SIGNAL'
-
-#TrapName. is the label.
-
-#ConditionDescription. is for CONDITION('D')
-
-#ConditionExtra. is for CONDITION('E')
-
-#ConditionInstruction. is for CONDITION('T')
-
-#PendingNow. indicates a DELAYED condition.
-#PendingDescription. is the description of a DELAYED condition.
-#PendingExtra. is the extra description fora DELAYED condition.
-#EventLevel. is the #Level at which an event was DELAYED.
+* `#Enabling.` is `'ON'`, `'OFF'` or `'DELAYED'`.
+* `#Instruction.` is `'CALL'` or `'SIGNAL'`
+* `#TrapName.` is the label.
+* `#ConditionDescription.` is for `CONDITION('D')`.
+* `#ConditionExtra.` is for `CONDITION('E')`.
+* `#ConditionInstruction.` is for `CONDITION('T')`.
+* `#PendingNow.` indicates a `DELAYED` condition.
+* `#PendingDescription.` is the description of a `DELAYED` condition.
+* `#PendingExtra.` is the extra description fora `DELAYED` condition.
+* `#EventLevel.` is the #Level at which an event was `DELAYED`.
 
 These are qualified by ACTIVE, ALTERNATE, or TRANSIENT as well as #Level:
 
