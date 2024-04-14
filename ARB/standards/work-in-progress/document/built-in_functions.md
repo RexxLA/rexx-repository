@@ -4,31 +4,31 @@
 
 The built-in functions are defined mainly through code. The code refers to state variables. This is solely a notation used in this standard.
 
-The code refers to functions with names that start with 'Config_'; these are the functions described in
+The code refers to functions with names that start with `'Config_'`; these are the functions described in
 section nnn.
 
-The code is specified as an external routine that produces a result from the values #Bif (which is the
-name of the built-in function), #Bif_Arg.0 (the number of arguments), #Bif_Arg.i and #Bif_ArgExists.i
+The code is specified as an external routine that produces a result from the values `#Bif` (which is the
+name of the built-in function), `#Bif_Arg.0` (the number of arguments), `#Bif_Arg.i` and `#Bif_ArgExists.i`
 (which are the argument data.)
 
-The value of #Level is the value for the clause which invoked the built-in function.
+The value of `#Level` is the value for the clause which invoked the built-in function.
 
 The code either returns the result of the built-in or exits with an indication of a condition that the
 invocation of the built-in raises.
 
 The code below uses built-in functions. Such a use invokes another use of this code with a new value of
-#Level. On these invocations, the CheckArgs function is not relevant.
+`#Level`. On these invocations, the `CheckArgs` function is not relevant.
 
 Numeric settings as follows are used in the code. When an argument is being checked as a number by
-‘NUM' or 'WHOLENUM' the settings are those current in the caller. When an argument is being checked
-as an integer by an item containing 'WHOLE' the settings are those for the particular built-in function.
+`'NUM'` or `'WHOLENUM'` the settings are those current in the caller. When an argument is being checked
+as an integer by an item containing `'WHOLE'` the settings are those for the particular built-in function.
 Elsewhere the settings have sufficient numeric digits to avoid values which would require exponential
 notation.
 
 ## Routines used by built-in functions
 
-The routine CheckArgs is concerned with checking the arguments to the built-in. The routines Time2Date
-and Leap are for date calculations. ReRadix is used for radix conversion. The routine Raise raises a
+The routine `CheckArgs` is concerned with checking the arguments to the built-in. The routines `Time2Date`
+and `Leap` are for date calculations. `ReRadix` is used for radix conversion. The routine `Raise` raises a
 condition and does not return.
 
 ### Argument checking
@@ -36,192 +36,175 @@ condition and does not return.
 ```rexx <!--argumentchecking.rexx-->
 /* Check arguments. Some further checks will be made in particular built-ins.*/
 /* The argument to CheckArgs is a checklist for the allowable arguments. */
-
 /* NUM, WHOLENUM and WHOLE have a side-effect, 'normalizing' the number. */
-
 /* Calls to raise syntax conditions will not return. */
 
 CheckArgs:
-CheckList = arg(1) /* This refers to the argument of CheckArgs. */
+   CheckList = arg(1)  /* This refers to the argument of CheckArgs. */
 
-/* Move the checklist information from a string to individual variables */
-ArgType. = '''
-ArgPos = 0 /* To count arguments */
-MinArgs = 0
-do j = 1 to length (CheckList)
-ArgPos = ArgPos+1
-/* Count the required arguments. */
-if substr(CheckList,j,1) == 'r' then MinArgs = MinArgs + 1
-/* Collect type information. */
-do while j < length(CheckList)
-j=eajae1
-t = substr(CheckList,j,1)
-if t==' ' then leave
-ArgType.ArgPos = ArgType.ArgPos || t
-end
-/* A single space delimits parts. */
-end j
-MaxArgs = ArgPos
+   /* Move the checklist information from a string to individual variables */
+   ArgType. = ''
+   ArgPos = 0 /* To count arguments */
+   MinArgs  = 0
+   do j = 1 to length(CheckList)
+      ArgPos = ArgPos+1
+      /* Count the required arguments. */
+      if substr(CheckList,j,1) == 'r' then MinArgs = MinArgs + 1
+      /* Collect type information. */
+      do while j < length(CheckList)
+        j = j + 1
+        t = substr(CheckList,j,1)
+        if t==' ' then leave
+        ArgType.ArgPos = ArgType.ArgPos || t
+        end
+      /* A single space delimits parts. */
+      end j
+   MaxArgs = ArgPos
 
-/* Check the number of arguments to the built-in, in this instance. */
-NumArgs = #Bif Arg.0
+   /* Check the number of arguments to the built-in, in this instance. */
+   NumArgs = #Bif_Arg.0
+   if NumArgs < MinArgs then call Raise 40.3, MinArgs
+   if NumArgs > MaxArgs then call Raise 40.4, MaxArgs
 
-if NumArgs < MinArgs then call Raise 40.3, MinArgs
+   /* Check the type(s) of the arguments to the built-in. */
+   do ArgPos = 1 to NumArgs
+      if #Bif_ArgExists.ArgPos then
+         call CheckType
+      else
+         if ArgPos <= MinArgs then call Raise 40.5, ArgPos
+      end ArgPos
 
-if NumArgs > MaxArgs then call Raise 40.4, MaxArgs
+   /* No errors found by CheckArgs. */
+   return
 
-/* Check the type(s) of the arguments to the built-in. */
-do ArgPos = 1 to NumArgs
-if #Bif ArgExists.ArgPos then
-call CheckType
-else
-if ArgPos <= MinArgs then call Raise 40.5, ArgPos
-end ArgPos
-
-/* No errors found by CheckArgs. */
-
-return
 CheckType:
-Value = #Bif Arg.ArgPos
-Type = ArgType.ArgPos
-select
-when Type == 'ANY' then nop /* Any string */
-when Type == 'NUM' then do /* Any number */
 
-/* This check is made with the caller's digits setting. */
-if \Cdatatype(Value, 'N') then
-if #DatatypeResult=='E' then call Raise 40.9, ArgPos, Value
-else call Raise 40.11, ArgPos, Value
-#Bif Arg.ArgPos=#DatatypeResult /* Update argument copy. */
-end
+   Value = #Bif_Arg.ArgPos
+   Type  = ArgType.ArgPos
 
-when Type == 'WHOLE' then do /* Whole number */
-/* This check is made with digits setting for the built-in. */
-if \Edatatype(Value,'W') then
-call Raise 40.12, ArgPos, Value
-#Bif_ Arg.ArgPos=#DatatypeResult
-end
+   select
+      when Type == 'ANY' then nop                         /* Any string */
 
-when Type == 'WHOLE>=0' then do /* Non-negative whole number */
-if \Edatatype(Value,'W') then
-call Raise 40.12, ArgPos, Value
-if #DatatypeResult < 0 then
-call Raise 40.13, ArgPos, Value
-#Bif_ Arg.ArgPos=#DatatypeResult
-end
+      when Type == 'NUM' then do                          /* Any number */
+         /* This check is made with the caller's digits setting. */
+         if \Cdatatype(Value, 'N') then
+            if #DatatypeResult=='E' then call Raise 40.9, ArgPos, Value
+                                    else call Raise 40.11, ArgPos, Value
+         #Bif_Arg.ArgPos=#DatatypeResult /* Update argument copy. */
+         end
 
-when Type == 'WHOLE>0O' then do /* Positive whole number */
-if \Edatatype(Value,'W') then
-call Raise 40.12, ArgPos, Value
-if #DatatypeResult <= 0 then
-call Raise 40.14, ArgPos, Value
-#Bif_ Arg.ArgPos=#DatatypeResult
-end
+      when Type == 'WHOLE' then do                        /* Whole number */
+         /* This check is made with digits setting for the built-in. */
+         if \Edatatype(Value,'W') then
+            call Raise 40.12, ArgPos, Value
+         #Bif_Arg.ArgPos=#DatatypeResult
+         end
 
-when Type == 'WHOLENUM' then do /* D2X type whole number */
-/* This check is made with digits setting of the caller. */
-if \Cdatatype(Value,'W') then
-call Raise 40.12, ArgPos, Value
-#Bif_ Arg.ArgPos=#DatatypeResult
-end
+      when Type == 'WHOLE>=0' then do        /* Non-negative whole number */
+         if \Edatatype(Value,'W') then
+            call Raise 40.12, ArgPos, Value
+         if #DatatypeResult < 0 then
+            call Raise 40.13, ArgPos, Value
+         #Bif_Arg.ArgPos=#DatatypeResult
+         end
 
-when Type == 'WHOLENUM>=0' then do /* D2X Non-negative whole number */
-if \Cdatatype(Value,'W') then
-call Raise 40.12, ArgPos, Value
-if #DatatypeResult < 0 then
-call Raise 40.13, ArgPos, Value
-#Bif_ Arg.ArgPos=#DatatypeResult
-end
+      when Type == 'WHOLE>0O' then do            /* Positive whole number */
+         if \Edatatype(Value,'W') then
+            call Raise 40.12, ArgPos, Value
+         if #DatatypeResult <= 0 then
+            call Raise 40.14, ArgPos, Value
+         #Bif_Arg.ArgPos=#DatatypeResult
+         end
 
-when Type == '0 90' then do /* Errortext */
+      when Type == 'WHOLENUM' then do  /* D2X type whole number */
+         /* This check is made with digits setting of the caller. */
+         if \Cdatatype(Value,'W') then
+            call Raise 40.12, ArgPos, Value
+         #Bif_Arg.ArgPos=#DatatypeResult
+         end
 
-if \Edatatype(Value,'N') then
-call Raise 40.11, ArgPos, Value
+      when Type == 'WHOLENUM>=0' then do /* D2X Non-negative whole number */
+         if \Cdatatype(Value,'W') then
+            call Raise 40.12, ArgPos, Value
+         if #DatatypeResult < 0 then
+            call Raise 40.13, ArgPos, Value
+         #Bif_Arg.ArgPos=#DatatypeResult
+         end
 
-Value=#DatatypeResult
+      when Type == '0_90' then do                          /* Errortext */
+         if \Edatatype(Value,'N') then
+            call Raise 40.11, ArgPos, Value
+         Value=#DatatypeResult
+         #Bif_Arg.ArgPos=Value
+         Major=Value % 1
+         Minor=Value - Major
+         if Major < 0 | Major > 90 | Minor > .9 | pos('E',Value)>0 then
+            call Raise 40.17, Value /* ArgPos will be 1 */
+         end
 
-#Bif_ Arg.ArgPos=Value
+      when Type == 'PAD' then do   /* Single character, usually a pad. */
+         if length(Value) \= 1 then
+            call Raise 40.23, ArgPos, Value
+         end
 
-Major=Value % 1
+      when Type == 'HEX' then                    /* Hexadecimal string */
+         if \datatype (Value, 'X') then
+            call Raise 40.25, Value    /* ArgPos will be 1 */
 
-Minor=Value - Major
+      when Type == 'BIN' then                         /* Binary string */
+         if \datatype(Value,'B') then
+            call Raise 40.24, Value    /* ArgPos will be 1 */
 
-if Major < 0 | Major > 90 | Minor > .9 | pos('E',Value)>0 then
-call Raise 40.17, Value /* ArgPos will be 1 */
+      when Type == 'SYM' then                                /* Symbol */
+         if \datatype (Value, 'S') then
+            call Raise 40.26, Value   /* ArgPos will be 1 */
 
-end
+      when Type == 'STREAM' then do
+         call Config_Stream_Qualify Value
+         if left (#Response, 1) == 'B' then
+           call Raise 40.27, Value   /* ArgPos will be 1 */
+         end
 
-when Type == 'PAD' then do /* Single character, usually a pad. */
+      when Type = 'ACEFILNOR' then do                         /* Trace */
+         Val = Value
+         /* Allow '?' alone */
+         if val \== '?' then do
+            /* Allow leading '?' */
+            if left(Val,1) == '?' then Val = substr(Val,2)
+            if pos(translate(left(Val, 1)), 'ACEFILNOR') = 0 then
+               call Raise 40.28, ArgPos, Type, Val
+            end
+         end
 
-if length(Value) \= 1 then
-call Raise 40.23, ArgPos, Value
-end
+      otherwise do                                          /* Options */
+         /* The checklist item is a list of allowed characters */
+         if Value == '' then
+            call Raise 40.21, ArgPos
+         #Bif_Arg.ArgPos = translate(left(Value, 1))
+         if pos(#Bif_Arg.ArgPos, Type) = 0 then
+            call Raise 40.28, ArgPos, Type, Value
+         end
 
-when Type == 'HEX' then /* Hexadecimal string */
-if \datatype (Value, 'X') then
-call Raise 40.25, Value /* ArgPos will be 1 */
-when Type == 'BIN' then /* Binary string */
-if \datatype(Value,'B') then
-call Raise 40.24, Value /* ArgPos will be 1 */
-when Type == 'SYM' then /* Symbol */
+   end   /* Select */
 
-if \datatype (Value, 'S') then
-call Raise 40.26, Value /* ArgPos will be 1 */
-
-when Type == 'STREAM' then do
-call Config Stream Qualify Value
-if left (#Response, 1) == 'B' then
-call Raise 40.27, Value /* ArgPos will be 1 */
-end
-
-when Type = 'ACEFILNOR' then do /* Trace */
-Val = Value
-/* Allow '?' alone */
-
-if val \== '?' then do
-/* Allow leading '?' */
-if left(Val,1) == '?' then Val = substr(Val,2)
-
-if pos(translate(left(Val, 1)), 'ACEFILNOR') = 0 then
-call Raise 40.28, ArgPos, Type, Val
-
-end
-end
-otherwise do /* Options */
-/* The checklist item is a list of allowed characters */
-if Value == '' then
-
-call Raise 40.21, ArgPos
-#Bif Arg.ArgPos = translate(left(Value, 1))
-if pos(#Bif Arg.ArgPos, Type) = 0 then
-call Raise 40.28, ArgPos, Type, Value
-end
-
-end /* Select */
-return
+   return
 
 Cdatatype:
-/* This check is made with the digits setting of the caller. */
-/* #DatatypeResult will be set by use of datatype() */
-
-numeric digits #Digits.#Level
-
-numeric form value #Form.#Level
-
-return datatype(arg(1), arg(2))
+ /* This check is made with the digits setting of the caller. */
+ /* #DatatypeResult will be set by use of datatype() */
+          numeric digits #Digits.#Level
+          numeric form value #Form.#Level
+          return datatype(arg(1), arg(2))
 
 Edatatype:
-/* This check is made with digits setting for the particular built-in. */
-/* #DatatypeResult will be set by use of datatype() */
-
-numeric digits #Bif Digits.#Bif
-
-numeric form scientific
-
-return datatype(arg(1),arg(2))
+ /* This check is made with digits setting for the particular built-in. */
+ /* #DatatypeResult will be set by use of datatype() */
+          numeric digits #Bif Digits.#Bif
+          numeric form scientific
+          return datatype(arg(1),arg(2))
 ```
 
-10.2.2 Date calculations
+### Date calculations
 
 ```rexx <!--datecalculations.rexx-->
 Time2Date:
@@ -233,7 +216,7 @@ return Time2Date2 (arg(1))
 
 Time: procedure
 /* This routine is essentially the code from the standard, put in
-stand-alone form. The only ‘tricky bit’ is that there is no Rexx way
+stand-alone form. The only 'tricky bit’ is that there is no Rexx way
 for it to fail with the same error codes as a "real" implementation
 would. It can however give a SYNTAX error, albeit not the desirable
 one. This causing of an error is done by returning with no value.
@@ -2573,7 +2556,7 @@ else Option
 #Bif Arg.1
 tint
 
-/* The date/time is ‘frozen’ throughout a clause. */
+/* The date/time is 'frozen’ throughout a clause. */
 if #ClauseTime.#Level == '' then do
 #Response = Config Time ()
 #ClauseTime.#Level = #Time
@@ -2581,7 +2564,7 @@ if #ClauseTime.#Level == '' then do
 end
 /* English spellings are used, even if messages not in English are used. */
 Months = 'January February March April May June July',
-‘August September October November December'
+'August September October November December'
 WeekDays = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
 
 /* If there is no second argument, the current date is returned. */
@@ -2832,7 +2815,7 @@ then the result of the function SYMBOL is 'BAD".
 
 If String would be recognized as a symbol the result of the function SYMBOL depends on the outcome of
 accessing the value of that symbol, see nnn. If the final use of Var_Value leaves the indicator with value
-‘D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
+'D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
 
 ### TIME
 
@@ -3105,7 +3088,7 @@ then the result of the function SYMBOL is 'BAD".
 
 If String would be recognized as a symbol the result of the function SYMBOL depends on the outcome of
 accessing the value of that symbol, see nnn. If the final use of Var_Value leaves the indicator with value
-‘D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
+'D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
 
 ### TIME
 
