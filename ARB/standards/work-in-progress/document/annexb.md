@@ -232,66 +232,52 @@ These are qualified by `#Condition` as well as `#Level`:
 
 These are qualified by ACTIVE, ALTERNATE, or TRANSIENT as well as #Level:
 
-#Env_Name. is the environment name.
-
-#Env_Type. is the type of a resource, and is additionally qualified by input/output/error distinction.
-#Env_Resource. is the name of a resource, and is additionally qualified by input/output/error distinction.
-#Env_Position. is INPUT or APPEND or REPLACE, and is additionally qualified by input/output/error
-distinction.
+* `#Env_Name.` is the environment name.
+* `#Env_Type.` is the type of a resource, and is additionally qualified by input/output/error distinction.
+* `#Env_Resource.` is the name of a resource, and is additionally qualified by input/output/error distinction.
+* `#Env_Position.` is `INPUT` or `APPEND` or `REPLACE`, and is additionally qualified by input/output/error distinction.
 
 These are variables that are per-loop:
 
-#ldentity. is the control variable.
-
-#Repeat. is the repetition count.
-
-#By. is the increment.
-
-#To. is the limit.
-
-#For. is that count.
-
-#lterate. holds a position in code describing DO instruction semantics.
-#Once. holds a position in code describing DO instruction semantics.
-
-#Leave. holds a position in code describing DO instruction semantics.
+* `#ldentity.` is the control variable.
+* `#Repeat.` is the repetition count.
+* `#By.` is the increment.
+* `#To.` is the limit.
+* `#For.` is that count.
+* `#lterate.` holds a position in code describing `DO` instruction semantics.
+* `#Once.` holds a position in code describing `DO` instruction semantics.
+* `#Leave.` holds a position in code describing `DO` instruction semantics.
 
 These are variables that are per-stream:
 
-#Charin_Position.
-
-#Charout_Position.
-
-#Linein_Position.
-
-#Lineout_Position.
-
-#StreamState. records ERROR state for return by STREAM built-in function.
+* `#Charin_Position.`
+* `#Charout_Position.`
+* `#Linein_Position.`
+* `#Lineout_Position.`
+* `#StreamState.` records `ERROR` state for return by `STREAM` built-in function.
 
 These are commonly used prefixes:
-Config_ is used for a function provided by the configuration.
-API_is used for an application programming interface.
 
-Trap_ is used for a routine called from the processor, not provided by it.
-Var_ is used for the routines operating on the variable pools.
+* `Config_` is used for a function provided by the configuration.
+* `API_` is used for an application programming interface.
+* `Trap_` is used for a routine called from the processor, not provided by it.
+* `Var_` is used for the routines operating on the variable pools.
 
 These are notation routines, only available to code in this standard:
 
-#Contains checks whether some construct is in the source.
-#Instance returns the content of some construct in the source.
-#Evaluate returns the value of some construct in the source.
-#Execute causes execution of some construct in the source.
-#Parses checks whether a string matches some construct.
-#Clause notes some position in the code.
-
-#Goto continues execution at some noted position.
-
-#Retry causes execution to continue at a previous clause.
+* `#Contains` checks whether some construct is in the source.
+* `#Instance` returns the content of some construct in the source.
+* `#Evaluate` returns the value of some construct in the source.
+* `#Execute` causes execution of some construct in the source.
+* `#Parses` checks whether a string matches some construct.
+* `#Clause` notes some position in the code.
+* `#Goto` continues execution at some noted position.
+* `#Retry` causes execution to continue at a previous clause.
 
 These are frequently used routines:
-#Raise is a routine for condition raising.
-#Trace is a routine for trace output.
 
-#TraceSource is a routine to trace the source program.
-#CheckArgs processes the arguments to a built-in function.
+* `#Raise` is a routine for condition raising.
+* `#Trace` is a routine for trace output.
+* `#TraceSource` is a routine to trace the source program.
+* `#CheckArgs` processes the arguments to a built-in function.
 
