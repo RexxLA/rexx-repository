@@ -258,177 +258,189 @@ that the configuration considers equivalent to the character _Blank_ for the pur
 
 #### Syntax:
 
+```rexx
 Config_Upper(Character)
+```
 
 where:
 
-Character is the character to be translated to uppercase.
+`Character` is the character to be translated to uppercase.
 
 #### Semantics:
 
-Translate Character to uppercase. Set #Outcome to the translated character. Characters which have
-been subject to this translation are referred to as being in uppercase. Config_Upper applied to a
+Translate `Character` to uppercase. Set `#Outcome` to the translated character. `Characters` which have
+been subject to this translation are referred to as being in uppercase. `Config_Upper` applied to a
 character in uppercase must not change the character.
 
 ### Config_Lower
 
 #### Syntax:
 
+```rexx
 Config_Lower(Character)
+```
 
 where:
 
-Character is the character to be translated to lowercase.
+`Character` is the character to be translated to lowercase.
 
 #### Semantics:
 
-Translate Character to lowercase. Set #Outcome to the translated character. Characters which have
-been subject to this translation are referred to as being in lowercase. Config_Lower applied to a
-character in lowercase must not change the character. Config_Upper of the outcome of
-Config_Lower(Character) shall be the original character.
+Translate `Character` to lowercase. Set `#Outcome` to the translated character. `Characters` which have
+been subject to this translation are referred to as being in lowercase. `Config_Lower` applied to a
+character in lowercase must not change the character. `Config_Upper` of the outcome of
+`Config_Lower(Character)` shall be the original character.
 
 ### Config_Compare
 
 #### Syntax:
 
-Config Compare(Characterl, Character2)
+```rexx
+Config_Compare(Characterl, Character2)
+```
 
 where:
 
-Character1 is the character to be compared with Character2.
-
-Character2 is the character to be compared with Character1.
+* `Character1` is the character to be compared with `Character2`.
+* `Character2` is the character to be compared with `Character1`.
 
 #### Semantics:
 
-Compare two characters. Set #Outcome to
+Compare two characters. Set `#Outcome` to
 
-- 'equal' if Character1 is equal to Character2;
+- `'equal'` if `Character1` is equal to `Character2`;
 
-- 'greater' if Character1 is greater than Character2;
+- `'greater'` if `Character1` is greater than `Character2`;
 
-- 'lesser' if Character' is less than Character2.
-- 
-The function shall exhibit the following characteristics. If Config _Compare(a,b) produces
+- `'lesser'` if `Character1` is less than `Character2`.
+  
+The function shall exhibit the following characteristics. If `Config _Compare(a,b)` produces
 
-- 'equal' then Config_Compare(b,a) produces 'equal';
+- `'equal'` then `Config_Compare(b,a)` produces `'equal'`;
 
-- 'greater' then Config_Compare(b,a) produces 'lesser';
+- `'greater'` then `Config_Compare(b,a)` produces `'lesser'`;
 
-- 'lesser' then Config_Compare(b,a) produces 'greater';
+- `'lesser'` then `Config_Compare(b,a)` produces `'greater'`;
 
-- 'equal' and Config_Compare(b,c) produces 'equal' then Config_Compare(a,c) produces 'equal';
+- `'equal'` and `Config_Compare(b,c)` produces `'equal'` then `Config_Compare(a,c)` produces `'equal'`;
 
-- 'greater' and Config_Compare(b,c) produces 'greater' then Config _Compare(a,c) produces
-'greater';
+- `'greater'` and `Config_Compare(b,c)` produces `'greater'` then `Config_Compare(a,c)` produces `'greater'`;
 
-- 'lesser' and Config _Compare(b,c) produces 'lesser' then Config_Compare(a,c) produces 'lesser';
+- `'lesser'` and `Config_Compare(b,c)` produces `'lesser'` then `Config_Compare(a,c)` produces `'lesser'`;
 
-- 'equal' then Config_Compare(a,c) and Config_Compare(b,c) produce the same value.
-- 
+- `'equal'` then `Config_Compare(a,c)` and `Config_Compare(b,c)` produce the same value.
+  
 Syntactic characters which are different characters shall not compare equal by Config_Compare, see
 nnn.
 
-### Config _B2C
+### Config_B2C
 
 #### Syntax:
 
-Config B2C (Binary)
+```rexx
+Config_B2C(Binary)
+```
 
 where:
 
-Binary is a sequence of digits, each '0' or '1'. The number of digits shall be a multiple of eight.
+`Binary` is a sequence of digits, each `'0'` or `'1'`. The number of digits shall be a multiple of eight.
 
 #### Semantics:
 
-Translate Binary to a coded string. Set #Outcome to the resulting string. The string may, or may not,
+Translate `Binary` to a coded string. Set `#Outcome` to the resulting string. The string may, or may not,
 correspond to a sequence of characters.
 
 ### Config_C2B
 
 #### Syntax:
 
-Config C2B (String)
+```rexx
+Config_C2B(String)
+```
 
 where:
 
-String is a string.
+`String` is a string.
 
 #### Semantics:
 
-Translate String to a sequence of digits, each '0' or '1'. Set #Outcome to the result. This function is the
-inverse of Config_B2C.
+Translate `String` to a sequence of digits, each `'0'` or `'1'`. Set `#Outcome` to the result. This function is the
+inverse of `Config_B2C`.
 
 ### Config_Substr
 
 #### Syntax:
 
-Config Substr(String, n)
+```rexx
+Config_Substr(String, n)
+```
 
 where:
 
-String is a string.
-
-n is an integer identifying a position within String.
+* `String` is a string.
+* `n` is an integer identifying a position within `String`.
 
 #### Semantics:
 
-Copy the n-th character from String. The leftmost character is the first character. Set Outcome to the
+Copy the `n`-th character from `String`. The leftmost character is the first character. Set `Outcome` to the
 resulting character.
 
-If this function is unable to supply a character because there is no n-th character in String the indicator
-of the completion response is 'M'.
+If this function is unable to supply a character because there is no `n`-th character in `String` the indicator
+of the completion response is `'M'`.
 
-If this function is unable to supply a character because the encoding of String is incorrect the indicator
-of the completion response is 'E' and the description of the completion information is the encoding
+If this function is unable to supply a character because the encoding of `String` is incorrect the indicator
+of the completion response is `'E'` and the description of the completion information is the encoding
 which is incorrect, in hexadecimal notation.
 
-### Config Length
+### Config_Length
 
 #### Syntax:
 
-Config Length (String)
+```rexx
+Config_Length(String)
+```
 
 where:
 
-String is a string.
+`String` is a string.
 
 #### Semantics:
 
-Set #Outcome to the length of the string, that is, the number of characters in the string.
+Set `#Outcome` to the length of the string, that is, the number of characters in the string.
 
-If this function is unable to determine a length because the encoding of String is incorrect, the
-indicator of the completion response is 'E' and the description of the completion information is the
+If this function is unable to determine a length because the encoding of `String` is incorrect, the
+indicator of the completion response is `'E'` and the description of the completion information is the
 encoding which is incorrect, in hexadecimal notation.
 
 ### Config_Xrange
 
 #### Syntax:
 
-Config Xrange(Characterl, Character2)
+```rexx
+Config_Xrange(Characterl, Character2)
+```
 
 where:
 
-Character1 is the null string, or a single character.
-
-Character2 is the null string, or a single character.
+* `Character1` is the null string, or a single character.
+* `Character2` is the null string, or a single character.
 
 #### Semantics:
 
-If Character1 is the null string then let LowBound be a lowest ranked character in the character set
-according to the ranking order provided by Config_Compare; otherwise let LowBound be Character1.
+If `Character1` is the null string then let `LowBound` be a lowest ranked character in the character set
+according to the ranking order provided by `Config_Compare`; otherwise let `LowBound` be `Character1`.
 
-If Character2 is the null string then let HighBound be a highest ranked character in the character set
-according to the ranking order provided by Config_Compare; otherwise let HighBound be Character2lf
-#Outcome after Config_Compare(LowBound,HighBound) has a value of
+If `Character2` is the null string then let `HighBound` be a highest ranked character in the character set
+according to the ranking order provided by `Config_Compare`; otherwise let `HighBound` be `Character2` if
+`#Outcome` after `Config_Compare(LowBound,HighBound)` has a value of
 
-- 'equal' then #Outcome is set to LowBound;
+- `'equal'` then `#Outcome` is set to `LowBound`;
 
-- 'lesser' then #Outcome is set to the sequence of characters between LowBound and HighBound
+- `'lesser'` then `#Outcome` is set to the sequence of characters between `LowBound` and `HighBound`
 inclusively, in ranking order;
 
-- 'greater' then #Outcome is set to the sequence of characters HighBound and larger, in ranking
-order, followed by the sequence of characters LowBound and smaller, in ranking order.
+- `'greater'` then `#Outcome` is set to the sequence of characters `HighBound` and larger, in ranking
+order, followed by the sequence of characters `LowBound` and smaller, in ranking order.
 
 ## Objects
 
@@ -438,7 +450,9 @@ The objects interface consists of functions which the configuration shall provid
 
 #### Syntax:
 
-Config ObjectNew
+```rexx
+Config_ObjectNew
+```
 
 #### Semantics:
 
@@ -450,13 +464,14 @@ returned on another invokation of the function.
 
 #### Syntax:
 
-Config Array Size(Object, size)
+```rexx
+Config_Array_Size(Object, size)
+```
 
 where:
 
-Object is an object.
-
-Size is an integer greater or equal to 0.
+* `Object` is an object.
+* `Size` is an integer greater or equal to `0`.
 
 #### Semantics:
 
@@ -467,15 +482,15 @@ values up to the value of size.
 
 #### Syntax:
 
-Config Array Put(Array, Item, Index)
+```rexx
+Config_Array_Put(Array, Item, Index)
+```
 
 where:
 
-Array is an array.
-
-Item is an object
-
-Index is an integer greater or equal to 1.
+* Array is an array.
+* Item is an object
+* Index is an integer greater or equal to 1.
 
 #### Semantics:
 
@@ -485,7 +500,9 @@ The configuration shall record that the array has Item associated with Index.
 
 #### Syntax:
 
-Config Array At(Array, Index)
+```rexx
+Config_Array_At(Array, Index)
+```
 
 where:
 
@@ -501,7 +518,9 @@ The configuration shall return the item that the array has associated with Index
 
 #### Syntax:
 
-Config Array At(Array, Index)
+```rexx
+Config_Array_At(Array, Index)
+```
 
 where:
 
@@ -517,7 +536,9 @@ Return '1' if there is an item in Array associated with Index, '0' otherwise.
 
 #### Syntax:
 
-Config Array At(Array, Index)
+```rexx
+Config_Array_At(Array, Index)
+```
 
 where:
 
@@ -536,11 +557,13 @@ passed as commands to an environment.
 
 See nnn and nnn for a description of language features that use commands.
 
-### Config _Command
+### Config_Command
 
 #### Syntax:
 
-Config Command(Environment, Command)
+```rexx
+Config_Command(Environment, Command)
+```
 
 where:
 
@@ -580,7 +603,10 @@ See nnn and nnn for a description of the language features that use external rou
 
 #### Syntax:
 
-Config ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Traps)
+```rexx
+Config_ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Traps)
+```
+
 where:
 
 How is one of 'FUNCTION' or 'SUBROUTINE' and indicates how the external routine is to be
@@ -640,7 +666,9 @@ Text of Config_ExternalMethod waiting on such decisions.
 
 #### Syntax:
 
-Config ExternalMethod (How, NameType, Name, Environment, Arguments, Streams, Traps)
+```rexx
+Config_ExternalMethod(How, NameType, Name, Environment, Arguments, Streams, Traps)
+```
 
 where:
 
@@ -687,24 +715,26 @@ See nnn, nnn, nnn, nnn, and nnn for a description of language features that use 
 The configuration shall provide an external data queue mechanism. The following functions shall be
 provided:
 
-- Config_Push;
+- `Config_Push`;
 
-- Config _Queue;
+- `Config _Queue`;
 
-- Config_ Pull;
+- `Config_ Pull`;
 
-- Config_Queued.
+- `Config_Queued`.
 
 The configuration may permit the external data queue to be altered in other ways. In the absence of such
 alterations the external data queue shall be an ordered list. Config_Push adds the specified string to one
 end of the list, Config _Queue to the other. Config_Pull removes a string from the end that Config_Push
 adds to unless the list is empty.
 
-### Config Push
+### Config_Push
 
 #### Syntax:
 
-Config Push(String)
+```rexx
+Config_Push(String)
+```
 
 where:
 
@@ -715,11 +745,13 @@ String is the value to be retained in the external data queue.
 Add String as an item to the end of the external data queue from which Config_Pull will remove an
 item.
 
-### Contig_Queue
+### Config_Queue
 
 #### Syntax:
 
-Config Queue (String)
+```rexx
+Config_Queue(String)
+```
 
 where:
 
@@ -734,7 +766,9 @@ remove an item.
 
 #### Syntax:
 
-Config Pull()
+```rexx
+Config_Pull()
+```
 
 #### Semantics:
 
@@ -743,11 +777,13 @@ the list. Set #Outcome to the value of the retrieved item.
 
 If no item could be retrieved the indicator of the completion response is 'F'.
 
-### Contig_Queued
+### Config_Queued
 
 #### Syntax:
 
-Config Queued ()
+```rexx
+Config_Queued()
+```
 
 #### Semantics:
 
@@ -775,42 +811,44 @@ operation.
 
 The following functions shall be provided:
 
-- Config_Stream_Charin;
+- `Config_Stream_Charin`;
 
-- Config_Stream_Position;
+- `Config_Stream_Position`;
 
-- Config_Stream_Command;
+- `Config_Stream_Command`;
 
-- Config_Stream_State;
+- `Config_Stream_State`;
 
-- Config_Stream_Charout;
+- `Config_Stream_Charout`;
 
-- Config_Stream_Qualified;
+- `Config_Stream_Qualified`;
 
-- Config_Stream_Unique;
+- `Config_Stream_Unique`;
 
-- Config_Stream_Query;
+- `Config_Stream_Query`;
 
-- Config_Stream_Close;
+- `Config_Stream_Close`;
 
-- Config_Stream_Count.
-- 
+- `Config_Stream_Count`.
+  
 The results of these functions are described in terms of the following stems with tails which are stream
 names:
 
-- #Charin_Position.Stream;
+- `#Charin_Position.Stream`;
 
-- #Charout_Position.Stream;
+- `#Charout_Position.Stream`;
 
-- #Linein_Position.Stream;
+- `#Linein_Position.Stream`;
 
-- #Lineout_Position.Stream.
+- `#Lineout_Position.Stream`.
 
-### Config _Stream_Charin
+### Config_Stream_Charin
 
 #### Syntax:
 
-Config Stream Charin(Stream, OperationType)
+```rexx
+Config_Stream_Charin(Stream, OperationType)
+```
 
 where:
 
@@ -851,7 +889,9 @@ If OperationType is 'NULL' then the stream is accessed but no data is read.
 
 #### Syntax:
 
-Config Stream Position(Stream, OperationType, Position)
+```rexx
+Config_Stream_Position(Stream, OperationType, Position)
+```
 
 where:
 
@@ -880,14 +920,19 @@ Config_Stream_Charout on the stream shall write, as indicated by Position. Set
 If this function is unable to position the stream because the stream is transient then the indicator of the
 completion response shall be 'T'.
 
-### Config _Stream_Command
+### Config_Stream_Command
 
 #### Syntax:
 
-Config Stream Command (Stream, Command)
+```rexx
+Config_Stream_Command(Stream, Command)
+```
+
 where:
-Stream is the name of the stream to be processed.
-Command is a configuration-specific command to be performed against the stream.
+
+* Stream is the name of the stream to be processed.
+
+* Command is a configuration-specific command to be performed against the stream.
 
 #### Semantics:
 
@@ -900,7 +945,10 @@ command.
 
 #### Syntax:
 
-Config Stream State (Stream)
+```rexx
+Config_Stream_State(Stream)
+```
+
 where:
 Stream is the name of the stream to be queried.
 
@@ -917,7 +965,10 @@ stream.
 
 #### Syntax:
 
-Config Stream Charout (Stream, Data)
+```rexx
+Config_Stream_Charout(Stream, Data)
+```
+
 where:
 Stream is the name of the stream to be processed.
 Data is the data to be written, or 'EOL' to indicate that an end-of-line indication is to be written, or a
@@ -941,13 +992,18 @@ necessary to account for any end-of-line indication embedded in the stream;
 
 #### Syntax:
 
-Config Stream Qualified (Stream)
+```rexx
+Config_Stream_Qualified(Stream)
+```
+
 where:
+
 Stream is the name of the stream to be processed.
 
 #### Semantics:
 
 Set #Outcome to some name which identifies Stream.
+
 Return a completion response with indicator 'B' if the argument is not acceptable to the configuration
 as identifying a stream.
 
@@ -955,7 +1011,9 @@ as identifying a stream.
 
 #### Syntax:
 
-Config Stream Unique ()
+```rexx
+Config_Stream_Unique()
+```
 
 #### Semantics:
 
@@ -965,7 +1023,11 @@ a name that the configuration associates with any existing data.
 ### Config_Stream_Query
  
 #### Syntax:
-Config Stream Query (Stream)
+
+```rexx
+Config_Stream_Query(Stream)
+```
+
 where:
 Stream is the name of the stream to be queried.
 
@@ -1218,8 +1280,7 @@ Set `#Outcome` to the value that `LINEIN()` would return.
 
 ```rexx
 Config_Default_Output(Line)
-``
-
+```
 
 where:
 
@@ -1253,7 +1314,7 @@ Config_Termination()
 #### Semantics:
 
 This function is provided only as a counterpart to `Trap_Termination`; in itself it does nothing except
-return the response. An indicator of `'F'`` gives rise to `Msg2.1`.
+return the response. An indicator of `'F'` gives rise to `Msg2.1`.
 
 ### Config_Halt_Query
 
