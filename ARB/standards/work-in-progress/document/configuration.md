@@ -143,35 +143,35 @@ The following characters represent the category of characters called _syntactic_
 their names. The glyphs used to represent them in this document are also shown. _Syntactic_characters_
 shall be available in every configuration:
 
-- & ampersand;
-- ' apostrophe, single quotation mark, single quote;
-- * asterisk, star;
--  blank, space;
-- A-Z capital letters A through Z;
-- : colon;
-- , comma;
-- 0-9 digits zero through nine;
-- = equal sign;
-- ! exclamation point, exclamation mark;
-- \> greater-than sign;
-- - hyphen, minus sign;
-- < less-than sign;
-- [ left bracket, left square bracket;
-- ( left parenthesis;
-- % percent sign;
-- . period, decimal point, full stop, dot;
-- + plus sign;
-- ? question mark;
-- " quotation mark, double quote;
-- \ reverse slant, reverse solidus, backslash;
-- ] right bracket, right square bracket;
-- ) right parenthesis;
-- ; semicolon;
-- / slant, solidus, slash;
-- a-z small letters a through z;
-- ~ tilde, twiddle;
-- _ underline, low line, underscore;
-- | vertical line, bar, vertical bar.
+- `&` ampersand;
+- `'` apostrophe, single quotation mark, single quote;
+- `*` asterisk, star;
+- ` ` blank, space;
+- `A-Z` capital letters A through Z;
+- `:` colon;
+- `,` comma;
+- `0-9` digits zero through nine;
+- `=` equal sign;
+- `!` exclamation point, exclamation mark;
+- `>` greater-than sign;
+- `-` hyphen, minus sign;
+- `<` less-than sign;
+- `[` left bracket, left square bracket;
+- `(` left parenthesis;
+- `%` percent sign;
+- `.` period, decimal point, full stop, dot;
+- `+` plus sign;
+- `?` question mark;
+- `"` quotation mark, double quote;
+- `\` reverse slant, reverse solidus, backslash;
+- `]` right bracket, right square bracket;
+- `)` right parenthesis;
+- `;` semicolon;
+- `/` slant, solidus, slash;
+- `a-z` small letters a through z;
+- `~` tilde, twiddle;
+- `_` underline, low line, underscore;
+- `|` vertical line, bar, vertical bar.
 
 ### Extra_letters
 
@@ -196,8 +196,8 @@ A configuration may have a category of characters in source programs called _oth
 _Other_negators_ are determined by the configuration. Only the following characters represent possible
 characters of this category. The glyphs used to represent them in this document are also shown:
 
-- ^ circumflex accent, caret;
-- ¬ not sign.
+- `^` circumflex accent, caret;
+- `¬` not sign.
 
 ### Other_characters
 
@@ -205,6 +205,7 @@ A configuration may have a category of characters in source programs called _oth
 _Other_characters_ are determined by the configuration.
 
 ## Configuration characters and encoding
+
 The configuration characters and encoding interface consists of functions which the configuration shall
 provide which are concerned with the encoding of characters.
 
