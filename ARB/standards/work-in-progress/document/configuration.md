@@ -456,8 +456,8 @@ Config_ObjectNew
 
 #### Semantics:
 
-Set #Outcome to be a reference to an object. The object shall be suitable for use as a variable pool,
-see nnn. This function shall never return a value in #Outcome which compares equal with the value
+Set `#Outcome` to be a reference to an object. The object shall be suitable for use as a variable pool,
+see nnn. This function shall never return a value in `#Outcome` which compares equal with the value
 returned on another invokation of the function.
 
 ### Config_Array_Size
@@ -488,13 +488,13 @@ Config_Array_Put(Array, Item, Index)
 
 where:
 
-* Array is an array.
-* Item is an object
-* Index is an integer greater or equal to 1.
+* `Array` is an array.
+* `Item` is an object
+* `Index` is an integer greater or equal to `1`.
 
 #### Semantics:
 
-The configuration shall record that the array has Item associated with Index.
+The configuration shall record that the array has `Item` associated with `Index`.
 
 ### Config_Array_At
 
@@ -506,13 +506,12 @@ Config_Array_At(Array, Index)
 
 where:
 
-Array is an array.
-
-Index is an integer greater or equal to 1.
+* `Array` is an array.
+* `Index` is an integer greater or equal to `1`.
 
 #### Semantics:
 
-The configuration shall return the item that the array has associated with Index.
+The configuration shall return the item that the array has associated with `Index`.
 
 ### Config_Array_Hasindex
 
@@ -524,13 +523,12 @@ Config_Array_At(Array, Index)
 
 where:
 
-Array is an array.
-
-Index is an integer greater or equal to 1.
+* `Array` is an array.
+* `Index` is an integer greater or equal to `1`.
 
 #### Semantics:
 
-Return '1' if there is an item in Array associated with Index, '0' otherwise.
+Return `'1'` if there is an item in `Array` associated with Index, `'0'` otherwise.
 
 ### Config_Array_Remove
 
@@ -542,13 +540,12 @@ Config_Array_At(Array, Index)
 
 where:
 
-Array is an array.
-
-Index is an integer greater or equal to 1.
+* `Array` is an array.
+* `Index` is an integer greater or equal to `1`.
 
 #### Semantics:
 
-After this operation, no item is associated with the Index in the Array.
+After this operation, no item is associated with the `Index` in the `Array`.
 
 ## Commands
 
@@ -567,30 +564,27 @@ Config_Command(Environment, Command)
 
 where:
 
-Environment is the environment to be addressed. It has components for:
+* `Environment` is the environment to be addressed. It has components for:
 
-- the name of the environment;
+    - the name of the environment;
+    - the name of a stream from which the command will read its input. The null string indicates use of
+      the default input stream;
+    - the name of a stream onto which the command will write its output. The null string indicates use
+      of the default output stream. There is an indication of whether writing is to `APPEND` or `REPLACE`;
+    - the name of a stream onto which the command will write its error output. The null string indicates
+      use of the default error output stream. There is an indication of whether writing is to `APPEND` or
+      `REPLACE`.
 
-- the name of a stream from which the command will read its input. The null string indicates use of
-the default input stream;
-
-- the name of a stream onto which the command will write its output. The null string indicates use
-of the default output stream. There is an indication of whether writing is to APPEND or REPLACE;
-
-- the name of a stream onto which the command will write its error output. The null string indicates
-use of the default error output stream. There is an indication of whether writing is to APPEND or
-REPLACE.
-
-Command is the command to be executed.
+* `Command` is the command to be executed.
 
 #### Semantics:
 
 Perform a command.
 
-- set the indicator to 'E' or 'F' if the command ended with an ERROR condition, or a FAILURE
+- set the indicator to `'E'` or `'F'` if the command ended with an `ERROR` condition, or a `FAILURE`
 condition, respectively;
 
-- set #RC to the return code string of the command.
+- set `#RC` to the return code string of the command.
 
 ## External routines
 
@@ -609,46 +603,46 @@ Config_ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Tra
 
 where:
 
-How is one of 'FUNCTION' or 'SUBROUTINE' and indicates how the external routine is to be
-invoked.
+* `How` is one of `'FUNCTION'` or `'SUBROUTINE'` and indicates how the external routine is to be
+  invoked.
 
-NameType is a specification of whether the name was provided as a symbol or as a string literal.
-Name is the name of the routine to be invoked.
+* `NameType` is a specification of whether the name was provided as a symbol or as a string literal.
+  Name is the name of the routine to be invoked.
 
-Environment is an environment value with the same components as on API_ Start.
+* `Environment` is an environment value with the same components as on `API_Start`.
 
-Arguments is a specification of the arguments to the routine, with the same components as on
-API Start.
+* `Arguments` is a specification of the arguments to the routine, with the same components as on
+  API Start.
 
-Streams is a specification of the default streams, with the same components as on API_ Start.
+* `Streams` is a specification of the default streams, with the same components as on `API_Start`.
 
-Traps is the list of traps to be used in processing, with the same components as on API_ Start.
+* `Traps` is the list of traps to be used in processing, with the same components as on `API_Start`.
 
 #### Semantics:
 
-Invoke an external routine. Set {Outcome to the result of the external routine, or set the indicator of
-the completion response to 'D' if the external routine did not provide a result.
+Invoke an external routine. Set `#Outcome` to the result of the external routine, or set the indicator of
+the completion response to `'D'` if the external routine did not provide a result.
 
-If this function is unable to locate the routine the indicator of the completion response is 'U'. As a result
-SYNTAX condition 43.1 is raised implicitly.
+If this function is unable to locate the routine the indicator of the completion response is `'U'`. As a result
+`SYNTAX` condition `43.1` is raised implicitly.
 
-If How indicated that a result from the routine was required but the routine did not provide one the
-indicator of the completion response is 'H'. As a result SYNTAX condition 44.1 is raised implicitly.
+If `How` indicated that a result from the routine was required but the routine did not provide one the
+indicator of the completion response is `'H'`. As a result `SYNTAX` condition `44.1` is raised implicitly.
 
-If How indicated that a result from the routine was required but the routine provided one that was too
-long (see #Limit_String in nnn) the indicator of the completion response is 'L'. As a result SYNTAX
-condition 52 is raised implicitly.
+If `How` indicated that a result from the routine was required but the routine provided one that was too
+long (see `#Limit_String` in nnn) the indicator of the completion response is `'L'`. As a result `SYNTAX`
+condition `52` is raised implicitly.
 
 If the routine failed in a way not indicated by some other indicator the indicator of the completion
-response is 'F'. As a result SYNTAX condition 40.1 is raised implicitly.
+response is `'F'`. As a result `SYNTAX` condition `40.1` is raised implicitly.
 
 ### Config_ExternalMethod
 
-OOI has external classes explicitly via the ::CLASS abc EXTERNAL mechanism. Analogy with classic would also
-allow the subject of ::REQUIRES to be coded in non-Rexx. However ::REQUIRES subject is coded, we need to
+OOI has external classes explicitly via the `::CLASS abc EXTERNAL` mechanism. Analogy with classic would also
+allow the subject of `::REQUIRES` to be coded in non-Rexx. However `::REQUIRES` subject is coded, we need to
 gather in knowledge of its method names because of the search algorithm that determines which method is called.
-Hence reasonable that the ultimate external call is to a method. Perhaps combine Config_ExternalRoutine with
-Config_ExternalMethod.
+Hence reasonable that the ultimate external call is to a method. Perhaps combine `Config_ExternalRoutine` with
+`Config_ExternalMethod`.
 
 There is a terminology clash on "environment". Perhaps easiest to change the classic to "address_environment".
 (And make it part of new "environment"?)
@@ -659,10 +653,10 @@ REQUIREd), and "package" we don't use (since a software package from a shop woul
 but not everything to run a program.) Using "file" this way may not be too bad since we used "stream" rather than
 "tile" in the classic definition.
 
-The How parameter will need 'METHOD' as a value. Should API_Start also allow 'METHOD". If we pass the new
-Environment we don't have to pass Streams separately.
+The `How` parameter will need `'METHOD'` as a value. Should `API_Start` also allow `'METHOD'`. If we pass the new
+`Environment` we don't have to pass `Streams` separately.
 
-Text of Config_ExternalMethod waiting on such decisions.
+Text of `Config_ExternalMethod` waiting on such decisions.
 
 #### Syntax:
 
@@ -672,39 +666,33 @@ Config_ExternalMethod(How, NameType, Name, Environment, Arguments, Streams, Trap
 
 where:
 
-How is one of 'FUNCTION' or 'SUBROUTINE' and indicates how the external routine is to be
-invoked.
-
-NameType is a specification of whether the name was provided as a symbol or as a string literal.
-
-Name is the name of the routine to be invoked.
-
-Environment is an environment value with the same components as on API_ Start.
-
-Arguments is a specification of the arguments to the routine, with the same components as on
-API_Start.
-
-Streams is a specification of the default streams, with the same components as on API_ Start.
-
-Traps is the list of traps to be used in processing, with the same components as on API_ Start.
+* `How` is one of `'FUNCTION'` or `'SUBROUTINE'` and indicates how the external routine is to be
+  invoked.
+* `NameType` is a specification of whether the name was provided as a symbol or as a string literal.
+* `Name` is the name of the routine to be invoked.
+* `Environment` is an environment value with the same components as on `API_Start`.
+* `Arguments` is a specification of the arguments to the routine, with the same components as on
+  `API_Start`.
+* `Streams` is a specification of the default streams, with the same components as on `API_Start`.
+* `Traps` is the list of traps to be used in processing, with the same components as on `API_Start`.
 
 #### Semantics:
 
-Invoke an external routine. Set {Outcome to the result of the external routine, or set the indicator of
-the completion response to 'D' if the external routine did not provide a result.
+Invoke an external routine. Set `#Outcome` to the result of the external routine, or set the indicator of
+the completion response to `'D'` if the external routine did not provide a result.
 
-If this function is unable to locate the routine the indicator of the completion response is 'U'. As a result
-SYNTAX condition 43.1 is raised implicitly.
+If this function is unable to locate the routine the indicator of the completion response is `'U'`. As a result
+`SYNTAX` condition `43.1` is raised implicitly.
 
-If How indicated that a result from the routine was required but the routine did not provide one the
-indicator of the completion response is 'H'. As a result SYNTAX condition 44.1 is raised implicitly.
+If `How` indicated that a result from the routine was required but the routine did not provide one the
+indicator of the completion response is `'H'`. As a result `SYNTAX` condition `44.1` is raised implicitly.
 
-If How indicated that a result from the routine was required but the routine provided one that was too
-long (see #Limit_String in nnn) the indicator of the completion response is 'L'. As a result SYNTAX
-condition 52 is raised implicitly.
+If `How` indicated that a result from the routine was required but the routine provided one that was too
+long (see `#Limit_String` in nnn) the indicator of the completion response is `'L'`. As a result `SYNTAX`
+condition `52` is raised implicitly.
 
 If the routine failed in a way not indicated by some other indicator the indicator of the completion
-response is 'F'. As a result SYNTAX condition 40.1 is raised implicitly.
+response is `'F'`. As a result `SYNTAX` condition `40.1` is raised implicitly.
 
 ## External data queue
 
@@ -716,16 +704,13 @@ The configuration shall provide an external data queue mechanism. The following 
 provided:
 
 - `Config_Push`;
-
 - `Config _Queue`;
-
 - `Config_ Pull`;
-
 - `Config_Queued`.
 
 The configuration may permit the external data queue to be altered in other ways. In the absence of such
-alterations the external data queue shall be an ordered list. Config_Push adds the specified string to one
-end of the list, Config _Queue to the other. Config_Pull removes a string from the end that Config_Push
+alterations the external data queue shall be an ordered list. `Config_Push` adds the specified string to one
+end of the list, `Config_Queue` to the other. `Config_Pull` removes a string from the end that `Config_Push`
 adds to unless the list is empty.
 
 ### Config_Push
@@ -738,11 +723,11 @@ Config_Push(String)
 
 where:
 
-String is the value to be retained in the external data queue.
+`String` is the value to be retained in the external data queue.
 
 #### Semantics:
 
-Add String as an item to the end of the external data queue from which Config_Pull will remove an
+Add `String` as an item to the end of the external data queue from which `Config_Pull` will remove an
 item.
 
 ### Config_Queue
@@ -755,11 +740,11 @@ Config_Queue(String)
 
 where:
 
-String is the value to be retained in the external data queue.
+`String` is the value to be retained in the external data queue.
 
 #### Semantics:
 
-Add String as an item to the opposite end of the external data queue from which Config_Pull will
+Add `String` as an item to the opposite end of the external data queue from which `Config_Pull` will
 remove an item.
 
 ### Config_Pull
@@ -772,10 +757,10 @@ Config_Pull()
 
 #### Semantics:
 
-Retrieve an item from the end of the external data queue to which Config_Push adds an element to
-the list. Set #Outcome to the value of the retrieved item.
+Retrieve an item from the end of the external data queue to which `Config_Push` adds an element to
+the list. Set `#Outcome` to the value of the retrieved item.
 
-If no item could be retrieved the indicator of the completion response is 'F'.
+If no item could be retrieved the indicator of the completion response is `'F'`.
 
 ### Config_Queued
 
@@ -787,7 +772,7 @@ Config_Queued()
 
 #### Semantics:
 
-Get the count of items in the external data queue. Set #Outcome to that number.
+Get the count of items in the external data queue. Set `#Outcome` to that number.
 
 ## Streams
 
@@ -806,40 +791,28 @@ The concepts of binary and character streams shall be supported. The content of 
 expected to be characters.
 
 The null string is used as a name for both the default input stream and the default output stream. The null
-string names the default output stream only when it is an argument to the Config_Stream_Charout
+string names the default output stream only when it is an argument to the `Config_Stream_Charout`
 operation.
 
 The following functions shall be provided:
 
 - `Config_Stream_Charin`;
-
 - `Config_Stream_Position`;
-
 - `Config_Stream_Command`;
-
 - `Config_Stream_State`;
-
 - `Config_Stream_Charout`;
-
 - `Config_Stream_Qualified`;
-
 - `Config_Stream_Unique`;
-
 - `Config_Stream_Query`;
-
 - `Config_Stream_Close`;
-
 - `Config_Stream_Count`.
   
 The results of these functions are described in terms of the following stems with tails which are stream
 names:
 
 - `#Charin_Position.Stream`;
-
 - `#Charout_Position.Stream`;
-
 - `#Linein_Position.Stream`;
-
 - `#Lineout_Position.Stream`.
 
 ### Config_Stream_Charin
@@ -852,28 +825,28 @@ Config_Stream_Charin(Stream, OperationType)
 
 where:
 
-Stream is the name of the stream to be processed.
-
-OperationType is one of 'CHARIN', 'LINEIN', or 'NULL.
+* `Stream` is the name of the stream to be processed.
+* `OperationType` is one of `'CHARIN'`, `'LINEIN'`, or `'NULL'`.
 
 #### Semantics:
 
-Read from a stream. Increase #Linein_Position.Stream by one when the end-of-line indication is
-encountered. Increase #Charin_Position.Stream when the indicator will be 'N'.
+Read from a stream. Increase `#Linein_Position.Stream` by one when the end-of-line indication is
+encountered. Increase `#Charin_Position.Stream` when the indicator will be `'N'`.
 
-If OperationType is 'CHARIN' the state variables describing the stream will be affected as follows:
+If `OperationType` is `'CHARIN'` the state variables describing the stream will be affected as follows:
+
 - when the configuration is able to provide data from a transient stream or the character at position
 #Charin_Position.Stream of a persistent stream then #Outcome shall be set to contain the data.
 
 The indicator of the response shall be 'N';
 
 - when the configuration is unable to return data because the read position is at the end of a
-persistent stream then the indicator of the response shall be 'O';
+  persistent stream then the indicator of the response shall be 'O';
 - when the configuration is unable to return data from a transient stream because no data is
-available and no data is expected to become available then the indicator of the response shall be
-'O':
+  available and no data is expected to become available then the indicator of the response shall be 'O':
 - otherwise the configuration is unable to return data and does not expect to be able to return data
-by waiting; the indicator of the response shall be 'E'.
+  by waiting; the indicator of the response shall be 'E'.
+  
 The data set in #Outcome will either be a single character or will be a sequence of eight characters,
 each '0' or '1'. The choice is decided by the configuration. The eight character sequence indicates a
 binary stream, see nnn.
@@ -895,30 +868,28 @@ Config_Stream_Position(Stream, OperationType, Position)
 
 where:
 
-Stream is the name of the stream to be processed.
-
-Operation is 'CHARIN', 'LINEIN', 'CHAROUT', or 'LINEOUT'.
-
-Position indicates where to position the stream.
+* `Stream` is the name of the stream to be processed.
+* `Operation` is `'CHARIN'`, `'LINEIN'`, `'CHAROUT'`, or `'LINEOUT'`.
+* `Position` indicates where to position the stream.
 
 #### Semantics:
 
-If the operation is 'CHARIN' or 'CHAROUT' then Position is a character position, otherwise Position is
+If the operation is `'CHARIN'` or `'CHAROUT'` then `Position` is a character position, otherwise `Position` is
 a line position.
 
-If Operation is 'CHARIN' or 'LINEIN' and the Position is beyond the limit of the existing data then the
-indicator of the completion response shall be 'R'. Otherwise if Operation is 'CHARIN' or 'LINEIN' set
-#Charin_Position.Stream to the position from which the next Config_Stream_Charin on the stream
-shall read, as indicated by Position. Set #Linein_Position.Stream to correspond with this position.
+If `Operation` is `'CHARIN'` or `'LINEIN'` and the `Position` is beyond the limit of the existing data then the
+indicator of the completion response shall be `'R'`. Otherwise if `Operation` is `'CHARIN'` or `'LINEIN'` set
+`#Charin_Position.Stream` to the position from which the next `Config_Stream_Charin` on the stream
+shall read, as indicated by `Position`. Set `#Linein_Position.Stream` to correspond with this position.
 
-If Operation is 'CHAROUT' or 'LINEOQUT' and the Position is more than one beyond the limit of existing
-data then the indicator of the response shall be 'R'. Otherwise if Operation is 'CHAROUT' or
-'LINEOUT' then #Charout_Position.Stream is set to the position at which the next
-Config_Stream_Charout on the stream shall write, as indicated by Position. Set
-#Lineout_Position.Stream to correspond with this position.
+If `Operation` is `'CHAROUT'` or `'LINEOUT'` and the `Position` is more than one beyond the limit of existing
+data then the indicator of the response shall be `'R'`. Otherwise if `Operation` is `'CHAROUT'` or
+`'LINEOUT'` then `#Charout_Position.Stream` is set to the position at which the next
+`Config_Stream_Charout` on the stream shall write, as indicated by `Position`. Set
+`#Lineout_Position.Stream` to correspond with this position.
 
 If this function is unable to position the stream because the stream is transient then the indicator of the
-completion response shall be 'T'.
+completion response shall be `'T'`.
 
 ### Config_Stream_Command
 
@@ -930,15 +901,14 @@ Config_Stream_Command(Stream, Command)
 
 where:
 
-* Stream is the name of the stream to be processed.
-
-* Command is a configuration-specific command to be performed against the stream.
+* `Stream` is the name of the stream to be processed.
+* `Command` is a configuration-specific command to be performed against the stream.
 
 #### Semantics:
 
 Issue a configuration-specific command against a stream. This may affect all state variables
-describing Stream which hold position information. It may alter the effect of any subsequent operation
-on the specified stream. If the indicator is set to 'N', #Outcome shall be set to information from the
+describing `Stream` which hold position information. It may alter the effect of any subsequent operation
+on the specified stream. If the indicator is set to `'N'`, `#Outcome` shall be set to information from the
 command.
 
 ### Config_Stream_State
@@ -950,7 +920,8 @@ Config_Stream_State(Stream)
 ```
 
 where:
-Stream is the name of the stream to be queried.
+
+`Stream` is the name of the stream to be queried.
 
 #### Semantics:
 
