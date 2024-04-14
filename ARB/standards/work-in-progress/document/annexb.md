@@ -2,22 +2,22 @@
 
 (informative)
 
-Method of definition
+## Method of definition
 
 This annex describes the methods chosen to describe Rexx for this standard.
 
-Definitions
+##  Definitions
 
 Definitions are given for some terms which are both used in this standard and also may be used
 elsewhere. This does not include names of syntax constructions; for example, group, which are
 distinguished in this standard by the use of italic font.
 
-Conformance
+## Conformance
 
 Note that irrespective of how this standard is written, the obligation on a conforming processor is only to
 achieve the defined results, not to follow the algorithms in this standard.
 
-Notation
+## Notation
 
 The notation used to describe functions provided by the configuration is like a Rexx function call but it is
 not defined as a Rexx function call since a Rexx function call is described in terms of one of these
@@ -25,7 +25,8 @@ configuration functions.
 
 Note that the mechanism of a returned string with a distinguishing first character is part of the notation
 used in this standard to explain the functions; implementations may use a different mechanism.
-Notation for completion response and conditions
+
+## Notation for completion response and conditions
 
 The testing of 'X' and 'S' indicators is made implicit, for brevity. Even when written as a subroutine call,
 each use of a configuration routine implies the testing. Thus:
@@ -39,22 +40,22 @@ implies
 if left (#Response,1) == 'X' then call #Raise 'SYNTAX', 5.1, substr (#Response, 2)
 if left (#Response,1) == 'S' then call #Raise 'SYNTAX', 48.1, substr(#Response, 2)
 
-Source programs and character sets
+## Source programs and character sets
 
 The characters required by Rexx are identified by name, with a glyph associated so that they can be
 printed in this standard. Alternative names are shown as a convenience for the reader.
 
-Notation
+## Notation
 
 Note that nnn is not specifying the syntax of a program; it is specifying the notation used in this standard
 for describing syntax.
 
-Lexical level
+## Lexical level
 
 Productions nnn and nnn contain a recursion of comment. Apart from this recursion, the lexical level is a
 finite state automaton.
 
-Syntax level
+## Syntax level
 
 This syntax shows a null_clause list, which is minimally a semicolon, being required in places where
 programmers do not normally write semicolons, for example after ‘THEN’. This is because the 'THEN'
@@ -63,7 +64,7 @@ clauses’ to define ‘clauses’.
 
 The precedence rules for the operators are built into this grammar
 
-Data Model
+## Data Model
 
 The following explanation of data in terms of Classic Rexx may be helpful. References to clauses of the
 existing standard have 274 as a prefix.
@@ -103,7 +104,8 @@ Editorial note: It looks nice to unify: an object *is* a variable pool and a var
 awkwardness describing the classic API_ function as applying to an object. There don't seem to be difficulties in
 defining any object behaviour we want in terms of state variables that refer from one object to another.
 
-Evaluation (Definitions written as code)
+## Evaluation (Definitions written as code)
+
 There is no single definitional mechanism for describing semantics that is predominantly used in
 standards describing programming languages, except for the use of prose. The committee has chosen to
 define some parts of this standard using algorithms written in Rexx. This has the advantages of being
