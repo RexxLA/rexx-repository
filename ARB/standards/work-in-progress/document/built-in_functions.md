@@ -242,7 +242,7 @@ Time: procedure
   if arg(1,'E') then
     Option = translate(left(arg(1),1))
   else
-    Option = 'N''
+    Option = 'N'
   /* If there is no second argument, the current time is returned. */
   if arg(2,'E') = 0 then
     if arg(1,'E') then
