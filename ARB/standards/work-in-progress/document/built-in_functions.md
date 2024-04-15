@@ -301,7 +301,7 @@ TimeFormat: procedure
     when arg(2) == 'C' then
       select
         when Hour>12 then
-          return Hour-12':'right(Minute,2,'0")'pm'
+          return Hour-12':'right(Minute,2,'0')'pm'
         when Hour=12 then
           return '12:'right(Minute,2,'0')'pm'
         when Hour>0 then
