@@ -26,3 +26,20 @@ Most of the conversion from .md to .tex is done using markdown. Some features ar
 - bibliography references
 - source code formatting independent from github
 
+
+### Index format one
+
+This adds an *\<!--index-->* statement to index only the immediately following word. 
+
+### Index format two (not implemented yet?)
+
+This adds an *\<!--index-->word1,word2\</--end-index-->* statement to index a two word combination with a comma in between for a two level index entry.
+
+### Bibliography reference
+
+This adds a *\<!--cite-->*\[hyperlink]  tag to add a bibiography reference before a hyperlink, so the standard bibtex mechanism can be used for citing publication.
+
+The hyperlinked text should be an existing bibtex reference from a file called bibliography.bib
+
+
+
