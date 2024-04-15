@@ -31,13 +31,13 @@ used in this standard to explain the functions; implementations may use a differ
 The testing of `'X'` and `'S'` indicators is made implicit, for brevity. Even when written as a subroutine call,
 each use of a configuration routine implies the testing. Thus:
 
-```rexx
+```rexx <!--configtime.rexx-->
 call Config Time
 ```
 
 implies
 
-```rexx
+```rexx <!--impliedconfigtime-->
 #Response = Config Time()
 if left (#Response,1) == 'X' then call #Raise 'SYNTAX', 5.1, substr (#Response, 2)
 if left (#Response,1) == 'S' then call #Raise 'SYNTAX', 48.1, substr(#Response, 2)

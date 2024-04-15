@@ -259,7 +259,7 @@ that the configuration considers equivalent to the character _Blank_ for the pur
 
 #### Syntax:
 
-```rexx
+```rexx <!--configupper.rexx-->
 Config_Upper(Character)
 ```
 
@@ -277,7 +277,7 @@ character in uppercase must not change the character.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configlower.rexx-->
 Config_Lower(Character)
 ```
 
@@ -296,7 +296,7 @@ character in lowercase must not change the character. `Config_Upper` of the outc
 
 #### Syntax:
 
-```rexx
+```rexx <!--configcompare.rexx-->
 Config_Compare(Characterl, Character2)
 ```
 
@@ -338,8 +338,8 @@ nnn.
 
 #### Syntax:
 
-```rexx
-Config_B2C(Binary)
+```rexx <!--configb2c.rexx-->
+Config_B2C(Binary) <!--configb2c.rexx-->
 ```
 
 where:
@@ -355,7 +355,7 @@ correspond to a sequence of characters.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configc2b.rexx-->
 Config_C2B(String)
 ```
 
@@ -372,7 +372,7 @@ inverse of `Config_B2C`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configsubstr.rexx-->
 Config_Substr(String, n)
 ```
 
@@ -397,7 +397,7 @@ which is incorrect, in hexadecimal notation.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configlength.rexx-->
 Config_Length(String)
 ```
 
@@ -417,7 +417,7 @@ encoding which is incorrect, in hexadecimal notation.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configxrange.rexx-->
 Config_Xrange(Characterl, Character2)
 ```
 
@@ -451,8 +451,8 @@ The objects interface consists of functions which the configuration shall provid
 
 #### Syntax:
 
-```rexx
-Config_ObjectNew
+```rexx <!--objectnew.rexx-->
+Config_ObjectNew <!--configobjectnew.rexx-->
 ```
 
 #### Semantics:
@@ -465,7 +465,7 @@ returned on another invokation of the function.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configarraysize.rexx-->
 Config_Array_Size(Object, size)
 ```
 
@@ -483,7 +483,7 @@ values up to the value of size.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configarrayput.rexx-->
 Config_Array_Put(Array, Item, Index)
 ```
 
@@ -501,7 +501,7 @@ The configuration shall record that the array has `Item` associated with `Index`
 
 #### Syntax:
 
-```rexx
+```rexx <!--configarrayat.rexx-->
 Config_Array_At(Array, Index)
 ```
 
@@ -518,7 +518,7 @@ The configuration shall return the item that the array has associated with `Inde
 
 #### Syntax:
 
-```rexx
+```rexx <!--configarrayathashindex.rexx-->
 Config_Array_At(Array, Index)
 ```
 
@@ -535,7 +535,7 @@ Return `'1'` if there is an item in `Array` associated with Index, `'0'` otherwi
 
 #### Syntax:
 
-```rexx
+```rexx <!--configarrayremove.rexx-->
 Config_Array_At(Array, Index)
 ```
 
@@ -559,7 +559,7 @@ See nnn and nnn for a description of language features that use commands.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configcommand.rexx-->
 Config_Command(Environment, Command)
 ```
 
@@ -598,7 +598,7 @@ See nnn and nnn for a description of the language features that use external rou
 
 #### Syntax:
 
-```rexx
+```rexx <!--configexternalroutine.rexx-->
 Config_ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Traps)
 ```
 
@@ -661,7 +661,7 @@ Text of `Config_ExternalMethod` waiting on such decisions.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configexternalmethod.rexx-->
 Config_ExternalMethod(How, NameType, Name, Environment, Arguments, Streams, Traps)
 ```
 
@@ -718,7 +718,7 @@ adds to unless the list is empty.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configpush.rexx-->
 Config_Push(String)
 ```
 
@@ -735,7 +735,7 @@ item.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configqueue.rexx-->
 Config_Queue(String)
 ```
 
@@ -752,7 +752,7 @@ remove an item.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configpull.rexx-->
 Config_Pull()
 ```
 
@@ -767,7 +767,7 @@ If no item could be retrieved the indicator of the completion response is `'F'`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configqueued.rexx-->
 Config_Queued()
 ```
 
@@ -820,7 +820,7 @@ names:
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamcharin.rexx-->
 Config_Stream_Charin(Stream, OperationType)
 ```
 
@@ -863,7 +863,7 @@ If OperationType is 'NULL' then the stream is accessed but no data is read.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamposition.rexx-->
 Config_Stream_Position(Stream, OperationType, Position)
 ```
 
@@ -896,7 +896,7 @@ completion response shall be `'T'`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamcommand.rexx-->
 Config_Stream_Command(Stream, Command)
 ```
 
@@ -916,7 +916,7 @@ command.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamstate.rexx-->
 Config_Stream_State(Stream)
 ```
 
@@ -937,7 +937,7 @@ stream.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamcharout.rexx-->
 Config_Stream_Charout(Stream, Data)
 ```
 
@@ -966,7 +966,7 @@ necessary to account for any end-of-line indication embedded in the stream;
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamqualified.rexx-->
 Config_Stream_Qualified(Stream)
 ```
 
@@ -985,7 +985,7 @@ as identifying a stream.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamunique.rexx-->
 Config_Stream_Unique()
 ```
 
@@ -998,7 +998,7 @@ a name that the configuration associates with any existing data.
  
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamquery.rexx-->
 Config_Stream_Query(Stream)
 ```
 
@@ -1014,7 +1014,7 @@ Set `#Outcome` to `'B'` if the stream is a binary stream, or to `'C'` if it is a
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamclose.rexx-->
 Config_Stream_Close(Stream)
 ```
 
@@ -1034,7 +1034,7 @@ completion response shall be `'T'`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configstreamcount.rexx-->
 Config_Stream_Count(Stream, Operation, Option)
 ```
 
@@ -1090,7 +1090,7 @@ The configuration may permit the external variable pools to be altered in other 
 
 #### Syntax:
 
-```rexx
+```rexx <!--configget.rexx-->
 Config_Get(Poolid, Name)
 ```
 
@@ -1115,7 +1115,7 @@ is `'F'`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configset.rexx-->
 Config_Set(Poolid, Name, Value)
 ```
 
@@ -1146,7 +1146,7 @@ which indicates choices decided by the configuration.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configconstants.rexx-->
 Config_Constants()
 ```
 
@@ -1199,7 +1199,7 @@ The following functions shall be provided:
 
 #### Syntax:
 
-```rexx
+```rexx <!--configtracequery.rexx-->
 Config_Trace_Query()
 ```
 
@@ -1212,7 +1212,7 @@ tracing is currently requested. Otherwise set `#Outcome` to `'No'`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configtraceinput.rexx-->
 Config_Trace_Input()
 ```
 
@@ -1225,7 +1225,7 @@ configuration.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configtraceoutput.rexx-->
 Config_Trace_Output(Line)
 ```
 
@@ -1242,7 +1242,7 @@ the configuration.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configdefaultinput.rexx-->
 Config_Default_Input()
 ```
 
@@ -1254,7 +1254,7 @@ Set `#Outcome` to the value that `LINEIN()` would return.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configdefaultoutput.rexx-->
 Config_Default_Output(Line)
 ```
 
@@ -1270,7 +1270,7 @@ Write the string as a line in the manner of `LINEOUT( ,Line)`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configinitialization.rexx-->
 Config_Initialization()
 ```
 
@@ -1283,7 +1283,7 @@ return the response. An indicator of `'F'` gives rise to `Msg3.1`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configtermination.rexx-->
 Config_Termination()
 ```
 
@@ -1296,7 +1296,7 @@ return the response. An indicator of `'F'` gives rise to `Msg2.1`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--confighaltquery.rexx-->
 Config_Halt_Query()
 ```
 
@@ -1309,7 +1309,7 @@ if `HALT` is requested. Otherwise set `#Outcome` to `'No'`.
 
 #### Syntax:
 
-```rexx
+```rexx <!--confighaltreset.rexx-->
 Config_Halt_Reset()
 ```
 
@@ -1321,7 +1321,7 @@ Reset the configuration so that further attempts to cause a `HALT` condition wil
 
 #### Syntax:
 
-```rexx
+```rexx <!--confignosource.rexx-->
 Config_NoSource()
 ```
 
@@ -1340,7 +1340,7 @@ A configuration shall allow any program to be processed in such a way that `Conf
 
 #### Syntax:
 
-```rexx
+```rexx <!--configtime.rexx-->
 Config_Time()
 ```
 
@@ -1360,7 +1360,7 @@ Set `#Adjust`<Index "#Adjust" #"" > to an integer number of microseconds. `#Adju
 
 #### Syntax:
 
-```rexx
+```rexx <!--configrandomseed.rexx-->
 Config_Random_Seed(Seed)
 ```
 
@@ -1377,7 +1377,7 @@ numbers.
 
 #### Syntax:
 
-```rexx
+```rexx <!--configrandomnext.rexx-->
 Config_Random_Next(Min, Max)
 ```
 
@@ -1395,7 +1395,7 @@ Set `#Outcome` to a quasi-random nonnegative integer in the range `Min` to `Max`
 
 #### Syntax:
 
-```rexx
+```rexx <!--configoptions.rexx-->
 Config_Options(String)
 ```
 
@@ -1494,13 +1494,13 @@ where:
 Assign the value of `Value` to the variable identified by `Symbol`. If `Symbol` contains no periods or
 contains one period as its last character:
 
-```rexx
+```rexx <!--configvarsetzero.rexx-->
 Var_Set(#Pool, Symbol, '0', Value)
 ```
 
 Otherwise:
 
-```rexx
+```rexx <!--configvarsetone.rexx-->
 Var_Set(#Pool, #Symbol, '1', Value)
 ```
 
@@ -1525,13 +1525,13 @@ where:
 Return the value of the variable identified by `Symbol`. If `Symbol` contains no periods or contains one
 period as its last character this is the value of `#Outcome` after:
 
-```rexx
+```rexx <!--configvarvaluezero.rexx-->
 Var_Value(#Pool, Symbol, '0')
 ```
 
 Otherwise the value of `#Outcome` after:
 
-```rexx
+```rexx <!--configvarvalueone.rexx-->
 Var_Value(#Pool, #Symbol, '1')
 ```
 
@@ -1556,13 +1556,13 @@ where:
 Drop the variable identified by `Symbol`. If `Symbol` contains no periods or contains one period as its last
 character:
 
-```rexx
+```rexx <!--vardroppoolzero.rexx-->
 Var_Drop(#Pool, Symbol, '0')
 ```
 
 Otherwise:
 
-```rexx
+```rexx <!--vardroppoolone-->
 Var_Drop(#Pool, #Symbol, '1')
 ```
 
@@ -1587,13 +1587,13 @@ where:
 
 Assign the value of `Value` to the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx
+```rexx <!--varpoolsymbolnoperiod.rexx-->
 Var_Set(#Pool, Symbol, '0', Value)
 ```
 
 Otherwise:
 
-```rexx
+```rexx <!--varpoolsymbolperiod.rexx-->
 Var_Set(#Pool, Symbol, '1', Value)
 ```
 
@@ -1613,13 +1613,13 @@ where:
 
 Return the value of the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx
+```rexx <!--varpoolsemsymbolperiod.rexx-->
 Var_Value(#Pool, Symbol, '0')
 ```
 
 Otherwise:
 
-```rexx
+```rexx <!--varpoolsemsymbolperiod.rexx-->
 Var_Value(#Pool, Symbol, '1')
 ```
 
@@ -1639,13 +1639,13 @@ where:
 
 Drop the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx
+```rexx <!--configvardropnoperiod.rexx-->
 Var_Drop(#Pool, Symbol, '0')
 ```
 
 Otherwise:
 
-```rexx
+```rexx  <!--configvardropperiod.rexx-->
 Var_Drop(#Pool, Symbol, '1')
 ```
 
