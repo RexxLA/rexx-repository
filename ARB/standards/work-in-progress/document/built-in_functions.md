@@ -208,185 +208,176 @@ Edatatype:
 
 ```rexx <!--datecalculations.rexx-->
 Time2Date:
-if arg(1) < 0 then
-call Raise 40.18
-if arg(1) >= 315537897600000000 then
-call Raise 40.18
-return Time2Date2 (arg(1))
+   if arg(1) < 0 then
+      call Raise 40.18
+   if arg(1) >= 315537897600000000 then
+      call Raise 40.18
+   return Time2Date2(arg(1))
 
 Time: procedure
 /* This routine is essentially the code from the standard, put in
-stand-alone form. The only 'tricky bit’ is that there is no Rexx way
-for it to fail with the same error codes as a "real" implementation
-would. It can however give a SYNTAX error, albeit not the desirable
-one. This causing of an error is done by returning with no value.
-Since the routine will have been called as a function, this produces
-an error. */
+ stand-alone form. The only 'tricky bit’ is that there is no Rexx way
+ for it to fail with the same error codes as a "real" implementation
+ would. It can however give a SYNTAX error, albeit not the desirable
+ one. This causing of an error is done by returning with no value.
+ Since the routine will have been called as a function, this produces
+ an error. */
 
-/* Backslash is avoided as some systems don't handle that negation sign. */
-if argQ)>3 then
-returm
-numeric digits 18
-if arg(1,'E’) then
-if pos(translate(left(arg(1),1)),"CEHLMNRS")=0 then
-return
-/* (The standard would also allow 'O' but what this code is running
-on would not.) */
-if arg(3,'E’) then
-if pos(translate(left(arg(3),1)),"CHLMNS")=0 then
-return
-/* Tf the third argument is given then the second is mandatory. */
-if arg(3,'E’) & arg(2,'E')=0 then
-returm
-/* Default the first argument. */
-if arg(1,'E’) then
-Option = translate(left(arg(1),1))
-else
-Option = 'N'’
-/* Tf there is no second argument, the current time is returned. */
-if arg(2,'E’) = 0 then
-if arg(1,'E’) then
-return "TIME'(arg(1))
-else
-return 'TIME'()
-/* One cannot convert to elapsed times. */
-if pos(Option, 'ERO') > 0 then
-returm
-InValue = arg(2)
-if arg(3,'E’) then
-InOption = arg(3)
-else
-InOption = 'N'
-HH =0
-MM = 0
-SS =0
-HourAdjust = 0
-select
-
-when InOption == 'C' then do
-parse var InValue HH ':'. +1 MM +2 XX
-if HH = 12 then
-HH =0
-if XX == 'pm' then
-HourAdjust = 12
-
-end
-when InOption == 'H’ then
-HH = InValue
-
-when InOption == 'L’' | InOption == 'N' then
-parse var InValue HH ':’ MM ':' SS
-when InOption == 'M' then
-MM = InValue
-otherwise
-SS = InValue
-end
-if datatype(HH,'W')=0 | datatype(MM,'W')=0 | datatype(SS,'N')=0 then
-returm
-HH = HH + HourAdjust
-/* Convert to microseconds */
-Micro = trunc((((HH * 60) + MM) * 60 + SS) * 1000000)
-/* There is no special message for time-out-of-range; the bad-format
-message is used. */
-if Micro<0O | Micro > 24*3600* 1000000 then
-returm
-/* Reconvert to further check the original. */
-if TimeFormat(Micro,InOption) == InValue then
-return TimeFormat(Micro, Option)
-return
+  /* Backslash is avoided as some systems don't handle that negation sign. */
+  if arg()>3 then
+    return
+  numeric digits 18
+  if arg(1,'E’) then
+    if pos(translate(left(arg(1),1)),"CEHLMNRS")=0 then
+      return
+  /* (The standard would also allow 'O' but what this code is running
+  on would not.) */
+  if arg(3,'E’) then
+    if pos(translate(left(arg(3),1)),"CHLMNS")=0 then
+      return
+  /* If the third argument is given then the second is mandatory. */
+  if arg(3,'E’) & arg(2,'E')=0 then
+    return
+  /* Default the first argument. */
+  if arg(1,'E’) then
+    Option = translate(left(arg(1),1))
+  else
+    Option = 'N'’
+  /* If there is no second argument, the current time is returned. */
+  if arg(2,'E’) = 0 then
+    if arg(1,'E’) then
+      return 'TIME'(arg(1))
+    else
+      return 'TIME'()
+  /* One cannot convert to elapsed times. */
+  if pos(Option, 'ERO') > 0 then
+    return
+  InValue = arg(2)
+  if arg(3,'E’) then
+    InOption = arg(3)
+  else
+    InOption = 'N'
+  HH = 0
+  MM = 0
+  SS = 0
+  HourAdjust = 0
+  select
+    when InOption == 'C' then do
+      parse var InValue HH ':'. +1 MM +2 XX
+      if HH = 12 then
+        HH = 0
+      if XX == 'pm' then
+        HourAdjust = 12
+      end
+    when InOption == 'H’ then
+      HH = InValue
+    when InOption == 'L' | InOption == 'N' then
+      parse var InValue HH ':’ MM ':' SS
+    when InOption == 'M' then
+      MM = InValue
+    otherwise
+      SS = InValue
+  end
+  if datatype(HH,'W')=0 | datatype(MM,'W')=0 | datatype(SS,'N')=0 then
+    return
+  HH = HH + HourAdjust
+  /* Convert to microseconds */
+  Micro = trunc((((HH * 60) + MM) * 60 + SS) * 1000000)
+  /* There is no special message for time-out-of-range; the bad-format
+  message is used. */
+  if Micro<0 | Micro > 24*3600*1000000 then
+    return
+  /* Reconvert to further check the original. */
+  if TimeFormat(Micro,InOption) == InValue then
+    return TimeFormat(Micro, Option)
+  return
 
 TimeFormat: procedure
-/* Convert from microseconds to given format. */
-/* The day will be irrelevant; actually it will be the first day possible. */
-x = Time2Date2(arg(1))
-parse value x with Year Month Day Hour Minute Second Microsecond Base Days
-select
-when arg(2) == 'C’ then
-select
-when Hour>12 then
-return Hour-12':'right(Minute,2,'0")'pm'
-when Hour=12 then
-return '12:'right(Minute,2,'0')'pm’
-when Hour>0 then
-return Hour':'right(Minute,2,'0')'am’
-when Hour=0 then
-return '12:'right(Minute,2,'0')'am’
-
-when arg(2) == 'H' then return Hour
-when arg(2) == 'L’ then
-return right(Hour,?2,'0')':'right(Minute,2,'0')':'right(Second,2,'0'),
-|| '.'right(Microsecond,6,'0')
-when arg(2) == 'M' then
-return 60*Hour+Minute
-when arg(2) == 'N' then
-return right(Hour,?2,'0')':'right(Minute,2,'0')':'right(Second,2,'0')
-otherwise /* arg(2) =='S' */
-return 3600*Hour+60* Minute+Second
-end
+  /* Convert from microseconds to given format. */
+  /* The day will be irrelevant; actually it will be the first day possible. */
+  x = Time2Date2(arg(1))
+  parse value x with Year Month Day Hour Minute Second Microsecond Base Days
+  select
+    when arg(2) == 'C’ then
+      select
+        when Hour>12 then
+          return Hour-12':'right(Minute,2,'0")'pm'
+        when Hour=12 then
+          return '12:'right(Minute,2,'0')'pm’
+        when Hour>0 then
+          return Hour':'right(Minute,2,'0')'am’
+        when Hour=0 then
+          return '12:'right(Minute,2,'0')'am’
+        end  
+    when arg(2) == 'H' then return Hour
+    when arg(2) == 'L’ then
+      return right(Hour,?2,'0')':'right(Minute,2,'0')':'right(Second,2,'0'),
+        || '.'right(Microsecond,6,'0')
+    when arg(2) == 'M' then
+      return 60*Hour+Minute
+    when arg(2) == 'N' then
+      return right(Hour,?2,'0')':'right(Minute,2,'0')':'right(Second,2,'0')
+    otherwise /* arg(2) =='S' */
+      return 3600*Hour+60* Minute+Second
+  end
 
 Time2Date2: Procedure
-/* Convert a timestamp to a date.
-Argument is a timestamp (the number of microseconds relative to
-0001 01 01 00:00:00.000000)
-Returns a date in the form:
-year month day hour minute second microsecond base days */
+  /* Convert a timestamp to a date.
+  Argument is a timestamp (the number of microseconds relative to
+  0001 01 01 00:00:00.000000)
+  Returns a date in the form:
+    year month day hour minute second microsecond base days */
 
-/* Argument is relative to the virtual date 0001 01 01 00:00:00.000000 */
-Time = arg(1)
+  /* Argument is relative to the virtual date 0001 01 01 00:00:00.000000 */
+  Time = arg(1)
 
-Second = Time % 1000000 } Microsecond = Time // 1000000
-Minute = Second % 60 ; Second = Second // 60
-Hour = Minute % 60 ; Minute = Minute // 60
-Day = Hour % 24 ;} Hour = Hour // 24
+  Second = Time   % 1000000    ; Microsecond = Time   // 1000000
+  Minute = Second %      60    ; Second      = Second //      60
+  Hour   = Minute %      60    ; Minute      = Minute //      60
+  Day    = Hour   %      24    ; Hour        = Hour   //      24
 
-/* At this point, the days are the days since the 0001 base date. */
-BaseDays = Day
-Day = Day + 1
+  /* At this point, the days are the days since the 0001 base date. */
+  BaseDays = Day
+  Day = Day + 1
 
-/* Compute either the fitting year, or some year not too far earlier.
-Compute the number of days left on the first of January of this year. */
+  /* Compute either the fitting year, or some year not too far earlier.
+  Compute the number of days left on the first of January of this year. */
+  Year = Day % 366
+  Day = Day - (Year*365 + Year%4 - Year%100 + Year%400)
+  Year = Year +1
 
-Year = Day % 366
-Day = Day - (Year*365 + Year%4 - Year%100 + Year%400)
-Year = Year +1
+  /* Now if the number of days left is larger than the number of days
+  in the year we computed, increment the year, and decrement the
+  number of days accordingly. */
+  do while Day > (365 + Leap (Year) )
+    Day = Day - (365 + Leap(Year) )
+    Year = Year + 1
+  end
 
-/* Now if the number of days left is larger than the number of days
-in the year we computed, increment the year, and decrement the
-number of days accordingly. */
-do while Day > (365 + Leap (Year) )
+  /* At this point, the days left pertain to this year. */
+  YearDays = Day
 
-Day = Day - (365 + Leap(Year) )
+  /* Now step through the months, increment the number of the month,
+  and decrement the number of days accordingly (taking into
+  consideration that in a leap year February has 29 days), until
+  further reducing the number of days and incrementing the month
+  would lead to a negative number of days */
+  Days = '31 28 31 30 31 30 31 31 30 31 30 31'
+  do Month = 1 to words (Days)
+    ThisMonth = Word(Days, Month) + (Month = 2) * Leap (Year)
+    if Day <= ThisMonth then leave
+    Day = Day - ThisMonth
+    end
 
-Year = Year + 1
-end
-
-/* At this point, the days left pertain to this year. */
-YearDays = Day
-
-/* Now step through the months, increment the number of the month,
-and decrement the number of days accordingly (taking into
-consideration that in a leap year February has 29 days), until
-further reducing the number of days and incrementing the month
-would lead to a negative number of days */
-Days = '31 28 31 30 31 30 31 31 30 31 30 31'
-do Month = 1 to words (Days)
-
-ThisMonth = Word(Days, Month) + (Month = 2) * Leap (Year)
-
-if Day <= ThisMonth then leave
-
-Day = Day - ThisMonth
-end
-
-return Year Month Day Hour Minute Second Microsecond BaseDays YearDays
+  return Year Month Day Hour Minute Second Microsecond BaseDays YearDays
 
 Leap: procedure
-/* Return 1 if the year given as argument is a leap year, or 0
-otherwise. */
-return (arg(1)//4 = 0) & ((arg(1)//100 <> 0) | (arg(1)//400 = 0))
+  /* Return 1 if the year given as argument is a leap year, or 0
+  otherwise. */
+  return (arg(1)//4 = 0) & ((arg(1)//100 <> 0) | (arg(1)//400 = 0))
 ```
 
-10.2.1. Radix conversion
+### Radix conversion
 
 ```rexx <!--reradix.rexx-->
 ReRadix: /* Converts Arg(1) from radix Arg(2) to radix Arg(3) */
