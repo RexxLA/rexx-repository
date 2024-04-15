@@ -216,7 +216,7 @@ Time2Date:
 
 Time: procedure
 /* This routine is essentially the code from the standard, put in
- stand-alone form. The only 'tricky bit’ is that there is no Rexx way
+ stand-alone form. The only 'tricky bit' is that there is no Rexx way
  for it to fail with the same error codes as a "real" implementation
  would. It can however give a SYNTAX error, albeit not the desirable
  one. This causing of an error is done by returning with no value.
@@ -227,25 +227,25 @@ Time: procedure
   if arg()>3 then
     return
   numeric digits 18
-  if arg(1,'E’) then
+  if arg(1,'E') then
     if pos(translate(left(arg(1),1)),"CEHLMNRS")=0 then
       return
   /* (The standard would also allow 'O' but what this code is running
   on would not.) */
-  if arg(3,'E’) then
+  if arg(3,'E') then
     if pos(translate(left(arg(3),1)),"CHLMNS")=0 then
       return
   /* If the third argument is given then the second is mandatory. */
-  if arg(3,'E’) & arg(2,'E')=0 then
+  if arg(3,'E') & arg(2,'E')=0 then
     return
   /* Default the first argument. */
-  if arg(1,'E’) then
+  if arg(1,'E') then
     Option = translate(left(arg(1),1))
   else
-    Option = 'N'’
+    Option = 'N''
   /* If there is no second argument, the current time is returned. */
-  if arg(2,'E’) = 0 then
-    if arg(1,'E’) then
+  if arg(2,'E') = 0 then
+    if arg(1,'E') then
       return 'TIME'(arg(1))
     else
       return 'TIME'()
@@ -253,7 +253,7 @@ Time: procedure
   if pos(Option, 'ERO') > 0 then
     return
   InValue = arg(2)
-  if arg(3,'E’) then
+  if arg(3,'E') then
     InOption = arg(3)
   else
     InOption = 'N'
@@ -269,10 +269,10 @@ Time: procedure
       if XX == 'pm' then
         HourAdjust = 12
       end
-    when InOption == 'H’ then
+    when InOption == 'H' then
       HH = InValue
     when InOption == 'L' | InOption == 'N' then
-      parse var InValue HH ':’ MM ':' SS
+      parse var InValue HH ':' MM ':' SS
     when InOption == 'M' then
       MM = InValue
     otherwise
@@ -298,19 +298,19 @@ TimeFormat: procedure
   x = Time2Date2(arg(1))
   parse value x with Year Month Day Hour Minute Second Microsecond Base Days
   select
-    when arg(2) == 'C’ then
+    when arg(2) == 'C' then
       select
         when Hour>12 then
           return Hour-12':'right(Minute,2,'0")'pm'
         when Hour=12 then
-          return '12:'right(Minute,2,'0')'pm’
+          return '12:'right(Minute,2,'0')'pm'
         when Hour>0 then
-          return Hour':'right(Minute,2,'0')'am’
+          return Hour':'right(Minute,2,'0')'am'
         when Hour=0 then
-          return '12:'right(Minute,2,'0')'am’
+          return '12:'right(Minute,2,'0')'am'
         end  
     when arg(2) == 'H' then return Hour
-    when arg(2) == 'L’ then
+    when arg(2) == 'L' then
       return right(Hour,?2,'0')':'right(Minute,2,'0')':'right(Second,2,'0'),
         || '.'right(Microsecond,6,'0')
     when arg(2) == 'M' then
@@ -2162,7 +2162,7 @@ line.
 LINEIN/LINEOUT. If these are not used, LINEIN/LINEOUT is reflective. If they are used, the result is
 not defined. The set of characters which are line-barred is a property of the configuration.
 
-- The LINES(Stream, 'N’) function will return zero only when a subsequent LINEIN (without
+- The LINES(Stream, 'N') function will return zero only when a subsequent LINEIN (without
 positioning) is guaranteed to raise the NOTREADY condition.
 
 - When a persistent stream is repositioned and written to with CHAROUT, the previously written data
@@ -2547,7 +2547,7 @@ else Option
 #Bif Arg.1
 tint
 
-/* The date/time is 'frozen’ throughout a clause. */
+/* The date/time is 'frozen' throughout a clause. */
 if #ClauseTime.#Level == '' then do
 #Response = Config Time ()
 #ClauseTime.#Level = #Time
