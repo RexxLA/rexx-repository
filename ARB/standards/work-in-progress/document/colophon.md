@@ -15,6 +15,7 @@ Tools used are:
 
 - rexx
 - xetex
+  -- bibtex
 - pandoc
 
 ## Additions to the Markdown format
