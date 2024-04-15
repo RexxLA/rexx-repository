@@ -381,48 +381,36 @@ Leap: procedure
 
 ```rexx <!--reradix.rexx-->
 ReRadix: /* Converts Arg(1) from radix Arg(2) to radix Arg(3) */
-
-procedure
-
-Subject=arg(1)
-
-FromRadix=arg (2)
-
-ToRadix=arg (3)
-
-/* Radix range is 2-16. Conversion is via decimal */
-
-Integer=0
-
-do j=1 to length (Subject)
-/* Individual digits have already been checked for range. */
-Integer=Integer*FromRadix+pos (substr (Subject,j,1),'0123456789ABCDEF')-1
-end
-
-rete
-
-do while Integer>0
-
-r= substr('0123456789ABCDEF',1 + Integer // ToRadix, 1) || r
-Integer = Integer % ToRadix
-end
-
-/* When between 2 and 16, there is no zero suppression. */
-if FromRadix = 2 & ToRadix = 16 then
-r=eright(r, (length(Subject)+3) % 4, '0')
-else if FromRadix = 16 & ToRadix = 2 then
-reright(r, length(Subject) * 4, '0')
-return r
+  procedure
+  Subject=arg(1)
+  FromRadix=arg (2)
+  ToRadix=arg (3)
+  /* Radix range is 2-16. Conversion is via decimal */
+  Integer=0
+  do j=1 to length (Subject)
+    /* Individual digits have already been checked for range. */
+    Integer=Integer*FromRadix+pos (substr (Subject,j,1),'0123456789ABCDEF')-1
+    end
+  r = ''
+  do while Integer>0
+    r= substr('0123456789ABCDEF',1 + Integer // ToRadix, 1) || r
+    Integer = Integer % ToRadix
+    end
+  /* When between 2 and 16, there is no zero suppression. */
+    if FromRadix = 2 & ToRadix = 16 then
+      r=right(r, (length(Subject)+3) % 4, '0')
+    else if FromRadix = 16 & ToRadix = 2 then
+      r=right(r, length(Subject) * 4, '0')
+  return r
 ```
 
 ### Raising the SYNTAX condition
 
 ```rexx <!--raise.rexx-->
 Raise:
-
 /* These 40.nn messages always include the built-in name as an insert.*/
-call #Raise 'SYNTAX', arg(1), #Bif, arg(2), arg(3), arg(4)
-/* #Raise does not return. */
+    call #Raise 'SYNTAX', arg(1), #Bif, arg(2), arg(3), arg(4)
+    /* #Raise does not return. */
 ```
 
 ## Character built-in functions
@@ -433,24 +421,20 @@ left.
 
 ### ABBREV
 
-```rexx <!--abbrev.rexx-->
-ABBREV returns '1' if the second argument is equal to the leading characters of the first and the length of
+`ABBREV` returns `'1'` if the second argument is equal to the leading characters of the first and the length of
 the second argument is not less than the third argument.
 
-call CheckArgs 'rANY rANY oWHOLE>=0'
+```rexx <!--abbrev.rexx-->
+   call CheckArgs 'rANY rANY oWHOLE>=0'
 
-Subject #Bif Arg.1
-
-Subj #Bif Arg.2
-
-if #Bif_ArgExists.3 then Length = #Bif Arg.3
-else Length = length (Subj)
-
-Condl = length(Subject) >= length(Subj)
-Cond2 = length(Subj) >= Length
-Cond3 = substr(Subject, 1, length(Subj)) == Subj
-
-return Condl & Cond2 & Cond3
+   Subject = #Bif_Arg.1
+   Subj    = #Bif_Arg.2
+   if #Bif_ArgExists.3 then Length = #Bif_Arg.3
+                       else Length = length(Subj)
+   Condl = length(Subject) >= length(Subj)
+   Cond2 = length(Subj) >= Length
+   Cond3 = substr(Subject, 1, length(Subj)) == Subj
+   return Condl & Cond2 & Cond3
 ```
 
 ### CENTER
@@ -458,21 +442,19 @@ CENTER returns a string with the first argument centered in it. The length of th
 argument and the third argument specifies the character to be used for padding.
 
 ```rexx <!--center.rexx-->
-call CheckArgs 'rANY rWHOLE>=0 oPAD'
+   call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
-String = #Bif Arg.1
+   String = #Bif_Arg.1
+   Length = #Bif_Arg.2
+   if #Bif_ArgExists.3 then Pad = #Bif_Arg.3
+                       else Pad = ' '!
 
-Length = #Bif Arg.2
+   Trim = length(String) - Length
 
-if #Bif_ArgExists.3 then Pad = #Bif Arg.3
-else Pad = ' '!
+   if Trim > 0 then
+      return substr(String, Trim % 2 + 1, Length)
 
-Trim = length(String) - Length
-
-if Trim > 0 then
-return substr(String, Trim % 2 + 1, Length)
-
-return overlay(String, copies(Pad, Length), -Trim % 2 + 1)
+   return overlay(String, copies(Pad, Length), -Trim % 2 + 1)
 ```
 
 ### CENTRE
