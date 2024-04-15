@@ -46,4 +46,6 @@ The hyperlinked text should be an existing bibtex reference from a file called b
 Source code needs the language name after the three backticks (\```) and a comment which names a file after one space. This will result in writing the source
  to a file in the current directory for inclusion via the listings package or another source code formatter; it also enables easy execution using the bashful environment.
 
- 
+## Remember to
+
+- Do a *touch *.md* in the source directory with a certain regularity - files that are not newer that their derived versions will not be preprocessed again until they are. Do this especially after changes to the preprocessing part of the `build.rexx` exec.
