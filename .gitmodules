@@ -1,0 +1,3 @@
+[submodule "ARB/standards/work-in-progress/document/TextTools"]
+	path = ARB/standards/work-in-progress/document/TextTools
+	url = https://github.com/RexxLA/TextTools
