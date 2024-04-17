@@ -55,7 +55,7 @@ This adds an `<!--index-->word1,word2</--end-index-->` statement to index a two 
 
 ### Bibliography reference
 
-This adds a `\<!--cite-->`\[hyperlink]  tag to add a bibiography reference before a hyperlink, so the standard bibtex mechanism can be used for citing publication.
+This adds a `<!--cite-->`\[hyperlink]  tag to add a bibiography reference before a hyperlink, so the standard bibtex mechanism can be used for citing publication.
 
 The hyperlinked text should be an existing bibtex reference from a file called `bibliography.bib`.
 
