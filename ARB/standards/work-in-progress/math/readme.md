@@ -9,6 +9,8 @@ The goal is to specify a standard Rexx math library which is compatible over the
 
 ## What is there already
 
+### The IBM RxMath package
+
 ### Patrick McPhee Rexx Math Bumper Pack
 
 |Function                 | Call. Seq.   | Alias(es) |       Requires    |
@@ -54,6 +56,11 @@ This is a set of functions that fail when numeric digits is > 16.
 ### The Zabrodski set of math functions
 
 In these functions the number of digits needs to be specified on a function call basis. The package is available in ooRexx distributions and as a standalone package. It contains hardcoded versions of Pi and E with specific precision.
+
+### Walter Pachl's Rosettacode article
+
+[https://rosettacode.org/wiki/Trigonometric_functions#ooRexx](https://rosettacode.org/wiki/Trigonometric_functions#ooRexx)
+
 
 ### Calling JVM functions from NetRexx and BSF4ooRexx
 
