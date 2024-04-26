@@ -7,7 +7,7 @@ which are their operands.
 This evaluation section describes what values these components have in execution, or how they have no
 value because a condition is raised.
 
-This section refers to the `DATATYPE` built-in function when checking operands, see nnn. Except for
+This section refers to the `DATATYPE` built-in function when checking operands, see <!--TODO-->nnn. Except for
 considerations of limits on the values of exponents, the test:
 
 ```rexx <!--datatypenum.rexx-->
@@ -20,7 +20,7 @@ is equivalent to testing whether the subject matches the syntax:
 num := [blank+] ['+' | '-'] [blank+] number [blank+]
 ```
 
-For the syntax of _number_ see nnn.
+For the syntax of _number_ see <!--TODO-->nnn.
 
 When the matching subject does not include a `'-'` the value is the value of the number in the match,
 otherwise the value is the value of the expression `(0 - number)`.
@@ -41,14 +41,14 @@ call #Raise 'SYNTAX', 41.7, Subject
 ```
 
 This possibility is implied by the uses of `DATATYPE` and not shown explicitly in the rest of this section
-nnn.
+<!--TODO-->nnn.
 
 ## Variables
 
 The values of variables are held in variable pools. The capabilities of variable pools are listed here,
 together with the way each function will be referenced in this definition.
 
-The notation used here is the same as that defined in sections nnn and nnn, including the fact that the
+The notation used here is the same as that defined in sections <!--TODO-->nnn and <!--TODO-->nnn, including the fact that the
 `Var_` routines may return an indicator of `'N'`, `'S'` or `'X'`.
 
 Each possible name in a variable pool is qualified as tailed or non-tailed name; names with different
@@ -178,12 +178,12 @@ Var_ Reset (Pool)
 ```
 
 The function operates on the variable pool with the specified reference. It establishes the effect of
-subsequent `API_Next` and `API_NextVariable` functions (see sections nnn and nnn). A `Var_Reset` is
+subsequent `API_Next` and `API_NextVariable` functions (see sections <!--TODO-->nnn and <!--TODO-->nnn). A `Var_Reset` is
 implied by any `API_` operation other than `API_Next` and `API_NextVariable`.
 
 ## Symbols
 
-For the syntax of a symbol see nnn.
+For the syntax of a symbol see <!--TODO-->nnn.
 
 The value of a symbol which is a _NUMBER_ or a _CONST_SYMBOL_ which is not a reserved symbol is the
 content of the appropriate token.
@@ -191,7 +191,7 @@ content of the appropriate token.
 The value of a _VAR_SYMBOL_ which is "taken as a constant" is the _VAR_SYMBOL_ itself, otherwise the
 _VAR_SYMBOL: identifies a variable and its value may vary during execution.
 
-Accessing the value of a symbol which is not "taken as a constant" shall result in trace output, see nnn:
+Accessing the value of a symbol which is not "taken as a constant" shall result in trace output, see <!--TODO-->nnn:
 
 ```rexx <!--tracinglevel.rexx-->
 if #Tracing.#Level == 'I' then call #Trace Tag
@@ -207,7 +207,7 @@ the variable is the value associated with _VAR_SYMBOL_ in the variable pool, tha
 `Var_Value(Pool, VAR_SYMBOL, '0')`.
 
 If the indicator is `'D'`, indicating the variable has the 'dropped' attribute, the `NOVALUE` condition is raised;
-see nnn and nnn for exceptions to this.
+see <!--TODO-->nnn and <!--TODO-->nnn for exceptions to this.
 
 ```rexx <!--varpoolsymbol.rexx-->
 #Response = Var Value(Pool, VAR SYMBOL, '0')
@@ -248,12 +248,12 @@ The value associated with a derived name is obtained from the variable pool, tha
 Var_Value(Pool,Derived Name,'1')
 
 If the indicator is 'D', indicating the variable has the 'dropped' attribute, the NOVALUE condition is raised;
-see nnn for an exception.
+see <!--TODO-->nnn for an exception.
 
 ### Value of a reserved symbol
 
 The value of a reserved symbol is the value of a variable with the corresponding name in the reserved
-pool, see nnn.
+pool, see <!--TODO-->nnn.
 
 ## Expressions and operators
 
@@ -261,20 +261,20 @@ Add a load of string coercions. Equality can operate on non-strings. What if one
 
 ### The value of a term
 
-See nnn for the syntax of a term.
+See <!--TODO-->nnn for the syntax of a term.
 
-The value of a STRING is the content of the token; see nnn.
+The value of a STRING is the content of the token; see <!--TODO-->nnn.
 
-The value of a function is the value it returns, see nnn.
+The value of a function is the value it returns, see <!--TODO-->nnn.
 
 If a termis a symbol or STRING then the value of the term is the value of that symbol or STRING.
 
-If a term contains an expr_alias the value of the term is the value of the expr_alias, see nnn.
+If a term contains an expr_alias the value of the term is the value of the expr_alias, see <!--TODO-->nnn.
 
 ### The value of a prefix_expression
 
 If the prefix_expression is a term then the value of the prefix_expression is the value of the ferm,
-otherwise let rhs be the value of the prefix_expression within it__ see nnn
+otherwise let rhs be the value of the prefix_expression within it__ see <!--TODO-->nnn
 
 If the prefix_expression has the form '+' prefix_expression then a check is made:
 if datatype(rhs)\=='NUM' then
@@ -291,7 +291,7 @@ and the value is the value of (0 - rhs).
 If a prefix_expression has the form not prefix_expression then
 if rhs \== '0' then if rhs \=='1' then call #Raise 'SYNTAX', 34.6, not, rhs
 
-See nnn for the value of the third argument to that #Raise.
+See <!--TODO-->nnn for the value of the third argument to that #Raise.
 If the value of rhs is '0' then the value of the prefix_expression value is '1', otherwise it is '0'.
 
 If the prefix_expression is not a term then:
@@ -299,7 +299,7 @@ if #Tracing.#Level == 'I' then call #Trace '>P>'
 
 ### The value of a power_expression
 
-See nnn for the syntax of a power_expression.
+See <!--TODO-->nnn for the syntax of a power_expression.
 
 If the power_expression is a prefix_expression then the value of the power_expression is the value of
 the prefix_expression.
@@ -321,7 +321,7 @@ if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
 ### The value of a multiplication
 
-See nnn for the syntax of a multiplication.
+See <!--TODO-->nnn for the syntax of a multiplication.
 If the multiplication is a power_expression then the value of the multiplication is the value of the
 power_expression.
 Otherwise, let Ihs be the value of multiplication within it, and rns be the value of power_expression within
@@ -340,7 +340,7 @@ if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
 ### The value of an addition
 
-See nnn for the syntax of addition.
+See <!--TODO-->nnn for the syntax of addition.
 
 If the addition is a multiplication then the value of the addition is the value of the multiplication.
 Otherwise, let Ihs be the value of ad¢difion within it, and rhs be the value of the multiplication within it. Let
@@ -373,7 +373,7 @@ if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
 ### The value of a concatenation
 
-See nnn for the syntax of a concatenation.
+See <!--TODO-->nnn for the syntax of a concatenation.
 If the concatenation is an addition then the value of the concatenation is the value of the addition.
 Otherwise, let Ihs be the value of concatenation within it, and rhs be the value of the additive_expression
 within it.
@@ -383,10 +383,10 @@ If the concatenation contains '||' then the value of the concatenation will have
 
 - #Outcome will be 'equal' after each of:
 
-- Config_Compare(Config_Subsir(Ihs,n)},Config_Subsitr(Value,n)) for values of n not less than 1
+- Config_Compare(Config_Substr(Ihs,n)},Config_Substr(Value,n)) for values of n not less than 1
 and not more than Config_Length(Ihs);
 
-- Config_Compare(Config_Subsir(rhs,n),Config_Substr(Value,Config_Length(Ihs)+n)) for values of
+- Config_Compare(Config_Substr(rhs,n),Config_Substr(Value,Config_Length(Ihs)+n)) for values of
 n not less than 1 and not more than Config_Length(rhs).
 Otherwise the value of the concatenation will have the following characteristics:
 
@@ -394,12 +394,12 @@ Otherwise the value of the concatenation will have the following characteristics
 
 - #Outcome will be 'equal' after each of:
 
-- Config_Compare(Config_Subsir(Ihs,n)},Config_Subsitr(Value,n)) for values of n not less than 1
+- Config_Compare(Config_Substr(Ihs,n)},Config_Substr(Value,n)) for values of n not less than 1
 and not more than Config_Length(Ihs);
 
 - Config_Compare(' ',Config_Substr(Value,Config_Length(Ihs)}+1));
 
-- Config_Compare(Config_Subsitr(rhs,n),Config_Substr(Value,Config_Length(Ins)+1+n)) for values
+- Config_Compare(Config_Substr(rhs,n),Config_Substr(Value,Config_Length(Ins)+1+n)) for values
 of n not less than 1 and not more than Config_Length(rhs).
 
 If the concatenation is not an addition then:
@@ -407,7 +407,7 @@ if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
 ### The value of a comparison
 
-See nnn for the syntax of a comparison.
+See <!--TODO-->nnn for the syntax of a comparison.
 
 If the comparison is a concatenation then the value of the comparison is the value of the concatenation.
 Otherwise, let Ihs be the value of the comparison within it, and rns be the value of the concatenation
@@ -420,7 +420,7 @@ follows:
 n greater than O and not greater than Length, if any, in ascending order, #Test is set to the uppercased
 first character of #Outcome after:
 
-Config_Compare(Config_Subsir(Ihs),Contfig_Subsir(rhs)).
+Config_Compare(Config_Substr(Ihs),Contfig_Subsir(rhs)).
 
 If at any stage this sets #Test to a value other than 'E' then the setting of #Test is complete. Otherwise, if
 Config_Length(Ihs) is greater than Config_Length(rhs) then #Test is set to 'G' or if Config_Length(Ihs) is
@@ -468,7 +468,7 @@ if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
 ### The value of an and_expression
 
-See nnn for the syntax of an and_expression.
+See <!--TODO-->nnn for the syntax of an and_expression.
 
 If the and_expression is a comparison then the value of the and_expression is the value of the comparison.
 
@@ -489,7 +489,7 @@ if #Tracing.#Level == 'I' then call #Trace '>0O>'
 
 ### The value of an expression
 
-See nnn for the syntax of an expression.
+See <!--TODO-->nnn for the syntax of an expression.
 
 The value of an expression, or an expr, is the value of the expr_alias within it.
 
@@ -1176,25 +1176,25 @@ value of the corresponding expression. If `#ArgExists.#NewLevel.ArgNumber` is `'
 ### The value of a label
 
 The value of a _LABEL_, or of the _taken_constant_ in the function or _call_instruction_, 
-is taken as a constant, see nnn. If the _taken_constant_ is not a _string_literal_ 
+is taken as a constant, see <!--TODO-->nnn. If the _taken_constant_ is not a _string_literal_ 
 it is a reference to the first _LABEL_ in the program which has the same value. 
 The comparison is made with the '==' operator.
 
-If there is such a matching label and the label is trace-only (see nnn) then a condition is raised:
+If there is such a matching label and the label is trace-only (see <!--TODO-->nnn) then a condition is raised:
 
 ```rexx <!--callraisesyntax.rexx-->
 call #Raise 'SYNTAX', 16.3, taken constant
 ```
 
 If there is such a matching label, and the label is not trace-only, execution continues at the label with
-routine initialization (see nnn). This is execution of an internal routine.
+routine initialization (see <!--TODO-->nnn). This is execution of an internal routine.
 
 If there is no such matching label, or if the _taken_constant_ is a _string_literal_, further comparisons are
 made.
 
 If the value of the _taken_constant_ matches the name of some built-in function 
 then that built-in function is invoked. The names of the built-in functions are defined in 
-section nnn and are in uppercase.
+section <!--TODO-->nnn and are in uppercase.
 
 If the value does not match any built-in function name, `Config_ExternalRoutine` is used to invoke an
 external routine.
@@ -1209,12 +1209,12 @@ var_Set(0 , '.SIGL', '0', #LineNumber)
 ```
 
 The name used in the invocation is held in `#Name.#Level` for possible use in an error message from the
-`RETURN` clause, see nnn
+`RETURN` clause, see <!--TODO-->nnn
 
 ### The value of a function
 
-A built-in function completes when it returns from the activity defined in section nnn. The value of a
-built-in function is defined in section nnn.
+A built-in function completes when it returns from the activity defined in section <!--TODO-->nnn. The value of a
+built-in function is defined in section <!--TODO-->nnn.
 
 An internal routine completes when `#Level` returns to the value it had when the routine was invoked. The
 value of the internal function is the value of the _expression_ on the _return_ which completed the routine.
@@ -1231,7 +1231,7 @@ The value of an external method is determined by `Config_ExternalMethod`.
 
 ### The value of a message term
 
-See nnn for the syntax of a _message_term_. The value of the _term_ within a _message_term_ is called the
+See <!--TODO-->nnn for the syntax of a _message_term_. The value of the _term_ within a _message_term_ is called the
 receiver.
 
 The receiver and any arguments of the term are evaluated, in left to right order.

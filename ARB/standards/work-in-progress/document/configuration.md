@@ -23,7 +23,7 @@ constrain how a specific implementation provides the function, nor does it imply
 arguments is significant for a specific implementation.
 
 The names of the functions are used throughout this standard; the names used for the arguments are
-used only in this clause and nnn.
+used only in this clause and <!--TODO-->nnn.
 
 The name of a function refers to its usage. A function whose name starts with
 
@@ -60,7 +60,7 @@ call #Raise 'SYNTAX', Message, Description
 
 where:
 
-* `#Raise` raises the condition, see nnn.
+* `#Raise` raises the condition, see <!--TODO-->nnn.
 * `Message` is determined by the indicator in the completion response. If the indicator is `'X'` then
    `Message` is `5.1`. If the indicator is `'S'` then Message is `48.1`.
 * `Description` is the description in the completion response.
@@ -103,7 +103,7 @@ _What does OOI say for How when running REQUIREd files?_
 * `Streams` has components for the default input stream to be used and the default output streams to
   be used.
 
-* `Traps` is the list of traps to be used in processing (see nnn). This has components to specify
+* `Traps` is the list of traps to be used in processing (see <!--TODO-->nnn). This has components to specify
   whether each trap is omitted or not.
 
 #### Semantics:
@@ -126,7 +126,7 @@ reference classes made available. See nnn for the semantics of these classes.
 
 ## Source programs and character sets
 
-The configuration shall provide the ability to access source programs (see nnn).
+The configuration shall provide the ability to access source programs (see <!--TODO-->nnn).
 Source programs consist of characters belonging to the following categories:
 
 - _syntactic_characters_;
@@ -250,7 +250,7 @@ Config_OtherBlankCharacters()
 
 #### Semantics:
 
-Get _other_blank_characters_ (see nnn).
+Get _other_blank_characters_ (see <!--TODO-->nnn).
 
 Set `#Outcome` to a string of zero or more distinct characters in arbitrary order. Each character is one
 that the configuration considers equivalent to the character _Blank_ for the purposes of parsing.
@@ -332,14 +332,14 @@ The function shall exhibit the following characteristics. If `Config _Compare(a,
 - `'equal'` then `Config_Compare(a,c)` and `Config_Compare(b,c)` produce the same value.
   
 Syntactic characters which are different characters shall not compare equal by Config_Compare, see
-nnn.
+<!--TODO-->nnn.
 
 ### Config_B2C
 
 #### Syntax:
 
 ```rexx <!--configb2c.rexx-->
-Config_B2C(Binary) <!--configb2c.rexx-->
+Config_B2C(Binary)
 ```
 
 where:
@@ -458,7 +458,7 @@ Config_ObjectNew <!--configobjectnew.rexx-->
 #### Semantics:
 
 Set `#Outcome` to be a reference to an object. The object shall be suitable for use as a variable pool,
-see nnn. This function shall never return a value in `#Outcome` which compares equal with the value
+see <!--TODO-->nnn. This function shall never return a value in `#Outcome` which compares equal with the value
 returned on another invokation of the function.
 
 ### Config_Array_Size
@@ -553,7 +553,7 @@ After this operation, no item is associated with the `Index` in the `Array`.
 The commands interface consists of a function which the configuration shall provide for strings to be
 passed as commands to an environment.
 
-See nnn and nnn for a description of language features that use commands.
+See <!--TODO-->nnn and <!--TODO-->nnn for a description of language features that use commands.
 
 ### Config_Command
 
@@ -592,7 +592,7 @@ condition, respectively;
 The external routines interface consists of a function which the configuration shall provide to invoke
 external routines.
 
-See nnn and nnn for a description of the language features that use external routines.
+See <!--TODO-->nnn and <!--TODO-->nnn for a description of the language features that use external routines.
 
 ### Config_ExternalRoutine
 
@@ -631,7 +631,7 @@ If `How` indicated that a result from the routine was required but the routine d
 indicator of the completion response is `'H'`. As a result `SYNTAX` condition `44.1` is raised implicitly.
 
 If `How` indicated that a result from the routine was required but the routine provided one that was too
-long (see `#Limit_String` in nnn) the indicator of the completion response is `'L'`. As a result `SYNTAX`
+long (see `#Limit_String` in <!--TODO-->nnn) the indicator of the completion response is `'L'`. As a result `SYNTAX`
 condition `52` is raised implicitly.
 
 If the routine failed in a way not indicated by some other indicator the indicator of the completion
@@ -689,7 +689,7 @@ If `How` indicated that a result from the routine was required but the routine d
 indicator of the completion response is `'H'`. As a result `SYNTAX` condition `44.1` is raised implicitly.
 
 If `How` indicated that a result from the routine was required but the routine provided one that was too
-long (see `#Limit_String` in nnn) the indicator of the completion response is `'L'`. As a result `SYNTAX`
+long (see `#Limit_String` in <!--TODO-->nnn) the indicator of the completion response is `'L'`. As a result `SYNTAX`
 condition `52` is raised implicitly.
 
 If the routine failed in a way not indicated by some other indicator the indicator of the completion
@@ -700,19 +700,17 @@ response is `'F'`. As a result `SYNTAX` condition `40.1` is raised implicitly.
 The external data queue interface consists of functions which the configuration shall provide to
 manipulate an external data queue mechanism.
 
-See nnn, nnn, nnn, nnn, and nnn for a description of language features that use the external data queue.
+See <!--TODO-->nnn, <!--TODO-->nnn, <!--TODO-->nnn, <!--TODO-->nnn, and <!--TODO-->nnn for a description of language features that use the external data queue.
 The configuration shall provide an external data queue mechanism. The following functions shall be
 provided:
 
 - `Config_Push`;
-- `Config _Queue`;
-- `Config_ Pull`;
+- `Config_Queue`;
+- `Config_Pull`;
 - `Config_Queued`.
 
 The configuration may permit the external data queue to be altered in other ways. In the absence of such
-alterations the external data queue shall be an ordered list. `Config_Push` adds the specified string to one
-end of the list, `Config_Queue` to the other. `Config_Pull` removes a string from the end that `Config_Push`
-adds to unless the list is empty.
+alterations the external data queue shall be an ordered list. `Config_Push` adds the specified string to one end of the list, `Config_Queue` to the other. `Config_Pull` removes a string from the end that `Config_Push` adds to unless the list is empty.
 
 ### Config_Push
 
@@ -778,7 +776,7 @@ Get the count of items in the external data queue. Set `#Outcome` to that number
 ## Streams
 
 The streams interface consists of functions which the configuration shall provide to manipulate streams.
-See nnn, nnn, and nnn for a description of language features which use streams.
+See <!--TODO-->nnn, <!--TODO-->nnn, and <!--TODO-->nnn for a description of language features which use streams.
 
 Streams are identified by names and provide for the reading and writing of data. They shall support the
 concepts of characters, lines, positioning, default input stream and default output stream.
@@ -850,7 +848,7 @@ The indicator of the response shall be 'N';
   
 The data set in #Outcome will either be a single character or will be a sequence of eight characters,
 each '0' or '1'. The choice is decided by the configuration. The eight character sequence indicates a
-binary stream, see nnn.
+binary stream, see <!--TODO-->nnn.
 
 If OperationType is 'LINEIN' then the action is the same as if Operation had been 'CHARIN' with the
 following additional possibility. If end-of-line is detected any character (or character sequence) which
@@ -1076,7 +1074,7 @@ before resetting.
 The external variable pools interface consists of functions which the configuration shall provide to
 manipulate variables in external variable pools.
 
-See nnn for the `VALUE` built-in function which uses external variable pools.
+See <!--TODO-->nnn for the `VALUE` built-in function which uses external variable pools.
 
 The configuration shall provide an external variable pools mechanism. The following functions shall be
 provided:
@@ -1406,11 +1404,11 @@ where:
 #### Semantics:
 
 No effect beyond the effects common to all `Config_` invocations. The value of the string will have
-come from an `OPTIONS` instruction, see nnn.
+come from an `OPTIONS` instruction, see <!--TODO-->nnn.
 
 ## Traps
 
-The trapping interface consists of functions which may be provided by the caller of `API_Start` (see nnn) as
+The trapping interface consists of functions which may be provided by the caller of `API_Start` (see <!--TODO-->nnn) as
 a list of traps. Each trap may be specified or omitted. The language processor shall invoke a specified
 trap before, or instead of, using the corresponding feature of the language processor itself. This
 correspondence is implied by the choice of names; that is, a name beginning `Trap_` will correspond to a
@@ -1455,7 +1453,7 @@ occurred. They shall return indicating an error and have no other effect, if #AP
 or if the arguments to them fail to meet the defined syntactic constraints.
 
 These functions interact with the processing of clauses. To define this interaction, the functions are
-described here in terms of the processing of variables, see nnn.
+described here in terms of the processing of variables, see <!--TODO-->nnn.
 
 Some of these functions have an argument which is a symbol. A symbol is a string. The content of the
 string shall meet the syntactic constraints of the left hand side of an assignment. Conversion to
@@ -1471,9 +1469,9 @@ direct symbol.
 
 Functions that have an argument which is symbol or direct symbol shall return an indication of whether
 the identified variable existed before the function was executed.
-Clause nnn defines functions which manipulate Rexx variable pools. Where possible the functions
+Clause <!--TODO-->nnn defines functions which manipulate Rexx variable pools. Where possible the functions
 comprising the variable pool interface are described in terms of the appropriate invocations of the
-functions defined in nnn. The first parameter on these calls is the state variable #Pool. If these Var_
+functions defined in <!--TODO-->nnn. The first parameter on these calls is the state variable #Pool. If these Var_
 functions do not return an indicator 'N', 'R', or 'D' then the API function shall return an error indication.
 
 ### API Set
@@ -1506,7 +1504,7 @@ Var_Set(#Pool, #Symbol, '1', Value)
 
 where:
 
-`#Symbol` is `Symbol` after any replacements in the tail as described by nnn.
+`#Symbol` is `Symbol` after any replacements in the tail as described by <!--TODO-->nnn.
 
 ### API Value
 
@@ -1537,7 +1535,7 @@ Var_Value(#Pool, #Symbol, '1')
 
 where:
 
-`#Symbol` is `Symbol` after any replacements in the tail as described by nnn.
+`#Symbol` is `Symbol` after any replacements in the tail as described by <!--TODO-->nnn.
 
 ### API_Drop
 
@@ -1568,7 +1566,7 @@ Var_Drop(#Pool, #Symbol, '1')
 
 where:
 
-`#Symbol` is `Symbol` after any replacements in the tail as described by nnn.
+`#Symbol` is `Symbol` after any replacements in the tail as described by <!--TODO-->nnn.
 
 ### API SetDirect
 
@@ -1671,7 +1669,7 @@ value to be returned are:
 
 - the value of #Version;
 
-- the largest value of n such that #ArgExists.1.n is '1', see nnn;
+- the largest value of n such that #ArgExists.1.n is '1', see <!--TODO-->nnn;
 
 - the value of #Arg.1.n where n is an integer value provided as input.
 

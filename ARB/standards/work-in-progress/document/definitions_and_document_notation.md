@@ -13,7 +13,7 @@ name on a `CALL` instruction. Also the corresponding values which may be accesse
 function or routine, however invoked.
 
 built-in function
-: A function (which may be called as a subroutine) that is defined in section nnn of this standard and
+: A function (which may be called as a subroutine) that is defined in section <!--TODO-->nnn of this standard and
 can be used directly from a program.
 
 character string
@@ -99,7 +99,7 @@ external data queue
 to the queue whenever REXX relinquishes control to some other program.
 
 external routine
-: A function or subroutine that is neither built-in nor in the same program as the CALL instruction or
+: A function or subroutine that is neither built-in nor in the same program as the `CALL` instruction or
 function call that invokes it.
 
 external variable pool

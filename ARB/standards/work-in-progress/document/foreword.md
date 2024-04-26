@@ -20,7 +20,9 @@ structures which would contribute to rapid, efficient and accurate program devel
 computing platforms.
 
 In November, 1990, X3 announced the formation of a new technical committee, X3J18, to develop an
-American National Standard for Rexx. This standard was published as ANSI X3.274-1996.<!--cite-->[ANSI:J18]
+American National Standard for Rexx. This standard was published as ANSI X3.274-1996.[^1]
+
+[^1]:<!--cite-->[ANSI-X3-274]
 
 The popularity of "Object Oriented" programming, and the need for Rexx to work with objects created in
 various ways, led to Rexx extensions and to a second X3J18 project which produced this standard. _(Ed -

@@ -1,6 +1,7 @@
 # Conformance
 
 ## Conformance
+
 A conforming language processor shall not
 implement any variation of this standard except
 where this standard permits. Such permitted
@@ -8,7 +9,7 @@ variations shall be implemented in the manner
 prescribed by this standard and noted in the
 documentation accompanying the processor.
 A conforming processor shall include in its
-accompanying documentation
+accompanying documentation:
 
 - a list of all definitions or values for the
 features in this standard which are specified to

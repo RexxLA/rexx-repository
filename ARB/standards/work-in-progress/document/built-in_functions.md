@@ -5,7 +5,7 @@
 The built-in functions are defined mainly through code. The code refers to state variables. This is solely a notation used in this standard.
 
 The code refers to functions with names that start with `'Config_'`; these are the functions described in
-section nnn.
+section <!--TODO-->nnn.
 
 The code is specified as an external routine that produces a result from the values `#Bif` (which is the
 name of the built-in function), `#Bif_Arg.0` (the number of arguments), `#Bif_Arg.i` and `#Bif_ArgExists.i`
@@ -650,7 +650,7 @@ return 1
 /* end X */
 
 DtypeOne:
-/* See section nnn for the syntax of a number. */
+/* See section <!--TODO-->nnn for the syntax of a number. */
 #DatatypeResult = 'S' /* If not syntactically a number */
 Residue = strip(String) /* Blanks are allowed at both ends. */
 if Residue == '' then return "CHAR"
@@ -662,7 +662,7 @@ Residue = strip(substr(Residue,2),'L') /* Blanks after sign */
 
 end
 if Residue == '' then return "CHAR"
-/* Now testing Number, section nnn */
+/* Now testing Number, section <!--TODO-->nnn */
 if left(Residue,1) == '.' then do
 Residue = substr (Residue, 2)
 Before = ''
@@ -1859,7 +1859,7 @@ return Output
 10.4 Conversion built-in functions
 
 Conversions between Binary form, Decimal form, and heXadecimal form do not depend on the encoding
-(see nnn) of the character data.
+(see <!--TODO-->nnn) of the character data.
 
 Conversion to Coded form gives a result which depends on the encoding. Depending on the encoding,
 the result may be a string that does not represent any sequence of characters.
@@ -1941,11 +1941,11 @@ return x2c (b2x(r))
 
 ### BITOR
 
-See nnn
+See <!--TODO-->nnn
 
 ### BITXOR
 
-See nnn
+See <!--TODO-->nnn
 
 ### C2D
 
@@ -2121,7 +2121,7 @@ ror
 
 ## Input/Output built-in functions
 The configuration shall provide the ability to access streams. Streams are identified by character string
-identifiers and provide for the reading and writing of data. They shall support the concepts of characters, lines, and positioning. The input/output built-in functions interact with one another, and they make use of Config_ functions, see nnn. When the operations are successful the following characteristics shall be
+identifiers and provide for the reading and writing of data. They shall support the concepts of characters, lines, and positioning. The input/output built-in functions interact with one another, and they make use of Config_ functions, see <!--TODO-->nnn. When the operations are successful the following characteristics shall be
 exhibited:
 
 - The CHARIN/CHAROUT functions are insensitive to the lengths of the arguments. The data written
@@ -2783,11 +2783,11 @@ return #Outcome
 
 The function SYMBOL takes one argument, which is evaluated. Let String be the value of that argument.
 If Config_Length(String) returns an indicator 'E' then the SYNTAX condition 23.1 shall be raised.
-Otherwise, if the syntactic recognition described in section nnn would not recognize String as a symbol
+Otherwise, if the syntactic recognition described in section <!--TODO-->nnn would not recognize String as a symbol
 then the result of the function SYMBOL is 'BAD".
 
 If String would be recognized as a symbol the result of the function SYMBOL depends on the outcome of
-accessing the value of that symbol, see nnn. If the final use of Var_Value leaves the indicator with value
+accessing the value of that symbol, see <!--TODO-->nnn. If the final use of Var_Value leaves the indicator with value
 'D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
 
 ### TIME
@@ -2975,7 +2975,7 @@ return Value
 end
 /* Not external */
 Subject = translate(Subject)
-/* See nnn */
+/* See <!--TODO-->nnn */
 Pp = pos(Subject, '.')
 if p = 0 | p = length(Subject) then do
 /* Not compound */
@@ -3056,11 +3056,11 @@ return #Outcome
 
 The function SYMBOL takes one argument, which is evaluated. Let String be the value of that argument.
 If Config_Length(String) returns an indicator 'E' then the SYNTAX condition 23.1 shall be raised.
-Otherwise, if the syntactic recognition described in section nnn would not recognize String as a symbol
+Otherwise, if the syntactic recognition described in section <!--TODO-->nnn would not recognize String as a symbol
 then the result of the function SYMBOL is 'BAD".
 
 If String would be recognized as a symbol the result of the function SYMBOL depends on the outcome of
-accessing the value of that symbol, see nnn. If the final use of Var_Value leaves the indicator with value
+accessing the value of that symbol, see <!--TODO-->nnn. If the final use of Var_Value leaves the indicator with value
 'D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
 
 ### TIME
@@ -3235,7 +3235,7 @@ return Value
 end
 /* Not external */
 Subject = translate(Subject)
-/* See nnn */
+/* See <!--TODO-->nnn */
 Pp = pos(Subject, '.')
 if p = 0 | p = length(Subject) then do
 /* Not compound */
