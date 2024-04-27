@@ -121,7 +121,7 @@ If the program was terminated due to an error the indicator in the completion re
 description in the completion response comprises information about the error that terminated
 processing.
 
-If How was `'REQUIRED'` and the completion response was not `'E'`, the `Provides` argument is set to
+If `How` was `'REQUIRED'` and the completion response was not `'E'`, the `Provides` argument is set to
 reference classes made available. See nnn for the semantics of these classes.
 
 ## Source programs and character sets
