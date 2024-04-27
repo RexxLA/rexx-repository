@@ -28,7 +28,7 @@ The popularity of "Object Oriented" programming, and the need for Rexx to work w
 various ways, led to Rexx extensions and to a second X3J18 project which produced this standard. _(Ed -
 hopefully)_
 
-Committee lists
+Committee lists  
 _(Here)_
 
 This standard was prepared by the Technical Development Committee for Rexx, X3J18.
