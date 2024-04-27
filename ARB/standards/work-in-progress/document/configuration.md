@@ -77,7 +77,8 @@ source file. However, I'm assuming we will prefer to recursively "run" each requ
 be the classes and methods made public by that `REQUIRES` subject._
 
 ### API Start
-Syntax:
+
+#### Syntax:
 
 ```rexx <!--rexxapistart.rexx-->
 API_Start(How, Source, Environment, Arguments, Streams, Traps, Provides)
@@ -122,7 +123,7 @@ description in the completion response comprises information about the error tha
 processing.
 
 If `How` was `'REQUIRED'` and the completion response was not `'E'`, the `Provides` argument is set to
-reference classes made available. See nnn for the semantics of these classes.
+reference classes made available. See <!--TODO-->nnn for the semantics of these classes.
 
 ## Source programs and character sets
 
@@ -310,25 +311,17 @@ where:
 Compare two characters. Set `#Outcome` to
 
 - `'equal'` if `Character1` is equal to `Character2`;
-
 - `'greater'` if `Character1` is greater than `Character2`;
-
 - `'lesser'` if `Character1` is less than `Character2`.
   
 The function shall exhibit the following characteristics. If `Config _Compare(a,b)` produces
 
 - `'equal'` then `Config_Compare(b,a)` produces `'equal'`;
-
 - `'greater'` then `Config_Compare(b,a)` produces `'lesser'`;
-
 - `'lesser'` then `Config_Compare(b,a)` produces `'greater'`;
-
 - `'equal'` and `Config_Compare(b,c)` produces `'equal'` then `Config_Compare(a,c)` produces `'equal'`;
-
 - `'greater'` and `Config_Compare(b,c)` produces `'greater'` then `Config_Compare(a,c)` produces `'greater'`;
-
 - `'lesser'` and `Config_Compare(b,c)` produces `'lesser'` then `Config_Compare(a,c)` produces `'lesser'`;
-
 - `'equal'` then `Config_Compare(a,c)` and `Config_Compare(b,c)` produce the same value.
   
 Syntactic characters which are different characters shall not compare equal by Config_Compare, see
@@ -518,7 +511,7 @@ The configuration shall return the item that the array has associated with `Inde
 
 #### Syntax:
 
-```rexx <!--configarrayathashindex.rexx-->
+```rexx <!--configarrayhashindex.rexx-->
 Config_Array_At(Array, Index)
 ```
 
@@ -1095,7 +1088,6 @@ Config_Get(Poolid, Name)
 where:
 
 * `Poolid` is an identification of the external variable pool.
-
 * `Name` is the name of a variable.
 
 #### Semantics:
@@ -1382,7 +1374,6 @@ Config_Random_Next(Min, Max)
 where:
 
 * `Min` is the lower bound, inclusive, on the number returned in `#Outcome`.
-
 * `Max` is the upper bound, inclusive, on the number returned in `#Outcome`.
 
 #### Semantics:
