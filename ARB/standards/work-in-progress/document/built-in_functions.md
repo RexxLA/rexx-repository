@@ -1863,162 +1863,148 @@ return r
 ## Input/Output built-in functions
 
 The configuration shall provide the ability to access streams. Streams are identified by character string
-identifiers and provide for the reading and writing of data. They shall support the concepts of characters, lines, and positioning. The input/output built-in functions interact with one another, and they make use of Config_ functions, see <!--TODO-->nnn. When the operations are successful the following characteristics shall be
-exhibited:
+identifiers and provide for the reading and writing of data. They shall support the concepts of characters, lines, and positioning. 
+The input/output built-in functions interact with one another, and they make use of `Config_` functions, see <!--TODO-->nnn. 
+When the operations are successful the following characteristics shall be exhibited:
 
-- The CHARIN/CHAROUT functions are insensitive to the lengths of the arguments. The data written
-to a stream by CHAROUT can be read by a different number of CHARINs.
+- The `CHARIN`/`CHAROUT` functions are insensitive to the lengths of the arguments. The data written
+  to a stream by `CHAROUT` can be read by a different number of `CHARINs`.
 
-- The CHARIN/CHAROUT functions are reflective, that is, the concatenation of the data read from a
-persistent stream by CHARIN (after positioning to 1, while CHARS(Stream)>0), will be the same as
-the concatenation of the data put by CHAROUT.
+- The `CHARIN`/`CHAROUT` functions are reflective, that is, the concatenation of the data read from a
+  persistent stream by `CHARIN` (after positioning to `1`, while `CHARS(Stream)>0`), will be the same as
+  the concatenation of the data put by `CHAROUT`.
 
-- All characters can be used as CHARIN/CHAROUT data.
+- All characters can be used as `CHARIN`/`CHAROUT` data.
 
-- The CHARS(Stream, 'N') function will return zero only when a subsequent read (without positioning)
-is guaranteed to raise the NOTREADY condition.
+- The `CHARS(Stream, 'N')` function will return zero only when a subsequent read (without positioning)
+  is guaranteed to raise the `NOTREADY` condition.
 
-- The LINEIN/LINEOUT functions are sensitive to the length of the arguments, that is, the length of a
-line written by LINEOUT is the same as the length of the string returned by successful LINEIN of the
-line.
+- The `LINEIN`/`LINEOUT` functions are sensitive to the length of the arguments, that is, the length of a
+  line written by `LINEOUT` is the same as the length of the string returned by successful `LINEIN` of the
+  line.
 
 - Some characters, call them line-banned characters, cannot reliably be used as data for
-LINEIN/LINEOUT. If these are not used, LINEIN/LINEOUT is reflective. If they are used, the result is
-not defined. The set of characters which are line-barred is a property of the configuration.
+  `LINEIN`/`LINEOUT`. If these are not used, `LINEIN`/`LINEOUT` is reflective. If they are used, the result is
+  not defined. The set of characters which are line-barred is a property of the configuration.
 
-- The LINES(Stream, 'N') function will return zero only when a subsequent LINEIN (without
-positioning) is guaranteed to raise the NOTREADY condition.
+- The `LINES(Stream, 'N')` function will return zero only when a subsequent `LINEIN` (without
+  positioning) is guaranteed to raise the `NOTREADY` condition.
 
-- When a persistent stream is repositioned and written to with CHAROUT, the previously written data
-is not lost, except for the data overwritten by this latest CHAROUT.
+- When a persistent stream is repositioned and written to with `CHAROUT`, the previously written data
+  is not lost, except for the data overwritten by this latest `CHAROUT`.
 
-- When a persistent stream is repositioned and written to with LINEOUT, the previously written data is
-not lost, except for the data overwritten by this latest LINEOUT, which may leave lines partially
-overwritten.
+- When a persistent stream is repositioned and written to with `LINEOUT`, the previously written data is
+  not lost, except for the data overwritten by this latest `LINEOUT`, which may leave lines partially
+  overwritten.
 
 ### CHARIN
-CHARIN returns a string read from the stream named by the first argument.
+
+`CHARIN` returns a string read from the stream named by the first argument.
 
 ```rexx <!--charin.rexx-->
-call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
+  call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
 
-if #Bif_ArgExists.1 then Stream
-else Stream
-#StreamState.Stream = ''
-/* Argument 2 is positioning. */
-if #Bif_ArgExists.2 then do
-#Response = Config_Stream_Position(Stream, 'CHARIN', #Bif_Arg.2)
-
-#Bif_Arg.1
-
-if left(#Response, 1) == 'R' then call Raise 40.41, 2, #Bif_Arg.2
-if left(#Response, 1) == 'T' then call Raise 40.42,Stream
-end
-
-/* Argument 3 is how many. */
-if #Bif_ArgExists.3 then Count
-else Count
-if Count = 0 then do
-call Config_Stream_Charin Stream, 'NULL' /* "Touch" the stream */
-return '!
-end
-/* The unit may be eight bits (as characters) or one character. */
-call Config_Stream_Query Stream
-
-#Bif_Arg.3
-1
-
-Mode = #Outcome
-
-do until Count = 0
-
-#Response = Config_Stream_Charin(Stream, 'CHARIN')
-
-if left(#Response, 1) \== 'N' then do
-if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
-/* This call will return. */
-call #Raise 'NOTREADY', Stream, substr(#Response, 2)
-leave
-end
-
-r = r| |#Outcome
-
-Count = Count-1
-
-end
+  if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
+                      else Stream = ''
+  #StreamState.Stream = ''
+  /* Argument 2 is positioning. */
+  if #Bif_ArgExists.2 then do
+    #Response = Config_Stream_Position(Stream, 'CHARIN', #Bif_Arg.2)
+    if left(#Response, 1) == 'R' then call Raise 40.41, 2, #Bif_Arg.2
+    if left(#Response, 1) == 'T' then call Raise 40.42,Stream
+    end
+  /* Argument 3 is how many. */
+  if #Bif_ArgExists.3 then Count = #Bif_Arg.3
+                      else Count = 1
+  if Count = 0 then do
+    call Config_Stream_Charin Stream, 'NULL' /* "Touch" the stream */
+    return ''
+    end
+  /* The unit may be eight bits (as characters) or one character. */
+  call Config_Stream_Query Stream
+  Mode = #Outcome
+  r = ''
+  do until Count = 0
+    #Response = Config_Stream_Charin(Stream, 'CHARIN')
+    if left(#Response, 1) \== 'N' then do
+      if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
+      /* This call will return. */
+      call #Raise 'NOTREADY', Stream, substr(#Response, 2)
+      leave
+      end
+    r = r| |#Outcome
+    Count = Count-1
+    end
 if Mode == 'B' then do
-call Config_B2C r
-r = #Outcome
-end
+  call Config_B2C r
+  r = #Outcome
+  end
 return r
 ```
 
 ### CHAROUT
-CHAROUT returns the count of characters remaining after attempting to write the second argument to the
+
+`CHAROUT` returns the count of characters remaining after attempting to write the second argument to the
 stream named by the first argument.
 
 ```rexx <!--charout.rexx-->
 call CheckArgs 'oSTREAM oANY oWHOLE>0'
 
-if #Bif_ArgExists.1 then Stream
-else Stream
-
-#Bif_Arg.1
+if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
+                    else Stream = ''
 
 #StreamState.Stream = ''
 if \#Bif_ArgExists.2 & \#Bif_ArgExists.3 then do
-/* Position to end of stream. */
-#Response = Config_Stream_Close (Stream)
-if left(#Response,1) == 'T' then call Raise 40.42,Stream
-return 0
-end
+  /* Position to end of stream. */
+  #Response = Config_Stream_Close (Stream)
+  if left(#Response,1) == 'T' then call Raise 40.42,Stream
+  return 0
+  end
 
 if #Bif_ArgExists.3 then do
-/* Explicit positioning. */
-#Response = Config_Stream_Position(Stream, 'CHAROUT', #Bif_Arg.3)
-
-if left(#Response,1) == 'T' then call Raise 40.42,Stream
-if left(#Response, 1) == 'R' then call Raise 40.41, 3, #Bif_Arg.3
-end
+  /* Explicit positioning. */
+  #Response = Config_Stream_Position(Stream, 'CHAROUT', #Bif_Arg.3)
+  if left(#Response,1) == 'T' then call Raise 40.42,Stream
+  if left(#Response, 1) == 'R' then call Raise 40.41, 3, #Bif_Arg.3
+  end
 
 if \#Bif_ArgExists.2 | #Bif_Arg.2 == '' then do
-call Config_Stream_Charout Stream, 'NULL' /* "Touch" the stream */
-return 0
-end
+  call Config_Stream_Charout Stream, 'NULL' /* "Touch" the stream */
+  return 0
+  end
 
 String = #Bif_Arg.2
 call Config_Stream_Query Stream
 Mode = #Outcome
 if Mode == 'B' then do
-call Config_C2B String
-String = #Outcome
-Stride = 8
-Residue = length(String)/8
-end
+  call Config_C2B String
+  String = #Outcome
+  Stride = 8
+  Residue = length(String)/8
+  end
 else do
-Stride = 1
-Residue = length(String)
-end
+  Stride = 1
+  Residue = length(String)
+  end
 
 Cursor = 1
 do while Residue>0
-Piece = substr(String, Cursor, Stride)
-Cursor = Cursor+Stride
-call Config_Stream_Charout Stream, Piece
-if left(#Response, 1) \== 'N' then do
-if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
-call #Raise 'NOTREADY', Stream, substr(#Response, 2)
-
-return Residue
-end
-Residue = Residue - 1
-end
+  Piece = substr(String, Cursor, Stride)
+  Cursor = Cursor+Stride
+  call Config_Stream_Charout Stream, Piece
+   if left(#Response, 1) \== 'N' then do
+     if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
+     call #Raise 'NOTREADY', Stream, substr(#Response, 2)
+    return Residue
+    end
+  Residue = Residue - 1
+  end
 return 0
 ```
 
 ### CHARS
 
-CHARS indicates whether there are characters remaining in the named stream. Optionally, it returns a
+`CHARS` indicates whether there are characters remaining in the named stream. Optionally, it returns a
 
 count of the characters remaining and immediately available.
 
