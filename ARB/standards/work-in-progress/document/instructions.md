@@ -21,7 +21,7 @@ _Set self and super_
 ## Routine initialization
 
 If the routine is invoked as a function, ``#IsFunction.#NewLevel`` shall be set to ``'1'``, otherwise to ``'0'``; this
-affects the processing of a subsequent RETURN instruction.
+affects the processing of a subsequent `RETURN` instruction.
 
 ```rexx <!--routineinit.rexx-->
 #AllowProcedure.#NewLevel = '1'
@@ -51,7 +51,7 @@ do t=1 to 7
   end t
 ```
 
-If this invocation is not caused by a condition occurring, see nnn, the state variables for the CONDITION built-in function are copied.
+If this invocation is not caused by a condition occurring, see nnn, the state variables for the `CONDITION` built-in function are copied.
 
 ```rexx <!--conditionlevel.rexx-->
 #Condition.#NewLevel = #Condition.#Level
@@ -75,13 +75,13 @@ The clause is traced before execution:
 if pos(#Tracing.#Level, 'AIR') > 0 then call #TraceSource
 ```
 
-The time of the first use of DATE or TIME will be retained throughout the clause.
+The time of the first use of `DATE` or `TIME` will be retained throughout the clause.
 
 ```rexx <!--clauseretaindatetime.rexx-->
 #ClauseTime.#Level = ''
 ```
 
-The state variable ``#LineNumber`` is set to the line number of the clause, see nnn.
+The state variable `#LineNumber` is set to the line number of the clause, see nnn.
 
 A clause other than a null clause or label or procedure instruction sets:
 
@@ -95,7 +95,7 @@ A clause other than a null clause or label or procedure instruction sets:
 if #InhibitTrace > 0 then #InhibitTrace = #InhibitTrace - 1
 ```
 
-Polling for a HALT condition occurs:
+Polling for a `HALT` condition occurs:
 
 ```rexx <!--haltquery.rexx-->
 #Response = Config_Halt_Query ()
@@ -122,8 +122,8 @@ Interactive tracing may be turned on via the configuration. Only a change in the
 
 ```rexx <!--configtracequery.rexx-->
 call Config_Trace_Query
-if #AtPause = 0 & #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
-  /* External request for Trace '?R!' */
+if #AtPause = 0 & #Outcome == 'Yes' & #Trace_QueryPrior == 'No' then do
+  /* External request for Trace '?R' */
   #Interactive.#Level = '1'
   #Tracing.#Level = 'R'
   end
@@ -132,22 +132,22 @@ if #AtPause = 0 & #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
 
 _Tracing just not the same with NetRexx._
 
-When tracing interactively, pauses occur after the execution of each clause except for CALL, DO the
-second or subsequent time through the loop, END, ELSE, EXIT, ITERATE, LEAVE, OTHERWISE,
-RETURN, SIGNAL, THEN and null clauses.
+When tracing interactively, pauses occur after the execution of each clause except for `CALL`, `DO` the
+second or subsequent time through the loop, `END`, `ELSE`, `EXIT`, `ITERATE`, `LEAVE`, `OTHERWISE`,
+`RETURN`, `SIGNAL`, `THEN` and null clauses.
 
-If the character '=' is entered in response to a pause, the prior clause is re-executed.
+If the character `'='` is entered in response to a pause, the prior clause is re-executed.
 
 Anything else entered will be treated as a string of one or more clauses and executed by the language
 processor. The same rules apply to the contents of the string executed by interactive trace as do for
-strings executed by the INTERPRET instruction. If the execution of the string generates a syntax error,
+strings executed by the `INTERPRET` instruction. If the execution of the string generates a syntax error,
 the standard message is displayed but no condition is raised. All condition traps are disabled during
 execution of the string. During execution of the string, no tracing takes place other than error or failure
-return codes from commands. The special variable RC is not set by commands executed within the
-string, nor is .RC.
+return codes from commands. The special variable `RC` is not set by commands executed within the
+string, nor is `.RC`.
 
-If a TRACE instruction is executed within the string, the language processor immediately alters the trace
-setting according to the TRACE instruction encountered and leaves this pause point. If no TRACE
+If a `TRACE` instruction is executed within the string, the language processor immediately alters the trace
+setting according to the `TRACE` instruction encountered and leaves this pause point. If no `TRACE`
 instruction is executed within the string, the language processor simply pauses again at the same point in
 the program.
 
@@ -157,35 +157,35 @@ At a pause point:
 if #AtPause = 0 & #Interactive.#Level & #InhibitTrace = 0 then do
   if #InhibitPauses > 0 then #InhibitPauses = #InhibitPauses-1
   else do
-  #TraceInstruction = '0'
-  do forever
-    call Config_Trace_Query
-    if #Outcome == 'No' & #Trace QueryPrior == 'Yes' then do
-      /* External request to stop tracing. */
-      #Trace_QueryPrior=#Outcome
-      #Interactive.#Level = '0'
-      #Tracing.#Level = 'N'
-      leave
-      end
-    if #Outcome == 'Yes' & #Trace QueryPrior == 'No' then do
-      /* External request for Trace '?R!' */
-      #Trace QueryPrior = #Outcome
-      #Interactive.#Level = '1'
-      #Tracing.#Level = 'R'
-      leave
-      end
-    if \#Interactive.#Level | #TraceInstruction then leave
+    #TraceInstruction = '0'
+    do forever
+      call Config_Trace_Query
+      if #Outcome == 'No' & #Trace QueryPrior == 'Yes' then do
+        /* External request to stop tracing. */
+        #Trace_QueryPrior=#Outcome
+        #Interactive.#Level = '0'
+        #Tracing.#Level = 'N'
+        leave
+        end
+      if #Outcome == 'Yes' & #Trace_QueryPrior == 'No' then do
+        /* External request for Trace '?R' */
+        #Trace_QueryPrior = #Outcome
+        #Interactive.#Level = '1'
+        #Tracing.#Level = 'R'
+        leave
+        end
+      if \#Interactive.#Level | #TraceInstruction then leave
 
-    /* Accept input for immediate execution. */
-    call Config_Trace_Input
-    if length(#0utcome) = 0  |  #0Outcome == '=' then leave
-    #AtPause = #Level
-    interpret #Outcome
-    #AtPause = 0
-    end /* forever loop */
-  if #Outcome == '=' then call #Retry /* With no return */
+      /* Accept input for immediate execution. */
+      call Config_Trace_Input
+      if length(#0utcome) = 0  |  #Outcome == '=' then leave
+      #AtPause = #Level
+      interpret #Outcome
+      #AtPause = 0
+      end /* forever loop */
+    if #Outcome == '=' then call #Retry /* With no return */
+    end
   end
-end
 ```
 
 ## Instruction
@@ -195,7 +195,7 @@ end
 For a definition of the syntax of this instruction, see nnn.
 
 An external environment to which commands can be submitted is identified by an environment name.
-Environment names are specified in the ADDRESS instruction to identify the environment to which a
+Environment names are specified in the `ADDRESS` instruction to identify the environment to which a
 command should be sent.
 
 I/O can be redirected when submitting commands to an external environment. The submitted command's
@@ -209,19 +209,19 @@ command.
 Similarly, the submitted command's output stream can be directed to a stream, or to a set of compound
 variables with a given stem. In the latter case (i.e., when a stem is specified as the destination)
 compound variables will be created to hold the standard output, using whole number tails as described
-above. Output redirection can specify a REPLACE or APPEND option, which controls positioning prior to
-the command's execution. REPLACE is the default.
+above. Output redirection can specify a `REPLACE` or `APPEND` option, which controls positioning prior to
+the command's execution. `REPLACE` is the default.
 
 I/O redirection can be persistently associated with an environment name. The term "environment" is used
 to refer to an environment name together with the I/O redirections.
 
 At any given time, there will be two environments, the active environment and the alternate environment.
-When an ADDRESS instruction specifies a command to the environment, any specified I/O redirection
+When an `ADDRESS` instruction specifies a command to the environment, any specified I/O redirection
 applies to that command's execution only, providing a third environment for the duration of the instruction.
-When an ADDRESS command does not contain a command, that ADDRESS command creates a new
+When an `ADDRESS` command does not contain a command, that `ADDRESS` command creates a new
 active environment, which includes the specified I/O redirection.
 
-The redirections specified on the ADDRESS instruction may not be possible. If the configuration is aware
+The redirections specified on the `ADDRESS` instruction may not be possible. If the configuration is aware
 that the command processor named does not perform I/O in a manner compatible with the request, the
 value of `#Env_Type.` may be set to `'UNUSED'` as an alternative to `'STEM'` and `'STREAM'` where those
 values are assigned in the following code.
