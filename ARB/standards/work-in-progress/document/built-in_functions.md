@@ -363,7 +363,7 @@ Time2Date2: Procedure
   further reducing the number of days and incrementing the month
   would lead to a negative number of days */
   Days = '31 28 31 30 31 30 31 31 30 31 30 31'
-  do Month = 1 to words (Days)
+  do Month = 1 to words(Days)
     ThisMonth = Word(Days, Month) + (Month = 2) * Leap (Year)
     if Day <= ThisMonth then leave
     Day = Day - ThisMonth
@@ -925,7 +925,7 @@ if #Bif_ArgExists.3 then Pad = #Bif_Arg.3
 
 Padding = copies(Pad, Num)
 Output = subword(String, 1, 1)
-do i = 2 to words (String)
+do i = 2 to words(String)
    Output = Output || Padding || subword(String, i, 1)
    end
 return Output
@@ -1004,43 +1004,33 @@ words in the sub-string.
 ```rexx <!--subword.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
 
-String #Bif_Arg.1
-
-Num #Bif_Arg.2
-
-if #Bif_ArgExists.3 then Length
-else Length
-
-#Bif_Arg.3
-length(String) /* Avoids call */
-/* to WORDS() */
-
+String = #Bif_Arg.1
+Num    = #Bif_Arg.2
+if #Bif_ArgExists.3 then Length = #Bif_Arg.3
+                    else Length = length(String) /* Avoids call */
+                                                 /* to WORDS() */
 if Length = 0 then return ''
-
 /* Find position of first included word */
-
-Start = wordindex (String, Num)
-
+Start = wordindex(String, Num)
 if Start = 0 then return '' /* Start is beyond end */
 
 /* Find position of first excluded word */
-End = wordindex (String, Num+Length)
+End = wordindex(String, Num+Length)
 if End = 0 then End = length(String)+1
 
 Output=substr(String, Start, End-Start)
 
 /* Drop trailing blanks */
-
 do while Output \== ''
-if pos(right(Output,1),#AllBlanks) = 0 then leave
-Output = left(Output, length(Output) -1)
-end
-
+  if pos(right(Output,1),#AllBlanks) = 0 then leave
+  Output = left(Output, length(Output) -1)
+  end
 return Output
 ```
 
 ### TRANSLATE
-TRANSLATE returns the characters of its first argument with each character either unchanged or
+
+`TRANSLATE` returns the characters of its first argument with each character either unchanged or
 translated to another character.
 
 ```rexx <!--translate-->
@@ -1048,80 +1038,73 @@ call CheckArgs 'rANY oANY oANY oPAD'
 String = #Bif_Arg.1
 /* If neither input nor output tables, uppercase. */
 if \#Bif_ArgExists.2 & \#Bif_ArgExists.3 then do
-Output = ''
-do j=1 to length(String)
-#Response = Config_Upper(substr(String,j,1))
-
-Output = Output || #Outcome
-end j
-
-return Output
-
-end
+  Output = ''
+  do j=1 to length(String)
+    #Response = Config_Upper(substr(String,j,1))
+    Output = Output || #Outcome
+    end j
+  return Output
+  end
 
 /* The input table defaults to all characters. */
 if \#Bif_ArgExists.3 then do
-#Response = Config_Xrange()
-Tablei = #Outcome
-end
+  #Response = Config_Xrange()
+  Tablei = #Outcome
+  end
 else Tablei = #Bif_Arg.3
 /* The output table defaults to null */
 if #Bif_ArgExists.2 then Tableo = #Bif_Arg.2
-else Tableo = ''
+                    else Tableo = ''
 /* The tables are made the same length */
 if #Bif_ArgExists.4 then Pad = #Bif_Arg.4
-else Pad = ' '
+                    else Pad = ' '
 Tableo=left(Tableo, length(Tablei) , Pad)
 
-107
 Output=''
 do j=1 to length(String)
-c=substr(String,j,1)
-k=pos(c,Tablei)
-if k=0 then Output=Output ||c
-else Output=Output | | substr(Tableo,k,1)
-end j
+  c=substr(String,j,1)
+  k=pos(c,Tablei)
+  if k=0 then Output=Output||c
+         else Output=Output||substr(Tableo,k,1)
+  end j
 return Output
 ```
 
 ### VERIFY
 
-VERIFY checks that its first argument contains only characters that are in the second argument, or that it
+`VERIFY` checks that its first argument contains only characters that are in the second argument, or that it
 contains no characters from the second argument; the third argument specifies which check is made.
-The result is '0', or the position of the character that failed verification. The fourth argument is a starting position for the check.
+The result is `'0'`, or the position of the character that failed verification. The fourth argument is a starting position for the check.
 
 ```rexx <!--verify.rexx-->
 call CheckArgs 'rANY rANY oMN oWHOLE>0'
 
-String = #Bif_Arg.1
-
+String    = #Bif_Arg.1
 Reference = #Bif_Arg.2
-
-if #Bif_ArgExists.3 then Option #Bif_Arg.3
-else Option 'N!
-
+if #Bif_ArgExists.3 then Option = #Bif_Arg.3
+                    else Option = 'N'
 if #Bif_ArgExists.4 then Start = #Bif_Arg.4
-else Start = 1
-
+                    else Start = 1
 Last = length(String)
 if Start > Last then return 0
 if Reference == '' then
-if Option == 'N' then return Start
-else return 0
+  if Option == 'N' then return Start
+  else return 0
 
 do i = Start to Last
-t = pos(substr(String, i, 1), Reference)
-if Option == 'N' then do
-if t = 0 then return i /* Return position of NoMatch character. */
-end
-else
-if t > 0 then return i /* Return position of Matched character. */
-end i
+  t = pos(substr(String, i, 1), Reference)
+  if Option == 'N' then do
+    if t = 0 then return i   /* Return position of NoMatch character. */
+    end
+  else
+    if t > 0 then return i /* Return position of Matched character. */
+  end i
 return 0
 ```
 
 ### WORD
-WORD returns the word from the first argument at the position given by the second argument.
+
+`WORD` returns the word from the first argument at the position given by the second argument.
 
 ```rexx <!--word.rexx-->
 call CheckArgs 'rANY rwWHOLE>0'
@@ -1130,94 +1113,90 @@ return subword(#Bif_Arg.1, #Bif_Arg.2, 1)
 ```
 
 ### WORDINDEX
-WORDINDEX returns the character position in the first argument of a word in the first argument. The
+
+`WORDINDEX` returns the character position in the first argument of a word in the first argument. The
 second argument is the word position of that word.
 
 ```rexx <!--wordindex.rexx-->
 call CheckArgs 'rANY rwWHOLE>0'
 
-String
-Num
-
-#Bif_Arg.1
-#Bif_Arg.2
+String = #Bif_Arg.1
+Num    = #Bif_Arg.2
 
 /* Find starting position */
-
 Start = 1
 Count = 0
 do forever
-Start = verify(String, #AllBlanks<Index "#AllBlanks" # "" >, 'N', Start) /*
+   Start = verify(String, #AllBlanks<Index "#AllBlanks" # "" >, 'N', Start) /*
 Find non-blank */
-if Start = 0 then return 0 /* Start is beyond end */
-Count = Count + 1 /* Words found */
-if Count = Num then leave
-Start = verify(String, #AllBlanks<Index "#AllBlanks" # "" >, 'M', Start + 1) /*
-
+   if Start = 0 then return 0 /* Start is beyond end */
+   Count = Count + 1 /* Words found */
+   if Count = Num then leave
+   Start = verify(String, #AllBlanks<Index "#AllBlanks" # "" >, 'M', Start + 1) /*
 Find blank */
-
-if Start = 0 then return 0 /* Start is beyond end */
-end
+   if Start = 0 then return 0 /* Start is beyond end */
+   end
 return Start
 ```
 
 ###  WORDLENGTH
-WORDLENGTH returns the number of characters in a word from the first argument. The second
+
+`WORDLENGTH` returns the number of characters in a word from the first argument. The second
 argument is the word position of that word.
 
 ```rexx <!--wordlength.rexx-->
-call CheckArgs 'rANY rwWHOLE>0'
+call CheckArgs 'rANY rWHOLE>0'
 
 return length(subword(#Bif_Arg.1, #Bif_Arg.2, 1))
 ```
 
 ### WORDPOS
 
-WORDPOS finds the leftmost occurrence in the second argument of the sequence of words in the first
-argument. The result is '0' or the word position in the second argument of the first word of the matched
+`WORDPOS` finds the leftmost occurrence in the second argument of the sequence of words in the first
+argument. The result is `'0'` or the word position in the second argument of the first word of the matched
 sequence. Third argument is a word position for the start of the search.
 
 ```rexx <!--wordpos.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0'
 
 Phrase = #Bif_Arg.1
-
 String = #Bif_Arg.2
-
 if #Bif_ArgExists.3 then Start = #Bif_Arg.3
-else Start = 1
+                    else Start = 1
 
-Phrase = space (Phrase)
-PhraseWords = words (Phrase)
+Phrase = space(Phrase)
+PhraseWords = words(Phrase)
 if PhraseWords = 0 then return 0
-String = space (String)
-StringWords = words (String)
+String = space(String)
+StringWords = words(String)
 do WordNumber = Start to StringWords - PhraseWords + 1
-if Phrase == subword(String, WordNumber, PhraseWords) then
-return WordNumber
-end WordNumber
+  if Phrase == subword(String, WordNumber, PhraseWords) then
+    return WordNumber
+  end WordNumber
 return 0
 ```
 
 ### WORDS
-WORDS counts the number of words in its argument.
+
+`WORDS` counts the number of words in its argument.
 
 ```rexx <!--words.rexx-->
 call CheckArgs 'rANY'
 
 do Count = 0 by 1
-if subword(#Bif_Arg.1, Count + 1) == '' then return Count
-end Count
+  if subword(#Bif_Arg.1, Count + 1) == '' then return Count
+  end Count
 ```
 
 ### XRANGE
-XRANGE returns an ordered string of all valid character encodings in the specified range.
+
+`XRANGE` returns an ordered string of all valid character encodings in the specified range.
 
 ```rexx <!--xrange.rexx-->
 call CheckArgs 'oPAD oPAD'
 
-if \#Bif_ArgExists.1 then #Bif_Arg.1 mr
-if \#Bif_ArgExists.2 then #Bif_Arg.2
+if \#Bif_ArgExists.1 then #Bif_Arg.1 = ''
+if \#Bif_ArgExists.2 then #Bif_Arg.2 = ''
 #Response = Config_Xrange(#Bif_Arg.1, #Bif_Arg.2)
 return #Outcome
 ```
@@ -1225,306 +1204,204 @@ return #Outcome
 ## Arithmetic built-in functions
 
 These functions perform arithmetic at the numeric settings current at the invocation of the built-in
-function. Note that CheckArgs formats any 'NUM' (numeric) argument.
+function. Note that `CheckArgs` formats any `'NUM'` (numeric) argument.
 
 ### ABS
 
+`ABS` returns the absolute value of its argument.
+
 ```rexx <!--abs.rexx-->
-ABS returns the absolute value of its argument.
+call CheckArgs  'rNUM'
 
-call CheckArgs 'rNUM'
 Number=#Bif_Arg.1
-
 if left(Number,1) = '-' then Number = substr(Number, 2)
 return Number
 ```
 
 ### FORMAT
 
-FORMAT formats its first argument. The second argument specifies the number of characters to be
+`FORMAT` formats its first argument. The second argument specifies the number of characters to be
 used for the integer part and the third specifies the number of characters for the decimal part. The fourth
 argument specifies the number of characters for the exponent and the fifth determines when exponeniial
 notation is used.
 
 ```rexx <!--format.rexx-->
 call CheckArgs,
-'rNUM OWHOLE>=0 OWHOLE>=0 OWHOLE>=0 OWHOLE>=0'
+  'rNUM OWHOLE>=0 OWHOLE>=0 OWHOLE>=0 OWHOLE>=0'
 
-if #Bif_ArgExists.2 then Before #Bif_Arg.2
-if #Bif_ArgExists.3 then After #Bif_Arg.3
-if #Bif_ArgExists.4 then Expp #Bif_Arg.4
-
-if #Bif_ArgExists.5 then Expt = #Bif_Arg.5
-
+if #Bif_ArgExists.2 then Before = #Bif_Arg.2
+if #Bif_ArgExists.3 then After  = #Bif_Arg.3
+if #Bif_ArgExists.4 then Expp   = #Bif_Arg.4
+if #Bif_ArgExists.5 then Expt   = #Bif_Arg.5
 /* In the simplest case the first is the only argument. */
 Number=#Bif_Arg.1
-
 if #Bif_Arg.0 < 2 then return Number
 
 /* Dissect the Number. It is in the normal Rexx format. */
 parse var Number Mantissa 'E' Exponent
-
 if Exponent == '' then Exponent = 0
 Sign = 0
 if left(Mantissa,1) == '-' then do
-Sign = 1
-Mantissa = substr(Mantissa, 2)
-end
+  Sign = 1
+  Mantissa = substr(Mantissa, 2)
+  end
 parse var Mantissa Befo '.' Afte
-
 /* Count from the left for the decimal point. */
-
 Point = length(Befo)
-
 /* Sign Mantissa and Exponent now reflect the Number. Befo Afte and
 Point reflect Mantissa. */
 
 /* The fourth and fifth arguments allow for exponential notation. */
 /* Decide whether exponential form to be used, setting ShowExp. */
 ShowExp = 0
-if #Bif_ArgExists.4 #Bif_ArgExists.5 then do
-if \#Bif_ArgExists.5 then Expt = #Digits.#Level
-/* Decide whether exponential form to be used. */
-if (Point + Exponent) > Expt then ShowExp = 1 /* Digits before rule. */
-LeftOfPoint = 0
-if length(Befo) > 0 then LeftOfPoint = Befo /* Value left of
-the point */
+if #Bif_ArgExists.4 | #Bif_ArgExists.5  then do
+  if \#Bif_ArgExists.5 then Expt = #Digits.#Level
+  /* Decide whether exponential form to be used. */
+  if (Point + Exponent) > Expt then ShowExp = 1 /* Digits before rule. */
+  LeftOfPoint = 0
+  if length(Befo) > 0 then LeftOfPoint = Befo /* Value left of
+  the point */
 
-/* Digits after point rule for exponentiation: */
+  /* Digits after point rule for exponentiation: */
 
-/* Count zeros to right of point. */
+  /* Count zeros to right of point. */
+  z = 0
+  do while substr(Afte,z+1,1) == '0'
+    z = z + 1
+    end
+  if LeftOfPoint = 0 & (z - Exponent) > 5 then ShowExp = 1
 
-ze=O0
+  /* An extra rule for exponential form: */
+  if #Bif_ArgExists.4 then if Expp = 0 then ShowExp = 0
 
-do while substr(Afte,z+1,1) == '0'
-Zeze+41tl
-end
-
-if LeftOfPoint = 0 & (z - Exponent) > 5 then ShowExp = 1
-
-/* An extra rule for exponential form: */
-if #Bif_ArgExists.4 then if Expp = 0 then ShowExp = 0
-
-/* Construct the exponential part of the result. */
-if ShowExp then do
-
-Exponent = Exponent + ( Point - 1 )
-Point = 1 /* As required for 'SCIENTIFIC! */
-if #Form.#Level == 'ENGINEERING' then
-do while Exponent//3 \= 0
-
-Point = Point+1l
-
-Exponent = Exponent-1
-
-end
-end
-
-if \ShowExp then Point = Point + Exponent
-end /* Expp or Expt given */
+  /* Construct the exponential part of the result. */
+  if ShowExp then do
+    Exponent = Exponent + ( Point - 1 )
+    Point = 1 /* As required for 'SCIENTIFIC' */
+    if #Form.#Level == 'ENGINEERING' then
+      do while Exponent//3 \= 0
+        Point = Point+1
+        Exponent = Exponent-1
+        end
+    end
+  if \ShowExp then Point = Point + Exponent
+  end /* Expp or Expt given */
 else do
-/* Even if Expp and Expt are not given, exponential notation will
-be used if the original Number+0 done by CheckArgs led to it. */
-if Exponent \= 0 then do
-ShowExp = 1
-
-110
-111
-
-end
-end
+  /* Even if Expp and Expt are not given, exponential notation will
+  be used if the original Number+0 done by CheckArgs led to it. */
+  if Exponent \= 0 then do
+    ShowExp = 1
+    end
+  end
 
 /* ShowExp now indicates whether to show an exponent,
-Exponent is its value. */
-/* Make this a Number without a point.
-
+   Exponent is its value. */
+/* Make this a Number without a point. */
 Integer = Befo||Afte
-
-*/
-
 /* Make sure Point position isn't disjoint from Integer. */
 if Point<1 then do /* Extra zeros on the left. */
-
-Integer =
-Point = 1
-end
-
-copies('0',1 - Point)
-
+  Integer = copies('0',1 - Point) || Integer
+  Point = 1
+  end
 if Point > length(Integer) then
-Integer = left(Integer,Point,'0') /* And maybe on the right.
+  Integer = left(Integer,Point,'0') /* And maybe on the right. */
 
 /* Deal with right of decimal point first since that can affect the
-
-|| Integer
-
 left. Ensure the requested number of digits there.
 Afters = length(Integer) -Point
-
-if #Bif_ArgExists.3 = 0 then After =
+if #Bif_ArgExists.3 = 0 then After = Afters /* Note default. */
 /* Make Afters match the requested After */
-
 do while Afters < After
-Afters = Afters+1
-Integer = Integer'0'
-end
-
+  Afters = Afters+1
+  Integer = Integer'0'
+  end
 if Afters > After then do
-
-/* Round by adding 5 at the right place.
-
-Afters
-
-r=substr(Integer, Point + After + 1,
-
-Integer = left(Integer,
-
-1)
-
-Point + After)
-
-if r >= '5' then Integer = Integer + 1
-/* This can leave the result zero.
-If Integer = 0 then Sign = 0
-
-/* The case when rounding makes the integer longer is an awkward
-
-*/
-
-*/
-
-one. The exponent will have to be adjusted. */
-if length(Integer) > Point + After then do
-
-Point = Point+l
-end
-
-if ShowExp = 1 then do
-
-Exponent=Exponent + (Point - 1)
-
-Point = 1 /* As required for 'SCIENTIFIC! */
-
-if form() = 'ENGINEERING' then
-do while Exponent//3 \= 0
-
-Point = Point+
-
-1
-
-Exponent = Exponent-1
-
-end
-end
-
-t = Point-length(Integer)
-if t > 0 then Integer = Integer||copies('0',t)
-
-end /* Rounded */
-
+  /* Round by adding 5 at the right place. */
+  r=substr(Integer, Point + After + 1, 1)
+  Integer = left(Integer, Point + After)
+  if r >= '5' then Integer = Integer + 1
+  /* This can leave the result zero. */
+  If Integer = 0 then Sign = 0
+  /* The case when rounding makes the integer longer is an awkward
+  one. The exponent will have to be adjusted. */
+  if length(Integer) > Point + After then do
+    Point = Point+1
+    end
+  if ShowExp = 1 then do
+    Exponent=Exponent + (Point - 1)
+    Point = 1 /* As required for 'SCIENTIFIC' */
+    if form() = 'ENGINEERING' then
+      do while Exponent//3 \= 0
+        Point = Point+1
+        Exponent = Exponent-1
+        end
+    end
+    t = Point-length(Integer)
+    if t > 0 then Integer = Integer||copies('0',t)
+   end /* Rounded */
 /* Right part is final
-if After > 0 then Afte
-else Afte
-
-now. */
-'.'| |substr(Integer, Point+1,After)
-
-/* Now deal with the integer part of the result.
+if After > 0 then Afte = '.'| |substr(Integer, Point+1,After)
+             else Afte = ''
+/* Now deal with the integer part of the result. */
 Integer = left(Integer, Point)
-
-if #Bif_ArgExists.2 =
-
-0 then Before
-
+if #Bif_ArgExists.2 = 0 then Before = Point + Sign /* Note default. */
 /* Make Point match Before */
-if Point > Before - Sign then call Raise
-
+if Point > Before - Sign then call Raise  40.38, 2, #Bif_Arg.1
 do while Point<Before
-Point = Point+1l
-Integer = '0'Integer
-end
+  Point = Point+1
+  Integer = '0'Integer
+  end
 
-40.38,
-
-*/
-
-Point + Sign /* Note default.
-
-2,
-
-/* Find the Sign position and blank leading zeroes.
-
-re ter
+/* Find the Sign position and blank leading zeroes. */
+r = '' 
 Triggered = 0
-
 do j = 1 to length(Integer)
-Digit = substr(Integer,j,1)
-/* Triggered is set when sign inserted or blanking finished.
-if Triggered = 1 then do
-
-r= r||Daigit
-iterate
-end
-
-*/
-
-/* Note default.
-
-#Bif_Arg.1
-
-*/
-
-*/
-
-*/
-
-*/
-
-*/
-/* If before sign insertion point then blank out zero. */
-
-if Digit = '0' then
-if ats cael = '0' & j+l<length(Integer) then do
-re r ' '
-iterate
-end
-/* j is the sign insertion point. */
-if Digit = '0' & j \= length(Integer) then Digit = ' '
-
-if Sign = 1 then Digit = '-'
-r= xr||Digit
-Triggered = 1
-end j
+  Digit = substr(Integer,j,1)
+  /* Triggered is set when sign inserted or blanking finished. */
+  if Triggered = 1 then do
+    r= r||Digit
+    iterate
+    end
+  /* If before sign insertion point then blank out zero. */
+  if Digit = '0' then
+    if substr(Integer,j+1,1) = '0' & j+1<length(Integer) then do
+      r = r||' '
+      iterate
+      end
+  /* j is the sign insertion point. */
+  if Digit = '0' & j \= length(Integer) then Digit = ' '
+  if Sign = 1 then Digit = '-'
+  r = r||Digit
+  Triggered = 1
+  end j
 Number = r||Afte
 
 if ShowExp = 1 then do
-/* Format the exponent. */
-Expart = ''
-SignExp = 0
-if Exponent<0 then do
-SignExp = 1
-Exponent = -Exponent
-end
-/* Make the exponent to the requested width. */
-if #Bif_ArgExists.4 = 0 then Expp = length(Exponent)
-if length(Exponent) > Expp then
-call Raise 40.38, 4, #Bif_Arg.1
-Exponent=right(Exponent,Expp,'0')
-if Exponent = 0 then do
-if #Bif_ArgExists.4 then Expart = copies(' ',expp+2)
-end
-else if SignExp = 0 then Expart
-else Expart
-Number = Number | |Expart
-end
+  /* Format the exponent. */
+  Expart = ''
+  SignExp = 0
+  if Exponent<0 then do
+    SignExp = 1
+    Exponent = -Exponent
+    end
+  /* Make the exponent to the requested width. */
+  if #Bif_ArgExists.4 = 0 then Expp = length(Exponent)
+  if length(Exponent) > Expp then
+    call Raise 40.38, 4, #Bif_Arg.1
+  Exponent=right(Exponent,Expp,'0')
+  if Exponent = 0 then do
+    if #Bif_ArgExists.4 then Expart = copies(' ',expp+2)
+    end
+  else if SignExp = 0 then Expart = 'E+'Exponent
+                      else Expart = 'E-'Exponent
+  Number = Number||Expart
+  end
 return Number
-
-'E+' Exponent
-'E- ' Exponent
 ```
 
 ### MAX
-MAX returns the largest of its arguments.
+
+`MAX` returns the largest of its arguments.
 
 ```rexx <!--max.rexx-->
 if #Bif_Arg.0 <1 then
@@ -1778,7 +1655,7 @@ B2X performs binary to hexadecimal conversion.
 ```rexx <!--b2x.rexx-->
 call CheckArgs 'rBIN'
 
-String = space (#Bif_Arg.1,0)
+String = space(#Bif_Arg.1,0)
 return ReRadix(String,2,16)
 ```
 
@@ -1967,7 +1844,7 @@ Subject = #Bif_Arg.1
 if Subject == '' then return ''
 
 /* Blanks were checked by CheckArgs, here they are ignored. */
-Subject = space (Subject, 0)
+Subject = space(Subject, 0)
 
 return ReRadix(translate (Subject) ,16,2)
 ```
@@ -1982,7 +1859,7 @@ Subject = #Bif_Arg.1
 
 if Subject == '' then return ''
 
-Subject = space (Subject, 0)
+Subject = space(Subject, 0)
 
 /* Convert to manifest binary */
 
@@ -2004,7 +1881,7 @@ call CheckArgs 'rHEX OWHOLE>=0'
 Subject = #Bif_Arg.1
 if Subject == '' then return '0'
 
-Subject = translate (space (Subject,0))
+Subject = translate (space(Subject,0))
 
 if #Bif_ArgExists.2 then
 
