@@ -156,71 +156,78 @@ Constructions of type _Number_, _Const_symbol_, _Var_symbol_ or _String_ are cal
 
 #### Source characters
 
-The source is obtained from the configuration by the use of Config_SourceChar (see nnn). If no character
-is available because the source is not a correct encoding of characters, message Msg22.1 shall be
+The source is obtained from the configuration by the use of `Config_SourceChar` (see nnn). If no character
+is available because the source is not a correct encoding of characters, message _Msg22.1_ shall be
 produced.
-The terms extra_letter, other_blank_character, other_negator, and other_character used in the
-productions of the lexical level refer to characters of the groups extra_letters (see nnn),
 
-other_blank_characters (see nnn), other_negators (see nnn) and other_characters (see nnn),
+The terms _extra_letter_, _other_blank_character_, _other_negator_, and _other_character_ used in the
+productions of the lexical level refer to characters of the groups _extra_letters_ (see nnn),
+_other_blank_characters_ (see nnn), _other_negators_ (see nnn) and _other_characters_ (see nnn),
 respectively.
 
 #### Rules
 
 In scanning, recognition that causes an action (see nnn) only occurs if no other recognition is possible,
-except that Embedded_apostrophe and Embedded_quotation_mark actions occur wherever possible.
+except that _Embedded_apostrophe_ and _Embedded_quotation_mark_ actions occur wherever possible.
 
 ### Lexical level
 
 ### Interaction between levels of syntax
 When the lexical process recognizes tokens to be supplied to the top level, there can be changes made
-or tokens added. Recognition is performed by the lexical process and the top level process ina
+or tokens added. Recognition is performed by the lexical process and the top level process in a
 synchronized way. The tokens produced by the lexical level can be affected by what the top level syntax
 has recognized. Those tokens will affect subsequent recognition by the top level. Both processes operate
 on the characters and the tokens in the order they are produced. The term "context" refers to the
 progress of the recognition at some point, without consideration of unprocessed characters and tokens.
-If a token which is '+', '-', \' or '(' appears in a lexical level context (other than after the keyword 'PARSE')
-where the keyword 'VALUE' could appear in the corresponding top level context, then 'VALUE' is passed
+
+If a token which is `'+'`, `'-'`, `'\'` or `'('` appears in a lexical level context (other than after the keyword `'PARSE'`)
+where the keyword `'VALUE'` could appear in the corresponding top level context, then `'VALUE'` is passed
 to the top level before the token is passed.
-If an '=' operator_char appears in a lexical level context where it could be the '=' of an assignment or
-message_instruction in the corresponding top level context then it is recognized as the '="' of that
-instruction. (It will be outside of brackets and parentheses, and any Var_symbo/ immediately preceding it
-is passed as a VAR_SYMBOL). If an operand is followed by a colon token in the lexical level context then
-the operand only is passed to the top level syntax as a LABEL, provided the context permits a LABEL.
-Except where the rules above determine the token passed, a Var_symbol is passed as a terminal (a
-keyword) rather than as a VAR_SYMBOL under the following circumstances:
 
-- if the symbol is spelled 'WHILE' or 'UNTIL' it is a keyword wherever a VAR_SYMBOL would be part
-of an expression within a do_specification,
+If an `'='` _operator_char_ appears in a lexical level context where it could be the `'='` of an _assignment_ or
+_message_instruction_ in the corresponding top level context then it is recognized as the `'='` of that
+instruction. (It will be outside of brackets and parentheses, and any _Var_symbol_ immediately preceding it
+is passed as a _VAR_SYMBOL_). If an operand is followed by a colon token in the lexical level context then
+the operand only is passed to the top level syntax as a _LABEL_, provided the context permits a _LABEL_.
 
-- if the symbol is spelled 'TO' , 'BY', or 'FOR' it is a keyword wherever a VAR_SYMBOL would be part
-of an expression within a do_rep;
+Except where the rules above determine the token passed, a _Var_symbol_ is passed as a terminal (a
+keyword) rather than as a _VAR_SYMBOL_ under the following circumstances:
 
-- if the symbol is spelled 'WITH' it is a keyword wherever a VAR_SYMBOL would be part of a
-parsevalue, or part of an expression or taken_constant within address;
+- if the symbol is spelled `'WHILE'` or `'UNTIL'` it is a keyword wherever a _VAR_SYMBOL_ would be part
+  of an expression within a _do_specification_,
 
-- if the symbol is spelled 'THEN' it is keyword wherever a VAR_SYMBOL would be part of an
-expression immediately following the keyword 'IF' or 'WHEN'.
-Except where the rules above determine the token passed, a Var_symbol is passed as a keyword if the
+- if the symbol is spelled `'TO'`, `'BY'`, or `'FOR'` it is a keyword wherever a _VAR_SYMBOL_ would be part
+  of an expression within a _do_rep_;
+
+- if the symbol is spelled `'WITH'` it is a keyword wherever a _VAR_SYMBOL_ would be part of a
+  _parsevalue_, or part of an _expression_ or _taken_constant_ within _address_;
+
+- if the symbol is spelled `'THEN'` it is keyword wherever a _VAR_SYMBOL_ would be part of an
+  _expression_ immediately following the keyword `'IF'` or `'WHEN'`.
+
+Except where the rules above determine the token passed, a _Var_symbol_ is passed as a keyword if the
 spelling of it matches a keyword which the top level syntax recognizes in its current context, otherwise the
-Var_symbol is passed as a VAR_SYMBOL token.
-In a context where the top level syntax could accept a '||' token as the next token, a'||' operator ora''
+_Var_symbol_ is passed as a _VAR_SYMBOL_ token.
+
+In a context where the top level syntax could accept a `'||'` token as the next token, a `'||'` operator or a `''`
 operator may be inferred and passed to the top level provided that the next token from the lexical level is
 a left parenthesis or an operand that is not a keyword. If the blank action has recorded the presence of
-one or more blanks to the left of the next token then the '' operator is inferred. Otherwise, a'||' operator is
-inferred, except if the next token is a left parenthesis following an operand (see nnn); in this case no
+one or more blanks to the left of the next token then the `''` operator is inferred. Otherwise, a `'||'` operator is
+inferred, except if the next token is a left parenthesis following an _operand_ (see nnn); in this case no
 operator is inferred.
-When any of the keywords 'OTHERWISE', 'THEN', or 'ELSE' is recognized, a semicolon token is supplied
-as the following token. A semicolon token is supplied as the previous token when the 'THEN' keyword is
-recognized. A semicolon token is supplied as the token following a LABEL.
+
+When any of the keywords `'OTHERWISE'`, `'THEN'`, or `'ELSE'` is recognized, a semicolon token is supplied
+as the following token. A semicolon token is supplied as the previous token when the `'THEN'` keyword is
+recognized. A semicolon token is supplied as the token following a _LABEL_.
 
 #### Reserved symbols
 
-A Const_symbol which starts with a period and is not a Number shall be spelled .MN, .RESULT, .RC,
-.RS, or .SIGL otherwise Msg50.1 is issued.
+A _Const_symbol_ which starts with a period and is not a _Number_ shall be spelled `.MN`, `.RESULT`, `.RC`,
+`.RS`, or `.SIGL` otherwise _Msg50.1_ is issued.
 
 #### Function name syntax
-A symbol which is the leftmost component of a function shall not end with a period, otherwise Msg51.1 is
+
+A _symbol_ which is the leftmost component of a _function_ shall not end with a period, otherwise _Msg51.1_ is
 issued.
 
 ## Syntax
