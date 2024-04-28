@@ -574,7 +574,7 @@ _Msg36_, _Msg38.3_, _Msg35.1_, other messages.
 
 ### Creation of messages
 
-The _message_identifiers_ in clause 6 correlate with the tails of stem #ErrorText., which is initialized in nnn
+The _message_identifiers_ in clause 6 correlate with the tails of stem `#ErrorText.`, which is initialized in nnn
 to identify particular messages. The action of producing an error message will replace any insertions in
 the message text and present the resulting text, together with information on the origin of the error, to the
 configuration by writing on the default error stream.
@@ -623,13 +623,10 @@ required syntax. The number is a count of the characters in the string which pre
 character, including the initial quote or apostrophe. In deciding the leftmost blank in a quoted string of
 radix `'X'` or `'B'` that is erroneous note that:
 
-    * A blank as the first character of the quoted string is an error.
-      
+    * A blank as the first character of the quoted string is an error.     
     * The leftmost embedded sequence of blanks can validly follow any number of non-blank characters.
-
     * Otherwise a blank run that follows an odd numbered sequence of non-blanks (or a number not a
       multiple of four in the case of radix `'B'`) is not valid.
-
     * If the string is invalid for a reason not described above, the leftmost blank of the rightmost sequence of
       blanks is the invalid blank to be referenced in the message;
 
@@ -650,7 +647,7 @@ the message, the three characters `'...'` are inserted in the message after the 
 
 ## Syntactic equivalence
 
-If a message_term contains a `'['` it is regarded as an equivalent message_term without a `'['`, for execution.
+If a _message_term_ contains a `'['` it is regarded as an equivalent _message_term_ without a `'['`, for execution.
 The equivalent is `term~'[]'(expression_list)`. See nnn. If a _message_instruction_ has the construction
 `message_term '=' expression` it is regarded as equivalent to a _message_term_ with the same components
 as the _message_term_ left of the `'='`, except that the _taken_constant_ has an `'='` character appended and
