@@ -833,16 +833,16 @@ If `OperationType` is `'CHARIN'` the state variables describing the stream will 
 - otherwise the configuration is unable to return data and does not expect to be able to return data
   by waiting; the indicator of the response shall be 'E'.
   
-The data set in #Outcome will either be a single character or will be a sequence of eight characters,
-each '0' or '1'. The choice is decided by the configuration. The eight character sequence indicates a
+The data set in `#Outcome` will either be a single character or will be a sequence of eight characters,
+each `'0'` or `'1'`. The choice is decided by the configuration. The eight character sequence indicates a
 binary stream, see <!--TODO-->nnn.
 
-If OperationType is 'LINEIN' then the action is the same as if Operation had been 'CHARIN' with the
+If `OperationType` is `'LINEIN'` then the action is the same as if `Operation` had been `'CHARIN'` with the
 following additional possibility. If end-of-line is detected any character (or character sequence) which
 is an embedded indication of the end-of-line is skipped. The characters skipped contribute to the
-change of #Charin_Position.Stream. #Outcome is the null string.
+change of `#Charin_Position.Stream`. `#Outcome` is the null string.
 
-If OperationType is 'NULL' then the stream is accessed but no data is read.
+If `OperationType` is `'NULL'` then the stream is accessed but no data is read.
 
 ### Config_Stream_Position
 
@@ -939,11 +939,11 @@ When `Data` is the null string, no data is written.
 
 Otherwise write to the stream. The state variables describing the stream will be affected as follows:
 
-- when the configuration is able to write Data to a transient stream or at position
+- when the configuration is able to write `Data` to a transient stream or at position
   `#Charout_Position.Stream` of a persistent stream then the indicator in the response shall be `'N'`.
-When `Data` is not `'EOL'` then `#Charout_Position.Stream` is increased by one. When Data is `'EOL'`,
-then `#Lineout_Position.Stream` is increased by one and `#Charout_Position.Stream` is increased as
-necessary to account for any end-of-line indication embedded in the stream;
+  When `Data` is not `'EOL'` then `#Charout_Position.Stream` is increased by one. When Data is `'EOL'`,
+  then `#Lineout_Position.Stream` is increased by one and `#Charout_Position.Stream` is increased as
+  necessary to account for any end-of-line indication embedded in the stream;
 
 - when the configuration is unable to write `Data` the indicator is set to `'E'`.
 
@@ -961,7 +961,7 @@ where:
 
 #### Semantics:
 
-Set `#Outcome` to some name which identifies Stream.
+Set `#Outcome` to some name which identifies `Stream`.
 
 Return a completion response with indicator `'B'` if the argument is not acceptable to the configuration
 as identifying a stream.
@@ -1034,11 +1034,11 @@ where:
 If the option is `'N'`, `#Outcome` is set to zero if:
 
 - the file is transient and no more characters (or no more lines if the `Operation` is `'LINES'`) are
-expected to be available, even after waiting;
+  expected to be available, even after waiting;
 
-- the file is persistent and no more characters (or no more lines if the Operation is `'LINES'`) can be
-obtained from this stream by `Config_Stream_Charin` before use of some function which resets
-`#Charin_Position.Stream` and `#Linein_Position.Stream`.
+- the file is persistent and no more characters (or no more lines if the `Operation` is `'LINES'`) can be
+  obtained from this stream by `Config_Stream_Charin` before use of some function which resets
+  `#Charin_Position.Stream` and `#Linein_Position.Stream`.
 
 If the option is `'N'` and `#Outcome` is set nonzero, `#Outcome` shall be `1`, or be the number of characters
 (or the number of lines if `Operation` is `'LINES'`) which could be read from the stream before resetting.
@@ -1046,11 +1046,11 @@ If the option is `'N'` and `#Outcome` is set nonzero, `#Outcome` shall be `1`, o
 If the option is `'C'`, `#Outcome` is set to zero if:
 
 - the file is transient and no characters (or no lines if the `Operation` is `'LINES'`) are available without
-waiting;
+  waiting;
 
 - the file is persistent and no more characters (or no more lines if the `Operation` is `'LINES'`) can be
-obtained from this stream by `Config_Stream_Charin` before use of some function which resets
-`#Charin_Position.Stream` and `#Linein_Position.Stream`.
+  obtained from this stream by `Config_Stream_Charin` before use of some function which resets
+  `#Charin_Position.Stream` and `#Linein_Position.Stream`.
 
 If the option is `'C'` and `#Outcome` is set nonzero, `#Outcome` shall be the number of characters (or the
 number of lines if the `Operation` is `'LINES'`) which can be read from the stream without delay and
@@ -1086,7 +1086,7 @@ where:
 
 #### Semantics:
 
-Get the value of a variable with name `Name` in the external variable pool `Poolid`. Set `Outcome` to this
+Get the value of a variable with name `Name` in the external variable pool `Poolid`. Set `#Outcome` to this
 value.
 
 If `Poolid` does not identify an external pool provided by this configuration, the indicator of the
@@ -1106,9 +1106,7 @@ Config_Set(Poolid, Name, Value)
 where:
 
 * `Poolid` is an identification of the external variable pool.
-
 * `Name` is the name of a variable.
-
 * `Value` is the value to be assigned to the variable.
 
 #### Semantics:
