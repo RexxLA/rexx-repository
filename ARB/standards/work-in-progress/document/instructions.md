@@ -62,7 +62,7 @@ If this invocation is not caused by a condition occurring, see nnn, the state va
 
 Execution of the initialized routine continues at the new level of invocation.
 
-```rexx <!--newlevel.rexx-->
+```rexx <!--newlevel1.rexx-->
 #Level = #NewLevel
 #NewLevel = #Level + 1
 ```
@@ -1392,7 +1392,7 @@ if #Level = #AtPause then #AtPause = 0
 
 The activity at this level is complete:
 
-```rexx <!--newlevel.rexx-->
+```rexx <!--newlevel2.rexx-->
 #Level = #Level-1
 #NewLevel = #Level+1
 ```
