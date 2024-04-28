@@ -17,7 +17,7 @@ datatype(Subject) == 'NUM'
 is equivalent to testing whether the subject matches the syntax:
 
 ```rexx <!--ebfdatatype.ebnf-->
-num := [blank+] ['+' | '-'] [blank+] number [blank+]
+num  :=   [blank+]  ['+' | '-']  [blank+]  number  [blank+]
 ```
 
 For the syntax of _number_ see <!--TODO-->nnn.
@@ -56,8 +56,8 @@ qualification and the same spelling are different items in the pool. For those `
 argument this argument indicates the qualification; it is `'1'` when addressing tailed names or `'0'` when
 addressing non-tailed names.
 
-Each item in a variable pool is associated with three attributes and a value. The attributes are 'dropped' or
-'not-dropped', 'exposed' or 'not-exposed' and 'implicit' or 'not-implicit'.
+Each item in a variable pool is associated with three attributes and a value. The attributes are `'dropped'` or
+`'not-dropped'`, `'exposed'` or `'not-exposed'` and `'implicit'` or `'not-implicit' .
 
 A variable pool is associated with a reference denoted by the first argument, with name `Pool`. The value
 of `Pool` may alter during execution. The same name, in conjunction with different values of `Pool`, can
@@ -70,18 +70,22 @@ Var_Empty(Pool)
 ```
 
 The function sets the variable pool associated with the specified reference to the state where every name
-is associated with attributes 'dropped', 'implicit' and 'not-exposed'.
+is associated with attributes `'dropped'`, `'implicit'` and `'not-exposed'`.
 
-### Var Set
+### Var_Set
 
 ```rexx <!--varsetzero.rexx-->
 Var_Set(Pool, Name, '0', Value)
 ```
 
 The function operates on the variable pool with the specified reference. The name is a non-tailed name. If
-the specified name has the 'exposed' attribute then `Var_Set` operates on the variable pool referenced by
-`#Upper` in this pool and this rule is applied to that pool. When the pool with attribute 'not-exposed' for this name is determined the specified value is associated with the specified name. It also associates the
-attributes 'not-dropped' and 'not-implicit'. If that attribute was previously 'not-dropped' then the indicator returned is `'R'`. The name is a stem if it contains just one period, as its rightmost character. When the name is a stem `Var_Set(Pool, TailedName, '1',Value)` is executed for all possible valid tailed names which have Name as their stem, and then those tailed-names are given the attribute 'implicit'.
+the specified name has the `'exposed'` attribute then `Var_Set` operates on the variable pool referenced by
+`#Upper` in this pool and this rule is applied to that pool. When the pool with attribute `'not-exposed'` for 
+this name is determined the specified value is associated with the specified name. It also associates the attributes 
+`'not-dropped'` and `'not-implicit'`. If that attribute was previously `'not-dropped'` then 
+the indicator returned is `'R'`. The name is a stem if it contains just one period, as its rightmost character. 
+When the name is a stem `Var_Set(Pool, TailedName, '1',Value)` is executed for all
+possible valid tailed names which have `Name` as their stem, and then those tailed-names are given the attribute `'implicit'`.
 
 ```rexx <!--varsetone.rexx-->
 Var_Set(Pool, Name, '1', Value)
@@ -89,13 +93,13 @@ Var_Set(Pool, Name, '1', Value)
 
 The function operates on the variable pool with the specified reference. The name is a tailed name. The
 left part of the name, up to and including the first period, is the stem. The stem is a non-tailed name. 
-If the specified stem has the 'exposed' attribute then Var_Set operates on the variable pool referenced by
-#Upper in this pool and this rule is applied to that pool. When the pool with attribute 'not-exposed' for the
-stem is determined the name is considered in that pool. If the name has the 'exposed' attribute then the
-variable pool referenced by #Upper in the pool is considered and this rule applied to that pool. When the
-pool with attribute 'not-exposed' is determined the specified value is associated with the specified name.
-It also associates the attributes 'not-dropped' and 'not-implicit' . If that attribute was previously
-'not-dropped' then the indicator returned is `'R'`.
+If the specified stem has the `'exposed'` attribute then `Var_Set` operates on the variable pool referenced by
+`#Upper` in this pool and this rule is applied to that pool. When the pool with attribute `'not-exposed'` for the
+stem is determined the name is considered in that pool. If the name has the `'exposed'` attribute then the
+variable pool referenced by `#Upper` in the pool is considered and this rule applied to that pool. When the
+pool with attribute `'not-exposed'` is determined the specified value is associated with the specified name.
+It also associates the attributes `'not-dropped'` and `'not-implicit'`. If that attribute was previously
+`'not-dropped'` then the indicator returned is `'R'`.
 
 ### Var_Value
 
@@ -104,10 +108,10 @@ Var_Value(Pool, Name, '0')
 ```
 
 The function operates on the variable pool with the specified reference. The name is a non-tailed name. If
-the specified name has the 'exposed' attribute then Var_Value operates on the variable pool referenced
+the specified name has the `'exposed'` attribute then `Var_Value` operates on the variable pool referenced
 by `#Upper` in this pool and this rule is applied to that pool. When the pool with attribute 
-'not-exposed' for this name is determined the indicator returned is 'D' if the name has 
-'dropped' associated, `'N'` otherwise.
+`'not-exposed'` for this name is determined the indicator returned is `'D'` if the name has 
+`'dropped'` associated, `'N'` otherwise.
 
 In the former case `#Outcome` is set equal to `Name`, in the latter case `#Outcome` is set to the value most
 recently associated with the name by `Var_Set`.
@@ -118,12 +122,12 @@ Var_Value(Pool, Name, '1')
 
 The function operates on the variable pool with the specified reference. The name is a tailed name. The
 left part of the name, up to and including the first period, is the stem. 
-The stem is a non-tailed name. If the specified stem has the 'exposed' attribute then 
+The stem is a non-tailed name. If the specified stem has the `'exposed'` attribute then 
 `Var_Value` operates on the variable pool referenced by `#Upper` in this pool 
-and this rule is applied to that pool. When the pool with attribute 'not-exposed' for the
-stem is determined the name is considered in that pool. If the name has the 'exposed' attribute then the
-variable pool referenced by #Upper in the pool is considered and this rule applied to that pool. When the
-pool with attribute 'not-exposed' is determined the indicator returned is `'D'` if the name has 'dropped'
+and this rule is applied to that pool. When the pool with attribute `'not-exposed'` for the
+stem is determined the name is considered in that pool. If the name has the `'exposed'` attribute then the
+variable pool referenced by `#Upper` in the pool is considered and this rule applied to that pool. When the
+pool with attribute `'not-exposed'` is determined the indicator returned is `'D'` if the name has `'dropped'`
 associated, `'N'` otherwise. In the former case `#Outcome` is set equal to `Name`, 
 in the latter case `#Outcome` is set to the value most recently associated with the name by `Var_Set`.
 
@@ -134,9 +138,9 @@ Var_Drop(Pool, Name, '0')
 ```
 
 The function operates on the variable pool with the specified reference. The name is a non-tailed name. If
-the specified name has the 'exposed' attribute then `Var_Drop` operates on the variable pool referenced by
+the specified name has the `'exposed'` attribute then `Var_Drop` operates on the variable pool referenced by
 `#Upper` in this pool and this rule is applied to that pool. When the pool with attribute 
-'not-exposed' for this name is determined the attribute 'dropped' is associated with the specified name. 
+`'not-exposed'` for this name is determined the attribute `'dropped'` is associated with the specified name. 
 Also, when the name is a stem, `Var_Drop(Pool,TailedName,'1')` is executed for all possible 
 valid tailed names which have `Name` as a stem.
 
@@ -146,11 +150,11 @@ Var_Drop(Pool, Name, '1')
 
 The function operates on the variable pool with the specified reference. The name is a tailed name. The
 left part of the name, up to and including the first period, is the stem. The stem is a non-tailed name. If the
-specified stem has the 'exposed' attribute then Var_Drop operates on the variable pool referenced by
-#Upper in this pool and this rule is applied to that pool. When the pool with attribute 'not-exposed' for the
-stem is determined the name is considered in that pool. If the name has the 'exposed' attribute then the
+specified stem has the `'exposed'` attribute then `Var_Drop` operates on the variable pool referenced by
+`#Upper` in this pool and this rule is applied to that pool. When the pool with attribute `'not-exposed'` for the
+stem is determined the name is considered in that pool. If the name has the `'exposed'` attribute then the
 variable pool referenced by `#Upper` in the pool is considered and this rule applied to that pool. When the
-pool with attribute 'not-exposed' is determined the attribute 'dropped' is associated with the specified
+pool with attribute `'not-exposed'` is determined the attribute `'dropped'` is associated with the specified
 name.
 
 ### Var_Expose
@@ -160,8 +164,8 @@ Var_Expose (Pool, Name, '0')
 ```
 
 The function operates on the variable pool with the specified reference. The name is a non-tailed name.
-The attribute 'exposed' is associated with the specified name. Also, when the name is a stem,
-`Var_Expose(Pool, TailedName,'1')` is executed for all possible valid tailed names which have Name as a
+The attribute `'exposed'` is associated with the specified name. Also, when the name is a stem,
+`Var_Expose(Pool, TailedName,'1')` is executed for all possible valid tailed names which have `Name` as a
 stem.
 
 ```rexx <!--varexpose1.rexx-->
@@ -169,7 +173,7 @@ Var_Expose (Pool, Name, '1')
 ```
 
 The function operates on the variable pool with the specified reference. The name is a tailed name. The
-attribute 'exposed' is associated with the specified name.
+attribute `'exposed'` is associated with the specified name.
 
 ### Var_Reset
 
@@ -189,7 +193,7 @@ The value of a symbol which is a _NUMBER_ or a _CONST_SYMBOL_ which is not a res
 content of the appropriate token.
 
 The value of a _VAR_SYMBOL_ which is "taken as a constant" is the _VAR_SYMBOL_ itself, otherwise the
-_VAR_SYMBOL: identifies a variable and its value may vary during execution.
+_VAR_SYMBOL_ identifies a variable and its value may vary during execution.
 
 Accessing the value of a symbol which is not "taken as a constant" shall result in trace output, see <!--TODO-->nnn:
 
@@ -206,7 +210,7 @@ If _VAR_SYMBOL_ does not contain a period, or contains only one period as its la
 the variable is the value associated with _VAR_SYMBOL_ in the variable pool, that is `#Outcome` after
 `Var_Value(Pool, VAR_SYMBOL, '0')`.
 
-If the indicator is `'D'`, indicating the variable has the 'dropped' attribute, the `NOVALUE` condition is raised;
+If the indicator is `'D'`, indicating the variable has the `'dropped'` attribute, the `NOVALUE` condition is raised;
 see <!--TODO-->nnn and <!--TODO-->nnn for exceptions to this.
 
 ```rexx <!--varpoolsymbol.rexx-->
@@ -222,7 +226,7 @@ associated with the derived name.
 
 A derived name is derived from a _VAR_SYMBOL_ as follows:
 
-```rexx <!--derivednames.rexx-->
+```rexx <!--derivednames.ebnf-->
 VAR SYMBOL  :=    Stem Tail
 Stem  :=    PlainSymbol '.'
 Tail  :=    (PlainSymbol | '.' [PlainSymbol]) ['.' [PlainSymbol]]+
@@ -233,7 +237,7 @@ The derived name is the concatenation of:
 
 - the _Stem_, without further evaluation;
 - the _Tail_, with the _PlainSymbols_ replaced by the values of the symbols. The value of a _PlainSymbol_
-which does not start with a digit is `#Outcome` after
+  which does not start with a digit is `#Outcome` after
 
 ```rexx <!--varvalueplainsymbol.rexx-->
 Var_Value (Pool, PlainSymbol,'0')
@@ -241,13 +245,19 @@ Var_Value (Pool, PlainSymbol,'0')
 
 These values are obtained without raising the `NOVALUE` condition.
 
-If the indicator from the Var_Value was not 'D' then:
+If the indicator from the `Var_Value` was not `'D'` then:
+
+```rexx <!--iftracinglevelisIthencalltraceC.rexx-->
 if #Tracing.#Level == 'I' then call #Trace '>C>'
+```
 
-The value associated with a derived name is obtained from the variable pool, that is #Outcome after:
-Var_Value(Pool,Derived Name,'1')
+The value associated with a derived name is obtained from the variable pool, that is `#Outcome` after:
 
-If the indicator is 'D', indicating the variable has the 'dropped' attribute, the NOVALUE condition is raised;
+```rexx <!--varvaluepoolderivedname1.rexx-->
+Var_Value(Pool,Derived_Name,'1')
+```
+
+If the indicator is `'D'`, indicating the variable has the `'dropped'` attribute, the `NOVALUE` condition is raised;
 see <!--TODO-->nnn for an exception.
 
 ### Value of a reserved symbol
@@ -257,86 +267,113 @@ pool, see <!--TODO-->nnn.
 
 ## Expressions and operators
 
-Add a load of string coercions. Equality can operate on non-strings. What if one operand non-string?
+_Add a load of string coercions. Equality can operate on non-strings. What if one operand non-string?_
 
 ### The value of a term
 
-See <!--TODO-->nnn for the syntax of a term.
+See <!--TODO-->nnn for the syntax of a _term_.
 
-The value of a STRING is the content of the token; see <!--TODO-->nnn.
+The value of a _STRING_ is the content of the token; see <!--TODO-->nnn.
 
-The value of a function is the value it returns, see <!--TODO-->nnn.
+The value of a _function_ is the value it returns, see <!--TODO-->nnn.
 
-If a termis a symbol or STRING then the value of the term is the value of that symbol or STRING.
+If a _term_ is a _symbol_ or _STRING_ then the value of the term is the value of that _symbol_ or _STRING_.
 
-If a term contains an expr_alias the value of the term is the value of the expr_alias, see <!--TODO-->nnn.
+If a _term_ contains an _expr_alias_ the value of the _term_ is the value of the _expr_alias_, see <!--TODO-->nnn.
 
 ### The value of a prefix_expression
 
-If the prefix_expression is a term then the value of the prefix_expression is the value of the ferm,
-otherwise let rhs be the value of the prefix_expression within it__ see <!--TODO-->nnn
+If the _prefix_expression_ is a _term_ then the value of the _prefix_expression_ is the value of the _term_,
+otherwise let `rhs` be the value of the _prefix_expression_ within it; see <!--TODO-->nnn
 
-If the prefix_expression has the form '+' prefix_expression then a check is made:
+If the _prefix_expression_ has the form `'+'` _prefix_expression_ then a check is made:
+
+```rexx <!--ifdatatyperhsneqnumplus.rexx-->
 if datatype(rhs)\=='NUM' then
-call #Raise 'SYNTAX',41.3, rhs, '+'
+  call #Raise 'SYNTAX',41.3, rhs, '+'
+```
 
-and the value is the value of (0 + rhs).
+and the value is the value of `(0 + rhs)`.
 
-If the prefix_expression has the form '-' prefix_expression then a check is made:
+If the _prefix_expression_ has the form `'-'` _prefix_expression_ then a check is made:
+
+```rexx <!--ifdatatyperhsneqnumminus.rexx-->
 if datatype(rhs)\=='NUM' then
-call #Raise 'SYNTAX',41.3,rhs, '-'
+  call #Raise 'SYNTAX',41.3,rhs, '-'
+```
 
-and the value is the value of (0 - rhs).
+and the value is the value of `(0 - rhs)`.
 
-If a prefix_expression has the form not prefix_expression then
+If a _prefix_expression_ has the form _not_ _prefix_expression_ then
+
+```rexx <!--checklogical.rexx-->
 if rhs \== '0' then if rhs \=='1' then call #Raise 'SYNTAX', 34.6, not, rhs
+```
 
-See <!--TODO-->nnn for the value of the third argument to that #Raise.
-If the value of rhs is '0' then the value of the prefix_expression value is '1', otherwise it is '0'.
+See <!--TODO-->nnn for the value of the third argument to that `#Raise`.
 
-If the prefix_expression is not a term then:
+If the value of `rhs` is `'0'` then the value of the _prefix_expression_ value is `'1'`, otherwise it is `'0'`.
+
+If the _prefix_expression_ is not a _term_ then:
+
+```rexx <!--ifTracingLevelisIthencallTraceP.rexx-->
 if #Tracing.#Level == 'I' then call #Trace '>P>'
+```
 
 ### The value of a power_expression
 
-See <!--TODO-->nnn for the syntax of a power_expression.
+See <!--TODO-->nnn for the syntax of a _power_expression_.
 
-If the power_expression is a prefix_expression then the value of the power_expression is the value of
-the prefix_expression.
+If the _power_expression_ is a _prefix_expression_ then the value of the _power_expression_ is the value of
+the _prefix_expression_.
 
-Otherwise, let Ihs be the value of power_expression within it, and rhs be the value of prefix_expression
+Otherwise, let `lhs` be the value of _power_expression_ within it, and `rhs` be the value of _prefix_expression_
 within it.
 
 ```rexx <!--evaluation-datatype.rexx-->
 if datatype(lhs)\=='NUM' then call #Raise 'SYNTAX',41.1,lhs,'**'
-
 if \datatype(rhs,'W') then call #Raise 'SYNTAX',26.1,rhs,'**'
 ```
-The value of the power_expression is
+The value of the _power_expression_ is
 
+```rexx <!--arithoppower.rexx-->
 ArithOp(lhs,'**',rhs)
+```
 
-If the power_expression is not a prefix_expression then:
-if #Tracing.#Level == 'I' then call #Trace '>0O>'
+If the _power_expression_ is not a _prefix_expression_ then:
+
+```rexx <!--ifTracingLevelisIthencallTraceO.rexx-->
+if #Tracing.#Level == 'I' then call #Trace '>O>'
+```
 
 ### The value of a multiplication
 
-See <!--TODO-->nnn for the syntax of a multiplication.
-If the multiplication is a power_expression then the value of the multiplication is the value of the
-power_expression.
-Otherwise, let Ihs be the value of multiplication within it, and rns be the value of power_expression within
+See <!--TODO-->nnn for the syntax of a _multiplication_.
+
+If the _multiplication_ is a _power_expression_ then the value of the _multiplication_ is the value of the
+_power_expression_.
+
+Otherwise, let `lhs` be the value of _multiplication_ within it, and `rhs` be the value of _power_expression_ within
 it.
+
+```rexx <!--checkmultiplicativenums.rexx-->
 if datatype(lhs)\=='NUM' then
-call #Raise 'SYNTAX',41.1,lhs,multiplicative operation
+  call #Raise 'SYNTAX',41.1,lhs,multiplicative_operation
 if datatype(rhs)\=='NUM' then
-call #Raise 'SYNTAX',41.2,rhs,multiplicative operation
+  call #Raise 'SYNTAX',41.2,rhs,multiplicative_operation
+```
 
-The value of the multiplication is
-ArithOp(lhs,multiplicative operation, rhs)
+The value of the _multiplication_ is
 
-If the multiplication is not a power_expression then:
+```rexx <!--arithopmultiplicative.rexx-->
+ArithOp(lhs,multiplicative_operation,rhs)
+```
 
-if #Tracing.#Level == 'I' then call #Trace '>0O>'
+If the _multiplication_ is not a _power_expression_ then:
+
+```rexx <!--tracemultiplicative.rexx-->
+if #Tracing.#Level == 'I' then call #Trace '>O>'
+```
 
 ### The value of an addition
 
