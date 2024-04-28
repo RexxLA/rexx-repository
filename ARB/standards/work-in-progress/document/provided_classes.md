@@ -521,7 +521,7 @@ These routines are used in the definition of the collection classes
 
 #### QUEUE
 
-```rexx <!--queuequeuemethod.rexx-->
+```rexx <!--queue-queue.rexx-->
 ::method queue       /* rANY */
 /* Adds the object value to the queue at its tail. */
   a=self~exposed
@@ -533,7 +533,7 @@ These routines are used in the definition of the collection classes
 
 #### PEEK
 
-```rexx <!--queuepeekmethod.rexx-->
+```rexx <!--queue-peek.rexx-->
 ::method peek
   a=self~exposed
 /* Returns the item at the head of the queue. The collection remains unchanged.
@@ -543,7 +543,7 @@ These routines are used in the definition of the collection classes
 
 #### REMOVE
 
-```rexx <!--queueremovemethod.rexx-->
+```rexx <!--queue-remove.rexx-->
 ::method remove       /* rWHOLE>O */
 /* Returns and removes from a collection the member item with the specified
 index. */
@@ -561,13 +561,13 @@ index. */
 
 ### Class table
 
-```rexx <!--tableclass.rexx-->
+```rexx <!--class-table.rexx-->
 ::Class 'Table' subclass Collection
 ```
 
 #### MAKEARRAY
 
-```rexx <!--tablemakearray.rexx-->
+```rexx <!--table-makearray.rexx-->
 ::method makearray
 /* Returns a single-index array containing the index objects. */
 /* This is different from Collection MAKEARRAY where items rather than indexes
@@ -577,42 +577,42 @@ are in the returned array. */
 
 #### UNION
 
-```rexx <!--tableunionmethod.rexx-->
+```rexx <!--table-union.rexx-->
 ::method union        /* rCOLLECTION */
   return CommonUnion(self,arg(1))
 ```
 
 #### INTERSECTION
 
-```rexx <!--tableintersectionmethod.rexx-->
+```rexx <!--table-intersection.rexx-->
 ::method intersection         /* rCOLLECTION */
   return CommonIntersect(self,arg(1))
 ```
 
 #### XOR
 
-```rexx <!--tablexormethod.rexx-->
+```rexx <!--table-xor.rexx-->
 ::method xor          /* rCOLLECTION */
   return CommonXor(self,arg(1))
 ```
 
 #### DIFFERENCE
 
-```rexx <!--tabledifferencemethod.rexx-->
+```rexx <!--table-difference.rexx-->
 ::method difference   /* rCOLLECTION */
   return CommonDifference(self,arg(1))
 ```
 
 #### SUBSET
 
-```rexx <!--tablesubsetmethod.rexx-->
+```rexx <!--table-subset.rexx-->
 ::method subset       /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
 ```
 
 #### Class set
 
-```rexx <!--classset.rexx-->
+```rexx <!--class-set.rexx-->
 ::class 'Set' subclass table
 
 /* A set is a collection that restricts the member items to have a value that is
@@ -622,7 +622,7 @@ one occurrence of any object in a set. */
 
 #### PUT
 
-```rexx <!--setputmethod.rexx-->
+```rexx <!--set-put.rexx-->
 /* Second arg same as first. Committee has dropped second? */
 ::method put          /* rANY oANY */
 /* Makes the object value a member item of the collection and associates it with
@@ -634,7 +634,7 @@ specified index. */
 
 #### OF
 
-```rexx <!--setofmethod.rexx-->
+```rexx <!--set-of-class.rexx-->
 ::method of class     /* 1 or more rANY */
 /* Returns a newly created set containing the specified value objects. */
   r=self~new
@@ -646,41 +646,41 @@ specified index. */
 
 #### UNION
 
-```rexx <!--setunion.rexx-->
+```rexx <!--set-union.rexx-->
 ::method union /* rCOLLECTION */
   return CommonUnion(self, EnBag(arg(1)))
 ```
 
 #### INTERSECTION
 
-```rexx <!--setintersectionmethod.rexx-->
+```rexx <!--set-intersection.rexx-->
 ::method intersection          /* rCOLLECTION */
   return CommoniIntersect (self,EnBag(arg(1)))
 ```
 
 #### XOR
 
-```rexx <!--setxormethod.rexx-->
+```rexx <!--set-xor.rexx-->
 ::method xor          /* rCOLLECTION */
   return CommonXor(self, EnBag(arg(1)))
 ```
 
 #### DIFFERENCE
 
-```rexx <!--setdifferencemethod.rexx-->
+```rexx <!--set-difference.rexx-->
 ::method difference   /* rCOLLECTION */
   return CommonDifference(self, EnBag(arg(1)))
 ```
 
 ### Class relation
 
-```rexx <!--relationclass.rexx-->
+```rexx <!--class-relation.rexx-->
 ::class 'Relation' subclass Collection
 ```
 
 #### PUT
 
-```rexx <!--relputmethod.rexx-->
+```rexx <!--relation-put.rexx-->
 ::method put          /* rANY rANY */
   use arg item, index
   a=self~exposed
@@ -698,7 +698,7 @@ specified index. */
 
 #### ITEMS
 
-```rexx <!--relitemsmethod.rexx-->
+```rexx <!--relation-items.rexx-->
 ::method items       /* oANY */
   a=self~exposed
 /* Returns the number of relation items with the specified index. If you specify
@@ -714,14 +714,14 @@ specified index. */
 
 #### MAKEARRAY
 
-```rexx <!--relmakearray method-->
+```rexx <!--relation-makearray.rexx-->
 ::method makearray
   forward message 'MAKEARRAYX'
 ```
 
 #### SUPPLIER
 
-```rexx <!--relsuppliermethod.rexx-->
+```rexx <!--relation-supplier.rexx-->
 ::method supplier     /* oANY */
   a=self~exposed
 /* Returns a supplier object for the collection. If an index is specified, the
@@ -741,7 +741,7 @@ specified index. */
 
 #### UNION
 
-```rexx <!--relunionmethod.rexx-->
+```rexx <!--relation-union.rexx-->
 ::method union        /* rCOLLECTION */
 /* Union for a relation is just all of both. */
   r=self~class~new
@@ -760,7 +760,7 @@ specified index. */
 
 #### INTERSECTION
 
-```rexx <!--relintersectionmethod.rexx-->
+```rexx <!--relation-intersection.rexx-->
 ::method intersection /* rCOLLECTION */
 /* Intersection for a relation requires the items as well as the keys to
 match. */
@@ -782,7 +782,7 @@ match. */
 
 #### XOR
 
-```rexx <!--relxormethod.rexx-->
+```rexx <!--relation-xor.rexx-->
 ::method xor          /* rCOLLECTION */
 /* Returns a new relation that contains all items from self and
 the argument except that all index-item pairs that appear in both collections
@@ -806,7 +806,7 @@ are removed. */
 
 #### DIFFERENCE
 
-```rexx <!--reldifferencemethod.rexx-->
+```rexx <!--relation-difference.rexx-->
 ::method difference   /* rCOLLECTION */
 /* Returns a new relation containing only those index-item pairs from the
  SELF whose indexes the other collection does not contain. */
@@ -826,14 +826,14 @@ are removed. */
 
 #### SUBSET
 
-```rexx <!--relsubsetmethod.rexx-->
+```rexx <!--relation-subset.rexx-->
 ::method subset /* rCOLLECTION */
   return self~difference(arg(1))~items = 0
 ```
 
 #### REMOVEITEM
 
-```rexx <!--relremoveitemmethod.rexx-->
+```rexx <!--relation-removeitem.rexx-->
 ::method removeitem /* rANY rANY */
   a=self~exposed
 /* Returns and removes from a relation the member item value (associated with
@@ -850,7 +850,7 @@ are removed. */
 
 #### INDEX
 
-```rexx <!--relindexmethod.rexx-->
+```rexx <!--relation-index.rexx-->
 ::method index        /* rANY */
   a=self~exposed
 /* Returns the index for the specified item. If there is more than one index
@@ -864,7 +864,7 @@ are removed. */
 
 #### ALLAT
 
-```rexx <!--relAllAtmethod.rexx-->
+```rexx <!--relation-allAt.rexx-->
 ::method allat        /* rANY */
   a=self~exposed
 /* Returns a single-index array containing all the items associated with the
@@ -879,7 +879,7 @@ are removed. */
 
 #### HASITEM
 
-```rexx <!--relhasitemmethod.rexx-->
+```rexx <!--relation-hasItem.rexx-->
 ::method hasitem      /* rANY rANY */
   a=self~exposed
 /* Returns 1 (true) if the relation contains the member item value (associated
@@ -892,7 +892,7 @@ are removed. */
 
 #### ALLINDEX
 
-```rexx <!--relallindexmethod.rexx-->
+```rexx <!--relation-allIndex.rexx-->
 ::method allindex    /* rANY */
   a=self~exposed
 /* Returns a single-index array containing all indexes for the specified
@@ -907,7 +907,7 @@ are removed. */
 ```
 ### The bag class
 
-```rexx <!--bagclass.rexx-->
+```rexx <!--class-bag.rexx-->
 ::class 'Bag' subclass relation
 
 /* A bag is a collection that restricts the member items to having a value that
@@ -917,7 +917,7 @@ are removed. */
 
 #### OF
 
-```rexx <!--bagofmethod.rexx-->
+```rexx <!--bag-of-class.rexx-->
 ::method of class     /* 1 or more rANY */
 /* Returns a newly created bag containing the specified value objects. */
   r=self~new
@@ -929,7 +929,7 @@ are removed. */
 
 #### PUT
 
-```rexx <!--bagputmethod.rexx-->
+```rexx <!--bag-put.rexx-->
 ::method put          /* rANY oANY */
 /* Committee does away with second argument? */
 /* Makes the object value a member item of the collection and associates it with
@@ -941,41 +941,41 @@ are removed. */
 
 #### UNION
 
-```rexx <!--bagunionmethod.rexx-->
+```rexx <!--bag-union.rexx-->
 ::method union           /* rCOLLECTION */
   return CommonUnion(self, EnBag(arg(1)))
 ```
 
 #### INTERSECTION
 
-```rexx <!--bagintersectionmethod.rexx-->
+```rexx <!--bag-intersection.rexx-->
 ::method intersection         /* rCOLLECTION */
   return CommoniIntersect(self,EnBag(arg(1)))
 ```
 
 #### XOR
 
-```rexx <!--bagxormethod.rexx-->
+```rexx <!--bag-xor.rexx-->
 ::method xor          /* rCOLLECTION */
   return CommonXor(self, EnBag(arg(1)))
 ```
 
 #### DIFFERENCE
 
-```rexx <!--bagdifferencemethod.rexx-->
+```rexx <!--bag-difference.rexx-->
 ::method difference    /* rCOLLECTION */
   return CommonDifference(self, EnBag(arg(1)))
 ```
 
 ### The directory class
 
-```rexx <!--directoryclass.rexx-->
+```rexx <!--class-directory.rexx-->
 ::class 'Directory' subclass Collection
 ```
 
 #### AT
 
-```rexx <!--diratmethod.rexx-->
+```rexx <!--directory-at.rexx-->
 ::method at           /* rANY */
   a=self~exposed
 /* Returns the item associated with the specified index. */
@@ -988,7 +988,7 @@ are removed. */
 
 #### PUT
 
-```rexx <!--dirputmethod.rexx-->
+```rexx <!--directory-put.rexx-->
 ::method put          /* rANY rANY */
   a=self~exposed
 /* Makes the object value a member item of the collection and associates it with
@@ -1000,14 +1000,14 @@ the specified index. */
 
 #### MAKEARRAY
 
-```rexx <!--diremakearray.rexx-->
+```rexx <!--directory-makearray.rexx-->
 ::method makearray
   forward message 'MAKEARRAYX'
 ```
 
 #### SUPPLIER
 
-```rexx <!--dirsuppliermethod.rexx-->
+```rexx <!--directory-supplier.rexx-->
 ::method supplier
   a=self~exposed
 /* Returns a supplier object for the directory. */
@@ -1021,42 +1021,42 @@ the specified index. */
 
 #### UNION
 
-```rexx <!--dirunionmethod.rexx-->
+```rexx <!--directory-union.rexx-->
 ::method union         /* rCOLLECTION */
   return CommonUnion(self,arg(1))
 ```
 
 #### INTERSECTION
 
-```rexx <!--dirintersectionmethod.rexx-->
+```rexx <!--directory-intersection.rexx-->
 ::method intersection         /* rCOLLECTION */
   return CommoniIntersect(self,arg(1))
 ```
 
 #### XOR
 
-```rexx <!--dirxormethod.rexx-->
+```rexx <!--directory-xor.rexx-->
 ::method xor        /* rCOLLECTION */
 return CommonXor(self,arg(1))
 ```
 
 #### DIFFERENCE
 
-```rexx <!--dirdifferencemethod.rexx-->
+```rexx <!--directory-difference.rexx-->
 ::method difference   /* rCOLLECTION */
   return CommonDifference(self,arg(1))
 ```
 
 #### SUBSET
 
-```rexx <!--dirsubsetmethod.rexx-->
+```rexx <!--directory-subset.rexx-->
 ::method subset     /* rCOLLECTION */
 return self~difference(arg(1))~items = 0
 ```
 
 #### SETENTRY
 
-```rexx <!--dirsetentrymethod.rexx-->
+```rexx <!--directory-setEntry.rexx-->
 ::method setentry     /* rSTRING oANY */
   a=self~exposed
 /* Sets the directory entry with the specified name (translated to uppercase) to
@@ -1081,7 +1081,7 @@ return self~difference(arg(1))~items = 0
 
 #### ENTRY
 
-```rexx <!--direntrymethod.rexx-->
+```rexx <!--directory-entry.rexx-->
 ::method entry        /* rSTRING */
   a=self~exposed
 /* Returns the directory entry with the specified name (translated to
@@ -1100,7 +1100,7 @@ return self~difference(arg(1))~items = 0
 
 #### HASENTRY
 
-```rexx <!--dirhasentrymethod.rexx-->
+```rexx <!--directory-hasEntry.rexx-->
 ::method hasentry     /* rSTRING */
 /* Returns 1 (true) if the directory has an entry or a method for the specified
 name (translated to uppercase) or 0 (false) otherwise. */
@@ -1109,7 +1109,7 @@ name (translated to uppercase) or 0 (false) otherwise. */
 
 #### SETMETHOD
 
-```rexx <!--dirsetmethod.rexxx-->
+```rexx <!--directory-setMethod.rexxx-->
 ::method setmethod    /* rSTRING oMETHOD */
   a=self~exposed
 /* Associates entry with the specified name (translated to uppercase) with
@@ -1135,7 +1135,7 @@ name (translated to uppercase) or 0 (false) otherwise. */
 
 #### UNKNOWN
 
-```rexx <!--dirunknownmethod.rexx-->
+```rexx <!--directory-unknown.rexx-->
 ::method unknown      /* rSTRING rARRAY */
 /* Runs either the ENTRY or SETENTRY method, depending on whether the message
  name supplied ends with an equal sign. If the message name does not end with an
@@ -1157,7 +1157,7 @@ _Anyway, committee doing without this class as such._
 
 _Here is temporary stuff showing how to use algebra in the collection coding._
 
-```rexx <!--stemclass.rexx-->
+```rexx <!--class-stem.rexx-->
 /* This 1998 version uses Rony's rules for XOR and INTERSECTION based on
 UNION and DIFFERENCE */
 
@@ -2239,7 +2239,7 @@ SYNTAX: RAISE PROPAGATE /* raise error in caller */
 
 The stream class provides input/output on external streams.
 
-```rexx <!--streamclass.rexx-->
+```rexx <!--class-stream.rexx-->
 ::class stream
 
 ::method init         /* rString */
@@ -2247,7 +2247,7 @@ The stream class provides input/output on external streams.
 
 Initializes a stream object for a stream named name, but does not open the stream.
 
-```rexx <!--streamquerymethod.rexx-->
+```rexx <!--stream-query.rexx-->
 ::method query       /* keywords */
 ```
 
@@ -2255,7 +2255,7 @@ _There is also QUERY as command with method COMMAND._
 
 Used with options, the QUERY method returns specific information about a stream.
 
-```rexx <!--streamiomethods.rexx-->
+```rexx <!--stream-iomethods.rexx-->
 ::method charin
 
 ::method charout
@@ -2275,7 +2275,7 @@ Used with options, the QUERY method returns specific information about a stream.
 
 Returns a string after performing the specified stream command.
 
-```rexx <!--steamopenmethod.rexx-->
+```rexx <!--stream-open.rexx-->
 ::method open
 ```
 
@@ -2285,13 +2285,13 @@ Opens the stream to which you send the message and returns "READY:".
 
 _Committee dropping OPEN POSITION QUERY SEEK as methods in favour of command use._
 
-```rexx <!--streamstatemethod.rexx-->
+```rexx <!--stream-state.rexx-->
 ::method state
 ```
 
 Returns a string that indicates the current state of the specified stream.
 
-```rexx <!--streamvariousmethods.rexx-->
+```rexx <!--stream-variousmethods.rexx-->
 ::method say
 
 ::method uninit
@@ -2299,36 +2299,36 @@ Returns a string that indicates the current state of the specified stream.
 ::method position       /* Ugh */
 ```
 
-POSITION is a synonym for SEEK.
+`POSITION` is a synonym for `SEEK`.
 
-```rexx <!--streamseekmethod.rexx-->
+```rexx <!--stream-seek.rexx-->
 ::method seek           /* Ugh */
 ```
 
 Sets the read or write position a specified number (offset) within a persistent stream.
 
-```rexx <!--streamflushmethod.rexx-->
+```rexx <!--stream-flush.rexx-->
 ::method flush
 ```
 
-Returns "READY:". Forces any data currently buffered for writing to be written to the stream receiving the
+Returns `"READY:"`. Forces any data currently buffered for writing to be written to the stream receiving the
 message.
 
-_There is also FLUSH as command with method COMMAND._
+_There is also `FLUSH` as command with method `COMMAND`._
 
-_Committee dropping FLUSH._
+_Committee dropping `FLUSH`._
 
-```rexx <!--streamclosemethod.rexx-->
+```rexx <!--stream-close.rexx-->
 ::method close
 ```
 
 Closes the stream that receives the message.
 
-_There is also CLOSE as command with method COMMAND._
+_There is also `CLOSE` as command with method `COMMAND`._
 
 _Semantics are 'seen by other thread'._
 
-```rexx <!--streamstringmethod.rexx-->
+```rexx <!--stream-string-makearray.rexx-->
 ::method string 
 
 ::method makearray      /* rCHARLINE */
@@ -2337,36 +2337,36 @@ _Semantics are 'seen by other thread'._
 Returns a fixed array that contains the data from the stream in line or character format, starting from the
 current read position.
 
-```rexx <!--streamsuppliermethod.rexx-->
+```rexx <!--stream-supplier.rexx-->
 ::method supplier
 ```
 
 Returns a supplier object for the stream.
 
-```rexx <!--streamdescriptionmethod.rexx-->
+```rexx <!--stream-description.rexx-->
 ::method description
 ```
 
-```rexx <!--streamaaryinmethod.rexx-->
+```rexx <!--stream-arrayIn.rexx-->
 ::method arrayin      /* rCHARLINE */
 ```
 
 _Mixed case value works on OOI._
 
-_Committee dropping Arrayin & Arrayout. Arrayin == MakeArray_
+_Committee dropping `ArrayIn` & `ArrayOut`. `ArrayIn == MakeArray`_
 
 Returns a fixed array that contains the data from the stream in line or character format, starting from the
 current read position.
 
-```rexx <!--streamarrayoutmethod.rexx-->
-::method arrayout      /* rARRAY rCHARLINE */
+```rexx <!--stream-arrayOut.rexx-->
+::method arrayOut      /* rARRAY rCHARLINE */
 ```
 
 Returns a stream object that contains the data from array.
 
 ## The alarm class
 
-```rexx <!--alarmclass-->
+```rexx <!--class-alarm-->
 ::class alarm
 
 ::method init /* Time, Msg */
@@ -2374,7 +2374,7 @@ Returns a stream object that contains the data from array.
 
 Sets up an alarm for a future time atime.
 
-```rexx <!--alarmcancelmethod.rexx-->
+```rexx <!--alarm-cancel.rexx-->
 ::method cancel
 ```
 
@@ -2382,18 +2382,20 @@ Cancels the pending alarm request represented by the receiver. This method takes
 specified time has already been reached.
 
 ## The monitor class
-The Monitor class forwards messages to a destination object.
 
-```rexx <!--monitorclass.rexx-->
+The `Monitor` class forwards messages to a destination object.
+
+```rexx <!--class-monitor.rexx-->
 .local ['OUTPUT'] = .monitor~new(.output)
 
 ::class monitor
 ```
 
 ### INIT
+
 Initializes the newly created monitor object.
 
-```rexx <!--monitorinitmethod.rexx-->
+```rexx <!--monitor-init.rexx-->
 ::method init         /* oDESTINATION */
   expose Destination
   Destination = .queue~new
@@ -2405,7 +2407,7 @@ Initializes the newly created monitor object.
 
 Returns the current destination object.
 
-```rexx <!--monitorcurrentmethod.rexx-->
+```rexx <!--monitor-current.rexx-->
 ::method current
   expose Destination
   return Destination [1]
@@ -2415,10 +2417,10 @@ Returns the current destination object.
 
 Returns a new destination object.
 
-```rexx <!--monitordestinationmethod.rexx-->
+```rexx <!--monitor-destination.rexx-->
 ::method destination  /* oDESTINATION */
   expose Destination
-  if arg(1,'E') then Destination~push (arg(1))
+  if arg(1,'E') then Destination~push(arg(1))
                 else Destination~pull
   return Destination[1]
 ```
@@ -2427,13 +2429,13 @@ Returns a new destination object.
 
 Reissues or forwards to the current monitor destination all unknown messages sent to a monitor object
 
-```rexx <!--monitorunknownmethod.rexx-->
+```rexx <!--monitor-unknown.rexx-->
 ::method unknown
   expose Destination
 ```
 
 _Extra parens needed here in original OREXX syntax_
-```rexx <!--monitorforwardsyntax.rexx-->
+```rexx <!--monitor-forward.rexx-->
   forward to destination[1] message arg(1) arguments arg(2)
   return
 ```
