@@ -1137,24 +1137,24 @@ Config_Constants()
 Set the values of the following state variables:
 
 - if there are any built-in functions which do not operate at `NUMERIC DIGITS 9`, then set variables
-`#Bif_Digits`. (with various tails which are the names of those built-in functions) to the values to be
-used;
+  `#Bif_Digits`. (with various tails which are the names of those built-in functions) to the values to be
+  used;
 
 - set variables `#Limit_Digits`, `#Limit_EnvironmentName`, `#Limit_ExponentDigits`, `#Limit_Literal`,
-`#Limit_Messagelnsert`, `#Limit_Name`, `#Limit_String`, `#Limit_TraceData` to the relevant limits. A
-configuration shall allow a `#Limit_Messagelnsert` value of `50` to be specified. A configuration shall
-allow a `#Limit_TraceData` value of `250` to be specified;
+  `#Limit_Messagelnsert`, `#Limit_Name`, `#Limit_String`, `#Limit_TraceData` to the relevant limits. A
+  configuration shall allow a `#Limit_Messagelnsert` value of `50` to be specified. A configuration shall
+  allow a `#Limit_TraceData` value of `250` to be specified;
 
 - set `#Configuration` to a string identifying the configuration;
 
 - set `#Version` to a string identifying the language processor. It shall have five words. Successive
-words shall be separated by a blank character. The first four letters of the first word shall be
-`'REXX'`. The second word shall be the four characters `'5.00'`. The last three words comprise a date.
-This shall be in the format which is the default for the `DATE()` built-in function.
+  words shall be separated by a blank character. The first four letters of the first word shall be
+  `'REXX'`. The second word shall be the four characters `'5.00'`. The last three words comprise a date.
+  This shall be in the format which is the default for the `DATE()` built-in function.
 
 - set `.nil` to a value which compares unequal with any other value that can occur in execution.
 
-- set `.local` `.kernel` `.system`?
+_set `.local` `.kernel` `.system`?_
 
 ## Configuration routines
 
@@ -1423,7 +1423,7 @@ The names of the traps are
 
 ## Variable pool
 
-How does this fit with variables as properties?
+_How does this fit with variables as properties?_
 
 The variable pool interface consists of functions which the configuration shall provide to manipulate the
 variables and to obtain some characteristics of a Rexx program.
@@ -1432,7 +1432,7 @@ These functions can be called from programs not written in Rexx _ commands and e
 invoked from a Rexx program, or traps invoked from the language processor.
 
 All the functions comprising the variable pool interface shall return with an indication of whether an error
-occurred. They shall return indicating an error and have no other effect, if #API_Enabled has a value of '0'
+occurred. They shall return indicating an error and have no other effect, if `#API_Enabled` has a value of `'0'`
 or if the arguments to them fail to meet the defined syntactic constraints.
 
 These functions interact with the processing of clauses. To define this interaction, the functions are
@@ -1444,7 +1444,7 @@ uppercase and substitution in compound symbols occurs as it does for the left ha
 assignment. The symbol identifies the variable to be operated upon.
 
 Some of the functions have an argument which is a direct symbol. A direct symbol is a string. The content
-of this string shall meet the syntactic constraints of a VAR_SYMBOL in uppercase with no periods or it
+of this string shall meet the syntactic constraints of a _VAR_SYMBOL_ in uppercase with no periods or it
 shall be the concatenation of a part meeting the syntactic constraints of a stem in uppercase, and a part
 that is any string. In the former case the symbol identifies the variable to be operated upon. In the latter
 case the variable to be operated on is one with the specified stem and a tail which is the remainder of the
@@ -1452,10 +1452,11 @@ direct symbol.
 
 Functions that have an argument which is symbol or direct symbol shall return an indication of whether
 the identified variable existed before the function was executed.
+
 Clause <!--TODO-->nnn defines functions which manipulate Rexx variable pools. Where possible the functions
 comprising the variable pool interface are described in terms of the appropriate invocations of the
-functions defined in <!--TODO-->nnn. The first parameter on these calls is the state variable #Pool. If these Var_
-functions do not return an indicator 'N', 'R', or 'D' then the API function shall return an error indication.
+functions defined in <!--TODO-->nnn. The first parameter on these calls is the state variable `#Pool`. 
+If these `Var_` functions do not return an indicator `'N'`, `'R'`, or `'D'` then the `API` function shall return an error indication.
 
 ### API Set
 
@@ -1551,7 +1552,7 @@ where:
 
 `#Symbol` is `Symbol` after any replacements in the tail as described by <!--TODO-->nnn.
 
-### API SetDirect
+### API_SetDirect
 
 #### Syntax:
 
@@ -1604,7 +1605,7 @@ Otherwise:
 Var_Value(#Pool, Symbol, '1')
 ```
 
-### API DropDirect
+### API_DropDirect
 
 #### Syntax:
 
@@ -1630,7 +1631,7 @@ Otherwise:
 Var_Drop(#Pool, Symbol, '1')
 ```
 
-### API ValueOther
+### API_ValueOther
 
 #### Syntax:
 
@@ -1648,15 +1649,12 @@ qualification.
 Return characteristics of the program, depending on the value of Qualifier. The possibilities for the
 value to be returned are:
 
-- the value of #Source;
+- the value of `#Source`;
+- the value of `#Version`;
+- the largest value of `n` such that `#ArgExists.1.n` is `'1'`, see <!--TODO-->nnn;
+- the value of `#Arg.1.n` where `n` is an integer value provided as input.
 
-- the value of #Version;
-
-- the largest value of n such that #ArgExists.1.n is '1', see <!--TODO-->nnn;
-
-- the value of #Arg.1.n where n is an integer value provided as input.
-
-### API Next
+### API_Next
 
 #### Syntax:
 
@@ -1667,10 +1665,10 @@ API_Next()
 #### Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
-attribute 'dropped' or the attribute 'implicit' and is not a stem; alternatively return an indication that
-there is no suitable name to return. When API_Next is called it will return a name that has not
+attribute `'dropped'` or the attribute `'implicit'` and is not a stem; alternatively return an indication that
+there is no suitable name to return. When `API_Next` is called it will return a name that has not
 previously been returned; the order is undefined. This process of returning different names will restart
-whenever the Rexx processor executes Var_Reset.
+whenever the Rexx processor executes `Var_Reset`.
 
 ### API_NextVariable
 
@@ -1683,9 +1681,9 @@ API_NextVariable()
 #### Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
-attribute 'dropped' or the attribute 'implicit'; alternatively, return an indication that there is no suitable name
+attribute `'dropped'` or the attribute `'implicit'`; alternatively, return an indication that there is no suitable name
 to return. When `API_NextVariable` is called it will return data about a variable that has not previously been
 returned; the order is undefined. This process of returning different names will restart whenever the Rexx
-processor executes Var_Reset. In addition to the name and value, an indication of whether the variable
-was 'tailed' will be returned.
+processor executes `Var_Reset`. In addition to the name and value, an indication of whether the variable
+was `'tailed'` will be returned.
 
