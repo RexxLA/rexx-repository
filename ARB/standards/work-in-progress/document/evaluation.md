@@ -36,7 +36,7 @@ is a test that the `Subject` matches that syntax and also has a value that is "w
 When these two tests are made and the `Subject` matches the constraints but has an exponent that is not
 in the correct range of values then a condition is raised:
 
-```rexx <!--callraisesyntax.rexx-->
+```rexx <!--callraisesyntax41.7.rexx-->
 call #Raise 'SYNTAX', 41.7, Subject
 ```
 
@@ -1133,7 +1133,7 @@ The comparison is made with the '==' operator.
 
 If there is such a matching label and the label is trace-only (see <!--TODO-->nnn) then a condition is raised:
 
-```rexx <!--callraisesyntax.rexx-->
+```rexx <!--callraisesyntax16.3.rexx-->
 call #Raise 'SYNTAX', 16.3, taken_constant
 ```
 
