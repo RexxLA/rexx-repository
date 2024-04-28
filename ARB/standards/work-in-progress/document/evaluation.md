@@ -426,97 +426,102 @@ if #Tracing.#Level == 'I' then call #Trace '>O>'
 
 See <!--TODO-->nnn for the syntax of a _concatenation_.
 
-If the concatenation is an addition then the value of the concatenation is the value of the addition.
-Otherwise, let Ihs be the value of concatenation within it, and rhs be the value of the additive_expression
+If the _concatenation_ is an _addition_ then the value of the _concatenation_ is the value of the _addition_.
+
+Otherwise, let `lhs` be the value of _concatenation_ within it, and `rhs` be the value of the _additive_expression_
 within it.
-If the concatenation contains '||' then the value of the concatenation will have the following characteristics:
 
-- Config_Length(Value) will be equal to Config_Length(Ihs)+Config_Length(rhs).
+If the _concatenation_ contains '||' then the value of the _concatenation_ will have the following characteristics:
 
-- #Outcome will be 'equal' after each of:
+- `Config_Length(Value)` will be equal to `Config_Length(lhs)+Config_Length(rhs)`.
+- `#Outcome` will be `'equal'` after each of:
+    - `Config_Compare(Config_Substr(Ihs,n),Config_Substr(Value,n))` for values of `n` not less than `1`
+      and not more than `Config_Length(lhs)`;
+    - `Config_Compare(Config_Substr(rhs,n),Config_Substr(Value,Config_Length(lhs)+n))` for values of
+      `n` not less than `1` and not more than `Config_Length(rhs)`.
+      
+Otherwise the value of the _concatenation_ will have the following characteristics:
 
-- Config_Compare(Config_Substr(Ihs,n)},Config_Substr(Value,n)) for values of n not less than 1
-and not more than Config_Length(Ihs);
+- `Config_Length(Value)` will be equal to `Config_Length(lhs)+1+Config_Length(rhs)`.
+- `#Outcome` will be `'equal'` after each of:
+    - `Config_Compare(Config_Substr(Ihs,n)},Config_Substr(Value,n))` for values of `n` not less than `1`
+      and not more than `Config_Length(lhs)`;
+    - `Config_Compare(' ',Config_Substr(Value,Config_Length(Ihs)}+1))`;
+    - `Config_Compare(Config_Substr(rhs,n),Config_Substr(Value,Config_Length(lhs)+1+n))` for values
+      of `n` not less than `1` and not more than `Config_Length(rhs)`.
 
-- Config_Compare(Config_Substr(rhs,n),Config_Substr(Value,Config_Length(Ihs)+n)) for values of
-n not less than 1 and not more than Config_Length(rhs).
-Otherwise the value of the concatenation will have the following characteristics:
+If the _concatenation_ is not an _addition_ then:
 
-- Config_Length(Value) will be equal to Config_Length(Ihs)+1+Config_Length(rhs).
-
-- #Outcome will be 'equal' after each of:
-
-- Config_Compare(Config_Substr(Ihs,n)},Config_Substr(Value,n)) for values of n not less than 1
-and not more than Config_Length(Ihs);
-
-- Config_Compare(' ',Config_Substr(Value,Config_Length(Ihs)}+1));
-
-- Config_Compare(Config_Substr(rhs,n),Config_Substr(Value,Config_Length(Ins)+1+n)) for values
-of n not less than 1 and not more than Config_Length(rhs).
-
-If the concatenation is not an addition then:
-if #Tracing.#Level == 'I' then call #Trace '>0O>'
+```rexx <!--settraceforconcatenation.rexx-->
+if #Tracing.#Level == 'I' then call #Trace '>O>'
+```
 
 ### The value of a comparison
 
-See <!--TODO-->nnn for the syntax of a comparison.
+See <!--TODO-->nnn for the syntax of a _comparison_.
 
-If the comparison is a concatenation then the value of the comparison is the value of the concatenation.
-Otherwise, let Ihs be the value of the comparison within it, and rns be the value of the concatenation
+If the _comparison_ is a _concatenation_ then the value of the _comparison_ is the value of the _concatenation_.
+
+Otherwise, let `lhs` be the value of the _comparison_ within it, and `rhs` be the value of the _concatenation_
 within it.
 
-If the comparison has a comparison_operator that is a strict_compare then the variable #Test is set as
+If the _comparison_ has a _comparison_operator_ that is a _strict_compare_ then the variable `#Test` is set as
 follows:
 
-#Test is set to 'E'. Let Length be the smaller of Config_Length(Ihs) and Config_Length(rhs). For values of
-n greater than O and not greater than Length, if any, in ascending order, #Test is set to the uppercased
-first character of #Outcome after:
+`#Test` is set to `'E'`. Let `Length` be the smaller of `Config_Length(lhs)` and `Config_Length(rhs)`. For values of
+`n` greater than `O` and not greater than `Length`, if any, in ascending order, `#Test` is set to the uppercased
+first character of `#Outcome` after:
 
-Config_Compare(Config_Substr(Ihs),Contfig_Subsir(rhs)).
+```rexx <!--configcomparelhsrhs.rexx-->
+Config_Compare(Config_Substr(lhs),Config_Substr(rhs)).
+```
 
-If at any stage this sets #Test to a value other than 'E' then the setting of #Test is complete. Otherwise, if
-Config_Length(Ihs) is greater than Config_Length(rhs) then #Test is set to 'G' or if Config_Length(Ihs) is
-less than Config_Length(rhs) then #Test is set to 'L'.
+If at any stage this sets `#Test` to a value other than `'E'` then the setting of `#Test` is complete. Otherwise, if
+`Config_Length(lhs)` is greater than `Config_Length(rhs)` then `#Test` is set to `'G'` or if `Config_Length(lhs)` is
+less than `Config_Length(rhs)` then `#Test` is set to `'L'`.
 
-If the comparison has a comparison_operator that is a normal_compare then the variable #Test is set as
+If the _comparison_ has a _comparison_operator_ that is a _normal_compare_ then the variable `#Test` is set as
 follows:
 
 ```rexx <!--evaluation-comparison.rexx-->
-if datatype(lhs)\== 'NUM' | datatype(rhs)\== 'NUM' then do
-/* Non-numeric non-strict comparison */
-lhs=strip(lhs, 'B', ' ') /* ExtraBlanks not stripped */
-rhs=strip(rhs, 'B', ' ')
-
-if length(lhs)>length(rhs) then rhs=left (rhs, length (lhs) )
-else lhs=left (lhs, length (rhs) )
-if lhs>>rhs then #Test='G'
-else if lhs<<rhs then #Test='L'
-else #Test='E'
-
-end
+if datatype(lhs)\== 'NUM' | datatype(rhs)\== 'NUM'  then do
+  /* Non-numeric non-strict comparison */
+  lhs=strip(lhs, 'B', ' ')   /* ExtraBlanks not stripped */
+  rhs=strip(rhs, 'B', ' ')
+  if length(lhs)>length(rhs) then rhs=left(rhs,length(lhs))
+                             else lhs=left(lhs,length(rhs))
+  if lhs>>rhs then #Test='G'
+              else if lhs<<rhs then #Test='L'
+                               else #Test='E'
+  end
 else do /* Numeric comparison */
-if left(-lhs,1) == '-' & left(+rhs,1) \== '-' then #Test='G!
-else if left(-rhs,1) == '-' & left(+lhs,1) \== '-' then #Test='L'
-else do
-Difference=lhs - rhs /* Will never raise an arithmetic condition. */
-if Difference > 0 then #Test='G'
-else if Difference < 0 then #Test='L'
-else #Test='E'
-end
-end
+  if left(-lhs,1) == '-' & left(+rhs,1) \== '-' then #Test='G'
+  else if left(-rhs,1) == '-' & left(+lhs,1) \== '-' then #Test='L'
+       else do
+         Difference=lhs - rhs  /* Will never raise an arithmetic condition. */
+         if Difference > 0 then #Test='G'
+         else if Difference < 0 then #Test='L'
+                                else #Test='E'
+         end
+   end
 ```
 
-The value of #Test, in conjunction with the operator in the comparison, determines the value of the
-comparison.
-The value of the comparison is '1' if
-- #Test is 'E' and the operator is one of '="", '=="", '>=', <=", '\>', '\<', 'p>=', '<<=', \>>', or <<)
+The value of `#Test`, in conjunction with the _operator_ in the _comparison_, determines the value of the
+_comparison_.
 
-- #Test is 'G' and the operator is one of '>', '>=", '\<', '\=', '<>', '><', Nes", '>>! 'p>', or <<")
-- #Test is 'L' and the operator is one of '<', <=", \>', \=', '<>', '><', \==', '<<', *<<=', or \>>'.
-In all other cases the value of the comparison is '0'.
+The value of the _comparison_ is _'1'_ if
 
-If the comparison is not a concatenation then:
-if #Tracing.#Level == 'I' then call #Trace '>0O>'
+- `#Test` is `'E'` and the operator is one of `'='`, `'=='`, `'>='`, `'<='`, `'\>'`, `'\<'`, `'>>='`, `'<<='`, `'\>>'`, or `'\<<'`;
+- `#Test` is `'G'` and the operator is one of `'>'`, `'>='`, `'\<'`, `'\='`, `'<>'`, `'><'`, `'\=='`, `'>>'`, `'>>='`, or `'\<<'`;
+- `#Test` is `'L'` and the operator is one of `'<'`, `'<='`, `'\>'`, `'\='`, `'<>'`, `'><'`, `'\=='`, `'<<'`, `'<<='`, or `'\>>'`.
+  
+In all other cases the value of the _comparison_ is `'0'`.
+
+If the _comparison_ is not a _concatenation_ then:
+
+```rexx <!--settraceforcomparison.rexx-->
+if #Tracing.#Level == 'I' then call #Trace '>O>'
+```
 
 ### The value of an and_expression
 
