@@ -1,6 +1,6 @@
 # Directives
 
-The syntax constructs which are introduced by the optional '::' token are known as directives.
+The syntax constructs which are introduced by the optional `'::'` token are known as directives.
 
 ## Notation
 
@@ -11,7 +11,7 @@ Some notation functions allow reference to syntax constructs defined in nnn. Whi
 syntax construct in the program is being referred to is implied; it is the one for which the semantics are
 being specified.
 
-The `BNF_primary` referenced may be directly in the production or in some component referenced in the
+The `BNF_primary` referenced may be directly in the _production_ or in some component referenced in the
 _production_, recursively. The components are considered in left to right order.
 
 ```rexx <!--directivescontainsidentifier.rexx-->
@@ -35,7 +35,7 @@ where:
 * `BNF_primary` is a _bnf_primary_ in a _production_ defined in nnn.
 
 Returns the content of the particular instance of the `BNF_primary`. If the `BNF_primary` is a
-`VAR_SYMBOL` this is referred to as the symbol "taken as a constant."
+_VAR_SYMBOL_ this is referred to as the symbol "taken as a constant."
 
 ```rexx <!--directivesevaluate.rexx-->
 #Evaluate(Identifier, BNF primary)
@@ -103,7 +103,7 @@ variable `#Loop` set to the value it had when that clause was previously execute
 
 _Some of the initializing, now grouped in classic section 8.2.1 will have to come here so that 
 we have picked up anything from the `START_API` that needs to be passed on to the execution
-of REQUIRES subject. We will be using some operations that are forward reference to what was section nnn._
+of `REQUIRES` subject. We will be using some operations that are forward reference to what was section nnn._
 
 ### Program initialization and message texts
 
@@ -119,20 +119,18 @@ call Config ObjectNew
 _Is it correct to make the reserved variables and the builtin objects in the same pool?_
 
 Some of the values which affect processing of the program are parameters of `API_Start`:
-`#Howlnvoked` is set to `'COMMAND'`, `'FUNCTION'` or `'SUBROUTINE'` according to the first parameter of
-`API_Start`.
 
-`#Source` is set to the value of the second parameter of `API_Start`.
-
-The third parameter of `API_Start` is used to determine the initial active environment.
-
-The fourth parameter of `API_Start` is used to determine the arguments. For each argument position
-`#ArgExists.1.ArgNumber` is set `'1'` if there is an argument present, `'0'` if not. 
-`ArgNumber` is the number of the argument position, counting from `1`. If `#ArgExists.1.ArgNumber` 
-is `'1'` then `#Arg.1.ArgNumber` is set to the value of the corresponding argument. 
-If `#ArgExists.1.ArgNumber` is `'0'` then `#Arg.1.Arg` is set to the null string. 
-`#ArgExists.1.0` is set to the largest `n` for which `#ArgExists.1.n` is `'1'`, or to zero if there is no
-such value of `n`.
+* `#Howlnvoked` is set to `'COMMAND'`, `'FUNCTION'` or `'SUBROUTINE'` according to the first parameter of
+  `API_Start`.
+* `#Source` is set to the value of the second parameter of `API_Start`.
+* The third parameter of `API_Start` is used to determine the initial active environment.
+* The fourth parameter of `API_Start` is used to determine the arguments. For each argument position
+  `#ArgExists.1.ArgNumber` is set `'1'` if there is an argument present, `'0'` if not. 
+  `ArgNumber` is the number of the argument position, counting from `1`. If `#ArgExists.1.ArgNumber` 
+  is `'1'` then `#Arg.1.ArgNumber` is set to the value of the corresponding argument. 
+  If `#ArgExists.1.ArgNumber` is `'0'` then `#Arg.1.Arg` is set to the null string. 
+  `#ArgExists.1.0` is set to the largest `n` for which `#ArgExists.1.n` is `'1'`, or to zero if there is no
+  such value of `n`.
 
 Some of the values which affect processing of the program are provided by the configuration:
 
@@ -145,9 +143,10 @@ call Config Constants
 .true = '1'
 .false = '0'
 ```
-\_Objects in our model are only distinquished by the values within their pool so we can construct the builtin classes incomplete and then complete them with directives.\_
 
-\_Can we initialize the methods of .nil by directives?\_
+_Objects in our model are only distinquished by the values within their pool so we can construct the builtin classes incomplete and then complete them with directives._
+
+_Can we initialize the methods of .nil by directives?_
 
 ```rexx <!--configobjectnew.rexx-->
 call Config_ObjectNew
@@ -407,7 +406,7 @@ _Unsound now we are using 'term'?_
 #ErrorText.33.3= 'Result of expression following NUMERIC FORM',
                  'must start with "E" or "S"; found "<value>"'
 
-#ErrorText.34  = "Logical value not "0" or "1"!
+#ErrorText.34  = 'Logical value not "0" or "1"'
 #ErrorText.34.1= 'Value of expression following IF keyword',
                  'must be exactly "0" or "1"; found "<value>"'
 #ErrorText.34.2= 'Value of expression following WHEN keyword',
@@ -550,7 +549,7 @@ _Unsound now we are using 'term'?_
 
 #ErrorText.47  = 'Unexpected label'
 #ErrorText.47.1= 'INTERPRET data must not contain labels;',
-                 'found "<name>"
+                 'found "<name>"'
 
 #ErrorText.48  = 'Failure in system service'
 #ErrorText.48.1= 'Failure in system service: <description>'
@@ -610,6 +609,7 @@ An initial variable pool is established:
 #Pool1 = #Pool
  call Var_Empty #Pool
  call Var_Reset #Pool
+
  #Level = 1 /* Level of invocation */
  #NewLevel = 2
  #IsFunction.#Level = (#HowInvoked == 'FUNCTION')
@@ -619,11 +619,11 @@ For this first level, there is no previous level from which values are inherited
 initialized.
 
 ```rexx <!--configdigits.rexx--> 
-#Digits.#Level = 9 /* Numeric Digits */
-#Form.#Level = 'SCIENTIFIC' /* Numeric Form */
-#Fuzz.#Level = 0 /* Numeric Fuzz */
+#Digits.#Level = 9    /* Numeric Digits */
+#Form.#Level = 'SCIENTIFIC'  /* Numeric Form */
+#Fuzz.#Level = 0  /* Numeric Fuzz */
 
-#StartTime.#Level = '' /* Elapsed time boundary */
+#StartTime.#Level = ''  /* Elapsed time boundary */
 #LineNumber = ''
 #Tracing.#Level = 'N'
 #Interactive.#Level = '0'
@@ -663,16 +663,16 @@ The opportunity is provided for a trap to initialize the pool.
 ```rexx <!--configinitializepooltrap.rexx-->
 #API Enabled = '1'
 call Var_Reset #Pool
-call Config Initialization
-#API Enabled = '0'
+call Config_Initialization
+#API_Enabled = '0'
 ```
 
 ## REQUIRES
 
 For each requires in order of appearence:
 
-_A use of Start_API with #instance(requires, taken_constant). Msg40.1 or a new if completion 'E'. Add Provides to an
-ordered collection. Not cyclic because .LIST can be defined without defining REQUIRES but a fairly profound forward
+_A use of `Start_API` with `#instance(requires, taken_constant)`. _Msg40.1_ or a new if completion `'E'`. Add `Provides` to an
+ordered collection. Not cyclic because `.LIST` can be defined without defining `REQUIRES` but a fairly profound forward
 reference._
 
 ## CLASS
@@ -682,39 +682,46 @@ For each class in order of appearence:
 #ClassName = #Instance(class, taken constant)
 call var_value #ReservedPool, '#CLASSES.'ClassName, '1'
 if #Indicator == 'D' then do
-   call Config ObjectNew
+   call Config_ObjectNew
    #Class = #Outcome
    call var_set #ReservedPool, '#CLASSES.'ClassName, '1', #Class
    end
 else call #Raise 'SYNTAX', nn.nn, #ClassName
 ```
 
-_New instance of CLASS class added to list. Msg "Duplicate ::CLASS directive instruction"(?)_
+_New instance of `CLASS` class added to list. Msg "Duplicate ::CLASS directive instruction"(?)_
+
 ## METHOD
 
 For each method in order of appearence:
 
 ```rexx <!--methodsorderofappearance.rexx-->
-call Config ObjectNew
+call Config_ObjectNew
 #Pool = #Outcome
-call Config ObjectSource (#Pool)
+call Config_ObjectSource (#Pool)
 #MethodName = #Instance(method, taken constant)
 call var_value #Class, '#METHODS.'#MethodName, '1'
 if #Indicator == 'D' then
-   call var set #Class, '#METHODS.'#MethodName, '1', #Pool
+   call var_set #Class, '#METHODS.'#MethodName, '1', #Pool
 else call #Raise 'SYNTAX', nn.nn, #MethodName, #ClassName
 ```
 
-_GUARDED & public is default. if #contains(method, 'PRIVATE') then m~setprivate; if #contains(method,
-'UNGUARDED)) then m\~setunguarded  
-Why is there a keyword for GUARDED but not for PUBLIC here?  
-Does CLASS option mean ENHANCE with Class class methods?  
-#CurrentClass\~class(#instance(method, taken_constant), m)  
-For ATTRIBUTE, should we actually construct source for two methods? ATTRIBUTE case needs test of null body.
-OOI doesn't have source (because it actually traps UNKNOWN?).  
-For EXTERNAL test for null body. Simon Nash doc says "Accessibility to external methods ... is
+_`GUARDED` & public is default. if `#contains(method, 'PRIVATE') then m~setprivate; if #contains(method,
+'UNGUARDED)) then m\~setunguarded`_
+
+_Why is there a keyword for `GUARDED` but not for `PUBLIC` here?_
+
+_Does `CLASS` option mean `ENHANCE` with Class class methods?_
+
+_`#CurrentClass\~class(#instance(method, taken_constant), m)`_
+
+_For `ATTRIBUTE`, should we actually construct source for two methods? `ATTRIBUTE` case needs test of null body._
+
+_OOI doesn't have source (because it actually traps `UNKNOWN`?).:
+
+_For `EXTERNAL` test for null body. Simon Nash doc says "Accessibility to external methods ... is
 implementation-defined". Left like that it doesn't even tell us about search order. We will need a
-Config_ExternalClass to import the public names of the class._
+`Config_ExternalClass` to import the public names of the class._
 
 ## ROUTINE
 
