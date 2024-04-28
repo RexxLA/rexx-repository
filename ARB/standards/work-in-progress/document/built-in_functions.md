@@ -2005,463 +2005,350 @@ return 0
 ### CHARS
 
 `CHARS` indicates whether there are characters remaining in the named stream. Optionally, it returns a
-
 count of the characters remaining and immediately available.
 
 ```rexx <!--chars.rexx-->
 call CheckArgs 'oSTREAM oCN'
 
 if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
-else Stream = ''
-
+                    else Stream = ''
 if #Bif_ArgExists.2 then Option = #Bif_Arg.2
-else Option = 'N'
+                    else Option = 'N'
 
 call Config_Stream_Count Stream, 'CHARS', Option
 return #Outcome
 ```
 
 ### LINEIN
-LINEIN reads a line from the stream named by the first argument, unless the third argument is Zero.
+
+`LINEIN` reads a line from the stream named by the first argument, unless the third argument is zero.
 
 ```rexx <!--linein.rexx-->
 call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
 
-if #Bif_ArgExists.1 then Stream
-else Stream
+if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
+                    else Stream = ''
 #StreamState.Stream = ''
 if #Bif_ArgExists.2 then do
-#Response = Config_Stream_Position(Stream, 'LINEIN', #Bif_Arg2)
-if left(#Response, 1) 'T' then call Raise 40.42,Stream
-if left(#Response, 1) 'R' then call Raise 40.41, 2, #Bif_Arg.2
-end
-if #Bif_ArgExists.3 then Count #Bif_Arg.3
-else Count 1
+  #Response = Config_Stream_Position(Stream, 'LINEIN', #Bif_Arg2)
+  if left(#Response, 1) == 'T' then call Raise 40.42,Stream
+  if left(#Response, 1) == 'R' then call Raise 40.41, 2, #Bif_Arg.2
+  end
+if #Bif_ArgExists.3 then Count = #Bif_Arg.3
+                    else Count = 1
 if Count>1 then call Raise 40.39, Count
 if Count = 0 then do
-call Config_Stream_Charin Stream, 'NULL' /* "Touch" the stream */
-return '!
-end
+    call Config_Stream_Charin Stream, 'NULL' /* "Touch" the stream */
+    return ''
+    end
 /* A configuration may recognise lines even in 'binary' mode. */
 call Config_Stream_Query Stream
 Mode = #Outcome
-re ter
-t = #Linein Position.Stream
-/* Config_Stream_Charin will alter #Linein Position. */
-do until t \= #Linein Position.Stream
-#Response = Config_Stream_Charin(Stream, 'LINEIN')
-if left(#Response, 1) \== 'N' then do
-if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
-call #Raise 'NOTREADY', Stream, substr(#Response, 2)
-leave
-end
-r = r||#Outcome
-end
+r = ''
+t = #Linein_Position.Stream
+/* Config_Stream_Charin will alter #Linein_Position. */
+do until t \= #Linein_Position.Stream
+    #Response = Config_Stream_Charin(Stream,'LINEIN')
+    if left(#Response, 1) \== 'N' then do
+      if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
+      call #Raise 'NOTREADY', Stream, substr(#Response, 2)
+      leave
+      end
+   r = r||#Outcome
+   end
 if Mode == 'B' then do
-call Config_B2C r
-r= #Outcome
-end
+  call Config_B2C r
+  r = #Outcome
+  end
 return r
-
-#Bif_Arg.1
 ```
 
 ### LINEOUT
 
-LINEOUT returns '1' or '0', indicating whether the second argument has been successfully written to the stream named by the first argument. A result of '1' means an unsuccessful write.
+`LINEOUT` returns `'1'` or `'0'`, indicating whether the second argument has been successfully written to the stream named by the first argument. A result of `'1'` means an unsuccessful write.
 
 ```rexx <!--lineout.rexx-->
 call CheckArgs 'oSTREAM oANY oWHOLE>0'
 
-if #Bif_ArgExists.1 then Stream
-else Stream
-
-#Bif_Arg.1
+if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
+                    else Stream = ''
 
 #StreamState.Stream = ''
-
 if \#Bif_ArgExists.2 & \#Bif_ArgExists.3 then do
-
-/* Position to end of stream.
-
-*/
-
-#Response = Config_Stream_Close (Stream)
-if left(#Response,1) == 'T' then call Raise 40.42,Stream
-
-return 0
-end
+  /* Position to end of stream. */
+  #Response = Config_Stream_Close(Stream)
+  if left(#Response,1) == 'T' then call Raise 40.42,Stream
+  return 0
+  end
 
 if #Bif_ArgExists.3 then do
-
-#Response = Config_Stream_Position(Stream, 'LINEOUT', #Bif_Arg.3)
-
-if left(#Response, 1) == 'T' then call Raise 40.42,Stream
-if left(#Response, 1) == 'R' then call Raise 40.41, 3, #Bif_Arg.3
-end
+  #Response = Config_Stream_Position(Stream, 'LINEOUT', #Bif_Arg.3)
+  if left(#Response, 1) == 'T' then call Raise 40.42,Stream
+  if left(#Response, 1) == 'R' then call Raise 40.41, 3, #Bif_Arg.3
+  end
 
 if \#Bif_ArgExists.2 then do
+  call Config_Stream_Charout Stream, '' /* "Touch" the stream */
+  return 0
+  end
 
-call Config_Stream_Charout Stream, '' /* "Touch" the stream */
-
-return 0
-end
-
-String #Bif_Arg.2
-Stride 1
+String = #Bif_Arg.2
+Stride = 1
 call Config_Stream_Query Stream
 Mode = #Outcome
 if Mode == 'B' then do
-call Config_C2B String
-String = #Outcome
-Stride = 8
-Residue = length(String)/8
-end
+  call Config_C2B String
+  String = #Outcome
+  Stride = 8
+  Residue = length(String)/8
+  end
 else do
-Stride = 1
-Residue = length(String)
-end
+   Stride = 1
+   Residue = length(String)
+   end
 Cursor = 1
 do while Residue > 0
-
-Piece = substr(String, Cursor, Stride)
-
-Cursor = Cursor+Stride
-
-call Config_Stream_Charout Stream, Piece
-then do
-
-then #StreamState.Stream = 'ERROR'
-
-call #Raise 'NOTREADY', Stream, substr(#Response, 2)
-
-if left(#Response, 1) \== 'N'
-if left(#Response, 1) == 'E'
-return 1
-end
-Residue = Residue-1
-end
-call Config_Stream_Charout Stream,
+  Piece = substr(String, Cursor, Stride)
+  Cursor = Cursor+Stride
+  call Config_Stream_Charout Stream, Piece
+  if left(#Response, 1) \== 'N' then do
+    if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
+    call #Raise 'NOTREADY', Stream, substr(#Response, 2)
+    return 1
+    end
+  Residue = Residue-1
+  end
+call Config_Stream_Charout Stream, 'EOL'
 return 0
 ```
 
 ### LINES
 
-'EOL'
-
-LINES returns the number of lines remaining in the named stream.
+`LINES` returns the number of lines remaining in the named stream.
 
 ```rexx <!--lines.rexx-->
 call CheckArgs 'oSTREAM oCN'
 
-if #Bif_ArgExists.1 then Stream
-else Stream
-if #Bif_ArgExists.2 then Option
-else Option
+if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
+                    else Stream = ''
+if #Bif_ArgExists.2 then Option = #Bif_Arg.2
+                    else Option = 'N'
 
-Call Config_Stream_Count Stream,
+Call Config_Stream_Count Stream, 'LINES', Option
 return #Outcome
 ```
 
 ### QUALIFY
 
-```rexx <!--qualify.rexx-->
-#Bif_Arg.1
-ter
-#Bif_Arg.2
-tint
-
-LINES', Option
-
-QUALIFY returns a name for the stream named by the argument. The two names are currently
+`QUALIFY` returns a name for the stream named by the argument. The two names are currently
 associated with the same resource and the result of QUALIFY may be more persistently associated with
-
 that resource.
+
+```rexx <!--qualify.rexx-->
 call CheckArgs 'oSTREAM'
 
-if #Bif_ArgExists.1 then Stream
-else Stream
+if #Bif_ArgExists.1 then Stream = #Bif_Arg.1
+else Stream = ''
 
-
-#Bif_Arg.1
 #Response = Config_Stream_Qualified(Stream)
 return #Outcome
 ```
 
 ### STREAM
-STREAM returns a description of the state of, or the result of an operation upon, the stream named by
+
+`STREAM` returns a description of the state of, or the result of an operation upon, the stream named by
 the first argument.
 
 ```rexx <!--stream.rexx-->
-/* Third argument is only correct with 'C' */
+ /* Third argument is only correct with 'C' */
+ if #Bif_ArgExists.2 & translate(left(#Bif_Arg.2, 1)) == 'C' then
+    ArgData = 'rSTREAM rCDS rANY'
+ else
+    ArgData = 'rSTREAM oCDS'
+ call CheckArgs ArgData
 
-if #Bif_ArgExists.2 & translate(left(#Bif_Arg.2, 1)) == 'C' then
-ArgData = 'rSTREAM rCDS rANY'
+ Stream = #Bif_Arg.1
 
-else
-ArgData = 'rSTREAM oCDS'
-
-call CheckArgs ArgData
-
-Stream = #Bif_Arg.1
-
-if #Bif_ArgExists.2 then Operation = #Bif_Arg.2
-else Operation = 'S'
+ if #Bif_ArgExists.2 then Operation = #Bif_Arg.2
+                     else Operation = 'S'
 Select
-when Operation == 'C' then do
-
-call Config_Stream_Command Stream, #Bif_Arg.3
-return #Outcome
-
-end
-when Operation == 'D' then do
-#Response = Config_Stream_State (Stream)
-return substr(#Response, 2)
-end
-when Operation == 'S' then do
-if StreamState.Stream == 'ERROR' then return 'ERROR'
-#Response = Config_Stream_State (Stream)
-
-'N' then return 'READY'
-'U' then return 'UNKNOWN'
-
-if left(#Response,
-if left(#Response,
-return 'NOTREADY'
-end
-
-end
-
-1) ==
-1) ==
+  when Operation == 'C' then do
+    call Config_Stream_Command Stream,#Bif_Arg.3
+    return #Outcome
+    end
+  when Operation == 'D' then do
+    #Response = Config_Stream_State(Stream)
+    return substr(#Response, 2)
+    end
+  when Operation == 'S' then do
+    if StreamState.Stream == 'ERROR' then return 'ERROR'
+    #Response = Config_Stream_State(Stream)
+    if left(#Response, 1) == 'N' then return 'READY'
+    if left(#Response, 1) == 'U' then return 'UNKNOWN'
+    return 'NOTREADY'
+    end
+  end
 ```
 
 ## Other built-in functions
 
 ### DATE
 
-DATE with fewer than two arguments returns the local date. Otherwise it converts the second argument
+`DATE` with fewer than two arguments returns the local date. Otherwise it converts the second argument
 (which has a format given by the third argument) to the format specified by the first argument. If there are
 fourth or fifth arguments, they describe the treatment of separators between fields of the date.
 
 ```rexx <!--date.rexx-->
-call CheckArgs 'oBDEMNOSUW oANY oOBDENOSU oSEP oSEP'
-/* If the third argument is given then the second is mandatory. */
-if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
+  call CheckArgs 'oBDEMNOSUW oANY oBDENOSU oSEP oSEP'
+  /* If the third argument is given then the second is mandatory. */
+  if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
+    call Raise 40.19, '', #Bif_Arg.3
 
-call Raise 40.19, '', #Bif_Arg.3
+  if #Bif_ArgExists.1 then Option = #Bif_Arg.1
+                      else Option = 'N'
 
-if #Bif_ArgExists.1 then Option
-else Option
+  /* The date/time is 'frozen' throughout a clause. */
+  if #ClauseTime.#Level == '' then do
+    #Response = Config_Time()
+    #ClauseTime.#Level = #Time
+    #ClauseLocal.#Level = #Time + #Adjust<Index "#Adjust" # "" >
+    end
+  /* English spellings are used, even if messages not in English are used. */
+  Months = 'January February March April May June July',
+           'August September October November December'
+  WeekDays = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
 
-#Bif_Arg.1
-tint
+  /* If there is no second argument, the current date is returned. */
+  if \#Bif_ArgExists.2 then
+    return DateFormat(#ClauseLocal.#Level, Option)
 
-/* The date/time is 'frozen' throughout a clause. */
-if #ClauseTime.#Level == '' then do
-#Response = Config_Time()
-#ClauseTime.#Level = #Time
-#ClauseLocal.#Level = #Time + #Adjust<Index "#Adjust" # "" >
-end
-/* English spellings are used, even if messages not in English are used. */
-Months = 'January February March April May June July',
-'August September October November December'
-WeekDays = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
-
-/* If there is no second argument, the current date is returned. */
-if \#Bif_ArgExists.2 then
-return DateFormat (#ClauseLocal.#Level, Option)
-
-/* If there is a second argument it provides the date to be
-converted. */
-
-Value = #Bif_Arg.2
-if #Bif_ArgExists.3 then InOption
-else InOption
-if Option == 'S' then OutSeparator
-else OutSeparator
-if #Bif_ArgExists.4 then do
-
-if OutSeparator == 'x' then call
-OutSeparator = #Bif.Arg.4
-end
-
-if InOption == 'S' then InSeparator
-
-else InSeparator
-if #Bif_ArgExists.5 then do
-
-#Bif_Arg.3
-'nt
-
-translate(Option, "xx/x //x","BDEMNOUW")
-
-Raise 40.46, Option, 4
-
-translate(InOption,"xx/ //","BDENOU")
-
-if InSeparator == 'x' then call Raise 40.46, InOption, 5
-
-InSeparator = #Bif.Arg.5
-end
+  /* If there is a second argument it provides the date to be
+  converted. */
+  Value = #Bif_Arg.2
+  if #Bif_ArgExists.3 then InOption = #Bif_Arg.3
+                      else InOption = 'N'
+  if Option == 'S' then OutSeparator = ''
+                        else OutSeparator = translate(Option,"xx/x //x","BDEMNOUW")
+  if #Bif_ArgExists.4 then do
+    if OutSeparator == 'x' then call Raise 40.46, Option, 4
+    OutSeparator = #Bif.Arg.4
+    end
+  if InOption == 'S' then InSeparator = ''
+                     else InSeparator = translate(InOption,"xx/ //","BDENOU")
+  if #Bif_ArgExists.5 then do
+    if InSeparator == 'x' then call Raise 40.46, InOption, 5
+    InSeparator = #Bif.Arg.5
+    end
 /* First try for Year Month Day */
 Logic = 'NS'
 select
-when InOption == 'N' then do
-if InSeparator == '' then do
+  when InOption == 'N' then do
+    if InSeparator == '' then do
+      if length(Value)<9 then return
+      Year = right(Value,4)
+      MonthIs = substr(right(Value,7),1,3)
+      Day = left(Value,length(Value)-7)
+    end
+    else
+      parse var Value Day (InSeparator) MonthIs (InSeparator) Year
+    do Month = 1 to 12
+      if left(word(Months, Month), 3) == MonthIs then leave
+    end Month
+  end
+  when InOption == 'S' then
+    if InSeparator == '' then
+      parse var Value Year +4 Month +2 Day
+    else
+      parse var Value Year (InSeparator) Month (InSeparator) Day
+    otherwise
+      Logic = 'EOU' /* or BD */
+  end
+  /* Next try for year without century */
+  if logic = 'EOU' then
+    Select
+      when InOption == 'E' then
+        if InSeparator == '' then
+          parse var Value Day +2 Month +2 YY
+        else
+          parse var Value Day (InSeparator) Month (InSeparator) YY
+      when InOption == 'O' then
+        if InSeparator == '' then
+          parse var Value YY +2 Month +2 Day
+        else
+          parse var Value YY (InSeparator) Month (InSeparator) Day
+      when InOption == 'U' then
+        if InSeparator == '' then
+          parse var Value Month +2 Day +2 YY
+        else
+          parse var Value Month (InSeparator) Day (InSeparator) YY
+      otherwise
+        Logic = 'BD'
+    end
 
-if length(Value)<9 then return
-Year = right(Value, 4)
+  if Logic = 'EOU' then do
+    /* The century is assumed, on the basis of the current year. */
+    if datatype(YY,'W')=0 then
+      return
+    YearNow = left('DATE'('S'),4)
+    Year = YY
+    do while Year < YearNow-50
+      Year = Year + 100
+    end
+  end /* Century assumption */
 
-MonthIs = substr(right(Value,7),1,3)
-Day = left(Value, length(Value) -7)
+  if Logic <> 'BD' then do
+    /* Convert Month & Day to Days of year. */
+    if datatype(Month,'W')=0 | datatype(Day,'W')=0 | datatype(Year,'W')=0 then
+      return
+    Days = word('0 31 59 90 120 151 181 212 243 273 304 334',Month),
+                                      + (Month>2)*Leap(Year) + Day-1
+  end
+  else
+    if datatype(Value,'W')=0 then
+      return
+  if InOption == 'D' then do
+    Year = left('DATE'('S'),4)
+    Days = Value - 1 /* 'D' includes current day */
+  end
 
-end
-else
+  /* Convert to BaseDays */
+  if InOption <> 'B' then
+    BaseDays = (Year-1)*365 + (Year-1)%4 - (Year-1)%100 + (Year-1)%400 + Days
+  else
+    Basedays = Value
 
-parse var Value Day (InSeparator) MonthIs (InSeparator) Year
+  /* Convert to microseconds from 0001 */
+  Micro = BaseDays * 86400 * 1000000
 
-do Month = 1 to 12
-if left(word(Months, Month), 3)
-
-== MonthIs then leave
-
-parse var Value Year (InSeparator) Month (InSeparator) Day
-
-end Month
-
-end
-
-when InOption == 'S' then
-if InSeparator == '' then
-
-parse var Value Year +4 Month +2 Day
-
-else
-
-otherwise
-Logic = 'EOU' /* or BD */
-
-end
-
-/* Next try for year without century */
-
-parse var Value Day (InSeparator) Month (InSeparator) YY
-
-parse var Value YY (InSeparator) Month (InSeparator) Day
-
-parse var Value Month (InSeparator) Day (InSeparator) YY
-
-if logic = 'EOU' then
-Select
-when InOption == 'E' then
-if InSeparator == '' then
-parse var Value Day +2 Month +2 YY
-else
-when InOption == 'O' then
-if InSeparator == '' then
-parse var Value YY +2 Month +2 Day
-else
-when InOption == 'U' then
-if InSeparator == '' then
-parse var Value Month +2 Day +2 YY
-else
-otherwise
-Logic = 'BD'
-end
-if Logic = 'EOU' then do
-
-/* The century is assumed, on the basis of the current year. */
-
-if datatype(YY,'W')=0 then
-return
-
-YearNow = left('DATE'('S'),4)
-
-Year = YY
-
-do while Year < YearNow-50
-Year = Year + 100
-
-end
-
-end /* Century assumption */
-
-if Logic <> 'BD' then do
-/* Convert Month & Day to Days of year. */
-if datatype(Month,'W')=0 | datatype(Day,'W')=0 | datatype(Year,'W')=0 then
-return
-Days = word('0 31 59 90 120 151 181 212 243 273 304 334',Month),
-+ (Month>2)*Leap(Year) + Day-1
-
-end
-else
-
-if datatype(Value,'W')=0 then
-
-return
-
-if InOption == 'D' then do
-
-Year = left('DATE' ('S'),4)
-
-Days = Value - 1 /* 'D' includes current day */
-end
-
-/* Convert to BaseDays */
-if InOption <> 'B' then
-
-BaseDays = (Year-1)*365 + (Year-1)%4 - (Year-1)%100 + (Year-1)%400 + Days
-else
-
-Basedays = Value
-
-/* Convert to microseconds from 0001 */
-Micro = BaseDays * 86400 * 1000000
-
-/* Reconvert to check the original. (eg for Month = 99) */
-
-if DateFormat (Micro,InOption,InSeparator) \== Value then
-call Raise 40.19, Value, InOption
-
-return DateFormat (Micro, Option, OutSeparator)
+  /* Reconvert to check the original. (eg for Month = 99) */
+  if DateFormat(Micro,InOption,InSeparator) \== Value then
+    call Raise 40.19, Value, InOption
+  return DateFormat(Micro,Option,OutSeparator)
 
 DateFormat:
-/* Convert from microseconds to given format. */
-parse value Time2Date(arg(1)) with,
-Year Month Day Hour Minute Second Microsecond Base Days
-
-select
-
-when arg(2) == 'B' then
-
-return Base
-when arg(2) == 'D' then
-
-return Days
-when arg(2) == 'E' then
-
-return right(Day,2,'0') (arg(3)) right(Month,2,'0') (arg(3)) right(Year,2,'0')
-when arg(2) == 'M' then
-
-return word (Months ,Month)
-when arg(2) == 'N' then
-
-return (Day) (arg(3)) left(word(Months,Month),3) (arg(3))right(Year,4,'0')
-when arg(2) == 'O' then
-
-return right(Year,2,'0') (arg(3))right(Month,2,'0') (arg(3))right(Day,2,'0')
-when arg(2) == 'S' then
-
-return right(Year,4,'0') (arg(3))right(Month,2,'0') (arg(3))right(Day,2,'0')
-when arg(2) == 'U' then
-
-return right(Month,2,'0') (arg(3)) right(Day,2,'0') (arg(3)) right(Year,2,'0')
-otherwise /* arg(2) == 'W' */
-
-return word (Weekdays, 1+Base//7)
-
-end
+    /* Convert from microseconds to given format. */
+    parse value Time2Date(arg(1)) with,
+         Year Month Day Hour Minute Second Microsecond Base Days
+ select
+    when arg(2) == 'B' then
+      return Base
+    when arg(2) == 'D' then
+      return Days
+    when arg(2) == 'E' then
+      return right(Day,2,'0')(arg(3))right(Month,2,'0')(arg(3))right(Year,2,'0')
+    when arg(2) == 'M' then
+      return word(Months,Month)
+    when arg(2) == 'N' then
+      return (Day)(arg(3))left(word(Months,Month),3)(arg(3))right(Year,4,'0')
+    when arg(2) == 'O' then
+      return right(Year,2,'0')(arg(3))right(Month,2,'0')(arg(3))right(Day,2,'0')
+    when arg(2) == 'S' then
+      return right(Year,4,'0')(arg(3))right(Month,2,'0')(arg(3))right(Day,2,'0')
+    when arg(2) == 'U' then
+      return right(Month,2,'0')(arg(3))right(Day,2,'0')(arg(3))right(Year,2,'0')
+    otherwise /* arg(2) == 'W' */
+      return word(Weekdays,1+Base//7)
+  end
 ```
 
 ### QUEUED
