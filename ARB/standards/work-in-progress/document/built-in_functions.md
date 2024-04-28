@@ -8,7 +8,7 @@ The code refers to functions with names that start with `'Config_'`; these are t
 section <!--TODO-->nnn.
 
 The code is specified as an external routine that produces a result from the values `#Bif` (which is the
-name of the built-in function), `#BIF-Arg.0` (the number of arguments), `#BIF-Arg.i` and `#BIF-ArgExists.i`
+name of the built-in function), `#BIF_Arg.0` (the number of arguments), `#BIF_Arg.i` and `#BIF_ArgExists.i`
 (which are the argument data.)
 
 The value of `#Level` is the value for the clause which invoked the built-in function.
@@ -62,13 +62,13 @@ CheckArgs:
    MaxArgs = ArgPos
 
    /* Check the number of arguments to the built-in, in this instance. */
-   NumArgs = #BIF-Arg.0
+   NumArgs = #BIF_Arg.0
    if NumArgs < MinArgs then call Raise 40.3, MinArgs
    if NumArgs > MaxArgs then call Raise 40.4, MaxArgs
 
    /* Check the type(s) of the arguments to the built-in. */
    do ArgPos = 1 to NumArgs
-      if #BIF-ArgExists.ArgPos then
+      if #BIF_ArgExists.ArgPos then
          call CheckType
       else
          if ArgPos <= MinArgs then call Raise 40.5, ArgPos
@@ -79,7 +79,7 @@ CheckArgs:
 
 CheckType:
 
-   Value = #BIF-Arg.ArgPos
+   Value = #BIF_Arg.ArgPos
    Type  = ArgType.ArgPos
 
    select
@@ -90,14 +90,14 @@ CheckType:
          if \Cdatatype(Value, 'N') then
             if #DatatypeResult=='E' then call Raise 40.9, ArgPos, Value
                                     else call Raise 40.11, ArgPos, Value
-         #BIF-Arg.ArgPos=#DatatypeResult /* Update argument copy. */
+         #BIF_Arg.ArgPos=#DatatypeResult /* Update argument copy. */
          end
 
       when Type == 'WHOLE' then do                        /* Whole number */
          /* This check is made with digits setting for the built-in. */
          if \Edatatype(Value,'W') then
             call Raise 40.12, ArgPos, Value
-         #BIF-Arg.ArgPos=#DatatypeResult
+         #BIF_Arg.ArgPos=#DatatypeResult
          end
 
       when Type == 'WHOLE>=0' then do        /* Non-negative whole number */
@@ -105,7 +105,7 @@ CheckType:
             call Raise 40.12, ArgPos, Value
          if #DatatypeResult < 0 then
             call Raise 40.13, ArgPos, Value
-         #BIF-Arg.ArgPos=#DatatypeResult
+         #BIF_Arg.ArgPos=#DatatypeResult
          end
 
       when Type == 'WHOLE>0O' then do            /* Positive whole number */
@@ -113,14 +113,14 @@ CheckType:
             call Raise 40.12, ArgPos, Value
          if #DatatypeResult <= 0 then
             call Raise 40.14, ArgPos, Value
-         #BIF-Arg.ArgPos=#DatatypeResult
+         #BIF_Arg.ArgPos=#DatatypeResult
          end
 
       when Type == 'WHOLENUM' then do  /* D2X type whole number */
          /* This check is made with digits setting of the caller. */
          if \Cdatatype(Value,'W') then
             call Raise 40.12, ArgPos, Value
-         #BIF-Arg.ArgPos=#DatatypeResult
+         #BIF_Arg.ArgPos=#DatatypeResult
          end
 
       when Type == 'WHOLENUM>=0' then do /* D2X Non-negative whole number */
@@ -128,14 +128,14 @@ CheckType:
             call Raise 40.12, ArgPos, Value
          if #DatatypeResult < 0 then
             call Raise 40.13, ArgPos, Value
-         #BIF-Arg.ArgPos=#DatatypeResult
+         #BIF_Arg.ArgPos=#DatatypeResult
          end
 
       when Type == '0_90' then do                          /* Errortext */
          if \Edatatype(Value,'N') then
             call Raise 40.11, ArgPos, Value
          Value=#DatatypeResult
-         #BIF-Arg.ArgPos=Value
+         #BIF_Arg.ArgPos=Value
          Major=Value % 1
          Minor=Value - Major
          if Major < 0 | Major > 90 | Minor > .9 | pos('E',Value)>0 then
@@ -180,8 +180,8 @@ CheckType:
          /* The checklist item is a list of allowed characters */
          if Value == '' then
             call Raise 40.21, ArgPos
-         #BIF-Arg.ArgPos = translate(left(Value, 1))
-         if pos(#BIF-Arg.ArgPos, Type) = 0 then
+         #BIF_Arg.ArgPos = translate(left(Value, 1))
+         if pos(#BIF_Arg.ArgPos, Type) = 0 then
             call Raise 40.28, ArgPos, Type, Value
          end
 
@@ -427,9 +427,9 @@ the second argument is not less than the third argument.
 ```rexx <!--BIF-abbrev.rexx-->
    call CheckArgs 'rANY rANY oWHOLE>=0'
 
-   Subject = #BIF-Arg.1
-   Subj    = #BIF-Arg.2
-   if #BIF-ArgExists.3 then Length = #BIF-Arg.3
+   Subject = #BIF_Arg.1
+   Subj    = #BIF_Arg.2
+   if #BIF_ArgExists.3 then Length = #BIF_Arg.3
                        else Length = length(Subj)
    Condl = length(Subject) >= length(Subj)
    Cond2 = length(Subj) >= Length
@@ -445,9 +445,9 @@ argument and the third argument specifies the character to be used for padding.
 ```rexx <!--BIF-center.rexx-->
    call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
-   String = #BIF-Arg.1
-   Length = #BIF-Arg.2
-   if #BIF-ArgExists.3 then Pad = #BIF-Arg.3
+   String = #BIF_Arg.1
+   Length = #BIF_Arg.2
+   if #BIF_ArgExists.3 then Pad = #BIF_Arg.3
                        else Pad = ' '!
 
    Trim = length(String) - Length
@@ -473,13 +473,13 @@ with the third argument.
    Output = ''
    Position = 1
    do forever
-     FoundPos = pos(#BIF-Arg.1, #BIF-Arg.2, Position)
+     FoundPos = pos(#BIF_Arg.1, #BIF_Arg.2, Position)
      if FoundPos = 0 then leave
-     Output = Output || substr(#BIF-Arg.2, Position, FoundPos - Position),
-              || #BIF-Arg.3
-     Position = FoundPos + length(#BIF-Arg.1)
+     Output = Output || substr(#BIF_Arg.2, Position, FoundPos - Position),
+              || #BIF_Arg.3
+     Position = FoundPos + length(#BIF_Arg.1)
      end
-   return Output || substr(#BIF-Arg.2, Position)
+   return Output || substr(#BIF_Arg.2, Position)
 ```
 
 ### COMPARE
@@ -489,9 +489,9 @@ position of the first character that is not the same in both strings.
 ```rexx <!--BIF-compare.rexx-->
 call CheckArgs  'rANY rANY oPAD'
 
-Strl = #BIF-Arg.1
-Str2 = #BIF-Arg.2
-if #BIF-ArgExists.3 then Pad = #BIF-Arg.3
+Strl = #BIF_Arg.1
+Str2 = #BIF_Arg.2
+if #BIF_ArgExists.3 then Pad = #BIF_Arg.3
                     else Pad = ' '
 
 /* Compare the strings from left to right one character at a time */
@@ -519,8 +519,8 @@ copies.
 call CheckArgs   'rANY rWHOLE>=0'
 
 Output = ''
-do #BIF-Arg.2
-  Output = Output || #BIF-Arg.1
+do #BIF_Arg.2
+  Output = Output || #BIF_Arg.1
   end
 return Output
 ```
@@ -533,10 +533,10 @@ return Output
 call CheckArgs    'rANY rANY'
 
 Output = 0
-Position = pos(#BIF-Arg.1,#BIF-Arg.2)
+Position = pos(#BIF_Arg.1,#BIF_Arg.2)
 do while Position > 0
   Output = Output + 1
-  Position = pos(#BIF-Arg.1, #BIF-Arg.2, Position + length(#BIF-Arg.1))
+  Position = pos(#BIF_Arg.1, #BIF_Arg.2, Position + length(#BIF_Arg.1))
   end
 return Output
 ```
@@ -553,12 +553,12 @@ call CheckArgs 'rANY oABLMNSUWX'
 #DatatypeResult. This is a convenience when DATATYPE is used
 by CHECKARGS. */
 
-String = #BIF-Arg.1
+String = #BIF_Arg.1
 
 /* If no second argument, DATATYPE checks whether the first is a number. */
-if \#BIF-ArgExists.2 then return DtypeOne()
+if \#BIF_ArgExists.2 then return DtypeOne()
 
-Type = #BIF-Arg.2
+Type = #BIF_Arg.2
 /* Null strings are a special case. */
 
 if String == '' then do
@@ -701,7 +701,7 @@ DtypeOne:
   /* Format to the numeric setting of the caller of DATATYPE */
   numeric digits #Digits.#Level
   numeric form value #Form.#Level
-  #DatatypeResult = 0 + #BIF-Arg.1
+  #DatatypeResult = 0 + #BIF_Arg.1
   return "NUM"
 
 DigitRun:
@@ -722,14 +722,14 @@ argument. The third argument is the length of the deletion.
 ```rexx <!--BIF-delstr.rexx-->
 call CheckArgs  'rANY rWHOLE>0 oWHOLE>=0'
 
-String = #BIF-Arg.1
-Num    = #BIF-Arg.2
-if #BIF-ArgExists.3 then Len = #BIF-Arg.3
+String = #BIF_Arg.1
+Num    = #BIF_Arg.2
+if #BIF_ArgExists.3 then Len = #BIF_Arg.3
 
 if Num > length(String) then return String
 
 Output = substr(String, 1, Num - 1)
-if #BIF-ArgExists.3 then
+if #BIF_ArgExists.3 then
   if Num + Len <= length(String) then
     Output = Output || substr(String, Num + Len)
 return Output
@@ -743,15 +743,15 @@ word to be deleted and the third argument specifies the number of words.
 ```rexx <!--BIF-delword.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
 
-String = #BIF-Arg.1
-Num    = #BIF-Arg.2
-if #BIF-ArgExists.3 then Len = #BIF-Arg.3
+String = #BIF_Arg.1
+Num    = #BIF_Arg.2
+if #BIF_ArgExists.3 then Len = #BIF_Arg.3
 
 if Num > words(String) then return String
 
 EndLeft = wordindex(String, Num) - 1
 Output = left(String, EndLeft)
-if #BIF-ArgExists.3 then do
+if #BIF_ArgExists.3 then do
    BeginRight = wordindex(String, Num + Len)
    if BeginRight>0 then
       Output = Output || substr(String, BeginRight)
@@ -767,13 +767,13 @@ before the insert and the fourth gives the length of the insert. The fifth is th
 ```rexx <!--BIF-insert.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>=0 oWHOLE>=0 oPAD'
 
-New    = #BIF-Arg.1
-Target = #BIF-Arg.2
-if #BIF-ArgExists.3 then Num = #BIF-Arg.3
+New    = #BIF_Arg.1
+Target = #BIF_Arg.2
+if #BIF_ArgExists.3 then Num = #BIF_Arg.3
                     else Num = 0
-if #BIF-ArgExists.4 then Length = #BIF-Arg.4
+if #BIF_ArgExists.4 then Length = #BIF_Arg.4
                     else Length = length(New)
-if #BIF-ArgExists.5 then Pad = #BIF-Arg.5
+if #BIF_ArgExists.5 then Pad = #BIF_Arg.5
                     else Pad = ' '
 return left(Target, Num, Pad),        /* To left of insert   */
 || left(New, Length, Pad),            /* New string inserted */
@@ -788,9 +788,9 @@ argument is a starting position for the search.
 ```rexx <!--BIF-lastpos.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0'
 
-Needle   = #BIF-Arg.1
-Haystack = #BIF-Arg.2
-if #BIF-ArgExists.3 then Start = #BIF-Arg.3
+Needle   = #BIF_Arg.1
+Haystack = #BIF_Arg.2
+if #BIF_ArgExists.3 then Start = #BIF_Arg.3
                     else Start = length(Haystack)
 
 NeedleLength = length(Needle)
@@ -810,10 +810,10 @@ the length of the result and the third is the padding character.
 ```rexx <!--BIF-left.rexx-->
 call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
-if #BIF-ArgExists.3 then Pad = #BIF-Arg.3
+if #BIF_ArgExists.3 then Pad = #BIF_Arg.3
                          else Pad = ' '
 
-return substr(#BIF-Arg.1, 1, #BIF-Arg.2, Pad)
+return substr(#BIF_Arg.1, 1, #BIF_Arg.2, Pad)
 ```
 
 ### LENGTH
@@ -823,7 +823,7 @@ return substr(#BIF-Arg.1, 1, #BIF-Arg.2, Pad)
 ```rexx <!--BIF-length.rexx-->
 call CheckArgs 'rANY'
 
-String = #BIF-Arg.1
+String = #BIF_Arg.1
 
 #Response = Config_Length(String)
 Length = #Outcome
@@ -842,13 +842,13 @@ call #Raise  'SYNTAX', 23.1, b2x(#Outcome)
 ```rexx <!--BIF-overlay.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0 oOWHOLE>=0 oPAD'
 
-New    = #BIF-Arg.1
-Target = #BIF-Arg.2
-if #BIF-ArgExists.3 then Num = #BIF-Arg.3
+New    = #BIF_Arg.1
+Target = #BIF_Arg.2
+if #BIF_ArgExists.3 then Num = #BIF_Arg.3
                     else Num = 1
-if #BIF-ArgExists.4 then Length = #BIF-Arg.4
+if #BIF_ArgExists.4 then Length = #BIF_Arg.4
                     else Length = length(New)
-if #BIF-ArgExists.5 then Pad = #BIF-Arg.5
+if #BIF_ArgExists.5 then Pad = #BIF_Arg.5
                     else Pad = ' '
 return left(Target, Num - 1, Pad),     /* To left of overlay  */
    || left(New, Length, Pad),          /* New string overlaid */
@@ -862,9 +862,9 @@ return left(Target, Num - 1, Pad),     /* To left of overlay  */
 ```rexx <!--BIF-pos.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0'
 
-Needle   = #BIF-Arg.1
-Haystack = #BIF-Arg.2
-if #BIF-ArgExists.3 then Start = #BIF-Arg.3
+Needle   = #BIF_Arg.1
+Haystack = #BIF_Arg.2
+if #BIF_ArgExists.3 then Start = #BIF_Arg.3
                      else Start = 1
 
 if length(Needle) = 0 then return 0
@@ -881,7 +881,7 @@ return 0
 ```rexx <!--BIF-reverse.rexx-->
 call CheckArgs 'rANY'
 
-String  = #BIF-Arg.1
+String  = #BIF_Arg.1
 
 Output  = ''
 do i = 1 to length(String)
@@ -898,9 +898,9 @@ length of the result and the third is the padding character.
 ```rexx <!--BIF-right.rexx-->
 call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
-String = #BIF-Arg.1
-Length = #BIF-Arg.2
-if #BIF-ArgExists.3 then Pad = #BIF-Arg.3
+String = #BIF_Arg.1
+Length = #BIF_Arg.2
+if #BIF_ArgExists.3 then Pad = #BIF_Arg.3
                     else Pad = ' '
 
 Trim = length(String) - Length
@@ -917,10 +917,10 @@ character.
 ```rexx <!--BIF-space.rexx-->
 call CheckArgs 'rANY oOWHOLE>=0 oPAD'
 
-String = #BIF-Arg.1
-if #BIF-ArgExists.2 then Num = #BIF-Arg.2
+String = #BIF_Arg.1
+if #BIF_ArgExists.2 then Num = #BIF_Arg.2
                     else Num = 1
-if #BIF-ArgExists.3 then Pad = #BIF-Arg.3
+if #BIF_ArgExists.3 then Pad = #BIF_Arg.3
                     else Pad = ' '!
 
 Padding = copies(Pad, Num)
@@ -940,10 +940,10 @@ or equivalent to a blank if the third argument is omitted.
 ```rexx <!--BIF-strip.rexx-->
 call CheckArgs 'rANY oLTB oPAD'
 
-String = #BIF-Arg.1
-if #BIF-ArgExists.2 then Option = #BIF-Arg.2
+String = #BIF_Arg.1
+if #BIF_ArgExists.2 then Option = #BIF_Arg.2
                     else Option = 'B'
-if #BIF-ArgExists.3 then Unwanted = #BIF-Arg.3
+if #BIF_ArgExists.3 then Unwanted = #BIF_Arg.3
                      else Unwanted = #AllBlanks<Index "#AllBlanks" # "" >
 
 if Option == 'L' | Option == 'B' then do
@@ -970,11 +970,11 @@ first character and the third specifies the length of the sub-string. The fourth
 ```rexx <!--BIF-substr.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0 oPAD'
 
-String = #BIF-Arg.1
-Num    = #BIF-Arg.2
-if #BIF-ArgExists.3 then Length = #BIF-Arg.3
+String = #BIF_Arg.1
+Num    = #BIF_Arg.2
+if #BIF_ArgExists.3 then Length = #BIF_Arg.3
                     else Length = max(length(String)+1-Num, 0)
-if #BIF-ArgExists.4 then Pad = #BIF-Arg.4
+if #BIF_ArgExists.4 then Pad = #BIF_Arg.4
                     else Pad = ' '
 
 Output = ''
@@ -1004,9 +1004,9 @@ words in the sub-string.
 ```rexx <!--BIF-subword.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
 
-String = #BIF-Arg.1
-Num    = #BIF-Arg.2
-if #BIF-ArgExists.3 then Length = #BIF-Arg.3
+String = #BIF_Arg.1
+Num    = #BIF_Arg.2
+if #BIF_ArgExists.3 then Length = #BIF_Arg.3
                     else Length = length(String) /* Avoids call */
                                                  /* to WORDS() */
 if Length = 0 then return ''
@@ -1035,9 +1035,9 @@ translated to another character.
 
 ```rexx <!--translate-->
 call CheckArgs 'rANY oANY oANY oPAD'
-String = #BIF-Arg.1
+String = #BIF_Arg.1
 /* If neither input nor output tables, uppercase. */
-if \#BIF-ArgExists.2 & \#BIF-ArgExists.3 then do
+if \#BIF_ArgExists.2 & \#BIF_ArgExists.3 then do
   Output = ''
   do j=1 to length(String)
     #Response = Config_Upper(substr(String,j,1))
@@ -1047,16 +1047,16 @@ if \#BIF-ArgExists.2 & \#BIF-ArgExists.3 then do
   end
 
 /* The input table defaults to all characters. */
-if \#BIF-ArgExists.3 then do
+if \#BIF_ArgExists.3 then do
   #Response = Config_Xrange()
   Tablei = #Outcome
   end
-else Tablei = #BIF-Arg.3
+else Tablei = #BIF_Arg.3
 /* The output table defaults to null */
-if #BIF-ArgExists.2 then Tableo = #BIF-Arg.2
+if #BIF_ArgExists.2 then Tableo = #BIF_Arg.2
                     else Tableo = ''
 /* The tables are made the same length */
-if #BIF-ArgExists.4 then Pad = #BIF-Arg.4
+if #BIF_ArgExists.4 then Pad = #BIF_Arg.4
                     else Pad = ' '
 Tableo=left(Tableo, length(Tablei) , Pad)
 
@@ -1079,11 +1079,11 @@ The result is `'0'`, or the position of the character that failed verification. 
 ```rexx <!--BIF-verify.rexx-->
 call CheckArgs 'rANY rANY oMN oWHOLE>0'
 
-String    = #BIF-Arg.1
-Reference = #BIF-Arg.2
-if #BIF-ArgExists.3 then Option = #BIF-Arg.3
+String    = #BIF_Arg.1
+Reference = #BIF_Arg.2
+if #BIF_ArgExists.3 then Option = #BIF_Arg.3
                     else Option = 'N'
-if #BIF-ArgExists.4 then Start = #BIF-Arg.4
+if #BIF_ArgExists.4 then Start = #BIF_Arg.4
                     else Start = 1
 Last = length(String)
 if Start > Last then return 0
@@ -1109,7 +1109,7 @@ return 0
 ```rexx <!--BIF-word.rexx-->
 call CheckArgs 'rANY rwWHOLE>0'
 
-return subword(#BIF-Arg.1, #BIF-Arg.2, 1)
+return subword(#BIF_Arg.1, #BIF_Arg.2, 1)
 ```
 
 ### WORDINDEX
@@ -1120,8 +1120,8 @@ second argument is the word position of that word.
 ```rexx <!--BIF-wordindex.rexx-->
 call CheckArgs 'rANY rwWHOLE>0'
 
-String = #BIF-Arg.1
-Num    = #BIF-Arg.2
+String = #BIF_Arg.1
+Num    = #BIF_Arg.2
 
 /* Find starting position */
 Start = 1
@@ -1147,7 +1147,7 @@ argument is the word position of that word.
 ```rexx <!--BIF-wordlength.rexx-->
 call CheckArgs 'rANY rWHOLE>0'
 
-return length(subword(#BIF-Arg.1, #BIF-Arg.2, 1))
+return length(subword(#BIF_Arg.1, #BIF_Arg.2, 1))
 ```
 
 ### WORDPOS
@@ -1159,9 +1159,9 @@ sequence. Third argument is a word position for the start of the search.
 ```rexx <!--BIF-wordpos.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0'
 
-Phrase = #BIF-Arg.1
-String = #BIF-Arg.2
-if #BIF-ArgExists.3 then Start = #BIF-Arg.3
+Phrase = #BIF_Arg.1
+String = #BIF_Arg.2
+if #BIF_ArgExists.3 then Start = #BIF_Arg.3
                     else Start = 1
 
 Phrase = space(Phrase)
@@ -1184,7 +1184,7 @@ return 0
 call CheckArgs 'rANY'
 
 do Count = 0 by 1
-  if subword(#BIF-Arg.1, Count + 1) == '' then return Count
+  if subword(#BIF_Arg.1, Count + 1) == '' then return Count
   end Count
 ```
 
@@ -1195,9 +1195,9 @@ do Count = 0 by 1
 ```rexx <!--BIF-xrange.rexx-->
 call CheckArgs 'oPAD oPAD'
 
-if \#BIF-ArgExists.1 then #BIF-Arg.1 = ''
-if \#BIF-ArgExists.2 then #BIF-Arg.2 = ''
-#Response = Config_Xrange(#BIF-Arg.1, #BIF-Arg.2)
+if \#BIF_ArgExists.1 then #BIF_Arg.1 = ''
+if \#BIF_ArgExists.2 then #BIF_Arg.2 = ''
+#Response = Config_Xrange(#BIF_Arg.1, #BIF_Arg.2)
 return #Outcome
 ```
 
@@ -1213,7 +1213,7 @@ function. Note that `CheckArgs` formats any `'NUM'` (numeric) argument.
 ```rexx <!--BIF-abs.rexx-->
 call CheckArgs  'rNUM'
 
-Number=#BIF-Arg.1
+Number=#BIF_Arg.1
 if left(Number,1) = '-' then Number = substr(Number, 2)
 return Number
 ```
@@ -1229,13 +1229,13 @@ notation is used.
 call CheckArgs,
   'rNUM OWHOLE>=0 OWHOLE>=0 OWHOLE>=0 OWHOLE>=0'
 
-if #BIF-ArgExists.2 then Before = #BIF-Arg.2
-if #BIF-ArgExists.3 then After  = #BIF-Arg.3
-if #BIF-ArgExists.4 then Expp   = #BIF-Arg.4
-if #BIF-ArgExists.5 then Expt   = #BIF-Arg.5
+if #BIF_ArgExists.2 then Before = #BIF_Arg.2
+if #BIF_ArgExists.3 then After  = #BIF_Arg.3
+if #BIF_ArgExists.4 then Expp   = #BIF_Arg.4
+if #BIF_ArgExists.5 then Expt   = #BIF_Arg.5
 /* In the simplest case the first is the only argument. */
-Number=#BIF-Arg.1
-if #BIF-Arg.0 < 2 then return Number
+Number=#BIF_Arg.1
+if #BIF_Arg.0 < 2 then return Number
 
 /* Dissect the Number. It is in the normal Rexx format. */
 parse var Number Mantissa 'E' Exponent
@@ -1254,8 +1254,8 @@ Point reflect Mantissa. */
 /* The fourth and fifth arguments allow for exponential notation. */
 /* Decide whether exponential form to be used, setting ShowExp. */
 ShowExp = 0
-if #BIF-ArgExists.4 | #BIF-ArgExists.5  then do
-  if \#BIF-ArgExists.5 then Expt = #Digits.#Level
+if #BIF_ArgExists.4 | #BIF_ArgExists.5  then do
+  if \#BIF_ArgExists.5 then Expt = #Digits.#Level
   /* Decide whether exponential form to be used. */
   if (Point + Exponent) > Expt then ShowExp = 1 /* Digits before rule. */
   LeftOfPoint = 0
@@ -1272,7 +1272,7 @@ if #BIF-ArgExists.4 | #BIF-ArgExists.5  then do
   if LeftOfPoint = 0 & (z - Exponent) > 5 then ShowExp = 1
 
   /* An extra rule for exponential form: */
-  if #BIF-ArgExists.4 then if Expp = 0 then ShowExp = 0
+  if #BIF_ArgExists.4 then if Expp = 0 then ShowExp = 0
 
   /* Construct the exponential part of the result. */
   if ShowExp then do
@@ -1309,7 +1309,7 @@ if Point > length(Integer) then
 /* Deal with right of decimal point first since that can affect the
 left. Ensure the requested number of digits there.
 Afters = length(Integer) -Point
-if #BIF-ArgExists.3 = 0 then After = Afters /* Note default. */
+if #BIF_ArgExists.3 = 0 then After = Afters /* Note default. */
 /* Make Afters match the requested After */
 do while Afters < After
   Afters = Afters+1
@@ -1344,9 +1344,9 @@ if After > 0 then Afte = '.'| |substr(Integer, Point+1,After)
              else Afte = ''
 /* Now deal with the integer part of the result. */
 Integer = left(Integer, Point)
-if #BIF-ArgExists.2 = 0 then Before = Point + Sign /* Note default. */
+if #BIF_ArgExists.2 = 0 then Before = Point + Sign /* Note default. */
 /* Make Point match Before */
-if Point > Before - Sign then call Raise  40.38, 2, #BIF-Arg.1
+if Point > Before - Sign then call Raise  40.38, 2, #BIF_Arg.1
 do while Point<Before
   Point = Point+1
   Integer = '0'Integer
@@ -1385,12 +1385,12 @@ if ShowExp = 1 then do
     Exponent = -Exponent
     end
   /* Make the exponent to the requested width. */
-  if #BIF-ArgExists.4 = 0 then Expp = length(Exponent)
+  if #BIF_ArgExists.4 = 0 then Expp = length(Exponent)
   if length(Exponent) > Expp then
-    call Raise 40.38, 4, #BIF-Arg.1
+    call Raise 40.38, 4, #BIF_Arg.1
   Exponent=right(Exponent,Expp,'0')
   if Exponent = 0 then do
-    if #BIF-ArgExists.4 then Expart = copies(' ',expp+2)
+    if #BIF_ArgExists.4 then Expart = copies(' ',expp+2)
     end
   else if SignExp = 0 then Expart = 'E+'Exponent
                       else Expart = 'E-'Exponent
@@ -1404,13 +1404,13 @@ return Number
 `MAX` returns the largest of its arguments.
 
 ```rexx <!--BIF-max.rexx-->
-if #BIF-Arg.0 <1 then
+if #BIF_Arg.0 <1 then
   call Raise 40.3, 1
-call CheckArgs 'rNUM'||copies(' rNUM', #BIF-Arg.0 - 1)
+call CheckArgs 'rNUM'||copies(' rNUM', #BIF_Arg.0 - 1)
 
-Max = #BIF-Arg.1
-do i = 2 to #BIF-Arg.0 by 1
-  Next = #BIF-Arg.i
+Max = #BIF_Arg.1
+do i = 2 to #BIF_Arg.0 by 1
+  Next = #BIF_Arg.i
   if Max < Next then Max = Next
   end i
 return Max
@@ -1421,13 +1421,13 @@ return Max
 `MIN` returns the smallest of its arguments.
 
 ```rexx <!--BIF-min.rexx-->
-if #BIF-Arg.0 <1 then
+if #BIF_Arg.0 <1 then
   call Raise 40.3, 1
-call CheckArgs 'rNUM'||copies(' rNUM', #BIF-Arg.0 - 1)
+call CheckArgs 'rNUM'||copies(' rNUM', #BIF_Arg.0 - 1)
 
-Min = #BIF-Arg.1
-do i = 2 to #BIF-Arg.0 by 1
-  Next = #BIF-Arg.i
+Min = #BIF_Arg.1
+do i = 2 to #BIF_Arg.0 by 1
+  Next = #BIF_Arg.i
   if Min > Next then Min = Next
   end i
 return Min
@@ -1440,7 +1440,7 @@ return Min
 ```rexx <!--BIF-sign.rexx-->
 call CheckArgs 'rNUM'
 
-Number = #BIF-Arg.1
+Number = #BIF_Arg.1
 select
   when Number < 0 then Output = -1
   when Number = 0 then Output = 0
@@ -1457,8 +1457,8 @@ decimal point, specified by the second argument.
 ```rexx <!--BIF-trunc.rexx-->
 call CheckArgs 'rNUM oWHOLE>=0'
 
-Number = #BIF-Arg.1
-if #BIF-ArgExists.2 then Num = #BIF-Arg.2
+Number = #BIF_Arg.1
+if #BIF_ArgExists.2 then Num = #BIF_Arg.2
                     else Num = 0
 
 Integer =(10**Num  * Number) %1
@@ -1482,7 +1482,7 @@ and the source of command input.
 ```rexx <!--BIF-address.rexx-->
 call CheckArgs 'oEINO'
 
-if #BIF-ArgExists.1 then Option1 = #BIF-Arg.1
+if #BIF_ArgExists.1 then Option1 = #BIF_Arg.1
                     else Option1 = 'N'
 
 if Option1 == 'N' then return #Env_Name.ACTIVE.#Level
@@ -1498,15 +1498,15 @@ strings.
 
 ```rexx <!--BIF-arg.rexx-->
 ArgData = 'OWHOLE>0 oENO'
-if #BIF-ArgExists.2 then ArgData = 'rWHOLE>0 rENO'
+if #BIF_ArgExists.2 then ArgData = 'rWHOLE>0 rENO'
 call CheckArgs ArgData
 
-if \#BIF-ArgExists.1 then return #Arg.#Level.0
+if \#BIF_ArgExists.1 then return #Arg.#Level.0
 
-ArgNum=#BIF-Arg.1
+ArgNum=#BIF_Arg.1
 
-if \#BIF-ArgExists.2 then return #Arg.#Level.ArgNum
-if #BIF-Arg.2 =='O' then return \#ArgExists.#Level.ArgNum
+if \#BIF_ArgExists.2 then return #Arg.#Level.ArgNum
+if #BIF_Arg.2 =='O' then return \#ArgExists.#Level.ArgNum
                     else return #ArgExists.#Level .ArgNum
 ```
 
@@ -1524,7 +1524,7 @@ if #Condition.#Level == '' then do
    #ConditionInstruction.#Level = ''
    end
 
-Option=#BIF-Arg.1
+Option=#BIF_Arg.1
 if Option=='C' then return #Condition.#Level
 if Option=='D' then return #ConditionDescription.#Level
 if Option=='E' then return #ConditionExtra.#Level
@@ -1553,8 +1553,8 @@ national language. This translation is not shown in the code below.
 ```rexx <!--BIF-errortext.rexx-->
 call CheckArgs 'r0_90 oSN'
 
-msgcode = #BIF-Arg.1
-if #BIF-ArgExists.2 then Option = #BIF-Arg.2
+msgcode = #BIF_Arg.1
+if #BIF_ArgExists.2 then Option = #BIF_Arg.2
                     else Option = 'N'
 return #ErrorText .msgcode
 ```
@@ -1588,8 +1588,8 @@ of the source program to be returned.
 ```rexx <!--BIF-sourceline.rexx-->
 call CheckArgs 'oWHOLE>0'
 
-if \#BIF-ArgExists.1 then return #SourceLine.0
-Num = #BIF-Arg.1
+if \#BIF_ArgExists.1 then return #SourceLine.0
+Num = #BIF_Arg.1
 if Num > #SourceLine.0 then
   call Raise 40.34, Num, #SourceLine.0
 return #SourceLine.Num
@@ -1605,8 +1605,8 @@ call CheckArgs 'oACEFILNOR' /* Also checks for '?' */
 /* With no argument, this a simple query. */
 Output=#Tracing.#Level
 if #Interactive.#Level then Output = '?'||Output
-if \#BIF-ArgExists.1 then return Output
-Value=#BIF-Arg.1
+if \#BIF_ArgExists.1 then return Output
+Value=#BIF_Arg.1
 #Interactive.#Level=0
 /* A question mark sets the interactive flag. */
 if left(Value,1)=='?' then do
@@ -1637,7 +1637,7 @@ the result may be a string that does not represent any sequence of characters.
 ```rexx <!--BIF-b2x.rexx-->
 call CheckArgs 'rBIN'
 
-String = space(#BIF-Arg.1,0)
+String = space(#BIF_Arg.1,0)
 return ReRadix(String,2,16)
 ```
 
@@ -1650,16 +1650,16 @@ argument.
 ```rexx <!--BIF-bitand.rexx-->
 call CheckArgs 'rANY oANY oPAD'
 
-Stringl = #BIF-Arg.1
-if #BIF-ArgExists.2 then String2 = #BIF-Arg.2
+Stringl = #BIF_Arg.1
+if #BIF_ArgExists.2 then String2 = #BIF_Arg.2
                     else String2 = ''
 
 /* Presence of a pad implies character strings. */
-if #BIF-ArgExists.3 then
+if #BIF_ArgExists.3 then
   if length(Stringl) > length(String2) then
-    String2=left(String2,length(String1l),#BIF-Arg.3)
+    String2=left(String2,length(String1l),#BIF_Arg.3)
   else
-    Stringl=left(Stringl,length(String2),#BIF-Arg.3)
+    Stringl=left(Stringl,length(String2),#BIF_Arg.3)
 
 /* Change to manifest bit representation. */
 #Response=Config_C2B(String1)
@@ -1709,14 +1709,14 @@ See <!--TODO-->nnn
 ```rexx <!--BIF-c2d.rexx-->
 call CheckArgs 'rANY oWHOLE>=0'
 
-if length(#BIF-Arg.1)=0 then return 0
+if length(#BIF_Arg.1)=0 then return 0
 
-if #BIF-ArgExists.2 then do
+if #BIF_ArgExists.2 then do
   /* Size specified */
-  Size = #BIF-Arg.2
+  Size = #BIF_Arg.2
   if Size = 0 then return 0
   /* Pad will normally be zeros */
-  t=right(#BIF-Arg.1,Size,left(xrange(),1))
+  t=right(#BIF_Arg.1,Size,left(xrange(),1))
   /* Convert to manifest bit */
   call Config_C2B t
   /* And then to signed decimal. */
@@ -1729,7 +1729,7 @@ if #BIF-ArgExists.2 then do
   return t
   end
 /* Size not specified. */
-call Config_C2B #BIF-Arg.1
+call Config_C2B #BIF_Arg.1
 t = ReRadix(#Outcome, 2,10)
 if t > 10 ** #Digits.#Level - 1 then call Raise 40.35, t
 return t
@@ -1742,8 +1742,8 @@ return t
 ```rexx <!--BIF-c2x.rexx-->
 call CheckArgs 'rANY'
 
-if length(#BIF-Arg.1) = 0 then return ''
-call Config_C2B #BIF-Arg.1
+if length(#BIF_Arg.1) = 0 then return ''
+call Config_C2B #BIF_Arg.1
 return ReRadix(#Outcome,2,16)
 ```
 
@@ -1752,12 +1752,12 @@ return ReRadix(#Outcome,2,16)
 `D2C` performs decimal to coded conversion.
 
 ```rexx <!--BIF-d2c.rexx-->
-if \#BIF-ArgExists.2 then ArgData = 'rWHOLENUM>=0'!
+if \#BIF_ArgExists.2 then ArgData = 'rWHOLENUM>=0'!
                      else ArgData = 'rWHOLENUM rWHOLE>=0'
 call CheckArgs ArgData
 
 /* Convert to manifest binary */
-Subject = abs(#BIF-Arg.1)
+Subject = abs(#BIF_Arg.1)
 r = ReRadix(Subject,10,2)
 /* Make length a multiple of 8, as required for Config_B2C */
 Length = length(r)
@@ -1766,18 +1766,18 @@ do while Length//8 \= 0
   end
 r = right(r,Length,'0')
 /* 2s-complement for negatives. */
-if #BIF-Arg.1<0 then do
+if #BIF_Arg.1<0 then do
   Subject = 2**length(r)-Subject
   r = ReRadix(Subject,10,2)
   end
 /* Convert to characters */
 #Response = Config_B2C(r)
 Output = #Outcome
-if \#BIF-ArgExists.2 then return Output
+if \#BIF_ArgExists.2 then return Output
 
 /* Adjust the length with appropriate characters. */
-if #BIF-Arg.1>=0 then return right(Output, #BIF-Arg.2,left(xrange(),1))
-                 else return right(Output, #BIF-Arg.2,right(xrange(),1))
+if #BIF_Arg.1>=0 then return right(Output, #BIF_Arg.2,left(xrange(),1))
+                 else return right(Output, #BIF_Arg.2,right(xrange(),1))
 ```
 
 ### D2X
@@ -1785,22 +1785,22 @@ if #BIF-Arg.1>=0 then return right(Output, #BIF-Arg.2,left(xrange(),1))
 `D2X` performs decimal to hexadecimal conversion.
 
 ```rexx <!--BIF-d2x.rexx-->
-if \#BIF-ArgExists.2 then ArgData = 'rWHOLENUM>=0'
+if \#BIF_ArgExists.2 then ArgData = 'rWHOLENUM>=0'
                      else ArgData = 'rWHOLENUM rWHOLE>=0'
 call CheckArgs ArgData
 
 /* Convert to manifest hexadecimal */
-Subject = abs(#BIF-Arg.1 )
+Subject = abs(#BIF_Arg.1 )
 r = ReRadix(Subject,10,16)
 /* Twos-complement for negatives */
-if #BIF-Arg.1<0 then do
+if #BIF_Arg.1<0 then do
   Subject = 16**length(r) -Subject
   r = ReRadix(Subject,10,16)
   end
-if \#BIF-ArgExists.2 then return r
+if \#BIF_ArgExists.2 then return r
 /* Adjust the length with appropriate characters. */
-if #BIF-Arg.1>=0 then return right(r,#BIF-Arg.2,'0')
-                 else return right(r,#BIF-Arg.2,'F')
+if #BIF_Arg.1>=0 then return right(r,#BIF_Arg.2,'0')
+                 else return right(r,#BIF_Arg.2,'F')
 ```
 
 ### X2B
@@ -1810,7 +1810,7 @@ if #BIF-Arg.1>=0 then return right(r,#BIF-Arg.2,'0')
 ```rexx <!--BIF-x2b.rexx-->
 call CheckArgs 'rHEX'
 
-Subject = #BIF-Arg.1
+Subject = #BIF_Arg.1
 if Subject == '' then return ''
 /* Blanks were checked by CheckArgs, here they are ignored. */
 Subject = space(Subject, 0)
@@ -1824,7 +1824,7 @@ return ReRadix(translate(Subject) ,16,2)
 ```rexx <!--BIF-x2c.rexx-->
 call CheckArgs 'rHEX'
 
-Subject = #BIF-Arg.1
+Subject = #BIF_Arg.1
 if Subject == '' then return ''
 Subject = space(Subject, 0)
 /* Convert to manifest binary */
@@ -1842,20 +1842,20 @@ return #Outcome
 ```rexx <!--BIF-x2d.rexx-->
 call CheckArgs 'rHEX OWHOLE>=0'
 
-Subject = #BIF-Arg.1
+Subject = #BIF_Arg.1
 if Subject == '' then return '0'
 
 Subject = translate(space(Subject,0))
-if #BIF-ArgExists.2 then
-  Subject = right(Subject, #BIF-Arg.2,'0')
+if #BIF_ArgExists.2 then
+  Subject = right(Subject, #BIF_Arg.2,'0')
 if Subject =='' then return '0'
 /* Note the sign */
-if #BIF-ArgExists.2 then SignBit = left(x2b(Subject),1)
+if #BIF_ArgExists.2 then SignBit = left(x2b(Subject),1)
                     else SignBit = '0'
 /* Convert to decimal */
 r = ReRadix(Subject,16,10)
 /* Twos-complement */
-if SignBit then r = 2**(4*#BIF-Arg.2) - r
+if SignBit then r = 2**(4*#BIF_Arg.2) - r
 if abs(r)>10 ** #Digits.#Level - 1 then call Raise 40.35, t
 return r
 ```
@@ -1904,17 +1904,17 @@ When the operations are successful the following characteristics shall be exhibi
 ```rexx <!--BIF-charin.rexx-->
   call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
 
-  if #BIF-ArgExists.1 then Stream = #BIF-Arg.1
+  if #BIF_ArgExists.1 then Stream = #BIF_Arg.1
                       else Stream = ''
   #StreamState.Stream = ''
   /* Argument 2 is positioning. */
-  if #BIF-ArgExists.2 then do
-    #Response = Config_Stream_Position(Stream, 'CHARIN', #BIF-Arg.2)
-    if left(#Response, 1) == 'R' then call Raise 40.41, 2, #BIF-Arg.2
+  if #BIF_ArgExists.2 then do
+    #Response = Config_Stream_Position(Stream, 'CHARIN', #BIF_Arg.2)
+    if left(#Response, 1) == 'R' then call Raise 40.41, 2, #BIF_Arg.2
     if left(#Response, 1) == 'T' then call Raise 40.42,Stream
     end
   /* Argument 3 is how many. */
-  if #BIF-ArgExists.3 then Count = #BIF-Arg.3
+  if #BIF_ArgExists.3 then Count = #BIF_Arg.3
                       else Count = 1
   if Count = 0 then do
     call Config_Stream_Charin Stream, 'NULL' /* "Touch" the stream */
@@ -1950,30 +1950,30 @@ stream named by the first argument.
 ```rexx <!--BIF-charout.rexx-->
 call CheckArgs 'oSTREAM oANY oWHOLE>0'
 
-if #BIF-ArgExists.1 then Stream = #BIF-Arg.1
+if #BIF_ArgExists.1 then Stream = #BIF_Arg.1
                     else Stream = ''
 
 #StreamState.Stream = ''
-if \#BIF-ArgExists.2 & \#BIF-ArgExists.3 then do
+if \#BIF_ArgExists.2 & \#BIF_ArgExists.3 then do
   /* Position to end of stream. */
   #Response = Config_Stream_Close (Stream)
   if left(#Response,1) == 'T' then call Raise 40.42,Stream
   return 0
   end
 
-if #BIF-ArgExists.3 then do
+if #BIF_ArgExists.3 then do
   /* Explicit positioning. */
-  #Response = Config_Stream_Position(Stream, 'CHAROUT', #BIF-Arg.3)
+  #Response = Config_Stream_Position(Stream, 'CHAROUT', #BIF_Arg.3)
   if left(#Response,1) == 'T' then call Raise 40.42,Stream
-  if left(#Response, 1) == 'R' then call Raise 40.41, 3, #BIF-Arg.3
+  if left(#Response, 1) == 'R' then call Raise 40.41, 3, #BIF_Arg.3
   end
 
-if \#BIF-ArgExists.2 | #BIF-Arg.2 == '' then do
+if \#BIF_ArgExists.2 | #BIF_Arg.2 == '' then do
   call Config_Stream_Charout Stream, 'NULL' /* "Touch" the stream */
   return 0
   end
 
-String = #BIF-Arg.2
+String = #BIF_Arg.2
 call Config_Stream_Query Stream
 Mode = #Outcome
 if Mode == 'B' then do
@@ -2010,9 +2010,9 @@ count of the characters remaining and immediately available.
 ```rexx <!--BIF-chars.rexx-->
 call CheckArgs 'oSTREAM oCN'
 
-if #BIF-ArgExists.1 then Stream = #BIF-Arg.1
+if #BIF_ArgExists.1 then Stream = #BIF_Arg.1
                     else Stream = ''
-if #BIF-ArgExists.2 then Option = #BIF-Arg.2
+if #BIF_ArgExists.2 then Option = #BIF_Arg.2
                     else Option = 'N'
 
 call Config_Stream_Count Stream, 'CHARS', Option
@@ -2026,15 +2026,15 @@ return #Outcome
 ```rexx <!--BIF-linein.rexx-->
 call CheckArgs 'oSTREAM oOWHOLE>0 oOWHOLE>=0'
 
-if #BIF-ArgExists.1 then Stream = #BIF-Arg.1
+if #BIF_ArgExists.1 then Stream = #BIF_Arg.1
                     else Stream = ''
 #StreamState.Stream = ''
-if #BIF-ArgExists.2 then do
-  #Response = Config_Stream_Position(Stream, 'LINEIN', #BIF-Arg2)
+if #BIF_ArgExists.2 then do
+  #Response = Config_Stream_Position(Stream, 'LINEIN', #BIF_Arg2)
   if left(#Response, 1) == 'T' then call Raise 40.42,Stream
-  if left(#Response, 1) == 'R' then call Raise 40.41, 2, #BIF-Arg.2
+  if left(#Response, 1) == 'R' then call Raise 40.41, 2, #BIF_Arg.2
   end
-if #BIF-ArgExists.3 then Count = #BIF-Arg.3
+if #BIF_ArgExists.3 then Count = #BIF_Arg.3
                     else Count = 1
 if Count>1 then call Raise 40.39, Count
 if Count = 0 then do
@@ -2070,29 +2070,29 @@ return r
 ```rexx <!--BIF-lineout.rexx-->
 call CheckArgs 'oSTREAM oANY oWHOLE>0'
 
-if #BIF-ArgExists.1 then Stream = #BIF-Arg.1
+if #BIF_ArgExists.1 then Stream = #BIF_Arg.1
                     else Stream = ''
 
 #StreamState.Stream = ''
-if \#BIF-ArgExists.2 & \#BIF-ArgExists.3 then do
+if \#BIF_ArgExists.2 & \#BIF_ArgExists.3 then do
   /* Position to end of stream. */
   #Response = Config_Stream_Close(Stream)
   if left(#Response,1) == 'T' then call Raise 40.42,Stream
   return 0
   end
 
-if #BIF-ArgExists.3 then do
-  #Response = Config_Stream_Position(Stream, 'LINEOUT', #BIF-Arg.3)
+if #BIF_ArgExists.3 then do
+  #Response = Config_Stream_Position(Stream, 'LINEOUT', #BIF_Arg.3)
   if left(#Response, 1) == 'T' then call Raise 40.42,Stream
-  if left(#Response, 1) == 'R' then call Raise 40.41, 3, #BIF-Arg.3
+  if left(#Response, 1) == 'R' then call Raise 40.41, 3, #BIF_Arg.3
   end
 
-if \#BIF-ArgExists.2 then do
+if \#BIF_ArgExists.2 then do
   call Config_Stream_Charout Stream, '' /* "Touch" the stream */
   return 0
   end
 
-String = #BIF-Arg.2
+String = #BIF_Arg.2
 Stride = 1
 call Config_Stream_Query Stream
 Mode = #Outcome
@@ -2129,9 +2129,9 @@ return 0
 ```rexx <!--BIF-lines.rexx-->
 call CheckArgs 'oSTREAM oCN'
 
-if #BIF-ArgExists.1 then Stream = #BIF-Arg.1
+if #BIF_ArgExists.1 then Stream = #BIF_Arg.1
                     else Stream = ''
-if #BIF-ArgExists.2 then Option = #BIF-Arg.2
+if #BIF_ArgExists.2 then Option = #BIF_Arg.2
                     else Option = 'N'
 
 Call Config_Stream_Count Stream, 'LINES', Option
@@ -2147,7 +2147,7 @@ that resource.
 ```rexx <!--BIF-qualify.rexx-->
 call CheckArgs 'oSTREAM'
 
-if #BIF-ArgExists.1 then Stream = #BIF-Arg.1
+if #BIF_ArgExists.1 then Stream = #BIF_Arg.1
 else Stream = ''
 
 #Response = Config_Stream_Qualified(Stream)
@@ -2161,19 +2161,19 @@ the first argument.
 
 ```rexx <!--BIF-stream.rexx-->
  /* Third argument is only correct with 'C' */
- if #BIF-ArgExists.2 & translate(left(#BIF-Arg.2, 1)) == 'C' then
+ if #BIF_ArgExists.2 & translate(left(#BIF_Arg.2, 1)) == 'C' then
     ArgData = 'rSTREAM rCDS rANY'
  else
     ArgData = 'rSTREAM oCDS'
  call CheckArgs ArgData
 
- Stream = #BIF-Arg.1
+ Stream = #BIF_Arg.1
 
- if #BIF-ArgExists.2 then Operation = #BIF-Arg.2
+ if #BIF_ArgExists.2 then Operation = #BIF_Arg.2
                      else Operation = 'S'
 Select
   when Operation == 'C' then do
-    call Config_Stream_Command Stream,#BIF-Arg.3
+    call Config_Stream_Command Stream,#BIF_Arg.3
     return #Outcome
     end
   when Operation == 'D' then do
@@ -2201,10 +2201,10 @@ fourth or fifth arguments, they describe the treatment of separators between fie
 ```rexx <!--BIF-date.rexx-->
   call CheckArgs 'oBDEMNOSUW oANY oBDENOSU oSEP oSEP'
   /* If the third argument is given then the second is mandatory. */
-  if #BIF-ArgExists.3 & \#BIF-ArgExists.2 then
-    call Raise 40.19, '', #BIF-Arg.3
+  if #BIF_ArgExists.3 & \#BIF_ArgExists.2 then
+    call Raise 40.19, '', #BIF_Arg.3
 
-  if #BIF-ArgExists.1 then Option = #BIF-Arg.1
+  if #BIF_ArgExists.1 then Option = #BIF_Arg.1
                       else Option = 'N'
 
   /* The date/time is 'frozen' throughout a clause. */
@@ -2219,23 +2219,23 @@ fourth or fifth arguments, they describe the treatment of separators between fie
   WeekDays = 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
 
   /* If there is no second argument, the current date is returned. */
-  if \#BIF-ArgExists.2 then
+  if \#BIF_ArgExists.2 then
     return DateFormat(#ClauseLocal.#Level, Option)
 
   /* If there is a second argument it provides the date to be
   converted. */
-  Value = #BIF-Arg.2
-  if #BIF-ArgExists.3 then InOption = #BIF-Arg.3
+  Value = #BIF_Arg.2
+  if #BIF_ArgExists.3 then InOption = #BIF_Arg.3
                       else InOption = 'N'
   if Option == 'S' then OutSeparator = ''
                         else OutSeparator = translate(Option,"xx/x //x","BDEMNOUW")
-  if #BIF-ArgExists.4 then do
+  if #BIF_ArgExists.4 then do
     if OutSeparator == 'x' then call Raise 40.46, Option, 4
     OutSeparator = #Bif.Arg.4
     end
   if InOption == 'S' then InSeparator = ''
                      else InSeparator = translate(InOption,"xx/ //","BDENOU")
-  if #BIF-ArgExists.5 then do
+  if #BIF_ArgExists.5 then do
     if InSeparator == 'x' then call Raise 40.46, InOption, 5
     InSeparator = #Bif.Arg.5
     end
@@ -2368,16 +2368,16 @@ return #Outcome
 ```rexx <!--BIF-random.rexx-->
 call CheckArgs 'oWHOLE>=0 oWHOLE>=0 oWHOLE>=0'
 
-if #BIF-Arg.0 = 1 then do
+if #BIF_Arg.0 = 1 then do
   Minimum = 0
-  Maximum = #BIF-Arg.1
+  Maximum = #BIF_Arg.1
   if Maximum>100000 then
     call Raise 40.31, Maximum
   end
 else do
-  if #BIF-ArgExists.1 then Minimum = #BIF-Arg.1
+  if #BIF_ArgExists.1 then Minimum = #BIF_Arg.1
   else Minimum = 0
-  if #BIF-ArgExists.2 then Maximum = #BIF-Arg.2
+  if #BIF_ArgExists.2 then Maximum = #BIF_Arg.2
   else Maximum = 999
   end
 
@@ -2387,7 +2387,7 @@ if Maximum-Minimum>100000 then
 if Maximum-Minimum<0 then
   call Raise 40.33, Minimum, Maximum
 
-if #BIF-ArgExists.3 then call Config_Random_Seed #BIF-Arg.3
+if #BIF_ArgExists.3 then call Config_Random_Seed #BIF_Arg.3
 call Config_Random_Next Minimum, Maximum
 return #Outcome
 ```
@@ -2415,13 +2415,13 @@ the first argument.
 call CheckArgs 'oCEHLMNORS oANY oCHLMNS'
 
 /* If the third argument is given then the second is mandatory. */
-if #BIF-ArgExists.3 & \#BIF-ArgExists.2 then
-  call Raise 40.19, '', #BIF-Arg.3
+if #BIF_ArgExists.3 & \#BIF_ArgExists.2 then
+  call Raise 40.19, '', #BIF_Arg.3
 
-if #BIF-ArgExists.1 then Option
+if #BIF_ArgExists.1 then Option
 else Option
 
-#BIF-Arg.1
+#BIF_Arg.1
 tint
 
 /* The date/time is 'frozen' throughout a clause. */
@@ -2433,16 +2433,16 @@ if #ClauseTime.#Level == '' then do
 end
 
 /* If there is no second argument, the current time is returned. */
-if \#BIF-ArgExists.2 then
+if \#BIF_ArgExists.2 then
 return TimeFormat (#ClauseLocal.#Level, Option)
 
 /* If there is a second argument it provides the time to be
 converted. */
 if pos(Option, 'ERO') > 0 then
 call Raise 40.29, Option
-InValue = #BIF-Arg.2
+InValue = #BIF_Arg.2
 
-if #BIF-ArgExists.3 then InOption = #BIF-Arg.3
+if #BIF_ArgExists.3 then InOption = #BIF_Arg.3
 else InOption =
 
 HH = 0
@@ -2544,18 +2544,18 @@ return Time2Date2 (arg(1))
 `VALUE` returns the value of the symbol named by the first argument, and optionally assigns it a new value.
 
 ```rexx <!--BIF-value.rexx-->
-if #BIF-ArgExists.3 then ArgData = 'rANY oANY oANY'
+if #BIF_ArgExists.3 then ArgData = 'rANY oANY oANY'
                     else ArgData = 'rSYM oANY oANY'
 call CheckArgs ArgData
 
-Subject = #BIF-Arg.1
-if #BIF-ArgExists.3 then do /* An external pool, or the reserved pool. */
+Subject = #BIF_Arg.1
+if #BIF_ArgExists.3 then do /* An external pool, or the reserved pool. */
   /* The reserved pool uses a null string as its pool identifier. */
-  Pool = #BIF-Arg.3
+  Pool = #BIF_Arg.3
   if Pool == '' then do
      Subject = '.' || translate(Subject) /* The dot on the name is implied. */
      Value = .environment [Subject] /* Was the translate redundant? */
-     if #BIF-ArgExists.2 then .environment [Subject] = #BIF-Arg.2
+     if #BIF_ArgExists.2 then .environment [Subject] = #BIF_Arg.2
      return Value
      end
   /* Fetch the original value */
@@ -2566,9 +2566,9 @@ if #BIF-ArgExists.3 then do /* An external pool, or the reserved pool. */
   if #Indicator == 'P' then
     call Raise 40.37, Pool
   Value = #Outcome
-  if #BIF-ArgExists.2 then do
+  if #BIF_ArgExists.2 then do
      /* Set the new value. */
-     #Response = Config_Set(Pool,Subject,#BIF-Arg.2)
+     #Response = Config_Set(Pool,Subject,#BIF_Arg.2)
      if #Indicator == 'P' then
        call Raise 40.37, Pool
      if #Indicator == 'F' then
@@ -2588,8 +2588,8 @@ if p = 0 | p = length(Subject) then do
   to test whether the Subject was dropped. */
   #Indicator = left(#Response, 1)
   Value = #Outcome
-  if #BIF-ArgExists.2 then
-     #Response = Var Set(#Pool, Subject, '0', #BIF-Arg.2)
+  if #BIF_ArgExists.2 then
+     #Response = Var Set(#Pool, Subject, '0', #BIF_Arg.2)
   return Value
   end
 /* Compound */
@@ -2609,8 +2609,8 @@ do forever
 #Response = Var_Value(#Pool, Expanded, '1')
 #Indicator = left(#Response, 1)
 Value = #Outcome
-if #BIF-ArgExists.2 then
-   #Response = Var Set(#Pool, Expanded, '1', #BIF-Arg.2)
+if #BIF_ArgExists.2 then
+   #Response = Var Set(#Pool, Expanded, '1', #BIF_Arg.2)
 return Value
 ```
 
@@ -2623,14 +2623,14 @@ the first argument.
 ```rexx <!--BIF-time.rexx-->
 call CheckArgs 'oCEHLMNORS oANY oCHLMNS'
 /* If the third argument is given then the second is mandatory. */
-if #BIF-ArgExists.3 & \#BIF-ArgExists.2 then
+if #BIF_ArgExists.3 & \#BIF_ArgExists.2 then
 
-call Raise 40.19, '', #BIF-Arg.3
+call Raise 40.19, '', #BIF_Arg.3
 
-if #BIF-ArgExists.1 then Option
+if #BIF_ArgExists.1 then Option
 else Option
 
-#BIF-Arg.1
+#BIF_Arg.1
 tint
 
 /* The date/time is 'frozen' throughout a clause. */
@@ -2642,7 +2642,7 @@ if #ClauseTime.#Level == '' then do
 end
 
 /* If there is no second argument, the current time is returned. */
-if \#BIF-ArgExists.2 then
+if \#BIF_ArgExists.2 then
 return TimeFormat (#ClauseLocal.#Level, Option)
 
 /* If there is a second argument it provides the time to be
@@ -2652,9 +2652,9 @@ if pos(Option, 'ERO') > 0 then
 
 128
 call Raise 40.29, Option
-InValue = #BIF-Arg.2
+InValue = #BIF_Arg.2
 
-if #BIF-ArgExists.3 then InOption = #BIF-Arg.3
+if #BIF_ArgExists.3 then InOption = #BIF_Arg.3
 else InOption = 'N'
 HH = 0
 MM = 0
