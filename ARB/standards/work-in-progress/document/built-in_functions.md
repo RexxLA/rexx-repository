@@ -715,34 +715,36 @@ DigitRun:
 ```
 
 ### DELSTR
-DELSTR deletes the sub-string of the first argument which begins at the position given by the second
+
+`DELSTR` deletes the sub-string of the first argument which begins at the position given by the second
 argument. The third argument is the length of the deletion.
 
 ```rexx <!--delstr.rexx-->
-call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
-String #Bif_Arg.1
+call CheckArgs  'rANY rWHOLE>0 oWHOLE>=0'
 
-Num #Bif_Arg.2
+String = #Bif_Arg.1
+Num    = #Bif_Arg.2
 if #Bif_ArgExists.3 then Len = #Bif_Arg.3
 
 if Num > length(String) then return String
 
 Output = substr(String, 1, Num - 1)
 if #Bif_ArgExists.3 then
-if Num + Len <= length(String) then
-Output = Output || substr(String, Num + Len)
+  if Num + Len <= length(String) then
+    Output = Output || substr(String, Num + Len)
 return Output
 ```
 
 ### DELWORD
-DELWORD deletes words from the first argument. The second argument specifies position of the first
+
+`DELWORD` deletes words from the first argument. The second argument specifies position of the first
 word to be deleted and the third argument specifies the number of words.
 
 ```rexx <!--delword.rexx-->
 call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0'
-String #Bif_Arg.1
 
-Num #Bif_Arg.2
+String = #Bif_Arg.1
+Num    = #Bif_Arg.2
 if #Bif_ArgExists.3 then Len = #Bif_Arg.3
 
 if Num > words(String) then return String
@@ -750,137 +752,92 @@ if Num > words(String) then return String
 EndLeft = wordindex(String, Num) - 1
 Output = left(String, EndLeft)
 if #Bif_ArgExists.3 then do
-BeginRight = wordindex(String, Num + Len)
-
-if BeginRight>0 then
-Output =
-
-end
+   BeginRight = wordindex(String, Num + Len)
+   if BeginRight>0 then
+      Output = Output || substr(String, BeginRight)
+   end
 return Output
 ```
 
 ### INSERT
 
-Output || substr(String, BeginRight)
-
-INSERT insets the first argument into the second. The third argument gives the position of the character
+`INSERT` insets the first argument into the second. The third argument gives the position of the character
 before the insert and the fourth gives the length of the insert. The fifth is the padding character.
 
 ```rexx <!--insert.rexx-->
-call CheckArgs
+call CheckArgs 'rANY rANY oWHOLE>=0 oWHOLE>=0 oPAD'
 
-New #Bif_ Arg.1
-Target #Bif_Arg.2
-if #Bif_ArgExists.3
-
-then
-else
-then
-else
-then
-else
-
-Num
-Num
-Length = #Bif_Arg.4
-Length = length (New)
-Pad #Bif_Arg.5
-Pad ro
-
-#Bif_Arg.3
-0
-
-if #Bif_ArgExists.4
-
-if #Bif_ArgExists.5
-
-return left(Target, Num, Pad)
-left(New, Length, Pad),
-substr(Target, Num + 1)
+New    = #Bif_Arg.1
+Target = #Bif_Arg.2
+if #Bif_ArgExists.3 then Num = #Bif_Arg.3
+                    else Num = 0
+if #Bif_ArgExists.4 then Length = #Bif_Arg.4
+                    else Length = length(New)
+if #Bif_ArgExists.5 then Pad = #Bif_Arg.5
+                    else Pad = ' '
+return left(Target, Num, Pad),        /* To left of insert   */
+|| left(New, Length, Pad),            /* New string inserted */
+|| substr(Target, Num + 1)            /* To right of insert  */
 ```
-
 
 ### LASTPOS
 
-/* To left of insert
-/* New string inserted */
-/* To right of insert
-
-```rexx <!--lastpos.rexx-->
-'rANY rANY oWHOLE>=0 oWHOLE>=0 oPAD'
-
-*/
-*/
-
-LASTPOS returns the position of the last occurrence of the first argument within the second. The third
-
+`LASTPOS` returns the position of the last occurrence of the first argument within the second. The third
 argument is a starting position for the search.
 
+```rexx <!--lastpos.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0'
 
-Needle = #Bif_Arg.1
+Needle   = #Bif_Arg.1
 Haystack = #Bif_Arg.2
 if #Bif_ArgExists.3 then Start = #Bif_Arg.3
-else Start = length(Haystack)
+                    else Start = length(Haystack)
 
 NeedleLength = length (Needle)
 if NeedleLength = 0 then return 0
 Start = Start - NeedleLength + 1
-do i= Start by -1 while i > 0
-if substr(Haystack, i, NeedleLength)
-end i
+do i = Start by -1 while i > 0
+  if substr(Haystack, i, NeedleLength) == Needle then return i
+  end i
 return 0
 ```
 
 ### LEFT
 
-LEFT returns characters that are on the left of the first argument.
-
-length of the result and the third is the padding character.
+`LEFT` returns characters that are on the left of the first argument. The second argument specifies 
+the length of the result and the third is the padding character.
 
 ```rexx <!--left.rexx-->
 call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
-if #Bif_ArgExists.3 then Pad
-else Pad
+if #Bif_ArgExists.3 then Pad = #Bif_Arg.3
+                         else Pad = ' '
 
-#Bif_Arg.3
+return substr(#Bif_Arg.1, 1, #Bif_Arg.2, Pad)
+```
 
-return substr(#Bif_Arg.1, 1, #Bif_ Arg.2, Pad)
+### LENGTH
 
-10.1.14 LENGTH
+`LENGTH` returns a count of the number of characters in the argument.
 
-Needle then return i
-
-The second argument specifies the
-
-Length returns a count of the number of characters in the argument.
-
+```rexx <!--length.rexx-->
 call CheckArgs 'rANY'
 
 String = #Bif_Arg.1
 
-#Response = Config Length(String)
-
+#Response = Config_Length(String)
 Length = #Outcome
-
-call Config Substr #Response, 1
-
+call Config_Substr #Response, 1
 if #Outcome \== 'E' then return Length
-
-/* Here if argument was not a character string.
-call Config C2B String
-call #Raise 'SYNTAX',
-
-23.1, b2x(#Outcome)
-
-*/
+/* Here if argument was not a character string. */
+call Config_C2B String
+call #Raise  'SYNTAX', 23.1, b2x(#Outcome)
 /* No return to here */
 ```
 
 ### OVERLAY
 
-OVERLAY overlays the first argument onto the second. The third argument is the starting position of the overlay. The fourth argument is the length of the overlay and the fifth is the padding character.
+`OVERLAY` overlays the first argument onto the second. The third argument is the starting position of the overlay. The fourth argument is the length of the overlay and the fifth is the padding character.
 
 ```rexx <!--overlay.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0 oOWHOLE>=0 oPAD'
