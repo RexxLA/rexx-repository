@@ -270,7 +270,7 @@ where:
 
 #### Semantics:
 
-Translate `Character` to uppercase. Set `#Outcome` to the translated character. `Characters` which have
+Translate `Character` to uppercase. Set `#Outcome` to the translated character. Characters which have
 been subject to this translation are referred to as being in uppercase. `Config_Upper` applied to a
 character in uppercase must not change the character.
 
@@ -288,7 +288,7 @@ where:
 
 #### Semantics:
 
-Translate `Character` to lowercase. Set `#Outcome` to the translated character. `Characters` which have
+Translate `Character` to lowercase. Set `#Outcome` to the translated character. Characters which have
 been subject to this translation are referred to as being in lowercase. `Config_Lower` applied to a
 character in lowercase must not change the character. `Config_Upper` of the outcome of
 `Config_Lower(Character)` shall be the original character.
@@ -324,7 +324,7 @@ The function shall exhibit the following characteristics. If `Config _Compare(a,
 - `'lesser'` and `Config_Compare(b,c)` produces `'lesser'` then `Config_Compare(a,c)` produces `'lesser'`;
 - `'equal'` then `Config_Compare(a,c)` and `Config_Compare(b,c)` produce the same value.
   
-Syntactic characters which are different characters shall not compare equal by Config_Compare, see
+Syntactic characters which are different characters shall not compare equal by `Config_Compare`, see
 <!--TODO-->nnn.
 
 ### Config_B2C
@@ -376,7 +376,7 @@ where:
 
 #### Semantics:
 
-Copy the `n`-th character from `String`. The leftmost character is the first character. Set `Outcome` to the
+Copy the `n`-th character from `String`. The leftmost character is the first character. Set `#Outcome` to the
 resulting character.
 
 If this function is unable to supply a character because there is no `n`-th character in `String` the indicator
@@ -425,8 +425,9 @@ If `Character1` is the null string then let `LowBound` be a lowest ranked charac
 according to the ranking order provided by `Config_Compare`; otherwise let `LowBound` be `Character1`.
 
 If `Character2` is the null string then let `HighBound` be a highest ranked character in the character set
-according to the ranking order provided by `Config_Compare`; otherwise let `HighBound` be `Character2` if
-`#Outcome` after `Config_Compare(LowBound,HighBound)` has a value of
+according to the ranking order provided by `Config_Compare`; otherwise let `HighBound` be `Character2`. 
+
+If `#Outcome` after `Config_Compare(LowBound,HighBound)` has a value of
 
 - `'equal'` then `#Outcome` is set to `LowBound`;
 
@@ -470,7 +471,7 @@ where:
 #### Semantics:
 
 The configuration should prepare to deal efficiently with the object as an array with indexes having
-values up to the value of size.
+values up to the value of `size`.
 
 ### Config_Array_Put
 
@@ -511,8 +512,8 @@ The configuration shall return the item that the array has associated with `Inde
 
 #### Syntax:
 
-```rexx <!--configarrayhashindex.rexx-->
-Config_Array_At(Array, Index)
+```rexx <!--configarrayhasindex.rexx-->
+Config_Array_Hasindex(Array, Index)
 ```
 
 where:
@@ -522,14 +523,14 @@ where:
 
 #### Semantics:
 
-Return `'1'` if there is an item in `Array` associated with Index, `'0'` otherwise.
+Return `'1'` if there is an item in `Array` associated with `Index`, `'0'` otherwise.
 
 ### Config_Array_Remove
 
 #### Syntax:
 
 ```rexx <!--configarrayremove.rexx-->
-Config_Array_At(Array, Index)
+Config_Array_Remove(Array, Index)
 ```
 
 where:
@@ -599,17 +600,12 @@ where:
 
 * `How` is one of `'FUNCTION'` or `'SUBROUTINE'` and indicates how the external routine is to be
   invoked.
-
 * `NameType` is a specification of whether the name was provided as a symbol or as a string literal.
-  Name is the name of the routine to be invoked.
-
+* `Name` is the name of the routine to be invoked.
 * `Environment` is an environment value with the same components as on `API_Start`.
-
 * `Arguments` is a specification of the arguments to the routine, with the same components as on
-  API Start.
-
+  `API_Start`.
 * `Streams` is a specification of the default streams, with the same components as on `API_Start`.
-
 * `Traps` is the list of traps to be used in processing, with the same components as on `API_Start`.
 
 #### Semantics:
@@ -632,25 +628,25 @@ response is `'F'`. As a result `SYNTAX` condition `40.1` is raised implicitly.
 
 ### Config_ExternalMethod
 
-OOI has external classes explicitly via the `::CLASS abc EXTERNAL` mechanism. Analogy with classic would also
+_OOI has external classes explicitly via the `::CLASS abc EXTERNAL` mechanism. Analogy with classic would also
 allow the subject of `::REQUIRES` to be coded in non-Rexx. However `::REQUIRES` subject is coded, we need to
 gather in knowledge of its method names because of the search algorithm that determines which method is called.
 Hence reasonable that the ultimate external call is to a method. Perhaps combine `Config_ExternalRoutine` with
-`Config_ExternalMethod`.
+`Config_ExternalMethod`._
 
-There is a terminology clash on "environment". Perhaps easiest to change the classic to "address_environment".
-(And make it part of new "environment"?)
+_There is a terminology clash on "environment". Perhaps easiest to change the classic to "address_environment".
+(And make it part of new "environment"?)_
 
-There are terminology decisions to make about "files", "programs", and "packages". Possibly "program" is the thing
-you run (and we don't say what it means physically), "file" is a unit of scope (ROUTINEs in current file before those in
-REQUIREd), and "package" we don't use (since a software package from a shop would probably have several files
+_There are terminology decisions to make about "files", "programs", and "packages". Possibly "program" is the thing
+you run (and we don't say what it means physically), "file" is a unit of scope (`ROUTINE`s in current file before those in
+`REQUIRE`d), and "package" we don't use (since a software package from a shop would probably have several files
 but not everything to run a program.) Using "file" this way may not be too bad since we used "stream" rather than
-"tile" in the classic definition.
+"file" in the classic definition._
 
-The `How` parameter will need `'METHOD'` as a value. Should `API_Start` also allow `'METHOD'`. If we pass the new
-`Environment` we don't have to pass `Streams` separately.
+_The `How` parameter will need `'METHOD'` as a value. Should `API_Start` also allow `'METHOD'`. If we pass the new
+`Environment` we don't have to pass `Streams` separately._
 
-Text of `Config_ExternalMethod` waiting on such decisions.
+_Text of `Config_ExternalMethod` waiting on such decisions._
 
 #### Syntax:
 
@@ -828,10 +824,8 @@ encountered. Increase `#Charin_Position.Stream` when the indicator will be `'N'`
 If `OperationType` is `'CHARIN'` the state variables describing the stream will be affected as follows:
 
 - when the configuration is able to provide data from a transient stream or the character at position
-#Charin_Position.Stream of a persistent stream then #Outcome shall be set to contain the data.
-
-The indicator of the response shall be 'N';
-
+  `#Charin_Position.Stream` of a persistent stream then `#Outcome` shall be set to contain the data.
+  The indicator of the response shall be 'N';
 - when the configuration is unable to return data because the read position is at the end of a
   persistent stream then the indicator of the response shall be 'O';
 - when the configuration is unable to return data from a transient stream because no data is
