@@ -1405,74 +1405,68 @@ return Number
 
 ```rexx <!--max.rexx-->
 if #Bif_Arg.0 <1 then
-call Raise 40.3, 1
+  call Raise 40.3, 1
 call CheckArgs 'rNUM'||copies(' rNUM', #Bif_Arg.0 - 1)
 
 Max = #Bif_Arg.1
-
 do i = 2 to #Bif_Arg.0 by 1
-Next = #Bif_Arg.i
-if Max < Next then Max = Next
-end i
-
+  Next = #Bif_Arg.i
+  if Max < Next then Max = Next
+  end i
 return Max
 ```
 
 ### MIN
-MIN returns the smallest of its arguments.
+
+`MIN` returns the smallest of its arguments.
 
 ```rexx <!--min.rexx-->
 if #Bif_Arg.0 <1 then
-call Raise 40.3, 1
+  call Raise 40.3, 1
 call CheckArgs 'rNUM'||copies(' rNUM', #Bif_Arg.0 - 1)
 
 Min = #Bif_Arg.1
-
 do i = 2 to #Bif_Arg.0 by 1
-Next = #Bif_Arg.i
-if Min > Next then Min = Next
-end i
-
+  Next = #Bif_Arg.i
+  if Min > Next then Min = Next
+  end i
 return Min
 ```
 
 ### SIGN
-SIGN returns '1', '0' or '-1' according to whether its argument is greater than, equal to, or less than zero.
+
+`SIGN` returns `'1'`, `'0'` or `'-1'` according to whether its argument is greater than, equal to, or less than zero.
 
 ```rexx <!--sign.rexx-->
 call CheckArgs 'rNUM'
 
 Number = #Bif_Arg.1
-
 select
-
-when Number < 0 then Output = -1
-when Number = 0 then Output = 0
-when Number > 0 then Output = 1
-
-end
+  when Number < 0 then Output = -1
+  when Number = 0 then Output = 0
+  when Number > 0 then Output = 1
+  end
 return Output
 ```
 
 ### TRUNC
-TRUNC returns the integer part of its argument, or the integer part plus a number of digits after the
+
+`TRUNC` returns the integer part of its argument, or the integer part plus a number of digits after the
 decimal point, specified by the second argument.
 
 ```rexx <!--trunc.rexx-->
 call CheckArgs 'rNUM oWHOLE>=0'
 
 Number = #Bif_Arg.1
-if #Bif_ArgExists.2 then Num
+if #Bif_ArgExists.2 then Num = #Bif_Arg.2
+                    else Num = 0
 
-#Bif_Arg.2
-else Num 0
-
-Integer =(10**Num * Number) %1
+Integer =(10**Num  * Number) %1
 if Num=0 then return Integer
 
 t=length(Integer) -Num
 if t<=0 then return '0.'right(Integer,Num,'0')
-else return insert('.',Integer,t)
+        else return insert('.',Integer,t)
 ```
 
 ## State built-in functions
@@ -1481,25 +1475,25 @@ These functions return values from the state of the execution.
 
 ### ADDRESS
 
-ADDRESS returns the name of the environment to which commands are currently being submitted.
+`ADDRESS` returns the name of the environment to which commands are currently being submitted.
 Optionally, under control by the argument, it also returns information on the targets of command output
 and the source of command input.
 
 ```rexx <!--address.rexx-->
 call CheckArgs 'oEINO'
 
-if #Bif_ArgExists.1 then Optionl = #Bif_Arg.1
-else Optionl='N'
+if #Bif_ArgExists.1 then Option1 = #Bif_Arg.1
+                    else Option1 = 'N'
 
-if Optionl == 'N' then return #Env_Name.ACTIVE. #Level
+if Option1 == 'N' then return #Env_Name.ACTIVE.#Level
 
-Tail = Optionl' .ACTIVE. '#Level
+Tail = Option1' .ACTIVE.'#Level
 return #Env_Position.Tail #Env_Type.Tail #Env_Resource.Tail
 ```
 
 ### ARG
 
-ARG returns information about the argument strings to a program or routine, or the value of one of those
+`ARG` returns information about the argument strings to a program or routine, or the value of one of those
 strings.
 
 ```rexx <!--arg.rexx-->
@@ -1512,78 +1506,72 @@ if \#Bif_ArgExists.1 then return #Arg.#Level.0
 ArgNum=#Bif_Arg.1
 
 if \#Bif_ArgExists.2 then return #Arg.#Level.ArgNum
-
-if #Bif_Arg.2 =='0O' then return \#ArgExists.#Level.ArgNum
-else return #ArgExists.#Level .ArgNum
+if #Bif_Arg.2 =='O' then return \#ArgExists.#Level.ArgNum
+                    else return #ArgExists.#Level .ArgNum
 ```
 
 ### CONDITION
-CONDITION returns information associated with the current condition.
+
+`CONDITION` returns information associated with the current condition.
 
 ```rexx <!--condition.rexx-->
 call CheckArgs 'oCDEIS'
 
 /* Values are null if this is not following a condition. */
 if #Condition.#Level == '' then do
-#ConditionDescription.#Level = ''
-#ConditionExtra.#Level = ''
-#ConditionInstruction.#Level
-end
+   #ConditionDescription.#Level = ''
+   #ConditionExtra.#Level = ''
+   #ConditionInstruction.#Level = ''
+   end
 
 Option=#Bif_Arg.1
-
 if Option=='C' then return #Condition.#Level
-
-if Option=='D' then return #ConditionDescription. #Level
+if Option=='D' then return #ConditionDescription.#Level
 if Option=='E' then return #ConditionExtra.#Level
-
-if Option=='I' then return #ConditionInstruction. #Level
+if Option=='I' then return #ConditionInstruction.#Level
 /* State is the current state. */
-
 if #Condition.#Level = '' then return ""
 return #Enabling.#Condition.#Level
 ```
 
 ### DIGITS
 
-DIGITS returns the current setting of NUMERIC DIGITS.
-call CheckArgs ''
+`DIGITS` returns the current setting of `NUMERIC DIGITS`.
 
 ```rexx <!--digits-->
+call CheckArgs ''
+
 return #Digits.#Level
 ```
 
 ### ERRORTEXT
 
-ERRORTEXT returns the unexpanded text of the message which is identified by the first argument. A
-second argument of 'S' selects the standard English text, otherwise the text may be translated to another
+`ERRORTEXT` returns the unexpanded text of the message which is identified by the first argument. A
+second argument of `'S'` selects the standard English text, otherwise the text may be translated to another
 national language. This translation is not shown in the code below.
 
 ```rexx <!--errortext.rexx-->
 call CheckArgs 'r0_90 oSN'
 
 msgcode = #Bif_Arg.1
-
-if #Bif_ArgExists.2 then Option
-else Option
-
+if #Bif_ArgExists.2 then Option = #Bif_Arg.2
+                    else Option = 'N'
 return #ErrorText .msgcode
 ```
 
 ### FORM
-FORM returns the current setting of NUMERIC FORM.
+
+`FORM` returns the current setting of `NUMERIC FORM`.
 
 ```rexx <!--form.rexx-->
-#Bif_Arg.2
-tint
-
 call CheckArgs ''
 
 return #Form.#Level
 ```
 
 ### FUZZ
-FUZZ returns the current setting of NUMERIC FUZZ.
+
+`FUZZ` returns the current setting of `NUMERIC FUZZ`.
 
 ```rexx <!--fuzz.rexx-->
 call CheckArgs ''
@@ -1593,7 +1581,7 @@ return #Fuzz.#Level
 
 ### SOURCELINE
 
-If there is no argument, SOURCELINE returns the number of lines in the program, or '0' if the source
+If there is no argument, `SOURCELINE` returns the number of lines in the program, or `'0'` if the source
 program is not being shown on this execution. If there is an argument it specifies the number of the line
 of the source program to be returned.
 
@@ -1602,45 +1590,39 @@ call CheckArgs 'oWHOLE>0'
 
 if \#Bif_ArgExists.1 then return #SourceLine.0
 Num = #Bif_Arg.1
-if Num > #SourceLine.0O then
-call Raise 40.34, Num, #SourceLine.0
+if Num > #SourceLine.0 then
+  call Raise 40.34, Num, #SourceLine.0
 return #SourceLine.Num
 ```
 
 ### TRACE
-TRACE returns the trace setting currently in effect, and optionally alters the setting.
+
+`TRACE` returns the trace setting currently in effect, and optionally alters the setting.
 
 ```rexx <!--trace.rexx-->
-call CheckArgs 'oACEFILNOR' /* Also checks for '?!' */
+call CheckArgs 'oACEFILNOR' /* Also checks for '?' */
+
 /* With no argument, this a simple query. */
 Output=#Tracing.#Level
-
 if #Interactive.#Level then Output = '?'||Output
 if \#Bif_ArgExists.1 then return Output
-
 Value=#Bif_Arg.1
-
 #Interactive.#Level=0
-
 /* A question mark sets the interactive flag. */
 if left(Value,1)=='?' then do
-
-#Interactive.#Level = 1
-
-Value=substr(Value, 2)
-
-end
+  #Interactive.#Level = 1
+  Value=substr(Value, 2)
+  end
 /* Absence of a letter leaves the setting unchanged. */
 if Value\=='' then do
-
-Value=translate (left(Value,1))
-if Value=='0O' then #Interactive.#Level='0'
-#Tracing.#Level = Value
-end
+  Value=translate(left(Value,1))
+  if Value=='0' then #Interactive.#Level='0'
+  #Tracing.#Level = Value
+  end
 return Output
 ```
 
-10.4 Conversion built-in functions
+## Conversion built-in functions
 
 Conversions between Binary form, Decimal form, and heXadecimal form do not depend on the encoding
 (see <!--TODO-->nnn) of the character data.
@@ -1650,7 +1632,7 @@ the result may be a string that does not represent any sequence of characters.
 
 ### B2X
 
-B2X performs binary to hexadecimal conversion.
+`B2X` performs binary to hexadecimal conversion.
 
 ```rexx <!--b2x.rexx-->
 call CheckArgs 'rBIN'
@@ -1661,7 +1643,7 @@ return ReRadix(String,2,16)
 
 ### BITAND
 
-The functions BITAND, BITOR and BITXOR operate on encoded character data. Each binary digit from
+The functions `BITAND`, `BITOR` and `BITXOR` operate on encoded character data. Each binary digit from
 the encoding of the first argument is processed in conjunction with the corresponding bit from the second
 argument.
 
@@ -1669,58 +1651,47 @@ argument.
 call CheckArgs 'rANY oANY oPAD'
 
 Stringl = #Bif_Arg.1
-if #Bif_ArgExists.2 then String2
-
-#Bif_Arg.2
-else String2 rr
+if #Bif_ArgExists.2 then String2 = #Bif_Arg.2
+                    else String2 = ''
 
 /* Presence of a pad implies character strings. */
 if #Bif_ArgExists.3 then
-if length(Stringl) > length(String2) then
-String2=left(String2,length(String1l),#Bif_Arg.3)
-else
-Stringl=left(Stringl,length(String2),#Bif_Arg.3)
+  if length(Stringl) > length(String2) then
+    String2=left(String2,length(String1l),#Bif_Arg.3)
+  else
+    Stringl=left(Stringl,length(String2),#Bif_Arg.3)
 
 /* Change to manifest bit representation. */
 #Response=Config_C2B(String1)
-String1l=#Outcome
+String1=#Outcome
 #Response=Config_C2B(String2)
 String2=#0utcome
 /* Exchange if necessary to make shorter second. */
 if length(Stringl)<length(String2) then do
-
-t=Stringl
-
-Stringl=String2
-
-String2=t
-
-end
+  t=Stringl
+  Stringl=String2
+  String2=t
+  end
 
 /* Operate on common length of those bit strings. */
 r=''
 do j=1 to length(String2)
-
-bl=substr(Stringl,j,1)
-
-b2=substr(String2,j,1)
-
-select
-when #Bif='BITAND' then
-b1=b1&b2
-when #Bif='BITOR' then
-bl=b1|b2
-
-115
-when #Bif='BITXOR' then
-b1=b1&&b2
-end
-r=r||bl
-end j
-rer || right(Stringl, length(String1) -length(String2) )
+  bl=substr(Stringl,j,1)
+  b2=substr(String2,j,1)
+  select
+    when #Bif='BITAND' then
+      b1=b1&b2
+    when #Bif='BITOR' then
+      bl=b1|b2
+    when #Bif='BITXOR' then
+      b1=b1&&b2
+    end
+  r=r||bl
+  end j
+r=r || right(Stringl, length(String1) -length(String2) )
 
 /* Convert back to encoded characters. */
-return x2c (b2x(r))
+return x2c(b2x(r))
 ```
 
 ### BITOR
@@ -1733,29 +1704,30 @@ See <!--TODO-->nnn
 
 ### C2D
 
-C2D performs coded to decimal conversion.
+`C2D` performs coded to decimal conversion.
 
 ```rexx <!--c2d.rexx-->
 call CheckArgs 'rANY oWHOLE>=0'
+
 if length(#Bif_Arg.1)=0 then return 0
 
 if #Bif_ArgExists.2 then do
-/* Size specified */
-Size = #Bif_Arg.2
-if Size = 0 then return 0
-/* Pad will normally be zeros */
-t=right(#Bif_Arg.1,Size,left(xrange(),1))
-/* Convert to manifest bit */
-call Config_C2B t
-/* And then to signed decimal. */
-Sign = left(#Outcome,1)
-#Outcome = substr(#Outcome, 2)
-t=ReRadix (#Outcome, 2,10)
-/* Sign indicates 2s-complement. */
-if Sign then t=t-2**length(#Outcome)
-if abs(t) > 10 ** #Digits.#Level - 1 then call Raise 40.35, t
-return t
-end
+  /* Size specified */
+  Size = #Bif_Arg.2
+  if Size = 0 then return 0
+  /* Pad will normally be zeros */
+  t=right(#Bif_Arg.1,Size,left(xrange(),1))
+  /* Convert to manifest bit */
+  call Config_C2B t
+  /* And then to signed decimal. */
+  Sign = left(#Outcome,1)
+  #Outcome = substr(#Outcome, 2)
+  t=ReRadix(#Outcome, 2,10)
+  /* Sign indicates 2s-complement. */
+  if Sign then t=t-2**length(#Outcome)
+  if abs(t) > 10 ** #Digits.#Level - 1 then call Raise 40.35, t
+  return t
+  end
 /* Size not specified. */
 call Config_C2B #Bif_Arg.1
 t = ReRadix(#Outcome, 2,10)
@@ -1763,15 +1735,16 @@ if t > 10 ** #Digits.#Level - 1 then call Raise 40.35, t
 return t
 ```
 
-10.4.6 C2X
-C2X performs coded to hexadecimal conversion.
+### C2X
+
+`C2X` performs coded to hexadecimal conversion.
 
 ```rexx <!--c2x.rexx-->
 call CheckArgs 'rANY'
-if length(#Bif_Arg.1) = 0 then return ''
 
+if length(#Bif_Arg.1) = 0 then return ''
 call Config_C2B #Bif_Arg.1
-return ReRadix (#Outcome,2,16)
+return ReRadix(#Outcome,2,16)
 ```
 
 ### D2C
@@ -1846,7 +1819,7 @@ if Subject == '' then return ''
 /* Blanks were checked by CheckArgs, here they are ignored. */
 Subject = space(Subject, 0)
 
-return ReRadix(translate (Subject) ,16,2)
+return ReRadix(translate(Subject) ,16,2)
 ```
 
 ### X2C
@@ -1863,7 +1836,7 @@ Subject = space(Subject, 0)
 
 /* Convert to manifest binary */
 
-r = ReRadix(translate (Subject) ,16,2)
+r = ReRadix(translate(Subject) ,16,2)
 
 /* Convert to character */
 
@@ -1881,7 +1854,7 @@ call CheckArgs 'rHEX OWHOLE>=0'
 Subject = #Bif_Arg.1
 if Subject == '' then return '0'
 
-Subject = translate (space(Subject,0))
+Subject = translate(space(Subject,0))
 
 if #Bif_ArgExists.2 then
 
@@ -2350,7 +2323,7 @@ if #Bif_ArgExists.5 then do
 #Bif_Arg.3
 'nt
 
-translate (Option, "xx/x //x","BDEMNOUW")
+translate(Option, "xx/x //x","BDEMNOUW")
 
 Raise 40.46, Option, 4
 
@@ -2727,7 +2700,7 @@ if #Bif_ArgExists.3 then do /* An external pool, or the reserved pool. */
 Pool = #Bif_Arg.3
 
 if Pool == '' then do
-Subject = '.' || translate (Subject) /* The dot on the name is implied. */
+Subject = '.' || translate(Subject) /* The dot on the name is implied. */
 Value = .environment [Subject] /* Was the translate redundant? */
 
 if #Bif_ArgExists.2 then .environment [Subject] = #Bif_Arg.2
@@ -2987,7 +2960,7 @@ if #Bif_ArgExists.3 then do /* An external pool, or the reserved pool. */
 Pool = #Bif_Arg.3
 
 if Pool == '' then do
-Subject = '.' || translate (Subject) /* The dot on the name is implied. */
+Subject = '.' || translate(Subject) /* The dot on the name is implied. */
 Value = .environment [Subject] /* Was the translate redundant? */
 
 if #Bif_ArgExists.2 then .environment [Subject] = #Bif_Arg.2
