@@ -377,40 +377,55 @@ if #Tracing.#Level == 'I' then call #Trace '>O>'
 
 ### The value of an addition
 
-See <!--TODO-->nnn for the syntax of addition.
+See <!--TODO-->nnn for the syntax of _addition_.
 
-If the addition is a multiplication then the value of the addition is the value of the multiplication.
-Otherwise, let Ihs be the value of ad¢difion within it, and rhs be the value of the multiplication within it. Let
+If the _addition_ is a _multiplication_ then the value of the _addition_ is the value of the _multiplication_.
 
-operation be the adaltive_operator.
+Otherwise, let `lhs` be the value of _addition_ within it, and `rhs` be the value of the _multiplication_ within it. Let
+`operation` be the _additive_operator_.
+
+```rexx <!--checkmultiplicativenums.rexx-->
 if datatype(lhs)\=='NUM' then
-
-call #Raise 'SYNTAX', 41.1, lhs, operation
+     call #Raise 'SYNTAX', 41.1, lhs, operation
 if datatype(rhs)\=='NUM' then
+     call #Raise 'SYNTAX', 41.2, rhs, operation
+```
 
-call #Raise 'SYNTAX', 41.2, rhs, operation
+If either of `rhs` or `lhs` is not an integer then the value of the addition is
 
-If either of rhs or Ihs is not an integer then the value of the addition is
+```rexx <!--arithopadditionnonints.rexx-->
 ArithOp(lhs, operation, rhs)
-Otherwise if the operation is '+' and the length of the integer Ihs+rhs is not greater than #Digits.#Level
+```
 
-then the value of addition is
+Otherwise if the `operation` is `'+'` and the length of the integer `lhs+rhs` is not greater than `#Digits.#Level`
+then the value of _addition_ is
+
+```rexx <!--valueofadd.rexx-->
 lhs+rhs
+```
 
-Otherwise if the operation is '-' and the length of the integer Ihs-rhs is not greater than #Digits.#Level then
+Otherwise if the `operation` is `'-'` and the length of the integer `lhs-rhs` is not greater than `#Digits.#Level` then
+the value of _addition_ is
 
-the value of addition is
+```rexx <!--valueofsubtract.rexx-->
 lhs-rhs
+```
 
 Otherwise the value of the addition is
+
+```rexx <!--arithopaddition.rexx-->
 ArithOp(lhs, operation, rhs)
+```
 
-If the addition is not a multiplication then:
-if #Tracing.#Level == 'I' then call #Trace '>0O>'
+If the _addition_ is not a _multiplication_ then:
 
+```rexx <!--settraceforaddition.rexx-->
+if #Tracing.#Level == 'I' then call #Trace '>O>'
+``` 
 ### The value of a concatenation
 
-See <!--TODO-->nnn for the syntax of a concatenation.
+See <!--TODO-->nnn for the syntax of a _concatenation_.
+
 If the concatenation is an addition then the value of the concatenation is the value of the addition.
 Otherwise, let Ihs be the value of concatenation within it, and rhs be the value of the additive_expression
 within it.
