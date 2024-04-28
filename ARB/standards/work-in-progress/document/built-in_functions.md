@@ -2614,15 +2614,6 @@ if #Bif_ArgExists.2 then
 return Value
 ```
 
-### QUEUED
-QUEUED returns the number of lines remaining in the external data queue.
-
-```rexx <!--queued.rexx-->
-call CheckArgs ''
-#Response = Config_Queued()
-return #Outcome
-```
-
 ### TIME
 
 TIME with less than two arguments returns the local time within the day, or an elapsed time. Otherwise it
