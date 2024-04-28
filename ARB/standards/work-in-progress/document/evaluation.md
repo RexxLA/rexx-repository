@@ -1134,7 +1134,7 @@ The comparison is made with the '==' operator.
 If there is such a matching label and the label is trace-only (see <!--TODO-->nnn) then a condition is raised:
 
 ```rexx <!--callraisesyntax.rexx-->
-call #Raise 'SYNTAX', 16.3, taken constant
+call #Raise 'SYNTAX', 16.3, taken_constant
 ```
 
 If there is such a matching label, and the label is not trace-only, execution continues at the label with
@@ -1169,6 +1169,7 @@ built-in function is defined in section <!--TODO-->nnn.
 
 An internal routine completes when `#Level` returns to the value it had when the routine was invoked. The
 value of the internal function is the value of the _expression_ on the _return_ which completed the routine.
+
 The value of an external function is determined by `Config_ExternalRoutine`.
 
 ### The value of a method
@@ -1178,6 +1179,7 @@ method is defined in section n.
 
 An internal method completes when `#Level` returns to the value it had when the routine was invoked. The
 value of the internal method is the value of the _expression_ on the _return_ which completed the method.
+
 The value of an external method is determined by `Config_ExternalMethod`.
 
 ### The value of a message term
@@ -1186,13 +1188,14 @@ See <!--TODO-->nnn for the syntax of a _message_term_. The value of the _term_ w
 receiver.
 
 The receiver and any arguments of the term are evaluated, in left to right order.
+
 ```rexx <!--evaluatemessageterm.rexx-->
 r = #evaluate(message_term, term)
 ```
 
 If the message term contains `'~~'` the value of the message term is the receiver.
 
-_Any effect on .Result?_
+_Any effect on `.Result`?_
 
 Otherwise the value of a _message_term_ is the value of the method it invokes. The method invoked is
 determined by the receiver and the _taken_constant_ and _symbol_.
@@ -1235,60 +1238,60 @@ SelectMethod:
 /* If symbol given, receiver must be self. */
  if arg(3,'E') then if arg(1)\==#Self then signal error /* syntax number? */
 
-t = arg(2) /* Will have been uppercased, unless a literal. */
-x = arg(1)  /* Cursor through places to look for the method. */
-Mixing = 1 /* Off for potential mixins ignored because symbol given. */
-Mixins = array~new /* to note any Mixins involved. */
+  t = arg(2) /* Will have been uppercased, unless a literal. */
+  x = arg(1)  /* Cursor through places to look for the method. */
+  Mixing = 1 /* Off for potential mixins ignored because symbol given. */
+  Mixins = array~new /* to note any Mixins involved. */
 
-/* Look in the method table of the object, if no 'symbol' given. */
-if arg(3,'E') then do
-  Mixing = 0
-  end
-else do
-  m = x~#MethodTable[t]
-  if m \== .nil then return m
-  end
-
-do until x==.object
-  /* Follow the class hierarchy. */
-  x = x-class
-  /* Note any mixins for later reference. */
-  Mix = x~Inherited /* An array, ordered as the directive left-to-right. */
-  if Mix \== .nil then /* Append to the record. */
-    do j=1 to Mix~dimension (1)
-      Mixins [Mixins~dimension(1)+1] = Mix[j]
-      end
-
-  if Mixing do
-    /* Consider mixins only for superclasses of 'symbol'. */
-    do j=1 to Mixins~dimension (1)
-      /* Look at the baseclass of each. */
-      /* That is closest superclass not a mixin. */
-      s = Mixins[j]~class
-      do while s~Mixin /* Assert stop at .object if not before. */
-        s=s~class
-        end
-      if s==x then do
-        m=Mixins [j]~#MethodTable[t]
-        if m \== .nil then return m
-        end
-      end j
-    end /* Mixing */
-  if arg(3,'E') then if arg(3)==x then do
-   Mixing=1
-   end
-  if Mixing do
-    /* Consider non-Mixins */
-    m= x-#InstanceMethodTable[t]
+  /* Look in the method table of the object, if no 'symbol' given. */
+  if arg(3,'E') then do
+    Mixing = 0
+    end
+  else do
+    m = x~#MethodTable[t]
     if m \== .nil then return m
     end
-  x=x~superclass
-  end
 
-/* Try for UNKNOWN instead */
-if t == 'UNKNOWN' then return .nil
-if \arg(3,'E') then return SelectMethod arg(1),'UNKNOWN'
-               else return SelectMethod arg(1),'UNKNOWN',arg(3)
+  do until x==.object
+    /* Follow the class hierarchy. */
+    x = x-class
+    /* Note any mixins for later reference. */
+    Mix = x~Inherited /* An array, ordered as the directive left-to-right. */
+    if Mix \== .nil then /* Append to the record. */
+      do j=1 to Mix~dimension (1)
+        Mixins [Mixins~dimension(1)+1] = Mix[j]
+        end
+
+    if Mixing do
+      /* Consider mixins only for superclasses of 'symbol'. */
+      do j=1 to Mixins~dimension (1)
+        /* Look at the baseclass of each. */
+        /* That is closest superclass not a mixin. */
+        s = Mixins[j]~class
+        do while s~Mixin /* Assert stop at .object if not before. */
+          s=s~class
+          end
+        if s==x then do
+          m=Mixins[j]~#MethodTable[t]
+          if m \== .nil then return m
+          end
+        end j
+      end /* Mixing */
+    if arg(3,'E') then if arg(3)==x then do
+     Mixing=1
+     end
+    if Mixing then do
+      /* Consider non-Mixins */
+      m= x-#InstanceMethodTable[t]
+      if m \== .nil then return m
+      end
+    x=x~superclass
+    end
+
+  /* Try for UNKNOWN instead */
+  if t == 'UNKNOWN' then return .nil
+  if \arg(3,'E') then return SelectMethod arg(1),'UNKNOWN'
+                 else return SelectMethod arg(1),'UNKNOWN',arg(3)
 ```
 
 ### Use of Config_ExternalRoutine
