@@ -1027,45 +1027,45 @@ call Config_Options (Expression)
 
 For a definition of the syntax of this instruction, see nnn.
 
-The PARSE instruction is used to assign data from various sources to variables.
+The `PARSE` instruction is used to assign data from various sources to variables.
 
-The purpose of the PARSE instruction is to select substrings of the _parse_fype_ under control of the
+The purpose of the `PARSE` instruction is to select substrings of the _parse_type_ under control of the
 _template_list_. If the _template_list_ is omitted, or a _template_ in the list is omitted, then a template which is the null string is implied.
 
-Processing for the PARSE instruction begins by constructing a value, the source to be parsed.
+Processing for the `PARSE` instruction begins by constructing a value, the source to be parsed.
 
 ```rexx <!--instructionsparse.rexx-->
 ArgNum = 0
 select
-  when #Contains (parse type, 'ARG') then do
+  when #Contains(parse_type, 'ARG') then do
         ArgNum = 1
         ToParse = #Arg.#Level.ArgNum
         end
-  when #Contains (parse type, 'LINEIN') then ToParse = linein('')
-  when #Contains (parse type, 'PULL') then do
+  when #Contains(parse_type, 'LINEIN') then ToParse = linein('')
+  when #Contains(parse_type, 'PULL') then do
      /* Acquire from external queue or default input. */
      #Response = Config_Pull()
      if left(#Response, 1) == 'F' then
        call Config_Default_Input
        ToParse = #Outcome
        end
-  when #Contains (parse type, 'SOURCE') then
+  when #Contains(parse_type, 'SOURCE') then
      ToParse = #Configuration #HowInvoked #Source
-   when #Contains (parse type, 'VALUE') then
-     if \#Contains(parse value, expression) then ToParse = ''
-     else ToParse = #Evaluate(parse value, expression)
-  when #Contains (parse type, 'VAR') then
-    ToParse = #Evaluate (parse var, VAR_SYMBOL)
-  when #Contains (parse type, 'VERSION') then ToParse = #Version
+   when #Contains(parse_type, 'VALUE') then
+     if \#Contains(parse_value, expression) then ToParse = ''
+     else ToParse = #Evaluate(parse_value, expression)
+  when #Contains(parse_type, 'VAR') then
+    ToParse = #Evaluate (parse_var, VAR_SYMBOL)
+  when #Contains(parse_type, 'VERSION') then ToParse = #Version
   end
 Uppering = #Contains(parse, 'UPPER')
 ```
 
 The first template is associated with this source. If there are further templates, they are matched against
-null strings unless 'ARG' is specified, when they are matched against further arguments.
+null strings unless `'ARG'` is specified, when they are matched against further arguments.
 
 The parsing process is defined by the following routine, `ParseData`. The _template_list_ is accessed by
-`ParseDat`a as a stemmed variable. This variable `Template.` has elements which are null strings except
+`ParseData` as a stemmed variable. This variable `Template.` has elements which are null strings except
 for any elements with tails 1,2,3,... corresponding to the tokens of the _template_list_ from left to right.
 
 ```rexx <!--parsedata.rexx-->
@@ -1247,11 +1247,12 @@ Assign:
    if #Tracing.#Level == 'R' | #Tracing.#Level == 'I' then call #Trace Tag
    return
 ```
+
 ### PROCEDURE
 
 For a definition of the syntax of this instruction, see nnn.
 
-The PROCEDURE instruction is used within an internal routine to protect all the existing variables by
+The `PROCEDURE` instruction is used within an internal routine to protect all the existing variables by
 making them unknown to following instructions. Selected variables may be exposed.
 
 It is used at the start of a routine, after routine initialization:
@@ -1272,47 +1273,47 @@ If there is a _variable_list_, it provides access to a previous variable pool.
 
 The words of the _variable_list_ are processed from left to right.
 
-A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable to be made
-accessible. If VAR_SYMBOL does not contain a period, or has only a single period as its last character,
-the variable associated with VAR_SYMBOL by the variable pool (as a non-tailed name) is given the
-attribute 'exposed'.
+A word which is a _VAR_SYMBOL_, not contained in parentheses, specifies a variable to be made
+accessible. If _VAR_SYMBOL_ does not contain a period, or has only a single period as its last character,
+the variable associated with _VAR_SYMBOL_ by the variable pool (as a non-tailed name) is given the
+attribute `'exposed'`.
 
 ```rexx <!--exposepool.rexx-->
 call Var_Expose #Pool, VAR SYMBOL, '0'
 ```
 
-If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
-in the variable pool (by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
+If _VAR_SYMBOL_ has a period other than as last character, the variable associated with _VAR_SYMBOL_
+in the variable pool (by the name derived from _VAR_SYMBOL_, see nnn) is given the attribute `'exposed'`.
 
 ```rexx <!--exposederived.rexx-->
 call Var_Expose #Pool, Derived Name, '1'
 ```
 
-If the word from the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the VAR_SYMBOL is
-exposed, as if that VAR_SYMBOL was a word in the _variable_list_. Tne value of the VAR_SYMBOL is
+If the word from the _variable_list_ is a _VAR_SYMBOL_ enclosed in parentheses then the _VAR_SYMBOL_ is
+exposed, as if that _VAR_SYMBOL_ was a word in the _variable_list_. Tne value of the _VAR_SYMBOL_ is
 processed. The value is considered in uppercase:
 
 ```rexx <!--configuppervalue.rexx-->
-#Value = Config_Upper (#Value)
+#Value = Config_Upper(#Value)
 ```
 
-Each word in that value found by the WORD built-in function, from left to right, is subjected to this
+Each word in that value found by the `WORD` built-in function, from left to right, is subjected to this
 process:
 
-If the word does not have the syntax of VAR_SYMBOL a condition is raised:
+If the word does not have the syntax of _VAR_SYMBOL_ a condition is raised:
 
 ```rexx <!--callraisesyntax.rexx-->
 call #Raise 'SYNTAX', 20.1, word
 ```
 
-Otherwise the VAR_SYMBOL indicated by the word is exposed, as if that VAR_SYMBOL were a word of
+Otherwise the _VAR_SYMBOL_ indicated by the word is exposed, as if that _VAR_SYMBOL_ were a word of
 the _variable_list_.
 
 ### PULL
 
 For a definition of the syntax of this instruction, see nnn.
 
-A PULL instruction is a shorter form of the equivalent instruction:
+A `PULL` instruction is a shorter form of the equivalent instruction:
 
 ```rexx <!--upperpull.rexx-->
 PARSE UPPER PULL template list
@@ -1322,11 +1323,11 @@ PARSE UPPER PULL template list
 
 For a definition of the syntax of this instruction, see nnn.
 
-The PUSH instruction is used to place a value on top of the stack.
+The `PUSH` instruction is used to place a value on top of the stack.
 
 ```rexx <!--push.rexx-->
 If #Contains(push,expression) then
-  Value = #Evaluate (push, expression)
+  Value = #Evaluate(push, expression)
 else
   Value = ''
 call Config_Push Value
@@ -1336,7 +1337,7 @@ call Config_Push Value
 
 For a definition of the syntax of this instruction, see nnn.
 
-The QUEUE instruction is used to place a value on the bottom of the stack.
+The `QUEUE` instruction is used to place a value on the bottom of the stack.
 
 ```rexx <!--queue.rexx-->
 If #Contains (queue,expression) then
@@ -1348,21 +1349,22 @@ call Config_Queue Value
 
 ### RAISE
 
-The RAISE instruction returns from the current method or routine and raises a condition.
+The `RAISE` instruction returns from the current method or routine and raises a condition.
 
 ### REPLY
 
-The REPLY instruction is used to allow both the invoker of a method, and the replying method, to
+The `REPLY` instruction is used to allow both the invoker of a method, and the replying method, to
 continue executing.
 
-_Must set up for error of expression on subsequent RETURN._
+_Must set up for error of expression on subsequent `RETURN`._
+
 ### RETURN
 For a definition of the syntax of this instruction, see nnn.
 
-The RETURN instruction is used to return control and possibly a result from a program or internal routine
+The `RETURN` instruction is used to return control and possibly a result from a program or internal routine
 to the point of its invocation.
 
-The RETURN keyword may be followed by an optional expression, which will be evaluated and returned
+The `RETURN` keyword may be followed by an optional expression, which will be evaluated and returned
 as a result to the caller of the routine.
 
 Any _expression_ is evaluated:
@@ -1376,13 +1378,13 @@ else if #IsFunction.#Level then
 
 At this point the clause termination occurs and then the following:
 
-If the routine started with a PROCEDURE instruction then the associated pool is taken out of use:
+If the routine started with a `PROCEDURE` instruction then the associated pool is taken out of use:
 
 ```rexx <!--isprocedure.rexx-->
 if #IsProcedure.#Level then #Pool = #Upper
 ```
 
-A RETURN instruction which is interactively entered at a pause point leaves the pause point.
+A `RETURN` instruction which is interactively entered at a pause point leaves the pause point.
 
 ```rexx <!--atpause.rexx-->
 if #Level = #AtPause then #AtPause = 0
@@ -1395,7 +1397,8 @@ The activity at this level is complete:
 #NewLevel = #Level+1
 ```
 
-If `#Level` is not zero, the processing of the RETURN instruction and the invocation is complete.
+If `#Level` is not zero, the processing of the `RETURN` instruction and the invocation is complete.
+
 Otherwise processing of the program is completed:
 
 The opportunity is provided for a final trap.
@@ -1413,7 +1416,7 @@ The processing of the program is complete. See nnn for what `API_Start` returns 
 
 For a definition of the syntax of this instruction, see nnn.
 
-The SAY instruction is used to write a line to the default output stream.
+The `SAY` instruction is used to write a line to the default output stream.
 
 ```rexx <!--say.rexx-->
 If #Contains(say,expression) then
@@ -1422,12 +1425,14 @@ else
   Value = ''
 call Config_Default_Output Value
 ```
+
 ### SELECT
 
 For a definition of the syntax of this instruction, see nnn.
 
-The SELECT instruction is used to conditionally execute one of several alternative instructions.
-When tracing, the clause containing the keyword SELECT is traced at this point.
+The `SELECT` instruction is used to conditionally execute one of several alternative instructions.
+
+When tracing, the clause containing the keyword `SELECT` is traced at this point.
 
 The `#Contains(`_`select_body, when`_`)` test in the following description refers to the items of the optional _when_ repetition in order:
 
@@ -1458,13 +1463,13 @@ else do
 EndLabel:
 ```
 
-When tracing, the clause containing the END keyword is traced at this point.
+When tracing, the clause containing the `END` keyword is traced at this point.
 
 ### SIGNAL
 
 For a definition of the syntax of this instruction, see nnn.
 
-The SIGNAL instruction is used to cause a change in the flow of control or is used with the ON and OFF
+The `SIGNAL` instruction is used to cause a change in the flow of control or is used with the `ON` and `OFF`
 keywords to control the trapping of conditions.
 
 ```rexx <!--signal.rexx-->
@@ -1491,7 +1496,7 @@ If there was a _signal_spec_ this complete the processing of the signal instruct
           else Name #Instance(signal,taken constant)
 ```
 
-The Name matches the first LABEL in the program which has that value. The comparison is made with
+The `Name` matches the first _LABEL_ in the program which has that value. The comparison is made with
 the `'=='` operator.
 
 If no label matches then a condition is raised:
@@ -1518,10 +1523,10 @@ if #Level = #AtPause then #AtPause = 0
 
 For a definition of the syntax of this instruction, see nnn.
 
-The TRACE instruction is used to control the trace setting which in turn controls the tracing of execution
+The `TRACE` instruction is used to control the trace setting which in turn controls the tracing of execution
 of the program.
 
-The TRACE instruction is ignored if it occurs within the program (as opposed to source obtained by
+The `TRACE` instruction is ignored if it occurs within the program (as opposed to source obtained by
 `Config_Trace_Input`) and interactive trace is requested (`#Interactive.#Level = '1'`). Otherwise:
 
 ```rexx <!--trace.rexx-->
@@ -1577,8 +1582,9 @@ When input at a pause is being executed, `#TraceSource` does nothing.
 If `#InhibitTrace` is greater than zero, `#TraceSource` does nothing except decrement `#InhibitTrace`.
 Otherwise, unless the current clause is a null clause, `#TraceSource` outputs all lines of the source
 program which contain any part of the current clause, with any characters in those lines which are not
-part of the current clause and not `other_blank_characters` replaced by blank characters. The possible
-replacement of `other_blank_characters` is defined by the configuration. The tag is `'*-*'`, or if the line is not the first line of the clause. `'*,*'`.
+part of the current clause and not _other_blank_characters_ replaced by blank characters. The possible
+replacement of _other_blank_characters_ is defined by the configuration. 
+The tag is `'*-*'`, or if the line is not the first line of the clause. `'*,*'`.
 
 `#Trace` output also has a clause identifier and has a tag which is the argument to the `#Trace` invocation.
 The data is truncated, if necessary, to `#Limit_TraceData` characters. The data is enclosed by quotation
@@ -1590,21 +1596,21 @@ three characters `'...'` appended.
 * when `#Tracing.#Level` is `'l'` or `'R'` the data is the most recently evaluated value.
 
 Trace output can also appear as the result of a'SYNTAX' condition occurring, irrespective of the trace
-setting. If a'SYNTAX' condition occurs and it is not trapped by SIGNAL ON SYNTAX, then the clause in
-error shall be traced, along with a traceback. A traceback is a display of each active CALL and
-INTERPRET instruction, and function invocation, displayed in reverse order of execution, each with a tag
+setting. If a `'SYNTAX'` condition occurs and it is not trapped by `SIGNAL ON SYNTAX`, then the clause in
+error shall be traced, along with a traceback. A traceback is a display of each active `CALL` and
+`INTERPRET` instruction, and function invocation, displayed in reverse order of execution, each with a tag
 of `'+++'`.
 
 ### USE
 
 For a definition of the syntax of this instruction, see nnn.
 
-The USE instruction assigns the values of arguments to variables.
+The `USE` instruction assigns the values of arguments to variables.
 
 _Better not say copies since COPY method has different semantics._
 
-The optional VAR_SYMBOL positions, positions 1, 2, ..., of the instruction are considered from left to
-right. If the position has a VAR_SYMBOL then its value is assigned to:
+The optional _VAR_SYMBOL_ positions, positions 1, 2, ..., of the instruction are considered from left to
+right. If the position has a _VAR_SYMBOL_ then its value is assigned to:
 
 ```rexx <!--use.rexx-->
 if #ArgExists.Position then
@@ -1612,7 +1618,7 @@ call Value VAR_SYMBOL, #Arg.Position
 else
 ```
 
-_Messy because VALUE bif won't DROP and var_drop needs to know if compound._
+_Messy because `VALUE` bif won't `DROP` and `var_drop` needs to know if compound._
 
 ## Conditions and Messages
 
@@ -1628,8 +1634,8 @@ number 2 is available to report error conditions during the termination phase. T
 recognized by the language processor, but the circumstances of their detection is outside of the scope of
 this standard.
 
-The ERRORTEXT built-in function returns the text as initialized in nnn when called with the ‘Standard’
-option. When the 'Standard' option is omitted, implementation-dependent text may be returned.
+The `ERRORTEXT` built-in function returns the text as initialized in nnn when called with the `'Standard'`
+option. When the `'Standard'` option is omitted, implementation-dependent text may be returned.
 
 When messages are issued any message inserts are replaced by actual values.
 
@@ -1639,7 +1645,7 @@ The notation for detection of a condition is:
 call #Raise Condition, Arg2, Arg3, Arg4, Arg5, Arg6é
 ```
 
-Some of the arguments may be omitted. In the case of condition 'SYNTAX' the arguments are the
+Some of the arguments may be omitted. In the case of condition `'SYNTAX'` the arguments are the
 message number and the inserts for the message. In other cases the argument is a further description of
 the condition.
 
@@ -1649,16 +1655,16 @@ the program.
 ### Raising of conditions
 
 The routine `#Raise` corresponds to raising a condition. In the following definition, the instructions
-containing SIGNAL VALUE and INTERPRET denote transfers of control in the program being
-processed. The instruction EXIT denotes termination. If not at an interactive pause, this will be
+containing `SIGNAL VALUE` and `INTERPRET` denote transfers of control in the program being
+processed. The instruction `EXIT` denotes termination. If not at an interactive pause, this will be
 termination of the program, see nnn, and there will be output by `Config_Trace_Output` of the message
 (with prefix \_ see nnn) and tracing (see nnn). If at an interactive pause (`#AtPause \= 0`), this will be
 termination of the interpretation of the interactive input; there will be output by `Config_Trace_Output` of
 the message (without traceback) before continuing. The description of the continuation is in nnn after
-the `"interpret #Outcome”` instruction.
+the `"interpret #Outcome"` instruction.
 
-The instruction `“interpret 'CALL' #TrapName.#Condition.#Level"` below does not set the variables
-RESULT and .RESULT; any result returned is discarded.
+The instruction `"interpret 'CALL' #TrapName.#Condition.#Level"` below does not set the variables
+`RESULT` and `.RESULT`; any result returned is discarded.
 
 ```rexx <!--interpretraise.rexx-->
 #Raise:
