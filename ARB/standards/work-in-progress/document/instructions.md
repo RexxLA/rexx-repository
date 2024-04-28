@@ -353,13 +353,15 @@ redirections. */
 
 For a definition of the syntax of this instruction, see nnn.
 
-The ARG instruction is a shorter form of the equivalent instruction:  
+The `ARG` instruction is a shorter form of the equivalent instruction:  
+
 `PARSE UPPER ARG`_`template list`_
 
 ### Assignment
 
 Assignment can occur as the result of executing a clause containing an assignment (see nnn and nnn),
-or as a result of executing the VALUE built-in function, or as part of the execution of a PARSE instruction.
+or as a result of executing the `VALUE` built-in function, or as part of the execution of a `PARSE` instruction.
+
 Assignment involves an _expression_ and a _VAR_SYMBOL_. The value of the _expression_ is determined;
 see nnn.
 
@@ -380,7 +382,7 @@ call Var_Set #Pool,Derived Name,'1',Value
 
 For a definition of the syntax of this instruction, see nnn.
 
-The CALL instruction is used to invoke a routine, or is used to control trapping of conditions.
+The `CALL` instruction is used to invoke a routine, or is used to control trapping of conditions.
 
 lf a _vref_ is specified that value is the name of the routine to invoke:
 
@@ -393,23 +395,23 @@ If a _taken_constant_ is specified, that name is used.
 
 ```rexx <!--calltakenconstant.rexx-->
 if #Contains (call, taken constant) then
-Name = #Instance(call, taken constant)
+  Name = #Instance(call, taken constant)
 ```
 
-The name is used to invoke a routine, see nnn. If that routine does not return a result the RESULT and
-.RESULT variables become uninitialized:
+The name is used to invoke a routine, see nnn. If that routine does not return a result the `RESULT` and
+`.RESULT` variables become uninitialized:
 
 ```rexx <!--callvardrop.rexx-->
 call Var_Drop #Pool, 'RESULT', '0!
 call Var_Drop #ReservedPool, '.RESULT', '0'
 ```
 
-If the routine does return a result that value is assigned to RESULT and .RESULT. See nnn for an
+If the routine does return a result that value is assigned to `RESULT` and `.RESULT`. See nnn for an
 exception to assigning results.
 
 If the routine returns a result and the trace setting is `'R'` or `'I'` then a trace with that result and a tag `'>>>'` shall be produced, associated with the call instruction.
 
-If a _callon\_spec_ is specified:
+If a _callon_spec_ is specified:
 
 ```rexx <!--callcallonspec.rexx-->
 If #Contains(call,callon spec) then do
@@ -432,7 +434,7 @@ If #Contains(call,callon spec) then do
 
 For a definition of the syntax of a command, see nnn.
 
-A command that is not part of an ADDRESS instruction is processed in the ACTIVE environment.
+A command that is not part of an `ADDRESS` instruction is processed in the ACTIVE environment.
 
 ```rexx <!--commandtoconfifuration.rexx-->
 Command = #Evaluate(command, expression)
@@ -442,7 +444,7 @@ call EnvAssign TRANSIENT, #Level, ACTIVE, #Level
 call CommandIssue Command
 ```
 
-`CommandIssue` is also used to describe the ADDRESS instruction:
+`CommandIssue` is also used to describe the `ADDRESS` instruction:
 
 ```rexx <!--commandIssue.rexx-->
 CommandIssue:
@@ -559,13 +561,13 @@ else if #Indicator='E' | #Indicator='F' then call #Raise 'ERROR', Cmd
 return /* From CommandIssue */
 ```
 
-The configuration may choose to perform the test for message 54.1 before or after issuing the command.
+The configuration may choose to perform the test for message _54.1_ before or after issuing the command.
 
 ### DO
 
 For a definition of the syntax of this instruction, see nnn.
 
-The DO instructions is used to group instructions together and optionally to execute them repeatedly.
+The `DO` instructions is used to group instructions together and optionally to execute them repeatedly.
 
 Executing a _do_simple_ has the same effect as executing a _nop_, except in its trace output. Executing the
 _do_ending_ associated with a _do_simple_ has the same effect as executing a _nop_, except in its trace
@@ -601,25 +603,25 @@ if #Contains (do specification,assignment) then do
 The following three assignments are made in the order in which `'TO'`, `'BY'` and `'FOR'` appear in _docount_; see nnn.
 
 ```rexx <!--doassignments.rexx-->
-if #Contains (do specification, toexpr) then do
+if #Contains(do_specification, toexpr) then do
    if datatype(toexpr) \== 'NUM' then
       call #Raise 'SYNTAX', 41.4, toexpr
    #To.#LOop = toexpr+0
-if #Contains (do specification, byexpr) then do
+if #Contains(do_specification, byexpr) then do
    if datatype (byexpr) \=='NUM' then
       call #Raise 'SYNTAX', 41.5, byexpr
    #By.#Loop = byexpr+0
-if #Contains (do specification, forexpr) then do
+if #Contains(do_specification, forexpr) then do
    if \datatype(forexpr, 'W') then
       call #Raise 'SYNTAX', 26.3, forexpr
    #For.#Loop = forexpr+0
    if #For.#Loop <0 then
       call #Raise 'SYNTAX', 26.3, #For.#Loop
    end
-if #Contains (do specification,assignment) then do
+if #Contains(do_specification,assignment) then do
    call value #Identity.#Loop, #StartValue.#Loop
    end
-if #Contains (do specification, 'OVER') then do
+if #Contains(do_specification, 'OVER') then do
    Value = #Evaluate(dorep, expression)
    #OverArray.#Loop = Value ~ makearray
    #Repeat.#Loop = #OverArray~items /* Count this downwards as if repexpr. */
@@ -627,19 +629,19 @@ if #Contains (do specification, 'OVER') then do
    end
 call #Goto #Once.#Loop /* to OnceLabel */
 IterateLabel:
-if #Contains (do specification, untilexpr) then do
+if #Contains(do_specification, untilexpr) then do
   Value = #Evaluate(untilexp, expression)
   if Value == '1' then leave
   if Value \== '0' then call #Raise 'SYNTAX', 34.4, Value
   end
-if #Contains (do specification, assignment) then do
+if #Contains(do_specification, assignment) then do
    t = value (#Identity. #Loop)
    if #Indicator == 'D' then call #Raise 'NOVALUE', #Identity.#Loop
    call value #Identity.#Loop, t + #By.#Loop
    end
 
 OnceLabel:
-if #Contains (do specification, toexpr) then do
+if #Contains(do_specification, toexpr) then do
    if #By.#Loop>=0 then do
      if value(#Identity.#Loop) > #To.#Loop then leave
      end
@@ -652,16 +654,16 @@ if #Contains(dorep, repexpr)  |  #Contains(dorep, 'OVER') then do
    if #Contains(dorep, 'OVER') then
       call value #Identity.#Loop, #OverArray[#OverArray~items - #Repeat.#Loop]
    end
-if #Contains (do specification, forexpr) then do
+if #Contains(do_specification, forexpr) then do
    if #For.#Loop = 0 then leave
    #For.#Loop = #For.#Loop - 1
    end
-if #Contains (do specification, whileexpr) then do
+if #Contains(do_specification, whileexpr) then do
   Value = #Evaluate(whileexp, expression)
   if Value == '0' then leave
   if Value \== '1' then call #Raise 'SYNTAX', 34.3, Value
   end
-  #Execute (do instruction, instruction list)
+  #Execute(do_instruction, instruction list)
 TraceOfEnd:
 call #Goto #Iterate.#Loop /* to IterateLabel */
 LeaveLabel:
@@ -670,16 +672,16 @@ LeaveLabel:
 
 ### DO loop tracing
 
-When clauses are being traced by `#TraceSource`, due to `pos(#Tracing.#Level, 'AIR') > 0`, the DO
+When clauses are being traced by `#TraceSource`, due to `pos(#Tracing.#Level, 'AIR') > 0`, the `DO`
 instruction shall be traced when it is encountered and again each time the `IterateLabel` (see nnn) is
-encountered. The END instruction shall be traced when the `TraceOfEnd` label is encountered.
+encountered. The `END` instruction shall be traced when the `TraceOfEnd` label is encountered.
 
 When expressions or intermediates are being traced they shall be traced in the order specified by nnn.
 Hence, in the absence of conditions arising, those executed prior to the first execution of `OnceLabel` shall
-be shown once per execution of the DO instruction; others shall be shown depending on the outcome of
+be shown once per execution of the `DO` instruction; others shall be shown depending on the outcome of
 the tests.
 
-The code in the DO description:
+The code in the `DO` description:
 
 ```rexx <!--dolooptracing.rexx-->
    t = value (#Identity. #Loop)
@@ -688,63 +690,63 @@ The code in the DO description:
 ```
 
 represents updating the control variable of the loop. That assignment is subject to tracing, and other
-expressions involving state variables are not. When tracing intermediates, the BY value will have a tag of
+expressions involving state variables are not. When tracing intermediates, the `BY` value will have a tag of
 `'>+>'`.
 
 ### DROP
 
 For a definition of the syntax of this instruction, see nnn.
 
-The DROP instruction restores variables to an uninitialized state.
+The `DROP` instruction restores variables to an uninitialized state.
 
 The words of the _variable_list_ are processed from left to right.
 
-A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable to be dropped. If
-VAR_SYMBOL does not contain a period, or has only a single period as its last character, the variable
-associated with VAR_SYMBOL by the variable pool is dropped:
+A word which is a `VAR_SYMBOL`, not contained in parentheses, specifies a variable to be dropped. If
+`VAR_SYMBOL` does not contain a period, or has only a single period as its last character, the variable
+associated with `VAR_SYMBOL` by the variable pool is dropped:
 
 ```rexx <!--drop.rexx-->
-#Response = Var_Drop (#Pool,VAR_ SYMBOL, '0')
+#Response = Var_Drop(#Pool,VAR_SYMBOL, '0')
 ```
 
-If VAR_SYMBOL has a period other than as the last character, the variable associated with
-VAR_SYMBOL by the variable pool is dropped by:
+If `VAR_SYMBOL` has a period other than as the last character, the variable associated with
+`VAR_SYMBOL` by the variable pool is dropped by:
 
 ```rexx <!--drop2.rexx-->
-#Response = Var_Drop (#Pool,VAR SYMBOL, '1')
+#Response = Var_Drop(#Pool,VAR_SYMBOL, '1')
 ```
 
-If the word of the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the value of the
-VAR_SYMBOL is processed. The value is considered in uppercase:
+If the word of the _variable_list_ is a _VAR_SYMBOL_ enclosed in parentheses then the value of the
+_VAR_SYMBOL_ is processed. The value is considered in uppercase:
 
 ```rexx <!--dropconfigupper.rexx-->
-#Value = Config_Upper (#Value)
+#Value = Config_Upper(#Value)
 ```
 
-Each word in that value found by the WORD built-in function, from left to right, is subjected to this
+Each word in that value found by the `WORD` built-in function, from left to right, is subjected to this
 process:
 
-If the word does not have the syntax of VAR_SYMBOL a condition is raised:
+If the word does not have the syntax of _VAR_SYMBOL_ a condition is raised:
 
 ```rexx <!--dropnotsymbolcondition.rexx-->
 call #Raise 'SYNTAX', 20.1, word
 ```
 
-Otherwise the VAR_SYMBOL indicated by the word is dropped, as if that VAR_SYMBOL were a word of
+Otherwise the _VAR_SYMBOL_ indicated by the word is dropped, as if that _VAR_SYMBOL_ were a word of
 the _variable_list_.
 
 ### EXIT
 
 For a definition of the syntax of this instruction, see nnn.
 
-The EXIT instruction is used to unconditionally complete execution of a program.
+The `EXIT` instruction is used to unconditionally complete execution of a program.
 
 Any _expression_ is evaluated:
 
 ```rexx <!--exitevaluate.rexx-->
 if #Contains(exit, expression) then Value = #Evaluate(exit, expression)
 #Level = 1
-#Pool = #Pooll
+#Pool = #Pool1
 ```
 
 The opportunity is provided for a final trap.
@@ -760,11 +762,11 @@ The processing of the program is complete. See nnn for what `API_Start` returns 
 
 If the normal sequence of execution "falls through" the end of the program; that is, would execute a
 further statement if one were appended to the program, then the program is terminated in the same
-manner as an EXIT instruction with no argument.
+manner as an `EXIT` instruction with no argument.
 
 ### EXPOSE
 
-The expose instruction identifies variables that are not local to the method.
+The `EXPOSE` instruction identifies variables that are not local to the method.
 
 _We need a check that this starts method; similarities with PROCEDURE._
 
@@ -779,44 +781,46 @@ if \#AllowExpose then call #Raise 'SYNTAX', 17.2
 
 The words of the _variable_list_ are processed from left to right.
 
-A word which is a VAR_SYMBOL, not contained in parentheses, specifies a variable to be made
-accessible. If VAR_SYMBOL does not contain a period, or has only a single period as its last character,
-the variable associated with VAR_SYMBOL by the variable pool (as a non-tailed name) is given the
-attribute 'exposed'.
+A word which is a _VAR_SYMBOL_, not contained in parentheses, specifies a variable to be made
+accessible. If _VAR_SYMBOL_ does not contain a period, or has only a single period as its last character,
+the variable associated with _VAR_SYMBOL_ by the variable pool (as a non-tailed name) is given the
+attribute `'exposed'`.
 
 ```rexx <!--exposenoperiod.rexx-->
-call Var_Expose #Pool, VAR SYMBOL, '0'
+call Var_Expose #Pool, VAR_SYMBOL, '0'
 ```
 
-If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
-in the variable pool ( by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
+If _VAR_SYMBOL_ has a period other than as last character, the variable associated with _VAR_SYMBOL_
+in the variable pool (by the name derived from _VAR_SYMBOL_, see nnn) is given the attribute `'exposed'`.
 
 ```rexx <!--exposederivedname.rexx-->
-call Var_Expose #Pool, Derived Name, '1'
+call Var_Expose #Pool, Derived_Name, '1'
 ```
 
-If the word from the _variable_list_ is a VAR_SYMBOL enclosed in parentheses then the VAR_SYMBOL is
-exposed, as if that VAR_SYMBOL was a word in the variable_list. The value of the VAR_SYMBOL is
+If the word from the _variable_list_ is a _VAR_SYMBOL_ enclosed in parentheses then the _VAR_SYMBOL_ is
+exposed, as if that _VAR_SYMBOL_ was a word in the _variable_list_. The value of the _VAR_SYMBOL_ is
 processed. The value is considered in uppercase:
 
 ```rexx <!--configupper.rexx-->
-#Value = Config_Upper (#Value)
+#Value = Config_Upper(#Value)
 ```
-Each word in that value found by the WORD built-in function, from left to right, is subjected to this
+Each word in that value found by the _WORD_ built-in function, from left to right, is subjected to this
 process:
 
-If the word does not have the syntax of VAR_SYMBOL a condition is raised:
+If the word does not have the syntax of _VAR_SYMBOL_ a condition is raised:
+
 ```rexx <!--raisesyntaxnotsymbol2.rexx-->
 call #Raise 'SYNTAX', 20.1, word
 ```
-Otherwise the VAR_SYMBOL indicated by the word is exposed, as if that VAR_SYMBOL were a word of
+
+Otherwise the _VAR_SYMBOL_ indicated by the word is exposed, as if that _VAR_SYMBOL_ were a word of
 the _variable_list_.
 
 ### FORWARD
 
 For a definition of the syntax of this instruction, see nnn.
 
-The FORWARD instruction is used to send a message based on the current message.
+The `FORWARD` instruction is used to send a message based on the current message.
 
 ```rexx <!--forward.rexx-->
 if #Contains (forward, 'ARRAY') & #Contains(forward, 'ARGUMENTS') then
@@ -827,7 +831,7 @@ if #Contains (forward, 'ARRAY') & #Contains(forward, 'ARGUMENTS') then
 
 For a definition of the syntax of this instruction, see nnn.
 
-The GUARD instruction is used to conditionally delay the execution of a method.
+The `GUARD` instruction is used to conditionally delay the execution of a method.
 
 ```rexx <!--guardinstruction.rexx-->
 do forever
@@ -844,10 +848,10 @@ _Drop exclusive access and wait for change_
 
 For a definition of the syntax of this instruction, see nnn.
 
-The IF instruction is used to conditionally execute an instruction, or to select between two alternatives.
-The _expression_ is evaluated. If the value is neither `'0'` nor `'1'` error 34.1 occurs. If the value is '1', the _instruction_ in the _then_ is executed. If the value is `'0'` and _else_ is specified, the instruction in the _else_ is executed.
+The `IF` instruction is used to conditionally execute an instruction, or to select between two alternatives.
+The _expression_ is evaluated. If the value is neither `'0'` nor `'1'` error _34.1_ occurs. If the value is '1', the _instruction_ in the _then_ is executed. If the value is `'0'` and _else_ is specified, the instruction in the _else_ is executed.
 
-In the former case, if tracing clauses, the clause consisting of the THEN keyword shall be traced in
+In the former case, if tracing clauses, the clause consisting of the `THEN` keyword shall be traced in
 addition to the instructions.
 
 In the latter case, if tracing clauses, the clause consisting of the ELSE keyword shall be traced in addition
@@ -857,25 +861,25 @@ to the instructions.
 
 For a definition of the syntax of this instruction, see nnn.
 
-The INTERPRET instruction is used to execute instructions that have been built dynamically by evaluating an expression.
+The `INTERPRET` instruction is used to execute instructions that have been built dynamically by evaluating an expression.
 
 The _expression_ is evaluated.
 
-The HALT condition is tested for, and may be raised, in the same way it is tested at clause termination,
+The `HALT` condition is tested for, and may be raised, in the same way it is tested at clause termination,
 see nnn.
 
 The process of syntactic recognition described in clause 6 is applied, with `Config_SourceChar` obtaining
-its results from the characters of the value, in left-to-right order, without producing any `EOL` or `EOS`
-events. When the characters are exhausted, the event `EOL` occurs, followed by the event `EOS`.
-If that recognition would produce any message then the _interpret_ raises the corresponding 'SYNTAX'
+its results from the characters of the value, in left-to-right order, without producing any _EOL_ or _EOS_
+events. When the characters are exhausted, the event _EOL_ occurs, followed by the event _EOS_.
+If that recognition would produce any message then the _interpret_ raises the corresponding `'SYNTAX'`
 condition.
 
-If the program recognized contains any LABELs then the _interpret_ raises a condition:
+If the program recognized contains any _LABELs_ then the _interpret_ raises a condition:
 
 ```rexx <!--raiselabel.rexx-->
 call #Raise 'SYNTAX',47.1,Label
 ```
-where `Label` is the first LABEL in the _program_.
+where `Label` is the first _LABEL_ in the _program_.
 
 Otherwise the _instruction_list_ in the _program_ is executed.
 
@@ -883,7 +887,7 @@ Otherwise the _instruction_list_ in the _program_ is executed.
 
 For a definition of the syntax of this instruction, see nnn.
 
-The ITERATE instruction is used to alter the flow of control within a repetitive DO.
+The `ITERATE` instruction is used to alter the flow of control within a repetitive `DO`.
 
 For a definition of the nesting correction, see nnn.
 
@@ -904,7 +908,7 @@ if #Tracing.#Level=='L' then call #TraceSource
 
 For a definition of the syntax of this instruction, see nnn.
 
-The LEAVE instruction is used to immediately exit one or more repetitive DOs.
+The `LEAVE` instruction is used to immediately exit one or more repetitive `DO`s.
 
 For a definition of the nesting correction, see nnn.
 
@@ -915,29 +919,29 @@ call #Goto #Leave.#Loop
 
 ### Message term
 
-_We can do this by reference to method invokation, just as we do CALL by reference to invoking a function._
+_We can do this by reference to method invokation, just as we do `CALL` by reference to invoking a function._
 
 ### LOOP
 
-_Shares most of it's definition with repetitive DO._
+_Shares most of it's definition with repetitive `DO`._
 
 ### NOP
 
 For a definition of the syntax of this instruction, see nnn.
 
-The NOP instruction has no effect other than the effects associated with all instructions.
+The `NOP` instruction has no effect other than the effects associated with all instructions.
 
 ### NUMERIC
 
 For a definition of the syntax of this instruction, see nnn.
 
-The NUMERIC instruction is used to change the way in which arithmetic operations are carried out.
+The `NUMERIC` instruction is used to change the way in which arithmetic operations are carried out.
 
 #### NUMERIC DIGITS
 
 For a definition of the syntax of this instruction, see nnn.
 
-NUMERIC DIGITS controls the precision under which arithmetic operations and arithmetic built-in
+`NUMERIC DIGITS` controls the precision under which arithmetic operations and arithmetic built-in
 functions will be evaluated.
 
 ```rexx <!--numericdigits.rexx-->
@@ -958,10 +962,10 @@ if Value>#Limit Digits then
 
 For a definition of the syntax of this instruction, see nnn.
 
-NUMERIC FORM controls which form of exponential notation is to be used for the results of operations
+`NUMERIC FORM` controls which form of exponential notation is to be used for the results of operations
 and arithmetic built-in functions.
 
-The value of form is either taken directly from the SCIENTIFIC or ENGINEERING keywords, or by
+The value of form is either taken directly from the `SCIENTIFIC` or `ENGINEERING` keywords, or by
 evaluating _valueexp_.
 
 ```rexx <!--numericform.rexx-->
@@ -988,7 +992,7 @@ else if #Contains (numericformsuffix, 'SCIENTIFIC') then
 
 For a definition of the syntax of this instruction, see nnn.
 
-NUMERIC FUZZ controls how many digits, at full precision, will be ignored during a numeric comparison.
+`NUMERIC FUZZ` controls how many digits, at full precision, will be ignored during a numeric comparison.
 
 ```rexx <!--numericfuzz.rexx-->
 If #Contains (numericfuzz,expression) then
@@ -1009,7 +1013,7 @@ If Value >= #Digits.#Level then
 
 For a definition of the syntax of this instruction, see nnn.
 
-The OPTIONS instruction is used to pass special requests to the language processor.
+The `OPTIONS` instruction is used to pass special requests to the language processor.
 
 The _expression_ is evaluated and the value is passed to the language processor. The language processor
 treats the value as a series of blank delimited words. Any words in the value that are not recognized by
