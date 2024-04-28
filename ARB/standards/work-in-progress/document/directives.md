@@ -727,9 +727,11 @@ implementation-defined". Left like that it doesn't even tell us about search ord
 
 For each routine in order of appearence:
 
-_Add name (with duplicate check) to list for this file.  
-Extra step needed in the invocation search order. Although this is nominally EXTERNAL we presumably wont use
-the external call mechanism. (Except perhaps when the routine was made available by a REQUIRES; in that case
-the PARSE SOURCE answer has to change.)  
-I have the builtins-defined-by-directives elsewhere; it would make sense if they wound up about here._
+_Add name (with duplicate check) to list for this file._
+
+_Extra step needed in the invocation search order. Although this is nominally `EXTERNAL` we presumably wont use
+the external call mechanism. (Except perhaps when the routine was made available by a `REQUIRES`; in that case
+the `PARSE SOURCE` answer has to change.)_
+
+_I have the builtins-defined-by-directives elsewhere; it would make sense if they wound up about here._
 
