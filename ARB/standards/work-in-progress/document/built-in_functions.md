@@ -1748,14 +1748,12 @@ return ReRadix(#Outcome,2,16)
 ```
 
 ### D2C
-D2C performs decimal to coded conversion.
+
+`D2C` performs decimal to coded conversion.
 
 ```rexx <!--d2c.rexx-->
-'rWHOLENUM>=0'!
-'rWHOLENUM rWHOLE>=0'
-
-if \#Bif_ArgExists.2 then ArgData
-else ArgData
+if \#Bif_ArgExists.2 then ArgData = 'rWHOLENUM>=0'!
+                     else ArgData = 'rWHOLENUM rWHOLE>=0'
 call CheckArgs ArgData
 
 /* Convert to manifest binary */
@@ -1764,15 +1762,14 @@ r = ReRadix(Subject,10,2)
 /* Make length a multiple of 8, as required for Config_B2C */
 Length = length(r)
 do while Length//8 \= 0
-Length = Length+1
-end
-r= right(r,Length,'0')
-
+  Length = Length+1
+  end
+r = right(r,Length,'0')
 /* 2s-complement for negatives. */
 if #Bif_Arg.1<0 then do
-Subject = 2**length(r)-Subject
-r = ReRadix(Subject,10,2)
-end
+  Subject = 2**length(r)-Subject
+  r = ReRadix(Subject,10,2)
+  end
 /* Convert to characters */
 #Response = Config_B2C(r)
 Output = #Outcome
@@ -1780,16 +1777,16 @@ if \#Bif_ArgExists.2 then return Output
 
 /* Adjust the length with appropriate characters. */
 if #Bif_Arg.1>=0 then return right(Output, #Bif_Arg.2,left(xrange(),1))
-else return right(Output, #Bif_Arg.2,right(xrange(),1))
+                 else return right(Output, #Bif_Arg.2,right(xrange(),1))
 ```
 
 ### D2X
-D2X performs decimal to hexadecimal conversion.
+
+`D2X` performs decimal to hexadecimal conversion.
 
 ```rexx <!--d2x.rexx-->
 if \#Bif_ArgExists.2 then ArgData = 'rWHOLENUM>=0'
-else ArgData = 'rWHOLENUM rWHOLE>=0'
-
+                     else ArgData = 'rWHOLENUM rWHOLE>=0'
 call CheckArgs ArgData
 
 /* Convert to manifest hexadecimal */
@@ -1797,56 +1794,50 @@ Subject = abs(#Bif_Arg.1 )
 r = ReRadix(Subject,10,16)
 /* Twos-complement for negatives */
 if #Bif_Arg.1<0 then do
-Subject = 16**length(r) -Subject
-r = ReRadix(Subject,10,16)
-end
+  Subject = 16**length(r) -Subject
+  r = ReRadix(Subject,10,16)
+  end
 if \#Bif_ArgExists.2 then return r
 /* Adjust the length with appropriate characters. */
 if #Bif_Arg.1>=0 then return right(r,#Bif_Arg.2,'0')
-else return right(r,#Bif_Arg.2,'F')
+                 else return right(r,#Bif_Arg.2,'F')
 ```
 
 ### X2B
-X2B performs hexadecimal to binary conversion.
+
+`X2B` performs hexadecimal to binary conversion.
 
 ```rexx <!--x2b.rexx-->
 call CheckArgs 'rHEX'
 
 Subject = #Bif_Arg.1
-
 if Subject == '' then return ''
-
 /* Blanks were checked by CheckArgs, here they are ignored. */
 Subject = space(Subject, 0)
-
 return ReRadix(translate(Subject) ,16,2)
 ```
 
 ### X2C
-X2C performs hexadecimal to coded character conversion.
+
+`X2C` performs hexadecimal to coded character conversion.
 
 ```rexx <!--x2c.rexx-->
 call CheckArgs 'rHEX'
 
 Subject = #Bif_Arg.1
-
 if Subject == '' then return ''
-
 Subject = space(Subject, 0)
-
 /* Convert to manifest binary */
-
 r = ReRadix(translate(Subject) ,16,2)
-
 /* Convert to character */
-
-Length = 8*( (length(Subject) +1) %2)
+Length = 8*((length(Subject)+1)%2)
 #Response = Config_B2C(right(r,Length,'0'))
 return #Outcome
 ```
 
 ### X2D
-X2D performs hexadecimal to decimal conversion.
+
+`X2D` performs hexadecimal to decimal conversion.
 
 ```rexx <!--x2d.rexx-->
 call CheckArgs 'rHEX OWHOLE>=0'
@@ -1855,28 +1846,22 @@ Subject = #Bif_Arg.1
 if Subject == '' then return '0'
 
 Subject = translate(space(Subject,0))
-
 if #Bif_ArgExists.2 then
-
-Subject = right(Subject, #Bif_Arg.2,'0')
+  Subject = right(Subject, #Bif_Arg.2,'0')
 if Subject =='' then return '0'
 /* Note the sign */
-if #Bif_ArgExists.2 then SignBit
-
-else SignBit
-
+if #Bif_ArgExists.2 then SignBit = left(x2b(Subject),1)
+                    else SignBit = '0'
 /* Convert to decimal */
 r = ReRadix(Subject,16,10)
 /* Twos-complement */
 if SignBit then r = 2**(4*#Bif_Arg.2) - r
 if abs(r)>10 ** #Digits.#Level - 1 then call Raise 40.35, t
 return r
-
-left(x2b (Subject) ,1)
-ror
 ```
 
 ## Input/Output built-in functions
+
 The configuration shall provide the ability to access streams. Streams are identified by character string
 identifiers and provide for the reading and writing of data. They shall support the concepts of characters, lines, and positioning. The input/output built-in functions interact with one another, and they make use of Config_ functions, see <!--TODO-->nnn. When the operations are successful the following characteristics shall be
 exhibited:
