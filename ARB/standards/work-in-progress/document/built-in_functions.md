@@ -2250,16 +2250,16 @@ select
       Day = left(Value,length(Value)-7)
     end
     else
-      parse var Value Day (InSeparator) MonthIs (InSeparator) Year
+      parse Var_Value Day (InSeparator) MonthIs (InSeparator) Year
     do Month = 1 to 12
       if left(word(Months, Month), 3) == MonthIs then leave
     end Month
   end
   when InOption == 'S' then
     if InSeparator == '' then
-      parse var Value Year +4 Month +2 Day
+      parse Var_Value Year +4 Month +2 Day
     else
-      parse var Value Year (InSeparator) Month (InSeparator) Day
+      parse Var_Value Year (InSeparator) Month (InSeparator) Day
     otherwise
       Logic = 'EOU' /* or BD */
   end
@@ -2352,42 +2352,40 @@ DateFormat:
 ```
 
 ### QUEUED
-QUEUED returns the number of lines remaining in the external data queue.
+
+`QUEUED` returns the number of lines remaining in the external data queue.
 
 ```rexx <!--queued.rexx-->
 call CheckArgs ''
-
 #Response = Config_Queued()
 return #Outcome
 ```
 
 ### RANDOM
-RANDOM returns a quasi-random number.
+
+`RANDOM` returns a quasi-random number.
 
 ```rexx <!--random.rexx-->
 call CheckArgs 'oWHOLE>=0 oWHOLE>=0 oWHOLE>=0'
 
 if #Bif_Arg.0 = 1 then do
-Minimum = 0
-
-Maximum = #Bif_Arg.1
-if Maximum>100000 then
-call Raise 40.31, Maximum
-
-end
+  Minimum = 0
+  Maximum = #Bif_Arg.1
+  if Maximum>100000 then
+    call Raise 40.31, Maximum
+  end
 else do
-if #Bif_ArgExists.1 then Minimum = #Bif_Arg.1
-else Minimum = 0
-if #Bif_ArgExists.2 then Maximum = #Bif_Arg.2
-else Maximum = 999
-
-end
+  if #Bif_ArgExists.1 then Minimum = #Bif_Arg.1
+  else Minimum = 0
+  if #Bif_ArgExists.2 then Maximum = #Bif_Arg.2
+  else Maximum = 999
+  end
 
 if Maximum-Minimum>100000 then
-call Raise 40.32, Minimum, Maximum
+  call Raise 40.32, Minimum, Maximum
 
 if Maximum-Minimum<0 then
-call Raise 40.33, Minimum, Maximum
+  call Raise 40.33, Minimum, Maximum
 
 if #Bif_ArgExists.3 then call Config_Random_Seed #Bif_Arg.3
 call Config_Random_Next Minimum, Maximum
@@ -2396,27 +2394,29 @@ return #Outcome
 
 ### SYMBOL
 
-The function SYMBOL takes one argument, which is evaluated. Let String be the value of that argument.
-If Config_Length(String) returns an indicator 'E' then the SYNTAX condition 23.1 shall be raised.
-Otherwise, if the syntactic recognition described in section <!--TODO-->nnn would not recognize String as a symbol
-then the result of the function SYMBOL is 'BAD".
+The function `SYMBOL` takes one argument, which is evaluated. Let `String` be the value of that argument.
+If `Config_Length(String)` returns an indicator `'E'` then the `SYNTAX` condition `23.1` shall be raised.
+Otherwise, if the syntactic recognition described in section <!--TODO-->nnn would not recognize `String` as a symbol
+then the result of the function `SYMBOL` is `'BAD'`.
 
-If String would be recognized as a symbol the result of the function SYMBOL depends on the outcome of
-accessing the value of that symbol, see <!--TODO-->nnn. If the final use of Var_Value leaves the indicator with value
-'D' then the result of the function SYMBOL is 'LIT', otherwise 'VAR'.
+If `String` would be recognized as a symbol the result of the function `SYMBOL` depends on the outcome of
+accessing the value of that symbol, see <!--TODO-->nnn. If the final use of `Var_Value` leaves the indicator with value
+`'D'` then the result of the function `SYMBOL` is `'LIT'`, otherwise `'VAR'`.
 
 ### TIME
 
-TIME with less than two arguments returns the local time within the day, or an elapsed time. Otherwise it
+`TIME` with less than two arguments returns the local time within the day, or an elapsed time. Otherwise it
 converts the second argument (which has a format given by the third argument) to the format specified by
 the first argument.
 
+<!--MISSING: Source code for TIME-->
+
 ```rexx <!--time.rexx-->
 call CheckArgs 'oCEHLMNORS oANY oCHLMNS'
+
 /* If the third argument is given then the second is mandatory. */
 if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
-
-call Raise 40.19, '', #Bif_Arg.3
+  call Raise 40.19, '', #Bif_Arg.3
 
 if #Bif_ArgExists.1 then Option
 else Option
@@ -2539,90 +2539,78 @@ call Raise 40.19, InValue, InOption
 return Time2Date2 (arg(1))
 ```
 
-10.6.1 VALUE
-VALUE returns the value of the symbol named by the first argument, and optionally assigns it a new value.
+### VALUE
+
+`VALUE` returns the value of the symbol named by the first argument, and optionally assigns it a new value.
 
 ```rexx <!--value.rexx-->
-'rANY oOANY oANY'
-
-if #Bif_ArgExists.3 then ArgData
-'rSYM oANY oOANY'
-
-else ArgData
+if #Bif_ArgExists.3 then ArgData = 'rANY oANY oANY'
+                    else ArgData = 'rSYM oANY oANY'
 call CheckArgs ArgData
 
 Subject = #Bif_Arg.1
-
 if #Bif_ArgExists.3 then do /* An external pool, or the reserved pool. */
-/* The reserved pool uses a null string as its pool identifier. */
-Pool = #Bif_Arg.3
-
-if Pool == '' then do
-Subject = '.' || translate(Subject) /* The dot on the name is implied. */
-Value = .environment [Subject] /* Was the translate redundant? */
-
-if #Bif_ArgExists.2 then .environment [Subject] = #Bif_Arg.2
-return Value
-end
-
-/* Fetch the original value */
-
-#Response = Config_Get(Pool, Subject)
-
-#Indicator = left(#Response,1)
-
-if #Indicator == 'F' then
-call Raise 40.36, Subject
-if #Indicator == 'P' then
-
-call Raise 40.37, Pool
-Value = #Outcome
-if #Bif_ArgExists.2 then do
-/* Set the new value. */
-#Response = Config_Set(Pool,Subject,#Bif_Arg.2)
-if #Indicator == 'P' then
-call Raise 40.37, Pool
-if #Indicator == 'F' then
-call Raise 40.36, Subject
-end
-/* Return the original value. */
-return Value
-end
+  /* The reserved pool uses a null string as its pool identifier. */
+  Pool = #Bif_Arg.3
+  if Pool == '' then do
+     Subject = '.' || translate(Subject) /* The dot on the name is implied. */
+     Value = .environment [Subject] /* Was the translate redundant? */
+     if #Bif_ArgExists.2 then .environment [Subject] = #Bif_Arg.2
+     return Value
+     end
+  /* Fetch the original value */
+  #Response = Config_Get(Pool, Subject)
+  #Indicator = left(#Response,1)
+  if #Indicator == 'F' then
+    call Raise 40.36, Subject
+  if #Indicator == 'P' then
+    call Raise 40.37, Pool
+  Value = #Outcome
+  if #Bif_ArgExists.2 then do
+     /* Set the new value. */
+     #Response = Config_Set(Pool,Subject,#Bif_Arg.2)
+     if #Indicator == 'P' then
+       call Raise 40.37, Pool
+     if #Indicator == 'F' then
+       call Raise 40.36, Subject
+     end
+  /* Return the original value. */
+  return Value
+  end
 /* Not external */
 Subject = translate(Subject)
 /* See <!--TODO-->nnn */
-Pp = pos(Subject, '.')
+p = pos(Subject, '.')
 if p = 0 | p = length(Subject) then do
-/* Not compound */
-#Response = Var Value(#Pool, Subject, '0')
-/* The caller, in the code of the standard, may need
-to test whether the Subject was dropped. */
-#Indicator = left(#Response, 1)
-Value = #Outcome
-if #Bif_ArgExists.2 then
-#Response = Var Set(#Pool, Subject, '0', #Bif_Arg.2)
-return Value
-end
+  /* Not compound */
+  #Response = Var_Value(#Pool, Subject, '0')
+  /* The caller, in the code of the standard, may need
+  to test whether the Subject was dropped. */
+  #Indicator = left(#Response, 1)
+  Value = #Outcome
+  if #Bif_ArgExists.2 then
+     #Response = Var Set(#Pool, Subject, '0', #Bif_Arg.2)
+  return Value
+  end
 /* Compound */
 Expanded = left(Subject,p-1) /* The stem */
 do forever
-Start = p+l1
-Pp = pos(Subject,'.',Start)
-if p = 0 then p = length(Subject)
-Item = substr(Subject,Start,p-Start) /* Tail component symbol */
-if Item\=='' then if pos(left(Item,1),'0123456789') = 0 then do
-#Response = Var Value(#Pool, Item, '0')
-Item = #Outcome
-end
-/* Add tail component. */
-Expanded = Expanded'.'Item
-end
-#Response = Var Value(#Pool, Expanded, '1')
+  Start = p+1
+  p = pos(Subject,'.',Start)
+  if p = 0 then p = length(Subject)
+  Item = substr(Subject,Start,p-Start) /* Tail component symbol */
+  if Item\=='' then if pos(left(Item,1),'0123456789') = 0 then do
+     #Response = Var_Value(#Pool, Item, '0')
+     Item = #Outcome
+     end
+  /* Add tail component. */
+  Expanded = Expanded'.'Item
+  end
+#Response = Var_Value(#Pool, Expanded, '1')
 #Indicator = left(#Response, 1)
 Value = #Outcome
 if #Bif_ArgExists.2 then
-#Response = Var Set(#Pool, Expanded, '1', #Bif_Arg.2)
-
+   #Response = Var Set(#Pool, Expanded, '1', #Bif_Arg.2)
 return Value
 ```
 
@@ -2795,66 +2783,53 @@ return 3600*Hour+60*Minute+Second
 end
 ```
 
-10.6.5 VALUE
+### VALUE
 
-VALUE returns the value of the symbol named by the first argument, and optionally assigns it a new
+`VALUE` returns the value of the symbol named by the first argument, and optionally assigns it a new
 value.
 
 ```rexx <!--value.rexx-->
-'rANY oOANY oANY'
-'rSYM OANY oANY'
-
-if #Bif_ArgExists.3 then ArgData
-else ArgData
+if #Bif_ArgExists.3 then ArgData = 'rANY oANY oANY'
+                    else ArgData = 'rSYM oANY oANY'
 call CheckArgs ArgData
 
-129
-130
-
 Subject = #Bif_Arg.1
-
 if #Bif_ArgExists.3 then do /* An external pool, or the reserved pool. */
-/* The reserved pool uses a null string as its pool identifier. */
-Pool = #Bif_Arg.3
+   /* The reserved pool uses a null string as its pool identifier. */
+   Pool = #Bif_Arg.3
+   if Pool == '' then do
+     Subject = '.' || translate(Subject) /* The dot on the name is implied. */
 
-if Pool == '' then do
-Subject = '.' || translate(Subject) /* The dot on the name is implied. */
-Value = .environment [Subject] /* Was the translate redundant? */
-
-if #Bif_ArgExists.2 then .environment [Subject] = #Bif_Arg.2
-return Value
-end
-
-/* Fetch the original value */
-
-#Response = Config_Get (Pool, Subject)
-
-#Indicator = left(#Response,1)
-
-if #Indicator == 'F' then
-call Raise 40.36, Subject
-if #Indicator == 'P' then
-
-call Raise 40.37, Pool
-Value = #Outcome
-if #Bif_ArgExists.2 then do
-/* Set the new value. */
-#Response = Config_Set(Pool,Subject,#Bif_Arg.2)
-if #Indicator == 'P' then
-call Raise 40.37, Pool
-if #Indicator == 'F' then
-call Raise 40.36, Subject
-end
-/* Return the original value. */
-return Value
-end
+     Value = .environment[Subject] /* Was the translate redundant? */
+     if #Bif_ArgExists.2 then .environment[Subject] = #Bif_Arg.2
+     return Value
+     end
+  /* Fetch the original value */
+  #Response = Config_Get(Pool, Subject)
+  #Indicator = left(#Response,1)
+  if #Indicator == 'F' then
+     call Raise 40.36, Subject
+  if #Indicator == 'P' then
+     call Raise 40.37, Pool
+  Value = #Outcome
+  if #Bif_ArgExists.2 then do
+     /* Set the new value. */
+     #Response = Config_Set(Pool,Subject,#Bif_Arg.2)
+     if #Indicator == 'P' then
+       call Raise 40.37, Pool
+     if #Indicator == 'F' then
+       call Raise 40.36, Subject
+     end
+  /* Return the original value. */
+  return Value
+  end
 /* Not external */
 Subject = translate(Subject)
 /* See <!--TODO-->nnn */
-Pp = pos(Subject, '.')
+p = pos(Subject, '.')
 if p = 0 | p = length(Subject) then do
-/* Not compound */
-#Response = Var Value(#Pool, Subject, '0')
+  /* Not compound */
+  #Response = Var_Value(#Pool, Subject, '0')
 /* The caller, in the code of the standard, may need
 to test whether the Subject was dropped. */
 #Indicator = left(#Response, 1)
@@ -2871,13 +2846,13 @@ Pp = pos(Subject,'.',Start)
 if p = 0 then p = length(Subject)
 Item = substr(Subject,Start,p-Start) /* Tail component symbol */
 if Item\=='' then if pos(left(Item,1),'0123456789') = 0 then do
-#Response = Var Value(#Pool, Item, '0')
+#Response = Var_Value(#Pool, Item, '0')
 Item = #Outcome
 end
 /* Add tail component. */
 Expanded = Expanded'.'Item
 end
-#Response = Var Value(#Pool, Expanded, '1')
+#Response = Var_Value(#Pool, Expanded, '1')
 #Indicator = left(#Response, 1)
 Value = #Outcome
 if #Bif_ArgExists.2 then
