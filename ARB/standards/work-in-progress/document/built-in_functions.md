@@ -387,7 +387,7 @@ ReRadix: /* Converts Arg(1) from radix Arg(2) to radix Arg(3) */
   ToRadix=arg (3)
   /* Radix range is 2-16. Conversion is via decimal */
   Integer=0
-  do j=1 to length (Subject)
+  do j=1 to length(Subject)
     /* Individual digits have already been checked for range. */
     Integer=Integer*FromRadix+pos(substr(Subject,j,1),'0123456789ABCDEF')-1
     end
@@ -603,7 +603,7 @@ if Type == "W" then do
   if pos('E',#DatatypeResult)>0 then return '0'
   /* It won't be "Whole" if there is a non-zero after the decimal point. */
   InFraction='0'
-  do j = 1 to length (String)
+  do j = 1 to length(String)
     c = substr(String,j,1)
     if pos(c,'Ee')>0 then leave j
     if InFraction & pos(c,'+-')>0 then leave j
@@ -793,7 +793,7 @@ Haystack = #Bif_Arg.2
 if #Bif_ArgExists.3 then Start = #Bif_Arg.3
                     else Start = length(Haystack)
 
-NeedleLength = length (Needle)
+NeedleLength = length(Needle)
 if NeedleLength = 0 then return 0
 Start = Start - NeedleLength + 1
 do i = Start by -1 while i > 0
@@ -842,66 +842,57 @@ call #Raise  'SYNTAX', 23.1, b2x(#Outcome)
 ```rexx <!--overlay.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0 oOWHOLE>=0 oPAD'
 
-New = #Bif_Arg.1
-
+New    = #Bif_Arg.1
 Target = #Bif_Arg.2
-
 if #Bif_ArgExists.3 then Num = #Bif_Arg.3
-else Num = 1
+                    else Num = 1
+if #Bif_ArgExists.4 then Length = #Bif_Arg.4
+                    else Length = length(New)
+if #Bif_ArgExists.5 then Pad = #Bif_Arg.5
+                    else Pad = ' '
+return left(Target, Num - 1, Pad),     /* To left of overlay  */
+   || left(New, Length, Pad),          /* New string overlaid */
+   || substr(Target, Num + Length)     /* To right of overlay */
+```
 
-if #Bif_ArgExists.4 then Length = #Bif_ Arg.4
-else Length = length (New)
+### POS
 
-if #Bif_ArgExists.5 then Pad = #Bif_ Arg.5
-else Pad = ' '
-return left(Target, Num - 1, Pad), /* To left of overlay */
-|| left(New, Length, Pad), /* New string overlaid */
-|| substr(Target, Num + Length) /* To right of overlay */
+`POS` returns the position of the first argument within the second.
 
-10.1.16 POS
-POS returns the position of the first argument within the second.
-
+```rexx <!--pos.rexx-->
 call CheckArgs 'rANY rANY oWHOLE>0'
 
-Needle #Bif_Arg.1
-
+Needle   = #Bif_Arg.1
 Haystack = #Bif_Arg.2
-
-if #Bif_ ArgExists.3 then Start
-else Start
-
-#Bif_Arg.3
-1
+if #Bif_ArgExists.3 then Start = #Bif_Arg.3
+                     else Start = 1
 
 if length(Needle) = 0 then return 0
-
-do i = Start to length (Haystack) +1-length (Needle)
-if substr(Haystack, i, length(Needle)) == Needle then return i
-end i
-
+do i = Start to length(Haystack)+1-length(Needle)
+  if substr(Haystack, i, length(Needle)) == Needle then return i
+  end i
 return 0
 ```
 
 ### REVERSE
-REVERSE returns its argument, swapped end for end.
 
-```rexx <!--reverse-->
+`REVERSE` returns its argument, swapped end for end.
+
+```rexx <!--reverse.rexx-->
 call CheckArgs 'rANY'
 
-String
+String  = #Bif_Arg.1
 
-#Bif_Arg.1
-Output = ''
-do i= 1 to length (String)
-Output = substr(String,i,1) || Output
-end
+Output  = ''
+do i = 1 to length(String)
+  Output = substr(String,i,1) || Output
+  end
 return Output
 ```
 
 ### RIGHT
 
-RIGHT returns characters that are on the right of the first argument. The second argument specifies the
-
+`RIGHT` returns characters that are on the right of the first argument. The second argument specifies the
 length of the result and the third is the padding character.
 
 ```rexx <!--right.rexx-->
@@ -909,19 +900,17 @@ call CheckArgs 'rANY rWHOLE>=0 oPAD'
 
 String = #Bif_Arg.1
 Length = #Bif_Arg.2
-if #Bif_ArgExists.3 then Pad
-
-#Bif_Arg.3
-else Pad '
+if #Bif_ArgExists.3 then Pad = #Bif_Arg.3
+                    else Pad = ' '
 
 Trim = length(String) - Length
 if Trim >= 0 then return substr(String,Trim + 1)
-return copies(Pad, -Trim) || String /* Pad string on the left */
+return copies(Pad, -Trim) || String    /* Pad string on the left */
 ```
 
 ### SPACE
 
-SPACE formats the blank-delimited words in the first argument with pad characters between each word.
+`SPACE` formats the blank-delimited words in the first argument with pad characters between each word.
 The second argument is the number of pad characters between each word and the third is the pad
 character.
 
@@ -929,23 +918,22 @@ character.
 call CheckArgs 'rANY oOWHOLE>=0 oPAD'
 
 String = #Bif_Arg.1
-
-if #Bif_ArgExists.2 then Num = #Bif_ Arg.2
-else Num = 1
+if #Bif_ArgExists.2 then Num = #Bif_Arg.2
+                    else Num = 1
 if #Bif_ArgExists.3 then Pad = #Bif_Arg.3
-else Pad = ' '!
+                    else Pad = ' '!
+
 Padding = copies(Pad, Num)
 Output = subword(String, 1, 1)
 do i = 2 to words (String)
-Output = Output || Padding || subword(String, i, 1)
-
-end
+   Output = Output || Padding || subword(String, i, 1)
+   end
 return Output
 ```
 
 ### STRIP
 
-STRIP removes characters from its first argument. The second argument specifies whether the deletions
+`STRIP` removes characters from its first argument. The second argument specifies whether the deletions
 are leading characters, trailing characters or both. Each character deleted is equal to the third argument,
 or equivalent to a blank if the third argument is omitted.
 
@@ -954,65 +942,62 @@ call CheckArgs 'rANY oLTB oPAD'
 
 String = #Bif_Arg.1
 if #Bif_ArgExists.2 then Option = #Bif_Arg.2
-else Option = 'B'
-if #Bif_ ArgExists.3 then Unwanted = #Bif_ Arg.3
-else Unwanted = #A11Blanks<Index "#AllBlanks" # "" >
+                    else Option = 'B'
+if #Bif_ArgExists.3 then Unwanted = #Bif_Arg.3
+                     else Unwanted = #AllBlanks<Index "#AllBlanks" # "" >
 
 if Option == 'L' | Option == 'B' then do
-/* Strip leading characters */
-do while String \== '' & pos(left(String, 1), Unwanted) > 0
-String = substr(String, 2)
-end
-end
+   /* Strip leading characters */
+   do while String \== '' & pos(left(String, 1), Unwanted) > 0
+     String = substr(String, 2)
+     end
+   end
 
 if Option == 'T' | Option == 'B' then do
-/* Strip trailing characters */
-do while String \== '' & pos(right(String, 1), Unwanted) > 0
-String = left(String, length(String) -1)
-end /* of while */
-end
+   /* Strip trailing characters */
+   do while String \== '' & pos(right(String, 1), Unwanted) > 0
+     String = left(String, length(String) -1)
+     end /* of while */
+   end
 return String
 ```
 
-###  SUBSTR
-SUBSTR returns a sub-string of the first argument. The second argument specifies the position of the
+### SUBSTR
+
+`SUBSTR` returns a sub-string of the first argument. The second argument specifies the position of the
 first character and the third specifies the length of the sub-string. The fourth argument is the padding character.
 
 ```rexx <!--substr.rexx-->
-call CheckArgs 'rANY rWHOLE>0 oOWHOLE>=0 oPAD'
+call CheckArgs 'rANY rWHOLE>0 oWHOLE>=0 oPAD'
 
 String = #Bif_Arg.1
-Num = #Bif_ Arg.2
+Num    = #Bif_Arg.2
 if #Bif_ArgExists.3 then Length = #Bif_Arg.3
-else Length = max(length (String) +1-Num, 0)
-if #Bif_ArgExists.4 then Pad = #Bif_ Arg.4
-else Pad = ' '!
+                    else Length = max(length(String)+1-Num, 0)
+if #Bif_ArgExists.4 then Pad = #Bif_Arg.4
+                    else Pad = ' '
+
 Output = ''
 do Length
-#Response Config Substr(String,Num) /* Attempt to fetch character.*/
-Character #Outcome
-
-Num = Num + 1
-call Config Substr #Response,1 /* Was there such a character? */
-if #Outcome == 'E' then do
-
-/* Here if argument was not a character string. */
-
-call Config C2B String
-call #Raise 'SYNTAX', 23.1, b2x(#Outcome)
-/* No return to here */
-
-end
-if #Outcome == 'M' then Character = Pad
-Output=Output | | Character
-end
-
+  #Response = Config_Substr(String,Num) /* Attempt to fetch character.*/
+  Character = #Outcome
+  Num = Num + 1
+  call Config_Substr #Response,1 /* Was there such a character? */
+  if #Outcome == 'E' then do
+    /* Here if argument was not a character string. */
+    call Config_C2B String
+    call #Raise 'SYNTAX', 23.1, b2x(#Outcome)
+    /* No return to here */
+    end
+  if #Outcome == 'M' then Character = Pad
+  Output=Output | | Character
+  end
 return Output
 ```
 
 ### SUBWORD
 
-SUBWORD returns a sub-string of the first argument, comprised of words. The second argument is the
+`SUBWORD` returns a sub-string of the first argument, comprised of words. The second argument is the
 position in the first argument of the first word of the sub-string. The third argument is the number of
 words in the sub-string.
 
@@ -1023,7 +1008,7 @@ String #Bif_Arg.1
 
 Num #Bif_Arg.2
 
-if #Bif_ ArgExists.3 then Length
+if #Bif_ArgExists.3 then Length
 else Length
 
 #Bif_Arg.3
@@ -1047,8 +1032,8 @@ Output=substr(String, Start, End-Start)
 /* Drop trailing blanks */
 
 do while Output \== ''
-if pos(right(Output,1),#A11Blanks) = 0 then leave
-Output = left(Output, length (Output) -1)
+if pos(right(Output,1),#AllBlanks) = 0 then leave
+Output = left(Output, length(Output) -1)
 end
 
 return Output
@@ -1064,8 +1049,8 @@ String = #Bif_Arg.1
 /* If neither input nor output tables, uppercase. */
 if \#Bif_ArgExists.2 & \#Bif_ArgExists.3 then do
 Output = ''
-do j=1 to length (String)
-#Response = Config Upper (substr(String,j,1))
+do j=1 to length(String)
+#Response = Config_Upper(substr(String,j,1))
 
 Output = Output || #Outcome
 end j
@@ -1076,7 +1061,7 @@ end
 
 /* The input table defaults to all characters. */
 if \#Bif_ArgExists.3 then do
-#Response = Config Xrange()
+#Response = Config_Xrange()
 Tablei = #Outcome
 end
 else Tablei = #Bif_Arg.3
@@ -1084,13 +1069,13 @@ else Tablei = #Bif_Arg.3
 if #Bif_ArgExists.2 then Tableo = #Bif_Arg.2
 else Tableo = ''
 /* The tables are made the same length */
-if #Bif_ArgExists.4 then Pad = #Bif_ Arg.4
+if #Bif_ArgExists.4 then Pad = #Bif_Arg.4
 else Pad = ' '
-Tableo=left(Tableo, length (Tablei) , Pad)
+Tableo=left(Tableo, length(Tablei) , Pad)
 
 107
 Output=''
-do j=1 to length (String)
+do j=1 to length(String)
 c=substr(String,j,1)
 k=pos(c,Tablei)
 if k=0 then Output=Output ||c
@@ -1112,10 +1097,10 @@ String = #Bif_Arg.1
 
 Reference = #Bif_Arg.2
 
-if #Bif_ ArgExists.3 then Option #Bif_Arg.3
+if #Bif_ArgExists.3 then Option #Bif_Arg.3
 else Option 'N!
 
-if #Bif_ ArgExists.4 then Start = #Bif_Arg.4
+if #Bif_ArgExists.4 then Start = #Bif_Arg.4
 else Start = 1
 
 Last = length(String)
@@ -1162,7 +1147,7 @@ Num
 Start = 1
 Count = 0
 do forever
-Start = verify(String, #AllBlanks<Index "#A11Blanks" # "" >, 'N', Start) /*
+Start = verify(String, #AllBlanks<Index "#AllBlanks" # "" >, 'N', Start) /*
 Find non-blank */
 if Start = 0 then return 0 /* Start is beyond end */
 Count = Count + 1 /* Words found */
@@ -1233,7 +1218,7 @@ call CheckArgs 'oPAD oPAD'
 
 if \#Bif_ArgExists.1 then #Bif_Arg.1 mr
 if \#Bif_ArgExists.2 then #Bif_Arg.2
-#Response = Config Xrange(#Bif_Arg.1, #Bif_Arg.2)
+#Response = Config_Xrange(#Bif_Arg.1, #Bif_Arg.2)
 return #Outcome
 ```
 
@@ -1289,7 +1274,7 @@ parse var Mantissa Befo '.' Afte
 
 /* Count from the left for the decimal point. */
 
-Point = length (Befo)
+Point = length(Befo)
 
 /* Sign Mantissa and Exponent now reflect the Number. Befo Afte and
 Point reflect Mantissa. */
@@ -1432,7 +1417,7 @@ Exponent = Exponent-1
 end
 end
 
-t = Point-length (Integer)
+t = Point-length(Integer)
 if t > 0 then Integer = Integer||copies('0',t)
 
 end /* Rounded */
@@ -1472,7 +1457,7 @@ Point + Sign /* Note default.
 re ter
 Triggered = 0
 
-do j = 1 to length (Integer)
+do j = 1 to length(Integer)
 Digit = substr(Integer,j,1)
 /* Triggered is set when sign inserted or blanking finished.
 if Triggered = 1 then do
@@ -1521,12 +1506,12 @@ SignExp = 1
 Exponent = -Exponent
 end
 /* Make the exponent to the requested width. */
-if #Bif_ ArgExists.4 = 0 then Expp = length (Exponent)
+if #Bif_ArgExists.4 = 0 then Expp = length(Exponent)
 if length(Exponent) > Expp then
-call Raise 40.38, 4, #Bif_ Arg.1
+call Raise 40.38, 4, #Bif_Arg.1
 Exponent=right(Exponent,Expp,'0')
 if Exponent = 0 then do
-if #Bif_ ArgExists.4 then Expart = copies(' ',expp+2)
+if #Bif_ArgExists.4 then Expart = copies(' ',expp+2)
 end
 else if SignExp = 0 then Expart
 else Expart
@@ -1608,7 +1593,7 @@ else Num 0
 Integer =(10**Num * Number) %1
 if Num=0 then return Integer
 
-t=length (Integer) -Num
+t=length(Integer) -Num
 if t<=0 then return '0.'right(Integer,Num,'0')
 else return insert('.',Integer,t)
 ```
@@ -1642,7 +1627,7 @@ strings.
 
 ```rexx <!--arg.rexx-->
 ArgData = 'OWHOLE>0 oENO'
-if #Bif_ ArgExists.2 then ArgData = 'rWHOLE>0 rENO'
+if #Bif_ArgExists.2 then ArgData = 'rWHOLE>0 rENO'
 call CheckArgs ArgData
 
 if \#Bif_ArgExists.1 then return #Arg.#Level.0
@@ -1702,7 +1687,7 @@ call CheckArgs 'r0_90 oSN'
 
 msgcode = #Bif_Arg.1
 
-if #Bif_ ArgExists.2 then Option
+if #Bif_ArgExists.2 then Option
 else Option
 
 return #ErrorText .msgcode
@@ -1806,7 +1791,7 @@ argument.
 ```rexx <!--bitand.rexx-->
 call CheckArgs 'rANY oANY oPAD'
 
-Stringl = #Bif_ Arg.1
+Stringl = #Bif_Arg.1
 if #Bif_ArgExists.2 then String2
 
 #Bif_Arg.2
@@ -1820,9 +1805,9 @@ else
 Stringl=left(Stringl,length(String2),#Bif_Arg.3)
 
 /* Change to manifest bit representation. */
-#Response=Config C2B(String1)
+#Response=Config_C2B(String1)
 String1l=#Outcome
-#Response=Config C2B(String2)
+#Response=Config_C2B(String2)
 String2=#0utcome
 /* Exchange if necessary to make shorter second. */
 if length(Stringl)<length(String2) then do
@@ -1837,7 +1822,7 @@ end
 
 /* Operate on common length of those bit strings. */
 r=''
-do j=1 to length (String2)
+do j=1 to length(String2)
 
 bl=substr(Stringl,j,1)
 
@@ -1855,7 +1840,7 @@ b1=b1&&b2
 end
 r=r||bl
 end j
-rer || right(Stringl, length (String1) -length(String2) )
+rer || right(Stringl, length(String1) -length(String2) )
 
 /* Convert back to encoded characters. */
 return x2c (b2x(r))
@@ -1884,7 +1869,7 @@ if Size = 0 then return 0
 /* Pad will normally be zeros */
 t=right(#Bif_Arg.1,Size,left(xrange(),1))
 /* Convert to manifest bit */
-call Config C2B t
+call Config_C2B t
 /* And then to signed decimal. */
 Sign = left(#Outcome,1)
 #Outcome = substr(#Outcome, 2)
@@ -1895,7 +1880,7 @@ if abs(t) > 10 ** #Digits.#Level - 1 then call Raise 40.35, t
 return t
 end
 /* Size not specified. */
-call Config C2B #Bif_Arg.1
+call Config_C2B #Bif_Arg.1
 t = ReRadix(#Outcome, 2,10)
 if t > 10 ** #Digits.#Level - 1 then call Raise 40.35, t
 return t
@@ -1908,7 +1893,7 @@ C2X performs coded to hexadecimal conversion.
 call CheckArgs 'rANY'
 if length(#Bif_Arg.1) = 0 then return ''
 
-call Config C2B #Bif_Arg.1
+call Config_C2B #Bif_Arg.1
 return ReRadix (#Outcome,2,16)
 ```
 
@@ -1926,7 +1911,7 @@ call CheckArgs ArgData
 /* Convert to manifest binary */
 Subject = abs(#Bif_Arg.1)
 r = ReRadix(Subject,10,2)
-/* Make length a multiple of 8, as required for Config B2C */
+/* Make length a multiple of 8, as required for Config_B2C */
 Length = length(r)
 do while Length//8 \= 0
 Length = Length+1
@@ -1939,7 +1924,7 @@ Subject = 2**length(r)-Subject
 r = ReRadix(Subject,10,2)
 end
 /* Convert to characters */
-#Response = Config B2C(r)
+#Response = Config_B2C(r)
 Output = #Outcome
 if \#Bif_ArgExists.2 then return Output
 
@@ -1967,7 +1952,7 @@ r = ReRadix(Subject,10,16)
 end
 if \#Bif_ArgExists.2 then return r
 /* Adjust the length with appropriate characters. */
-if #Bif_ Arg.1>=0 then return right(r,#Bif_Arg.2,'0')
+if #Bif_Arg.1>=0 then return right(r,#Bif_Arg.2,'0')
 else return right(r,#Bif_Arg.2,'F')
 ```
 
@@ -2005,8 +1990,8 @@ r = ReRadix(translate (Subject) ,16,2)
 
 /* Convert to character */
 
-Length = 8*( (length (Subject) +1) %2)
-#Response = Config B2C(right(r,Length,'0'))
+Length = 8*( (length(Subject) +1) %2)
+#Response = Config_B2C(right(r,Length,'0'))
 return #Outcome
 ```
 
@@ -2087,11 +2072,11 @@ else Stream
 #StreamState.Stream = ''
 /* Argument 2 is positioning. */
 if #Bif_ArgExists.2 then do
-#Response = Config Stream Position(Stream, 'CHARIN', #Bif_Arg.2)
+#Response = Config_Stream_Position(Stream, 'CHARIN', #Bif_Arg.2)
 
 #Bif_Arg.1
 
-if left(#Response, 1) == 'R' then call Raise 40.41, 2, #Bif_ Arg.2
+if left(#Response, 1) == 'R' then call Raise 40.41, 2, #Bif_Arg.2
 if left(#Response, 1) == 'T' then call Raise 40.42,Stream
 end
 
@@ -2099,11 +2084,11 @@ end
 if #Bif_ArgExists.3 then Count
 else Count
 if Count = 0 then do
-call Config Stream Charin Stream, 'NULL' /* "Touch" the stream */
+call Config_Stream_Charin Stream, 'NULL' /* "Touch" the stream */
 return '!
 end
 /* The unit may be eight bits (as characters) or one character. */
-call Config Stream Query Stream
+call Config_Stream_Query Stream
 
 #Bif_Arg.3
 1
@@ -2112,7 +2097,7 @@ Mode = #Outcome
 
 do until Count = 0
 
-#Response = Config Stream Charin(Stream, 'CHARIN')
+#Response = Config_Stream_Charin(Stream, 'CHARIN')
 
 if left(#Response, 1) \== 'N' then do
 if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
@@ -2127,7 +2112,7 @@ Count = Count-1
 
 end
 if Mode == 'B' then do
-call Config B2C r
+call Config_B2C r
 r = #Outcome
 end
 return r
@@ -2148,43 +2133,43 @@ else Stream
 #StreamState.Stream = ''
 if \#Bif_ArgExists.2 & \#Bif_ArgExists.3 then do
 /* Position to end of stream. */
-#Response = Config Stream Close (Stream)
+#Response = Config_Stream_Close (Stream)
 if left(#Response,1) == 'T' then call Raise 40.42,Stream
 return 0
 end
 
 if #Bif_ArgExists.3 then do
 /* Explicit positioning. */
-#Response = Config Stream Position(Stream, 'CHAROUT', #Bif_Arg.3)
+#Response = Config_Stream_Position(Stream, 'CHAROUT', #Bif_Arg.3)
 
 if left(#Response,1) == 'T' then call Raise 40.42,Stream
-if left(#Response, 1) == 'R' then call Raise 40.41, 3, #Bif_ Arg.3
+if left(#Response, 1) == 'R' then call Raise 40.41, 3, #Bif_Arg.3
 end
 
 if \#Bif_ArgExists.2 | #Bif_Arg.2 == '' then do
-call Config Stream _Charout Stream, 'NULL' /* "Touch" the stream */
+call Config_Stream_Charout Stream, 'NULL' /* "Touch" the stream */
 return 0
 end
 
 String = #Bif_Arg.2
-call Config Stream Query Stream
+call Config_Stream_Query Stream
 Mode = #Outcome
 if Mode == 'B' then do
-call Config C2B String
+call Config_C2B String
 String = #Outcome
 Stride = 8
 Residue = length(String)/8
 end
 else do
 Stride = 1
-Residue = length (String)
+Residue = length(String)
 end
 
 Cursor = 1
 do while Residue>0
 Piece = substr(String, Cursor, Stride)
 Cursor = Cursor+Stride
-call Config Stream Charout Stream, Piece
+call Config_Stream_Charout Stream, Piece
 if left(#Response, 1) \== 'N' then do
 if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
 call #Raise 'NOTREADY', Stream, substr(#Response, 2)
@@ -2211,7 +2196,7 @@ else Stream = ''
 if #Bif_ArgExists.2 then Option = #Bif_Arg.2
 else Option = 'N'
 
-call Config Stream Count Stream, 'CHARS', Option
+call Config_Stream_Count Stream, 'CHARS', Option
 return #Outcome
 ```
 
@@ -2225,25 +2210,25 @@ if #Bif_ArgExists.1 then Stream
 else Stream
 #StreamState.Stream = ''
 if #Bif_ArgExists.2 then do
-#Response = Config Stream Position(Stream, 'LINEIN', #Bif_Arg2)
+#Response = Config_Stream_Position(Stream, 'LINEIN', #Bif_Arg2)
 if left(#Response, 1) 'T' then call Raise 40.42,Stream
-if left(#Response, 1) 'R' then call Raise 40.41, 2, #Bif_ Arg.2
+if left(#Response, 1) 'R' then call Raise 40.41, 2, #Bif_Arg.2
 end
 if #Bif_ArgExists.3 then Count #Bif_Arg.3
 else Count 1
 if Count>1 then call Raise 40.39, Count
 if Count = 0 then do
-call Config Stream Charin Stream, 'NULL' /* "Touch" the stream */
+call Config_Stream_Charin Stream, 'NULL' /* "Touch" the stream */
 return '!
 end
 /* A configuration may recognise lines even in 'binary' mode. */
-call Config Stream Query Stream
+call Config_Stream_Query Stream
 Mode = #Outcome
 re ter
 t = #Linein Position.Stream
-/* Config Stream Charin will alter #Linein Position. */
+/* Config_Stream_Charin will alter #Linein Position. */
 do until t \= #Linein Position.Stream
-#Response = Config Stream Charin(Stream, 'LINEIN')
+#Response = Config_Stream_Charin(Stream, 'LINEIN')
 if left(#Response, 1) \== 'N' then do
 if left(#Response, 1) == 'E' then #StreamState.Stream = 'ERROR'
 call #Raise 'NOTREADY', Stream, substr(#Response, 2)
@@ -2252,7 +2237,7 @@ end
 r = r||#Outcome
 end
 if Mode == 'B' then do
-call Config B2C r
+call Config_B2C r
 r= #Outcome
 end
 return r
@@ -2280,7 +2265,7 @@ if \#Bif_ArgExists.2 & \#Bif_ArgExists.3 then do
 
 */
 
-#Response = Config Stream Close (Stream)
+#Response = Config_Stream_Close (Stream)
 if left(#Response,1) == 'T' then call Raise 40.42,Stream
 
 return 0
@@ -2288,7 +2273,7 @@ end
 
 if #Bif_ArgExists.3 then do
 
-#Response = Config Stream Position(Stream, 'LINEOUT', #Bif_Arg.3)
+#Response = Config_Stream_Position(Stream, 'LINEOUT', #Bif_Arg.3)
 
 if left(#Response, 1) == 'T' then call Raise 40.42,Stream
 if left(#Response, 1) == 'R' then call Raise 40.41, 3, #Bif_Arg.3
@@ -2296,17 +2281,17 @@ end
 
 if \#Bif_ArgExists.2 then do
 
-call Config Stream _Charout Stream, '' /* "Touch" the stream */
+call Config_Stream_Charout Stream, '' /* "Touch" the stream */
 
 return 0
 end
 
 String #Bif_Arg.2
 Stride 1
-call Config Stream Query Stream
+call Config_Stream_Query Stream
 Mode = #Outcome
 if Mode == 'B' then do
-call Config C2B String
+call Config_C2B String
 String = #Outcome
 Stride = 8
 Residue = length(String)/8
@@ -2322,7 +2307,7 @@ Piece = substr(String, Cursor, Stride)
 
 Cursor = Cursor+Stride
 
-call Config Stream Charout Stream, Piece
+call Config_Stream_Charout Stream, Piece
 then do
 
 then #StreamState.Stream = 'ERROR'
@@ -2335,7 +2320,7 @@ return 1
 end
 Residue = Residue-1
 end
-call Config Stream Charout Stream,
+call Config_Stream_Charout Stream,
 return 0
 ```
 
@@ -2350,10 +2335,10 @@ call CheckArgs 'oSTREAM oCN'
 
 if #Bif_ArgExists.1 then Stream
 else Stream
-if #Bif_ ArgExists.2 then Option
+if #Bif_ArgExists.2 then Option
 else Option
 
-Call Config Stream Count Stream,
+Call Config_Stream_Count Stream,
 return #Outcome
 ```
 
@@ -2378,7 +2363,7 @@ else Stream
 
 
 #Bif_Arg.1
-#Response = Config Stream Qualified (Stream)
+#Response = Config_Stream_Qualified(Stream)
 return #Outcome
 ```
 
@@ -2399,22 +2384,22 @@ call CheckArgs ArgData
 
 Stream = #Bif_Arg.1
 
-if #Bif_ ArgExists.2 then Operation = #Bif_Arg.2
+if #Bif_ArgExists.2 then Operation = #Bif_Arg.2
 else Operation = 'S'
 Select
 when Operation == 'C' then do
 
-call Config Stream Command Stream, #Bif_Arg.3
+call Config_Stream_Command Stream, #Bif_Arg.3
 return #Outcome
 
 end
 when Operation == 'D' then do
-#Response = Config Stream State (Stream)
+#Response = Config_Stream_State (Stream)
 return substr(#Response, 2)
 end
 when Operation == 'S' then do
 if StreamState.Stream == 'ERROR' then return 'ERROR'
-#Response = Config Stream State (Stream)
+#Response = Config_Stream_State (Stream)
 
 'N' then return 'READY'
 'U' then return 'UNKNOWN'
@@ -2445,7 +2430,7 @@ if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
 
 call Raise 40.19, '', #Bif_Arg.3
 
-if #Bif_ ArgExists.1 then Option
+if #Bif_ArgExists.1 then Option
 else Option
 
 #Bif_Arg.1
@@ -2453,7 +2438,7 @@ tint
 
 /* The date/time is 'frozen' throughout a clause. */
 if #ClauseTime.#Level == '' then do
-#Response = Config Time ()
+#Response = Config_Time()
 #ClauseTime.#Level = #Time
 #ClauseLocal.#Level = #Time + #Adjust<Index "#Adjust" # "" >
 end
@@ -2470,7 +2455,7 @@ return DateFormat (#ClauseLocal.#Level, Option)
 converted. */
 
 Value = #Bif_Arg.2
-if #Bif_ ArgExists.3 then InOption
+if #Bif_ArgExists.3 then InOption
 else InOption
 if Option == 'S' then OutSeparator
 else OutSeparator
@@ -2508,7 +2493,7 @@ if length(Value)<9 then return
 Year = right(Value, 4)
 
 MonthIs = substr(right(Value,7),1,3)
-Day = left(Value, length (Value) -7)
+Day = left(Value, length(Value) -7)
 
 end
 else
@@ -2664,7 +2649,7 @@ QUEUED returns the number of lines remaining in the external data queue.
 ```rexx <!--queued.rexx-->
 call CheckArgs ''
 
-#Response = Config Queued()
+#Response = Config_Queued()
 return #Outcome
 ```
 
@@ -2696,8 +2681,8 @@ call Raise 40.32, Minimum, Maximum
 if Maximum-Minimum<0 then
 call Raise 40.33, Minimum, Maximum
 
-if #Bif_ArgExists.3 then call Config Random Seed #Bif_Arg.3
-call Config Random Next Minimum, Maximum
+if #Bif_ArgExists.3 then call Config_Random_Seed #Bif_Arg.3
+call Config_Random_Next Minimum, Maximum
 return #Outcome
 ```
 
@@ -2725,7 +2710,7 @@ if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
 
 call Raise 40.19, '', #Bif_Arg.3
 
-if #Bif_ ArgExists.1 then Option
+if #Bif_ArgExists.1 then Option
 else Option
 
 #Bif_Arg.1
@@ -2734,7 +2719,7 @@ tint
 /* The date/time is 'frozen' throughout a clause. */
 
 if #ClauseTime.#Level == '' then do
-#Response = Config Time ()
+#Response = Config_Time ()
 #ClauseTime.#Level = #Time
 #ClauseLocal.#Level = #Time + #Adjust<Index "#Adjust" # "" >
 end
@@ -2868,13 +2853,13 @@ if Pool == '' then do
 Subject = '.' || translate (Subject) /* The dot on the name is implied. */
 Value = .environment [Subject] /* Was the translate redundant? */
 
-if #Bif_ArgExists.2 then .environment [Subject] = #Bif_ Arg.2
+if #Bif_ArgExists.2 then .environment [Subject] = #Bif_Arg.2
 return Value
 end
 
 /* Fetch the original value */
 
-#Response = Config Get (Pool, Subject)
+#Response = Config_Get(Pool, Subject)
 
 #Indicator = left(#Response,1)
 
@@ -2886,7 +2871,7 @@ call Raise 40.37, Pool
 Value = #Outcome
 if #Bif_ArgExists.2 then do
 /* Set the new value. */
-#Response = Config Set(Pool,Subject,#Bif_Arg.2)
+#Response = Config_Set(Pool,Subject,#Bif_Arg.2)
 if #Indicator == 'P' then
 call Raise 40.37, Pool
 if #Indicator == 'F' then
@@ -2906,8 +2891,8 @@ if p = 0 | p = length(Subject) then do
 to test whether the Subject was dropped. */
 #Indicator = left(#Response, 1)
 Value = #Outcome
-if #Bif_ ArgExists.2 then
-#Response = Var Set(#Pool, Subject, '0', #Bif_ Arg.2)
+if #Bif_ArgExists.2 then
+#Response = Var Set(#Pool, Subject, '0', #Bif_Arg.2)
 return Value
 end
 /* Compound */
@@ -2927,8 +2912,8 @@ end
 #Response = Var Value(#Pool, Expanded, '1')
 #Indicator = left(#Response, 1)
 Value = #Outcome
-if #Bif_ ArgExists.2 then
-#Response = Var Set(#Pool, Expanded, '1', #Bif_ Arg.2)
+if #Bif_ArgExists.2 then
+#Response = Var Set(#Pool, Expanded, '1', #Bif_Arg.2)
 
 return Value
 ```
@@ -2938,7 +2923,7 @@ QUEUED returns the number of lines remaining in the external data queue.
 
 ```rexx <!--queued.rexx-->
 call CheckArgs ''
-#Response = Config Queued()
+#Response = Config_Queued()
 return #Outcome
 ```
 
@@ -2969,8 +2954,8 @@ call Raise 40.32, Minimum, Maximum
 if Maximum-Minimum<0 then
 call Raise 40.33, Minimum, Maximum
 
-if #Bif_ArgExists.3 then call Config Random Seed #Bif_Arg.3
-call Config Random Next Minimum, Maximum
+if #Bif_ArgExists.3 then call Config_Random_Seed #Bif_Arg.3
+call Config_Random_Next Minimum, Maximum
 return #Outcome
 ```
 
@@ -2998,7 +2983,7 @@ if #Bif_ArgExists.3 & \#Bif_ArgExists.2 then
 
 call Raise 40.19, '', #Bif_Arg.3
 
-if #Bif_ ArgExists.1 then Option
+if #Bif_ArgExists.1 then Option
 else Option
 
 #Bif_Arg.1
@@ -3007,7 +2992,7 @@ tint
 /* The date/time is 'frozen' throughout a clause. */
 
 if #ClauseTime.#Level == '' then do
-#Response = Config Time ()
+#Response = Config_Time ()
 #ClauseTime.#Level = #Time
 #ClauseLocal.#Level = #Time + #Adjust<Index "#Adjust" # "" >
 end
@@ -3128,13 +3113,13 @@ if Pool == '' then do
 Subject = '.' || translate (Subject) /* The dot on the name is implied. */
 Value = .environment [Subject] /* Was the translate redundant? */
 
-if #Bif_ArgExists.2 then .environment [Subject] = #Bif_ Arg.2
+if #Bif_ArgExists.2 then .environment [Subject] = #Bif_Arg.2
 return Value
 end
 
 /* Fetch the original value */
 
-#Response = Config Get (Pool, Subject)
+#Response = Config_Get (Pool, Subject)
 
 #Indicator = left(#Response,1)
 
@@ -3146,7 +3131,7 @@ call Raise 40.37, Pool
 Value = #Outcome
 if #Bif_ArgExists.2 then do
 /* Set the new value. */
-#Response = Config Set(Pool,Subject,#Bif_Arg.2)
+#Response = Config_Set(Pool,Subject,#Bif_Arg.2)
 if #Indicator == 'P' then
 call Raise 40.37, Pool
 if #Indicator == 'F' then
@@ -3166,8 +3151,8 @@ if p = 0 | p = length(Subject) then do
 to test whether the Subject was dropped. */
 #Indicator = left(#Response, 1)
 Value = #Outcome
-if #Bif_ ArgExists.2 then
-#Response = Var Set(#Pool, Subject, '0', #Bif_ Arg.2)
+if #Bif_ArgExists.2 then
+#Response = Var Set(#Pool, Subject, '0', #Bif_Arg.2)
 return Value
 end
 /* Compound */
@@ -3187,8 +3172,8 @@ end
 #Response = Var Value(#Pool, Expanded, '1')
 #Indicator = left(#Response, 1)
 Value = #Outcome
-if #Bif_ ArgExists.2 then
-#Response = Var Set(#Pool, Expanded, '1', #Bif_ Arg.2)
+if #Bif_ArgExists.2 then
+#Response = Var Set(#Pool, Expanded, '1', #Bif_Arg.2)
 
 return Value
 ```
