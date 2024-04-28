@@ -1302,7 +1302,7 @@ process:
 
 If the word does not have the syntax of _VAR_SYMBOL_ a condition is raised:
 
-```rexx <!--callraisesyntax.rexx-->
+```rexx <!--callraisesyntax201.rexx-->
 call #Raise 'SYNTAX', 20.1, word
 ```
 
