@@ -707,13 +707,13 @@ else call #Raise 'SYNTAX', nn.nn, #MethodName, #ClassName
 ```
 
 _`GUARDED` & public is default. if `#contains(method, 'PRIVATE') then m~setprivate; if #contains(method,
-'UNGUARDED)) then m\~setunguarded`_
+'UNGUARDED)) then m~setunguarded`_
 
 _Why is there a keyword for `GUARDED` but not for `PUBLIC` here?_
 
 _Does `CLASS` option mean `ENHANCE` with Class class methods?_
 
-_`#CurrentClass\~class(#instance(method, taken_constant), m)`_
+_`#CurrentClass~class(#instance(method, taken_constant), m)`_
 
 _For `ATTRIBUTE`, should we actually construct source for two methods? `ATTRIBUTE` case needs test of null body._
 
