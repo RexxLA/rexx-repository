@@ -63,7 +63,7 @@ identifier | message identifier | bnf primary '+'
 ### Syntactic errors
 
 The syntax descriptions (see nnn and nnn) make use of _message_identifiers_ which are shown as
-Msgnn.nn or Msgnn, where nn is a number. These actions produce the correspondingly numbered error
+_Msgnn.nn_ or _Msgnn_, where _nn_ is a number. These actions produce the correspondingly numbered error
 messages (see nnn and nnn).
 
 ## Lexical
@@ -97,61 +97,65 @@ _- I would put _ASSIGN_ here for the leftmost `'='` in a clause that is not with
 happy with message term being an assignment?_
 
 #### Actions and tokens
+
 Mixed case identifiers with an initial capital letter cause an action when they appear as operands ina
 production. These actions perform further tests and create tokens for use by the top syntax level. The
 following actions are defined:
 
-- Special supplies the source recognized as special to the top syntax level;
+- _Special_ supplies the source recognized as _special_ to the top syntax level;
 
-- Eol supplies a semicolon to the top syntax level;
+- _Eol_ supplies a semicolon to the top syntax level;
 
-- Eos supplies an end of source indication to the top syntax level;
+- _Eos_ supplies an end of source indication to the top syntax level;
 
-- Var_symbol supplies the source recognized as Var_symbol to the top syntax level, as keywords or
-VAR_SYMBOL tokens, see nnn. The characters in a Var_symbol are converted by Config_Upper to
-uppercase. Msg30.1 shall be produced if Var_symbo/ contains more than #Limit_Name characters,
-see nnn;
+- _Var_symbol_ supplies the source recognized as _Var_symbol_ to the top syntax level, as keywords or
+  _VAR_SYMBOL_ tokens, see nnn. The characters in a _Var_symbol_ are converted by `Config_Upper` to
+  uppercase. _Msg30.1_ shall be produced if _Var_symbol_ contains more than `#Limit_Name` characters,
+  see nnn;
 
-- Const_symbol supplies the source recognized as Const_symbo! to the top syntax level. If itis a
-number it is passed as a NUMBER token, otherwise it is passed as a CONST_SYMBOL token. The
-characters in a Const_symbol are converted by Config_Upper to become the characters that comprise
-that NUMBER or CONST_SYMBOL. Msg30.1 shall be produced if Const_symbo! contains more than
-#Limit_Name characters;
+- _Const_symbol_ supplies the source recognized as _Const_symbol_ to the top syntax level. If it is a
+  number it is passed as a _NUMBER_ token, otherwise it is passed as a _CONST_SYMBOL_ token. The
+  characters in a _Const_symbol_ are converted by `Config_Upper` to become the characters that comprise
+  that _NUMBER_ or _CONST_SYMBOL_. _Msg30.1_ shall be produced if _Const_symbol_ contains more than
+  `#Limit_Name` characters;
 
-- Embedded_quotation_mark records an occurrence of two consecutive quotation marks within a
-string delimited by quotation marks for further processing by the String action;
+- _Embedded_quotation_mark_ records an occurrence of two consecutive quotation marks within a
+  string delimited by quotation marks for further processing by the _String_ action;
 
-- Embedded_apostrophe records an occurrence of two consecutive apostrophes within a string
-delimited by apostrophes for further processing by the String action;
+- _Embedded_apostrophe_ records an occurrence of two consecutive apostrophes within a string
+  delimited by apostrophes for further processing by the _String_ action;
 
-- String supplies the source recognized as String to the top syntax level as a STRING token. Any
-occurrence of Embedded_quotation_mark or Embedded_apostrophe is replaced by a single quotation
-mark or apostrophe, respectively. Msg30.2 shall be produced if the resulting string contains more than
-#Limit_Literal characters;
+- _String_ supplies the source recognized as _String_ to the top syntax level as a _STRING_ token. Any
+  occurrence of _Embedded_quotation_mark_ or _Embedded_apostrophe_ is replaced by a single quotation
+  mark or apostrophe, respectively. _Msg30.2_ shall be produced if the resulting string contains more than
+  `#Limit_Literal` characters;
 
-- Binary_string supplies the converted binary string to the top syntax level as a STRING token, after
-checking conformance to the binary_string syntax. If the binary_string does not contain any
-occurrence of a binary_digit, a string of length 0 is passed to the top syntax level. The occurrences of
-binary_digit are concatenated to form a number in radix 2. Zero or 4 digits are added at the left if
-necessary to make the number of digits a multiple of 8. If the resulting number of digits exceeds 8
-times #Limit_Literal then Msg30.2 shall be produced. The binary digits are converted to an encoding,
-see nnn. The encoding is supplied to the top syntax level as a STRING token;
+- _Binary_string_ supplies the converted binary string to the top syntax level as a _STRING_ token, after
+  checking conformance to the _binary_string_ syntax. If the _binary_string_ does not contain any
+  occurrence of a _binary_digit_, a string of length 0 is passed to the top syntax level. The occurrences of
+  _binary_digit_ are concatenated to form a number in radix 2. Zero or 4 digits are added at the left if
+  necessary to make the number of digits a multiple of 8. If the resulting number of digits exceeds 8
+  times `#Limit_Literal` then _Msg30.2_ shall be produced. The binary digits are converted to an encoding,
+  see nnn. The encoding is supplied to the top syntax level as a _STRING_ token;
 
-- Hex_string supplies the converted hexadecimal string to the top syntax level as a STRING token,
-after checking conformance to the hex_string syntax. If the hex_string does not contain any
-occurrence of a hex_digit, a string of length 0 is passed to the top syntax level. The occurrences of
-hex_digit are each converted to a number with four binary digits and concatenated. 0 to 7 digits are
-added at the left if necessary to make the number of digits a multiple of 8. If the resulting number of
-digits exceeds 8 times #Limit_Literal then Msg30.2 shall be produced. The binary digits are converted
-to an encoding. The encoding is supplied to the top syntax level as a STRING token;
+- _Hex_string_ supplies the converted hexadecimal string to the top syntax level as a _STRING_ token,
+  after checking conformance to the _hex_string_ syntax. If the _hex_string_ does not contain any
+  occurrence of a _hex_digit_, a string of length 0 is passed to the top syntax level. The occurrences of
+  _hex_digit_ are each converted to a number with four binary digits and concatenated. 0 to 7 digits are
+  added at the left if necessary to make the number of digits a multiple of 8. If the resulting number of
+  digits exceeds 8 times `#Limit_Literal` then _Msg30.2_ shall be produced. The binary digits are converted
+  to an encoding. The encoding is supplied to the top syntax level as a _STRING_ token;
 
-- Operator supplies the source recognized as Operator (excluding characters that are not
-operator_char ) to the top syntax level. Any occurrence of an ofher_negator within Operator is
-supplied as '\';
+- _Operator_ supplies the source recognized as _Operator_ (excluding characters that are not
+  _operator_char_ ) to the top syntax level. Any occurrence of an _other_negator_ within _Operator_ is
+  supplied as `'\'`;
 
-- Blank records the presence of a blank. This may subsequently be tested (see nnn).
-Constructions of type Number, Const_symbol, Var_symbol or String are called operands.
-6.2.1.3 Source characters
+- _Blank_ records the presence of a blank. This may subsequently be tested (see nnn).
+  
+Constructions of type _Number_, _Const_symbol_, _Var_symbol_ or _String_ are called operands.
+
+#### Source characters
+
 The source is obtained from the configuration by the use of Config_SourceChar (see nnn). If no character
 is available because the source is not a correct encoding of characters, message Msg22.1 shall be
 produced.
