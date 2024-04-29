@@ -1575,7 +1575,7 @@ Assign the value of `Value` to the variable identified by `Symbol`. If the `Symb
 
 Otherwise:
 
-```rexx <!--config-var-pool-symbol-period.rexx-->
+```rexx <!--config-api-setDirect-symbol-period.rexx-->
    Var_Set(#Pool, Symbol, '1', Value)
 ```
 
@@ -1601,7 +1601,7 @@ Return the value of the variable identified by `Symbol`. If the `Symbol` contain
 
 Otherwise:
 
-```rexx <!--config-var-pool-symbol-period.rexx-->
+```rexx <!--config-api-valueDirect-symbol-period.rexx-->
    Var_Value(#Pool, Symbol, '1')
 ```
 
