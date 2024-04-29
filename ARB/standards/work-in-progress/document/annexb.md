@@ -26,7 +26,7 @@ configuration functions.
 Note that the mechanism of a returned string with a distinguishing first character is part of the notation
 used in this standard to explain the functions; implementations may use a different mechanism.
 
-## Annex to "Notation for completion response and conditions"
+## Notation for completion response and conditions
 
 The testing of `'X'` and `'S'` indicators is made implicit, for brevity. Even when written as a subroutine call,
 each use of a configuration routine implies the testing. Thus:
