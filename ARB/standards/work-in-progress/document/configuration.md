@@ -1569,7 +1569,7 @@ where:
 
 Assign the value of `Value` to the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx <!--config-var-pool-symbol-noperiod.rexx-->
+```rexx <!--config-api-setDirect-symbol-noperiod.rexx-->
    Var_Set(#Pool, Symbol, '0', Value)
 ```
 
@@ -1595,7 +1595,7 @@ where:
 
 Return the value of the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx <!--config-var-pool-symbol-noperiod.rexx-->
+```rexx <!--config-api-valueDirect-symbol-noperiod.rexx-->
    Var_Value(#Pool, Symbol, '0')
 ```
 
