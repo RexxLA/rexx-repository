@@ -54,15 +54,15 @@ use of the function; it is not shown explicitly when the functions are used in t
 
 The implicit action is
 
-```rexx <!--raisesyntax.rexx-->
-call #Raise 'SYNTAX', Message, Description
+```rexx <!--config-raise-syntax.rexx-->
+   call #Raise 'SYNTAX', Message, Description
 ```
 
 where:
 
 * `#Raise` raises the condition, see <!--TODO-->nnn.
 * `Message` is determined by the indicator in the completion response. If the indicator is `'X'` then
-   `Message` is `5.1`. If the indicator is `'S'` then Message is `48.1`.
+   `Message` is `5.1`. If the indicator is `'S'` then `Message` is `48.1`.
 * `Description` is the description in the completion response.
 
 The `'SYNTAX'` condition `5.1` can also be raised by any other activity of the language processor.
@@ -77,10 +77,11 @@ source file. However, I'm assuming we will prefer to recursively "run" each requ
 be the classes and methods made public by that `REQUIRES` subject._
 
 ### API Start
-Syntax:
 
-```rexx <!--rexxapistart.rexx-->
-API_Start(How, Source, Environment, Arguments, Streams, Traps, Provides)
+#### Syntax:
+
+```rexx <!--config-api-start.rexx-->
+   API_Start(How, Source, Environment, Arguments, Streams, Traps, Provides)
 ```
 
 where:
@@ -121,8 +122,8 @@ If the program was terminated due to an error the indicator in the completion re
 description in the completion response comprises information about the error that terminated
 processing.
 
-If How was `'REQUIRED'` and the completion response was not `'E'`, the `Provides` argument is set to
-reference classes made available. See nnn for the semantics of these classes.
+If `How` was `'REQUIRED'` and the completion response was not `'E'`, the `Provides` argument is set to
+reference classes made available. See <!--TODO-->nnn for the semantics of these classes.
 
 ## Source programs and character sets
 
@@ -137,48 +138,48 @@ Source programs consist of characters belonging to the following categories:
 
 A character shall belong to only one category.
 
-### Syntactic_characters
+### _Syntactic_characters_
 
 The following characters represent the category of characters called _syntactic_characters_, identified by
 their names. The glyphs used to represent them in this document are also shown. _Syntactic_characters_
 shall be available in every configuration:
 
-- `&` ampersand;
-- `'` apostrophe, single quotation mark, single quote;
-- `*` asterisk, star;
-- ` ` blank, space;
-- `A-Z` capital letters A through Z;
-- `:` colon;
-- `,` comma;
-- `0-9` digits zero through nine;
-- `=` equal sign;
-- `!` exclamation point, exclamation mark;
-- `>` greater-than sign;
-- `-` hyphen, minus sign;
-- `<` less-than sign;
-- `[` left bracket, left square bracket;
-- `(` left parenthesis;
-- `%` percent sign;
-- `.` period, decimal point, full stop, dot;
-- `+` plus sign;
-- `?` question mark;
-- `"` quotation mark, double quote;
-- `\` reverse slant, reverse solidus, backslash;
-- `]` right bracket, right square bracket;
-- `)` right parenthesis;
-- `;` semicolon;
-- `/` slant, solidus, slash;
-- `a-z` small letters a through z;
-- `~` tilde, twiddle;
-- `_` underline, low line, underscore;
-- `|` vertical line, bar, vertical bar.
+- `'&'` ampersand;
+- `"'"` apostrophe, single quotation mark, single quote;
+- `'*'` asterisk, star;
+- `' '` blank, space;
+- `'A'-'Z'` capital letters A through Z;
+- `':'` colon;
+- `','` comma;
+- `'0'-'9'` digits zero through nine;
+- `'='` equal sign;
+- `'!'` exclamation point, exclamation mark;
+- `'>'` greater-than sign;
+- `'-'` hyphen, minus sign;
+- `'<'` less-than sign;
+- `'['` left bracket, left square bracket;
+- `'('` left parenthesis;
+- `'%'` percent sign;
+- `'.'` period, decimal point, full stop, dot;
+- `'+'` plus sign;
+- `'?'` question mark;
+- `'"'` quotation mark, double quote;
+- `'\'` reverse slant, reverse solidus, backslash;
+- `']'` right bracket, right square bracket;
+- `')'` right parenthesis;
+- `;'` semicolon;
+- `/'` slant, solidus, slash;
+- `'a'-'z'` small letters a through z;
+- `'~'` tilde, twiddle;
+- `'_'` underline, low line, underscore;
+- `'|'` vertical line, bar, vertical bar.
 
-### Extra_letters
+### _Extra_letters_
 
 A configuration may have a category of characters in source programs called _extra_letters_. _Extra_letters_
 are determined by the configuration.
 
-### Other_blank_characters
+### _Other_blank_characters_
 
 A configuration may have a category of characters in source programs called _other_blank_characters_.
 _Other_blank_characters_ are determined by the configuration. Only the following characters represent
@@ -190,16 +191,16 @@ possible characters of this category:
 - new line;
 - vertical tabulation.
 
-### Other_negators
+### _Other_negators_
 
 A configuration may have a category of characters in source programs called _other_negators_.
 _Other_negators_ are determined by the configuration. Only the following characters represent possible
 characters of this category. The glyphs used to represent them in this document are also shown:
 
-- `^` circumflex accent, caret;
-- `¬` not sign.
+- `'^'` circumflex accent, caret;
+- `'¬'` not sign.
 
-### Other_characters
+### _Other_characters_
 
 A configuration may have a category of characters in source programs called _other_characters_.
 _Other_characters_ are determined by the configuration.
@@ -225,8 +226,8 @@ The following functions shall be provided:
 
 #### Syntax:
 
-```rexx <!--configsourcechar.rexx-->
-Config_SourceChar()
+```rexx <!--config-sourceChar.rexx-->
+   Config_SourceChar()
 ```
 
 #### Semantics:
@@ -244,8 +245,8 @@ encoding which is incorrect, in hexadecimal notation.
 
 #### Syntax:
 
-```rexx <!--configotherblankcharacters.rexx-->
-Config_OtherBlankCharacters()
+```rexx <!--config-otherBlankCharacters.rexx-->
+   Config_OtherBlankCharacters()
 ```
 
 #### Semantics:
@@ -259,8 +260,8 @@ that the configuration considers equivalent to the character _Blank_ for the pur
 
 #### Syntax:
 
-```rexx <!--configupper.rexx-->
-Config_Upper(Character)
+```rexx <!--config-upper.rexx-->
+   Config_Upper(Character)
 ```
 
 where:
@@ -269,7 +270,7 @@ where:
 
 #### Semantics:
 
-Translate `Character` to uppercase. Set `#Outcome` to the translated character. `Characters` which have
+Translate `Character` to uppercase. Set `#Outcome` to the translated character. Characters which have
 been subject to this translation are referred to as being in uppercase. `Config_Upper` applied to a
 character in uppercase must not change the character.
 
@@ -277,8 +278,8 @@ character in uppercase must not change the character.
 
 #### Syntax:
 
-```rexx <!--configlower.rexx-->
-Config_Lower(Character)
+```rexx <!--config-lower.rexx-->
+   Config_Lower(Character)
 ```
 
 where:
@@ -287,7 +288,7 @@ where:
 
 #### Semantics:
 
-Translate `Character` to lowercase. Set `#Outcome` to the translated character. `Characters` which have
+Translate `Character` to lowercase. Set `#Outcome` to the translated character. Characters which have
 been subject to this translation are referred to as being in lowercase. `Config_Lower` applied to a
 character in lowercase must not change the character. `Config_Upper` of the outcome of
 `Config_Lower(Character)` shall be the original character.
@@ -296,8 +297,8 @@ character in lowercase must not change the character. `Config_Upper` of the outc
 
 #### Syntax:
 
-```rexx <!--configcompare.rexx-->
-Config_Compare(Characterl, Character2)
+```rexx <!--config-compare.rexx-->
+   Config_Compare(Characterl, Character2)
 ```
 
 where:
@@ -310,36 +311,28 @@ where:
 Compare two characters. Set `#Outcome` to
 
 - `'equal'` if `Character1` is equal to `Character2`;
-
 - `'greater'` if `Character1` is greater than `Character2`;
-
 - `'lesser'` if `Character1` is less than `Character2`.
   
 The function shall exhibit the following characteristics. If `Config _Compare(a,b)` produces
 
 - `'equal'` then `Config_Compare(b,a)` produces `'equal'`;
-
 - `'greater'` then `Config_Compare(b,a)` produces `'lesser'`;
-
 - `'lesser'` then `Config_Compare(b,a)` produces `'greater'`;
-
 - `'equal'` and `Config_Compare(b,c)` produces `'equal'` then `Config_Compare(a,c)` produces `'equal'`;
-
 - `'greater'` and `Config_Compare(b,c)` produces `'greater'` then `Config_Compare(a,c)` produces `'greater'`;
-
 - `'lesser'` and `Config_Compare(b,c)` produces `'lesser'` then `Config_Compare(a,c)` produces `'lesser'`;
-
 - `'equal'` then `Config_Compare(a,c)` and `Config_Compare(b,c)` produce the same value.
   
-Syntactic characters which are different characters shall not compare equal by Config_Compare, see
+Syntactic characters which are different characters shall not compare equal by `Config_Compare`, see
 <!--TODO-->nnn.
 
 ### Config_B2C
 
 #### Syntax:
 
-```rexx <!--configb2c.rexx-->
-Config_B2C(Binary)
+```rexx <!--config-b2c.rexx-->
+   Config_B2C(Binary)
 ```
 
 where:
@@ -355,8 +348,8 @@ correspond to a sequence of characters.
 
 #### Syntax:
 
-```rexx <!--configc2b.rexx-->
-Config_C2B(String)
+```rexx <!--config-c2b.rexx-->
+   Config_C2B(String)
 ```
 
 where:
@@ -372,8 +365,8 @@ inverse of `Config_B2C`.
 
 #### Syntax:
 
-```rexx <!--configsubstr.rexx-->
-Config_Substr(String, n)
+```rexx <!--config-substr.rexx-->
+   Config_Substr(String, n)
 ```
 
 where:
@@ -383,7 +376,7 @@ where:
 
 #### Semantics:
 
-Copy the `n`-th character from `String`. The leftmost character is the first character. Set `Outcome` to the
+Copy the `n`-th character from `String`. The leftmost character is the first character. Set `#Outcome` to the
 resulting character.
 
 If this function is unable to supply a character because there is no `n`-th character in `String` the indicator
@@ -397,8 +390,8 @@ which is incorrect, in hexadecimal notation.
 
 #### Syntax:
 
-```rexx <!--configlength.rexx-->
-Config_Length(String)
+```rexx <!--config-length.rexx-->
+   Config_Length(String)
 ```
 
 where:
@@ -417,8 +410,8 @@ encoding which is incorrect, in hexadecimal notation.
 
 #### Syntax:
 
-```rexx <!--configxrange.rexx-->
-Config_Xrange(Characterl, Character2)
+```rexx <!--config-xrange.rexx-->
+   Config_Xrange(Characterl, Character2)
 ```
 
 where:
@@ -432,8 +425,9 @@ If `Character1` is the null string then let `LowBound` be a lowest ranked charac
 according to the ranking order provided by `Config_Compare`; otherwise let `LowBound` be `Character1`.
 
 If `Character2` is the null string then let `HighBound` be a highest ranked character in the character set
-according to the ranking order provided by `Config_Compare`; otherwise let `HighBound` be `Character2` if
-`#Outcome` after `Config_Compare(LowBound,HighBound)` has a value of
+according to the ranking order provided by `Config_Compare`; otherwise let `HighBound` be `Character2`. 
+
+If `#Outcome` after `Config_Compare(LowBound,HighBound)` has a value of
 
 - `'equal'` then `#Outcome` is set to `LowBound`;
 
@@ -451,8 +445,8 @@ The objects interface consists of functions which the configuration shall provid
 
 #### Syntax:
 
-```rexx <!--objectnew.rexx-->
-Config_ObjectNew <!--configobjectnew.rexx-->
+```rexx <!--config-objectNew.rexx-->
+   Config_ObjectNew()
 ```
 
 #### Semantics:
@@ -465,8 +459,8 @@ returned on another invokation of the function.
 
 #### Syntax:
 
-```rexx <!--configarraysize.rexx-->
-Config_Array_Size(Object, size)
+```rexx <!--config-array-size.rexx-->
+   Config_Array_Size(Object, size)
 ```
 
 where:
@@ -477,14 +471,14 @@ where:
 #### Semantics:
 
 The configuration should prepare to deal efficiently with the object as an array with indexes having
-values up to the value of size.
+values up to the value of `size`.
 
 ### Config_Array_Put
 
 #### Syntax:
 
-```rexx <!--configarrayput.rexx-->
-Config_Array_Put(Array, Item, Index)
+```rexx <!--config-array-put.rexx-->
+   Config_Array_Put(Array, Item, Index)
 ```
 
 where:
@@ -501,8 +495,8 @@ The configuration shall record that the array has `Item` associated with `Index`
 
 #### Syntax:
 
-```rexx <!--configarrayat.rexx-->
-Config_Array_At(Array, Index)
+```rexx <!--config-array-at.rexx-->
+   Config_Array_At(Array, Index)
 ```
 
 where:
@@ -518,8 +512,8 @@ The configuration shall return the item that the array has associated with `Inde
 
 #### Syntax:
 
-```rexx <!--configarrayathashindex.rexx-->
-Config_Array_At(Array, Index)
+```rexx <!--config-array-hasIndex.rexx-->
+   Config_Array_Hasindex(Array, Index)
 ```
 
 where:
@@ -529,14 +523,14 @@ where:
 
 #### Semantics:
 
-Return `'1'` if there is an item in `Array` associated with Index, `'0'` otherwise.
+Return `'1'` if there is an item in `Array` associated with `Index`, `'0'` otherwise.
 
 ### Config_Array_Remove
 
 #### Syntax:
 
-```rexx <!--configarrayremove.rexx-->
-Config_Array_At(Array, Index)
+```rexx <!--config-array-remove.rexx-->
+   Config_Array_Remove(Array, Index)
 ```
 
 where:
@@ -559,8 +553,8 @@ See <!--TODO-->nnn and <!--TODO-->nnn for a description of language features tha
 
 #### Syntax:
 
-```rexx <!--configcommand.rexx-->
-Config_Command(Environment, Command)
+```rexx <!--config-command.rexx-->
+   Config_Command(Environment, Command)
 ```
 
 where:
@@ -598,25 +592,20 @@ See <!--TODO-->nnn and <!--TODO-->nnn for a description of the language features
 
 #### Syntax:
 
-```rexx <!--configexternalroutine.rexx-->
-Config_ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Traps)
+```rexx <!--config-externalRoutine.rexx-->
+   Config_ExternalRoutine(How, NameType, Name, Environment, Arguments, Streams, Traps)
 ```
 
 where:
 
 * `How` is one of `'FUNCTION'` or `'SUBROUTINE'` and indicates how the external routine is to be
   invoked.
-
 * `NameType` is a specification of whether the name was provided as a symbol or as a string literal.
-  Name is the name of the routine to be invoked.
-
+* `Name` is the name of the routine to be invoked.
 * `Environment` is an environment value with the same components as on `API_Start`.
-
 * `Arguments` is a specification of the arguments to the routine, with the same components as on
-  API Start.
-
+  `API_Start`.
 * `Streams` is a specification of the default streams, with the same components as on `API_Start`.
-
 * `Traps` is the list of traps to be used in processing, with the same components as on `API_Start`.
 
 #### Semantics:
@@ -639,30 +628,30 @@ response is `'F'`. As a result `SYNTAX` condition `40.1` is raised implicitly.
 
 ### Config_ExternalMethod
 
-OOI has external classes explicitly via the `::CLASS abc EXTERNAL` mechanism. Analogy with classic would also
+_OOI has external classes explicitly via the `::CLASS abc EXTERNAL` mechanism. Analogy with classic would also
 allow the subject of `::REQUIRES` to be coded in non-Rexx. However `::REQUIRES` subject is coded, we need to
 gather in knowledge of its method names because of the search algorithm that determines which method is called.
 Hence reasonable that the ultimate external call is to a method. Perhaps combine `Config_ExternalRoutine` with
-`Config_ExternalMethod`.
+`Config_ExternalMethod`._
 
-There is a terminology clash on "environment". Perhaps easiest to change the classic to "address_environment".
-(And make it part of new "environment"?)
+_There is a terminology clash on "environment". Perhaps easiest to change the classic to "address_environment".
+(And make it part of new "environment"?)_
 
-There are terminology decisions to make about "files", "programs", and "packages". Possibly "program" is the thing
-you run (and we don't say what it means physically), "file" is a unit of scope (ROUTINEs in current file before those in
-REQUIREd), and "package" we don't use (since a software package from a shop would probably have several files
+_There are terminology decisions to make about "files", "programs", and "packages". Possibly "program" is the thing
+you run (and we don't say what it means physically), "file" is a unit of scope (`ROUTINE`s in current file before those in
+`REQUIRE`d), and "package" we don't use (since a software package from a shop would probably have several files
 but not everything to run a program.) Using "file" this way may not be too bad since we used "stream" rather than
-"tile" in the classic definition.
+"file" in the classic definition._
 
-The `How` parameter will need `'METHOD'` as a value. Should `API_Start` also allow `'METHOD'`. If we pass the new
-`Environment` we don't have to pass `Streams` separately.
+_The `How` parameter will need `'METHOD'` as a value. Should `API_Start` also allow `'METHOD'`. If we pass the new
+`Environment` we don't have to pass `Streams` separately._
 
-Text of `Config_ExternalMethod` waiting on such decisions.
+_Text of `Config_ExternalMethod` waiting on such decisions._
 
 #### Syntax:
 
-```rexx <!--configexternalmethod.rexx-->
-Config_ExternalMethod(How, NameType, Name, Environment, Arguments, Streams, Traps)
+```rexx <!--config-externalMethod.rexx-->
+   Config_ExternalMethod(How, NameType, Name, Environment, Arguments, Streams, Traps)
 ```
 
 where:
@@ -716,8 +705,8 @@ alterations the external data queue shall be an ordered list. `Config_Push` adds
 
 #### Syntax:
 
-```rexx <!--configpush.rexx-->
-Config_Push(String)
+```rexx <!--config-push.rexx-->
+   Config_Push(String)
 ```
 
 where:
@@ -733,8 +722,8 @@ item.
 
 #### Syntax:
 
-```rexx <!--configqueue.rexx-->
-Config_Queue(String)
+```rexx <!--config-queue.rexx-->
+   Config_Queue(String)
 ```
 
 where:
@@ -750,8 +739,8 @@ remove an item.
 
 #### Syntax:
 
-```rexx <!--configpull.rexx-->
-Config_Pull()
+```rexx <!--config-pull.rexx-->
+   Config_Pull()
 ```
 
 #### Semantics:
@@ -765,8 +754,8 @@ If no item could be retrieved the indicator of the completion response is `'F'`.
 
 #### Syntax:
 
-```rexx <!--configqueued.rexx-->
-Config_Queued()
+```rexx <!--config-queued.rexx-->
+   Config_Queued()
 ```
 
 #### Semantics:
@@ -818,8 +807,8 @@ names:
 
 #### Syntax:
 
-```rexx <!--configstreamcharin.rexx-->
-Config_Stream_Charin(Stream, OperationType)
+```rexx <!--config-stream-charin.rexx-->
+   Config_Stream_Charin(Stream, OperationType)
 ```
 
 where:
@@ -835,10 +824,8 @@ encountered. Increase `#Charin_Position.Stream` when the indicator will be `'N'`
 If `OperationType` is `'CHARIN'` the state variables describing the stream will be affected as follows:
 
 - when the configuration is able to provide data from a transient stream or the character at position
-#Charin_Position.Stream of a persistent stream then #Outcome shall be set to contain the data.
-
-The indicator of the response shall be 'N';
-
+  `#Charin_Position.Stream` of a persistent stream then `#Outcome` shall be set to contain the data.
+  The indicator of the response shall be 'N';
 - when the configuration is unable to return data because the read position is at the end of a
   persistent stream then the indicator of the response shall be 'O';
 - when the configuration is unable to return data from a transient stream because no data is
@@ -846,23 +833,23 @@ The indicator of the response shall be 'N';
 - otherwise the configuration is unable to return data and does not expect to be able to return data
   by waiting; the indicator of the response shall be 'E'.
   
-The data set in #Outcome will either be a single character or will be a sequence of eight characters,
-each '0' or '1'. The choice is decided by the configuration. The eight character sequence indicates a
+The data set in `#Outcome` will either be a single character or will be a sequence of eight characters,
+each `'0'` or `'1'`. The choice is decided by the configuration. The eight character sequence indicates a
 binary stream, see <!--TODO-->nnn.
 
-If OperationType is 'LINEIN' then the action is the same as if Operation had been 'CHARIN' with the
+If `OperationType` is `'LINEIN'` then the action is the same as if `Operation` had been `'CHARIN'` with the
 following additional possibility. If end-of-line is detected any character (or character sequence) which
 is an embedded indication of the end-of-line is skipped. The characters skipped contribute to the
-change of #Charin_Position.Stream. #Outcome is the null string.
+change of `#Charin_Position.Stream`. `#Outcome` is the null string.
 
-If OperationType is 'NULL' then the stream is accessed but no data is read.
+If `OperationType` is `'NULL'` then the stream is accessed but no data is read.
 
 ### Config_Stream_Position
 
 #### Syntax:
 
-```rexx <!--configstreamposition.rexx-->
-Config_Stream_Position(Stream, OperationType, Position)
+```rexx <!--config-stream-position.rexx-->
+   Config_Stream_Position(Stream, OperationType, Position)
 ```
 
 where:
@@ -894,8 +881,8 @@ completion response shall be `'T'`.
 
 #### Syntax:
 
-```rexx <!--configstreamcommand.rexx-->
-Config_Stream_Command(Stream, Command)
+```rexx <!--config-stream-command.rexx-->
+   Config_Stream_Command(Stream, Command)
 ```
 
 where:
@@ -914,8 +901,8 @@ command.
 
 #### Syntax:
 
-```rexx <!--configstreamstate.rexx-->
-Config_Stream_State(Stream)
+```rexx <!--config-stream-state.rexx-->
+   Config_Stream_State(Stream)
 ```
 
 where:
@@ -935,8 +922,8 @@ stream.
 
 #### Syntax:
 
-```rexx <!--configstreamcharout.rexx-->
-Config_Stream_Charout(Stream, Data)
+```rexx <!--config-stream-charout.rexx-->
+   Config_Stream_Charout(Stream, Data)
 ```
 
 where:
@@ -952,11 +939,11 @@ When `Data` is the null string, no data is written.
 
 Otherwise write to the stream. The state variables describing the stream will be affected as follows:
 
-- when the configuration is able to write Data to a transient stream or at position
+- when the configuration is able to write `Data` to a transient stream or at position
   `#Charout_Position.Stream` of a persistent stream then the indicator in the response shall be `'N'`.
-When `Data` is not `'EOL'` then `#Charout_Position.Stream` is increased by one. When Data is `'EOL'`,
-then `#Lineout_Position.Stream` is increased by one and `#Charout_Position.Stream` is increased as
-necessary to account for any end-of-line indication embedded in the stream;
+  When `Data` is not `'EOL'` then `#Charout_Position.Stream` is increased by one. When Data is `'EOL'`,
+  then `#Lineout_Position.Stream` is increased by one and `#Charout_Position.Stream` is increased as
+  necessary to account for any end-of-line indication embedded in the stream;
 
 - when the configuration is unable to write `Data` the indicator is set to `'E'`.
 
@@ -964,8 +951,8 @@ necessary to account for any end-of-line indication embedded in the stream;
 
 #### Syntax:
 
-```rexx <!--configstreamqualified.rexx-->
-Config_Stream_Qualified(Stream)
+```rexx <!--config-stream-qualified.rexx-->
+   Config_Stream_Qualified(Stream)
 ```
 
 where:
@@ -974,7 +961,7 @@ where:
 
 #### Semantics:
 
-Set `#Outcome` to some name which identifies Stream.
+Set `#Outcome` to some name which identifies `Stream`.
 
 Return a completion response with indicator `'B'` if the argument is not acceptable to the configuration
 as identifying a stream.
@@ -983,8 +970,8 @@ as identifying a stream.
 
 #### Syntax:
 
-```rexx <!--configstreamunique.rexx-->
-Config_Stream_Unique()
+```rexx <!--config-stream-unique.rexx-->
+   Config_Stream_Unique()
 ```
 
 #### Semantics:
@@ -996,8 +983,8 @@ a name that the configuration associates with any existing data.
  
 #### Syntax:
 
-```rexx <!--configstreamquery.rexx-->
-Config_Stream_Query(Stream)
+```rexx <!--config-stream-query.rexx-->
+   Config_Stream_Query(Stream)
 ```
 
 where:
@@ -1012,8 +999,8 @@ Set `#Outcome` to `'B'` if the stream is a binary stream, or to `'C'` if it is a
 
 #### Syntax:
 
-```rexx <!--configstreamclose.rexx-->
-Config_Stream_Close(Stream)
+```rexx <!--config-stream-close.rexx-->
+   Config_Stream_Close(Stream)
 ```
 
 where:
@@ -1032,8 +1019,8 @@ completion response shall be `'T'`.
 
 #### Syntax:
 
-```rexx <!--configstreamcount.rexx-->
-Config_Stream_Count(Stream, Operation, Option)
+```rexx <!--config-stream-count.rexx-->
+   Config_Stream_Count(Stream, Operation, Option)
 ```
 
 where:
@@ -1047,11 +1034,11 @@ where:
 If the option is `'N'`, `#Outcome` is set to zero if:
 
 - the file is transient and no more characters (or no more lines if the `Operation` is `'LINES'`) are
-expected to be available, even after waiting;
+  expected to be available, even after waiting;
 
-- the file is persistent and no more characters (or no more lines if the Operation is `'LINES'`) can be
-obtained from this stream by `Config_Stream_Charin` before use of some function which resets
-`#Charin_Position.Stream` and `#Linein_Position.Stream`.
+- the file is persistent and no more characters (or no more lines if the `Operation` is `'LINES'`) can be
+  obtained from this stream by `Config_Stream_Charin` before use of some function which resets
+  `#Charin_Position.Stream` and `#Linein_Position.Stream`.
 
 If the option is `'N'` and `#Outcome` is set nonzero, `#Outcome` shall be `1`, or be the number of characters
 (or the number of lines if `Operation` is `'LINES'`) which could be read from the stream before resetting.
@@ -1059,11 +1046,11 @@ If the option is `'N'` and `#Outcome` is set nonzero, `#Outcome` shall be `1`, o
 If the option is `'C'`, `#Outcome` is set to zero if:
 
 - the file is transient and no characters (or no lines if the `Operation` is `'LINES'`) are available without
-waiting;
+  waiting;
 
 - the file is persistent and no more characters (or no more lines if the `Operation` is `'LINES'`) can be
-obtained from this stream by `Config_Stream_Charin` before use of some function which resets
-`#Charin_Position.Stream` and `#Linein_Position.Stream`.
+  obtained from this stream by `Config_Stream_Charin` before use of some function which resets
+  `#Charin_Position.Stream` and `#Linein_Position.Stream`.
 
 If the option is `'C'` and `#Outcome` is set nonzero, `#Outcome` shall be the number of characters (or the
 number of lines if the `Operation` is `'LINES'`) which can be read from the stream without delay and
@@ -1088,19 +1075,18 @@ The configuration may permit the external variable pools to be altered in other 
 
 #### Syntax:
 
-```rexx <!--configget.rexx-->
-Config_Get(Poolid, Name)
+```rexx <!--config-get.rexx-->
+   Config_Get(Poolid, Name)
 ```
 
 where:
 
 * `Poolid` is an identification of the external variable pool.
-
 * `Name` is the name of a variable.
 
 #### Semantics:
 
-Get the value of a variable with name `Name` in the external variable pool `Poolid`. Set `Outcome` to this
+Get the value of a variable with name `Name` in the external variable pool `Poolid`. Set `#Outcome` to this
 value.
 
 If `Poolid` does not identify an external pool provided by this configuration, the indicator of the
@@ -1113,16 +1099,14 @@ is `'F'`.
 
 #### Syntax:
 
-```rexx <!--configset.rexx-->
-Config_Set(Poolid, Name, Value)
+```rexx <!--config-set.rexx-->
+   Config_Set(Poolid, Name, Value)
 ```
 
 where:
 
 * `Poolid` is an identification of the external variable pool.
-
 * `Name` is the name of a variable.
-
 * `Value` is the value to be assigned to the variable.
 
 #### Semantics:
@@ -1144,8 +1128,8 @@ which indicates choices decided by the configuration.
 
 #### Syntax:
 
-```rexx <!--configconstants.rexx-->
-Config_Constants()
+```rexx <!--config-constants.rexx-->
+   Config_Constants()
 ```
 
 #### Semantics:
@@ -1153,24 +1137,24 @@ Config_Constants()
 Set the values of the following state variables:
 
 - if there are any built-in functions which do not operate at `NUMERIC DIGITS 9`, then set variables
-`#Bif_Digits`. (with various tails which are the names of those built-in functions) to the values to be
-used;
+  `#Bif_Digits`. (with various tails which are the names of those built-in functions) to the values to be
+  used;
 
 - set variables `#Limit_Digits`, `#Limit_EnvironmentName`, `#Limit_ExponentDigits`, `#Limit_Literal`,
-`#Limit_Messagelnsert`, `#Limit_Name`, `#Limit_String`, `#Limit_TraceData` to the relevant limits. A
-configuration shall allow a `#Limit_Messagelnsert` value of `50` to be specified. A configuration shall
-allow a `#Limit_TraceData` value of `250` to be specified;
+  `#Limit_Messagelnsert`, `#Limit_Name`, `#Limit_String`, `#Limit_TraceData` to the relevant limits. A
+  configuration shall allow a `#Limit_Messagelnsert` value of `50` to be specified. A configuration shall
+  allow a `#Limit_TraceData` value of `250` to be specified;
 
 - set `#Configuration` to a string identifying the configuration;
 
 - set `#Version` to a string identifying the language processor. It shall have five words. Successive
-words shall be separated by a blank character. The first four letters of the first word shall be
-`'REXX'`. The second word shall be the four characters `'5.00'`. The last three words comprise a date.
-This shall be in the format which is the default for the `DATE()` built-in function.
+  words shall be separated by a blank character. The first four letters of the first word shall be
+  `'REXX'`. The second word shall be the four characters `'5.00'`. The last three words comprise a date.
+  This shall be in the format which is the default for the `DATE()` built-in function.
 
 - set `.nil` to a value which compares unequal with any other value that can occur in execution.
 
-- set `.local` `.kernel` `.system`?
+_set `.local` `.kernel` `.system`?_
 
 ## Configuration routines
 
@@ -1197,8 +1181,8 @@ The following functions shall be provided:
 
 #### Syntax:
 
-```rexx <!--configtracequery.rexx-->
-Config_Trace_Query()
+```rexx <!--config-trace-query.rexx-->
+   Config_Trace_Query()
 ```
 
 #### Semantics:
@@ -1210,8 +1194,8 @@ tracing is currently requested. Otherwise set `#Outcome` to `'No'`.
 
 #### Syntax:
 
-```rexx <!--configtraceinput.rexx-->
-Config_Trace_Input()
+```rexx <!--config-trace-input.rexx-->
+   Config_Trace_Input()
 ```
 
 #### Semantics:
@@ -1223,8 +1207,8 @@ configuration.
 
 #### Syntax:
 
-```rexx <!--configtraceoutput.rexx-->
-Config_Trace_Output(Line)
+```rexx <!--config-trace-output.rexx-->
+   Config_Trace_Output(Line)
 ```
 
 where:
@@ -1240,8 +1224,8 @@ the configuration.
 
 #### Syntax:
 
-```rexx <!--configdefaultinput.rexx-->
-Config_Default_Input()
+```rexx <!--config-default-input.rexx-->
+   Config_Default_Input()
 ```
 
 #### Semantics:
@@ -1252,8 +1236,8 @@ Set `#Outcome` to the value that `LINEIN()` would return.
 
 #### Syntax:
 
-```rexx <!--configdefaultoutput.rexx-->
-Config_Default_Output(Line)
+```rexx <!--config-default-output.rexx-->
+   Config_Default_Output(Line)
 ```
 
 where:
@@ -1268,8 +1252,8 @@ Write the string as a line in the manner of `LINEOUT( ,Line)`.
 
 #### Syntax:
 
-```rexx <!--configinitialization.rexx-->
-Config_Initialization()
+```rexx <!--config-initialization.rexx-->
+   Config_Initialization()
 ```
 
 #### Semantics:
@@ -1281,8 +1265,8 @@ return the response. An indicator of `'F'` gives rise to `Msg3.1`.
 
 #### Syntax:
 
-```rexx <!--configtermination.rexx-->
-Config_Termination()
+```rexx <!--config-termination.rexx-->
+   Config_Termination()
 ```
 
 #### Semantics:
@@ -1294,8 +1278,8 @@ return the response. An indicator of `'F'` gives rise to `Msg2.1`.
 
 #### Syntax:
 
-```rexx <!--confighaltquery.rexx-->
-Config_Halt_Query()
+```rexx <!--config-halt-query.rexx-->
+   Config_Halt_Query()
 ```
 
 #### Semantics:
@@ -1307,8 +1291,8 @@ if `HALT` is requested. Otherwise set `#Outcome` to `'No'`.
 
 #### Syntax:
 
-```rexx <!--confighaltreset.rexx-->
-Config_Halt_Reset()
+```rexx <!--config-halt-reset.rexx-->
+   Config_Halt_Reset()
 ```
 
 #### Semantics:
@@ -1319,8 +1303,8 @@ Reset the configuration so that further attempts to cause a `HALT` condition wil
 
 #### Syntax:
 
-```rexx <!--confignosource.rexx-->
-Config_NoSource()
+```rexx <!--config-noSource.rexx-->
+   Config_NoSource()
 ```
 
 #### Semantics:
@@ -1338,8 +1322,8 @@ A configuration shall allow any program to be processed in such a way that `Conf
 
 #### Syntax:
 
-```rexx <!--configtime.rexx-->
-Config_Time()
+```rexx <!--config-time.rexx-->
+   Config_Time()
 ```
 
 #### Semantics:
@@ -1358,8 +1342,8 @@ Set `#Adjust`<Index "#Adjust" #"" > to an integer number of microseconds. `#Adju
 
 #### Syntax:
 
-```rexx <!--configrandomseed.rexx-->
-Config_Random_Seed(Seed)
+```rexx <!--config-random-seed.rexx-->
+   Config_Random_Seed(Seed)
 ```
 
 where:
@@ -1375,14 +1359,13 @@ numbers.
 
 #### Syntax:
 
-```rexx <!--configrandomnext.rexx-->
-Config_Random_Next(Min, Max)
+```rexx <!--config-random-next.rexx-->
+   Config_Random_Next(Min, Max)
 ```
 
 where:
 
 * `Min` is the lower bound, inclusive, on the number returned in `#Outcome`.
-
 * `Max` is the upper bound, inclusive, on the number returned in `#Outcome`.
 
 #### Semantics:
@@ -1393,8 +1376,8 @@ Set `#Outcome` to a quasi-random nonnegative integer in the range `Min` to `Max`
 
 #### Syntax:
 
-```rexx <!--configoptions.rexx-->
-Config_Options(String)
+```rexx <!--config-options.rexx-->
+   Config_Options(String)
 ```
 
 where:
@@ -1440,7 +1423,7 @@ The names of the traps are
 
 ## Variable pool
 
-How does this fit with variables as properties?
+_How does this fit with variables as properties?_
 
 The variable pool interface consists of functions which the configuration shall provide to manipulate the
 variables and to obtain some characteristics of a Rexx program.
@@ -1449,7 +1432,7 @@ These functions can be called from programs not written in Rexx _ commands and e
 invoked from a Rexx program, or traps invoked from the language processor.
 
 All the functions comprising the variable pool interface shall return with an indication of whether an error
-occurred. They shall return indicating an error and have no other effect, if #API_Enabled has a value of '0'
+occurred. They shall return indicating an error and have no other effect, if `#API_Enabled` has a value of `'0'`
 or if the arguments to them fail to meet the defined syntactic constraints.
 
 These functions interact with the processing of clauses. To define this interaction, the functions are
@@ -1461,7 +1444,7 @@ uppercase and substitution in compound symbols occurs as it does for the left ha
 assignment. The symbol identifies the variable to be operated upon.
 
 Some of the functions have an argument which is a direct symbol. A direct symbol is a string. The content
-of this string shall meet the syntactic constraints of a VAR_SYMBOL in uppercase with no periods or it
+of this string shall meet the syntactic constraints of a _VAR_SYMBOL_ in uppercase with no periods or it
 shall be the concatenation of a part meeting the syntactic constraints of a stem in uppercase, and a part
 that is any string. In the former case the symbol identifies the variable to be operated upon. In the latter
 case the variable to be operated on is one with the specified stem and a tail which is the remainder of the
@@ -1469,17 +1452,18 @@ direct symbol.
 
 Functions that have an argument which is symbol or direct symbol shall return an indication of whether
 the identified variable existed before the function was executed.
+
 Clause <!--TODO-->nnn defines functions which manipulate Rexx variable pools. Where possible the functions
 comprising the variable pool interface are described in terms of the appropriate invocations of the
-functions defined in <!--TODO-->nnn. The first parameter on these calls is the state variable #Pool. If these Var_
-functions do not return an indicator 'N', 'R', or 'D' then the API function shall return an error indication.
+functions defined in <!--TODO-->nnn. The first parameter on these calls is the state variable `#Pool`. 
+If these `Var_` functions do not return an indicator `'N'`, `'R'`, or `'D'` then the `API` function shall return an error indication.
 
 ### API Set
 
 #### Syntax:
 
-```rexx <!--apiset.rexx-->
-API_Set(Symbol, Value)
+```rexx <!--config-api-set.rexx-->
+   API_Set(Symbol, Value)
 ```
 
 where:
@@ -1492,13 +1476,13 @@ where:
 Assign the value of `Value` to the variable identified by `Symbol`. If `Symbol` contains no periods or
 contains one period as its last character:
 
-```rexx <!--configvarsetzero.rexx-->
+```rexx <!--config-var-set-zero.rexx-->
 Var_Set(#Pool, Symbol, '0', Value)
 ```
 
 Otherwise:
 
-```rexx <!--configvarsetone.rexx-->
+```rexx <!--config-var-set-one.rexx-->
 Var_Set(#Pool, #Symbol, '1', Value)
 ```
 
@@ -1510,8 +1494,8 @@ where:
 
 #### Syntax:
 
-```rexx <!--apivalue.rexx-->
-API_Value(Symbol)
+```rexx <!--config-api-value.rexx-->
+   API_Value(Symbol)
 ```
 
 where:
@@ -1523,14 +1507,14 @@ where:
 Return the value of the variable identified by `Symbol`. If `Symbol` contains no periods or contains one
 period as its last character this is the value of `#Outcome` after:
 
-```rexx <!--configvarvaluezero.rexx-->
-Var_Value(#Pool, Symbol, '0')
+```rexx <!--config-var-value-zero.rexx-->
+   Var_Value(#Pool, Symbol, '0')
 ```
 
 Otherwise the value of `#Outcome` after:
 
-```rexx <!--configvarvalueone.rexx-->
-Var_Value(#Pool, #Symbol, '1')
+```rexx <!--config-var-value-one.rexx-->
+   Var_Value(#Pool, #Symbol, '1')
 ```
 
 where:
@@ -1541,8 +1525,8 @@ where:
 
 #### Syntax:
 
-```rexx <!--apidrop.rexx-->
-API_Drop(Symbol)
+```rexx <!--config-api-drop.rexx-->
+   API_Drop(Symbol)
 ```
 
 where:
@@ -1554,26 +1538,26 @@ where:
 Drop the variable identified by `Symbol`. If `Symbol` contains no periods or contains one period as its last
 character:
 
-```rexx <!--vardroppoolzero.rexx-->
-Var_Drop(#Pool, Symbol, '0')
+```rexx <!--config-var-drop-pool-zero.rexx-->
+   Var_Drop(#Pool, Symbol, '0')
 ```
 
 Otherwise:
 
-```rexx <!--vardroppoolone-->
-Var_Drop(#Pool, #Symbol, '1')
+```rexx <!--config-var-drop-pool-one-->
+   Var_Drop(#Pool, #Symbol, '1')
 ```
 
 where:
 
 `#Symbol` is `Symbol` after any replacements in the tail as described by <!--TODO-->nnn.
 
-### API SetDirect
+### API_SetDirect
 
 #### Syntax:
 
-```rexx <!--apisetdirect.rexx-->
-API_SetDirect(Symbol, Value)
+```rexx <!--config-api-setDirect.rexx-->
+   API_SetDirect(Symbol, Value)
 ```
 
 where:
@@ -1585,22 +1569,22 @@ where:
 
 Assign the value of `Value` to the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx <!--varpoolsymbolnoperiod.rexx-->
-Var_Set(#Pool, Symbol, '0', Value)
+```rexx <!--config-api-setDirect-symbol-noperiod.rexx-->
+   Var_Set(#Pool, Symbol, '0', Value)
 ```
 
 Otherwise:
 
-```rexx <!--varpoolsymbolperiod.rexx-->
-Var_Set(#Pool, Symbol, '1', Value)
+```rexx <!--config-api-setDirect-symbol-period.rexx-->
+   Var_Set(#Pool, Symbol, '1', Value)
 ```
 
 ### API_ValueDirect
 
 #### Syntax:
 
-```rexx <!--apivaluedirect.rexx-->
-API_ValueDirect(Symbol)
+```rexx <!--config-api-valueDirect.rexx-->
+   API_ValueDirect(Symbol)
 ```
 
 where:
@@ -1611,22 +1595,22 @@ where:
 
 Return the value of the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx <!--varpoolsemsymbolperiod.rexx-->
-Var_Value(#Pool, Symbol, '0')
+```rexx <!--config-api-valueDirect-symbol-noperiod.rexx-->
+   Var_Value(#Pool, Symbol, '0')
 ```
 
 Otherwise:
 
-```rexx <!--varpoolsemsymbolperiod.rexx-->
-Var_Value(#Pool, Symbol, '1')
+```rexx <!--config-api-valueDirect-symbol-period.rexx-->
+   Var_Value(#Pool, Symbol, '1')
 ```
 
-### API DropDirect
+### API_DropDirect
 
 #### Syntax:
 
-```rexx <!--apidropdirect.rexx-->
-API_DropDirect(Symbol)
+```rexx <!--config-api-dropDirect.rexx-->
+   API_DropDirect(Symbol)
 ```
 
 where:
@@ -1637,22 +1621,22 @@ where:
 
 Drop the variable identified by `Symbol`. If the `Symbol` contains no period:
 
-```rexx <!--configvardropnoperiod.rexx-->
-Var_Drop(#Pool, Symbol, '0')
+```rexx <!--config-var-drop-noperiod.rexx-->
+   Var_Drop(#Pool, Symbol, '0')
 ```
 
 Otherwise:
 
-```rexx  <!--configvardropperiod.rexx-->
-Var_Drop(#Pool, Symbol, '1')
+```rexx  <!--config-var-drop-period.rexx-->
+   Var_Drop(#Pool, Symbol, '1')
 ```
 
-### API ValueOther
+### API_ValueOther
 
 #### Syntax:
 
-```rexx <!--apivalueother.rexx-->
-API_ValueOther(Qualifier)
+```rexx <!--config-api-valueOther.rexx-->
+   API_ValueOther(Qualifier)
 ```
 
 where:
@@ -1665,44 +1649,41 @@ qualification.
 Return characteristics of the program, depending on the value of Qualifier. The possibilities for the
 value to be returned are:
 
-- the value of #Source;
+- the value of `#Source`;
+- the value of `#Version`;
+- the largest value of `n` such that `#ArgExists.1.n` is `'1'`, see <!--TODO-->nnn;
+- the value of `#Arg.1.n` where `n` is an integer value provided as input.
 
-- the value of #Version;
-
-- the largest value of n such that #ArgExists.1.n is '1', see <!--TODO-->nnn;
-
-- the value of #Arg.1.n where n is an integer value provided as input.
-
-### API Next
+### API_Next
 
 #### Syntax:
 
-```rexx <!--apinext.rexx-->
-API_Next()
+```rexx <!--config-api-next.rexx-->
+   API_Next()
 ```
 
 #### Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
-attribute 'dropped' or the attribute 'implicit' and is not a stem; alternatively return an indication that
-there is no suitable name to return. When API_Next is called it will return a name that has not
+attribute `'dropped'` or the attribute `'implicit'` and is not a stem; alternatively return an indication that
+there is no suitable name to return. When `API_Next` is called it will return a name that has not
 previously been returned; the order is undefined. This process of returning different names will restart
-whenever the Rexx processor executes Var_Reset.
+whenever the Rexx processor executes `Var_Reset`.
 
 ### API_NextVariable
 
 #### Syntax:
 
-```rexx <!--apinextvariable.rexx-->
-API_NextVariable()
+```rexx <!--config-api-nextVariable.rexx-->
+   API_NextVariable()
 ```
 
 #### Semantics:
 
 Returns both the name and the value of some variable in the variable pool that does not have the
-attribute 'dropped' or the attribute 'implicit'; alternatively, return an indication that there is no suitable name
+attribute `'dropped'` or the attribute `'implicit'`; alternatively, return an indication that there is no suitable name
 to return. When `API_NextVariable` is called it will return data about a variable that has not previously been
 returned; the order is undefined. This process of returning different names will restart whenever the Rexx
-processor executes Var_Reset. In addition to the name and value, an indication of whether the variable
-was 'tailed' will be returned.
+processor executes `Var_Reset`. In addition to the name and value, an indication of whether the variable
+was `'tailed'` will be returned.
 

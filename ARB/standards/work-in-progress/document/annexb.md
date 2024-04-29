@@ -26,21 +26,21 @@ configuration functions.
 Note that the mechanism of a returned string with a distinguishing first character is part of the notation
 used in this standard to explain the functions; implementations may use a different mechanism.
 
-## Notation for completion response and conditions
+## Annex to "Notation for completion response and conditions"
 
 The testing of `'X'` and `'S'` indicators is made implicit, for brevity. Even when written as a subroutine call,
 each use of a configuration routine implies the testing. Thus:
 
-```rexx <!--configtime.rexx-->
-call Config Time
+```rexx <!--annex-b-configtime.rexx-->
+   call Config_Time
 ```
 
 implies
 
 ```rexx <!--impliedconfigtime-->
-#Response = Config Time()
-if left (#Response,1) == 'X' then call #Raise 'SYNTAX', 5.1, substr (#Response, 2)
-if left (#Response,1) == 'S' then call #Raise 'SYNTAX', 48.1, substr(#Response, 2)
+   #Response = Config_Time()
+   if left(#Response,1) == 'X' then call #Raise 'SYNTAX', 5.1, substr(#Response, 2)
+   if left(#Response,1) == 'S' then call #Raise 'SYNTAX', 48.1, substr(#Response, 2)
 ```
 
 ## Source programs and character sets
@@ -74,9 +74,9 @@ existing standard have 274 as a prefix.
 
 We start with the data model from the first Standard - a number of variable pools. Two mechanisms, the
 external access of section 274.5.13 (`API_Drop` etc) and the internal of 274.7.1 (`Var_Drop` etc). Pools are
-numbered, with pool 0 reserved for reserved names (`.MN` etc) and pool N-1 being related to pool N as the
+numbered, with pool `0` reserved for reserved names (`.MN` etc) and pool `N-1` being related to pool `N` as the
 caller's pool. The symbols which index the pools are distinquished as tailed or non-tailed. The items in the
-pool have attributes 'exposed'', 'dropped', and 'implicit'. The values in the pools are string values.
+pool have attributes `'exposed'`, `'dropped'`, and `'implicit'`. The values in the pools are string values.
 
 An extra scope is used for 'state variables' used in the definition of the standard. These follow the same
 lookup rules in a conceptual and separate pool.

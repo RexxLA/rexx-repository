@@ -63,7 +63,7 @@ identifier | message identifier | bnf primary '+'
 ### Syntactic errors
 
 The syntax descriptions (see nnn and nnn) make use of _message_identifiers_ which are shown as
-Msgnn.nn or Msgnn, where nn is a number. These actions produce the correspondingly numbered error
+_Msgnn.nn_ or _Msgnn_, where _nn_ is a number. These actions produce the correspondingly numbered error
 messages (see nnn and nnn).
 
 ## Lexical
@@ -97,126 +97,137 @@ _- I would put _ASSIGN_ here for the leftmost `'='` in a clause that is not with
 happy with message term being an assignment?_
 
 #### Actions and tokens
+
 Mixed case identifiers with an initial capital letter cause an action when they appear as operands ina
 production. These actions perform further tests and create tokens for use by the top syntax level. The
 following actions are defined:
 
-- Special supplies the source recognized as special to the top syntax level;
+- _Special_ supplies the source recognized as _special_ to the top syntax level;
 
-- Eol supplies a semicolon to the top syntax level;
+- _Eol_ supplies a semicolon to the top syntax level;
 
-- Eos supplies an end of source indication to the top syntax level;
+- _Eos_ supplies an end of source indication to the top syntax level;
 
-- Var_symbol supplies the source recognized as Var_symbol to the top syntax level, as keywords or
-VAR_SYMBOL tokens, see nnn. The characters in a Var_symbol are converted by Config_Upper to
-uppercase. Msg30.1 shall be produced if Var_symbo/ contains more than #Limit_Name characters,
-see nnn;
+- _Var_symbol_ supplies the source recognized as _Var_symbol_ to the top syntax level, as keywords or
+  _VAR_SYMBOL_ tokens, see nnn. The characters in a _Var_symbol_ are converted by `Config_Upper` to
+  uppercase. _Msg30.1_ shall be produced if _Var_symbol_ contains more than `#Limit_Name` characters,
+  see nnn;
 
-- Const_symbol supplies the source recognized as Const_symbo! to the top syntax level. If itis a
-number it is passed as a NUMBER token, otherwise it is passed as a CONST_SYMBOL token. The
-characters in a Const_symbol are converted by Config_Upper to become the characters that comprise
-that NUMBER or CONST_SYMBOL. Msg30.1 shall be produced if Const_symbo! contains more than
-#Limit_Name characters;
+- _Const_symbol_ supplies the source recognized as _Const_symbol_ to the top syntax level. If it is a
+  number it is passed as a _NUMBER_ token, otherwise it is passed as a _CONST_SYMBOL_ token. The
+  characters in a _Const_symbol_ are converted by `Config_Upper` to become the characters that comprise
+  that _NUMBER_ or _CONST_SYMBOL_. _Msg30.1_ shall be produced if _Const_symbol_ contains more than
+  `#Limit_Name` characters;
 
-- Embedded_quotation_mark records an occurrence of two consecutive quotation marks within a
-string delimited by quotation marks for further processing by the String action;
+- _Embedded_quotation_mark_ records an occurrence of two consecutive quotation marks within a
+  string delimited by quotation marks for further processing by the _String_ action;
 
-- Embedded_apostrophe records an occurrence of two consecutive apostrophes within a string
-delimited by apostrophes for further processing by the String action;
+- _Embedded_apostrophe_ records an occurrence of two consecutive apostrophes within a string
+  delimited by apostrophes for further processing by the _String_ action;
 
-- String supplies the source recognized as String to the top syntax level as a STRING token. Any
-occurrence of Embedded_quotation_mark or Embedded_apostrophe is replaced by a single quotation
-mark or apostrophe, respectively. Msg30.2 shall be produced if the resulting string contains more than
-#Limit_Literal characters;
+- _String_ supplies the source recognized as _String_ to the top syntax level as a _STRING_ token. Any
+  occurrence of _Embedded_quotation_mark_ or _Embedded_apostrophe_ is replaced by a single quotation
+  mark or apostrophe, respectively. _Msg30.2_ shall be produced if the resulting string contains more than
+  `#Limit_Literal` characters;
 
-- Binary_string supplies the converted binary string to the top syntax level as a STRING token, after
-checking conformance to the binary_string syntax. If the binary_string does not contain any
-occurrence of a binary_digit, a string of length 0 is passed to the top syntax level. The occurrences of
-binary_digit are concatenated to form a number in radix 2. Zero or 4 digits are added at the left if
-necessary to make the number of digits a multiple of 8. If the resulting number of digits exceeds 8
-times #Limit_Literal then Msg30.2 shall be produced. The binary digits are converted to an encoding,
-see nnn. The encoding is supplied to the top syntax level as a STRING token;
+- _Binary_string_ supplies the converted binary string to the top syntax level as a _STRING_ token, after
+  checking conformance to the _binary_string_ syntax. If the _binary_string_ does not contain any
+  occurrence of a _binary_digit_, a string of length 0 is passed to the top syntax level. The occurrences of
+  _binary_digit_ are concatenated to form a number in radix 2. Zero or 4 digits are added at the left if
+  necessary to make the number of digits a multiple of 8. If the resulting number of digits exceeds 8
+  times `#Limit_Literal` then _Msg30.2_ shall be produced. The binary digits are converted to an encoding,
+  see nnn. The encoding is supplied to the top syntax level as a _STRING_ token;
 
-- Hex_string supplies the converted hexadecimal string to the top syntax level as a STRING token,
-after checking conformance to the hex_string syntax. If the hex_string does not contain any
-occurrence of a hex_digit, a string of length 0 is passed to the top syntax level. The occurrences of
-hex_digit are each converted to a number with four binary digits and concatenated. 0 to 7 digits are
-added at the left if necessary to make the number of digits a multiple of 8. If the resulting number of
-digits exceeds 8 times #Limit_Literal then Msg30.2 shall be produced. The binary digits are converted
-to an encoding. The encoding is supplied to the top syntax level as a STRING token;
+- _Hex_string_ supplies the converted hexadecimal string to the top syntax level as a _STRING_ token,
+  after checking conformance to the _hex_string_ syntax. If the _hex_string_ does not contain any
+  occurrence of a _hex_digit_, a string of length 0 is passed to the top syntax level. The occurrences of
+  _hex_digit_ are each converted to a number with four binary digits and concatenated. 0 to 7 digits are
+  added at the left if necessary to make the number of digits a multiple of 8. If the resulting number of
+  digits exceeds 8 times `#Limit_Literal` then _Msg30.2_ shall be produced. The binary digits are converted
+  to an encoding. The encoding is supplied to the top syntax level as a _STRING_ token;
 
-- Operator supplies the source recognized as Operator (excluding characters that are not
-operator_char ) to the top syntax level. Any occurrence of an ofher_negator within Operator is
-supplied as '\';
+- _Operator_ supplies the source recognized as _Operator_ (excluding characters that are not
+  _operator_char_ ) to the top syntax level. Any occurrence of an _other_negator_ within _Operator_ is
+  supplied as `'\'`;
 
-- Blank records the presence of a blank. This may subsequently be tested (see nnn).
-Constructions of type Number, Const_symbol, Var_symbol or String are called operands.
-6.2.1.3 Source characters
-The source is obtained from the configuration by the use of Config_SourceChar (see nnn). If no character
-is available because the source is not a correct encoding of characters, message Msg22.1 shall be
+- _Blank_ records the presence of a blank. This may subsequently be tested (see nnn).
+  
+Constructions of type _Number_, _Const_symbol_, _Var_symbol_ or _String_ are called operands.
+
+#### Source characters
+
+The source is obtained from the configuration by the use of `Config_SourceChar` (see nnn). If no character
+is available because the source is not a correct encoding of characters, message _Msg22.1_ shall be
 produced.
-The terms extra_letter, other_blank_character, other_negator, and other_character used in the
-productions of the lexical level refer to characters of the groups extra_letters (see nnn),
 
-other_blank_characters (see nnn), other_negators (see nnn) and other_characters (see nnn),
+The terms _extra_letter_, _other_blank_character_, _other_negator_, and _other_character_ used in the
+productions of the lexical level refer to characters of the groups _extra_letters_ (see nnn),
+_other_blank_characters_ (see nnn), _other_negators_ (see nnn) and _other_characters_ (see nnn),
 respectively.
 
 #### Rules
 
 In scanning, recognition that causes an action (see nnn) only occurs if no other recognition is possible,
-except that Embedded_apostrophe and Embedded_quotation_mark actions occur wherever possible.
+except that _Embedded_apostrophe_ and _Embedded_quotation_mark_ actions occur wherever possible.
 
 ### Lexical level
 
 ### Interaction between levels of syntax
 When the lexical process recognizes tokens to be supplied to the top level, there can be changes made
-or tokens added. Recognition is performed by the lexical process and the top level process ina
+or tokens added. Recognition is performed by the lexical process and the top level process in a
 synchronized way. The tokens produced by the lexical level can be affected by what the top level syntax
 has recognized. Those tokens will affect subsequent recognition by the top level. Both processes operate
 on the characters and the tokens in the order they are produced. The term "context" refers to the
 progress of the recognition at some point, without consideration of unprocessed characters and tokens.
-If a token which is '+', '-', \' or '(' appears in a lexical level context (other than after the keyword 'PARSE')
-where the keyword 'VALUE' could appear in the corresponding top level context, then 'VALUE' is passed
+
+If a token which is `'+'`, `'-'`, `'\'` or `'('` appears in a lexical level context (other than after the keyword `'PARSE'`)
+where the keyword `'VALUE'` could appear in the corresponding top level context, then `'VALUE'` is passed
 to the top level before the token is passed.
-If an '=' operator_char appears in a lexical level context where it could be the '=' of an assignment or
-message_instruction in the corresponding top level context then it is recognized as the '="' of that
-instruction. (It will be outside of brackets and parentheses, and any Var_symbo/ immediately preceding it
-is passed as a VAR_SYMBOL). If an operand is followed by a colon token in the lexical level context then
-the operand only is passed to the top level syntax as a LABEL, provided the context permits a LABEL.
-Except where the rules above determine the token passed, a Var_symbol is passed as a terminal (a
-keyword) rather than as a VAR_SYMBOL under the following circumstances:
 
-- if the symbol is spelled 'WHILE' or 'UNTIL' it is a keyword wherever a VAR_SYMBOL would be part
-of an expression within a do_specification,
+If an `'='` _operator_char_ appears in a lexical level context where it could be the `'='` of an _assignment_ or
+_message_instruction_ in the corresponding top level context then it is recognized as the `'='` of that
+instruction. (It will be outside of brackets and parentheses, and any _Var_symbol_ immediately preceding it
+is passed as a _VAR_SYMBOL_). If an operand is followed by a colon token in the lexical level context then
+the operand only is passed to the top level syntax as a _LABEL_, provided the context permits a _LABEL_.
 
-- if the symbol is spelled 'TO' , 'BY', or 'FOR' it is a keyword wherever a VAR_SYMBOL would be part
-of an expression within a do_rep;
+Except where the rules above determine the token passed, a _Var_symbol_ is passed as a terminal (a
+keyword) rather than as a _VAR_SYMBOL_ under the following circumstances:
 
-- if the symbol is spelled 'WITH' it is a keyword wherever a VAR_SYMBOL would be part of a
-parsevalue, or part of an expression or taken_constant within address;
+- if the symbol is spelled `'WHILE'` or `'UNTIL'` it is a keyword wherever a _VAR_SYMBOL_ would be part
+  of an expression within a _do_specification_,
 
-- if the symbol is spelled 'THEN' it is keyword wherever a VAR_SYMBOL would be part of an
-expression immediately following the keyword 'IF' or 'WHEN'.
-Except where the rules above determine the token passed, a Var_symbol is passed as a keyword if the
+- if the symbol is spelled `'TO'`, `'BY'`, or `'FOR'` it is a keyword wherever a _VAR_SYMBOL_ would be part
+  of an expression within a _do_rep_;
+
+- if the symbol is spelled `'WITH'` it is a keyword wherever a _VAR_SYMBOL_ would be part of a
+  _parsevalue_, or part of an _expression_ or _taken_constant_ within _address_;
+
+- if the symbol is spelled `'THEN'` it is keyword wherever a _VAR_SYMBOL_ would be part of an
+  _expression_ immediately following the keyword `'IF'` or `'WHEN'`.
+
+Except where the rules above determine the token passed, a _Var_symbol_ is passed as a keyword if the
 spelling of it matches a keyword which the top level syntax recognizes in its current context, otherwise the
-Var_symbol is passed as a VAR_SYMBOL token.
-In a context where the top level syntax could accept a '||' token as the next token, a'||' operator ora''
+_Var_symbol_ is passed as a _VAR_SYMBOL_ token.
+
+In a context where the top level syntax could accept a `'||'` token as the next token, a `'||'` operator or a `''`
 operator may be inferred and passed to the top level provided that the next token from the lexical level is
 a left parenthesis or an operand that is not a keyword. If the blank action has recorded the presence of
-one or more blanks to the left of the next token then the '' operator is inferred. Otherwise, a'||' operator is
-inferred, except if the next token is a left parenthesis following an operand (see nnn); in this case no
+one or more blanks to the left of the next token then the `''` operator is inferred. Otherwise, a `'||'` operator is
+inferred, except if the next token is a left parenthesis following an _operand_ (see nnn); in this case no
 operator is inferred.
-When any of the keywords 'OTHERWISE', 'THEN', or 'ELSE' is recognized, a semicolon token is supplied
-as the following token. A semicolon token is supplied as the previous token when the 'THEN' keyword is
-recognized. A semicolon token is supplied as the token following a LABEL.
+
+When any of the keywords `'OTHERWISE'`, `'THEN'`, or `'ELSE'` is recognized, a semicolon token is supplied
+as the following token. A semicolon token is supplied as the previous token when the `'THEN'` keyword is
+recognized. A semicolon token is supplied as the token following a _LABEL_.
 
 #### Reserved symbols
 
-A Const_symbol which starts with a period and is not a Number shall be spelled .MN, .RESULT, .RC,
-.RS, or .SIGL otherwise Msg50.1 is issued.
+A _Const_symbol_ which starts with a period and is not a _Number_ shall be spelled `.MN`, `.RESULT`, `.RC`,
+`.RS`, or `.SIGL` otherwise _Msg50.1_ is issued.
 
 #### Function name syntax
-A symbol which is the leftmost component of a function shall not end with a period, otherwise Msg51.1 is
+
+A _symbol_ which is the leftmost component of a _function_ shall not end with a period, otherwise _Msg51.1_ is
 issued.
 
 ## Syntax
@@ -230,15 +241,15 @@ The tokens generated by the actions described in nnn form the basis for recogniz
 starter:=x3j18
 x3j18:=program Eos | Msg35.1
 program   := [label_list] [ncl] [requires+] [prolog_instruction+]
-                 (class definition [requires+])+
-  requires          :=  'REQUIRES' ( taken constant | Msg19.8 ) ';'+
+                 (class_definition [requires+])+
+  requires          :=  'REQUIRES' ( taken_constant  |  Msg19.8 ) ';'+
   prolog_instruction:= (package | import | options) ncl
     package         := 'PACKAGE'( NAME | Msgnn )
     import          := 'IMPORT' ( NAME | Msgnn ) ['.']
     options         := 'OPTIONS' ( symbol+ | Msgnn )
     ncl   := null_clause+ | Msg21.1
       null_clause   := ';' [label_list]
-         label_list = (LABEL ';')+
+        label_list  := (LABEL ';')+
 class_definition    := class [property_info] [method_definition+]
   class             := 'CLASS' ( taken_constant | Msg19.12 ) [class_option+]
                        ['INHERIT' ( taken_constant | Msg19.13 )+] ncl
@@ -252,7 +263,7 @@ class_definition    := class [property_info] [method_definition+]
     submix          := 'MIXINCLASS' ( taken_constant | Msg19.16 )
                        | 'SUBCLASS' ( taken_constant | Msg19.17 )
     visibility      := 'PUBLIC' | 'PRIVATE'
-    modifier        := 'ABSTRACT' | 'FINAL' | 'INTERFACE' | 'ADAPTER'!
+    modifier        :=  'ABSTRACT' | 'FINAL' | 'INTERFACE' | 'ADAPTER'!
     NAMElist        := NAME [(',' ( NAME | Msgnn ) )+]
   property_info     := numeric | property_assignment | properties | trace
     numeric         := 'NUMERIC' (numeric_digits | numeric_form | Msg25.15)
@@ -270,7 +281,7 @@ method_definition   := (method [expose ncl]| routine)
   expose            := 'EXPOSE' variable_list
   method            := 'METHOD' (taken_constant | Msg19.9)
                       [ '(' assigncommalist | Msgnn ( ')' | Msgnn )]
-                      [method_option+] nel
+                      [method_option+] ncl
     assigncommalist := assignment [(',' ( assignment | Msgnn ) )+]
     method_option   := method_visibility | method_modifier | 'PROTECT'
                     | 'RETURNS' ( term | Msgnn )
@@ -310,7 +321,7 @@ group             := do ncl | if | loop ncl | select ncl
   conditional     := 'WHILE' whileexpr | 'UNTIL' untilexpr
     untilexpr     := expression
     whileexpr     := expression
-  repetitor       := assignment [count option+] | expression | over |
+  repetitor       := assignment [count_option+] | expression | over |
 'FOREVER'
     count_option  := loopt | loopb | loopf
       loopt       := 'TO' expression
@@ -322,7 +333,7 @@ group             := do ncl | if | loop ncl | select ncl
 select            := 'SELECT' [group_option+] ncl select_body [group_handler]
                   ('END' [NAME Msg10.4] | EOS Msgl14.2 | Msg7.2)
     select_body   := (when | Msg7.1) [when+] [otherwise]
-      when        := 'WHEN' expresgion [ncl] (then | Msg18.2)
+      when        := 'WHEN' expression [ncl] (then | Msg18.2)
       otherwise   := 'OTHERWISE' ncl [instruction+]
 
 /* Third part is for single instructions. */
@@ -331,7 +342,7 @@ single_instruction:= assignment | message_instruction | keyword_instruction
   assignment      := VAR SYMBOL '#' expression
                   | NUMBER '#' Msg31.1
                   | CONST_SYMBOL '#' (Msg31.2 | Mgg31.3)
-  message_instruction := message_term | message:term '#' expression
+  message_instruction := message_term | message_term '#' expression
   keyword_instruction:= address | arg | call | drop | exit
                   | interpret | iterate | leave
                   | nop | numeric | options
@@ -356,8 +367,8 @@ address           := 'ADDRESS' [(taken_constant [expression]
 resources         := 'STREAM' (VAR_SYMBOL | Msg53.1)
                   | 'STEM' (VAR_SYMBOL | Msg53.2)
   vref            := '(' var_symbol (')' | Msg46.1)
-    var:symbol    := VAR_SYMBOL | Msg20.1
-arg               := 'ARG' [template list]
+    var_symbol    := VAR_SYMBOL | Msg20.1
+arg               := 'ARG' [template_list]
 call              := 'CALL' (callon_spec |
                   (taken_constant | vref | Msg19.2) [expression_list] )
   callon_spec     := 'ON' (callable_condition | Msg25.1)
@@ -368,8 +379,8 @@ call              := 'CALL' (callon_spec |
                   | 'USER' ( symbol_constant_term | Msg19.18 )
     condition     := callable_condition | 'LOSTDIGITS'
                   | 'NOMETHOD' | 'NOSTRING' | 'NOVALUE' | 'SYNTAX'
-  expression_list := expr | [expr] ',' [expression list]
-do_specification  := do simple | do repetitive
+  expression_list := expr | [expr] ',' [expression_list]
+do_specification  := do_simple | do_repetitive
   do_simple       := 'DO' [group_option+]
   do_repetitive   := do_simple (dorep | conditional | dorep conditional)
     dorep         := 'FOREVER' | repetitor
@@ -392,7 +403,7 @@ iterate           := 'ITERATE' [VAR SYMBOL | Msg20.2]
 leave             := 'LEAVE' [VAR SYMBOL | Msg20.2]
 nop               := 'NOP'
 numeric           := 'NUMERIC' (numeric_digits | numeric_form
-                  | numeric fuzz | Msg25.15)
+                  | numeric_fuzz | Msg25.15)
   numeric_digits  := 'DIGITS' [expression]
   numeric_form    := 'FORM' [numeric_form_suffix]
     numeric_form_suffix:=('ENGINEERING' |'SCIENTIFIC'|valueexp | Msg25.11)
@@ -443,7 +454,7 @@ template_list     := template | [template] ',' [template_list]
    trigger        := pattern | positional
      pattern      := STRING | vrefp
        vrefp      := '(' (VAR_SYMBOL | Msg19.7) (')' | Msg46.1)
-     positional   := absolute positional | relative positional
+     positional   := absolute_positional | relative_positional
        absolute_positional:= NUMBER | '=' position
          position := NUMBER | vrefp | Msg38.2
      relative_positional:= ('+' | '-') position
@@ -486,39 +497,39 @@ power_expression  := prefix_expression
       message_term:= term ('~' | '~~') method_name [arguments]
                   | term '['[ expression_list ] (']' | Msg36.2)
 
-        method_name:=(taken constant | Msg19.19)
+        method_name:=(taken_constant | Msg19.19)
                          [':' ( VAR_SYMBOL | Msg19.21 )]
 /* Method-call without arguments is syntactically like symbol. */
 /* Editor - not sure of my notes about here. */
 invoke       := (symbol | STRING) arguments
-  arguments       := '#(' [expression list] (')' | Msg36)
+  arguments       := '#(' [expression_list] (')' | Msg36)
     expression_list := expression | [expression] ',' [expression_list]
 indexed           := (symbol | STRING) indices
-  indices         := '#[' [expression list] (']' | Msg36.n)
-initializer       := '['expression list (']' | Msg36.n)
+  indices         := '#[' [expression_list] (']' | Msg36.n)
+initializer       := '['expression_list (']' | Msg36.n)
 ```
 
 ## Syntactic information
 
 ### VAR_SYMBOL matching
 
-Any `VAR_SYMBOL` in a _do_ending_ must be matched by the same `VAR_SYMBOL` occurring at the start
+Any `VAR_SYMBOL` in a _do_ending_ must be matched by the same _VAR_SYMBOL_ occurring at the start
 of an _assignment_ contained in the _do_specification_ of the _do_ that contains 
 both the _do_specification_ and the _do_ending_, as described in nnn.
 
 If there is a _VAR_SYMBOL_ in a _do_ending_ for which there is no _assignment_ in the corresponding
-_do_specification_ then message Msg10.3 is produced and no further activity is defined.
+_do_specification_ then message _Msg10.3_ is produced and no further activity is defined.
 
-If there is a :VAR_SYMBOL_ in a _do_ending_ which does not match the one occurring in the _assignment_
-then message Msg10.2 is produced and no further activity is defined.
+If there is a _VAR_SYMBOL_ in a _do_ending_ which does not match the one occurring in the _assignment_
+then message _Msg10.2_ is produced and no further activity is defined.
 
 An _iterate_ or _leave_ must be contained in the _instruction_list_ of some _do_ 
-with a _do_specification_ which is _do_repetitive_, otherwise a message (Msg28.2 or Msg28.1 respectively)
+with a _do_specification_ which is _do_repetitive_, otherwise a message (_Msg28.2_ or _Msg28.1_ respectively)
 is produced and no further activity is defined.
 
 If an _iterate_ or _leave_ contains a _VAR_SYMBOL_ there must be a matching _VAR_SYMBOL_ in a
-_do_specification_, otherwise a message (Msg28.1, Msg28.2, Msg28.3 or Msg28.4 appropriately) is
-produced and no further activity is defined. The matching `VAR_SYMBOL` will occur at the start of an
+_do_specification_, otherwise a message (_Msg28.1_, _Msg28.2_, _Msg28.3_ or _Msg28.4_ appropriately) is
+produced and no further activity is defined. The matching _VAR_SYMBOL_ will occur at the start of an
 _assignment_ in the _do_specification_. Tne _do_specification_ will be associated with a _do_ by nnn. 
 The _iterate_ or _leave_ will be a single _instruction_ in an _instruction_list_ associated 
 with a _do_ by nnn. These two dos shall be the same, or the latter nested one or more levels
@@ -563,7 +574,7 @@ _Msg36_, _Msg38.3_, _Msg35.1_, other messages.
 
 ### Creation of messages
 
-The _message_identifiers_ in clause 6 correlate with the tails of stem #ErrorText., which is initialized in nnn
+The _message_identifiers_ in clause 6 correlate with the tails of stem `#ErrorText.`, which is initialized in nnn
 to identify particular messages. The action of producing an error message will replace any insertions in
 the message text and present the resulting text, together with information on the origin of the error, to the
 configuration by writing on the default error stream.
@@ -612,13 +623,10 @@ required syntax. The number is a count of the characters in the string which pre
 character, including the initial quote or apostrophe. In deciding the leftmost blank in a quoted string of
 radix `'X'` or `'B'` that is erroneous note that:
 
-    * A blank as the first character of the quoted string is an error.
-      
+    * A blank as the first character of the quoted string is an error.     
     * The leftmost embedded sequence of blanks can validly follow any number of non-blank characters.
-
     * Otherwise a blank run that follows an odd numbered sequence of non-blanks (or a number not a
       multiple of four in the case of radix `'B'`) is not valid.
-
     * If the string is invalid for a reason not described above, the leftmost blank of the rightmost sequence of
       blanks is the invalid blank to be referenced in the message;
 
@@ -639,7 +647,7 @@ the message, the three characters `'...'` are inserted in the message after the 
 
 ## Syntactic equivalence
 
-If a message_term contains a `'['` it is regarded as an equivalent message_term without a `'['`, for execution.
+If a _message_term_ contains a `'['` it is regarded as an equivalent _message_term_ without a `'['`, for execution.
 The equivalent is `term~'[]'(expression_list)`. See nnn. If a _message_instruction_ has the construction
 `message_term '=' expression` it is regarded as equivalent to a _message_term_ with the same components
 as the _message_term_ left of the `'='`, except that the _taken_constant_ has an `'='` character appended and

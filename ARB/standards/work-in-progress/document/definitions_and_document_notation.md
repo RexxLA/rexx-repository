@@ -62,7 +62,7 @@ indicate the structure of the program. Directives may also be written with the t
 
 dropped
 : A symbol which is in an unitialized state, as opposed to having had a value assigned to it, is
-described as dropped. The names in a variable pool have an attribute of 'dropped' or 'not-dropped'.
+described as dropped. The names in a variable pool have an attribute of `'dropped'` or `'not-dropped'`.
 
 encoding
 : The relation between a character string and a corresponding number. The encoding of character
@@ -115,7 +115,7 @@ identifier
 
 implicit variable
 : A tailed variable which is in a variable pool solely as a result of an operation on its stem. The names
-in a variable pool have an attribute of 'implicit' or 'not-implicit'.
+in a variable pool have an attribute of `'implicit'` or `'not-implicit'`.
 
 instruction
 : One or more clauses that describe some course of action to be taken by the language processor.
@@ -175,7 +175,7 @@ subcode
 
 subroutine
 : An internal, built-in, or external routine that may or may not return a result string and is invoked by the
-CALL instruction. If it returns a result string the subroutine can also be invoked by a function call,
+`CALL` instruction. If it returns a result string the subroutine can also be invoked by a function call,
 in which case it is being called as a function.
 
 symbol

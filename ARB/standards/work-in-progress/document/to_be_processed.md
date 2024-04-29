@@ -67,14 +67,13 @@ executing methods against that object.
 This rule provides sensible synchronization without much effort from the programmer but other controls
 may be provided:
 
-a) Stronger control, eg only one cursor within the methods of a set of objects.
-
-b) More detailed control, eg division of a method into sections which allow/disallow other cursors into the
+1.  Stronger control, eg only one cursor within the methods of a set of objects.
+2.  More detailed control, eg division of a method into sections which allow/disallow other cursors into the
 section.
 
 Extended Variable Pools. The API for variable pools will need to be extended to reflect the model in
 which the named content in a pool is always a reference (and the reference is followed when the value of
-a string is required.) We note that OO! adopts a convention that names starting with '!' (shriek) name
+a string is required.) We note that OOI adopts a convention that names starting with '!' (shriek) name
 objects that are not intended for access by the coder. These objects will not be standardized. Additionally
 some objects without shriek names are not candidates for standardising, eg `.SYSTEM`, `.KERNEL`.
 
@@ -228,12 +227,12 @@ API. (In practice OOI has a restriction to executing the API only on the 'main' 
 needs to know if this is due to a generally applicable difficulty.)
 
 The committee considered the relevance of IBM's "Object Rexx Programming Guide" G25H-7597-1 to the
-Configuration section of the standard. The material there in Appendix A under headings External
-Function Interface, System Exit Interface, and Variable Pool Interface was deemed material for inclusion,
+Configuration section of the standard. The material there in _Appendix A_ under headings _External
+Function Interface_, _System Exit Interface_, and _Variable Pool Interface_ was deemed material for inclusion,
 and the rest not. This is similar to the first standard, although there will be an extra trap, for method calls.
-The committee considered the relevance of the STREAM section of IBM's "Object Rexx Reference",
+The committee considered the relevance of the `STREAM` section of IBM's "Object Rexx Reference",
 G25H-7598-0. That stream class brings into the language more I/O than the original Rexx, eg an explicit
-CLOSE. The new standard will partially follow this trend also.
+`CLOSE`. The new standard will partially follow this trend also.
 
 `PEEK` on queue unnecessary - same as `AT[1]`?
 

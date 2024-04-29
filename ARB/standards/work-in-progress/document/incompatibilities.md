@@ -12,12 +12,15 @@ incompatibility is rare.
 Also something in condition handling that I don't know the reason for.
 
 ## Call
+
 The call instruction has been extended to allow for a computed name of the callee. Syntax
 considerations prevent a similar thing being done for functions.
 
 ## Concurrency
-Meet 17 minutes
+
+_Meet 17 minutes_
 
 ## Guard
-Meet 17 minutes
+
+_Meet 17 minutes_
 
