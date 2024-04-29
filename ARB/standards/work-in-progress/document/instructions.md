@@ -51,7 +51,7 @@ do t=1 to 7
   end t
 ```
 
-If this invocation is not caused by a condition occurring, see nnn, the state variables for the CONDITION built-in function are copied.
+If this invocation is not caused by a condition occurring, see <!--TODO-->nnn, the state variables for the CONDITION built-in function are copied.
 
 ```rexx <!--conditionlevel.rexx-->
 #Condition.#NewLevel = #Condition.#Level
@@ -81,7 +81,7 @@ The time of the first use of DATE or TIME will be retained throughout the clause
 #ClauseTime.#Level = ''
 ```
 
-The state variable ``#LineNumber`` is set to the line number of the clause, see nnn.
+The state variable ``#LineNumber`` is set to the line number of the clause, see <!--TODO-->nnn.
 
 A clause other than a null clause or label or procedure instruction sets:
 
@@ -192,7 +192,7 @@ end
 
 ### ADDRESS
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 An external environment to which commands can be submitted is identified by an environment name.
 Environment names are specified in the ADDRESS instruction to identify the environment to which a
@@ -263,7 +263,7 @@ Addrinstr:
     return
     end
 
- call CommandIssue Command /* See nnn */
+ call CommandIssue Command /* See <!--TODO-->nnn */
 
  return /* From Addrinstr */
 
@@ -297,7 +297,7 @@ AddressSetup:
      if #Contains (resourcei, 'STEM') then do
        #Env_Type.I.EnvTail = 'STEM'
        Temp=#Instance (resourcei,VAR_SYMBOL)
-       if \#Parses(Temp, stem /* See nnn */) then
+       if \#Parses(Temp, stem /* See <!--TODO-->nnn */) then
          call #Raise 'SYNTAX', 53.3, Temp
        #Env_Resource.I.EnvTail=Temp
        end
@@ -324,7 +324,7 @@ NoteTarget:
   if #Contains(resourceo,'STEM') then do
     #Env_Type.Which.EnvTail='STEM'
     Temp=#Instance (resourceo, VAR_SYMBOL)
-    if \#Parses(Temp, stem /* See nnn */) then
+    if \#Parses(Temp, stem /* See <!--TODO-->nnn */) then
       call #Raise 'SYNTAX', 53.3, Temp
     #Env_Resource.Which.EnvTail=Temp
     end
@@ -351,17 +351,17 @@ redirections. */
 
 ### ARG
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The ARG instruction is a shorter form of the equivalent instruction:  
 `PARSE UPPER ARG`_`template list`_
 
 ### Assignment
 
-Assignment can occur as the result of executing a clause containing an assignment (see nnn and nnn),
+Assignment can occur as the result of executing a clause containing an assignment (see <!--TODO-->nnn and <!--TODO-->nnn),
 or as a result of executing the VALUE built-in function, or as part of the execution of a PARSE instruction.
 Assignment involves an _expression_ and a _VAR_SYMBOL_. The value of the _expression_ is determined;
-see nnn.
+see <!--TODO-->nnn.
 
 If the _VAR_SYMBOL_ does not contain a period, or contains only one period as its last character, the
 value is associated with the _VAR_SYMBOL_:
@@ -370,7 +370,7 @@ value is associated with the _VAR_SYMBOL_:
 call Var_Set #Pool,VAR SYMBOL, '0',Value
 ```
 
-Otherwise, a name is derived, see nnn. The value is associated with the derived name:
+Otherwise, a name is derived, see <!--TODO-->nnn. The value is associated with the derived name:
 
 ```rexx <!--assignmentvarpoolone.rexx-->
 call Var_Set #Pool,Derived Name,'1',Value
@@ -378,7 +378,7 @@ call Var_Set #Pool,Derived Name,'1',Value
 
 ### CALL
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The CALL instruction is used to invoke a routine, or is used to control trapping of conditions.
 
@@ -396,7 +396,7 @@ if #Contains (call, taken constant) then
 Name = #Instance(call, taken constant)
 ```
 
-The name is used to invoke a routine, see nnn. If that routine does not return a result the RESULT and
+The name is used to invoke a routine, see <!--TODO-->nnn. If that routine does not return a result the RESULT and
 .RESULT variables become uninitialized:
 
 ```rexx <!--callvardrop.rexx-->
@@ -404,7 +404,7 @@ call Var_Drop #Pool, 'RESULT', '0!
 call Var_Drop #ReservedPool, '.RESULT', '0'
 ```
 
-If the routine does return a result that value is assigned to RESULT and .RESULT. See nnn for an
+If the routine does return a result that value is assigned to RESULT and .RESULT. See <!--TODO-->nnn for an
 exception to assigning results.
 
 If the routine returns a result and the trace setting is `'R'` or `'I'` then a trace with that result and a tag `'>>>'` shall be produced, associated with the call instruction.
@@ -430,7 +430,7 @@ If #Contains(call,callon spec) then do
 
 ### Command to the configuration
 
-For a definition of the syntax of a command, see nnn.
+For a definition of the syntax of a command, see <!--TODO-->nnn.
 
 A command that is not part of an ADDRESS instruction is processed in the ACTIVE environment.
 
@@ -563,7 +563,7 @@ The configuration may choose to perform the test for message 54.1 before or afte
 
 ### DO
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The DO instructions is used to group instructions together and optionally to execute them repeatedly.
 
@@ -598,7 +598,7 @@ if #Contains (do specification,assignment) then do
    end
 ```
 
-The following three assignments are made in the order in which `'TO'`, `'BY'` and `'FOR'` appear in _docount_; see nnn.
+The following three assignments are made in the order in which `'TO'`, `'BY'` and `'FOR'` appear in _docount_; see <!--TODO-->nnn.
 
 ```rexx <!--doassignments.rexx-->
 if #Contains (do specification, toexpr) then do
@@ -671,10 +671,10 @@ LeaveLabel:
 ### DO loop tracing
 
 When clauses are being traced by `#TraceSource`, due to `pos(#Tracing.#Level, 'AIR') > 0`, the DO
-instruction shall be traced when it is encountered and again each time the `IterateLabel` (see nnn) is
+instruction shall be traced when it is encountered and again each time the `IterateLabel` (see <!--TODO-->nnn) is
 encountered. The END instruction shall be traced when the `TraceOfEnd` label is encountered.
 
-When expressions or intermediates are being traced they shall be traced in the order specified by nnn.
+When expressions or intermediates are being traced they shall be traced in the order specified by <!--TODO-->nnn.
 Hence, in the absence of conditions arising, those executed prior to the first execution of `OnceLabel` shall
 be shown once per execution of the DO instruction; others shall be shown depending on the outcome of
 the tests.
@@ -693,7 +693,7 @@ expressions involving state variables are not. When tracing intermediates, the B
 
 ### DROP
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The DROP instruction restores variables to an uninitialized state.
 
@@ -735,7 +735,7 @@ the _variable_list_.
 
 ### EXIT
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The EXIT instruction is used to unconditionally complete execution of a program.
 
@@ -756,7 +756,7 @@ call Config_Termination
 #API Enabled = '0'
 ```
 
-The processing of the program is complete. See nnn for what `API_Start` returns as the result.
+The processing of the program is complete. See <!--TODO-->nnn for what `API_Start` returns as the result.
 
 If the normal sequence of execution "falls through" the end of the program; that is, would execute a
 further statement if one were appended to the program, then the program is terminated in the same
@@ -768,7 +768,7 @@ The expose instruction identifies variables that are not local to the method.
 
 _We need a check that this starts method; similarities with PROCEDURE._
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 It is used at the start of a method, after method initialization, to make variables in the receiver's pool
 accessible:
@@ -789,7 +789,7 @@ call Var_Expose #Pool, VAR SYMBOL, '0'
 ```
 
 If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
-in the variable pool ( by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
+in the variable pool ( by the name derived from VAR_SYMBOL, see <!--TODO-->nnn) is given the attribute ‘exposed’.
 
 ```rexx <!--exposederivedname.rexx-->
 call Var_Expose #Pool, Derived Name, '1'
@@ -814,7 +814,7 @@ the _variable_list_.
 
 ### FORWARD
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The FORWARD instruction is used to send a message based on the current message.
 
@@ -825,7 +825,7 @@ if #Contains (forward, 'ARRAY') & #Contains(forward, 'ARGUMENTS') then
 
 ### GUARD
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The GUARD instruction is used to conditionally delay the execution of a method.
 
@@ -842,7 +842,7 @@ _Drop exclusive access and wait for change_
 
 ### IF
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The IF instruction is used to conditionally execute an instruction, or to select between two alternatives.
 The _expression_ is evaluated. If the value is neither `'0'` nor `'1'` error 34.1 occurs. If the value is '1', the _instruction_ in the _then_ is executed. If the value is `'0'` and _else_ is specified, the instruction in the _else_ is executed.
@@ -855,14 +855,14 @@ to the instructions.
 
 ### INTERPRET
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The INTERPRET instruction is used to execute instructions that have been built dynamically by evaluating an expression.
 
 The _expression_ is evaluated.
 
 The HALT condition is tested for, and may be raised, in the same way it is tested at clause termination,
-see nnn.
+see <!--TODO-->nnn.
 
 The process of syntactic recognition described in clause 6 is applied, with `Config_SourceChar` obtaining
 its results from the characters of the value, in left-to-right order, without producing any `EOL` or `EOS`
@@ -881,11 +881,11 @@ Otherwise the _instruction_list_ in the _program_ is executed.
 
 ### ITERATE
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The ITERATE instruction is used to alter the flow of control within a repetitive DO.
 
-For a definition of the nesting correction, see nnn.
+For a definition of the nesting correction, see <!--TODO-->nnn.
 
 ```rexx <!--instructioniterate.rexx-->
 #Loop = #Loop - NestingCorrection
@@ -902,11 +902,11 @@ if #Tracing.#Level=='L' then call #TraceSource
 
 ### LEAVE
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The LEAVE instruction is used to immediately exit one or more repetitive DOs.
 
-For a definition of the nesting correction, see nnn.
+For a definition of the nesting correction, see <!--TODO-->nnn.
 
 ```rexx <!--instructionleave.rexx-->
 #Loop = #Loop - NestingCorrection
@@ -923,19 +923,19 @@ _Shares most of it's definition with repetitive DO._
 
 ### NOP
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The NOP instruction has no effect other than the effects associated with all instructions.
 
 ### NUMERIC
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The NUMERIC instruction is used to change the way in which arithmetic operations are carried out.
 
 #### NUMERIC DIGITS
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 NUMERIC DIGITS controls the precision under which arithmetic operations and arithmetic built-in
 functions will be evaluated.
@@ -956,7 +956,7 @@ if Value>#Limit Digits then
 
 #### NUMERIC FORM
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 NUMERIC FORM controls which form of exponential notation is to be used for the results of operations
 and arithmetic built-in functions.
@@ -986,7 +986,7 @@ else if #Contains (numericformsuffix, 'SCIENTIFIC') then
 
 #### NUMERIC FUZZ
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 NUMERIC FUZZ controls how many digits, at full precision, will be ignored during a numeric comparison.
 
@@ -1007,7 +1007,7 @@ If Value >= #Digits.#Level then
 
 #### OPTIONS
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The OPTIONS instruction is used to pass special requests to the language processor.
 
@@ -1021,7 +1021,7 @@ call Config_Options (Expression)
 
 #### PARSE
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The PARSE instruction is used to assign data from various sources to variables.
 
@@ -1245,7 +1245,7 @@ Assign:
 ```
 ### PROCEDURE
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The PROCEDURE instruction is used within an internal routine to protect all the existing variables by
 making them unknown to following instructions. Selected variables may be exposed.
@@ -1278,7 +1278,7 @@ call Var_Expose #Pool, VAR SYMBOL, '0'
 ```
 
 If VAR_SYMBOL has a period other than as last character, the variable associated with VAR_SYMBOL
-in the variable pool (by the name derived from VAR_SYMBOL, see nnn) is given the attribute ‘exposed’.
+in the variable pool (by the name derived from VAR_SYMBOL, see <!--TODO-->nnn) is given the attribute ‘exposed’.
 
 ```rexx <!--exposederived.rexx-->
 call Var_Expose #Pool, Derived Name, '1'
@@ -1306,7 +1306,7 @@ the _variable_list_.
 
 ### PULL
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 A PULL instruction is a shorter form of the equivalent instruction:
 
@@ -1316,7 +1316,7 @@ PARSE UPPER PULL template list
 
 ### PUSH
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The PUSH instruction is used to place a value on top of the stack.
 
@@ -1330,7 +1330,7 @@ call Config_Push Value
 
 ### QUEUE
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The QUEUE instruction is used to place a value on the bottom of the stack.
 
@@ -1353,7 +1353,7 @@ continue executing.
 
 _Must set up for error of expression on subsequent RETURN._
 ### RETURN
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The RETURN instruction is used to return control and possibly a result from a program or internal routine
 to the point of its invocation.
@@ -1403,11 +1403,11 @@ call Config_Termination
 #API Enabled = '0'
 ```
 
-The processing of the program is complete. See nnn for what `API_Start` returns as the result.
+The processing of the program is complete. See <!--TODO-->nnn for what `API_Start` returns as the result.
 
 ### SAY
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The SAY instruction is used to write a line to the default output stream.
 
@@ -1420,7 +1420,7 @@ call Config_Default_Output Value
 ```
 ### SELECT
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The SELECT instruction is used to conditionally execute one of several alternative instructions.
 When tracing, the clause containing the keyword SELECT is traced at this point.
@@ -1458,7 +1458,7 @@ When tracing, the clause containing the END keyword is traced at this point.
 
 ### SIGNAL
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The SIGNAL instruction is used to cause a change in the flow of control or is used with the ON and OFF
 keywords to control the trapping of conditions.
@@ -1512,7 +1512,7 @@ if #Level = #AtPause then #AtPause = 0
 
 ### TRACE
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The TRACE instruction is used to control the trace setting which in turn controls the tracing of execution
 of the program.
@@ -1593,7 +1593,7 @@ of `'+++'`.
 
 ### USE
 
-For a definition of the syntax of this instruction, see nnn.
+For a definition of the syntax of this instruction, see <!--TODO-->nnn.
 
 The USE instruction assigns the values of arguments to variables.
 
@@ -1624,7 +1624,7 @@ number 2 is available to report error conditions during the termination phase. T
 recognized by the language processor, but the circumstances of their detection is outside of the scope of
 this standard.
 
-The ERRORTEXT built-in function returns the text as initialized in nnn when called with the ‘Standard’
+The ERRORTEXT built-in function returns the text as initialized in <!--TODO-->nnn when called with the ‘Standard’
 option. When the 'Standard' option is omitted, implementation-dependent text may be returned.
 
 When messages are issued any message inserts are replaced by actual values.
@@ -1647,10 +1647,10 @@ the program.
 The routine `#Raise` corresponds to raising a condition. In the following definition, the instructions
 containing SIGNAL VALUE and INTERPRET denote transfers of control in the program being
 processed. The instruction EXIT denotes termination. If not at an interactive pause, this will be
-termination of the program, see nnn, and there will be output by `Config_Trace_Output` of the message
-(with prefix \_ see nnn) and tracing (see nnn). If at an interactive pause (`#AtPause \= 0`), this will be
+termination of the program, see <!--TODO-->nnn, and there will be output by `Config_Trace_Output` of the message
+(with prefix \_ see <!--TODO-->nnn) and tracing (see <!--TODO-->nnn). If at an interactive pause (`#AtPause \= 0`), this will be
 termination of the interpretation of the interactive input; there will be output by `Config_Trace_Output` of
-the message (without traceback) before continuing. The description of the continuation is in nnn after
+the message (without traceback) before continuing. The description of the continuation is in <!--TODO-->nnn after
 the `"interpret #Outcome”` instruction.
 
 The instruction `“interpret 'CALL' #TrapName.#Condition.#Level"` below does not set the variables
@@ -1727,12 +1727,12 @@ return /* To clause termination */
 
 The state function `#Message` corresponds to constructing a message.
 
-This definition is for the message text in nnn. Translations in which the message inserts are in a different
+This definition is for the message text in <!--TODO-->nnn. Translations in which the message inserts are in a different
 order are permitted.
 
 In addition to the result defined below, the values of `MsgNumber` and `#LineNumber` shall be shown when
 a message is output. Also there shall be an indication of whether the error occurred in code executed at
-an interactive pause, see nnn.
+an interactive pause, see <!--TODO-->nnn.
 
 Messages are shown by writing them to the default error stream.
 
