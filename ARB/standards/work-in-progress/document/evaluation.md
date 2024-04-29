@@ -384,7 +384,7 @@ If the _addition_ is a _multiplication_ then the value of the _addition_ is the 
 Otherwise, let `lhs` be the value of _addition_ within it, and `rhs` be the value of the _multiplication_ within it. Let
 `operation` be the _additive_operator_.
 
-```rexx <!--checkmultiplicativenums.rexx-->
+```rexx <!--checkadditivenums.rexx-->
 if datatype(lhs)\=='NUM' then
      call #Raise 'SYNTAX', 41.1, lhs, operation
 if datatype(rhs)\=='NUM' then
