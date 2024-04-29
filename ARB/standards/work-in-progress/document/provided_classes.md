@@ -506,647 +506,646 @@ These routines are used in the definition of the collection classes
 #### PULL
 
 ```rexx <!--queue-pull.rexx-->
-::method pull
-/* Returns and removes the item at the head of the queue. */
-  a=self~exposed
-  if a[1]/*ItemCount*/=0 then return .nil /* Stays empty */
-  r=a[4]
-  a[1]/*ItemCount*/=a[1]/*ItemCount*/-1
-  do j=4 by 3 to 1+3*a[1]/*ItemCount*/
-    a[j]=a[j+3]
-    a[j+l]=a[j+4]-1; /* Index changes */
-    end j
-  return r
+   ::method pull
+   /* Returns and removes the item at the head of the queue. */
+     a=self~exposed
+     if a[1]/*ItemCount*/=0 then return .nil /* Stays empty */
+     r=a[4]
+     a[1]/*ItemCount*/=a[1]/*ItemCount*/-1
+     do j=4 by 3 to 1+3*a[1]/*ItemCount*/
+       a[j]=a[j+3]
+       a[j+l]=a[j+4]-1; /* Index changes */
+       end j
+     return r
 ```
 
 #### QUEUE
 
 ```rexx <!--queue-queue.rexx-->
-::method queue       /* rANY */
-/* Adds the object value to the queue at its tail. */
-  a=self~exposed
-  a[1]/*ItemCount*/=a[1]/*ItemCount*/+1
-  a[1+3*a[1]/*ItemCount*/]=arg(1)
-  a[2+3*a[1]/*ItemCount*/]=a[1]/*ItemCount*/
-  return
+   ::method queue       /* rANY */
+   /* Adds the object value to the queue at its tail. */
+     a=self~exposed
+     a[1]/*ItemCount*/=a[1]/*ItemCount*/+1
+     a[1+3*a[1]/*ItemCount*/]=arg(1)
+     a[2+3*a[1]/*ItemCount*/]=a[1]/*ItemCount*/
+     return
 ```
 
 #### PEEK
 
 ```rexx <!--queue-peek.rexx-->
-::method peek
-  a=self~exposed
-/* Returns the item at the head of the queue. The collection remains unchanged.
-*/
-  return a[4]
+   ::method peek
+     a=self~exposed
+   /* Returns the item at the head of the queue. The collection remains unchanged. */
+     return a[4]
 ```
 
 #### REMOVE
 
 ```rexx <!--queue-remove.rexx-->
-::method remove       /* rWHOLE>O */
-/* Returns and removes from a collection the member item with the specified
-index. */
-  a=self~exposed
-  if a[1]/*ItemCount*/<arg(1) then return .nil
-  r=self~remove:super(arg(1))
-  /* Reset the indexes. */
-  k=0
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    k=k+1
-    a[j+l]=k
-    end j
-  return r
+   ::method remove       /* rWHOLE>O */
+   /* Returns and removes from a collection the member item with the specified
+   index. */
+     a=self~exposed
+     if a[1]/*ItemCount*/<arg(1) then return .nil
+     r=self~remove:super(arg(1))
+     /* Reset the indexes. */
+     k=0
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       k=k+1
+       a[j+l]=k
+       end j
+     return r
 ```
 
 ### Class table
 
 ```rexx <!--class-table.rexx-->
-::Class 'Table' subclass Collection
+   ::Class 'Table' subclass Collection
 ```
 
 #### MAKEARRAY
 
 ```rexx <!--table-makearray.rexx-->
-::method makearray
-/* Returns a single-index array containing the index objects. */
-/* This is different from Collection MAKEARRAY where items rather than indexes
-are in the returned array. */
-  forward message 'MAKEARRAYX'
+   ::method makearray
+   /* Returns a single-index array containing the index objects. */
+   /* This is different from Collection MAKEARRAY where items rather than indexes
+   are in the returned array. */
+     forward message 'MAKEARRAYX'
 ```
 
 #### UNION
 
 ```rexx <!--table-union.rexx-->
-::method union        /* rCOLLECTION */
-  return CommonUnion(self,arg(1))
+   ::method union        /* rCOLLECTION */
+     return CommonUnion(self,arg(1))
 ```
 
 #### INTERSECTION
 
 ```rexx <!--table-intersection.rexx-->
-::method intersection         /* rCOLLECTION */
-  return CommonIntersect(self,arg(1))
+   ::method intersection         /* rCOLLECTION */
+     return CommonIntersect(self,arg(1))
 ```
 
 #### XOR
 
 ```rexx <!--table-xor.rexx-->
-::method xor          /* rCOLLECTION */
-  return CommonXor(self,arg(1))
+   ::method xor          /* rCOLLECTION */
+     return CommonXor(self,arg(1))
 ```
 
 #### DIFFERENCE
 
 ```rexx <!--table-difference.rexx-->
-::method difference   /* rCOLLECTION */
-  return CommonDifference(self,arg(1))
+   ::method difference   /* rCOLLECTION */
+     return CommonDifference(self,arg(1))
 ```
 
 #### SUBSET
 
 ```rexx <!--table-subset.rexx-->
-::method subset       /* rCOLLECTION */
-return self~difference(arg(1))~items = 0
+   ::method subset       /* rCOLLECTION */
+   return self~difference(arg(1))~items = 0
 ```
 
 #### Class set
 
 ```rexx <!--class-set.rexx-->
-::class 'Set' subclass table
+   ::class 'Set' subclass table
 
-/* A set is a collection that restricts the member items to have a value that is
- the same as the index. Any object can be placed in a set. There can be only
-one occurrence of any object in a set. */
+   /* A set is a collection that restricts the member items to have a value that is
+   the same as the index. Any object can be placed in a set. There can be only
+   one occurrence of any object in a set. */
 ```
 
 #### PUT
 
 ```rexx <!--set-put.rexx-->
-/* Second arg same as first. Committee has dropped second? */
-::method put          /* rANY oANY */
-/* Makes the object value a member item of the collection and associates it with
-specified index. */
-  if arg(2,'E') then
-    if arg(2)\==arg(1) then signal error  /* 949 */
-  self~put:super(arg(1),arg(1))
+   /* Second arg same as first. Committee has dropped second? */
+   ::method put          /* rANY oANY */
+   /* Makes the object value a member item of the collection and associates it with
+   specified index. */
+     if arg(2,'E') then
+       if arg(2)\==arg(1) then signal error  /* 949 */
+     self~put:super(arg(1),arg(1))
 ```
 
 #### OF
 
 ```rexx <!--set-of-class.rexx-->
-::method of class     /* 1 or more rANY */
-/* Returns a newly created set containing the specified value objects. */
-  r=self~new
-  do j=1 to arg()
-    r~put(arg(j))
-    end j
-   return r
+   ::method of class     /* 1 or more rANY */
+   /* Returns a newly created set containing the specified value objects. */
+     r=self~new
+     do j=1 to arg()
+       r~put(arg(j))
+       end j
+     return r
 ```
 
 #### UNION
 
 ```rexx <!--set-union.rexx-->
-::method union /* rCOLLECTION */
-  return CommonUnion(self, EnBag(arg(1)))
+   ::method union /* rCOLLECTION */
+     return CommonUnion(self, EnBag(arg(1)))
 ```
 
 #### INTERSECTION
 
 ```rexx <!--set-intersection.rexx-->
-::method intersection          /* rCOLLECTION */
-  return CommoniIntersect (self,EnBag(arg(1)))
+   ::method intersection          /* rCOLLECTION */
+     return CommoniIntersect (self,EnBag(arg(1)))
 ```
 
 #### XOR
 
 ```rexx <!--set-xor.rexx-->
-::method xor          /* rCOLLECTION */
-  return CommonXor(self, EnBag(arg(1)))
+   ::method xor          /* rCOLLECTION */
+     return CommonXor(self, EnBag(arg(1)))
 ```
 
 #### DIFFERENCE
 
 ```rexx <!--set-difference.rexx-->
-::method difference   /* rCOLLECTION */
-  return CommonDifference(self, EnBag(arg(1)))
+   ::method difference   /* rCOLLECTION */
+     return CommonDifference(self, EnBag(arg(1)))
 ```
 
 ### Class relation
 
 ```rexx <!--class-relation.rexx-->
-::class 'Relation' subclass Collection
+   ::class 'Relation' subclass Collection
 ```
 
 #### PUT
 
 ```rexx <!--relation-put.rexx-->
-::method put          /* rANY rANY */
-  use arg item, index
-  a=self~exposed
-/* Makes the object value a member item of the relation and associates it with
- the specified index. If the relation already contains any items with the
- specified index, this method adds a new member item value with the same index,
- without removing any existing members */
- a[1]/*ItemsCount*/=a[1]/*ItemsCount*/+1
-  j=1+3*a[1]/*ItemsCount*/
-  a[j]=item
-  a[j+1]=index
-  a[j+2]=0
-  return /* Error 91 in OOI if context requiring result. */
+   ::method put          /* rANY rANY */
+     use arg item, index
+     a=self~exposed
+   /* Makes the object value a member item of the relation and associates it with
+   the specified index. If the relation already contains any items with the
+   specified index, this method adds a new member item value with the same index,
+   without removing any existing members */
+     a[1]/*ItemsCount*/=a[1]/*ItemsCount*/+1
+     j=1+3*a[1]/*ItemsCount*/
+     a[j]=item
+     a[j+1]=index
+     a[j+2]=0
+     return /* Error 91 in OOI if context requiring result. */
 ```
 
 #### ITEMS
 
 ```rexx <!--relation-items.rexx-->
-::method items       /* oANY */
-  a=self~exposed
-/* Returns the number of relation items with the specified index. If you specify
- no index, this method returns the total number of items associated with all
- indexes in the relation. */
-  if \arg(1,'E') then return a[1]/*ItemsCount*/
-  n=0
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    if arg(1)==a[j+1] then n=n+1
-    end j
-  return n
+   ::method items       /* oANY */
+     a=self~exposed
+   /* Returns the number of relation items with the specified index. If you specify
+   no index, this method returns the total number of items associated with all
+   indexes in the relation. */
+     if \arg(1,'E') then return a[1]/*ItemsCount*/
+     n=0
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       if arg(1)==a[j+1] then n=n+1
+       end j
+     return n
 ```
 
 #### MAKEARRAY
 
 ```rexx <!--relation-makearray.rexx-->
-::method makearray
-  forward message 'MAKEARRAYX'
+   ::method makearray
+     forward message 'MAKEARRAYX'
 ```
 
 #### SUPPLIER
 
 ```rexx <!--relation-supplier.rexx-->
-::method supplier     /* oANY */
-  a=self~exposed
-/* Returns a supplier object for the collection. If an index is specified, the
- supplier enumerates all of the items in the relation with the specified
- index. */
-  m=.array~new     /* For the items */
-  r=.array~new     /* For the indexes */
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    if arg(1,'E') then
-      if arg(1)\==a[j+1] then iterate
-    n=r~dimension(1)+1
-    m[n] =a[j]
-    r[n] =a[j+1]
-    end j
-  return .supplier~new(m,r)
+   ::method supplier     /* oANY */
+     a=self~exposed
+   /* Returns a supplier object for the collection. If an index is specified, the
+   supplier enumerates all of the items in the relation with the specified
+   index. */
+     m=.array~new     /* For the items */
+     r=.array~new     /* For the indexes */
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       if arg(1,'E') then
+         if arg(1)\==a[j+1] then iterate
+       n=r~dimension(1)+1
+       m[n] =a[j]
+       r[n] =a[j+1]
+       end j
+     return .supplier~new(m,r)
 ```
 
 #### UNION
 
 ```rexx <!--relation-union.rexx-->
-::method union        /* rCOLLECTION */
-/* Union for a relation is just all of both. */
-  r=self~class~new
-  cs=self~supplier
-  do while cs~available
-    r[cs~index] =cs~item
-    cs-next
-    end
-  cs=MayEnBag(arg(1))~supplier
-  do while cs~available
-    r[cs~index] =cs~item
-    cs-next
-    end
-  return r
+   ::method union        /* rCOLLECTION */
+   /* Union for a relation is just all of both. */
+     r=self~class~new
+     cs=self~supplier
+     do while cs~available
+       r[cs~index] =cs~item
+       cs-next
+       end
+     cs=MayEnBag(arg(1))~supplier
+     do while cs~available
+       r[cs~index] =cs~item
+       cs-next
+       end
+     return r
 ```
 
 #### INTERSECTION
 
 ```rexx <!--relation-intersection.rexx-->
-::method intersection /* rCOLLECTION */
-/* Intersection for a relation requires the items as well as the keys to
-match. */
-  r=self~class~new
-  sc=self~class~new
-  cs=self~supplier
-  do while cs~available
-    sc[cs~index] =cs~item
-    cs~next
-    end
-  cs=MayEnBag(arg(1))~supplier
-  do while cs~available
-    if sc~hasitem(cs~item,cs~index) then
-      r[ecs~index] =sc~removeitem(cs~item, cs~index)
-    cs~next
-    end
-  return r
+   ::method intersection /* rCOLLECTION */
+   /* Intersection for a relation requires the items as well as the keys to
+   match. */
+     r=self~class~new
+     sc=self~class~new
+     cs=self~supplier
+     do while cs~available
+       sc[cs~index] =cs~item
+       cs~next
+       end
+     cs=MayEnBag(arg(1))~supplier
+     do while cs~available
+       if sc~hasitem(cs~item,cs~index) then
+         r[cs~index] =sc~removeitem(cs~item, cs~index)
+       cs~next
+       end
+     return r
 ```
 
 #### XOR
 
 ```rexx <!--relation-xor.rexx-->
-::method xor          /* rCOLLECTION */
-/* Returns a new relation that contains all items from self and
-the argument except that all index-item pairs that appear in both collections
-are removed. */
-  r=self~class~new
-  cs=self~supplier
-  do while cs~available
-    r[cs~index] =cs~item
-    cs~next
-    end
-  cs=MayEnBag(arg(1))~supplier
-  do while cs~available
-    if self~hasitem(cs~item,cs~index) then
-      r~removeitem(cs~item, cs~index)
-    else
-      r[cs~index] =cs~item
-    cs~next
-    end
-  return r
+   ::method xor          /* rCOLLECTION */
+   /* Returns a new relation that contains all items from self and
+   the argument except that all index-item pairs that appear in both collections
+   are removed. */
+     r=self~class~new
+     cs=self~supplier
+     do while cs~available
+       r[cs~index] =cs~item
+       cs~next
+       end
+     cs=MayEnBag(arg(1))~supplier
+     do while cs~available
+       if self~hasitem(cs~item,cs~index) then
+         r~removeitem(cs~item, cs~index)
+       else
+         r[cs~index] =cs~item
+       cs~next
+       end
+     return r
 ```
 
 #### DIFFERENCE
 
 ```rexx <!--relation-difference.rexx-->
-::method difference   /* rCOLLECTION */
-/* Returns a new relation containing only those index-item pairs from the
- SELF whose indexes the other collection does not contain. */
-  r=self~class~new
-  cs=self~supplier
-  do while cs~available
-    r[cs~index] =cs~item
-    cs~next
-    end
-  cs=MayEnBag(arg(1))~supplier
-  do while cs~available
-    r~removeitem(cs~item, cs~index)
-    cs~next
-    end
-  return r
+   ::method difference   /* rCOLLECTION */
+   /* Returns a new relation containing only those index-item pairs from the
+   SELF whose indexes the other collection does not contain. */
+     r=self~class~new
+     cs=self~supplier
+     do while cs~available
+       r[cs~index] =cs~item
+       cs~next
+       end
+     cs=MayEnBag(arg(1))~supplier
+     do while cs~available
+       r~removeitem(cs~item, cs~index)
+       cs~next
+       end
+     return r
 ```
 
 #### SUBSET
 
 ```rexx <!--relation-subset.rexx-->
-::method subset /* rCOLLECTION */
-  return self~difference(arg(1))~items = 0
+   ::method subset /* rCOLLECTION */
+     return self~difference(arg(1))~items = 0
 ```
 
 #### REMOVEITEM
 
 ```rexx <!--relation-removeitem.rexx-->
-::method removeitem /* rANY rANY */
-  a=self~exposed
-/* Returns and removes from a relation the member item value (associated with
- the specified index). If value is not a member item associated with index
- index, this method returns the NIL object and removes no item. */
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    if a[j]==arg(1) & a[j+1]==arg(2) then do
-      self~removeit(j)
-      return arg(1)
-      end
-    end j
-  return .nil
+   ::method removeitem /* rANY rANY */
+     a=self~exposed
+   /* Returns and removes from a relation the member item value (associated with
+   the specified index). If value is not a member item associated with index
+   index, this method returns the NIL object and removes no item. */
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       if a[j]==arg(1) & a[j+1]==arg(2) then do
+         self~removeit(j)
+         return arg(1)
+         end
+       end j
+     return .nil
 ```
 
 #### INDEX
 
 ```rexx <!--relation-index.rexx-->
-::method index        /* rANY */
-  a=self~exposed
-/* Returns the index for the specified item. If there is more than one index
- associated with the specified item, the one this method returns is not
- defined. */
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    if arg(1)==a[j] then return a[j+1]
-    end j
-  return .nil
+   ::method index        /* rANY */
+     a=self~exposed
+   /* Returns the index for the specified item. If there is more than one index
+   associated with the specified item, the one this method returns is not
+   defined. */
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       if arg(1)==a[j] then return a[j+1]
+       end j
+     return .nil
 ```
 
 #### ALLAT
 
 ```rexx <!--relation-allAt.rexx-->
-::method allat        /* rANY */
-  a=self~exposed
-/* Returns a single-index array containing all the items associated with the
- specified index. */
-  r=.array~new
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    if arg(1)==a[j+1] then
-      r[r~dimension(1)+1] = a[j]
-    end j
-  return r
+   ::method allat        /* rANY */
+     a=self~exposed
+   /* Returns a single-index array containing all the items associated with the
+   specified index. */
+     r=.array~new
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       if arg(1)==a[j+1] then
+         r[r~dimension(1)+1] = a[j]
+       end j
+     return r
 ```
 
 #### HASITEM
 
 ```rexx <!--relation-hasItem.rexx-->
-::method hasitem      /* rANY rANY */
-  a=self~exposed
-/* Returns 1 (true) if the relation contains the member item value (associated
- with specified index). Returns 0 (false) otherwise. */
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    if a[j]==arg(1) & a[j+l]==arg(2) then return 1
-    end j
-  return 0
+   ::method hasitem      /* rANY rANY */
+     a=self~exposed
+   /* Returns 1 (true) if the relation contains the member item value (associated
+   with specified index). Returns 0 (false) otherwise. */
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       if a[j]==arg(1) & a[j+l]==arg(2) then return 1
+       end j
+     return 0
 ```
 
 #### ALLINDEX
 
 ```rexx <!--relation-allIndex.rexx-->
-::method allindex    /* rANY */
-  a=self~exposed
-/* Returns a single-index array containing all indexes for the specified
- item. */
-  r=.array~new
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    if a[j]==arg(1) then do
-      r[r~dimension(1)+1] =a[j+1]
-      end
-    end j
-  return r
+   ::method allindex    /* rANY */
+     a=self~exposed
+   /* Returns a single-index array containing all indexes for the specified
+   item. */
+     r=.array~new
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       if a[j]==arg(1) then do
+         r[r~dimension(1)+1] =a[j+1]
+         end
+       end j
+     return r
 ```
 ### The bag class
 
 ```rexx <!--class-bag.rexx-->
-::class 'Bag' subclass relation
+   ::class 'Bag' subclass relation
 
-/* A bag is a collection that restricts the member items to having a value that
- is the same as the index. Any object can be placed in a bag, and the same
- object can be placed in a bag multiple times. */
+   /* A bag is a collection that restricts the member items to having a value that
+   is the same as the index. Any object can be placed in a bag, and the same
+   object can be placed in a bag multiple times. */
 ```
 
 #### OF
 
 ```rexx <!--bag-of-class.rexx-->
-::method of class     /* 1 or more rANY */
-/* Returns a newly created bag containing the specified value objects. */
-  r=self~new
-  do j=1 to arg()
-    r~put(arg(j))
-    end j
-  return r
+   ::method of class     /* 1 or more rANY */
+   /* Returns a newly created bag containing the specified value objects. */
+     r=self~new
+     do j=1 to arg()
+       r~put(arg(j))
+       end j
+     return r
 ```
 
 #### PUT
 
 ```rexx <!--bag-put.rexx-->
-::method put          /* rANY oANY */
-/* Committee does away with second argument? */
-/* Makes the object value a member item of the collection and associates it with
- the specified index. If you specify index, it must be the same as value. */
-  if arg(2,'E') then
-    if arg(2)\==arg(1) then signal error
-  self~put:super(arg(1),arg(1))
+   ::method put          /* rANY oANY */
+   /* Committee does away with second argument? */
+   /* Makes the object value a member item of the collection and associates it with
+   the specified index. If you specify index, it must be the same as value. */
+     if arg(2,'E') then
+       if arg(2)\==arg(1) then signal error
+     self~put:super(arg(1),arg(1))
 ```
 
 #### UNION
 
 ```rexx <!--bag-union.rexx-->
-::method union           /* rCOLLECTION */
-  return CommonUnion(self, EnBag(arg(1)))
+   ::method union           /* rCOLLECTION */
+     return CommonUnion(self, EnBag(arg(1)))
 ```
 
 #### INTERSECTION
 
 ```rexx <!--bag-intersection.rexx-->
-::method intersection         /* rCOLLECTION */
-  return CommoniIntersect(self,EnBag(arg(1)))
+   ::method intersection         /* rCOLLECTION */
+     return CommoniIntersect(self,EnBag(arg(1)))
 ```
 
 #### XOR
 
 ```rexx <!--bag-xor.rexx-->
-::method xor          /* rCOLLECTION */
-  return CommonXor(self, EnBag(arg(1)))
+   ::method xor          /* rCOLLECTION */
+     return CommonXor(self, EnBag(arg(1)))
 ```
 
 #### DIFFERENCE
 
 ```rexx <!--bag-difference.rexx-->
-::method difference    /* rCOLLECTION */
-  return CommonDifference(self, EnBag(arg(1)))
+   ::method difference    /* rCOLLECTION */
+     return CommonDifference(self, EnBag(arg(1)))
 ```
 
 ### The directory class
 
 ```rexx <!--class-directory.rexx-->
-::class 'Directory' subclass Collection
+   ::class 'Directory' subclass Collection
 ```
 
 #### AT
 
 ```rexx <!--directory-at.rexx-->
-::method at           /* rANY */
-  a=self~exposed
-/* Returns the item associated with the specified index. */
-  j=self~findindex(arg(1))
-  if j=0 then return .nil
-/* Run the method if there is one. */
-  if a[j+2] then return self~run(a[j])
-  return a[j]
+   ::method at           /* rANY */
+     a=self~exposed
+   /* Returns the item associated with the specified index. */
+     j=self~findindex(arg(1))
+     if j=0 then return .nil
+   /* Run the method if there is one. */
+     if a[j+2] then return self~run(a[j])
+     return a[j]
 ```
 
 #### PUT
 
 ```rexx <!--directory-put.rexx-->
-::method put          /* rANY rANY */
-  a=self~exposed
-/* Makes the object value a member item of the collection and associates it with
-the specified index. */
-  if \arg(2)~hasmethod('MAKESTRING') then call Raise 'Syntax', 93.938
-  self~put:super(arg(1),arg(2)~makestring)
-  return
+   ::method put          /* rANY rANY */
+     a=self~exposed
+   /* Makes the object value a member item of the collection and associates it with
+   the specified index. */
+     if \arg(2)~hasmethod('MAKESTRING') then call Raise 'Syntax', 93.938
+     self~put:super(arg(1),arg(2)~makestring)
+     return
 ```
 
 #### MAKEARRAY
 
 ```rexx <!--directory-makearray.rexx-->
-::method makearray
-  forward message 'MAKEARRAYX'
+   ::method makearray
+     forward message 'MAKEARRAYX'
 ```
 
 #### SUPPLIER
 
 ```rexx <!--directory-supplier.rexx-->
-::method supplier
-  a=self~exposed
-/* Returns a supplier object for the directory. */
-/* Check out what happens to the SETENTRY fields. */
-  r=.array~new    /* For items */
-  do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
-    r[r~dimension(1)+1]=a[j]
-    end j
-  return .supplier~new(r,self~makearray)
+   ::method supplier
+     a=self~exposed
+   /* Returns a supplier object for the directory. */
+   /* Check out what happens to the SETENTRY fields. */
+     r=.array~new    /* For items */
+     do j=4 by 3 to 1+3*a[1]/*ItemsCount*/
+       r[r~dimension(1)+1]=a[j]
+       end j
+     return .supplier~new(r,self~makearray)
 ```
 
 #### UNION
 
 ```rexx <!--directory-union.rexx-->
-::method union         /* rCOLLECTION */
-  return CommonUnion(self,arg(1))
+   ::method union         /* rCOLLECTION */
+     return CommonUnion(self,arg(1))
 ```
 
 #### INTERSECTION
 
 ```rexx <!--directory-intersection.rexx-->
-::method intersection         /* rCOLLECTION */
-  return CommoniIntersect(self,arg(1))
+   ::method intersection         /* rCOLLECTION */
+     return CommoniIntersect(self,arg(1))
 ```
 
 #### XOR
 
 ```rexx <!--directory-xor.rexx-->
-::method xor        /* rCOLLECTION */
-return CommonXor(self,arg(1))
+   ::method xor        /* rCOLLECTION */
+     return CommonXor(self,arg(1))
 ```
 
 #### DIFFERENCE
 
 ```rexx <!--directory-difference.rexx-->
-::method difference   /* rCOLLECTION */
-  return CommonDifference(self,arg(1))
+   ::method difference   /* rCOLLECTION */
+     return CommonDifference(self,arg(1))
 ```
 
 #### SUBSET
 
 ```rexx <!--directory-subset.rexx-->
-::method subset     /* rCOLLECTION */
-return self~difference(arg(1))~items = 0
+   ::method subset     /* rCOLLECTION */
+     return self~difference(arg(1))~items = 0
 ```
 
 #### SETENTRY
 
 ```rexx <!--directory-setEntry.rexx-->
-::method setentry     /* rSTRING oANY */
-  a=self~exposed
-/* Sets the directory entry with the specified name (translated to uppercase) to
- the second argument, replacing any existing entry or method for the specified
- name. */
-  n=translate(arg(1))
-  j=self~findindex(n)
-  if j=0 & \arg(2,'E') then return
-  if \arg(2,'E') then do /* Removal */
-    self~removeit (j)
-    return
-    end
-  if j=0 then do /* It's new */
-    a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
-    j=1+3*al[1]/*ItemsCount*/
-    a[j+l]=n
-    end
-  a[j]=arg(2)
-  a[j+2]=0
-  return
+   ::method setentry     /* rSTRING oANY */
+     a=self~exposed
+   /* Sets the directory entry with the specified name (translated to uppercase) to
+   the second argument, replacing any existing entry or method for the specified
+   name. */
+     n=translate(arg(1))
+     j=self~findindex(n)
+     if j=0 & \arg(2,'E') then return
+     if \arg(2,'E') then do /* Removal */
+       self~removeit(j)
+       return
+       end
+     if j=0 then do /* It's new */
+       a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
+       j=1+3*al[1]/*ItemsCount*/
+       a[j+l]=n
+       end
+     a[j]=arg(2)
+     a[j+2]=0
+     return
 ```
 
 #### ENTRY
 
 ```rexx <!--directory-entry.rexx-->
-::method entry        /* rSTRING */
-  a=self~exposed
-/* Returns the directory entry with the specified name (translated to
- uppercase). */
-  n=translate(arg(1))
-  j=self~findindex(n)
-/*if j=0 then signal error according to online */
-/* Online has something about running UNKNOWN. */
-  if j=0 then return .nil
-  /* If there is an entry decide whether to invoke it. */
-  if a~hasindex(j) then do
-    if \a[j+2] then return al[j]
-    return self~run(al[jl])
-    end
+   ::method entry        /* rSTRING */
+     a=self~exposed
+   /* Returns the directory entry with the specified name (translated to
+   uppercase). */
+     n=translate(arg(1))
+     j=self~findindex(n)
+   /*if j=0 then signal error according to online */
+   /* Online has something about running UNKNOWN. */
+     if j=0 then return .nil
+     /* If there is an entry decide whether to invoke it. */
+     if a~hasindex(j) then do
+       if \a[j+2] then return a[j]
+       return self~run(a[j])
+       end
 ```
 
 #### HASENTRY
 
 ```rexx <!--directory-hasEntry.rexx-->
-::method hasentry     /* rSTRING */
-/* Returns 1 (true) if the directory has an entry or a method for the specified
-name (translated to uppercase) or 0 (false) otherwise. */
-  return self~findindex(translate(arg(1)))>0
+   ::method hasentry     /* rSTRING */
+   /* Returns 1 (true) if the directory has an entry or a method for the specified
+   name (translated to uppercase) or 0 (false) otherwise. */
+     return self~findindex(translate(arg(1)))>0
 ```
 
 #### SETMETHOD
 
 ```rexx <!--directory-setMethod.rexxx-->
-::method setmethod    /* rSTRING oMETHOD */
-  a=self~exposed
-/* Associates entry with the specified name (translated to uppercase) with
- method method. Thus, the language processor returns the result of running
- method when you access this entry. */
-/* (Part of METHOD checking converts string or array to actual method.) */
-  n=translate(arg(1))
-  j=self~findindex(n)
-  if j=0 & \arg(2,'E') then return
-  if \arg(2,'E') then do
-    self~removeit (j)
-    return
-    end
-  if j=0 then do /* It's new */
-    a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
-    j=1+3*al[1]/*ItemsCount*/
-    a[j+l]=n
-    end
-  a[j]=arg(2)
-  a[j+2]=1
-  return
+   ::method setmethod    /* rSTRING oMETHOD */
+     a=self~exposed
+   /* Associates entry with the specified name (translated to uppercase) with
+   method method. Thus, the language processor returns the result of running
+   method when you access this entry. */
+  /* (Part of METHOD checking converts string or array to actual method.) */
+     n=translate(arg(1))
+     j=self~findindex(n)
+     if j=0 & \arg(2,'E') then return
+     if \arg(2,'E') then do
+       self~removeit(j)
+       return
+       end
+     if j=0 then do /* It's new */
+       a[1]/*ItemsCount*/=a[1]/*ItemsCount*/ +1
+       j=1+3*al[1]/*ItemsCount*/
+       a[j+l]=n
+       end
+     a[j]=arg(2)
+     a[j+2]=1
+     return
 ```
 
 #### UNKNOWN
 
 ```rexx <!--directory-unknown.rexx-->
-::method unknown      /* rSTRING rARRAY */
-/* Runs either the ENTRY or SETENTRY method, depending on whether the message
- name supplied ends with an equal sign. If the message name does not end with an
- equal sign, this method runs the ENTRY method, passing the message name as its
- argument. */
-  if right(arg(1),1)\=='=' then
-    return self~entry(arg(1))
-  /* ?? Not clear whether second argument is mandatory. */
-  t=.nil
-  if arg(2,'E') then t=arg(2)[1]
-  self~setentry(left(arg(1),length(arg(1))-1),t)
+   ::method unknown      /* rSTRING rARRAY */
+   /* Runs either the ENTRY or SETENTRY method, depending on whether the message
+   name supplied ends with an equal sign. If the message name does not end with an
+   equal sign, this method runs the ENTRY method, passing the message name as its
+   argument. */
+     if right(arg(1),1)\=='=' then
+       return self~entry(arg(1))
+     /* ?? Not clear whether second argument is mandatory. */
+     t=.nil
+     if arg(2,'E') then t=arg(2)[1]
+     self~setentry(left(arg(1),length(arg(1))-1),t)
 ```
 
 ### The stem class
@@ -1158,154 +1157,154 @@ _Anyway, committee doing without this class as such._
 _Here is temporary stuff showing how to use algebra in the collection coding._
 
 ```rexx <!--class-stem.rexx-->
-/* This 1998 version uses Rony's rules for XOR and INTERSECTION based on
-UNION and DIFFERENCE */
+   /* This 1998 version uses Rony's rules for XOR and INTERSECTION based on
+   UNION and DIFFERENCE */
 
-/* Test Set-Operator-Methods on different collection objects */
+   /* Test Set-Operator-Methods on different collection objects */
 
-/* This top part has some rough parts - not meant for standard. */
+   /* This top part has some rough parts - not meant for standard. */
 
-/* The dumps put out results sorted, so that comparisons can be made
-between implementations that keep collections in different orders. */
+   /* The dumps put out results sorted, so that comparisons can be made
+   between implementations that keep collections in different orders. */
 
-/* Invocation example:
-  settest.cmd 1> tmp.res 2> tmp.err
-*/
+   /* Invocation example:
+     settest.cmd 1> tmp.res 2> tmp.err
+   */
 
-/* Jnitial verification that new definitions are in effect  */
-J18list = .List~new
-if \J18list~hasmethod("J18") then signal error
+   /* Initial verification that new definitions are in effect  */
+   J18list = .List~new
+   if \J18list~hasmethod("J18") then signal error
 
-/* Input collections used for the tests */
-coll.1 = .array~of(1, 2,, 4)
-coll.2 = list~of(2, 3, 6)
-coll.3 = .queue~new~~PUSH(2)~~PUSH(3)~~PUSH(7)
-coll.4 = .directory~new~~setentry(1, "eins")~~setentry(3, "drei")
-coll.5 = .bag~new~~put(2)~~put(3)~~put(5)~~put(2)
-coll.6 = .relation~new~~"[J="("zwei", 2)~~"[]="('"drei", 3)~~"[J="('vier", 8)~~"J="C"drei",3)
-coll.7 = .set~of(2, 3, 9)
-coll.8 = .table~new~~"[]="("zwei", 2)~~"[J="("drei", 3)~~"[T]J="C"vier", 10)
-coll.0 = 8
+   /* Input collections used for the tests */
+   coll.1 = .array~of(1, 2,, 4)
+   coll.2 = list~of(2, 3, 6)
+   coll.3 = .queue~new~~PUSH(2)~~PUSH(3)~~PUSH(7)
+   coll.4 = .directory~new~~setentry(1, "eins")~~setentry(3, "drei")
+   coll.5 = .bag~new~~put(2)~~put(3)~~put(5)~~put(2)
+   coll.6 = .relation~new~~"[J="("zwei", 2)~~"[]="('"drei", 3)~~"[J="('vier", 8)~~"J="C"drei",3)
+   coll.7 = .set~of(2, 3, 9)
+   coll.8 = .table~new~~"[]="("zwei", 2)~~"[J="("drei", 3)~~"[T]J="C"vier", 10)
+   coll.0 = 8
 
-message. 1 = "UNION"
-message.2 = "INTERSECTION"         /* index the same in both */
-message.3 = "DIFFERENCE" /* if index only in Ist collection  */
-message.4 = "XOR"     /* unique index among both collections */
-message.5 = "SUBSET" /* target is subset of other collection */
-message. = 5
+   message.1 = "UNION"
+   message.2 = "INTERSECTION"         /* index the same in both */
+   message.3 = "DIFFERENCE" /* if index only in Ist collection  */
+   message.4 = "XOR"     /* unique index among both collections */
+   message.5 = "SUBSET" /* target is subset of other collection */
+   message. = 5
 
-target. = coll.
+   target. = coll.
 
-hstart = 4
-istart = |
-jstart = 1
-output = 1
-setOfTargets = .set~new
+   hstart = 4
+   istart = 1
+   jstart = 1
+   output = 1
+   setOfTargets = .set~new
 
-SAY "Test Results of Set Operations on Collection Classes -- dated" date('U')
-SAY
+   SAY "Test Results of Set Operations on Collection Classes -- dated" date('U')
+   SAY
 
-DO h= hstart TO target.0        /* loop over target    */
-  targetID = target.h~class~id
-  IF \setOfTargets~hasindex(targetID) THEN
-  DO
-    SAY
-    SAY CENTER(" Target:" targetID "", 70, "=")
-    setOfTargets~put(targetID)
-    output = 1
-  END
+   DO h= hstart TO target.0        /* loop over target    */
+     targetID = target.h~class~id
+     IF \setOfTargets~hasindex(targetID) THEN
+     DO
+       SAY
+       SAY CENTER(" Target:" targetID "", 70, "=")
+       setOfTargets~put(targetID)
+       output = 1
+     END
 
-  DO i= istart TO coll.0 /* loop over other collections    */
-    if output then do
-      output = 0
-      argumentID = coll.i~class~id
-      SAY
-      SAY CENTER(" argument:" argumentID "", 65, "=")
-      SAY
-      SAY "INPUT:"
-      SAY "contents of" pp(targetID) "target:"
-      CALL dump_collection target.h
-      SAY
+     DO i= istart TO coll.0 /* loop over other collections    */
+       if output then do
+         output = 0
+         argumentID = coll.i~class~id
+         SAY
+         SAY CENTER(" argument:" argumentID "", 65, "=")
+         SAY
+         SAY "INPUT:"
+         SAY "contents of" pp(targetID) "target:"
+         CALL dump_collection target.h
+         SAY
 
-      SAY "contents of" pp(argumentID) "argument:"
-      CALL dump_collection colli
-      SAY
-      SAY CENTER(" start set operators ", 65, "-")
-    end
+         SAY "contents of" pp(argumentID) "argument:"
+         CALL dump_collection colli
+         SAY
+         SAY CENTER(" start set operators ", 65, "-")
+       end
 
-    DO j =jstart TO message.0   /* loop over set operators */
-      tmpString | = RIGHT("h" pp(h) "i" ppG) "j" ppG), 65)
-      tmpString2 = pp(targetID "~" message.j || "(" argumentID ")")
-      SAY OVERLAY( tmpString2, tmpString1 )
-                 /* set resume parameter in case of error*/
-      jstart = j+1
-      IF jstart>message.0 THEN DO
-        istart = i+]
+       DO j =jstart TO message.0   /* loop over set operators */
+         tmpString | = RIGHT("h" pp(h) "i" ppG) "j" ppG), 65)
+         tmpString2 = pp(targetID "~" message.j || "(" argumentID ")")
+         SAY OVERLAY( tmpString2, tmpString1 )
+                    /* set resume parameter in case of error*/
+         jstart = j+1
+         IF jstart>message.0 THEN DO
+           istart = i+]
 
-        IF istart>coll.0 THEN DO
-          hstart = h+1
-          istart = 1
+           IF istart>coll.0 THEN DO
+             hstart = h+1
+             istart = 1
+           END
+           jstart = 1
+           output = 1
+         END
+                      /* process method invocation */
+         IF target.h~hasmethod(message.j) THEN DO
+            tmp = .message~new(target.h, message.j, "I", coll.i)~send
+            if "The String class"=tmp~class~defaultname then do
+              if datatype(tmp,"B") then do
+                if tmp then
+                  SAY" Result is TRUE"
+                else
+                  SAY" Result is FALSE"
+              end
+            end
+            else CALL dump_collection tmp
+          END
+          ELSE
+            SAY pp(targetID) "does not have method ~" pp(message.j)
+
+          SAY LEFT("", 40, "-")
         END
         jstart = 1
-        output = 1
       END
-                      /* process method invocation */
-      IF target.h~hasmethod(message.j) THEN DO
-         tmp = .message~new(target.h, message.j, "I", coll.i)~send
-         if "The String class"=tmp~class~defaultname then do
-           if datatype(tmp,"B") then do
-             if tmp then
-               SAY" Result is TRUE"
-             else
-               SAY" Result is FALSE"
-           end
-         end
-         else CALL dump_collection tmp
-       END
-       ELSE
-         SAY pp(targetID) "does not have method ~" pp(message.j)
+      jstart = 1
+      istart = 1
+      output = 1
+    END
 
-       SAY LEFT("", 40, "-")
+    RETURN
+
+   dump_collection:procedure
+     USE ARG collection
+     k = .array~new
+     i = .array~new
+     tmpSupp = collection~supplier
+     DO WHILE tmpSupp~AVAILABLE
+       k[k~dimension(1)+1]=tmpSupp~INDEX
+       i[i~dimension(1)+1]=tmpSupp~ITEM
+       tmpSupp~NEXT
      END
-     jstart = 1
-   END
-   jstart = 1
-   istart = 1
-   output = 1
- END
-
- RETURN
-
-dump_collection:procedure
-  USE ARG collection
-  k = .array~new
-  i = .array~new
-  tmpSupp = collection~supplier
-  DO WHILE tmpSupp~AVAILABLE
-    k[k~dimension(1)+1]=tmpSupp~INDEX
-    i{i~dimension(1)+1]=tmpSupp~ITEM
-    tmpSupp~NEXT
-  END
-  do until hope
-    hope=1
-    do j=1 to k~dimension(1)-1
-      if k[j]~string>k[j+1]~string |,
-        (k[j]~string=k[j+1]~string & i[j]~string<i[j+1]~string) then do
-        t=k[j];k[j]=k[j+1];k[j+1]=t
-        t=i[j];i[j]=i[j+1];i[j+1]=t
-        hope=0
-      end
-    end
-  end
-  if O=collection~items then
-    say" The result is empty!"
-  else
-    do j=1 to k~dimension(1)
-      SAY " " "index" pp(k[j]) "item" ppd[j)
-    end
-  RETURN
-            /* Auxiliary routines */
-pp: RETURN "[" || ARG(1)~string || "]"
+     do until hope
+       hope=1
+       do j=1 to k~dimension(1)-1
+         if k[j]~string>k[j+1]~string |,
+           (k[j]~string=k[j+1]~string & i[j]~string<i[j+1]~string) then do
+           t=k[j];k[j]=k[j+1];k[j+1]=t
+           t=i[j];i[j]=i[j+1];i[j+1]=t
+           hope=0
+         end
+       end
+     end
+     if 0=collection~items then
+       say" The result is empty!"
+     else
+       do j=1 to k~dimension(1)
+         SAY " " "index" pp(k[j]) "item" ppd[j)
+       end
+     RETURN
+               /* Auxiliary routines */
+   pp: RETURN "[" || ARG(1)~string || "]"
 ```
 
 [The following code looks like a partial duplicate of the previous. Formatting pending -- JMB]
@@ -2240,15 +2239,15 @@ SYNTAX: RAISE PROPAGATE /* raise error in caller */
 The stream class provides input/output on external streams.
 
 ```rexx <!--class-stream.rexx-->
-::class stream
+   ::class stream
 
-::method init         /* rString */
+   ::method init         /* rString */
 ```
 
 Initializes a stream object for a stream named name, but does not open the stream.
 
 ```rexx <!--stream-query.rexx-->
-::method query       /* keywords */
+   ::method query       /* keywords */
 ```
 
 _There is also QUERY as command with method COMMAND._
@@ -2256,27 +2255,27 @@ _There is also QUERY as command with method COMMAND._
 Used with options, the QUERY method returns specific information about a stream.
 
 ```rexx <!--stream-iomethods.rexx-->
-::method charin
+   ::method charin
 
-::method charout
+   ::method charout
 
-::method chars
+   ::method chars
 
-::method linein
+   ::method linein
 
-::method lineout
+   ::method lineout
 
-::method lines
+   ::method lines
 
-::method qualify
+   ::method qualify
 
-::method command        /* rString */
+   ::method command        /* rString */
 ```
 
 Returns a string after performing the specified stream command.
 
 ```rexx <!--stream-open.rexx-->
-::method open
+   ::method open
 ```
 
 _There is also OPEN as command with method COMMAND._
@@ -2286,29 +2285,29 @@ Opens the stream to which you send the message and returns "READY:".
 _Committee dropping OPEN POSITION QUERY SEEK as methods in favour of command use._
 
 ```rexx <!--stream-state.rexx-->
-::method state
+   ::method state
 ```
 
 Returns a string that indicates the current state of the specified stream.
 
 ```rexx <!--stream-variousmethods.rexx-->
-::method say
+   ::method say
 
-::method uninit
+   ::method uninit
 
-::method position       /* Ugh */
+   ::method position       /* Ugh */
 ```
 
 `POSITION` is a synonym for `SEEK`.
 
 ```rexx <!--stream-seek.rexx-->
-::method seek           /* Ugh */
+   ::method seek           /* Ugh */
 ```
 
 Sets the read or write position a specified number (offset) within a persistent stream.
 
 ```rexx <!--stream-flush.rexx-->
-::method flush
+   ::method flush
 ```
 
 Returns `"READY:"`. Forces any data currently buffered for writing to be written to the stream receiving the
@@ -2319,7 +2318,7 @@ _There is also `FLUSH` as command with method `COMMAND`._
 _Committee dropping `FLUSH`._
 
 ```rexx <!--stream-close.rexx-->
-::method close
+   ::method close
 ```
 
 Closes the stream that receives the message.
@@ -2329,26 +2328,26 @@ _There is also `CLOSE` as command with method `COMMAND`._
 _Semantics are 'seen by other thread'._
 
 ```rexx <!--stream-string-makearray.rexx-->
-::method string 
+   ::method string 
 
-::method makearray      /* rCHARLINE */
+   ::method makearray      /* rCHARLINE */
 ```
 
 Returns a fixed array that contains the data from the stream in line or character format, starting from the
 current read position.
 
 ```rexx <!--stream-supplier.rexx-->
-::method supplier
+   ::method supplier
 ```
 
 Returns a supplier object for the stream.
 
 ```rexx <!--stream-description.rexx-->
-::method description
+   ::method description
 ```
 
 ```rexx <!--stream-arrayIn.rexx-->
-::method arrayin      /* rCHARLINE */
+   ::method arrayin      /* rCHARLINE */
 ```
 
 _Mixed case value works on OOI._
@@ -2359,7 +2358,7 @@ Returns a fixed array that contains the data from the stream in line or characte
 current read position.
 
 ```rexx <!--stream-arrayOut.rexx-->
-::method arrayOut      /* rARRAY rCHARLINE */
+   ::method arrayOut      /* rARRAY rCHARLINE */
 ```
 
 Returns a stream object that contains the data from array.
@@ -2367,15 +2366,15 @@ Returns a stream object that contains the data from array.
 ## The alarm class
 
 ```rexx <!--class-alarm-->
-::class alarm
+   ::class alarm
 
-::method init /* Time, Msg */
+   ::method init /* Time, Msg */
 ```
 
 Sets up an alarm for a future time atime.
 
 ```rexx <!--alarm-cancel.rexx-->
-::method cancel
+   ::method cancel
 ```
 
 Cancels the pending alarm request represented by the receiver. This method takes no action if the
@@ -2386,9 +2385,9 @@ specified time has already been reached.
 The `Monitor` class forwards messages to a destination object.
 
 ```rexx <!--class-monitor.rexx-->
-.local ['OUTPUT'] = .monitor~new(.output)
+   .local ['OUTPUT'] = .monitor~new(.output)
 
-::class monitor
+   ::class monitor
 ```
 
 ### INIT
@@ -2396,11 +2395,11 @@ The `Monitor` class forwards messages to a destination object.
 Initializes the newly created monitor object.
 
 ```rexx <!--monitor-init.rexx-->
-::method init         /* oDESTINATION */
-  expose Destination
-  Destination = .queue~new
-  if arg(1,'E') then Destination~push(arg(1))
-  return
+   ::method init         /* oDESTINATION */
+     expose Destination
+     Destination = .queue~new
+     if arg(1,'E') then Destination~push(arg(1))
+     return
 ```
 
 ### CURRENT
@@ -2408,9 +2407,9 @@ Initializes the newly created monitor object.
 Returns the current destination object.
 
 ```rexx <!--monitor-current.rexx-->
-::method current
-  expose Destination
-  return Destination [1]
+   ::method current
+     expose Destination
+     return Destination[1]
 ```
 
 ### DESTINATION
@@ -2418,11 +2417,11 @@ Returns the current destination object.
 Returns a new destination object.
 
 ```rexx <!--monitor-destination.rexx-->
-::method destination  /* oDESTINATION */
-  expose Destination
-  if arg(1,'E') then Destination~push(arg(1))
-                else Destination~pull
-  return Destination[1]
+   ::method destination  /* oDESTINATION */
+     expose Destination
+     if arg(1,'E') then Destination~push(arg(1))
+                   else Destination~pull
+     return Destination[1]
 ```
 
 ### UNKNOWN
@@ -2430,12 +2429,12 @@ Returns a new destination object.
 Reissues or forwards to the current monitor destination all unknown messages sent to a monitor object
 
 ```rexx <!--monitor-unknown.rexx-->
-::method unknown
-  expose Destination
+   ::method unknown
+     expose Destination
 ```
 
 _Extra parens needed here in original OREXX syntax_
 ```rexx <!--monitor-forward.rexx-->
-  forward to destination[1] message arg(1) arguments arg(2)
-  return
+     forward to destination[1] message arg(1) arguments arg(2)
+     return
 ```
