@@ -2620,7 +2620,7 @@ TIME with less than two arguments returns the local time within the day, or an e
 converts the second argument (which has a format given by the third argument) to the format specified by
 the first argument.
 
-```rexx <!--BIF-time.rexx-->
+```rexx <!--BIF-time-dup.rexx-->
 call CheckArgs 'oCEHLMNORS oANY oCHLMNS'
 /* If the third argument is given then the second is mandatory. */
 if #BIF_ArgExists.3 & \#BIF_ArgExists.2 then
