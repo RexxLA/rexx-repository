@@ -1,8 +1,11 @@
 # Scope, purpose, and application
+
 ## Scope
+
 This standard specifies the semantics and syntax
 of the programming language Rexx by specifying
 requirements for a conforming language processor.
+
 The scope of this standard includes
 
 - the syntax and constraints of the Rexx
