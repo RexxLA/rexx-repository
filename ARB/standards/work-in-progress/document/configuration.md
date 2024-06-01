@@ -1459,7 +1459,7 @@ comprising the variable pool interface are described in terms of the appropriate
 functions defined in <!--TODO-->nnn. The first parameter on these calls is the state variable `#Pool`. 
 If these `Var_` functions do not return an indicator `'N'`, `'R'`, or `'D'` then the `API` function shall return an error indication.
 
-### API Set
+### API_Set
 
 #### Syntax:
 
@@ -1491,7 +1491,7 @@ where:
 
 `#Symbol` is `Symbol` after any replacements in the tail as described by <!--TODO-->nnn.
 
-### API Value
+### API_Value
 
 #### Syntax:
 
