@@ -108,7 +108,7 @@ external variable pool
 
 function
 : Some processing which can be invoked by name and will produce a result. This term is used for
-both Rexx functions (See nnn) and functions provided by the configuration (see n).
+both Rexx functions (see nnn) and functions provided by the configuration (see n).
 
 identifier
 : The name of a construct.
@@ -182,7 +182,7 @@ symbol
 : A sequence of characters used as a name, see nnn. Symbols are used to name variables, functions, etc.
 
 tailed name
-: The names in a variable pool have an attribute of 'tailed' or 'non-tailed'. Otherwise identical names
+: The names in a variable pool have an attribute of `'tailed'` or `'non-tailed'`. Otherwise identical names
 are distinct if their attributes differ. Tailed names are normally the result of replacements in the tail of
 a symbol, the part that follows a stem.
 
