@@ -324,8 +324,7 @@ The function shall exhibit the following characteristics. If `Config _Compare(a,
 - `'lesser'` and `Config_Compare(b,c)` produces `'lesser'` then `Config_Compare(a,c)` produces `'lesser'`;
 - `'equal'` then `Config_Compare(a,c)` and `Config_Compare(b,c)` produce the same value.
   
-Syntactic characters which are different characters shall not compare equal by `Config_Compare`, see
-<!--TODO-->nnn.
+Syntactic characters which are different characters shall not compare equal by `Config_Compare`, see <!--TODO-->nnn.
 
 ### Config_B2C
 
@@ -489,7 +488,7 @@ where:
 
 #### Semantics:
 
-The configuration shall record that the array has `Item` associated with `Index`.
+The configuration shall record that the `array` has `Item` associated with `Index`.
 
 ### Config_Array_At
 
@@ -506,7 +505,7 @@ where:
 
 #### Semantics:
 
-The configuration shall return the item that the array has associated with `Index`.
+The configuration shall return the item that the `array` has associated with `Index`.
 
 ### Config_Array_Hasindex
 
@@ -825,13 +824,15 @@ If `OperationType` is `'CHARIN'` the state variables describing the stream will 
 
 - when the configuration is able to provide data from a transient stream or the character at position
   `#Charin_Position.Stream` of a persistent stream then `#Outcome` shall be set to contain the data.
-  The indicator of the response shall be 'N';
+  The indicator of the response shall be `'N'`;
+  
 - when the configuration is unable to return data because the read position is at the end of a
-  persistent stream then the indicator of the response shall be 'O';
+  persistent stream then the indicator of the response shall be `'O'`;
+  
 - when the configuration is unable to return data from a transient stream because no data is
-  available and no data is expected to become available then the indicator of the response shall be 'O':
+  available and no data is expected to become available then the indicator of the response shall be `'O'`:
 - otherwise the configuration is unable to return data and does not expect to be able to return data
-  by waiting; the indicator of the response shall be 'E'.
+  by waiting; the indicator of the response shall be `'E'`.
   
 The data set in `#Outcome` will either be a single character or will be a sequence of eight characters,
 each `'0'` or `'1'`. The choice is decided by the configuration. The eight character sequence indicates a
