@@ -9,7 +9,7 @@ BNF productions has
 
 - a left-hand side (called _identifier_);
 
-- the characters `':="`;
+- the characters `':='`;
 
 - a right-hand side (called _bnf_expression_).
 
@@ -55,9 +55,9 @@ The BNF syntax, described in BNF, is:
 ```rexx <!--ebnfgrouping.ebnf-->
 production  :=    identifier ':=' bnf_expression
 bnf_expression    := abuttal | bnf_expression '|' abuttal
-abuttal     :=    [abuttal] bnf primary
-bnf_primary :=    '[' bnf expression ']' | '(' bnf expression ')' | literal |
-identifier | message identifier | bnf primary '+'
+abuttal     :=    [abuttal] bnf_primary
+bnf_primary :=    '[' bnf_expression ']' | '(' bnf_expression ')' | literal |
+identifier | message_identifier | bnf_primary '+'
 ```
 
 ### Syntactic errors
