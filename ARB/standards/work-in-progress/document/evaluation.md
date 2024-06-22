@@ -40,8 +40,8 @@ in the correct range of values then a condition is raised:
 call #Raise 'SYNTAX', 41.7, Subject
 ```
 
-This possibility is implied by the uses of `DATATYPE` and not shown explicitly in the rest of this section
-<!--TODO-->nnn.
+This possibility is implied by the uses of `DATATYPE` and not shown explicitly in the rest of this 
+section <!--TODO-->nnn.
 
 ## Variables
 
@@ -84,7 +84,7 @@ the specified name has the `'exposed'` attribute then `Var_Set` operates on the 
 this name is determined the specified value is associated with the specified name. It also associates the attributes 
 `'not-dropped'` and `'not-implicit'`. If that attribute was previously `'not-dropped'` then 
 the indicator returned is `'R'`. The name is a stem if it contains just one period, as its rightmost character. 
-When the name is a stem `Var_Set(Pool, TailedName, '1',Value)` is executed for all
+When the name is a stem `Var_Set(Pool, TailedName, '1', Value)` is executed for all
 possible valid tailed names which have `Name` as their stem, and then those tailed-names are given the attribute `'implicit'`.
 
 ```rexx <!--varsetone.rexx-->
@@ -178,7 +178,7 @@ attribute `'exposed'` is associated with the specified name.
 ### Var_Reset
 
 ```rexx <!--varresetpool.rexx-->
-Var_ Reset (Pool)
+Var_Reset (Pool)
 ```
 
 The function operates on the variable pool with the specified reference. It establishes the effect of
@@ -214,7 +214,7 @@ If the indicator is `'D'`, indicating the variable has the `'dropped'` attribute
 see <!--TODO-->nnn and <!--TODO-->nnn for exceptions to this.
 
 ```rexx <!--varpoolsymbol.rexx-->
-#Response = Var Value(Pool, VAR SYMBOL, '0')
+#Response = Var Value(Pool, VAR_SYMBOL, '0')
 if left(#Response,1) == 'D' then
   call #Raise 'NOVALUE', VAR_SYMBOL, ''
 ```
@@ -227,7 +227,7 @@ associated with the derived name.
 A derived name is derived from a _VAR_SYMBOL_ as follows:
 
 ```rexx <!--derivednames.ebnf-->
-VAR SYMBOL  :=    Stem Tail
+VAR_SYMBOL  :=    Stem Tail
 Stem  :=    PlainSymbol '.'
 Tail  :=    (PlainSymbol | '.' [PlainSymbol]) ['.' [PlainSymbol]]+
 PlainSymbol := (general_letter | digit)+
@@ -240,7 +240,7 @@ The derived name is the concatenation of:
   which does not start with a digit is `#Outcome` after
 
 ```rexx <!--varvalueplainsymbol.rexx-->
-Var_Value (Pool, PlainSymbol,'0')
+Var_Value(Pool, PlainSymbol,'0')
 ```
 
 These values are obtained without raising the `NOVALUE` condition.
@@ -284,7 +284,7 @@ If a _term_ contains an _expr_alias_ the value of the _term_ is the value of the
 ### The value of a prefix_expression
 
 If the _prefix_expression_ is a _term_ then the value of the _prefix_expression_ is the value of the _term_,
-otherwise let `rhs` be the value of the _prefix_expression_ within it; see <!--TODO-->nnn
+otherwise let `rhs` be the value of the _prefix_expression_ within it; see <!--TODO-->nnn.
 
 If the _prefix_expression_ has the form `'+'` _prefix_expression_ then a check is made:
 
@@ -435,7 +435,7 @@ If the _concatenation_ contains '||' then the value of the _concatenation_ will 
 
 - `Config_Length(Value)` will be equal to `Config_Length(lhs)+Config_Length(rhs)`.
 - `#Outcome` will be `'equal'` after each of:
-    - `Config_Compare(Config_Substr(Ihs,n),Config_Substr(Value,n))` for values of `n` not less than `1`
+    - `Config_Compare(Config_Substr(lhs,n),Config_Substr(Value,n))` for values of `n` not less than `1`
       and not more than `Config_Length(lhs)`;
     - `Config_Compare(Config_Substr(rhs,n),Config_Substr(Value,Config_Length(lhs)+n))` for values of
       `n` not less than `1` and not more than `Config_Length(rhs)`.
@@ -503,7 +503,7 @@ else do /* Numeric comparison */
          else if Difference < 0 then #Test='L'
                                 else #Test='E'
          end
-   end
+  end
 ```
 
 The value of `#Test`, in conjunction with the _operator_ in the _comparison_, determines the value of the
@@ -612,17 +612,16 @@ Annex C of this standard. */
 /* The operands are prepared first. (Page 130) Function Prepare does this,
 separating sign, mantissa and exponent. */
 
-v = Prepare (Numberl, #Digits.#Level)
+v = Prepare(Numberl, #Digits.#Level)
 parse var v Signl Mantissal Exponentl
 
-v = Prepare (Number2, #Digits.#Level)
+v = Prepare(Number2, #Digits.#Level)
 parse var v Sign2 Mantissa2 Exponent2
 
 /* The calculation depends on the operator. The routines set Sign3
 Mantissa3 and Exponent3. */
 
 Comparator = ''
-
 select
   when Operator == '*'  then call Multiply
   when Operator == '/'  then Call DivType
@@ -635,11 +634,11 @@ select
   call PostOp /* Assembles Number3 */
   if Comparator \== '' then do
 
-/* Comparison requires the result of subtraction made into a logical */
-/* value. */
+/* Comparison requires the result of subtraction made into a logical    */
+/* value.                                                               */
    t = '0'
    select
-    when left (Number3,1) == '-' then
+    when left(Number3,1) == '-' then
       if wordpos(Comparator,'< <= <> >< \= \>') > 0 then t = '1'
     when Number3 \== '0' then
       if wordpos(Comparator,'> >= <> >< \= \<') > 0 then t = '1'
@@ -650,11 +649,12 @@ select
    end
 
    return Number3      /* From ArithOp */
+
  /* Activity before every operation:                                     */
 
 Prepare:   /* Returns Sign Mantissa and Exponent */
 /* Preparation of operands, Page 130 */
-/* ",...terms being operated upon have leading zeros removed (noting the
+/* "...terms being operated upon have leading zeros removed (noting the
 position of any decimal point, and leaving just one zero if all the digits in
 the number are zeros) and are then truncated to DIGITS+1 significant digits
 (if necessary)..." */
@@ -714,58 +714,58 @@ the number are zeros) and are then truncated to DIGITS+1 significant digits
   /* The parts of the value are composed into a single string, Number3. */
 
   PostOp:
-    /* Page 130 */
-    /* 'traditional' rounding */
-    t = length(Mantissa3) - #Digits.#Level
-    if t > 0 then do
-       /* 'traditional' rounding */
-       Mantissa3 = left(Mantissa3,#Digits.#Level+1) + 5
-       if length(Mantissa3) > #Digits.#Level+1 then
-          /* There was 'carry' */
-          Exponent3 = Exponent3 + 1
-       Mantissa3 = left (Mantissa3,#Digits.#Level)
-       Exponent3 = Exponent3 + t
-      end
-    /* "A result of zero is always expressed as a single character '0' "*/
-    if verify(Mantissa3,'0') = 0 then Number3 = '0'
-    else do
-      if Operator == '/' | Operator == '**' then do
-        /* Page 130 "For division, insignificant trailing zeros are removed
-        after rounding." */
-        /* Page 133 "... insignificant trailing zeros are removed." */
-        do q = length(Mantissa3) by -1 to 2
-          if substr(Mantissa3,q,1) \== '0' then leave
-          Exponent3 = Exponent3 + 1
-          end q
-        Mantissa3 = substr(Mantissa3,1,q)
-        end
+   /* Page 130 */
+   /* 'traditional' rounding */
+   t = length(Mantissa3) - #Digits.#Level
+   if t > 0 then do
+      /* 'traditional' rounding */
+      Mantissa3 = left(Mantissa3,#Digits.#Level+1) + 5
+      if length(Mantissa3) > #Digits.#Level+1 then
+         /* There was 'carry' */
+         Exponent3 = Exponent3 + 1
+      Mantissa3 = left(Mantissa3,#Digits.#Level)
+      Exponent3 = Exponent3 + t
+     end
+   /* "A result of zero is always expressed as a single character '0' "*/
+   if verify(Mantissa3,'0') = 0 then Number3 = '0'
+   else do
+     if Operator == '/' | Operator == '**' then do
+       /* Page 130 "For division, insignificant trailing zeros are removed
+       after rounding." */
+       /* Page 133 "... insignificant trailing zeros are removed." */
+       do q = length(Mantissa3) by -1 to 2
+         if substr(Mantissa3,q,1) \== '0' then leave
+         Exponent3 = Exponent3 + 1
+         end q
+       Mantissa3 = substr(Mantissa3,1,q)
+       end
 
-       if Floating() == 'E' then do  /* Exponential format */
+      if Floating() == 'E' then do  /* Exponential format */
 
-         Exponent3 = Exponent3 + (length(Mantissa3)-1)
+        Exponent3 = Exponent3 + (length(Mantissa3)-1)
 
-         /* Page 136 "Engineering notation causes powers of ten to be expressed as a
-         multiple of 3 - the integer part may therefore range from 1 through
-         999." */
-         g = l
-         if #Form.#Level == 'E' then do
-         /* Adjustment to make exponent a multiple of 3 */
-           g = Exponent3//3 /* Recursively using ArithOp as
-           an external routine. */
-           if g < 0 then g = g + 3
-           Exponent3 = Exponent3 - g
-           g = g + 1
-           if length(Mantissa3) < g then
-              Mantissa3 = left (Mantissa3,g,'0')
-           end /* Engineering */
+        /* Page 136 "Engineering notation causes powers of ten to be expressed as a
+        multiple of 3 - the integer part may therefore range from 1 through
+        999." */
+        g = l
+        if #Form.#Level == 'E' then do
+        /* Adjustment to make exponent a multiple of 3 */
+          g = Exponent3//3   /* Recursively using ArithOp as
+                             an external routine. */
+          if g < 0 then g = g + 3
+          Exponent3 = Exponent3 - g
+          g = g + 1
+          if length(Mantissa3) < g then
+             Mantissa3 = left (Mantissa3,g,'0')
+          end /* Engineering */
 
-         /* Exact check on the exponent. */
-         if Exponent3 > #Limit_ExponentDigits then
-           call #Raise 'SYNTAX', 42.1, Numberl, Operator, Number2
-         if -#Limit ExponentDigits > Exponent3 then
-           call #Raise 'SYNTAX', 42.2, Numberl, Operator, Number2
+        /* Exact check on the exponent. */
+        if Exponent3 > #Limit_ExponentDigits then
+          call #Raise 'SYNTAX', 42.1, Numberl, Operator, Number2
+        if -#Limit ExponentDigits > Exponent3 then
+          call #Raise 'SYNTAX', 42.2, Numberl, Operator, Number2
 
-         /* Insert any decimal [point. */
+        /* Insert any decimal [point. */
 
         if length(Mantissa3) \= g then Mantissa3 = insert('.',Mantissa3,g)
         /* Insert the E */
@@ -791,17 +791,18 @@ the number are zeros) and are then truncated to DIGITS+1 significant digits
       if Sign3 == '-' then Number3 = '-'Number3
       end /* Non-Zero */
    return
+
   /* This tests whether exponential notation is needed. */
 
   Floating:
-    /* The rule in the reference has been improved upon. */
-     t = ''
+   /* The rule in the reference has been improved upon. */
+    t = ''
     if Exponent3+length(Mantissa3) > #Digits.#Level then t = 'E'
 
     if length(Mantissa3) + Exponent3 < -5 then t = 'E'
     return t
 
-  /* Add, Subtract and Compare. */
+  /* Add, Subtract and Compare.                                         */
 
   AddSubComp: /* Page 130 */
    /* This routine is used for comparisons since comparison is
@@ -884,7 +885,7 @@ the working numbers are integers, ie decimal point on the right. */
  significant digit of the terms being added or subtracted." */
 
  if length(Mantissa3) > SigDigits then SigDigits = SigDigits+1
-  d = SigDigits - NowDigits  /* Digits to drop. */
+ d = SigDigits - NowDigits  /* Digits to drop. */
  if d <= 0 then return
  t = length(Mantissa3) - d  /* Digits to keep. */
  /* Page 130. "values of 5 through 9 are rounded up, values of 0 through 4 are
@@ -909,7 +910,7 @@ the working numbers are integers, ie decimal point on the right. */
 
    /* Note the sign of the result */
    if Sign1 == Sign2 then Sign3 = '+'
-                          else Sign3 = '-'
+                     else Sign3 = '-'
    /* Note the exponent */
    Exponent3 = Exponent1 + Exponent2
    if Mantissa1 == '0' then do
@@ -919,110 +920,110 @@ the working numbers are integers, ie decimal point on the right. */
   /* Multiply the Mantissas */
   Mantissa3 = ''
   do q=1 to length(Mantissa2)
-    Mantissa3 = Mantissa3'0'
-    do substr(Mantissa2,q,1)
-      Mantissa3 = Mantissa3 + Mantissa1
-      end
-    end q
-   return /* From Multiply */
+   Mantissa3 = Mantissa3'0'
+   do substr(Mantissa2,q,1)
+     Mantissa3 = Mantissa3 + Mantissa1
+     end
+   end q
+  return /* From Multiply */
 
   /* Types of Division: */
 
   DivType:       /* p 131 */
-    /* Check for divide-by-zero */
-    if Mantissa2 == '0' then call #Raise 'SYNTAX', 42.3
-    /* Note the exponent of the result */
-    Exponent3 = Exponent1 - Exponent2
-    /* Compute (one less than) how many digits will be in the integer
-   part of the result. */
-    IntDigits = length(Mantissa1) - Length(Mantissa2) + Exponent3
-    /* In some cases, the result is known to be zero.
-    if Mantissa1 = 0 | (IntDigits < 0 & Operator = '%') then do
-      Mantissa3 = 0
-      Sign3 = '+'
-      Exponent3 = 0
-      return
-      end
-    /* In some cases, the result is known to be to be the first argument. */
-    if IntDigits < 0 & Operator == '//' then do
-      Mantissa3 = Mantissal
-      Sign3 = Sign1
-      Exponent3 = Exponent1
-      return
-      end
-    /* Note the sign of the result. */
-    if Sign1 == Sign2 then Sign3 = '+'
-                      else Sign3 = '-'
+   /* Check for divide-by-zero */
+   if Mantissa2 == '0' then call #Raise 'SYNTAX', 42.3
+   /* Note the exponent of the result */
+   Exponent3 = Exponent1 - Exponent2
+   /* Compute (one less than) how many digits will be in the integer
+  part of the result. */
+   IntDigits = length(Mantissa1) - Length(Mantissa2) + Exponent3
+   /* In some cases, the result is known to be zero.
+   if Mantissa1 = 0 | (IntDigits < 0 & Operator = '%') then do
+     Mantissa3 = 0
+     Sign3 = '+'
+     Exponent3 = 0
+     return
+     end
+   /* In some cases, the result is known to be to be the first argument. */
+   if IntDigits < 0 & Operator == '//' then do
+     Mantissa3 = Mantissal
+     Sign3 = Sign1
+     Exponent3 = Exponent1
+     return
+     end
+   /* Note the sign of the result. */
+   if Sign1 == Sign2 then Sign3 = '+'
+                     else Sign3 = '-'
    /* Make Mantissa1 at least as large as Mantissa2 so Mantissa2 can be
     subtracted without causing leading zero to result. Page 131 */
    a = 0
-  do while Mantissa2 > Mantissa1
-    Mantissa1 = Mantissa1'0'
-    Exponent3 = Exponent3 - 1
-    a = a + 1
-    end
-  /* Traditional divide */
-  Mantissa3 = ''
-  /* Subtract from part of Mantissa1 that has length of Mantissa2 */
-  x = left(Mantissa1,length(Mantissa2) )
-  y = substr(Mantissa1, length(Mantissa2)+1)
-  do forever
-    /* Develop a single digit in z by repeated subtraction. */
-    z = 0
-    do forever
-      x = x - Mantissa2
-      if left(x,1) == '-' then leave
-      z = z + 1
+   do while Mantissa2 > Mantissa1
+     Mantissa1 = Mantissa1'0'
+     Exponent3 = Exponent3 - 1
+     a = a + 1
+     end
+   /* Traditional divide */
+   Mantissa3 = ''
+   /* Subtract from part of Mantissa1 that has length of Mantissa2 */
+   x = left(Mantissa1,length(Mantissa2) )
+   y = substr(Mantissa1, length(Mantissa2)+1)
+   do forever
+     /* Develop a single digit in z by repeated subtraction. */
+     z = 0
+     do forever
+       x = x - Mantissa2
+       if left(x,1) == '-' then leave
+       z = z + 1
+       end
+     x = x + Mantissa2   /* Recover from over-subtraction */
+     /* The digit becomes part of the result */
+     Mantissa3 = Mantissa3 || z
+     if Mantissa3 == '0' then Mantissa3 = '' /* A single leading
+                                            zero can happen.   */
+     /* x||y is the current residue */
+     if y == '' then if x = 0 then leave /* Remainder is zero */
+     if length(Mantissa3) > #Digits.#Level then leave /* Enough digits
+                                                       in the result */
+     /* Check type of division */
+     if Operator \== '/' then do
+       if IntDigits = 0 then leave
+       IntDigits = IntDigits - 1
+       end
+     /* Prepare for next digit */
+     /* Digits come from y, until that is exhausted. */
+     /* When y is exhausted an extra zero is added to Mantissal */
+     if y == '' then do
+       y = '0'
+       Exponent3 = Exponent3 - 1
+       a = a + 1
+       end
+     x = x || left(y,1)
+     y = substr(y,2)
+     end /* Iterate for next digit. */
+   Remainder = x || y
+   Exponent3 = Exponent3 + length(y) /* The loop may have been left early. */
+   /* Leading zeros are taken off the Remainder. */
+   do while length(Remainder) > 1 & Left (Remainder,1) == '0'
+     Remainder = substr (Remainder, 2)
+     end
+   if Operator \== '/' then do
+     /* Check whether % would fail, even if operation is // */
+     /* Page 133.  % could fail by needing exponential notation */
+     if Floating() == 'E' then do
+       if Operator == '%' then MsgNum = 26.11
+                          else MsgNum = 26.12
+       call #Raise 'SYNTAX', MsgNum, Numberl , Number2, #Digits.#Level
+       end
+     end
+   if Operator == '//' then do
+      /* We need the remainder */
+      Sign3 = Sign1
+      Mantissa3 = Remainder
+      Exponent3 = Exponentl - a
       end
-    x = x + Mantissa2   /* Recover from over-subtraction */
-    /* The digit becomes part of the result */
-    Mantissa3 = Mantissa3 || z
-    if Mantissa3 == '0' then Mantissa3 = '' /* A single leading
-                                           zero can happen.   */
-    /* x||y is the current residue */
-    if y == '' then if x = 0 then leave /* Remainder is zero */
-    if length(Mantissa3) > #Digits.#Level then leave /* Enough digits
-                                                      in the result */
-    /* Check type of division */
-    if Operator \== '/' then do
-      if IntDigits = 0 then leave
-      IntDigits = IntDigits - 1
-      end
-    /* Prepare for next digit */
-    /* Digits come from y, until that is exhausted. */
-    /* When y is exhausted an extra zero is added to Mantissal */
-    if y == '' then do
-    y = '0'
-    Exponent3 = Exponent3 - 1
-    a = a + 1
-    end
-  x = x || left(y,1)
-  y = substr(y,2)
-  end /* Iterate for next digit. */
-Remainder = x || y
-Exponent3 = Exponent3 + length(y) /* The loop may have been left early. */
-/* Leading zeros are taken off the Remainder. */
-do while length(Remainder) > 1 & Left (Remainder,1) == '0'
-  Remainder = substr (Remainder, 2)
-  end
-if Operator \== '/' then do
-  /* Check whether % would fail, even if operation is // */
-  /* Page 133.  % could fail by needing exponential notation */
-  if Floating() == 'E' then do
-    if Operator == '%' then MsgNum = 26.11
-                       else MsgNum = 26.12
-    call #Raise 'SYNTAX', MsgNum, Numberl , Number2, #Digits.#Level
-    end
-  end
-if Operator == '//' then do
-   /* We need the remainder */
-   Sign3 = Sign1
-   Mantissa3 = Remainder
-   Exponent3 = Exponentl - a
-   end
-return /* From DivType */
+   return /* From DivType */
 
-/* The Power operation: */
+  /* The Power operation: */
 
 Power:      /* page 132 */
 /* The second argument should be an integer */
