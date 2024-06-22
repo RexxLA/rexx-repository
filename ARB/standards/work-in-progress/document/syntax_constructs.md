@@ -293,12 +293,11 @@ method_definition   := (method [expose ncl]| routine)
       method_modifier := 'ABSTRACT' | 'CONSTANT' | 'FINAL' | 'NATIVE' |
 'STATIC'
       termcommalist := term [(',' ( term | Msgnn ) )+]
-  routine           := 'ROUTINE' ( taken constant | Msg19.11 ) ['PUBLIC'] ncl
+  routine           := 'ROUTINE' ( taken_constant | Msg19.11 ) ['PUBLIC'] ncl
   balanced:= instruction_list ['END' Msgl0.1]
     instruction_list:= instruction+
 
 /* The second part is about groups */
-
 instruction       := group | single_instruction ncl
 group             := do ncl | if | loop ncl | select ncl
   do              := do_specification ncl [instruction+] [group_handler]
@@ -317,7 +316,7 @@ group             := do ncl | if | loop ncl | select ncl
   loop            := 'LOOP' [group_option+] [repetitor] [conditional] ncl
                      instruction+ [group_handler]
                      loop_ending
-    loop_ending   := 'END' [VAR SYMBOL] | EOS Msg14.n | Msg35.1
+    loop_ending   := 'END' [VAR_SYMBOL] | EOS Msg14.n | Msg35.1
   conditional     := 'WHILE' whileexpr | 'UNTIL' untilexpr
     untilexpr     := expression
     whileexpr     := expression
@@ -339,7 +338,7 @@ select            := 'SELECT' [group_option+] ncl select_body [group_handler]
 /* Third part is for single instructions. */
 single_instruction:= assignment | message_instruction | keyword_instruction
                   |command
-  assignment      := VAR SYMBOL '#' expression
+  assignment      := VAR_SYMBOL '#' expression
                   | NUMBER '#' Msg31.1
                   | CONST_SYMBOL '#' (Msg31.2 | Mgg31.3)
   message_instruction := message_term | message_term '#' expression
@@ -399,8 +398,8 @@ expression]
                          | ( 'OFF' | Msg25.19) [('WHEN' | Msg25.21)
 expression]
 interpret         := 'INTERPRET' expression
-iterate           := 'ITERATE' [VAR SYMBOL | Msg20.2]
-leave             := 'LEAVE' [VAR SYMBOL | Msg20.2]
+iterate           := 'ITERATE' [VAR_SYMBOL | Msg20.2]
+leave             := 'LEAVE' [VAR_SYMBOL | Msg20.2]
 nop               := 'NOP'
 numeric           := 'NUMERIC' (numeric_digits | numeric_form
                   | numeric_fuzz | Msg25.15)
@@ -428,7 +427,7 @@ queue             := 'QUEUE' [expression]
 raise             := 'RAISE' conditions (raise_option | Msg25.24)
   conditions      := 'ANY' | 'ERROR' term | 'FAILURE' term
                   | 'HALT'| 'LOSTDIGITS' | 'NOMETHOD' | 'NOSTRING' |
-"NOTREADY'
+'NOTREADY'
                   | 'NOVALUE' | 'PROPAGATE' | 'SYNTAX' term
                   | 'USER' ( symbol_constant_term | Msg19.18) | Msg25.23
   raise_option    := ExitRetOption | Description | ArrayOption
@@ -496,7 +495,6 @@ power_expression  := prefix_expression
                   | message_term '##'
       message_term:= term ('~' | '~~') method_name [arguments]
                   | term '['[ expression_list ] (']' | Msg36.2)
-
         method_name:=(taken_constant | Msg19.19)
                          [':' ( VAR_SYMBOL | Msg19.21 )]
 /* Method-call without arguments is syntactically like symbol. */
@@ -513,7 +511,7 @@ initializer       := '['expression_list (']' | Msg36.n)
 
 ### VAR_SYMBOL matching
 
-Any `VAR_SYMBOL` in a _do_ending_ must be matched by the same _VAR_SYMBOL_ occurring at the start
+Any _VAR_SYMBOL_ in a _do_ending_ must be matched by the same _VAR_SYMBOL_ occurring at the start
 of an _assignment_ contained in the _do_specification_ of the _do_ that contains 
 both the _do_specification_ and the _do_ending_, as described in nnn.
 
