@@ -1025,33 +1025,33 @@ the working numbers are integers, ie decimal point on the right. */
 
   /* The Power operation: */
 
-Power:      /* page 132 */
-/* The second argument should be an integer */
- if \WholeNumber2() then call #Raise 'SYNTAX', 26.8, Number2
-/* Lhs to power zero is always 1 */
- if Mantissa2 == '0' then do
-    Sign3 = '+'
-    Mantissa3 = '1'
-    Exponent3 = '0'
-    return
-    end
+  Power:      /* page 132 */
+  /* The second argument should be an integer */
+   if \WholeNumber2() then call #Raise 'SYNTAX', 26.8, Number2
+  /* Lhs to power zero is always 1 */
+   if Mantissa2 == '0' then do
+      Sign3 = '+'
+      Mantissa3 = '1'
+      Exponent3 = '0'
+      return
+      end
 
- /* Pages 132-133 The Power algorithm */
- Rhs = left(Mantissa2,length(Mantissa2)+Exponent2,'0')/* Explicit
-                                                  integer form */
- L = length(Rhs)
- b = X2B(D2X(Rhs)) /* Makes Rhs in binary notation */
-/* Ignore initial zeros */
-do q = 1 by 1
-  if substr(b,q,1) \== '0' then leave
-  end q
-a = 1
-do forever
-/* Page 133 "Using a precision of DIGITS+L+1" */
- if substr(b,q,1) == '1' then do
-   a = Recursion('*',Signl || Mantissal'E'Exponent1)
-   if left(a,2) == 'MN' then signal PowerFailed
-   end
+  /* Pages 132-133 The Power algorithm */
+  Rhs = left(Mantissa2,length(Mantissa2)+Exponent2,'0')/* Explicit
+                                                   integer form */
+  L = length(Rhs)
+  b = X2B(D2X(Rhs)) /* Makes Rhs in binary notation */
+ /* Ignore initial zeros */
+ do q = 1 by 1
+   if substr(b,q,1) \== '0' then leave
+   end q
+ a = 1
+ do forever
+ /* Page 133 "Using a precision of DIGITS+L+1" */
+  if substr(b,q,1) == '1' then do
+    a = Recursion('*',Signl || Mantissal'E'Exponent1)
+    if left(a,2) == 'MN' then signal PowerFailed
+    end
   /* Check for finished */
   if q = length(b) then leave
   /* Square a */
@@ -1080,7 +1080,7 @@ WholeNumber2:
    numeric digits Digits
    if #Form.#Level == 'S' then numeric form scientific
                           else numeric form engineering
-   return datatype (Number2, 'W')
+   return datatype(Number2, 'W')
 
 Recursion: /* Called only from '**' */
   numeric digits #Digits.#Level + L + 1
@@ -1161,7 +1161,7 @@ var_Set(0 , '.SIGL', '0', #LineNumber)
 ```
 
 The name used in the invocation is held in `#Name.#Level` for possible use in an error message from the
-`RETURN` clause, see <!--TODO-->nnn
+`RETURN` clause, see <!--TODO-->nnn.
 
 ### The value of a function
 
@@ -1175,8 +1175,8 @@ The value of an external function is determined by `Config_ExternalRoutine`.
 
 ### The value of a method
 
-A built-in method completes when it returns from the activity defined in section n. The value of a built-in
-method is defined in section n.
+A built-in method completes when it returns from the activity defined in section <!--TODO-->nnn. The value of a built-in
+method is defined in section <!--TODO-->nnn.
 
 An internal method completes when `#Level` returns to the value it had when the routine was invoked. The
 value of the internal method is the value of the _expression_ on the _return_ which completed the method.
@@ -1202,13 +1202,13 @@ Otherwise the value of a _message_term_ is the value of the method it invokes. T
 determined by the receiver and the _taken_constant_ and _symbol_.
 
 ```rexx <!--evaluatemessagetermconstant.rexx-->
-t = #Instance(message term, taken constant)
+t = #Instance(message_term, taken_constant)
 ```
 
 If there is a _symbol_, it is subject to a constraints.
 
 ```rexx <!--evaluatemessagtermsymbol.rexx-->
-if #contains(message term, symbol) then do
+if #contains(message_term, symbol) then do
    if r <> #Self then
       call #Raise 'SYNTAX', nn.n
       /* OOI: "Message search overrides can only be used from methods of the target
@@ -1223,7 +1223,7 @@ algorithm and also uses messages. However for the messages in this code
 the message names are chosen to be unique to a method so there is no need
 to use this algorithm in deciding which method is intended. */
 
-/* message term ::= receiver '~' taken constant ':' VAR_SYMBOL arguments */
+/* message_term ::= receiver '~' taken constant ':' VAR_SYMBOL arguments */
 
 /* This code reflects OOI - the arguments on the message don't affect
 the method choice. */
@@ -1232,7 +1232,7 @@ the method choice. */
 taken_constant, and symbol. */
 
 /* This code is used in a context where #Self is the receiver of the
-method invocation which the subject message term is running under. */
+method invocation which the subject message_term is running under. */
 
 SelectMethod:
 
@@ -1259,13 +1259,13 @@ SelectMethod:
     /* Note any mixins for later reference. */
     Mix = x~Inherited /* An array, ordered as the directive left-to-right. */
     if Mix \== .nil then /* Append to the record. */
-      do j=1 to Mix~dimension (1)
-        Mixins [Mixins~dimension(1)+1] = Mix[j]
+      do j=1 to Mix~dimension(1)
+        Mixins[Mixins~dimension(1)+1] = Mix[j]
         end
 
     if Mixing do
       /* Consider mixins only for superclasses of 'symbol'. */
-      do j=1 to Mixins~dimension (1)
+      do j=1 to Mixins~dimension(1)
         /* Look at the baseclass of each. */
         /* That is closest superclass not a mixin. */
         s = Mixins[j]~class
