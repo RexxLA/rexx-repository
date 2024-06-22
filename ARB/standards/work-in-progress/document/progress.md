@@ -1,6 +1,6 @@
 # Final revision
 
-Up to configuration.md
+Up to configuration.md, also evaluation.md (in the order defined by structure.tex).
 
 # Points to clarify
 
