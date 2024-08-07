@@ -315,14 +315,6 @@ UNICODE(102, Property, Uppercase)                           -- 1
 
 __Note:__ Although this routine is part of TUTOR, The Unicode Tools Of Rexx, it can also be used separately, as it has no dependencies on the rest of components of TUTOR.
 
-```
-   ╭───────╮  ┌────────┐  ╭───╮                                                                  ╭───╮
-▸▸─┤ UTF8( ├──┤ string ├──┤ , ├─┬────────────┬─┬──────────────────┬─┬──────────────────────────┬─┤ ) ├─▸◂
-   ╰───────╯  └────────┘  ╰───╯ │ ┌────────┐ │ │ ╭───╮ ┌────────┐ │ │ ╭───╮ ┌────────────────┐ │ ╰───╯
-                                └─┤ format ├─┘ └─┤ , ├─┤ target ├─┘ └─┤ , ├─┤ error_handling ├─┘
-                                  └────────┘     ╰───╯ └────────┘     ╰───╯ └────────────────┘
-```
-
 Tests whether _string_ contains well-formed UTF-8 (this is the default when _format_ has not been specified), or is a well-formed string in the _format_ encoding. Optionally, it decodes it to a certain set of _target_ encodings.
 
 UTF8 works as a _format_ encoding validator when _target_ is omitted, and as a decoder when _target_ is specified. It is an error to omit _target_ and to specify a value for _error_handling_ at the same time (that is, if _target_ was omitted, then _error_handling_ should be omitted too).
