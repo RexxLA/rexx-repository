@@ -1,6 +1,6 @@
 # The Unicode Tools Of Rexx (TUTOR)
 
-TUTOR has moved. You can now get it at:
+**TUTOR has moved**. You can now get it at:
 
 * https://github.com/JosepMariaBlasco/TUTOR (releases), and
 * https://rexx.epbcn.com/tutor/ (releases, daily builds, live development version).
