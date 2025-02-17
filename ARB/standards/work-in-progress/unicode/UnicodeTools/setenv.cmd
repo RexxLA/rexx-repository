@@ -1,3 +1,0 @@
-@Echo Off
-Echo Adding "%CD%" to the PATH environment variable...
-Set path=%cd%;%path%
