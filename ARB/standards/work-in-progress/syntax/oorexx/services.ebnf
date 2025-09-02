@@ -1,0 +1,9 @@
+register ::=  'RXSUBCOM' 'REGISTER' envname dllname procname
+drop ::=      'RXSUBCOM' 'DROP' envname dllname?
+query ::=     'RXSUBCOM' 'QUERY' envname dllname?
+load ::=      'RXSUBCOM' 'LOAD' envname dllname?
+
+rxqueue ::=   'RXQUEUE' ( | 'SESSION' | queuename ) ( | '/FIFO' | '/LIFO' | '/CLEAR' )
+
+rexxc ::=     'rexxc' inputfile outputfile? '-s'? '-e'?
+
