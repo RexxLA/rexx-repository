@@ -1,0 +1,60 @@
+stream_new ::= 'new(' name ')'
+
+stream_arrayin ::= 'arrayIn(' ( | '"Lines"' | '"Chars"' ) ')'
+
+stream_arrayout ::= 'arrayOut(' array ( ',' ( '"Lines"' | '"Chars"' ) )? ')'
+
+stream_charin ::= 'charIn(' start? (',' length)? ')'
+
+stream_charout ::= 'charOut(' string? (',' start)? ')'
+
+stream_chars ::= 'chars'
+
+stream_close ::= 'close'
+
+stream_command ::= 'command(' stream_command ')'
+/* stream_command       -- see images/bif/stream_command */
+
+stream_description ::= 'description'
+
+stream_flush ::= 'flush'
+
+stream_init ::= 'init(' name ')'
+
+stream_linein ::= 'lineIn(' line? (',' count)? ')'
+
+stream_lineout ::= 'lineOut(' string? (',' line)? ')'
+
+stream_lines ::= 'lines(' ( | '"Count"' | '"Normal"' ) ')'
+
+stream_makearray ::= 'makeArray(' ( | '"Line"' | '"Char"' ) ')'
+
+stream_open ::= 'open(' ( ( ( | 'BOth' | 'Write') ( | 'APpend' | 'REPlace' ) )
+                        | 'REAd' )
+                        (OPTIONS - fragment) ')'
+
+/* stream_options       -- see images/bif/stream_options */
+
+stream_position ::= 'position(' ( | '=' | '<' | '+' | '-' ) offset ( | 'Read' | 'Write' ) ( | 'Char' | 'Line') ')'
+
+stream_qualify ::= 'qualify'
+
+stream_query ::= 'query(' ( 'Datetime' |
+                            'Exists' |
+                            'Handle' |
+                          ( 'Seek' | 'Position' ) ( ( | 'Read' | 'Write' ) ( | 'Char' | 'Line') | 'Sys' ) |
+                            'SIze' |
+                            'STreamtype' |
+                            'Timestamp' ) ')'
+
+stream_say ::= 'say(' string? ')'
+
+stream_seek ::= 'seek(' ( | '=' | '<' | '+' | '-' ) offset ( | 'Read' | 'Write' ) ( | 'Char' | 'Line') ')'
+
+stream_state ::= 'state'
+
+stream_string ::= 'string'
+
+stream_supplier ::= 'supplier'
+
+stream_uninit ::= 'uninit'

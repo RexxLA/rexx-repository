@@ -1,0 +1,670 @@
+collection_atget ::= '[' index (',' index )* ']'
+
+collection_putset ::= '[' index (',' index )* ']' '=' value
+
+collection_allindexes ::= 'allIndexes'
+
+collection_allitems ::= 'allItems'
+
+collection_at ::= 'at(' index (',' index )* ')'
+
+collection_difference ::= 'difference(' argument ')'
+
+collection_disjoint ::= 'disjoint(' argument ')'
+
+collection_equivalent ::= 'equivalent(' argument ')'
+
+collection_hasindex ::= 'hasIndex(' index (',' index )* ')'
+
+collection_hasitem ::= 'hasItem(' item ')'
+
+collection_index ::= 'index(' item ')'
+
+collection_intersection ::= 'intersection(' argument ')'
+
+collection_items ::= 'items'
+
+collection_makearray ::= 'makeArray'
+
+collection_put ::= 'put(' item ',' index (',' index )* ')'
+
+collection_subset ::= 'subset(' argument ')'
+
+collection_supplier ::= 'supplier'
+
+collection_union ::= 'union(' argument ')'
+
+collection_xor ::= 'xor(' argument ')'
+
+/* New in 5.0 */
+mapcollection_of ::= 'of(' pair (',' pair)* ')'
+
+mapcollection_makearray ::= 'makeArray'
+
+mapcollection_putall ::= 'putAll(' collection ')'
+
+orderedcollection_append ::= 'append(' item ')'
+
+orderedcollection_appendall ::= 'appendAll(' collection ')'
+
+orderedcollection_delete ::= 'delete(' index (',' index )* ')'
+
+orderedcollection_difference ::= 'difference(' argument ')'
+
+orderedcollection_first ::= 'first'
+
+orderedcollection_firstitem ::= 'firstItem'
+
+orderedcollection_insert ::= 'insert(' item ( ',' index )? ')'
+
+orderedcollection_intersection ::= 'intersection(' argument ')'
+
+orderedcollection_last ::= 'last'
+
+orderedcollection_lastitem ::= 'lastItem'
+
+orderedcollection_next ::= 'next'
+
+orderedcollection_previous ::= 'previous(' index ')'
+
+orderedcollection_section ::= 'section(' start ( ',' items )? ')'
+
+orderedcollection_sort ::= 'sort'
+
+orderedcollection_sortwith ::= 'sortWith(' comparator ')'
+
+orderedcollection_stablesort ::= 'stableSort'
+
+orderedcollection_stablesortwith ::= 'stableSortWith(' comparator ')'
+
+orderedcollection_subset ::= 'subset(' argument ')'
+
+orderedcollection_union ::= 'union(' argument ')'
+
+orderedcollection_xor ::= 'xor(' argument ')'
+
+array_insert ::= 'insert(' item ( ',' index )? ')'
+
+array_new ::= 'new(' ( size ( ',' size )* )? ')'
+
+array_of ::=         'of(' item? ( ',' item? )* ')'     /* sparse allowed */
+
+array_atget ::= '[' index (',' index )* ']'
+
+array_putset ::= '[' index (',' index )* ']' '=' value
+
+array_allindexes ::= 'allIndexes'
+
+array_allitems ::= 'allItems'
+
+array_append ::= 'append(' item ')'
+
+array_at ::= 'at(' index (',' index )* ')'
+
+array_delete ::= 'delete(' index ')'
+
+array_dimension ::= 'dimension(' n ')'
+
+array_dimensions ::= 'dimensions'
+
+array_empty ::= 'empty'
+
+array_fill ::= 'fill(' value ')'
+
+array_first ::= 'first'
+
+array_firstitem ::= 'firstItem'
+
+array_hasindex ::= 'hasIndex(' index (',' index )* ')'
+
+array_hasitem ::= 'hasItem(' item ')'
+
+array_index ::= 'index(' item ')'
+
+array_isempty ::= 'isEmpty'
+
+array_items ::= 'items'
+
+array_last ::= 'last'
+
+array_lastitem ::= 'lastItem'
+
+array_makearray ::= 'makeArray'
+
+array_makestring ::= 'makeString(' ( '"Line"'? (',' separator)? | '"Char"' ) ')'
+
+array_next ::= 'next(' index (',' index )* ')'
+
+array_previous ::= 'previous(' index (',' index )* ')'
+
+array_put ::= 'put(' item ( index (',' index )* ) ')'
+
+array_remove ::= 'remove(' index (',' index )* ')'
+
+array_removeitem ::= 'removeItem(' item ')'
+
+array_section ::= 'section(' start ( ',' items )? ')'
+
+array_size ::= 'size'
+
+array_sort ::= 'sort'
+
+array_sortwith ::= 'sortWith(' comparator ')'
+
+array_stablesort ::= 'stableSort'
+
+array_stablesortwith ::= 'stableSortWith(' comparator ')'
+
+array_supplier ::= 'supplier'
+
+array_tostring ::= 'toString(' ( '"Line"'? (',' separator)? | '"Char"' ) ')'
+
+bag_new ::= 'new(' size? ')'
+
+bag_of ::=           'of(' ( item ( ',' item )* )? ')'  /* sparse not allowed */
+
+bag_atget ::= '[' index ']'
+
+bag_putset ::= '[' index? ']' '=' item
+
+bag_allat ::= 'allAt(' index ')'
+
+bag_allindex ::= 'allIndex(' item ')'
+
+bag_allindexes ::= 'allIndexes'
+
+bag_allitems ::= 'allItems'
+
+bag_at ::= 'at(' index ')'
+
+bag_difference ::= 'difference(' argument ')'
+
+bag_empty ::= 'empty'
+
+bag_hasindex ::= 'hasIndex(' index ')'
+
+bag_hasitem ::= 'hasItem(' item ( ',' index )? ')'
+
+bag_index ::= 'index(' item ')'
+
+bag_intersection ::= 'intersection(' argument ')'
+
+bag_isempty ::= 'isEmpty'
+
+bag_items ::= 'items(' index? ')'
+
+bag_makearray ::= 'makeArray'
+
+bag_put ::= 'put(' item (',' index)? ')'
+
+bag_putall ::= 'putAll(' collection ')'
+
+bag_remove ::= 'remove(' index ')'
+
+bag_removeall ::= 'removeAll(' index ')'
+
+bag_removeitem ::= 'removeItem(' item ( ',' index )? ')'
+
+bag_subset ::= 'subset(' argument ')'
+
+bag_supplier ::= 'supplier(' index? ')'
+
+bag_union ::= 'union(' argument ')'
+
+bag_uniqueindexes ::= 'uniqueIndexes'
+
+bag_xor ::= 'xor(' argument ')'
+
+circularqueue_of ::= 'of(' item? ( ',' item? )* ')'     /* sparse allowed */
+
+circularqueue_init ::= 'init(' size ')'
+
+circularqueue_append ::= 'append(' item ')'
+
+circularqueue_insert ::= 'insert(' item ( ',' index )? ')'
+
+circularqueue_intersection ::= 'intersection(' argument ')'
+
+circularqueue_makearray ::= 'makeArray(' ( order )? ')'
+
+circularqueue_push ::= 'push(' item ( ',' option )? ')'
+
+circularqueue_queue ::= 'queue(' item ( ',' 'Normal' | ',' 'Unique' )? ')'
+
+circularqueue_resize ::= 'resize(' newsize ( ',' order )? ')'
+
+circularqueue_section ::= 'section(' start ( ',' items )? ')'
+
+circularqueue_size ::= 'size'
+
+circularqueue_string ::= 'string(' delimiter? ( ',' order )? ')'
+/* New in 5.0 */
+circularqueue_makestring ::= 'makeString(' delimiter? ( ',' order )? ')'
+
+circularqueue_supplier ::= 'supplier(' ( order )? ')'
+
+circularqueue_union ::= 'union(' argument ')'
+
+circularqueue_xor ::= 'xor(' argument ')'
+
+directory_new ::= 'new(' size? ')'
+
+directory_atget ::= '[' name ']'
+
+directory_putset ::= '[' name ']' '=' item
+
+directory_allindexes ::= 'allIndexes'
+
+directory_allitems ::= 'allItems'
+
+directory_at ::= 'at(' name ')'
+
+directory_empty ::= 'empty'
+
+directory_entry ::= 'entry(' name ')'
+
+directory_hasentry ::= 'hasEntry(' name ')'
+
+directory_hasindex ::= 'hasIndex(' name ')'
+
+directory_hasitem ::= 'hasItem(' item ')'
+
+directory_index ::= 'index(' item ')'
+
+directory_isempty ::= 'isEmpty'
+
+directory_items ::= 'items'
+
+directory_makearray ::= 'makeArray'
+
+directory_put ::= 'put(' item ',' name ')'
+
+directory_remove ::= 'remove(' name ')'
+
+/* New in 5.0 */
+directory_removeentry ::= 'removeEntry(' name ')'
+
+directory_removeitem ::= 'removeItem(' item ')'
+
+directory_setentry ::= 'setEntry(' name ( ',' entry )? ')'
+
+directory_setmethod ::= 'setMethod(' name ( ',' method )? ')'
+
+directory_supplier ::= 'supplier'
+
+directory_unknown ::= 'unknown(' messagename ',' messageargs ')'
+
+directory_unsetmethod ::= 'unsetMethod(' name ')'
+
+stringtable_new ::= 'new(' size? ')'
+
+stringtable_atget ::= '[' name ']'
+
+stringtable_putset ::= '[' name ']' '=' item
+
+stringtable_allindexes ::= 'allIndexes'
+
+stringtable_allitems ::= 'allItems'
+
+stringtable_at ::= 'at(' name ')'
+
+stringtable_empty ::= 'empty'
+
+stringtable_entry ::= 'entry(' name ')'
+
+stringtable_hasentry ::= 'hasEntry(' name ')'
+
+stringtable_hasindex ::= 'hasIndex(' name ')'
+
+stringtable_hasitem ::= 'hasItem(' item ')'
+
+stringtable_index ::= 'index(' item ')'
+
+stringtable_isempty ::= 'isEmpty'
+
+stringtable_items ::= 'items'
+
+stringtable_makearray ::= 'makeArray'
+
+stringtable_put ::= 'put(' item ',' name ')'
+
+stringtable_remove ::= 'remove(' name ')'
+
+/* New in 5.0 */
+stringtable_removeentry ::= 'removeEntry(' name ')'
+
+stringtable_removeitem ::= 'removeItem(' item ')'
+
+stringtable_setentry ::= 'setEntry(' name ( ',' entry )? ')'
+
+stringtable_supplier ::= 'supplier'
+
+stringtable_unknown ::= 'unknown(' messagename ',' messageargs ')'
+
+list_new ::= 'new(' size? ')'
+
+list_of ::=          'of(' ( item ( ',' item )* )? ')'  /* sparse not allowed */
+
+list_atget ::= '[' index ']'
+
+list_putset ::= '[' index ']' '=' item
+
+list_allindexes ::= 'allIndexes'
+
+list_allitems ::= 'allItems'
+
+list_append ::= 'append(' item ')'
+
+list_at ::= 'at(' index ')'
+
+list_delete ::= 'delete(' index ')'
+
+list_empty ::= 'empty'
+
+list_first ::= 'first'
+
+list_firstitem ::= 'firstItem'
+
+list_hasindex ::= 'hasIndex(' index ')'
+
+list_hasitem ::= 'hasItem(' item ')'
+
+list_index ::= 'index(' item ')'
+
+list_insert ::= 'insert(' item ( ',' index )? ')'
+
+list_isempty ::= 'isEmpty'
+
+list_items ::= 'items'
+
+list_last ::= 'last'
+
+list_lastitem ::= 'lastItem'
+
+list_makearray ::= 'makeArray'
+
+list_next ::= 'next(' index ')'
+
+list_previous ::= 'previous(' index ')'
+
+list_put ::= 'put(' item ',' index ')'
+
+list_remove ::= 'remove(' index ')'
+
+list_removeitem ::= 'removeItem(' item ')'
+
+list_section ::= 'section(' start ( ',' items )? ')'
+
+list_supplier ::= 'supplier'
+
+properties_load ::= 'load(' source ')'
+
+properties_new ::= 'new(' size? ')'
+
+properties_putset ::= '[' name ']' '=' item
+
+properties_getlogical ::= 'getLogical(' name ( ',' default )? ')'
+
+properties_getproperty ::= 'getProperty(' name ( ',' default )? ')'
+
+properties_getwhole ::= 'getWhole(' name ( ',' default )? ')'
+
+properties_put ::= 'put(' item ',' name ')'
+
+properties_save ::= 'save(' target ')'
+
+properties_setlogical ::= 'setLogical(' name ',' value ')'
+
+properties_setproperty ::= 'setProperty(' name ',' value ')'
+
+properties_setwhole ::= 'setWhole(' name ',' value ')'
+
+queue_new ::= 'new(' size? ')'
+
+queue_of ::=         'of(' ( item ( ',' item )* )? ')'  /* sparse not allowed */
+
+queue_atget ::= '[' index ']'
+
+queue_putset ::= '[' index ']' '=' item
+
+queue_allindexes ::= 'allIndexes'
+
+queue_allitems ::= 'allItems'
+
+queue_append ::= 'append(' item ')'
+
+queue_at ::= 'at(' index ')'
+
+queue_delete ::= 'delete(' index ')'
+
+queue_empty ::= 'empty'
+
+queue_first ::= 'first'
+
+queue_firstitem ::= 'firstItem'
+
+queue_hasindex ::= 'hasIndex(' index ')'
+
+queue_hasitem ::= 'hasItem(' item ')'
+
+queue_index ::= 'index(' item ')'
+
+queue_insert ::= 'insert(' item ( ',' index )? ')'
+
+queue_isempty ::= 'isEmpty'
+
+queue_items ::= 'items'
+
+queue_last ::= 'last'
+
+queue_lastitem ::= 'lastItem'
+
+queue_makearray ::= 'makeArray'
+
+queue_next ::= 'next(' index ')'
+
+queue_peek ::= 'peek'
+
+queue_previous ::= 'previous(' index ')'
+
+queue_pull ::= 'pull'
+
+queue_push ::= 'push(' item ')'
+
+queue_put ::= 'put(' item ',' index ')'
+
+queue_queue ::= 'queue(' item ')'
+
+queue_remove ::= 'remove(' index ')'
+
+queue_removeitem ::= 'removeItem(' item ')'
+
+queue_section ::= 'section(' start ( ',' items )? ')'
+
+queue_size ::= 'size'
+
+queue_supplier ::= 'supplier'
+
+relation_new ::= 'new(' size? ')'
+
+relation_atget ::= '[' index ']'
+
+relation_putset ::= '[' index ']' '=' item
+
+relation_allat ::= 'allAt(' index ')'
+
+relation_allindex ::= 'allIndex(' item ')'
+
+relation_allindexes ::= 'allIndexes'
+
+relation_allitems ::= 'allItems'
+
+relation_at ::= 'at(' index ')'
+
+relation_difference ::= 'difference(' argument ')'
+
+relation_empty ::= 'empty'
+
+relation_hasindex ::= 'hasIndex(' index ')'
+
+relation_hasitem ::= 'hasItem(' item ( ',' index )? ')'
+
+relation_index ::= 'index(' item ')'
+
+relation_intersection ::= 'intersection(' argument ')'
+
+relation_isempty ::= 'isEmpty'
+
+relation_items ::= 'items(' index? ')'
+
+relation_makearray ::= 'makeArray'
+
+relation_put ::= 'put(' item ',' index ')'
+
+relation_remove ::= 'remove(' index ')'
+
+relation_removeall ::= 'removeAll(' index ')'
+
+relation_removeitem ::= 'removeItem(' item ( ',' index )? ')'
+
+relation_subset ::= 'subset(' argument ')'
+
+relation_supplier ::= 'supplier(' index? ')'
+
+relation_union ::= 'union(' argument ')'
+
+relation_uniqueindexes ::= 'uniqueIndexes'
+
+relation_xor ::= 'xor(' argument ')'
+
+set_of ::=           'of(' ( item ( ',' item )* )? ')'  /* sparse not allowed */
+set_new ::= 'new(' size? ')'
+set_allindexes ::= 'allIndexes'
+set_allitems ::= 'allItems'
+set_at ::= 'at(' index ')'
+set_atget ::= '[' index ']'
+set_empty ::= 'empty'
+set_hasindex ::= 'hasIndex(' index ')'
+set_hasitem ::= 'hasItem(' value ')'
+set_index ::= 'index(' item ')'
+set_intersection ::= 'intersection(' argument ')'
+set_isempty ::= 'isEmpty'
+set_items ::= 'items'
+set_makearray ::= 'makeArray'
+set_put ::= 'put(' item (',' index)? ')'
+set_putall ::= 'putAll(' collection ')'
+set_putset ::= '[' index? ']' '=' item
+set_remove ::= 'remove(' index ')'
+set_removeitem ::= 'removeItem(' item ')'
+set_subset ::= 'subset(' argument ')'
+set_supplier ::= 'supplier'
+set_union ::= 'union(' argument ')'
+set_xor ::= 'xor(' argument ')'
+
+stem_new ::= 'new(' name? ')'
+
+stem_atget ::= '[' index? (',' index?)* ']'
+
+stem_putset ::= '[' index? (',' index?)* ']' '=' value
+
+stem_allindexes ::= 'allIndexes'
+
+stem_allitems ::= 'allItems'
+
+stem_at ::= 'at(' tail ')'
+
+stem_empty ::= 'empty'
+
+stem_hasindex ::= 'hasIndex(' tail ')'
+
+stem_hasitem ::= 'hasItem(' value ')'
+
+stem_index ::= 'index(' item ')'
+
+stem_isempty ::= 'isEmpty'
+
+stem_items ::= 'items'
+
+stem_makearray ::= 'makeArray'
+
+stem_put ::= 'put(' item ',' tail ')'
+
+stem_remove ::= 'remove(' tail ')'
+
+stem_removeitem ::= 'removeItem(' item ')'
+
+stem_request ::= 'request(' classid ')'
+
+stem_supplier ::= 'supplier'
+
+stem_todirectory ::= 'toDirectory'
+
+stem_unknown ::= 'unknown(' messagename ',' messageargs ')'
+
+table_new ::= 'new(' size? ')'
+
+table_atget ::= '[' index ']'
+
+table_putset ::= '[' index ']' '=' item
+
+table_allindexes ::= 'allIndexes'
+
+table_allitems ::= 'allItems'
+
+table_at ::= 'at(' index ')'
+
+table_empty ::= 'empty'
+
+table_hasindex ::= 'hasIndex(' index ')'
+
+table_hasitem ::= 'hasItem(' value ')'
+
+table_index ::= 'index(' item ')'
+
+table_isempty ::= 'isEmpty'
+
+table_items ::= 'items'
+
+table_makearray ::= 'makeArray'
+
+table_put ::= 'put(' item ',' index ')'
+
+table_remove ::= 'remove(' index ')'
+
+table_removeitem ::= 'removeItem(' item ')'
+
+table_supplier ::= 'supplier'
+
+identitytable_new ::= 'new(' size? ')'
+
+identitytable_atget ::= '[' index ']'
+
+identitytable_putset ::= '[' index ']' '=' item
+
+identitytable_at ::= 'at(' index ')'
+
+identitytable_allindexes ::= 'allIndexes'
+
+identitytable_allitems ::= 'allItems'
+
+identitytable_empty ::= 'empty'
+
+identitytable_hasindex ::= 'hasIndex(' index ')'
+
+identitytable_hasitem ::= 'hasItem(' item ')'
+
+identitytable_index ::= 'index(' item ')'
+
+identitytable_isempty ::= 'isEmpty'
+
+identitytable_items ::= 'items'
+
+identitytable_makearray ::= 'makeArray'
+
+identitytable_put ::= 'put(' item ',' index ')'
+
+identitytable_remove ::= 'remove(' index ')'
+
+identitytable_removeitem ::= 'removeItem(' item ')'
+
+identitytable_supplier ::= 'supplier'

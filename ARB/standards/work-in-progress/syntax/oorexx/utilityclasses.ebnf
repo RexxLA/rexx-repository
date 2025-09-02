@@ -1,0 +1,513 @@
+alarmnotification_cancel    ::= 'cancel(' source ')'
+alarmnotification_triggered ::= 'triggered(' source ')'
+
+messagenotification_messagecomplete ::= 'messageComplete(' source ')'
+
+
+alarm_attachment ::= 'attachment'
+
+alarm_cancel ::= 'cancel'
+
+alarm_canceled ::= 'canceled' | 'cancelled'
+
+alarm_init ::= 'init(' atime ',' target (',' attachment)? ')'
+
+alarm_scheduledtime ::= 'scheduledTime'
+
+alarm_triggered ::= 'triggered'
+
+
+ticker_attachment ::= 'attachment'
+ticker_cancel     ::= 'cancel'
+ticker_canceled   ::= 'canceled' | 'cancelled'
+ticker_init       ::= 'init(' interval ',' target (',' attachment)? ')'
+ticker_interval   ::= 'interval'
+
+
+datetime_mindate ::= 'minDate'
+
+datetime_maxdate ::= 'maxDate'
+
+datetime_today ::= 'today(' offset? ')'
+
+datetime_fromnormaldate ::= 'fromNormalDate(' date ',' separator? (',' offset)? ')'
+
+datetime_fromeuropeandate ::= 'fromEuropeanDate(' date ',' separator? (',' offset)? ')'
+
+datetime_fromordereddate ::= 'fromOrderedDate(' date ',' separator? (',' offset)? ')'
+
+datetime_fromstandarddate ::= 'fromStandardDate(' date ',' separator? (',' offset)? ')'
+
+datetime_fromusadate ::= 'fromUsaDate(' date ',' separator? (',' offset)? ')'
+
+datetime_fromnormaltime ::= 'fromNormalTime(' time ( ',' offset )? ')'
+
+datetime_fromciviltime ::= 'fromCivilTime(' time ( ',' offset )? ')'
+
+datetime_fromlongtime ::= 'fromLongTime(' time ( ',' offset )? ')'
+
+datetime_frombasedate ::= 'fromBaseDate(' date ( ',' offset )? ')'
+
+datetime_fromticks ::= 'fromTicks(' time ( ',' offset )? ')'
+
+datetime_fromisodate ::= 'fromIsoDate(' date ( ',' offset )? ')'
+
+datetime_fromutcisodate ::= 'fromUtcIsoDate(' date ')'
+
+datetime_fromordinaldate ::= 'fromOrdinalDate(' date (',' offset)? ')'
+datetime_fromweeknumberdate ::= 'fromWeekNumberDate(' date (',' offset)? ')'
+
+/* keep as four separate diagrams to allow the fourth to be split across lines */
+datetime_init1 ::= 'init'
+datetime_init2 ::= 'init(' fulldate ( ',' offset )? ')'
+datetime_init3 ::= 'init(' year ',' month ',' day ( ',' offset )? ')'
+datetime_init4 ::= 'init(' year ',' month ',' day ',' hours ',' minutes ',' seconds?
+                          ',' microseconds? (',' offset)? ')'
+
+datetime_arithmeticoperator ::= arithmetic_operator '(' argument ')'
+
+datetime_compareto ::= 'compareTo(' other ')'
+
+datetime_year ::= 'year'
+
+datetime_month ::= 'month'
+
+datetime_day ::= 'day'
+
+datetime_hours ::= 'hours'
+
+datetime_minutes ::= 'minutes'
+
+datetime_seconds ::= 'seconds'
+
+datetime_microseconds ::= 'microseconds'
+
+datetime_dayminutes ::= 'dayMinutes'
+
+datetime_dayseconds ::= 'daySeconds'
+
+datetime_daymicroseconds ::= 'dayMicroseconds'
+
+datetime_hashcode ::= 'hashCode'
+
+datetime_addyears ::= 'addYears(' years ')'
+
+datetime_addweeks ::= 'addWeeks(' weeks ')'
+
+datetime_adddays ::= 'addDays(' days ')'
+
+datetime_addhours ::= 'addHours(' hours ')'
+
+datetime_addminutes ::= 'addMinutes(' minutes ')'
+
+datetime_addseconds ::= 'addSeconds(' seconds ')'
+
+datetime_addmicroseconds ::= 'addMicroseconds(' microseconds ')'
+
+datetime_isodate ::= 'isoDate'
+
+datetime_utcisodate ::= 'utcIsoDate'
+
+datetime_basedate ::= 'baseDate'
+
+datetime_yearday ::= 'yearDay'
+
+datetime_weekday ::= 'weekDay'
+
+datetime_europeandate ::= 'europeanDate(' ( separator )? ')'
+
+datetime_languagedate ::= 'languageDate'
+
+datetime_monthname ::= 'monthName'
+
+datetime_dayname ::= 'dayName'
+
+datetime_normaldate ::= 'normalDate(' ( separator )? ')'
+
+datetime_ordereddate ::= 'orderedDate(' ( separator )? ')'
+
+datetime_standarddate ::= 'standardDate(' ( separator )? ')'
+
+datetime_usadate ::= 'usaDate(' ( separator )? ')'
+
+datetime_civiltime ::= 'civilTime'
+
+datetime_normaltime ::= 'normalTime'
+
+datetime_longtime ::= 'longTime'
+
+datetime_fulldate ::= 'fullDate'
+
+datetime_utcdate ::= 'utcDate'
+
+datetime_tolocaltime ::= 'toLocalTime'
+
+datetime_toutctime ::= 'toUtcTime'
+
+datetime_totimezone ::= 'toTimeZone(' ( offset )? ')'
+
+datetime_ticks ::= 'ticks'
+
+datetime_offset ::= 'offset'
+
+datetime_date ::= 'date'
+
+datetime_timeofday ::= 'timeOfDay'
+
+datetime_elapsed ::= 'elapsed'
+
+datetime_isleapyear ::= 'isLeapYear'
+
+datetime_daysinmonth ::= 'daysInMonth'
+
+datetime_daysinyear ::= 'daysInYear'
+
+datetime_string ::= 'string'
+datetime_makestring ::= 'makeString'
+
+datetime_ordinaldate    ::= 'ordinalDate'
+datetime_weeknumber     ::= 'weekNumber'
+datetime_weeknumberdate ::= 'weekNumberDate'
+datetime_weeknumberyear ::= 'weekNumberYear'
+datetime_weeksinyear    ::= 'weeksInYear'
+
+timespan_fromdays ::= 'fromDays(' days ')'
+
+timespan_fromhours ::= 'fromHours(' hours ')'
+
+timespan_fromminutes ::= 'fromMinutes(' minutes ')'
+
+timespan_fromseconds ::= 'fromSeconds(' seconds ')'
+
+timespan_frommicroseconds ::= 'fromMicroseconds(' microseconds ')'
+
+timespan_fromnormaltime ::= 'fromNormalTime(' time ')'
+
+timespan_fromciviltime ::= 'fromCivilTime(' time ')'
+
+timespan_fromlongtime ::= 'fromLongTime(' time ')'
+
+timespan_fromstringformat ::= 'fromStringFormat(' time ')'
+
+timespan_init ::= 'init(' fullDate ')'
+timespan_init ::= 'init(' hours ',' minutes (',' seconds)? ')'
+timespan_init ::= 'init(' days ',' hours ',' minutes ',' seconds (',' microseconds)? ')'
+
+timespan_arithmeticoperator ::= arithmetic_operator '(' argument ')'
+
+timespan_compareto ::= 'compareTo(' other ')'
+
+timespan_duration ::= 'duration'
+
+timespan_days ::= 'days'
+
+timespan_hours ::= 'hours'
+
+timespan_minutes ::= 'minutes'
+
+timespan_seconds ::= 'seconds'
+
+timespan_microseconds ::= 'microseconds'
+
+timespan_totaldays ::= 'totalDays'
+
+timespan_totalhours ::= 'totalHours'
+
+timespan_totalminutes ::= 'totalMinutes'
+
+timespan_totalseconds ::= 'totalSeconds'
+
+timespan_totalmicroseconds ::= 'totalMicroseconds'
+
+timespan_hashcode ::= 'hashCode'
+
+timespan_addweeks ::= 'addWeeks(' weeks ')'
+
+timespan_adddays ::= 'addDays(' days ')'
+
+timespan_addhours ::= 'addHours(' hours ')'
+
+timespan_addminutes ::= 'addMinutes(' minutes ')'
+
+timespan_addseconds ::= 'addSeconds(' seconds ')'
+
+timespan_addmicroseconds ::= 'addMicroseconds(' microseconds ')'
+
+timespan_sign ::= 'sign'
+
+timespan_string ::= 'string'
+timespan_makestring ::= 'makeString'
+
+comparable_compareto ::= 'compareTo(' other ')'
+
+orderable_comparisonoperator ::= 'comparison_operator(' argument ')'
+orderable_compareto ::= 'compareTo(' other ')'
+
+comparator_compare ::= 'compare(' first ',' second ')'
+
+caselesscomparator_compare ::= 'compare(' first ',' second ')'
+
+columncomparator_compare ::= 'compare(' first ',' second ')'
+
+columncomparator_init ::= 'init(' start ',' length ')'
+
+caselesscolumncomparator_compare ::= 'compare(' first ',' second ')'
+
+caselesscolumncomparator_init ::= 'init(' start ',' length ')'
+
+descendingcomparator_compare ::= 'compare(' first ',' second ')'
+
+caselessdescendingcomparator_compare ::= 'compare(' first ',' second ')'
+
+invertingcomparator_compare ::= 'compare(' first ',' second ')'
+
+invertingcomparator_init ::= 'init(' comparator ')'
+
+numericcomparator_compare ::= 'compare(' first ',' second ')'
+
+numericcomparator_init ::= 'init(' ( digits )? ')'
+
+monitor_current ::= 'current'
+
+monitor_destination ::= 'destination(' destination? ')'
+
+monitor_init ::= 'init(' destination? ')'
+
+monitor_unknown ::= 'unknown(' messagename ',' messageargs ')'
+
+/* MutableBuffer: see fundclasses.ebnf together with String */
+
+regexp_new ::= 'new(' pattern? ',' ( | '"MAXIMAL"' | '"MINIMAL"' ) ')'
+
+regexp_match ::= 'match(' string ')'
+
+regexp_parse ::= 'parse(' pattern ',' ( | '"CURRENT"' | '"MAXIMAL"' | '"MINIMAL"' ) ')'
+
+regexp_pos ::= 'pos(' haystack ')'
+
+regexp_position ::= 'position'
+
+rexxqueue_new          ::= 'new(' name? ')'
+rexxqueue_create       ::= 'create(' name? ')'
+rexxqueue_delete_class ::= 'delete(' name ')'
+rexxqueue_exists       ::= 'exists(' name ')'
+rexxqueue_open         ::= 'open(' name ')'
+rexxqueue_delete       ::= 'delete'
+rexxqueue_empty        ::= 'empty'
+rexxqueue_get          ::= 'get'
+rexxqueue_init         ::= 'init(' name? ')'
+rexxqueue_linein       ::= 'lineIn'
+rexxqueue_lineout      ::= 'lineOut(' line? ')'
+rexxqueue_makearray    ::= 'makeArray'
+rexxqueue_pull         ::= 'pull'
+rexxqueue_push         ::= 'push(' line? ')'
+rexxqueue_queue        ::= 'queue(' line? ')'
+rexxqueue_queued       ::= 'queued'
+rexxqueue_say          ::= 'say(' line? ')'
+rexxqueue_set          ::= 'set(' name ')'
+
+supplier_new ::= 'new(' items ',' indexes ')'
+
+supplier_allindexes ::= 'allIndexes'
+
+supplier_allitems ::= 'allItems'
+
+supplier_available ::= 'available'
+
+supplier_index ::= 'index'
+
+supplier_init ::= 'init'
+
+supplier_item ::= 'item'
+
+supplier_next ::= 'next'
+
+supplier_supplier ::= 'supplier'
+
+streamsupplier_available ::= 'available'
+
+streamsupplier_index ::= 'index'
+
+streamsupplier_init ::= 'init'
+
+streamsupplier_item ::= 'item'
+
+streamsupplier_next ::= 'next'
+
+rexxcontext_args ::= 'args'
+
+rexxcontext_condition ::= 'condition'
+
+rexxcontext_digits ::= 'digits'
+
+rexxcontext_executable ::= 'executable'
+
+rexxcontext_form ::= 'form'
+
+rexxcontext_fuzz ::= 'fuzz'
+
+rexxcontext_interpreter ::= 'interpreter'
+
+rexxcontext_invocation ::= 'invocation'
+
+rexxcontext_line ::= 'line'
+
+rexxcontext_name ::= 'name'
+
+rexxcontext_package ::= 'package'
+
+rexxcontext_rs ::= 'rs'
+
+rexxcontext_stackframes ::= 'stackFrames'
+
+rexxcontext_thread ::= 'thread'
+
+rexxcontext_variables ::= 'variables'
+
+stackframe_arguments ::= 'arguments'
+
+stackframe_context ::= 'context'
+
+stackframe_executable ::= 'executable'
+
+stackframe_invocation ::= 'invocation'
+
+stackframe_line ::= 'line'
+
+stackframe_makestring ::= 'makeString'
+
+stackframe_name ::= 'name'
+
+stackframe_string ::= 'string'
+
+stackframe_target ::= 'target'
+
+stackframe_traceline ::= 'traceLine'
+
+stackframe_type ::= 'type'
+
+weakreference_new ::= 'new(' object ')'
+
+weakreference_value ::= 'value'
+
+pointer_new ::= 'new'
+
+pointer_comparisonoperator ::= 'comparison_operator(' argument ')'
+
+pointer_isnull ::= 'isNull'
+
+buffer_new ::= 'new'
+
+file_absolutefile           ::= 'absoluteFile'
+file_absolutepath           ::= 'absolutePath'
+file_canread                ::= 'canRead'
+file_canwrite               ::= 'canWrite'
+file_compareto              ::= 'compareTo(' other ')'
+file_delete                 ::= 'delete'
+file_exists                 ::= 'exists'
+file_extension              ::= 'extension'
+file_hashcode               ::= 'hashCode'
+file_init                   ::= 'init(' path ( ',' dir )? ')'
+file_iscasesensitive        ::= 'isCaseSensitive'
+file_isdirectory            ::= 'isDirectory'
+file_isfile                 ::= 'isFile'
+file_ishidden               ::= 'isHidden'
+file_lastaccessed           ::= 'lastAccessed'
+file_lastaccessed           ::= 'lastAccessed' '=' date
+file_lastmodified           ::= 'lastModified'
+file_lastmodified           ::= 'lastModified' '=' date
+file_length                 ::= 'length'
+file_list                   ::= 'list'
+file_listfiles              ::= 'listFiles'
+file_listroots              ::= 'listRoots'
+file_makedir                ::= 'makeDir'
+file_makedirs               ::= 'makeDirs'
+file_name                   ::= 'name'
+file_parent                 ::= 'parent'
+file_parentfile             ::= 'parentFile'
+file_path                   ::= 'path'
+file_pathseparator          ::= 'pathSeparator'
+file_renameto               ::= 'renameTo(' dest ')'
+file_searchpath             ::= 'searchPath(' name ',' path? ')'
+file_separator              ::= 'separator'
+file_setreadonly            ::= 'setReadOnly'
+file_setwritable            ::= 'setWritable'
+file_string                 ::= 'string'
+file_makestring             ::= 'makeString'
+file_temporarypath          ::= 'temporaryPath'
+
+rexxinfo_architecture       ::= 'architecture'
+rexxinfo_casesensitivefiles ::= 'caseSensitiveFiles'
+rexxinfo_date               ::= 'date'
+rexxinfo_debug              ::= 'debug'
+rexxinfo_digits             ::= 'digits'
+rexxinfo_directoryseparator ::= 'directorySeparator'
+rexxinfo_endofline          ::= 'endofline'
+rexxinfo_executable         ::= 'executable'
+rexxinfo_form               ::= 'form'
+rexxinfo_fuzz               ::= 'fuzz'
+rexxinfo_internaldigits     ::= 'internalDigits'
+rexxinfo_internalmaxnumber  ::= 'internalMaxNumber'
+rexxinfo_internalminnumber  ::= 'internalMinNumber'
+rexxinfo_languagelevel      ::= 'languageLevel'
+rexxinfo_libraryPath        ::= 'libraryPath'
+rexxinfo_majorversion       ::= 'majorVersion'
+rexxinfo_maxarraysize       ::= 'maxArraySize'
+rexxinfo_maxexponent        ::= 'maxExponent'
+rexxinfo_maxpathlength      ::= 'maxPathLength'
+rexxinfo_minexponent        ::= 'minExponent'
+rexxinfo_modification       ::= 'modification'
+rexxinfo_name               ::= 'name'
+rexxinfo_package            ::= 'package'
+rexxinfo_pathseparator      ::= 'pathSeparator'
+rexxinfo_platform           ::= 'platform'
+rexxinfo_release            ::= 'release'
+rexxinfo_revision           ::= 'revision'
+rexxinfo_version            ::= 'version'
+
+validate_classtype              ::= 'classType(' name ',' object ',' class ')'
+validate_length                 ::= 'length(' name ',' number ',' digits? ')'
+validate_logical                ::= 'logical(' name ',' number ')'
+validate_nonnegativenumber      ::= 'nonNegativeNumber(' name ',' number ',' digits? ')'
+validate_nonnegativewholenumber ::= 'nonNegativeWholeNumber(' name ',' number ',' digits? ')'
+validate_number                 ::= 'number(' name ',' number ')'
+validate_numberrange            ::= 'numberRange(' name ',' number ',' min ',' max ',' digits? ')'
+validate_position               ::= 'position(' name ',' number ',' digits? ')'
+validate_positivenumber         ::= 'positiveNumber(' name ',' number ',' digits? ')'
+validate_positivewholenumber    ::= 'positiveWholeNumber(' name ',' number ',' digits? ')'
+validate_requestclasstype       ::= 'requestClassType(' name ',' object ',' class ')'
+validate_wholenumber            ::= 'wholeNumber(' name ',' number ',' digits? ')'
+validate_wholenumberrange       ::= 'wholeNumberRange(' name ',' number ',' min ',' max ',' digits? ')'
+
+variablereference_name      ::= 'name'
+variablereference_request   ::= 'request(' classid ')'
+variablereference_unknown   ::= 'unknown'
+variablereference_value     ::= 'value'
+variablereference_value     ::= 'value' '=' object
+
+eventsemaphore_new          ::= 'new'
+eventsemaphore_isposted     ::= 'isPosted'
+eventsemaphore_post         ::= 'post'
+eventsemaphore_reset        ::= 'reset'
+eventsemaphore_uninit       ::= 'uninit'
+eventsemaphore_wait         ::= 'wait(' timeout? ')'
+
+mutexsemaphore_new          ::= 'new'
+mutexsemaphore_acquire      ::= 'acquire(' timeout? ')'
+mutexsemaphore_release      ::= 'release'
+mutexsemaphore_uninit       ::= 'uninit'
+
+traceobject_activate        ::= 'activate'
+traceobject_collector_get   ::= 'collector'
+traceobject_collector_set   ::= 'collector=' object
+traceobject_compareto       ::= 'compareTo(' otherTraceObject ')'
+traceobject_counter_get     ::= 'counter'
+traceobject_makestring      ::= 'makeString'
+traceobject_makestringimpl  ::= 'makeStringImpl(' traceObject ')'
+traceobject_new             ::= 'new'
+traceobject_notify_get      ::= 'notify'
+traceobject_notify_set      ::= 'notify=' object
+traceobject_option_get      ::= 'option'
+traceobject_option_set      ::= 'option=' ( '"Normal"' | '"Thread"'| '"Standard"' | '"Full"' | '"Profile" | "Probing"' )
+traceobject_setmakestring   ::= 'setMakeString(' makeStringMethod ')'
+traceobject_unsetmakestring ::= 'unsetMakeString'

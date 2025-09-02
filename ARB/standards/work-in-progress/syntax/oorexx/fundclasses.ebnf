@@ -1,0 +1,473 @@
+all_annotation ::= 'annotation(' name ')'
+
+all_annotations ::= 'annotations'
+
+object_new ::= 'new'
+
+object_comparison_operator ::= 'comparison_operator(' argument ')'
+
+object_concatenation_operator ::= 'concatenation_operator(' argument ')'
+
+object_class ::= 'class'
+
+object_copy ::= 'copy'
+
+object_defaultname ::= 'defaultname'
+
+object_hashcode ::= 'hashCode'
+
+object_hasmethod ::= 'hasMethod(' methodname ')'
+
+object_identityhash ::= 'identityHash'
+
+object_init ::= 'init'
+
+object_instancemethod ::= 'instanceMethod(' methodname ')'
+
+object_instancemethods ::= 'instanceMethods(' class_object? ')'
+
+object_isa ::= 'isA(' class ')'
+
+object_isinstanceof ::= 'isInstanceOf(' class ')'
+
+object_isnil ::= 'isNil'
+
+object_objectname ::= 'objectName'
+
+object_objectnameequals ::= 'objectName=(' newname ')'
+
+object_request ::= 'request(' classid ')'
+
+object_run ::= 'run(' method ( ',' '"Individual"' ( ',' argument? )* |
+                               ',' '"Array"' ',' arguments )? ')'
+
+object_send ::= 'send(' messagename ( ',' argument? )* ')'
+
+object_sendwith ::= 'sendWith(' messagename ',' arguments ')'
+
+object_setmethod ::= 'setMethod(' methodname
+                                  ( ',' method ( | ',' '"FLOAT"' | ',' '"OBJECT"' ) )? ')'
+
+object_start ::= 'start(' messagename ( ',' argument? )* ')'
+
+object_startwith ::= 'startWith(' messagename ',' arguments ')'
+
+object_string ::= 'string'
+
+object_unsetmethod ::= 'unsetMethod(' methodname ')'
+
+class_comparison_operator ::= 'comparison_operator(' argument ')'
+
+class_activate ::= 'activate'
+
+class_baseclass ::= 'baseClass'
+
+class_defaultname ::= 'defaultName'
+
+class_define ::= 'define(' methodname ( ',' method )? ')'
+
+class_definemethods ::= 'defineMethods(' methods ')'
+
+class_delete ::= 'delete(' methodname ')'
+
+class_enhanced ::= 'enhanced(' methods ( ',' argument? )* ')'
+
+class_id ::= 'id'
+
+class_inherit ::= 'inherit(' classobj ( ',' classpos )? ')'
+
+class_isabstract ::= 'isAbstract'
+class_ismetaclass ::= 'isMetaclass'
+
+class_issubclassof ::= 'isSubclassOf(' class ')'
+
+class_metaclass ::= 'metaClass'
+
+class_method ::= 'method(' methodname ')'
+
+class_methods ::= 'methods(' class_object? ')'
+
+class_mixinclass ::= 'mixinClass(' classid ',' metaclass? (',' methods)? ')'
+
+class_new ::= 'new(' arg? (',' arg?)* ')'
+
+class_package ::= 'package'
+
+class_querymixinclass ::= 'queryMixinClass'
+
+class_subclass ::= 'subclass(' classid ',' metaclass? (',' methods)? ')'
+
+class_subclasses ::= 'subclasses'
+
+class_superclass ::= 'superClass'
+
+class_superclasses ::= 'superClasses'
+
+class_uninherit ::= 'uninherit(' classobj ')'
+
+string_new ::= 'new(' stringvalue ')'
+string_nl ::= 'nl'
+string_cr ::= 'cr'
+string_null ::= 'null'
+string_tab ::= 'tab'
+
+string_class_alnum ::= 'alnum'
+string_class_alpha ::= 'alpha'
+string_class_blank ::= 'blank'
+string_class_cntrl ::= 'cntrl'
+string_class_digit ::= 'digit'
+string_class_graph ::= 'graph'
+string_class_lower ::= 'lower'
+string_class_print ::= 'print'
+string_class_punct ::= 'punct'
+string_class_space ::= 'space'
+string_class_upper ::= 'upper'
+string_class_xdigit ::= 'xdigit'
+
+string_arithmetic_operator ::= arithmetic_operator '(' argument ')'
+
+string_comparison_operator ::= 'comparison_operator(' argument ')'
+
+string_logical_operator ::= 'logical_operator(' argument ')'
+
+string_concatenation_operator ::= 'concatenation_operator(' argument ')'
+
+string_atget                ::= '[' n ( ',' length )? ']'
+string_iif                  ::= '?(' first ',' second ')'
+string_append               ::= 'append(' string ')'
+
+string_startswith           ::= 'startsWith(' other ')'
+string_endswith             ::= 'endsWith(' other ')'
+string_caselessstartswith   ::= 'caselessStartsWith(' other ')'
+string_caselessendswith     ::= 'caselessEndsWith(' other ')'
+
+string_contains             ::= 'contains(' other ',' start? ( ',' length )? ')'
+string_caselesscontains     ::= 'caselessContains(' other ',' start? ( ',' length )? ')'
+string_containsword         ::= 'containsWord(' phrase ( ',' start )? ')'
+string_caselesscontainsword ::= 'caselessContainsWord(' phrase ( ',' start )? ')'
+
+string_abbrev ::= 'abbrev(' info ( ',' length )? ')'
+
+string_abs ::= 'abs'
+
+string_b2x ::= 'b2x'
+
+string_bitand ::= 'bitAnd(' string? (',' pad)? ')'
+
+string_bitor ::= 'bitOr(' string? (',' pad)? ')'
+
+string_bitxor ::= 'bitXor(' string? (',' pad)? ')'
+
+string_c2d ::= 'c2d(' n? ')'
+
+string_c2x ::= 'c2x'
+
+string_caselessabbrev ::= 'caselessAbbrev(' info ( ',' length )? ')'
+
+string_caselesschangestr ::= 'caselessChangeStr(' needle ',' newneedle ( ',' count )? ')'
+
+string_caselesscompare ::= 'caselessCompare(' string ( ',' pad )? ')'
+
+string_caselesscompareto ::= 'caselessCompareTo(' string ',' n? (',' length)? ')'
+
+string_caselesscountstr ::= 'caselessCountStr(' needle ')'
+
+string_caselessequals ::= 'caselessEquals(' other ')'
+
+string_caselesslastpos ::= 'caselessLastPos(' needle ',' start? (',' length)? ')'
+
+string_caselesspos ::= 'caselessPos(' needle ',' start? (',' length)? ')'
+
+string_caselessmatch ::= 'caselessMatch(' start ',' other ',' n? (',' length)? ')'
+
+string_caselessmatchchar ::= 'caselessMatchChar(' n ',' chars ')'
+
+string_caselesswordpos ::= 'caselessWordPos(' phrase ( ',' start )? ')'
+
+string_ceiling ::= 'ceiling'
+
+string_center ::= ( 'center(' | 'centre(' ) length ( ',' pad )? ')'
+
+string_changestr ::= 'changeStr(' needle ',' newneedle ( ',' count )? ')'
+
+string_compare ::= 'compare(' string ( ',' pad )? ')'
+
+string_compareto ::= 'compareTo(' string ',' n? (',' length)? ')'
+
+string_copies ::= 'copies(' n ')'
+
+string_countstr ::= 'countStr(' needle ')'
+
+string_d2c ::= 'd2c(' n? ')'
+
+string_d2x ::= 'd2x(' n? ')'
+
+string_datatype ::= 'dataType(' type? ')'
+
+string_decodebase64 ::= 'decodeBase64'
+
+string_delstr ::= 'delStr(' n? ( ',' length )? ')'
+
+string_delword ::= 'delWord(' n ( ',' length )? ')'
+
+string_encodebase64 ::= 'encodeBase64'
+
+string_equals ::= 'equals(' other ')'
+
+string_floor ::= 'floor'
+
+string_format ::= 'format(' before? ',' after? ',' expp? (',' expt)? ')'
+
+string_hashcode ::= 'hashCode'
+
+string_insert ::= 'insert(' new ',' n? ',' length? (',' pad)? ')'
+
+string_lastpos ::= 'lastPos(' needle ',' start? (',' length)? ')'
+
+string_left ::= 'left(' length ( ',' pad )? ')'
+
+string_length ::= 'length'
+
+string_lower ::= 'lower(' n? (',' length)? ')'
+
+string_makearray ::= 'makeArray(' ( separator )? ')'
+
+string_makestring ::= 'makeString'
+
+string_match ::= 'match(' start ',' other ',' n? (',' length)? ')'
+
+string_matchchar ::= 'matchChar(' n ',' chars ')'
+
+string_max ::= 'max(' (number ( ',' number )*)? ')'
+
+string_min ::= 'min(' (number ( ',' number )*)? ')'
+
+string_modulo ::= 'modulo(' n ')'
+
+string_overlay ::= 'overlay(' new ',' n? ',' length? (',' pad)? ')'
+
+string_pos ::= 'pos(' needle ',' start? (',' length)? ')'
+
+string_replaceat ::= 'replaceAt(' new ',' n ',' length? (',' pad)? ')'
+
+string_reverse ::= 'reverse'
+
+string_right ::= 'right(' length ( ',' pad )? ')'
+
+string_round ::= 'round'
+
+string_sign ::= 'sign'
+
+string_space ::= 'space(' n? (',' pad)? ')'
+
+string_strip ::= 'strip(' option? (',' chars)? ')'
+
+string_subchar ::= 'subChar(' n ')'
+
+string_substr ::= 'substr(' n ',' length? (',' pad)? ')'
+
+string_subword ::= 'subWord(' n ( ',' length )? ')'
+
+string_subwords ::= 'subWords(' n? (',' length)? ')'
+
+string_translate ::= 'translate(' tableo? ',' tablei? ',' pad? ',' n? (',' length)? ')'
+
+string_trunc ::= 'trunc(' n? ')'
+
+string_upper ::= 'upper(' ( n )? ( ',' length )? ')'
+
+string_verify ::= 'verify(' reference ',' ( '"N"' | option | ) ',' start? (',' length)? ')'
+
+string_word ::= 'word(' n ')'
+
+string_wordindex ::= 'wordIndex(' n ')'
+
+string_wordlength ::= 'wordLength(' n ')'
+
+string_wordpos ::= 'wordPos(' phrase ( ',' start )? ')'
+
+string_words ::= 'words'
+
+string_x2b ::= 'x2b'
+
+string_x2c ::= 'x2c'
+
+string_x2d ::= 'x2d(' n? ')'
+
+
+/* in order to reduce the amount of needed changes, and keep them consistent,
+   we don't duplicate identical syntax diagrams from String to MutableBuffer
+   only below MutableBuffer syntax diagrams are different from their String versions
+   for all others, see respective String version above
+*/
+mutablebuffer_append        ::= 'append(' string (',' string)* ')'
+
+mutablebuffer_delstr        ::= ( 'delete(' | 'delStr(' ) n? (',' length)? ')'
+
+mutablebuffer_getbuffersize ::= 'getBufferSize'
+
+mutablebuffer_new           ::= 'new(' ( string )? ( ',' buffersize )? ')'
+
+mutablebuffer_putset        ::= '[' n (',' length)? ']' '=' new
+
+mutablebuffer_setbuffersize ::= 'setBufferSize(' n ')'
+
+mutablebuffer_settext       ::= 'setText(' string ')'
+
+mutablebuffer_string        ::= 'string'
+
+mutablebuffer_translate     ::= 'translate(' tableo? ',' tablei? ',' pad? ',' pos? (',' length)? ')'
+
+
+method_new ::= 'new(' name ',' source ( ',' context )? ')'
+
+method_newfile ::= 'newFile(' filename ( ',' context )? ')'
+
+method_loadexternalmethod ::= 'loadExternalMethod(' name ',' descriptor ')'
+
+method_isabstract ::= 'isAbstract'
+method_isattribute ::= 'isAttribute'
+method_isconstant ::= 'isConstant'
+
+method_isguarded ::= 'isGuarded'
+
+method_ispackage ::= 'isPackage'
+
+method_isprivate ::= 'isPrivate'
+
+method_isprotected ::= 'isProtected'
+
+method_package ::= 'package'
+
+method_scope ::= 'scope'
+
+method_setguarded ::= 'setGuarded'
+
+method_setprivate ::= 'setPrivate'
+
+method_setprotected ::= 'setProtected'
+
+method_setsecuritymanager ::= 'setSecurityManager(' security_manager_object? ')'
+
+method_setunguarded ::= 'setUnguarded'
+
+method_source ::= 'source'
+
+routine_new ::= 'new(' name ',' source ( ',' context )? ')'
+
+routine_newfile ::= 'newFile(' filename ( ',' context )? ')'
+
+routine_loadexternalroutine ::= 'loadExternalRoutine(' name ',' descriptor ')'
+
+routine_call ::= 'call(' argument? ( ',' argument? )* ')'
+routine_callbrackets ::= '[' argument? ( ',' argument? )* ']'
+
+routine_callwith ::= 'callWith(' array ')'
+
+routine_package ::= 'package'
+
+routine_setsecuritymanager ::= 'setSecurityManager(' security_manager_object? ')'
+
+routine_source ::= 'source'
+
+
+package_new ::= 'new(' name ',' source? ( ',' context )? ')'
+
+package_addclass ::= 'addClass(' name ',' class ')'
+
+package_addpackage ::= 'addPackage(' package (',' namespace)? ')'
+
+package_addpublicclass ::= 'addPublicClass(' name ',' class ')'
+
+package_addpublicroutine ::= 'addPublicRoutine(' name ',' routine ')'
+
+package_addroutine ::= 'addRoutine(' name ',' routine ')'
+
+package_classes ::= 'classes'
+
+package_definedmethods ::= 'definedMethods'
+
+package_digits ::= 'digits'
+
+package_findclass ::= 'findClass(' name ')'
+
+package_findnamespace ::= 'findNamespace(' name ')'
+package_findprogram ::= 'findProgram(' name ')'
+package_findpublicclass ::= 'findPublicClass(' name ')'
+package_findpublicroutine ::= 'findPublicRoutine(' name ')'
+
+package_findroutine ::= 'findRoutine(' name ')'
+
+package_form ::= 'form'
+
+package_fuzz ::= 'fuzz'
+
+package_importedclasses ::= 'importedClasses'
+
+package_importedpackages ::= 'importedPackages'
+
+package_importedroutines ::= 'importedRoutines'
+
+package_local ::= 'local'
+
+package_loadlibrary ::= 'loadLibrary(' name ')'
+
+package_loadpackage ::= 'loadPackage(' name ( ',' source )? ')'
+
+package_name ::= 'name'
+
+package_namespaces ::= 'namespaces'
+package_prolog ::= 'prolog'
+
+package_publicclasses ::= 'publicClasses'
+
+package_publicroutines ::= 'publicRoutines'
+
+package_resource ::= 'resource(' name ')'
+package_resources ::= 'resources'
+
+package_routines ::= 'routines'
+
+package_setsecuritymanager ::= 'setSecurityManager(' security_manager_object? ')'
+
+package_source ::= 'source'
+
+package_sourceline ::= 'sourceLine(' n ')'
+
+package_sourcesize ::= 'sourceSize'
+
+package_trace ::= 'trace'
+
+message_halt      ::= 'halt(' description? ')'
+message_hasresult ::= 'hasResult'
+message_messagecomplete ::= 'messageComplete(' source? ')'
+message_reply     ::= 'reply(' target? ( ',' argument? )* ')'
+message_replywith ::= 'replyWith(' target? ',' arguments ')'
+message_sendwith  ::= 'sendWith(' target? ',' arguments ')'
+message_startwith ::= 'startWith(' target? ',' arguments ')'
+message_triggered ::= 'triggered(' source? ')'
+message_wait      ::= 'wait'
+
+
+message_new ::= 'new(' target ',' messagename ( ',' '"Individual"' ( ',' argument? )* |
+                                                ',' '"Array"' ',' arguments )? ')'
+
+message_arguments ::= 'arguments'
+
+message_completed ::= 'completed'
+
+message_errorcondition ::= 'errorCondition'
+
+message_haserror ::= 'hasError'
+
+message_messagename ::= 'messageName'
+
+message_notify ::= 'notify(' target ')'
+
+message_result ::= 'result'
+
+message_send ::= 'send(' target? ( ',' argument? )* ')'
+
+message_start ::= 'start(' target? ( ',' argument? )* ')'
+
+message_target ::= 'target'
