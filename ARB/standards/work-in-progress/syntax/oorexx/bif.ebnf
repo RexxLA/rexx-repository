@@ -1,0 +1,200 @@
+funct_xmp ::= function_name '(' expression? (',' expression?)* ')'
+
+
+abbrev ::= 'ABBREV(' information ',' info (',' length)? ')'
+
+abs ::= 'ABS(' number ')'
+
+address ::= 'ADDRESS()'
+
+arg ::= 'ARG()'
+arg ::= 'ARG(' n (',' option)? ')'
+
+b2x ::= 'B2X(' binary_string ')'
+
+beep ::= 'BEEP(' frequency ',' duration ')'
+
+bitand ::= 'BITAND(' string1 ',' string2? (',' pad)? ')'
+
+bitor ::= 'BITOR(' string1 ',' string2? (',' pad)? ')'
+
+bitxor ::= 'BITXOR(' string1 ',' string2? (',' pad)? ')'
+
+c2d ::= 'C2D(' string ( ',' n )? ')'
+
+c2x ::= 'C2X(' string ')'
+
+center ::= ( 'CENTER(' | 'CENTRE(' ) string ',' length ( ',' pad )? ')'
+
+changestr ::= 'CHANGESTR(' needle ',' haystack ',' newneedle ( ',' count )? ')'
+
+charin ::= 'CHARIN(' name? ',' start? (',' length)? ')'
+
+charout ::= 'CHAROUT(' name? ',' string? (',' start)? ')'
+
+chars ::= 'CHARS(' ( name )? ')'
+
+compare ::= 'COMPARE(' string1 ',' string2 ( ',' pad )? ')'
+
+condition ::= 'CONDITION(' ( option )? ')'
+
+copies ::= 'COPIES(' string ',' n ')'
+
+countstr ::= 'COUNTSTR(' needle ',' haystack ')'
+
+d2c ::= 'D2C(' wholenumber ( ',' n )? ')'
+
+d2x ::= 'D2X(' wholenumber ( ',' n )? ')'
+
+datatype ::= 'DATATYPE(' string ( ',' type )? ')'
+
+date ::= 'DATE(' ( '"N"' | option | ) ',' ( ',' | string ',' ( '"N"' | option2 | ) ) ',' osep? (',' isep)? ')'
+
+delstr ::= 'DELSTR(' string ',' n? ( ',' length )? ')'
+
+delword ::= 'DELWORD(' string ',' n ( ',' length )? ')'
+
+digits ::= 'DIGITS()'
+
+directory ::= 'DIRECTORY(' ( newdirectory )? ')'
+
+endlocal ::= 'ENDLOCAL()'
+
+errortext ::= 'ERRORTEXT(' n ')'
+
+filespec ::= 'FILESPEC(' option ',' filespec ')'
+
+form ::= 'FORM()'
+
+format ::= 'FORMAT(' number ',' before? ',' after? ',' expp? (',' expt)? ')'
+
+fuzz ::= 'FUZZ()'
+
+gc ::= 'GC(' ('"Force"')? ')'
+
+insert ::= 'INSERT(' new ',' target ',' n? ',' length? (',' pad)? ')'
+
+lastpos ::= 'LASTPOS(' needle ',' haystack ',' start? (',' length)? ')'
+
+left ::= 'LEFT(' string ',' length ( ',' pad )? ')'
+
+length ::= 'LENGTH(' string ')'
+
+linein ::= 'LINEIN('name? ',' line? (',' count)? ')'
+
+lineout ::= 'LINEOUT(' name? ',' string? (',' line)? ')'
+
+lines ::= 'LINES(' name? ( | ',' '"Normal"' | ',' '"Count"' ) ')'
+
+lower ::= 'LOWER(' string ',' n? (',' length)? ')'
+
+max ::= 'MAX(' number ( ',' number )* ')'
+
+min ::= 'MIN(' number ( ',' number )* ')'
+
+overlay ::= 'OVERLAY(' new ',' target ',' n? ',' length? (',' pad)? ')'
+
+pos ::= 'POS(' needle ',' haystack ',' start? (',' length)? ')'
+
+qualify ::= 'QUALIFY(' name ')'
+
+queued ::= 'QUEUED()'
+
+random ::= 'RANDOM(' ( max | min? ',' max? (',' seed)? ) ')'
+
+reverse ::= 'REVERSE(' string ')'
+
+right ::= 'RIGHT(' string ',' length ( ',' pad )? ')'
+
+rxfuncadd ::= 'RxFuncAdd(' name ',' module ( ',' procedure )? ')'
+
+rxfuncdrop ::= 'RxFuncDrop(' name ')'
+
+rxfuncquery ::= 'RxFuncQuery(' name ')'
+
+rxqueue ::= 'RXQUEUE(' ( '"Create"' ( ',' queuename )? |
+                         '"Delete"' ',' queuename |
+                         '"Exist"' ',' queuename |
+                         '"Get"' |
+                         '"Open"' ',' queuename |
+                         '"Set"' ',' newqueuename ) ')'
+
+setlocal ::= 'SETLOCAL()'
+
+sign ::= 'SIGN(' number ')'
+
+sourceline ::= 'SOURCELINE(' n? ')'
+
+space ::= 'SPACE(' string ',' n? (',' pad)? ')'
+
+stream ::= 'STREAM(' name ',' ( |
+                                '"State"' |
+                                '"Command"' ',' stream_command |
+                                '"Description"' ) ')'
+
+stream_command_syntax ::= 'STREAM(' name ',' '"Command"' ',' stream_command ')'
+
+stream_command ::= ( 'Open' ( ( ( ( | 'BOth' | 'Write') ( | 'APpend' | 'REPlace' ) )
+                            | 'REAd' )
+                            (OPTIONS - fragment) ) |
+                     'Close' |
+                     'Flush' |
+                   ( 'Seek' | 'Position' ) ( | '=' | '<' | '+' | '-' ) offset ( | 'Read' | 'Write' ) ( | 'Char' | 'Line') |
+                     'Query' ( 'Datetime' |
+                               'Exists' |
+                               'Handle' |
+                             ( 'Seek' | 'Position' ) ( ( | 'Read' | 'Write' ) ( | 'Char' | 'Line') | 'Sys' ) |
+                               'SIze' |
+                               'STreamtype' |
+                               'Timestamp' )
+                   ) ')'
+
+stream_options ::= ( | 'SHARED' | 'SHARERead' | 'SHAREWrite' ) 'NOBuffer'? ('BInary' ('REClength' length)? )?
+
+strip ::= 'STRIP(' string ',' ( | '"B"' | option ) (',' chars)? ')'
+
+substr ::= 'SUBSTR(' string ',' n ',' length? (',' pad)? ')'
+
+subword ::= 'SUBWORD(' string ',' n ( ',' length )? ')'
+
+symbol ::= 'SYMBOL(' name ')'
+
+time ::= 'TIME(' ( '"N"' | option | )? ( | ',' string ',' ( '"N"' | option2 | )? ) ')'
+
+trace ::= 'TRACE(' option? ')'
+
+translate ::= 'TRANSLATE(' string ',' tableo? ',' tablei? ',' pad? ',' pos? (',' length)? ')'
+
+trunc ::= 'TRUNC(' number ( ',' n )? ')'
+
+upper ::= 'UPPER(' string ',' n? (',' length)? ')'
+
+userid ::= 'USERID()'
+
+value ::= 'VALUE(' name ',' newvalue? (',' selector)? ')'
+
+var ::= 'VAR(' name ')'
+
+verify ::= 'VERIFY(' string ',' reference ',' ( '"N"' | option | ) ',' start? (',' length)? ')'
+
+word ::= 'WORD(' string ',' n ')'
+
+wordindex ::= 'WORDINDEX(' string ',' n ')'
+
+wordlength ::= 'WORDLENGTH(' string ',' n ')'
+
+wordpos ::= 'WORDPOS(' phrase ',' string ( ',' start )? ')'
+
+words ::= 'WORDS(' string ')'
+
+x2b ::= 'X2B(' hexstring ')'
+
+x2c ::= 'X2C(' hexstring ')'
+
+x2d ::= 'X2D(' hexstring ( ',' n )? ')'
+
+xrange ::= 'XRANGE('
+                ( (start? ',' end? | 'ALNUM' | 'ALPHA' | 'BLANK' | 'CNTRL' | 'DIGIT' | 'GRAPH' | 'LOWER' | 'PRINT' | 'PUNCT' | 'SPACE' | 'UPPER' | 'XDIGIT' )
+             (',' (start? ',' end? | 'ALNUM' | 'ALPHA' | 'BLANK' | 'CNTRL' | 'DIGIT' | 'GRAPH' | 'LOWER' | 'PRINT' | 'PUNCT' | 'SPACE' | 'UPPER' | 'XDIGIT'))* )?
+           ')'
+
