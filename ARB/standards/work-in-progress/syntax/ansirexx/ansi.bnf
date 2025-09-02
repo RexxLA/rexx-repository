@@ -162,97 +162,98 @@ and expression.
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
 address                 := 'ADDRESS' [(taken_constant [expression]    (6.3.2.21)
                            | Msg19.1 | valueexp) [ 'WITH' connection]]
-  taken_constant        := symbol | STRING
-  valueexp              := 'VALUE' expression
-  connection            := error [adio] | input [adeo]
+  taken_constant        := symbol | STRING                            (6.3.2.22)
+  valueexp              := 'VALUE' expression                         (6.3.2.23)
+  connection            := error [adio] | input [adeo]                (6.3.2.24)
                            | output [adei] | Msg25.5
-    adio                := input [output] | output [input]
-      input             := 'INPUT' (resourcei | Msg25.6)
-        resourcei       := resources | 'NORMAL'
-      output            := 'OUTPUT' (resourceo | Msg25.7)
-        resourceo       := 'APPEND' (resources | Msg25.8)
+    adio                := input [output] | output [input]            (6.3.2.25)
+      input             := 'INPUT' (resourcei | Msg25.6)              (6.3.2.26)
+        resourcei       := resources | 'NORMAL'                       (6.3.2.27)
+      output            := 'OUTPUT' (resourceo | Msg25.7)             (6.3.2.28)
+        resourceo       := 'APPEND' (resources | Msg25.8)             (6.3.2.29)
                            | 'REPLACE' (resources | Msg25.9)
                            | resources | 'NORMAL'
-    adeo                := error [output] | output [error]
+    adeo                := error [output] | output [error]            (6.3.2.30)
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-      error             := 'ERROR' (resourceo | Msg25.14)
-    adei                := error [input] | input [error]
-resources               := 'STREAM' (VAR_SYMBOL | Msg53.1)
+      error             := 'ERROR' (resourceo | Msg25.14)             (6.3.2.31)
+    adei                := error [input] | input [error]              (6.3.2.32)
+resources               := 'STREAM' (VAR_SYMBOL | Msg53.1)            (6.3.2.33)
                            | 'STEM' (VAR_SYMBOL | Msg53.2)
-  vref                  := '(' var_symbol (')' | Msg46.1)
-    var_symbol          := VAR_SYMBOL | Msg20.1
-arg                     := 'ARG' [template_list]
-call                    := 'CALL' (callon_spec|
+  vref                  := '(' var_symbol (')' | Msg46.1)             (6.3.2.34)
+    var_symbol          := VAR_SYMBOL | Msg20.1                       (6.3.2.35)
+arg                     := 'ARG' [template_list]                      (6.3.2.36)
+call                    := 'CALL' (callon_spec|                       (6.3.2.37)
                            (taken_constant|Msg19.2)[expression_list])
-  callon_spec           := 'ON' (callable_condition | Msg25.1)
+  callon_spec           := 'ON' (callable_condition | Msg25.1)        (6.3.2.38)   
                            ['NAME' (taken_constant | Msg19.3)]
                            | 'OFF' (callable_condition | Msg25.2)
-    callable_condition  := 'ERROR' | 'FAILURE'
+    callable_condition  := 'ERROR' | 'FAILURE'                        (6.3.2.39)
                            | 'HALT' | 'NOTREADY'
-  expression_list       := expr | [expr] ',' [expression_list]
-do_specification        := do_simple | do_repetitive
-  do_simple             := 'DO'
-  do_repetitive         := 'DO' dorep | 'DO' docond
+  expression_list       := expr | [expr] ',' [expression_list]        (6.3.2.40)
+do_specification        := do_simple | do_repetitive                  (6.3.2.41)
+  do_simple             := 'DO'                                       (6.3.2.42)
+  do_repetitive         := 'DO' dorep | 'DO' docond                   (6.3.2.43)
                            | 'DO' dorep docond
                            | 'DO' 'FOREVER' [docond | Msg25.16]
-  docond                := 'WHILE' whileexpr | 'UNTIL' untilexpr
-    untilexpr           := expression
-    whileexpr           := expression
-  dorep                 := assignment [docount] | repexpr
-    repexpr             := expression
-    docount             := dot [dobf] | dob [dotf] | dof [dotb]
-      dobf              := dob [dof] | dof [dob]
-      dotf              := dot [dof] | dof [dot]
-dotb                    := dot [dob] | dob [dot]
-dot                     := 'TO' toexpr
-toexpr                  := expression
-dob                     := 'BY' byexpr
-byexpr                  := expression
-dof                     := 'FOR' forexpr
-forexpr                 := expression
-drop                    := 'DROP' variable_list
-variable_list           := (vref | var_symbol)+
-exit                    := 'EXIT' [expression]
-interpret               := 'INTERPRET' expression
-iterate                 := 'ITERATE' [VAR_SYMBOL | Msg20.2 ]
-leave                   := 'LEAVE' [VAR_SYMBOL | Msg20.2 ]
-nop                     := 'NOP'
-numeric                 := 'NUMERIC' (numeric_digits | numeric_form
+  docond                := 'WHILE' whileexpr | 'UNTIL' untilexpr      (6.3.2.44)
+    untilexpr           := expression                                 (6.3.2.45)
+    whileexpr           := expression                                 (6.3.2.46)
+  dorep                 := assignment [docount] | repexpr             (6.3.2.47)
+    repexpr             := expression                                 (6.3.2.48)
+    docount             := dot [dobf] | dob [dotf] | dof [dotb]       (6.3.2.49)
+      dobf              := dob [dof] | dof [dob]                      (6.3.2.50)
+      dotf              := dot [dof] | dof [dot]                      (6.3.2.51)
+dotb                    := dot [dob] | dob [dot]                      (6.3.2.52)
+dot                     := 'TO' toexpr                                (6.3.2.53)
+toexpr                  := expression                                 (6.3.2.54)
+dob                     := 'BY' byexpr                                (6.3.2.55)
+byexpr                  := expression                                 (6.3.2.56)
+dof                     := 'FOR' forexpr                              (6.3.2.57)
+forexpr                 := expression                                 (6.3.2.58)
+drop                    := 'DROP' variable_list                       (6.3.2.59)
+variable_list           := (vref | var_symbol)+                       (6.3.2.60)
+exit                    := 'EXIT' [expression]                        (6.3.2.61)
+interpret               := 'INTERPRET' expression                     (6.3.2.62)
+iterate                 := 'ITERATE' [VAR_SYMBOL | Msg20.2 ]          (6.3.2.63)
+leave                   := 'LEAVE' [VAR_SYMBOL | Msg20.2 ]            (6.3.2.64)
+nop                     := 'NOP'                                      (6.3.2.65)
+numeric                 := 'NUMERIC' (numeric_digits | numeric_form   (6.3.2.66)
                            | numeric_fuzz | Msg25.15)
-numeric_digits          := 'DIGITS' [expression]
-numeric_form            := 'FORM' ('ENGINEERING' | 'SCIENTIFIC'
+numeric_digits          := 'DIGITS' [expression]                      (6.3.2.67)
+numeric_form            := 'FORM' ('ENGINEERING' | 'SCIENTIFIC'       (6.3.2.68)
                            | valueexp | Msg25.11)
-numeric_fuzz            := 'FUZZ' [expression]
-options                 := 'OPTIONS' expression
-parse                   := 'PARSE'(parse_type | Msg25.12)[template_list]
+numeric_fuzz            := 'FUZZ' [expression]                        (6.3.2.69)
+options                 := 'OPTIONS' expression                       (6.3.2.70)
+parse                   := 'PARSE'(parse_type | Msg25.12)             (6.3.2.71)
+                           [template_list]
                            | 'PARSE' 'UPPER' (parse_type | Msg25.13)
                            [template_list]
-parse_type              := parse_key | parse_value | parse_var
+parse_type              := parse_key | parse_value | parse_var        (6.3.2.72)
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-parse_key               := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'
+parse_key               := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'       (6.3.2.73)
                            | 'VERSION'
-parse_value             := 'VALUE' [expression] ('WITH' | Msg38.3)
-parse_var               := 'VAR' var_symbol
-procedure               := 'PROCEDURE'
+parse_value             := 'VALUE' [expression] ('WITH' | Msg38.3)    (6.3.2.74)
+parse_var               := 'VAR' var_symbol                           (6.3.2.75)
+procedure               := 'PROCEDURE'                                (6.3.2.76)
                            ['EXPOSE' variable_list | Msg25.17]
-pull                    := 'PULL' [template_list]
-push                    := 'PUSH' [expression]
-queue                   := 'QUEUE' [expression]
-return                  := 'RETURN' [expression]
-say                     := 'SAY' [expression]
-signal                  := 'SIGNAL' (signal_spec | valueexp
+pull                    := 'PULL' [template_list]                     (6.3.2.77)
+push                    := 'PUSH' [expression]                        (6.3.2.78)
+queue                   := 'QUEUE' [expression]                       (6.3.2.79)
+return                  := 'RETURN' [expression]                      (6.3.2.80)
+say                     := 'SAY' [expression]                         (6.3.2.81)
+signal                  := 'SIGNAL' (signal_spec | valueexp           (6.3.2.82)
                            | taken_constant | Msg19.4)
-signal_spec             := 'ON' (condition | Msg25.3)
+signal_spec             := 'ON' (condition | Msg25.3)                 (6.3.2.83)
                            ['NAME' (taken_constant | Msg19.3)]
                            | 'OFF' (condition | Msg25.4)
-condition               := callable_condition | 'NOVALUE' | 'SYNTAX'
+condition               := callable_condition | 'NOVALUE' | 'SYNTAX'  (6.3.2.84)
                            | 'LOSTDIGITS'
-trace                   := 'TRACE'
+trace                   := 'TRACE'                                    (6.3.2.85)
                            [(taken_constant | Msg19.6) | valueexp]
 
 /* Note: The next section describes templates.                                */
 
-template_list           := template | [template] ',' [template_list]
+template_list           := template | [template] ',' [template_list]  (6.3.2.86)
 template                := (trigger | target | Msg38.1)+
 target                  := VAR_SYMBOL | '.'
 trigger                 := pattern | positional
