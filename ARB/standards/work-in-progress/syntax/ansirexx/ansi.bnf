@@ -1,3 +1,5 @@
+/* 6.1.5 - BNF Syntax definition                                               */
+
 production              := identifier ':=' bnf_expression               (6.1.5.1)
 bnf_expression          := abuttal | bnf_expression '|' abuttal         (6.1.5.2)
 abuttal                 := [abuttal] bnf_primary                        (6.1.5.3)
@@ -5,6 +7,8 @@ bnf_primary             := '[' bnf_expression ']'                       (6.1.5.4
                            | '(' bnf_expression ')' | literal
                            | identifier | message_identifier
                            | bnf_primary '+'
+
+/* 6.2.2 - Lexical level                                                      */
 
 digit                   := '0' | '1' | '2' | '3' | '4' | '5'           (6.2.2.1)
                            | '6' | '7' | '8' | '9'
@@ -108,4 +112,50 @@ binary_string           := (binary_digit                              (6.2.2.41)
 binary_digit            := '0' | '1'                                  (6.2.2.42)
 break_binary_digit_quad := bo binary_digit binary_digit               (6.2.2.43)
                            binary_digit binary_digit
+
+/* 6.3.2 - Syntax level                                                       */
+
+/* The first part introduces the overall structure of a program               */
+
+program                 := [ncl] [instruction_list] ['END' Msg10.1]    (6.3.2.1)
+  ncl                   := null_clause+ | Msg21.1                      (6.3.2.2)
+    null_clause         := ';' [label_list]                            (6.3.2.3)
+      label_list        := (LABEL ';')+                                (6.3.2.4)
+    instruction_list    := instruction+                                (6.3.2.5)
+      instruction       := group | single_instruction ncl              (6.3.2.6)
+  single_instruction    := assignment | keyword_instruction | command  (6.3.2.7)
+    assignment          := VAR_SYMBOL '=' expression                   (6.3.2.8)  
+                           | NUMBER '=' Msg31.1
+                           | CONST_SYMBOL '=' (Msg31.2 | Msg31.3)
+    keyword_instruction := address | arg | call | drop | exit          (6.3.2.9)
+                           | interpret | iterate | leave
+                           | nop | numeric | options
+                           | parse | procedure | pull | push
+                           | queue | return | say | signal | trace
+                           | 'THEN' Msg8.1 | 'ELSE' Msg8.2
+                           | 'WHEN' Msg9.1 | 'OTHERWISE' Msg9.2
+    command             := expression                                 (6.3.2.10)    
+  group                 := do | if | select                           (6.3.2.11)    
+    do                  := do_specification (ncl | Msg21.1 | Msg27.1) (6.3.2.12)    
+                           [instruction_list] do_ending
+      do_ending         := 'END' [VAR_SYMBOL] ncl                     (6.3.2.13)    
+                           | EOS Msg14.1 | Msg35.1
+  if                    := 'IF' expression [ncl] (then | Msg18.1)     (6.3.2.14)    
+                           [else]
+    then                := 'THEN' ncl                                 (6.3.2.15)    
+                           (instruction | EOS Msg14.3 | 'END' Msg10.5)
+    else                := 'ELSE' ncl                                 (6.3.2.16)    
+                           (instruction | EOS Msg14.4 | 'END' Msg10.6)
+  select                := 'SELECT' ncl select_body                   (6.3.2.17)    
+                           ('END' [VAR_SYMBOL Msg10.4] ncl
+                           | EOS Msg14.2 | Msg7.2)
+    select_body         := (when | Msg7.1) [when+] [otherwise]        (6.3.2.18)    
+      when              := 'WHEN' expression [ncl] (then | Msg18.2)   (6.3.2.19)    
+      otherwise         := 'OTHERWISE' ncl [instruction_list]         (6.3.2.20)    
+
+/*
+Note:  The next part concentrates on the instructions.
+It leaves unspecified the various forms of symbol, template
+and expression.
+*/
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
