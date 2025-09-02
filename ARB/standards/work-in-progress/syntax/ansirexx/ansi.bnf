@@ -31,39 +31,81 @@ bo                      := [blank+]                                    (6.2.2.9)
 string_or_comment_char  := digit | '.' | special | operator_only      (6.2.2.10)
                            | general_letter | blank
                            | other_character
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-tokenize                := [between+] [tokenbetween+] EOS Eos
-tokenbetween            := token [between+]
-token                   := operand | Operator | Special
-operand                 := string_literal | Var_symbol
+
+tokenize                := [between+] [tokenbetween+] EOS Eos         (6.2.2.11)
+tokenbetween            := token [between+]                           (6.2.2.12)
+token                   := operand | Operator | Special               (6.2.2.13)
+operand                 := string_literal | Var_symbol                (6.2.2.14)
                            | Const_symbol
-between                 := comment | blank_run Blank | EOL Eol
+between                 := comment | blank_run Blank | EOL Eol        (6.2.2.15)
                            | Msg13.1
-blank_run               := (blank | continuation)+
-continuation            := CONTINUE ',' [(comment | blank)+] EOL
-comment                 := '/' '*' [commentpart+] ['*'+] ('*' '/'
+blank_run               := (blank | continuation)+                    (6.2.2.16)
+continuation            := CONTINUE ',' [(comment | blank)+] EOL      (6.2.2.17)
+comment                 := '/' '*' [commentpart+] ['*'+] ('*' '/'     (6.2.2.18)
                            | EOS Msg6.1)
-commentpart             := comment | ['/'+] comment_char+
+commentpart             := comment | ['/'+] comment_char+             (6.2.2.19)
                            | '*'+ comment_char+
-comment_char            := string_or_comment_char | '"' | "'"
+comment_char            := string_or_comment_char | '"' | "'"         (6.2.2.20)
                            | EOL
-string_literal          := Hex_string | Binary_string | String
-String                  := quoted_string
-Hex_string              := quoted_string RADIX ('x' | 'X')
-Binary_string           := quoted_string RADIX ('b' | 'B')
-quoted_string           := quotation_mark_string
+string_literal          := Hex_string | Binary_string | String        (6.2.2.21)
+String                  := quoted_string                              (6.2.2.22)
+Hex_string              := quoted_string RADIX ('x' | 'X')            (6.2.2.23)
+Binary_string           := quoted_string RADIX ('b' | 'B')            (6.2.2.24)
+quoted_string           := quotation_mark_string                      (6.2.2.25)
                            [(Embedded_quotation_mark
                            quotation_mark_string)+]
                            | apostrophe_string
                            [(Embedded_apostrophe
                            apostrophe_string)+]
-quotation_mark_string   := '"' [(string_char | "'")+]
+quotation_mark_string   := '"' [(string_char | "'")+]                 (6.2.2.26)
                            ('"' | EOL Msg6.3)
-apostrophe_string       := "'" [(string_char | '"')+]
+apostrophe_string       := "'" [(string_char | '"')+]                 (6.2.2.27)
                            ("'" | EOL Msg6.2)
-string_char             := string_or_comment_char | '*' | '/'
-Var_symbol              := general_letter [var_symbol_char+]
-var_symbol_char         := general_letter | digit | '.'
-Const_symbol            := (digit | '.') [const_symbol_char+]
-const_symbol_char       := var_symbol_char
+string_char             := string_or_comment_char | '*' | '/'         (6.2.2.28)
+Var_symbol              := general_letter [var_symbol_char+]          (6.2.2.29)
+var_symbol_char         := general_letter | digit | '.'               (6.2.2.30)
+Const_symbol            := (digit | '.') [const_symbol_char+]         (6.2.2.31)
+const_symbol_char       := var_symbol_char                            (6.2.2.32)
                            | EXPONENT_SIGN ('+' | '-')
+
+Special                 := special                                    (6.2.2.33)
+Operator                := operator_char | '|' bo '|'                 (6.2.2.34)
+                           | '/' bo '/' | '*' bo '*' | not bo '='
+                           | '>' bo '<' | '<' bo '>' | '>' bo '='
+                           | not bo '<' | '<' bo '=' | not bo '>'
+                           | '=' bo '=' | not bo '=' bo '='
+                           | '>' bo '>' | '<' bo '<'
+                           | '>' bo '>' bo '='
+                           | not bo '<' bo '<'
+                           | '<' bo '<' bo '='
+                           | not bo '>' bo '>'
+                           | '&' bo '&'
+
+number                  := plain_number [exponent]                    (6.2.2.35)
+plain_number            := ['.'] digit+ | digit+ '.' [digit+]         (6.2.2.36)
+exponent                := ('e' | 'E') ['+' | '-'] digit+             (6.2.2.37)
+
+hex_string              := (hex_digit [break_hex_digit_pair+]         (6.2.2.38)
+                           | [hex_digit hex_digit
+                           [break_hex_digit_pair+]]) | (Msg15.1 |
+                           Msg15.3)
+hex_digit               := digit | 'a' | 'A' | 'b' | 'B' | 'c'        (6.2.2.39)
+                           | 'C' | 'd' | 'D' | 'e' | 'E' | 'f'
+                           | 'F'
+break_hex_digit_pair    := bo hex_digit hex_digit                     (6.2.2.40)
+
+binary_string           := (binary_digit                              (6.2.2.41)
+                           [break_binary_digit_quad+]
+                           | binary_digit binary_digit
+                           [break_binary_digit_quad+]
+                           | binary_digit binary_digit
+                           binary_digit
+                           [break_binary_digit_quad+]
+                           | [binary_digit binary_digit
+                           binary_digit binary_digit
+                           [break_binary_digit_quad+]])
+                           | (Msg15.2 | Msg15.4)
+binary_digit            := '0' | '1'                                  (6.2.2.42)
+break_binary_digit_quad := bo binary_digit binary_digit               (6.2.2.43)
+                           binary_digit binary_digit
+....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
