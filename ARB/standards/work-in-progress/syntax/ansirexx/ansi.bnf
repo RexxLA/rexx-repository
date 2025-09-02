@@ -203,15 +203,15 @@ do_specification        := do_simple | do_repetitive                  (6.3.2.41)
     docount             := dot [dobf] | dob [dotf] | dof [dotb]       (6.3.2.49)
       dobf              := dob [dof] | dof [dob]                      (6.3.2.50)
       dotf              := dot [dof] | dof [dot]                      (6.3.2.51)
-dotb                    := dot [dob] | dob [dot]                      (6.3.2.52)
-dot                     := 'TO' toexpr                                (6.3.2.53)
-toexpr                  := expression                                 (6.3.2.54)
-dob                     := 'BY' byexpr                                (6.3.2.55)
-byexpr                  := expression                                 (6.3.2.56)
-dof                     := 'FOR' forexpr                              (6.3.2.57)
-forexpr                 := expression                                 (6.3.2.58)
+      dotb              := dot [dob] | dob [dot]                      (6.3.2.52)
+      dot               := 'TO' toexpr                                (6.3.2.53)
+        toexpr          := expression                                 (6.3.2.54)
+      dob               := 'BY' byexpr                                (6.3.2.55)
+        byexpr          := expression                                 (6.3.2.56)
+      dof               := 'FOR' forexpr                              (6.3.2.57)
+        forexpr         := expression                                 (6.3.2.58)
 drop                    := 'DROP' variable_list                       (6.3.2.59)
-variable_list           := (vref | var_symbol)+                       (6.3.2.60)
+  variable_list         := (vref | var_symbol)+                       (6.3.2.60)
 exit                    := 'EXIT' [expression]                        (6.3.2.61)
 interpret               := 'INTERPRET' expression                     (6.3.2.62)
 iterate                 := 'ITERATE' [VAR_SYMBOL | Msg20.2 ]          (6.3.2.63)
@@ -219,21 +219,21 @@ leave                   := 'LEAVE' [VAR_SYMBOL | Msg20.2 ]            (6.3.2.64)
 nop                     := 'NOP'                                      (6.3.2.65)
 numeric                 := 'NUMERIC' (numeric_digits | numeric_form   (6.3.2.66)
                            | numeric_fuzz | Msg25.15)
-numeric_digits          := 'DIGITS' [expression]                      (6.3.2.67)
-numeric_form            := 'FORM' ('ENGINEERING' | 'SCIENTIFIC'       (6.3.2.68)
+  numeric_digits        := 'DIGITS' [expression]                      (6.3.2.67)
+  numeric_form          := 'FORM' ('ENGINEERING' | 'SCIENTIFIC'       (6.3.2.68)
                            | valueexp | Msg25.11)
-numeric_fuzz            := 'FUZZ' [expression]                        (6.3.2.69)
+  numeric_fuzz          := 'FUZZ' [expression]                        (6.3.2.69)
 options                 := 'OPTIONS' expression                       (6.3.2.70)
 parse                   := 'PARSE'(parse_type | Msg25.12)             (6.3.2.71)
                            [template_list]
                            | 'PARSE' 'UPPER' (parse_type | Msg25.13)
                            [template_list]
-parse_type              := parse_key | parse_value | parse_var        (6.3.2.72)
+  parse_type            := parse_key | parse_value | parse_var        (6.3.2.72)
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-parse_key               := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'       (6.3.2.73)
+    parse_key           := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'       (6.3.2.73)
                            | 'VERSION'
-parse_value             := 'VALUE' [expression] ('WITH' | Msg38.3)    (6.3.2.74)
-parse_var               := 'VAR' var_symbol                           (6.3.2.75)
+    parse_value         := 'VALUE' [expression] ('WITH' | Msg38.3)    (6.3.2.74)
+    parse_var           := 'VAR' var_symbol                           (6.3.2.75)
 procedure               := 'PROCEDURE'                                (6.3.2.76)
                            ['EXPOSE' variable_list | Msg25.17]
 pull                    := 'PULL' [template_list]                     (6.3.2.77)
@@ -243,10 +243,10 @@ return                  := 'RETURN' [expression]                      (6.3.2.80)
 say                     := 'SAY' [expression]                         (6.3.2.81)
 signal                  := 'SIGNAL' (signal_spec | valueexp           (6.3.2.82)
                            | taken_constant | Msg19.4)
-signal_spec             := 'ON' (condition | Msg25.3)                 (6.3.2.83)
+  signal_spec           := 'ON' (condition | Msg25.3)                 (6.3.2.83)
                            ['NAME' (taken_constant | Msg19.3)]
                            | 'OFF' (condition | Msg25.4)
-condition               := callable_condition | 'NOVALUE' | 'SYNTAX'  (6.3.2.84)
+    condition           := callable_condition | 'NOVALUE' | 'SYNTAX'  (6.3.2.84)
                            | 'LOSTDIGITS'
 trace                   := 'TRACE'                                    (6.3.2.85)
                            [(taken_constant | Msg19.6) | valueexp]
@@ -254,15 +254,15 @@ trace                   := 'TRACE'                                    (6.3.2.85)
 /* Note: The next section describes templates.                                */
 
 template_list           := template | [template] ',' [template_list]  (6.3.2.86)
-template                := (trigger | target | Msg38.1)+
-target                  := VAR_SYMBOL | '.'
-trigger                 := pattern | positional
-pattern                 := STRING | vrefp
-vrefp                   := '(' (VAR_SYMBOL | Msg19.7) (')' | Msg46.1)
-positional              := absolute_positional | relative_positional
-absolute_positional     := NUMBER | '=' position
-position                := NUMBER | vrefp | Msg38.2
-relative_positional     := ('+' | '-') position
+  template              := (trigger | target | Msg38.1)+
+    target              := VAR_SYMBOL | '.'
+    trigger             := pattern | positional
+      pattern           := STRING | vrefp
+        vrefp           := '(' (VAR_SYMBOL | Msg19.7) (')' | Msg46.1)
+      positional        := absolute_positional | relative_positional
+        absolute_positional  := NUMBER | '=' position
+          position      := NUMBER | vrefp | Msg38.2
+      relative_positional := ('+' | '-') position
 
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
 /* Note: The final part specifies the various forms of symbol, 
@@ -270,33 +270,33 @@ relative_positional     := ('+' | '-') position
 
 symbol                  := VAR_SYMBOL | CONST_SYMBOL | NUMBER
 expression              := expr [(',' Msg37.1) | (')' Msg37.2 )]
-expr                    := expr_alias
-expr_alias              := and_expression
+  expr                  := expr_alias
+    expr_alias          := and_expression
                            | expr_alias or_operator and_expression
-or_operator             := '|' | '&&'
-and_expression          := comparison | and_expression '&' comparison
-additive_operator       := '+' | '-'
-multiplication          := power_expression
-                           | multiplication multiplicative_operator
-                           power_expression
-multiplicative_operator := '*' | '/' | '//' | '%'
-power_expression        := prefix_expression
-                           | power_expression '**' prefix_expression
-prefix_expression       := ('+' | '-' | '\') prefix_expression
-                           | term | Msg35.1
-term                    := symbol | STRING | function
-                           | '(' expr_alias (',' Msg37.1 | ')' | Msg36)
-function                := taken_constant '(' [expression_list]
-                           (')' | Msg36)
+      or_operator       := '|' | '&&'
+      and_expression    := comparison | and_expression '&' comparison
 comparison              := concatenation
                            | comparison comparison_operator concatenation
-comparison_operator     := normal_compare | strict_compare
-normal_compare          := '=' | '\=' | '<>' | '><' | '>' | '<' | '>='
+  comparison_operator   := normal_compare | strict_compare
+    normal_compare      := '=' | '\=' | '<>' | '><' | '>' | '<' | '>='
                            | '<=' | '\>' | '\<'
-strict_compare          := '==' | '\==' | '>>' | '<<' | '>>=' | '<<='
+    strict_compare      := '==' | '\==' | '>>' | '<<' | '>>=' | '<<='
                            | '\>>' | '\<<'
 concatenation           := addition
                            | concatenation (' ' | '||') addition
 addition                := multiplication
                            | addition additive_operator multiplication
+  additive_operator     := '+' | '-'
+multiplication          := power_expression
+                           | multiplication multiplicative_operator
+                           power_expression
+  multiplicative_operator := '*' | '/' | '//' | '%'
+power_expression        := prefix_expression
+                           | power_expression '**' prefix_expression
+  prefix_expression     := ('+' | '-' | '\') prefix_expression
+                           | term | Msg35.1
+    term                := symbol | STRING | function
+                           | '(' expr_alias (',' Msg37.1 | ')' | Msg36)
+      function          := taken_constant '(' [expression_list]
+                           (')' | Msg36)
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
