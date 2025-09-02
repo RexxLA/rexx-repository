@@ -1,0 +1,7 @@
+production       := identifier ':=' bnf_expression               (6.1.5.1)
+bnf_expression   := abuttal | bnf_expression '|' abuttal         (6.1.5.2)
+abuttal          := [abuttal] bnf_primary                        (6.1.5.3)
+bnf_primary      := '[' bnf_expression ']'                       (6.1.5.4)
+                    | '(' bnf_expression ')' | literal
+                    | identifier | message_identifier
+                    | bnf_primary '+'
