@@ -1,0 +1,162 @@
+rxmessagebox ::= 'RxMessageBox(' text ',' title? ',' button? ',' icon? ',' options? ')'
+
+rxwinexec ::= 'RxWinExec(' cmdline ( ',' cmdshow )? ')'
+
+sysaddrexxmacro ::= 'SysAddRexxMacro(' name ',' file ( ',' order )? ')'
+
+sysbootdrive ::= 'SysBootDrive()'
+
+sysclearrexxmacrospace ::= 'SysClearRexxMacroSpace()'
+
+syscls ::= 'SysCls()'
+
+syscreatepipe ::= 'SysCreatePipe()'
+
+syscurpos ::= 'SysCurPos(' ( row ',' column )? ')'
+
+syscurstate ::= 'SysCurState(' state ')'
+
+sysdriveinfo ::= 'SysDriveInfo(' drive? ')'
+
+sysdrivemap ::= 'SysDriveInfo(' drive? ( ',' opt )? ')'
+
+sysdroprexxmacro ::= 'SysDropRexxMacro(' name ')'
+
+sysdumpvariables ::= 'SysDumpVariables(' filename? ')'
+
+sysfilecopy ::= 'SysFileCopy(' source ',' target ')'
+
+sysfiledelete ::= 'SysFileDelete(' file ')'
+
+sysfileexists ::= 'SysFileExists(' filename ')'
+
+sysfilemove ::= 'SysFileMove(' source ',' target ')'
+
+sysfilesearch ::= 'SysFileSearch(' target ',' file ',' stemarray ( ',' options )? ')'
+
+sysfilesystemtype ::= 'SysFileSystemType(' drive? ')'
+
+sysfiletree ::= 'SysFileTree(' filespec ',' stemarray ',' options? ',' tattrib? ',' nattrib? ')'
+
+sysfork ::= 'SysFork()'
+
+sysformatmessage ::= 'SysFormatMessage(' message ',' substitutions ')'
+
+sysfromunicode ::= 'SysFromUnicode(' string ',' codepage? ',' mappingflags? ',' defaultchar? ',' outstem ')'
+
+sysgeterrortext ::= 'SysGetErrorText(' errornumber ')'
+
+sysgetfiledatetime ::= 'SysGetFileDateTime(' filename ( ',' timesel )? ')'
+
+sysgetkey ::= 'SysGetKey(' ( opt )? ')'
+
+sysgetlongpathname ::= 'SysGetLongPathName(' path ')'
+
+sysgetmessage ::= 'SysGetMessage(' num ',' filename? ( ',' str )*
+
+sysgetmessagex ::= 'SysGetMessage(' set ',' num ',' filename? ( ',' str )*
+
+sysgetshortpathname ::= 'SysGetShortPathName(' path ')'
+
+sysini1 ::= 'SysIni(' inifile? ',' app ',' key ',' val ')'
+sysini2 ::= 'SysIni(' inifile? ',' app ',' key ')'
+sysini3 ::= 'SysIni(' inifile? ',' app ',' key ',' '"DELETE:"' ')'
+sysini4 ::= 'SysIni(' inifile? ',' app ',' '"DELETE:"' ')'
+sysini5 ::= 'SysIni(' inifile? ',' app ',' '"ALL:"' ',' stemarray ')'
+sysini6 ::= 'SysIni(' inifile? ',' '"ALL:"' ',' stemarray ')'
+
+sysisfile ::= 'SysIsFile(' filename ')'
+
+sysisfilecompressed ::= 'SysIsFileCompressed(' filename ')'
+
+sysisfiledirectory ::= 'SysIsFileDirectory(' dirname ')'
+
+sysisfileencrypted ::= 'SysIsFileEncrypted(' filename ')'
+
+sysisfilelink ::= 'SysIsFileLink(' linkname ')'
+
+sysisfilenotcontentindexed ::= 'SysIsFileNotContentIndexed(' filename ')'
+
+sysisfileoffline ::= 'SysIsFileOffline(' filename ')'
+
+sysisfilesparse ::= 'SysIsFileSparse(' filename ')'
+
+sysisfiletemporary ::= 'SysIsFileTemporary(' filename ')'
+
+syslinver ::= 'SysLinVer()'
+
+sysloadrexxmacrospace ::= 'SysLoadRexxMacroSpace(' file ')'
+
+sysmkdir ::= 'SysMkDir(' dirspec ')'
+sysmkdir_unix ::= 'SysMkDir(' dirspec (',' mode)? ')'
+
+sysqueryprocess1 ::= 'SysQueryProcess(' ( '"PID"' | '"TID"' | '"PPRIO"' | '"TPRIO"' |
+                                         '"PTIME"' | '"TTIME"' )? ')'
+sysqueryprocess2 ::= 'SysQueryProcess(' ( '"PID"' | '"PPID"' | '"PPRIO"' | '"PTIME"' |
+                                         '"PMEM"' | '"PSWAPS"' | '"PRCVDSIG"' )? ')'
+
+sysqueryrexxmacro ::= 'SysQueryRexxMacro(' name ')'
+
+sysreorderrexxmacro ::= 'SysReorderRexxMacro(' name ',' order ')'
+
+sysrmdir ::= 'SysRmDir(' dirspec ')'
+
+syssaverexxmacrospace ::= 'SysSaveRexxMacroSpace(' file ')'
+
+syssearchpath ::= 'SysSearchPath(' path ',' filename ( ',' option )? ')'
+
+syssetfiledatetime ::= 'SysSetFileDateTime(' filename ( ',' ( newdate )? ( ',' newtime )? )? ')'
+
+syssetpriority ::= 'SysSetPriority(' class ',' delta ')'
+
+sysshutdownsystem ::= 'SysShutdownSystem(' computer? ',' message? ',' timeout? ',' force? ',' reboot? ')'
+
+syssleep ::= 'SysSleep(' delay ')'
+
+sysstemcopy ::= 'SysStemCopy(' fromstem ',' tostrm ( ',' ( from )? ( ',' ( to )? ( ',' ( count )?
+                               ( ',' ( '"I"' | '"O"' ) )? )? )? )? ')'
+
+sysstemdelete ::= 'SysStemDelete(' stem ',' startitem ( ',' itemcount )? ')'
+
+syssteminsert ::= 'SysStemInsert(' stem ',' position ',' value ')'
+
+sysstemsort ::= 'SysStemSort(' stem ',' ( '"A"' | '"D"' ) ',' ( '"C"' | '"I"' ) ','
+                                        ( '"1"' | start ) ',' end ',' ( '"1"' | firstcol ) ',' lastcol ')'
+
+sysswitchsession ::= 'SysSwitchSession(' name ')'
+
+syssystemdirectory ::= 'SysSystemDirectory()'
+
+systempfilename ::= 'SysTempFileName(' template ( ',' filler )? ')'
+
+systextscreenread ::= 'SysTextScreenRead(' row ',' column ( ',' len )? ')'
+
+systextscreensize ::= 'SysTextScreenSize(' ( ( ( | "BUFFERSIZE") ( ',' rows ',' columns )? ) |
+                                             ( "WINDOWRECT" ( ',' top ',' left ',' bottom ',' right)? ) |
+                                             "MAXWINDOWSIZE"
+                                           ) ')'
+
+systounicode ::= 'SysToUnicode(' string ',' codepage? ',' translateflags? ',' outstem ')'
+
+sysutilversion ::= 'SysUtilVersion()'
+
+sysversion ::= 'SysVersion()'
+
+sysvolumelabel ::= 'SysVolumeLabel(' drive? ')'
+
+syswait ::= 'SysWait()'
+
+syswaitnamedpipe ::= 'SysWaitNamedPipe(' name ( ',' timeout )? ')'
+
+syswindecryptfile ::= 'SysWinDecryptFile(' filename ')'
+
+syswinencryptfile ::= 'SysWinEncryptFile(' filename ')'
+
+syswingetdefaultprinter ::= 'SysWinGetDefaultPrinter()'
+
+syswingetprinters ::= 'SysWinGetPrinters(' stemarray ')'
+
+syswinsetdefaultprinter ::= 'SysWinSetDefaultPrinter(' description ')'
+
+syswinver ::= 'SysWinVer()'
+
