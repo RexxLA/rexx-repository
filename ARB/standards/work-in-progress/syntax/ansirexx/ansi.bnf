@@ -1,7 +1,69 @@
-production       := identifier ':=' bnf_expression               (6.1.5.1)
-bnf_expression   := abuttal | bnf_expression '|' abuttal         (6.1.5.2)
-abuttal          := [abuttal] bnf_primary                        (6.1.5.3)
-bnf_primary      := '[' bnf_expression ']'                       (6.1.5.4)
-                    | '(' bnf_expression ')' | literal
-                    | identifier | message_identifier
-                    | bnf_primary '+'
+production              := identifier ':=' bnf_expression               (6.1.5.1)
+bnf_expression          := abuttal | bnf_expression '|' abuttal         (6.1.5.2)
+abuttal                 := [abuttal] bnf_primary                        (6.1.5.3)
+bnf_primary             := '[' bnf_expression ']'                       (6.1.5.4)
+                           | '(' bnf_expression ')' | literal
+                           | identifier | message_identifier
+                           | bnf_primary '+'
+
+digit                   := '0' | '1' | '2' | '3' | '4' | '5'           (6.2.2.1)
+                           | '6' | '7' | '8' | '9'
+special                 := ',' | ':' | ';' | ')' | '('                 (6.2.2.2)
+not                     := '\' | other_negator                         (6.2.2.3)
+operator_only           := '+' | '-' | '%' | '|' | '&' | '='           (6.2.2.4)
+                           | not | '>' | '<'
+
+operator_or_other       := '/' | '*'                                   (6.2.2.5)
+operator_char           := operator_only | operator_or_other           (6.2.2.6)
+general_letter          := '_' | '!' | '?' | extra_letter | 'A'        (6.2.2.7)
+                           | 'B' | 'C' | 'D' | 'E' | 'F' | 'G'
+                           | 'H' | 'I' | 'J' | 'K' | 'L' | 'M'
+                           | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S'
+                           | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y'
+                           | 'Z' | 'a' | 'b' | 'c' | 'd' | 'e'
+                           | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'
+                           | 'l' | 'm' | 'n' | 'o' | 'p' | 'q'
+                           | 'r' | 's' | 't' | 'u' | 'v' | 'w'
+                           | 'x' | 'y' | 'z'
+
+blank                   := ' ' | other_blank_character                 (6.2.2.8)
+bo                      := [blank+]                                    (6.2.2.9)
+string_or_comment_char  := digit | '.' | special | operator_only      (6.2.2.10)
+                           | general_letter | blank
+                           | other_character
+....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+tokenize                := [between+] [tokenbetween+] EOS Eos
+tokenbetween            := token [between+]
+token                   := operand | Operator | Special
+operand                 := string_literal | Var_symbol
+                           | Const_symbol
+between                 := comment | blank_run Blank | EOL Eol
+                           | Msg13.1
+blank_run               := (blank | continuation)+
+continuation            := CONTINUE ',' [(comment | blank)+] EOL
+comment                 := '/' '*' [commentpart+] ['*'+] ('*' '/'
+                           | EOS Msg6.1)
+commentpart             := comment | ['/'+] comment_char+
+                           | '*'+ comment_char+
+comment_char            := string_or_comment_char | '"' | "'"
+                           | EOL
+string_literal          := Hex_string | Binary_string | String
+String                  := quoted_string
+Hex_string              := quoted_string RADIX ('x' | 'X')
+Binary_string           := quoted_string RADIX ('b' | 'B')
+quoted_string           := quotation_mark_string
+                           [(Embedded_quotation_mark
+                           quotation_mark_string)+]
+                           | apostrophe_string
+                           [(Embedded_apostrophe
+                           apostrophe_string)+]
+quotation_mark_string   := '"' [(string_char | "'")+]
+                           ('"' | EOL Msg6.3)
+apostrophe_string       := "'" [(string_char | '"')+]
+                           ("'" | EOL Msg6.2)
+string_char             := string_or_comment_char | '*' | '/'
+Var_symbol              := general_letter [var_symbol_char+]
+var_symbol_char         := general_letter | digit | '.'
+Const_symbol            := (digit | '.') [const_symbol_char+]
+const_symbol_char       := var_symbol_char
+                           | EXPONENT_SIGN ('+' | '-')
