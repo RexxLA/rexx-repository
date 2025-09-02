@@ -1,4 +1,12 @@
 /*******************************************************************************/
+/*******************************************************************************/
+/* This is the syntax of the Rexx language as defined by ANSI X3.274-1996,     */
+/* "Programming Language - REXX" (a work of the X3J18 committee), after        */
+/* applying the corrections of the errata.                                     */
+/*******************************************************************************/
+/*******************************************************************************/
+
+/*******************************************************************************/
 /* 6.1.5 - BNF Syntax definition                                               */
 /*******************************************************************************/
 
@@ -125,9 +133,11 @@ break_binary_digit_quad := bo binary_digit binary_digit               (6.2.2.43)
 
 /*----------------------------------------------------------------------------*/
 /* The first part introduces the overall structure of a program               */
+/* 6.3.2.1, -14 and -19 have been fixed as per the errata.                    */
 /*----------------------------------------------------------------------------*/
 
-program                 := [ncl] [instruction_list] ['END' Msg10.1]    (6.3.2.1)
+program                 := [label_list] [ncl] [instruction_list]       (6.3.2.1)
+                           ['END' Msg10.1]    
   ncl                   := null_clause+ | Msg21.1                      (6.3.2.2)
     null_clause         := ';' [label_list]                            (6.3.2.3)
       label_list        := (LABEL ';')+                                (6.3.2.4)
@@ -150,7 +160,7 @@ program                 := [ncl] [instruction_list] ['END' Msg10.1]    (6.3.2.1)
                            [instruction_list] do_ending
       do_ending         := 'END' [VAR_SYMBOL] ncl                     (6.3.2.13)    
                            | EOS Msg14.1 | Msg35.1
-  if                    := 'IF' expression [ncl] (then | Msg18.1)     (6.3.2.14)    
+  if                    := 'IF' expression ';'+ (then | Msg18.1)      (6.3.2.14)    
                            [else]
     then                := 'THEN' ncl                                 (6.3.2.15)    
                            (instruction | EOS Msg14.3 | 'END' Msg10.5)
@@ -160,7 +170,7 @@ program                 := [ncl] [instruction_list] ['END' Msg10.1]    (6.3.2.1)
                            ('END' [VAR_SYMBOL Msg10.4] ncl
                            | EOS Msg14.2 | Msg7.2)
     select_body         := (when | Msg7.1) [when+] [otherwise]        (6.3.2.18)    
-      when              := 'WHEN' expression [ncl] (then | Msg18.2)   (6.3.2.19)    
+      when              := 'WHEN' expression ';'+ (then | Msg18.2)    (6.3.2.19)    
       otherwise         := 'OTHERWISE' ncl [instruction_list]         (6.3.2.20)    
 
 
