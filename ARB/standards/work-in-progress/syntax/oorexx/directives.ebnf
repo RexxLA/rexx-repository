@@ -1,0 +1,49 @@
+annotate ::= '::ANNOTATE' ( 'ATTRIBUTE' attribute |
+                            'CLASS' class |
+                            'CONSTANT' constant |
+                            'METHOD' method |
+                            'PACKAGE' |
+                            'ROUTINE' routine ) ( name value )*
+
+attribute ::= '::ATTRIBUTE' name ( 'GET' | 'SET' )? ( 'CLASS' )?
+                            ( 'PUBLIC' | 'PACKAGE' | 'PRIVATE' )?
+                            ( 'GUARDED' | 'UNGUARDED' )?
+                            ( 'UNPROTECTED' | 'PROTECTED' )?
+                            ( 'ABSTRACT' |
+                              'DELEGATE' delegatename |
+                              'EXTERNAL' spec )?
+
+class ::= '::CLASS' classname ( 'METACLASS' metaclass )?
+                    ( 'PRIVATE' | 'PUBLIC' )?
+                    ( 'MIXINCLASS' mclass | 'SUBCLASS' sclass )?
+                    ( 'ABSTRACT' )?
+                    ( 'INHERIT' iclass+ )?
+
+constant ::= '::CONSTANT' name value?
+
+method ::= '::METHOD' methodname 'ATTRIBUTE'? 'CLASS'?
+                      ( 'PUBLIC' | 'PACKAGE' | 'PRIVATE' )?
+                      ( 'GUARDED' | 'UNGUARDED' )?
+                      ( 'UNPROTECTED' | 'PROTECTED' )?
+                      ( 'ABSTRACT' |
+                        'DELEGATE' delegatename |
+                        'EXTERNAL' spec )?
+
+options ::= '::OPTIONS' ( 'DIGITS' digits |
+                          'FORM' ('ENGINEERING' | 'SCIENTIFIC') |
+                          'FUZZ' fuzz |
+                          ('ALL' | 'ERROR' | 'FAILURE' | 'LOSTDIGITS' | 'NOSTRING' | 'NOTREADY' | 'NOVALUE') ('CONDITION' | 'SYNTAX') |
+                          ( 'PROLOG' | 'NOPROLOG' ) |
+                          'TRACE' trace
+                        )*
+
+requires ::= '::REQUIRES' programname ( 'LIBRARY' |
+                                        'NAMESPACE' namespace
+                                      )?
+
+resource ::= '::RESOURCE' name ( 'END' delimiter )?
+resourcedata ::= resource_data*
+resourceend ::= ( '::END' | delimiter ) ignored_data?
+
+routine ::= '::ROUTINE' routinename ( 'PRIVATE' | 'PUBLIC' )? ( 'EXTERNAL' spec )?
+
