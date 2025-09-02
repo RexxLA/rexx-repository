@@ -1,0 +1,12 @@
+/* 1.11.1. Terms and Expressions et. al. */
+intro_function ::= 'symbolorstring(' expression? (',' expression?)* ')'
+
+/* 1.11.4. Message Terms */
+intro_messageterm1 ::= receiver ('~' | '~~') messagename (':' symbol)? ('(' expression? (',' expression?)*  ')')?
+intro_messageterm2 ::= receiver '[' expression? (',' expression?)*  ']'
+
+/* 1.11.6. Array Term */
+intro_arrayterm ::= expression? ',' expression? (',' expression?)*
+
+/* 1.15. Message Instructions */
+intro_messageinstruction ::= messageterm ('=' expression)?

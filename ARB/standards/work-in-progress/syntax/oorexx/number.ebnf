@@ -1,0 +1,15 @@
+number_no_exponential ::= whitespace? (sign whitespace?)?
+                          (digits | digits '.' digits | '.' digits | digits '.')
+                          whitespace?
+
+number_exponential    ::= whitespace? (sign whitespace?)?
+                          (digits | digits '.' digits | '.' digits | digits '.')
+                          ('E' sign? digits)?
+                          whitespace?
+
+number_digits         ::= 'NUMERIC DIGITS' expression?
+
+number_form           ::= 'NUMERIC FORM'
+                          ( 'SCIENTIFIC' | 'ENGINEERING' | 'VALUE'? expression )? 
+
+number_fuzz           ::= 'NUMERIC FUZZ' expression?
