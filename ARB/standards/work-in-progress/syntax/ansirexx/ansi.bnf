@@ -1,4 +1,6 @@
+/*******************************************************************************/
 /* 6.1.5 - BNF Syntax definition                                               */
+/*******************************************************************************/
 
 production              := identifier ':=' bnf_expression               (6.1.5.1)
 bnf_expression          := abuttal | bnf_expression '|' abuttal         (6.1.5.2)
@@ -8,7 +10,10 @@ bnf_primary             := '[' bnf_expression ']'                       (6.1.5.4
                            | identifier | message_identifier
                            | bnf_primary '+'
 
+
+/******************************************************************************/
 /* 6.2.2 - Lexical level                                                      */
+/******************************************************************************/
 
 digit                   := '0' | '1' | '2' | '3' | '4' | '5'           (6.2.2.1)
                            | '6' | '7' | '8' | '9'
@@ -113,9 +118,14 @@ binary_digit            := '0' | '1'                                  (6.2.2.42)
 break_binary_digit_quad := bo binary_digit binary_digit               (6.2.2.43)
                            binary_digit binary_digit
 
-/* 6.3.2 - Syntax level                                                       */
 
+/******************************************************************************/
+/* 6.3.2 - Syntax level                                                       */
+/******************************************************************************/
+
+/*----------------------------------------------------------------------------*/
 /* The first part introduces the overall structure of a program               */
+/*----------------------------------------------------------------------------*/
 
 program                 := [ncl] [instruction_list] ['END' Msg10.1]    (6.3.2.1)
   ncl                   := null_clause+ | Msg21.1                      (6.3.2.2)
@@ -153,13 +163,13 @@ program                 := [ncl] [instruction_list] ['END' Msg10.1]    (6.3.2.1)
       when              := 'WHEN' expression [ncl] (then | Msg18.2)   (6.3.2.19)    
       otherwise         := 'OTHERWISE' ncl [instruction_list]         (6.3.2.20)    
 
-/*
-Note:  The next part concentrates on the instructions.
-It leaves unspecified the various forms of symbol, template
-and expression.
-*/
 
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+/*----------------------------------------------------------------------------*/
+/* Note:  The next part concentrates on the instructions.                     */
+/*        It leaves unspecified the various forms of symbol, template         */
+/*          and expression.                                                   */
+/*----------------------------------------------------------------------------*/
+
 address                 := 'ADDRESS' [(taken_constant [expression]    (6.3.2.21)
                            | Msg19.1 | valueexp) [ 'WITH' connection]]
   taken_constant        := symbol | STRING                            (6.3.2.22)
@@ -174,7 +184,6 @@ address                 := 'ADDRESS' [(taken_constant [expression]    (6.3.2.21)
                            | 'REPLACE' (resources | Msg25.9)
                            | resources | 'NORMAL'
     adeo                := error [output] | output [error]            (6.3.2.30)
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
       error             := 'ERROR' (resourceo | Msg25.14)             (6.3.2.31)
     adei                := error [input] | input [error]              (6.3.2.32)
 resources               := 'STREAM' (VAR_SYMBOL | Msg53.1)            (6.3.2.33)
@@ -229,7 +238,6 @@ parse                   := 'PARSE'(parse_type | Msg25.12)             (6.3.2.71)
                            | 'PARSE' 'UPPER' (parse_type | Msg25.13)
                            [template_list]
   parse_type            := parse_key | parse_value | parse_var        (6.3.2.72)
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
     parse_key           := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'       (6.3.2.73)
                            | 'VERSION'
     parse_value         := 'VALUE' [expression] ('WITH' | Msg38.3)    (6.3.2.74)
@@ -251,52 +259,58 @@ signal                  := 'SIGNAL' (signal_spec | valueexp           (6.3.2.82)
 trace                   := 'TRACE'                                    (6.3.2.85)
                            [(taken_constant | Msg19.6) | valueexp]
 
+
+/*----------------------------------------------------------------------------*/
 /* Note: The next section describes templates.                                */
+/*----------------------------------------------------------------------------*/
 
 template_list           := template | [template] ',' [template_list]  (6.3.2.86)
-  template              := (trigger | target | Msg38.1)+
-    target              := VAR_SYMBOL | '.'
-    trigger             := pattern | positional
-      pattern           := STRING | vrefp
-        vrefp           := '(' (VAR_SYMBOL | Msg19.7) (')' | Msg46.1)
-      positional        := absolute_positional | relative_positional
-        absolute_positional  := NUMBER | '=' position
-          position      := NUMBER | vrefp | Msg38.2
-      relative_positional := ('+' | '-') position
+  template              := (trigger | target | Msg38.1)+              (6.3.2.87)
+    target              := VAR_SYMBOL | '.'                           (6.3.2.88)
+    trigger             := pattern | positional                       (6.3.2.89)
+      pattern           := STRING | vrefp                             (6.3.2.90)
+        vrefp           := '(' (VAR_SYMBOL | Msg19.7) (')' | Msg46.1) (6.3.2.91)
+      positional        := absolute_positional | relative_positional  (6.3.2.92)
+        absolute_positional  := NUMBER | '=' position                 (6.3.2.93)
+          position      := NUMBER | vrefp | Msg38.2                   (6.3.2.94)
+      relative_positional := ('+' | '-') position                     (6.3.2.95)
 
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-/* Note: The final part specifies the various forms of symbol, 
-   and expression.                                                            */
 
-symbol                  := VAR_SYMBOL | CONST_SYMBOL | NUMBER
-expression              := expr [(',' Msg37.1) | (')' Msg37.2 )]
-  expr                  := expr_alias
-    expr_alias          := and_expression
+/*----------------------------------------------------------------------------*/
+/* Note: The final part specifies the various forms of symbol,                */
+/*       and expression.                                                      */
+/*----------------------------------------------------------------------------*/
+
+symbol                  := VAR_SYMBOL | CONST_SYMBOL | NUMBER         (6.3.2.96)
+expression              := expr [(',' Msg37.1) | (')' Msg37.2 )]      (6.3.2.97)
+  expr                  := expr_alias                                 (6.3.2.98)
+    expr_alias          := and_expression                             (6.3.2.99)
                            | expr_alias or_operator and_expression
-      or_operator       := '|' | '&&'
-      and_expression    := comparison | and_expression '&' comparison
-comparison              := concatenation
+      or_operator       := '|' | '&&'                                (6.3.2.100)
+      and_expression    := comparison                                (6.3.2.101)
+                           | and_expression '&' comparison
+comparison              := concatenation                             (6.3.2.102)
                            | comparison comparison_operator concatenation
-  comparison_operator   := normal_compare | strict_compare
-    normal_compare      := '=' | '\=' | '<>' | '><' | '>' | '<' | '>='
-                           | '<=' | '\>' | '\<'
-    strict_compare      := '==' | '\==' | '>>' | '<<' | '>>=' | '<<='
-                           | '\>>' | '\<<'
-concatenation           := addition
-                           | concatenation (' ' | '||') addition
-addition                := multiplication
+  comparison_operator   := normal_compare | strict_compare           (6.3.2.103)
+    normal_compare      := '=' | '\=' | '<>' | '><' | '>' | '<'      (6.3.2.104)
+                           | '>=' | '<=' | '\>' | '\<'
+    strict_compare      := '==' | '\==' | '>>' | '<<' | '>>='        (6.3.2.105)
+                           | '<<=' | '\>>' | '\<<'
+concatenation           := addition                                  (6.3.2.106)
+                           | concatenation (' ' | '||') addition     
+addition                := multiplication                            (6.3.2.107)
                            | addition additive_operator multiplication
-  additive_operator     := '+' | '-'
-multiplication          := power_expression
+  additive_operator     := '+' | '-'                                 (6.3.2.108)
+multiplication          := power_expression                          (6.3.2.109)
                            | multiplication multiplicative_operator
                            power_expression
-  multiplicative_operator := '*' | '/' | '//' | '%'
-power_expression        := prefix_expression
+  multiplicative_operator := '*' | '/' | '//' | '%'                  (6.3.2.110)
+power_expression        := prefix_expression                         (6.3.2.111)
                            | power_expression '**' prefix_expression
-  prefix_expression     := ('+' | '-' | '\') prefix_expression
+  prefix_expression     := ('+' | '-' | '\') prefix_expression       (6.3.2.112)
                            | term | Msg35.1
-    term                := symbol | STRING | function
+    term                := symbol | STRING | function                (6.3.2.113)
                            | '(' expr_alias (',' Msg37.1 | ')' | Msg36)
-      function          := taken_constant '(' [expression_list]
+      function          := taken_constant '(' [expression_list]      (6.3.2.114)
                            (')' | Msg36)
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
