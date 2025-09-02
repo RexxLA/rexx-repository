@@ -160,49 +160,49 @@ and expression.
 */
 
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-address                 := 'ADDRESS' [(taken_constant [expression]
+address                 := 'ADDRESS' [(taken_constant [expression]    (6.3.2.21)
                            | Msg19.1 | valueexp) [ 'WITH' connection]]
-taken_constant          := symbol | STRING
-valueexp                := 'VALUE' expression
-connection              := error [adio] | input [adeo]
+  taken_constant        := symbol | STRING
+  valueexp              := 'VALUE' expression
+  connection            := error [adio] | input [adeo]
                            | output [adei] | Msg25.5
-adio                    := input [output] | output [input]
-input                   := 'INPUT' (resourcei | Msg25.6)
-resourcei               := resources | 'NORMAL'
-output                  := 'OUTPUT' (resourceo | Msg25.7)
-resourceo               := 'APPEND' (resources | Msg25.8)
+    adio                := input [output] | output [input]
+      input             := 'INPUT' (resourcei | Msg25.6)
+        resourcei       := resources | 'NORMAL'
+      output            := 'OUTPUT' (resourceo | Msg25.7)
+        resourceo       := 'APPEND' (resources | Msg25.8)
                            | 'REPLACE' (resources | Msg25.9)
                            | resources | 'NORMAL'
-adeo                    := error [output] | output [error]
+    adeo                := error [output] | output [error]
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-error                   := 'ERROR' (resourceo | Msg25.14)
-adei                    := error [input] | input [error]
+      error             := 'ERROR' (resourceo | Msg25.14)
+    adei                := error [input] | input [error]
 resources               := 'STREAM' (VAR_SYMBOL | Msg53.1)
                            | 'STEM' (VAR_SYMBOL | Msg53.2)
-vref                    := '(' var_symbol (')' | Msg46.1)
-var_symbol              := VAR_SYMBOL | Msg20.1
+  vref                  := '(' var_symbol (')' | Msg46.1)
+    var_symbol          := VAR_SYMBOL | Msg20.1
 arg                     := 'ARG' [template_list]
 call                    := 'CALL' (callon_spec|
                            (taken_constant|Msg19.2)[expression_list])
-callon_spec             := 'ON' (callable_condition | Msg25.1)
+  callon_spec           := 'ON' (callable_condition | Msg25.1)
                            ['NAME' (taken_constant | Msg19.3)]
                            | 'OFF' (callable_condition | Msg25.2)
-callable_condition      := 'ERROR' | 'FAILURE'
+    callable_condition  := 'ERROR' | 'FAILURE'
                            | 'HALT' | 'NOTREADY'
-expression_list         := expr | [expr] ',' [expression_list]
+  expression_list       := expr | [expr] ',' [expression_list]
 do_specification        := do_simple | do_repetitive
-do_simple               := 'DO'
-do_repetitive           := 'DO' dorep | 'DO' docond
+  do_simple             := 'DO'
+  do_repetitive         := 'DO' dorep | 'DO' docond
                            | 'DO' dorep docond
                            | 'DO' 'FOREVER' [docond | Msg25.16]
-docond                  := 'WHILE' whileexpr | 'UNTIL' untilexpr
-untilexpr               := expression
-whileexpr               := expression
-dorep                   := assignment [docount] | repexpr
-repexpr                 := expression
-docount                 := dot [dobf] | dob [dotf] | dof [dotb]
-dobf                    := dob [dof] | dof [dob]
-dotf                    := dot [dof] | dof [dot]
+  docond                := 'WHILE' whileexpr | 'UNTIL' untilexpr
+    untilexpr           := expression
+    whileexpr           := expression
+  dorep                 := assignment [docount] | repexpr
+    repexpr             := expression
+    docount             := dot [dobf] | dob [dotf] | dof [dotb]
+      dobf              := dob [dof] | dof [dob]
+      dotf              := dot [dof] | dof [dot]
 dotb                    := dot [dob] | dob [dot]
 dot                     := 'TO' toexpr
 toexpr                  := expression
@@ -294,8 +294,8 @@ normal_compare          := '=' | '\=' | '<>' | '><' | '>' | '<' | '>='
                            | '<=' | '\>' | '\<'
 strict_compare          := '==' | '\==' | '>>' | '<<' | '>>=' | '<<='
                            | '\>>' | '\<<'
-concatenation := addition
-| concatenation (' ' | '||') addition
-addition := multiplication
-| addition additive_operator multiplication
+concatenation           := addition
+                           | concatenation (' ' | '||') addition
+addition                := multiplication
+                           | addition additive_operator multiplication
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
