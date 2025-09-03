@@ -166,4 +166,71 @@ resources               := 'STREAM' (VAR_SYMBOL | Msg53.1)
                            | 'STEM' (VAR_SYMBOL | Msg53.2)
   vref                  := '(' var_symbol (')' | Msg46.1)
     var_symbol          := VAR_SYMBOL | Msg20.1
+arg                     := 'ARG' [template list]
+call                    := 'CALL' (callon_spec|
+                           (taken_constant | vref | Msg19.2)[expression_list])
+  callon_spec           := 'ON' (callable_condition | Msg25.1)
+                           ['NAME' (symbol_constant_term | Msg19.3)]
+                           | 'OFF' (callable_condition | Msg25.2)
+    symbol_constant_term := term
+    callable_condition  := 'ANY' | 'ERROR' | 'FAILURE' | 'HALT' | 'NOTREADY'
+                           | 'USER' ( symbol_constant_term | Msg19.18 )
+    condition           := callable_condition | 'LOSTDIGITS'
+                           | 'NOMETHOD' | 'NOSTRING' | 'NOVALUE' | 'SYNTAX'
+  expression_list       := expr | [expr] ',' [expression_list]
+do_specification        := do_simple | do_repetitive
+  do_simple             := 'DO' [group_option+]
+  do_repetitive         := do_simple (dorep | conditional | dorep conditional)
+    dorep               := 'FOREVER' | repetitor
+drop                    := 'DROP' variable_list
+  variable_list         := (vref | var_symbol)+
+exit                    := 'EXIT' [expression]
+forward                 := 'FORWARD' [forward_option+ | Msg25.18]
+  forward_option        := 'CONTINUE' | ArrayArgOption |
+                           MessageOption | ClassOption | ToOption
+    ArrayArgOption      :='ARRAY' arguments | 'ARGUMENTS' term
+    MessageOption       := 'MESSAGE' term
+    ClassOption         := 'CLASS' term
+    ToOption            := 'TO' term
+guard                   := 'GUARD' 
+                           ('ON' | Msg25.22) [('WHEN' | Msg25.21) expression] 
+                           | ('OFF' | Msg25.19) [('WHEN' | Msg25.21) expression]
+interpret               := 'INTERPRET' expression
+iterate                 := 'ITERATE' [VAR_SYMBOL | Msg20.2]
+leave                   := 'LEAVE' [VAR_SYMBOL | Msg20.2]
+nop                     := 'NOP'
+numeric                 := 'NUMERIC' (numeric_digits | numeric_form
+                           | numeric_fuzz | Msg25.15)
+  numeric_digits        := 'DIGITS' [expression]
+  numeric_form          := 'FORM' [numeric_form_suffix]
+    numeric_form_suffix := ('ENGINEERING'|'SCIENTIFIC'|valueexp | Msg25.11)
+  numeric_fuzz          := 'FUZZ' [expression]
+options                 := 'OPTIONS' expression
+parse                   := 'PARSE' [translations] 
+                           (parse_type | Msg25.12)
+                           [template_list]
+  translations          := 'CASELESS' ['UPPER' | 'LOWER']
+                           | ('UPPER' | 'LOWER') ['CASELESS']
+  parse_type            := parse_key | parse_value | parse_var | term
+    parse_key           := 'ARG' | 'PULL' | 'SOURCE' | 'LINEIN'
+                           | 'VERSION'
+    parse_value         := 'VALUE' [expression] ('WITH' | Msg38.3)
+    parse_var           := 'VAR' var_symbol
+  template              := NAME [( [pattern] NAME)+]
+    pattern             := STRING 
+                           | [indicator] NUMBER 
+                           | [indicator] '(' symbol ')'
+      indicator         := '+' | '-' | '='
+procedure               := 'PROCEDURE' [expose | Msg25.17]
+pull                    := 'PULL' [template_list]
+push                    := 'PUSH' [expression]
+queue                   := 'QUEUE' [expression]
+raise                   := 'RAISE' conditions (raise_option | Msg25.24)
+  conditions            := 'ANY' | 'ERROR' term | 'FAILURE' term
+                           | 'HALT'| 'LOSTDIGITS' | 'NOMETHOD' | 'NOSTRING' 
+                           | 'NOTREADY' | 'NOVALUE' | 'PROPAGATE' 
+                           | 'SYNTAX' term
+                           | 'USER' ( symbol_constant_term | Msg19.18) 
+                           | Msg25.23
+  raise_option          := ExitRetOption | Description | ArrayOption
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
