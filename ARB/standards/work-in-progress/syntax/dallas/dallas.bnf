@@ -264,5 +264,54 @@ template_list           := template | [template] ',' [template_list]
           position      := NUMBER | vrefp | Msg38.2
       relative_positional := ('+' | '-') position
 
+/******************************************************************************/
+/* Note: The final part specifies the various forms of symbol,                */
+/*       and expression.                                                      */
+/******************************************************************************/
+
 ....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+symbol                  := VAR_SYMBOL | CONST_SYMBOL | NUMBER
+expression              := expr [(',' Msg37.1) | (')' Msg37.2 )]
+  expr                  := expr_alias
+    expr_alias          := and_expression
+                           | expr_alias or_operator and_expression
+      or_operator       := '|' | '&&'
+      and_expression    := comparison | and_expression '&' comparison
+comparison              := concatenation
+                           | comparison comparison_operator concatenation
+  comparison_operator   := normal_compare | strict_compare
+    normal_compare      := '=' | '\=' | '<>' | '><' | '>' | '<' | '>='
+                           | '<=' | '\>' | '\<'
+    strict_compare      := '==' | '\==' | '>>' | '<<' | '>>=' | '<<='
+                           | '\>>' | '\<<'
+concatenation           := addition
+                           | concatenation (' ' | '||') addition
+addition                := multiplication
+                           | addition additive_operator multiplication
+  additive_operator     := '+' | '-'
+multiplication          := power_expression
+                           | multiplication multiplicative_operator 
+                           power_expression
+  multiplicative_operator := '*' | '/' | '//' | '%'
+power_expression        := prefix_expression
+                           | power_expression '**' prefix_expression
+  prefix_expression     := ('+' | '-' | '\') prefix_expression
+                           | term | Msg35.1
+/* "Stub" has to be identified semantically? */
+    term                := simple_term [ '.' ( term | Msgnn )]
+      simple_term       := symbol | STRING | invoke | indexed
+                           | '(' expression ( ')' | Msg36 )
+                           | initializer
+                           | message_term '##'
+      message_term     := term ('~' | '~~') method_name [arguments]
+                          | term '['[ expression_list ] (']' | Msg36.2)
+        method_name    := (taken constant | Msg19.19)
+                          [':' ( VAR_SYMBOL | Msg19.21 )]
+/* Method-call without arguments is syntactically like symbol. */
+/* Editor - not sure of my notes about here.                   */
+invoke                 := (symbol | STRING) arguments
+  arguments            := '#(' [expression_list] (')' | Msg36)
+    expression_list    := expression | [expression] ',' [expression_list]
+indexed                := (symbol | STRING) indices
+  indices              := '#[' [expression_list] (']' | Msg36.n)
+initializer            := '['expression_list (']' | Msg36.n)
