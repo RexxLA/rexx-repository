@@ -10,4 +10,120 @@ bnf_primary             := '[' bnf_expression ']' |
                            | identifier | message_identifier 
                            | bnf_primary '+'
 
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8                           
+
+/******************************************************************************/
+/* 6.3.2 Syntax level                                                         */
+/******************************************************************************/
+
+starter                 := x3j18
+x3j18                   := program Eos | Msg35.1
+program                 := [label_list] [ncl] 
+                           [requires+] 
+                           [prolog_instruction+]
+                           (class_definition [requires+])+
+  requires              := 'REQUIRES' ( taken_constant | Msg19.8 ) ';'+
+  prolog_instruction    := (package | import | options) ncl
+    package             := 'PACKAGE'( NAME | Msgnn )
+    import              := 'IMPORT' ( NAME | Msgnn ) ['.']
+    options             := 'OPTIONS' ( symbol+ | Msgnn )
+    ncl                 := null_clause+ | Msg21.1
+      null_clause       := ';' [label_list]
+         label_list     := (LABEL ';')+
+class_definition        := class [property_info] [method_definition+]
+  class                 := 'CLASS' ( taken_constant | Msg19.12 ) 
+                           [class_option+]
+                           ['INHERIT' ( taken_constant | Msg19.13 )+] 
+                           ncl
+  class_option          := visibility | modifier | 'BINARY' | 'DEPRECATED'
+                           | 'EXTENDS' ( NAME | Msgnn )
+                           | 'USES' ( NAMElist | Msgnn )
+                           | 'IMPLEMENTS' ( NAMElist | Msgnn )
+                           | external | metaclass | submix /* | 'PUBLIC' */
+    external            := 'EXTERNAL' (STRING | Msg19.14)
+    metaclass           := 'METACLASS' ( taken_constant | Msg19.15 )
+    submix              := 'MIXINCLASS' ( taken_constant | Msg19.16 )
+                           | 'SUBCLASS' ( taken_constant | Msg19.17 )
+    visibility          := 'PUBLIC' | 'PRIVATE'
+    modifier            := 'ABSTRACT' | 'FINAL' | 'INTERFACE' | 'ADAPTER'
+    NAMElist            := NAME [(',' ( NAME | Msgnn ) )+]
+  property_info         := numeric | property_assignment | properties | trace
+    numeric             := 'NUMERIC' (numeric_digits | numeric_form | Msg25.15)
+      numeric_digits    := 'DIGITS' [expression]
+      numeric_form      := 'FORM' ['ENGINEERING' | 'SCIENTIFIC']
+  property_assignment   := NAME | assignment
+  properties            := 'PROPERTIES' ( properties_option+ | Msgnn)
+    properties_option   := properties_visibility | properties_modifier
+      properties_visibility := 'INHERITABLE' | 'PRIVATE' 
+                           | 'PUBLIC' | 'INDIRECT'
+      properties_modifier   := 'CONSTANT' | 'STATIC' | 'VOLATILE' 
+                           | 'TRANSIENT'
+  trace                 := 'TRACE' ['ALL' | 'METHODS' | 'OFF' | 'RESULTS']
+method_definition       := (method [expose ncl]| routine)
+                           balanced
+  expose                := 'EXPOSE' variable_list
+  method                := 'METHOD' (taken_constant | Msg19.9)
+                           [ '(' assigncommalist | Msgnn ( ')' | Msgnn )]
+                           [method_option+] ncl
+    assigncommalist     := assignment [(',' ( assignment | Msgnn ) )+]
+    method_option       := method_visibility | method_modifier | 'PROTECT'
+                           | 'RETURNS' ( term | Msgnn )
+                           | 'SIGNAL' ( termcommalist | Msgnn )
+                           | 'DEPRECATED'
+                           | 'CLASS' | 'ATTRIBUTE' | /*'PRIVATE' | */ guarded
+        guarded         := 'GUARDED' | 'UNGUARDED'
+      method_visibility := 'INHERITABLE' | 'PRIVATE' | 'PUBLIC' | 'SHARED'
+      method_modifier   := 'ABSTRACT' | 'CONSTANT' | 'FINAL' 
+                           | 'NATIVE' | 'STATIC'
+      termcommalist     := term [(',' ( term | Msgnn ) )+]
+  routine               := 'ROUTINE' ( taken_constant | Msg19.11 )
+                           ['PUBLIC'] ncl
+  balanced              := instruction_list ['END' Msg10.1]
+    instruction_list    := instruction+
+
+
+/******************************************************************************/
+/* The second part is about groups                                            */
+/******************************************************************************/
+
+instruction             := group | single_instruction ncl
+group                   := do ncl | if | loop ncl | select ncl
+  do                    := do_specification ncl 
+                           [instruction+] 
+                           [group_handler]
+                           ('END' [NAME] | Eos Msg14.1 | Msg35.1)
+    group_option       := 'LABEL' ( NAME | Msgnn ) 
+                          | 'PROTECT' ( term | Msgnn )
+    group_handler       := catch | finally | catch finally
+      catch             := 'CATCH' [ NAME '=' ] ( NAME | Msgnn) ncl 
+                           [instruction+]
+/* FINALLY implies a semicolon. */
+      finally           := 'FINALLY' ncl ( instruction+ | Msgnn )
+  if                    := 'IF' expression [ncl] (then | Msg18.1)
+                           [else]
+    then                := 'THEN' ncl
+                           (instruction | EOS Msg14.3 | 'END' Msg10.5)
+    else                := 'ELSE' ncl
+                           (instruction | EOS Msg14.4 | 'END' Msg10.6)
+  loop                  := 'LOOP' [group_option+] [repetitor] [conditional] ncl
+                           instruction+ 
+                           [group_handler]
+                           loop_ending
+    loop_ending         := 'END' [VAR_SYMBOL] | EOS Msg14.n | Msg35.1
+  conditional           := 'WHILE' whileexpr | 'UNTIL' untilexpr
+    untilexpr           := expression
+    whileexpr           := expression
+  repetitor             := assignment [count_option+] | expression | over |
+                           'FOREVER'
+    count_option        := loopt | loopb | loopf
+      loopt             := 'TO' expression
+      loopb             := 'BY' expression
+      loopf             := 'FOR' expression
+    over                := VAR_SYMBOL 'OVER' expression
+                           | NUMBER 'OVER' Msg31.1
+                           | CONST_SYMBOL 'OVER' (Msg31.2 | Msg31.3)
+  select                := 'SELECT' [group_option+] ncl select_body [group_handler]
+                           ('END' [NAME Msg10.4] | EOS Msg14.2 | Msg7.2)
+    select_body         := (when | Msg7.1) [when+] [otherwise]
+      when              := 'WHEN' expression [ncl] (then | Msg18.2)
+      otherwise         := 'OTHERWISE' ncl [instruction+]
+....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  
