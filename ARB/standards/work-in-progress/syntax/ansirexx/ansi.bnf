@@ -133,7 +133,7 @@ break_binary_digit_quad := bo binary_digit binary_digit               (6.2.2.43)
 
 /*----------------------------------------------------------------------------*/
 /* The first part introduces the overall structure of a program               */
-/* 6.3.2.1, -14 and -19 have been fixed as per the errata.                    */
+/* 6.3.2.1, -14, -19 and -68 have been fixed as per the errata.               */
 /*----------------------------------------------------------------------------*/
 
 program                 := [label_list] [ncl] [instruction_list]       (6.3.2.1)
@@ -239,7 +239,8 @@ nop                     := 'NOP'                                      (6.3.2.65)
 numeric                 := 'NUMERIC' (numeric_digits | numeric_form   (6.3.2.66)
                            | numeric_fuzz | Msg25.15)
   numeric_digits        := 'DIGITS' [expression]                      (6.3.2.67)
-  numeric_form          := 'FORM' ('ENGINEERING' | 'SCIENTIFIC'       (6.3.2.68)
+  numeric_form          := 'FORM' [numericformsuffix]               (6.3.2.68-1)
+    numericformsuffix   := ('ENGINEERING' | 'SCIENTIFIC'            (6.3.2.68-2)
                            | valueexp | Msg25.11)
   numeric_fuzz          := 'FUZZ' [expression]                        (6.3.2.69)
 options                 := 'OPTIONS' expression                       (6.3.2.70)
