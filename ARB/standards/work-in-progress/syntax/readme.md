@@ -9,5 +9,5 @@ A directory to collect documents that define the syntax of the different variant
   with the corrections of the Errata applied.
 * [oorexx/](oorexx/) contains a partial EBNF definition of ooRexx. At present,
   it's the collection of all the RexxRef .ebnf files found in the trunk SVN tree.
-* [dallas/](dallas/) [BNF information](dallas/dallas.bfn) about the "Dallas Draft" of the _Programming Language Extended Rexx_
+* [dallas/](dallas/) contains [BNF information](dallas/dallas.bnf) about the "Dallas Draft" of the _Programming Language Extended Rexx_
   report (November 1998).
