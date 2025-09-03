@@ -1,0 +1,13 @@
+/******************************************************************************/
+/* 6.1.5 BNF syntax definition. The BNF syntax, described in BNF, is:         */
+/******************************************************************************/
+
+production              := identifier ':=' bnf_expression
+bnf_expression          := abuttal | bnf_expression '|' abuttal
+abuttal                 := [abuttal] bnf_primary
+bnf_primary             := '[' bnf_expression ']' | 
+                           '(' bnf_expression ')' | literal 
+                           | identifier | message_identifier 
+                           | bnf_primary '+'
+
+....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8                           
