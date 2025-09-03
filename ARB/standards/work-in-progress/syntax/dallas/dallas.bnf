@@ -126,4 +126,44 @@ group                   := do ncl | if | loop ncl | select ncl
     select_body         := (when | Msg7.1) [when+] [otherwise]
       when              := 'WHEN' expression [ncl] (then | Msg18.2)
       otherwise         := 'OTHERWISE' ncl [instruction+]
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8  
+
+
+/******************************************************************************/
+/* Third part is for single instructions.                                     */
+/******************************************************************************/
+
+single_instruction      := assignment 
+                           | message_instruction 
+                           | keyword_instruction
+                           | command
+  assignment            := VAR_SYMBOL '#' expression
+                           | NUMBER '#' Msg31.1
+                           | CONST_SYMBOL '#' (Msg31.2 | Msg31.3)
+  message_instruction   := message_term | message_term '#' expression
+  keyword_instruction   := address | arg | call | drop | exit
+                           | interpret | iterate | leave
+                           | nop | numeric | options
+                           | parse | procedure | pull | push 
+                           | queue | raise | reply | return 
+                           | say | signal | trace | use
+                           | 'THEN' Msg8.1 | 'ELSE' Msg8.2
+                           | 'WHEN' Msg9.1 | 'OTHERWISE' Msg9.2
+  command               := expression
+address                 := 'ADDRESS' [(taken_constant [expression]
+                           | Msg19.1 | valueexp) [ 'WITH' connection]]
+  taken_constant        := symbol | STRING
+  valueexp              := 'VALUE' expression
+  connection            := ad_option+
+    ad_option           := error | input | output | Msg25.5
+      error             := 'ERROR' (resourceo | Msg25.14)
+      input             := 'INPUT' (resourcei | Msg25.6)
+        resourcei       := resources | 'NORMAL'
+      output            := 'OUTPUT' (resourceo | Msg25.7)
+        resourceo       := 'APPEND' (resources | Msg25.8)
+                           | 'REPLACE' (resources | Msg25.9)
+                           | resources | 'NORMAL'
+resources               := 'STREAM' (VAR_SYMBOL | Msg53.1)
+                           | 'STEM' (VAR_SYMBOL | Msg53.2)
+  vref                  := '(' var_symbol (')' | Msg46.1)
+    var_symbol          := VAR_SYMBOL | Msg20.1
+....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
