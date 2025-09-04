@@ -31,7 +31,7 @@ the Tree API should be the names used by
 ooRexx when defining the language. But the definition
 of the language is partial and inconsistent.
 And that's why we need to review and stabilize it
--- which is the purpose of this task force).
+-- which is the purpose of this task force.
 
 Fixing ambiguities
 ------------------
