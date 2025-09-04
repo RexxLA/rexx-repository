@@ -15,7 +15,9 @@ array terms, etc.
 
 This is what interests me at the moment; please
 feel free to add additional goals and objectives
-to the document. Fix the nomenclature interests me,
+to the document. I need that the nomenclature 
+used in the ooRexx manuals when defining the language
+is clear, understandable, unambiguous and stable,
 because I will need to expose that very same
 nomenclature when defining the Tree API of
 the ooRexx Parser. For example, since the syntax
@@ -28,34 +30,41 @@ The "natural" name for the methods defined by
 the Tree API should be the names used by
 ooRexx when defining the language. But the definition
 of the language is partial and inconsistent.
-And that's why we need to review and fix it, and that's
-the purpose of this task force).
+And that's why we need to review and stabilize it
+-- which is the purpose of this task force).
 
 Fixing ambiguities
 ------------------
 
 When collecting and reviewing the EBNF definitions,
-pay special attention to concepts which are
-ambiguous; this normally correlates with
-obscurities in the reference books.
-For example, "variable reference"
+we should pay special attention to concepts which are
+overloaded or ambiguous; this normally has a 
+correlation with certain obscurities one can
+find in the reference books.
+
+For example, the construct "variable reference"
 appears in "variable reference term" (rexxref 1.11.7)
 and in the VariableReference class (ib. 5.4.27):
-these refer to the same concept. Then the
-same expression appear in Chapter 11,
+these appearances refer to the same concept. 
+
+Then the same construction appears in Chapter 11,
 _Conditions and Condition Traps_, under the
 description of the NOVALUE condition, which
 is "raised if an uninitialized variable is used as
 \[... a\] variable reference in an EXPOSE instruction,
 a PROCEDURE instruction, or a DROP instruction".
+
 Similarly, error 46 reads 'Invalid variable reference'
 (Ib., C.1.42): there we learn that "a variable
 reference" is "a variable whose value is to be used,
 indicated by its name being enclosed in parentheses",
 "within an ARG, DROP, EXPOSE, PARSE, PULL, or PROCEDURE
-instruction". These concepts should be given
-names which are distinct, the rererences should be
-updated, and the EBNFs, if they exist, should be fixed.
+instruction". 
+
+These concepts should be given
+names which are distinct, the reference manuals should be
+updated, and the EBNFs, in the case that they exist, 
+should be fixed accordingly.
 
 Define some undefined but necessary concepts
 --------------------------------------------
