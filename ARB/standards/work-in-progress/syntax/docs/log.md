@@ -1,5 +1,6 @@
 | When     | Who | What
 | -------- | --- | ----
+| 20250904 | JMB | Create the [Goals](goals.md) document.
 | 20250903 | JMB | Create the [dallas/](../dallas/) directory and copy [the Dallas BNF](../dallas/dallas.bnf).
 | 20250903 | JMB | Create the top-level [readme](../readme.md) file
 | 20250903 | JMB | Create syntax/docs dir and this document.
