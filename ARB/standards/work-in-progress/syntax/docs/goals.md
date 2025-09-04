@@ -78,11 +78,13 @@ a routine_ is a code body, and the _body of a method_ is
 a code body. 
 
 A code body may be _empty_, when it consists
-only of null clauses, and some directives can 
+only of null clauses, and some directives must
 be followed only by other directives, 
-by empty code bodies, or by the end of program. 
+by empty code bodies, or by the end of program,
+while others can be followed by non-empty
+code bodies.
 
-Non-empty code bodies are always supposed 
+Every non-empty code body is supposed 
 to be implicitly finished by an EXIT instruction.
 
 Yet, ooRexx does not define the concept of code body;
