@@ -25,11 +25,13 @@ Examples
 --------
 
 ```rexx
-Label:                  -- The Label "LABEL"
+Label = 3
+Label:                  -- The Label "LABEL", not "3"
 "label":                -- The label "label" (different from "LABEL")
 12.00E1:                -- The label "12.00E1"
+Wendy = "abc"
 Loop Label Wendy        -- "Label 'Wendy'" would produce a syntax error
-  Leave WENDY           -- Value gets uppercased
+  Leave WENDY           -- Value gets uppercased to "WENDY", not "abc"
 End
 
 Call .True              -- Calls ".TRUE", not "1"
