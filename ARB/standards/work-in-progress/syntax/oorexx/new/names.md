@@ -3,8 +3,9 @@ Names
 
 Procedures, functions, routines, methods, classes, resources, labels, and other Rexx constructs
 have one or more _names_. A name is usually either a symbol or a string (but see note 1 below). 
-When a name is a symbol, that symbol is first uppercased and then taken _literally_, that is, 
-it is not substituted by its value when the symbol has the form of a variable or of an environment symbol. 
+When a name is a symbol, that symbol is first uppercased and then it is taken _literally_, that is, 
+it is not substituted by its value when the symbol has the form of a variable or of an environment symbol
+(see also note 2). 
 When a symbol is taken literally, we may also say that it is _taken as a constant_. 
 
 Examples
