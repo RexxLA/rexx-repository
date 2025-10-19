@@ -22,12 +22,12 @@ Nop
 Notes
 -----
 
-1. In some cases, a name cannot be a string, but only a symbol. In other cases, it
+1. In some syntactical contexts, a name cannot be a string, but only a symbol. In other cases, it
    has to be a constant symbol. Names which are strings are taken as-is in some cases,
    like labels, and uppercased in some other cases, like method names.
    Please refer to the respective chapters for the specific details about a
    particular Rexx construct.
 
-2. In some rare cases, an environment symbol may be associated with a _method_ instead of 
-   a value. When a symbol is used as a name, as it is taken literally, the associated method is
-   not called.
+2. In some infrequent cases, an environment symbol may be associated with a _method_ instead of 
+   a value (for example, by using the `setmethod` method on the local or the global environment directories).
+   When a symbol is used as a name, as it is taken literally, the associated method is not called.
