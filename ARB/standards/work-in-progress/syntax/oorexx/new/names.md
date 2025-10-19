@@ -31,5 +31,3 @@ Notes
 2. In some rare cases, an environment symbol may be associated with a _method_ instead of 
    a value. When a symbol is used as a name, as it is taken literally, the associated method is
    not called.
-
-strings, and in some o
