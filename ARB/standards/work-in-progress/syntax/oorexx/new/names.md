@@ -23,8 +23,8 @@ Notes
 -----
 
 1. In some syntactical contexts, a name cannot be a string, but only a symbol. In other cases, it
-   has to be a constant symbol. Names which are strings are taken as-is in some cases,
-   like labels, and uppercased in some other cases, like method names.
+   has to be a constant symbol. Names which are strings are taken as-is in some cases
+   (for example when they are labels), and uppercased in some other cases (class, method or routine names).
    Please refer to the respective chapters for the specific details about a
    particular Rexx construct.
 
