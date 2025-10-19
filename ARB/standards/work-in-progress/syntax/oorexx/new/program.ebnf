@@ -1,1 +1,3 @@
-xx
+oorexx_program ::= source_program                         (* see source_program.md *)
+source_program ::= (prolog)? ( directive [code_body] )*   (* see code_body.md *)
+prolog         ::= code_body
