@@ -36,5 +36,5 @@ End
 
 Call .True              -- Calls ".TRUE", not "1"
 .environment~setMethod("m", "Say 'Hi'")
-::Routine .M            -- The name is always ".M"
+::Routine .M            -- The name is always ".M", and method .m is not invoked.
 ```
