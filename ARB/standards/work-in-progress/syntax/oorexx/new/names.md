@@ -15,7 +15,6 @@ Examples
 Label:                  -- The Label "LABEL"
 "label":                -- The label "label" (different from "LABEL")
 12.00E1:                -- The label "12.00E1"
-12.00e1:                -- The label "12.00e1" (a different label)
 Nop
 ```
 
