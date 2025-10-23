@@ -1,3 +1,9 @@
-oorexx_program ::= source_program                         
-source_program ::= (prolog)? ( directive [code_body] )*   
-prolog         ::= code_body
+/* General structure of a ooRexx program */
+oorexx_program    ::= source_program                         
+source_program    ::= (prolog)? ( directive [code_body] )*   
+prolog            ::= code_body
+
+directive_section ::= directive_with_body
+                    | directive_optional_body
+                    | directive_no_body
+                    | resource_directive
