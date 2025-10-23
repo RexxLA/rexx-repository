@@ -9,50 +9,50 @@ and propose some solutions.
 
 (All the references below are to rexxref 5.2.0 beta)
 
-> * Chapter 3, "Directives", states that "A Rexx program contains one or more ***executable code units***. 
->   Directive instructions separate these ***executable units***.
->   A directive begins with a double colon (::) and is a nonexecutable instruction.
->   For example, it cannot appear in a string for the INTERPRET instruction to be interpreted.
->   The first directive instruction in a program marks the end of the
->   ***main executable section*** of the program".
->   The paragraph that immediately follows reads "For a program containing directives,
->   all directives are processed first to set up the program's classes, methods, and routines.
->   Then any program code in the ***main code unit*** (preceding the first directive) is processed.
->   This code can use any classes, methods, and routines that the directives established".
-> * In note 3 of 3.1 "::ANNOTATE", we find "An annotation for an attribute, a method, or
->   a routine should be placed after any attribute/method/routine ***code body***, as ::ANNOTATE,
->   like any other directive, will end the ***code body***".
->   Similarly, after example 3.2 in 3.2 "::ATTRIBUTE", we read
->   "In that case, there is no method code body following the directive,
->   so another directive (or the end of the program) must follow the ::ATTRIBUTE directive",
->   and after example 3.3, we find "For ABSTRACT methods there is no method
->   code body following the directive, so another directive (or the end of the program)
->   must follow the ::ATTRIBUTE directive"; the same happens with 3.5 "::METHOD".
-> * Message 99.939 reads "External routines cannot have a code body".
+* Chapter 3, "Directives", states that "A Rexx program contains one or more ***executable code units***. 
+  Directive instructions separate these ***executable units***.
+  A directive begins with a double colon (::) and is a nonexecutable instruction.
+  For example, it cannot appear in a string for the INTERPRET instruction to be interpreted.
+  The first directive instruction in a program marks the end of the
+  ***main executable section*** of the program".
+  The paragraph that immediately follows reads "For a program containing directives,
+  all directives are processed first to set up the program's classes, methods, and routines.
+  Then any program code in the ***main code unit*** (preceding the first directive) is processed.
+  This code can use any classes, methods, and routines that the directives established".
+* In note 3 of 3.1 "::ANNOTATE", we find "An annotation for an attribute, a method, or
+  a routine should be placed after any attribute/method/routine ***code body***, as ::ANNOTATE,
+  like any other directive, will end the ***code body***".
+  Similarly, after example 3.2 in 3.2 "::ATTRIBUTE", we read
+  "In that case, there is no method code body following the directive,
+  so another directive (or the end of the program) must follow the ::ATTRIBUTE directive",
+  and after example 3.3, we find "For ABSTRACT methods there is no method
+  code body following the directive, so another directive (or the end of the program)
+  must follow the ::ATTRIBUTE directive"; the same happens with 3.5 "::METHOD".
+* Message 99.939 reads "External routines cannot have a code body".
 
 We can see several expressions ("executable code unit", "executable unit", "(main) executable section", "main code unit", "code", "code body") which are obviously different but share the same reference: "a maximal piece of executable code separated by directives"
 
 To complicate things further, some of these expressions are also used in several other contexts, but now with different meanings:
 
-> * For example, 5.1.5 "Package Class" says "A package instance holds all the routines,
->   classes, and methods created from a ***source code unit*** and also manages
->   external dependencies referenced by ::REQUIRES directives": here "(source) code unit"
->   refers to the whole contents of a program file. 
-> * This very same concept (which is different from the code units/bodies/sections above)
->   is more aptly called ***"source program"*** in other places:
->   + 3.1 "::ANNOTATE" says "An annotation attribute, class, constant, method,
->     and routine must be a valid class name, constant name, method name, or routine name
->     defined with its respective directive in the same ***source program***".
->   + 3.6 "::OPTIONS" says "PROLOG/NOPROLOG controls whether prolog code (any code in the
->     ***source program*** that comes before the first directive) is run when another program
->     requires it through a ::REQUIRES directive" and then adds "If ::OPTIONS PROLOG is in effect,
->     any prolog code is run as usual when the ***source program*** is being required using
->     a :REQUIRES directive. If ::OPTIONS NOPROLOG is in effect, any prolog code is not run.
->     The default is ::OPTIONS PROLOG".
->   + 3.8 "::RESOURCE" states that "The ::RESOURCE directive allows to include lines of
->     resource_data of almost arbitrary form directly within the ***source program***".
->   + 4.2 "Creating and Using Classes and Methods" says "To define a class using directives,
->     you place a ::CLASS directive after the main part of your ***source program***".
+* For example, 5.1.5 "Package Class" says "A package instance holds all the routines,
+  classes, and methods created from a ***source code unit*** and also manages
+  external dependencies referenced by ::REQUIRES directives": here "(source) code unit"
+  refers to the whole contents of a program file. 
+* This very same concept (which is different from the code units/bodies/sections above)
+  is more aptly called ***"source program"*** in other places:
+  + 3.1 "::ANNOTATE" says "An annotation attribute, class, constant, method,
+    and routine must be a valid class name, constant name, method name, or routine name
+    defined with its respective directive in the same ***source program***".
+  + 3.6 "::OPTIONS" says "PROLOG/NOPROLOG controls whether prolog code (any code in the
+    ***source program*** that comes before the first directive) is run when another program
+    requires it through a ::REQUIRES directive" and then adds "If ::OPTIONS PROLOG is in effect,
+    any prolog code is run as usual when the ***source program*** is being required using
+    a :REQUIRES directive. If ::OPTIONS NOPROLOG is in effect, any prolog code is not run.
+    The default is ::OPTIONS PROLOG".
+  + 3.8 "::RESOURCE" states that "The ::RESOURCE directive allows to include lines of
+    resource_data of almost arbitrary form directly within the ***source program***".
+  + 4.2 "Creating and Using Classes and Methods" says "To define a class using directives,
+    you place a ::CLASS directive after the main part of your ***source program***".
 
 Please note that neither "code", "code body", "code unit", "executable unit", 
 "executable section", "source code", "source program" or "source unit" appear in the index.
