@@ -141,8 +141,8 @@ To start the discussion, I would propose to standardize on "code bodies"
 ("code units" would also be fine to me) and "source programs". And regarding the BNF, I would write
 
 ```ebnf
-ooRexx_program ::= program_source
-program_source ::= (prolog)? (directive [code_body])+
+ooRexx_program ::= source_program
+source_program ::= (prolog)? (directive [code_body])+
 prolog         ::= code_body
 ```
 
