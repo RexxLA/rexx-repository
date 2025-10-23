@@ -13,7 +13,7 @@ Notes
 
 1. In some syntactical contexts, a name cannot be a string, but only a symbol (for example, in the `LABEL` clause
    in `DO`, `LOOP` and `SELECT` instructions). Likewise, names which are strings are taken as-is in some cases
-   (for example when they are labels), and uppercased in some other cases (class, method or routine names).
+   (for example when they are part of a label clause), and uppercased in some other cases (like class, method or routine names).
    Please refer to the respective chapters for the specific details about a
    particular Rexx construct.
 
