@@ -142,7 +142,7 @@ To start the discussion, I would propose to standardize on "code bodies"
 
 ```ebnf
 ooRexx_program ::= source_program
-source_program ::= (prolog)? (directive [code_body])+
+source_program ::= (prolog)? (directive [code_body])*
 prolog         ::= code_body
 ```
 
