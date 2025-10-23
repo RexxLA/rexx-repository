@@ -1,9 +1,13 @@
-/* General structure of a ooRexx program */
+/* General structure of a ooRexx program                                      */
+
 oorexx_program    ::= source_program                         
 source_program    ::= (prolog)? ( directive [code_body] )*   
 prolog            ::= code_body
 
+/* Directives with and without bodies, with optional bodies, and ::RESOURCES  */
 directive_section ::= directive_with_body
                     | directive_optional_body
                     | directive_no_body
                     | resource_directive
+
+/*..+....1....+....2....+....3....+....4....+....5....+....6....+....7....+...*/
