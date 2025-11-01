@@ -6,8 +6,10 @@ prolog            ::= code_body
 
 /* Directives with and without bodies, with optional bodies, and ::RESOURCES  */
 directive_section ::= directive_with_a_body         code_body
-                    | directive_with_optional_body (comments | code_body)?
-                    | directive_with_no_body       (comments)?
-                    | resource                     (comments)?
+                    | directive_with_optional_body ( 
+                        ( null_clause )* | ( code_body )?
+                      )
+                    | directive_with_no_body       ( null_clause )*
+                    | resource                     ( null_clause )*
 
 /*..+....1....+....2....+....3....+....4....+....5....+....6....+....7....+...*/
