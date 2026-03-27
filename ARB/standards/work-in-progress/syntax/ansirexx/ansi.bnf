@@ -2,7 +2,7 @@
 /*******************************************************************************/
 /* This is the syntax of the Rexx language as defined by ANSI X3.274-1996,     */
 /* "Programming Language - REXX" (a work of the X3J18 committee), after        */
-/* applying the corrections of the errata.                                     */
+/* applying the BNF corrections of the errata.                                 */
 /*******************************************************************************/
 /*******************************************************************************/
 
