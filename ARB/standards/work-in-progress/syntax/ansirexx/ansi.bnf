@@ -324,4 +324,3 @@ power_expression        := prefix_expression                         (6.3.2.111)
                            | '(' expr_alias (',' Msg37.1 | ')' | Msg36)
       function          := taken_constant '(' [expression_list]      (6.3.2.114)
                            (')' | Msg36)
-....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
